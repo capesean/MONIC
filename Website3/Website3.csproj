@@ -1,0 +1,211 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>net6.0</TargetFramework>
+    <Nullable>disable</Nullable>
+    <IsPackable>false</IsPackable>
+    <SpaRoot>ClientApp\</SpaRoot>
+    <SpaProxyServerUrl>https://localhost:44489</SpaProxyServerUrl>
+    <SpaProxyLaunchCommand>npm start</SpaProxyLaunchCommand>
+    <ImplicitUsings>enable</ImplicitUsings>
+  </PropertyGroup>
+
+  <ItemGroup>
+	  <PackageReference Include="iTextSharp.LGPLv2.Core" Version="1.8.0" />
+	  <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="6.0.5" />
+	  <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="6.0.5" />
+	  <PackageReference Include="Microsoft.AspNetCore.SpaProxy" Version="6.0.5" />
+	  <PackageReference Include="Microsoft.EntityFrameworkCore.Proxies" Version="6.0.5" />
+	  <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="6.0.5" />
+	  <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="6.0.5">
+		  <PrivateAssets>all</PrivateAssets>
+		  <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+	  </PackageReference>
+	  <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
+	  <PackageReference Include="OpenIddict.EntityFrameworkCore" Version="3.1.1" />
+	  <PackageReference Include="OpenIddict.Server" Version="3.1.1" />
+	  <PackageReference Include="OpenIddict.Server.AspNetCore" Version="3.1.1" />
+	  <PackageReference Include="OpenIddict.Validation" Version="3.1.1" />
+	  <PackageReference Include="OpenIddict.Validation.AspNetCore" Version="3.1.1" />
+	  <PackageReference Include="OpenIddict.Validation.ServerIntegration" Version="3.1.1" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <!-- Don't publish the SPA source files, but do show them in the project files list -->
+    <Compile Remove="ClientApp\src-new\**" />
+    <Compile Remove="ClientApp\src-old\**" />
+    <Compile Remove="wwwroot\**" />
+    <Content Remove="$(SpaRoot)**" />
+    <Content Remove="ClientApp\src-new\**" />
+    <Content Remove="ClientApp\src-old\**" />
+    <Content Remove="wwwroot\**" />
+    <EmbeddedResource Remove="ClientApp\src-new\**" />
+    <EmbeddedResource Remove="ClientApp\src-old\**" />
+    <EmbeddedResource Remove="wwwroot\**" />
+    <None Remove="$(SpaRoot)**" />
+    <None Remove="ClientApp\src-new\**" />
+    <None Remove="ClientApp\src-old\**" />
+    <None Remove="wwwroot\**" />
+    <None Include="$(SpaRoot)**" Exclude="$(SpaRoot)node_modules\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Remove="ClientApp\src-new\app\app.component.html" />
+    <None Remove="ClientApp\src-new\app\app.component.ts" />
+    <None Remove="ClientApp\src-new\app\app.module.ts" />
+    <None Remove="ClientApp\src-new\app\app.routes.ts" />
+    <None Remove="ClientApp\src-new\app\common\auth\accessguard.ts" />
+    <None Remove="ClientApp\src-new\app\common\auth\auth.component.html" />
+    <None Remove="ClientApp\src-new\app\common\auth\auth.component.ts" />
+    <None Remove="ClientApp\src-new\app\common\auth\auth.css" />
+    <None Remove="ClientApp\src-new\app\common\auth\auth.interceptors.ts" />
+    <None Remove="ClientApp\src-new\app\common\auth\auth.models.ts" />
+    <None Remove="ClientApp\src-new\app\common\auth\auth.module.ts" />
+    <None Remove="ClientApp\src-new\app\common\auth\auth.routes.ts" />
+    <None Remove="ClientApp\src-new\app\common\auth\auth.service.ts" />
+    <None Remove="ClientApp\src-new\app\common\auth\login.component.html" />
+    <None Remove="ClientApp\src-new\app\common\auth\login.component.ts" />
+    <None Remove="ClientApp\src-new\app\common\auth\reset.component.html" />
+    <None Remove="ClientApp\src-new\app\common\auth\reset.component.ts" />
+    <None Remove="ClientApp\src-new\app\common\auth\resetpassword.component.html" />
+    <None Remove="ClientApp\src-new\app\common\auth\resetpassword.component.ts" />
+    <None Remove="ClientApp\src-new\app\common\directives\appfileinput.ts" />
+    <None Remove="ClientApp\src-new\app\common\directives\apphasrole.ts" />
+    <None Remove="ClientApp\src-new\app\common\error\error.component.html" />
+    <None Remove="ClientApp\src-new\app\common\error\error.component.ts" />
+    <None Remove="ClientApp\src-new\app\common\error\errors.component.html" />
+    <None Remove="ClientApp\src-new\app\common\error\errors.component.ts" />
+    <None Remove="ClientApp\src-new\app\common\models\enums.model.ts" />
+    <None Remove="ClientApp\src-new\app\common\models\error.model.ts" />
+    <None Remove="ClientApp\src-new\app\common\models\http.model.ts" />
+    <None Remove="ClientApp\src-new\app\common\models\roles.model.ts" />
+    <None Remove="ClientApp\src-new\app\common\models\settings.model.ts" />
+    <None Remove="ClientApp\src-new\app\common\models\user.model.ts" />
+    <None Remove="ClientApp\src-new\app\common\nav-menu\nav-menu.component.css" />
+    <None Remove="ClientApp\src-new\app\common\nav-menu\nav-menu.component.html" />
+    <None Remove="ClientApp\src-new\app\common\nav-menu\nav-menu.component.ts" />
+    <None Remove="ClientApp\src-new\app\common\notfound.component.html" />
+    <None Remove="ClientApp\src-new\app\common\notfound.component.ts" />
+    <None Remove="ClientApp\src-new\app\common\pager.component.css" />
+    <None Remove="ClientApp\src-new\app\common\pager.component.html" />
+    <None Remove="ClientApp\src-new\app\common\pager.component.ts" />
+    <None Remove="ClientApp\src-new\app\common\pipes\booleanPipe.ts" />
+    <None Remove="ClientApp\src-new\app\common\pipes\momentPipe.js" />
+    <None Remove="ClientApp\src-new\app\common\pipes\momentPipe.js.map" />
+    <None Remove="ClientApp\src-new\app\common\pipes\momentPipe.ts" />
+    <None Remove="ClientApp\src-new\app\common\services\download.service.ts" />
+    <None Remove="ClientApp\src-new\app\common\services\error.service.ts" />
+    <None Remove="ClientApp\src-new\app\common\services\interceptors.ts" />
+    <None Remove="ClientApp\src-new\app\common\services\settings.service.ts" />
+    <None Remove="ClientApp\src-new\app\common\services\user.service.ts" />
+    <None Remove="ClientApp\src-new\app\custom.module.ts" />
+    <None Remove="ClientApp\src-new\app\custom.routes.ts" />
+    <None Remove="ClientApp\src-new\app\generated.module.ts" />
+    <None Remove="ClientApp\src-new\app\generated.routes.ts" />
+    <None Remove="ClientApp\src-new\app\home\home.component.html" />
+    <None Remove="ClientApp\src-new\app\home\home.component.ts" />
+    <None Remove="ClientApp\src-new\app\main.component.css" />
+    <None Remove="ClientApp\src-new\app\main.component.html" />
+    <None Remove="ClientApp\src-new\app\main.component.ts" />
+    <None Remove="ClientApp\src-new\app\settings\settings.component.html" />
+    <None Remove="ClientApp\src-new\app\settings\settings.component.ts" />
+    <None Remove="ClientApp\src-new\app\shared.module.ts" />
+    <None Remove="ClientApp\src-new\app\users\changepassword.component.html" />
+    <None Remove="ClientApp\src-new\app\users\changepassword.component.ts" />
+    <None Remove="ClientApp\src-new\app\users\user.edit.component.html" />
+    <None Remove="ClientApp\src-new\app\users\user.edit.component.ts" />
+    <None Remove="ClientApp\src-new\app\users\user.list.component.html" />
+    <None Remove="ClientApp\src-new\app\users\user.list.component.ts" />
+    <None Remove="ClientApp\src-new\app\users\user.modal.component.html" />
+    <None Remove="ClientApp\src-new\app\users\user.modal.component.ts" />
+    <None Remove="ClientApp\src-new\app\users\user.select.component.html" />
+    <None Remove="ClientApp\src-new\app\users\user.select.component.ts" />
+    <None Remove="ClientApp\src-new\assets\.gitkeep" />
+    <None Remove="ClientApp\src-new\environments\environment.ts" />
+    <None Remove="ClientApp\src-new\environments\sample.environment.ts" />
+    <None Remove="ClientApp\src-new\index.html" />
+    <None Remove="ClientApp\src-new\karma.conf.js" />
+    <None Remove="ClientApp\src-new\main.ts" />
+    <None Remove="ClientApp\src-new\polyfills.ts" />
+    <None Remove="ClientApp\src-new\styles.css" />
+    <None Remove="ClientApp\src-new\tsconfig.app.json" />
+    <None Remove="ClientApp\src-new\tsconfig.server.json" />
+    <None Remove="ClientApp\src-new\tsconfig.spec.json" />
+    <None Remove="ClientApp\src-new\tslint.json" />
+    <None Remove="ClientApp\src-old\app\app.component.html" />
+    <None Remove="ClientApp\src-old\app\app.component.ts" />
+    <None Remove="ClientApp\src-old\app\app.module.ts" />
+    <None Remove="ClientApp\src-old\app\app.server.module.ts" />
+    <None Remove="ClientApp\src-old\app\counter\counter.component.html" />
+    <None Remove="ClientApp\src-old\app\counter\counter.component.spec.ts" />
+    <None Remove="ClientApp\src-old\app\counter\counter.component.ts" />
+    <None Remove="ClientApp\src-old\app\fetch-data\fetch-data.component.html" />
+    <None Remove="ClientApp\src-old\app\fetch-data\fetch-data.component.ts" />
+    <None Remove="ClientApp\src-old\app\home\home.component.html" />
+    <None Remove="ClientApp\src-old\app\home\home.component.ts" />
+    <None Remove="ClientApp\src-old\app\nav-menu\nav-menu.component.css" />
+    <None Remove="ClientApp\src-old\app\nav-menu\nav-menu.component.html" />
+    <None Remove="ClientApp\src-old\app\nav-menu\nav-menu.component.ts" />
+    <None Remove="ClientApp\src-old\environments\environment.prod.ts" />
+    <None Remove="ClientApp\src-old\environments\environment.ts" />
+    <None Remove="ClientApp\src-old\index.html" />
+    <None Remove="ClientApp\src-old\main.ts" />
+    <None Remove="ClientApp\src-old\polyfills.ts" />
+    <None Remove="ClientApp\src-old\styles.css" />
+    <None Remove="ClientApp\src-old\test.ts" />
+    <None Remove="ClientApp\src\assets\favicon.ico" />
+    <None Remove="ClientApp\src\assets\fonts\Roboto-Regular.ttf" />
+    <None Remove="ClientApp\src\assets\images\logo.png" />
+    <None Remove="ClientApp\src\assets\images\logosmall.png" />
+    <None Remove="ClientApp\src\assets\templates\email.html" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="ClientApp\src\assets\favicon.ico">
+      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+    <Content Include="ClientApp\src\assets\fonts\Roboto-Regular.ttf">
+      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+    <Content Include="ClientApp\src\assets\images\logo.png">
+      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+    <Content Include="ClientApp\src\assets\images\logosmall.png">
+      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+    <Content Include="ClientApp\src\assets\templates\email.html">
+      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+  </ItemGroup>
+
+    <Target Name="DebugEnsureNodeEnv" BeforeTargets="Build" Condition=" '$(Configuration)' == 'Debug' And !Exists('$(SpaRoot)node_modules') ">
+    <!-- Ensure Node.js is installed -->
+    <Exec Command="node --version" ContinueOnError="true">
+      <Output TaskParameter="ExitCode" PropertyName="ErrorCode" />
+    </Exec>
+    <Error Condition="'$(ErrorCode)' != '0'" Text="Node.js is required to build and run this project. To continue, please install Node.js from https://nodejs.org/, and then restart your command prompt or IDE." />
+    <Message Importance="high" Text="Restoring dependencies using 'npm'. This may take several minutes..." />
+    <Exec WorkingDirectory="$(SpaRoot)" Command="npm install" />
+  </Target>
+  
+  <Target Name="PublishRunWebpack" AfterTargets="ComputeFilesToPublish">
+    <!-- As part of publishing, ensure the JS resources are freshly built in production mode -->
+    <Exec WorkingDirectory="$(SpaRoot)" Command="npm install" />
+    <Exec WorkingDirectory="$(SpaRoot)" Command="npm run build -- --prod" />
+
+    <!-- Include the newly-built files in the publish output -->
+    <ItemGroup>
+      <DistFiles Include="$(SpaRoot)dist\**; $(SpaRoot)dist-server\**" />
+      <ResolvedFileToPublish Include="@(DistFiles->'%(FullPath)')" Exclude="@(ResolvedFileToPublish)">
+        <RelativePath>wwwroot\%(RecursiveDir)%(FileName)%(Extension)</RelativePath>
+        <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+        <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+      </ResolvedFileToPublish>
+    </ItemGroup>
+  </Target>
+</Project>

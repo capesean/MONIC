@@ -1,0 +1,22 @@
+<div *ngIf="route.children.length === 0">
+
+    <table class="table table-bordered table-striped table-hover table-sm row-navigation">
+        <thead>
+            <tr>
+                <th>Date</th>
+                <th>Message</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let error of errors" (click)="goToError(error)">
+                <td>{{ error.dateUtc | momentPipe: 'DD MMM YYYY HH:mm:SS' }}</td>
+                <td>{{ error.message }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <pager [headers]="headers" (pageChanged)="runSearch($event)"></pager>
+
+</div>
+
+<router-outlet></router-outlet>

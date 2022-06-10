@@ -1,0 +1,345 @@
+@media (min-width: 576px) {
+    header nav .dropdown:hover > .dropdown-menu {
+        display: block;
+    }
+}
+
+/* these styles will apply to auth/login AND main app */
+@font-face {
+    font-family: 'Roboto';
+    src: url('/assets/fonts/Roboto-Regular.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+
+html {
+    overflow-y: scroll;
+    font-size: 10.5pt;
+}
+
+body {
+    font-family: Font Awesome 6 Free;
+}
+
+    body#login,
+    body#setup {
+        display: -ms-flexbox;
+        display: -webkit-box;
+        display: flex;
+        -ms-flex-align: center;
+        -ms-flex-pack: center;
+        -webkit-box-align: center;
+        align-items: center;
+        -webkit-box-pack: center;
+        justify-content: center;
+        padding-top: 40px;
+        padding-bottom: 40px;
+        background-color: #f5f5f5;
+    }
+
+@media (min-width: 576px) {
+    .container {
+        max-width: 100%;
+        padding-left: 30px;
+        padding-right: 30px;
+    }
+}
+
+#mainContainer {
+    margin-bottom: 5rem;
+}
+
+.form-check {
+    padding-top: 5px;
+    padding-bottom: 5px;
+}
+
+.ui-breadcrumb {
+    border: none !important;
+    background-color: white !important;
+    font-size: small !important;
+    padding: 0 !important;
+    opacity: 0.80 !important;
+}
+
+    .ui-breadcrumb .ui-breadcrumb-chevron {
+        margin: 5px !important;
+    }
+
+.app-select .input-group:not(.disabled) input.form-control {
+    background-color: white !important;
+    cursor: pointer;
+}
+
+fieldset[disabled] .app-select .input-group input.form-control {
+    cursor: default !important;
+    background-color: #e9ecef !important;
+}
+
+.app-select .input-group.disabled .btn {
+    cursor: default;
+}
+
+.was-validated .app-select.ng-invalid input.form-control {
+    border-color: #dc3545;
+}
+
+.was-validated .form-group.is-invalid .app-select .btn {
+    background-color: #dc3545;
+    border-color: #dc3545;
+}
+
+.was-validated .form-group.is-invalid input[ngbdatepicker].ng-invalid {
+    border-color: #dc3545;
+}
+
+.was-validated .app-select.ng-invalid ~ .invalid-feedback {
+    display: block;
+}
+
+.was-validated .form-group.is-invalid .input-group .input-group-append .btn {
+    background-color: #dc3545;
+    border-color: #dc3545;
+}
+
+/* to get ngbdatepicker to show validation messages */
+.was-validated .form-group.is-invalid .invalid-feedback {
+    display: block;
+}
+
+.was-validated .custom-file .ng-invalid.form-control + label {
+    color: blue;
+}
+
+    .was-validated .custom-file .ng-invalid.form-control + label::after {
+        background-color: #dc3545;
+        color: white;
+    }
+
+.toast-container * {
+    font-size: small;
+}
+
+.table-bordered thead td, .table-bordered thead th {
+    border-color: #464646;
+    background-color: #a2a2a2;
+    font-weight: normal;
+    color: white;
+    border-bottom-width: 1px;
+}
+
+table.row-navigation tbody td {
+    cursor: pointer;
+}
+
+.table-hover tbody tr:hover:not(.table-danger):not(.table-success) > td {
+    background-color: #cff4fc;
+    border-bottom: solid 1px #badce3 !important;
+    box-shadow: none;
+}
+
+.table-hover tbody tr.table-danger:hover > td {
+    border-bottom: solid 1px #ba4447 !important;
+}
+
+.table-hover tbody tr.table-success:hover > td {
+    border-bottom: solid 1px #419641 !important;
+}
+
+.was-validated .form-control:valid {
+    background-image: none !important;
+    padding-right: 0.75rem;
+    border-color: #ced4da !important;
+}
+
+.was-validated .form-control:invalid {
+    background-image: none !important;
+    padding-right: 0.75rem;
+}
+
+.form-check-input:valid ~ .form-check-label {
+    color: #212529 !important;
+}
+
+.fa-col-width {
+    width: 30px;
+}
+
+.modal-header {
+    background-color: #f9f9f9 !important;
+}
+
+.modal-header, .modal-footer {
+    padding-top: 0.5rem !important;
+    padding-bottom: 0.5rem !important;
+}
+
+.modal-content {
+    animation-name: modal;
+    animation-duration: 0.3s;
+}
+
+@keyframes modal {
+    0% {
+        transform: scale(0.5)
+    }
+
+    100% {
+        transform: scale(1)
+    }
+}
+
+#spinner.backdrop {
+    animation-name: loading;
+    animation-duration: 1s;
+}
+
+@keyframes loading {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 0.7;
+    }
+}
+
+::-webkit-input-placeholder {
+    color: #999999 !important;
+}
+
+::-moz-placeholder {
+    color: #999999 !important;
+}
+
+::-moz-placeholder {
+    color: #999999 !important;
+}
+
+::-webkit-input-placeholder {
+    color: #999999 !important;
+}
+
+hr {
+    border-top: dashed 1px black;
+    background-color: transparent;
+    border-style: dashed;
+    margin-top: 2rem;
+    margin-bottom: 1.5rem;
+}
+
+fieldset.group {
+    margin-bottom: 20px;
+    border: dotted 1px #888;
+    padding: 5px 20px 15px;
+    background-color: #f8f8f8;
+}
+
+    fieldset.group legend {
+        display: block;
+        width: auto;
+        margin-bottom: 0;
+        font-size: 0.75rem;
+        line-height: inherit;
+        color: #999;
+        border: solid 1px #aaa;
+        border-radius: 8px;
+        background: white;
+        padding: 2px 7px;
+        font-weight: normal;
+        float: none;
+    }
+
+fieldset .form-group > label:not(.radio-inline) {
+    font-size: 0.75rem;
+    line-height: normal;
+    color: #999;
+    font-weight: normal;
+    width: 100%;
+    margin-bottom: 0;
+}
+
+fieldset.form-horizontal span.control-label {
+    display: inline-block;
+}
+
+.pagination li a:focus {
+    outline: 0 !important;
+    box-shadow: none !important;
+}
+
+.cdk-drag-handle {
+    cursor: grab !important;
+}
+
+table tbody.cdk-drop-list-dragging td {
+    cursor: grabbing !important;
+}
+
+table tbody tr.cdk-drag-placeholder td {
+    opacity: 0.75;
+}
+
+.tab-content {
+    padding-top: 1rem;
+}
+
+ngb-datepicker .is-valid, .was-validated ngb-datepicker :valid {
+    border-color: inherit !important;
+    padding-right: inherit !important;
+    background: inherit !important;
+}
+
+.nav-tabs .nav-link {
+    border-color: #e9ecef #e9ecef #dee2e6;
+    margin-right: 3px;
+    background-color: #fafafa;
+}
+
+    .nav-tabs .nav-link:hover {
+        border-color: #ddd #ddd #dee2e6;
+        background-color: white;
+    }
+
+:not(:disabled) [ngbdatepicker]:read-only:not(:disabled) {
+    background-color: white !important;
+}
+
+.clickable {
+    cursor: pointer;
+}
+
+input[type=file] {
+    padding: 2px;
+    overflow-x: hidden;
+}
+
+.custom-file-label {
+    overflow-x: hidden;
+    white-space: nowrap;
+}
+
+.navbar-brand img {
+    max-height: 32px;
+}
+
+.toast-container {
+    max-width: 92% !important;
+}
+
+.ngx-toastr {
+    width: 350px !important;
+    max-width: 100%;
+}
+
+.toast-title {
+    margin-bottom: 5px;
+}
+
+button[aria-label="Close"] {
+    outline: none;
+    outline: none;
+    border: none;
+    opacity: 1;
+    background: none;
+}

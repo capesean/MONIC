@@ -1,0 +1,37 @@
+<header>
+   <nav class='navbar navbar-expand-sm navbar-toggleable-sm navbar-light border-bottom box-shadow mb-3'>
+       <div class="container">
+           <a class="navbar-brand" [routerLink]='["/"]'><img src="/assets/images/logosmall.png" alt="Home page" /></a>
+           <button class="navbar-toggler" type="button" (click)="toggle()">
+               <span class="navbar-toggler-icon"></span>
+           </button>
+           <div class="navbar-collapse collapse d-sm-inline-flex flex-sm-row-reverse" [ngbCollapse]="!isExpanded">
+               <ul class="navbar-nav flex-grow">
+                   <li class="nav-item" ngbDropdown>
+                       <a class="nav-link" style="cursor: pointer" ngbDropdownToggle role="button" *ngIf="isAdmin">
+                           <i class="fas fa-cogs fa-fw me-2"></i>
+                           Admin
+                       </a>
+                       <div ngbDropdownMenu class="dropdown-menu dropdown-menu-right">
+                           <a class="dropdown-item" [routerLink]='["/users"]'><i class="fas fa-users fa-fw me-2"></i>Users</a>
+                           <a class="dropdown-item" [routerLink]='["/settings"]'><i class="fas fa-cogs fa-fw me-2"></i>Settings</a>
+                       </div>
+                   </li>
+                   <li class="nav-item" ngbDropdown>
+                       <a class="nav-link" style="cursor: pointer" ngbDropdownToggle role="button" *ngIf="profile$ | async as profile">
+                           <i class="fas fa-user fa-fw me-2"></i>
+                           <span class="hidden-xs visible-sm-inline-block visible-md-inline-block visible-lg-inline-block inline-block">
+                               {{profile.firstName}}
+                               <span class="hidden-xs"> {{profile.lastName}}</span>
+                           </span>
+                       </a>
+                       <div ngbDropdownMenu class="dropdown-menu dropdown-menu-end">
+                           <a class="dropdown-item" [routerLink]='["/changepassword"]'><i class="fas fa-lock fa-fw me-2"></i>Change Password</a>
+                           <a class="dropdown-item" routerLink="" (click)="logout()"><i class="fas fa-sign-out-alt fa-fw me-2"></i>Logout</a>
+                       </div>
+                   </li>
+               </ul>
+           </div>
+       </div>
+   </nav>
+</header>

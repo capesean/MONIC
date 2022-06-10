@@ -1,0 +1,43 @@
+.pager {
+    color: #666666;
+    margin-top: -0.75rem;
+}
+
+ul.pagination {
+    float: right;
+}
+
+    ul.pagination .page-link {
+        border: none !important;
+        border-radius: 3px;
+        margin-left: 1px;
+    }
+
+        ul.pagination .page-link.page-number {
+            background-color: none;
+            color: #333333;
+            cursor: default;
+        }
+
+.pagination li a:focus {
+    outline: 0 !important;
+    box-shadow: none !important;
+}
+
+.pager-info {
+    padding: 2px 0 2px;
+    font-size: .75rem;
+    line-height: 21px;
+    margin-bottom: 1rem;
+    display: inline-block;
+}
+
+.pager:not(.singlePage)
+.pagination .page-item .pager-info {
+    padding-left: 0.5rem;
+    padding-right: 0.5rem;
+}
+
+.pagination .page-item.disabled {
+    pointer-events: none;
+}

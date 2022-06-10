@@ -1,0 +1,38 @@
+<div class="pager row" [ngClass]="{ 'singlePage':pagerHeaders.totalPages === 1 }">
+    <div class="col-sm-5">
+        <small class="align-middle pager-info">{{pagerInfo}}</small>
+    </div>
+    <div class="col-sm-7">
+        <nav *ngIf="pagerHeaders && pagerHeaders.pageSize && pagerHeaders.totalPages">
+            <ul class="pagination pagination-sm">
+
+                <li class="page-item" (click)="changePage(0)" [ngClass]="{ 'disabled': pagerHeaders.pageIndex === 0 }" *ngIf="pagerHeaders.totalPages>1">
+                    <a class="page-link" [routerLink]="" queryParamsHandling="preserve">
+                        <i class="fas fa-fw fa-angle-double-left"></i>
+                    </a>
+                </li>
+
+                <li class="page-item" (click)="changePage(pagerHeaders.pageIndex - 1)" [ngClass]="{ 'disabled': pagerHeaders.pageIndex === 0 }" *ngIf="pagerHeaders.totalPages>1">
+                    <a class="page-link" [routerLink]="" queryParamsHandling="preserve">
+                        <i class="fas fa-fw fa-angle-left"></i>
+                    </a>
+                </li>
+
+                <li class="page-item"><span class="pager-info" tabindex="-1">Page {{pagerHeaders.pageIndex + 1}} of {{pagerHeaders.totalPages}}</span></li>
+
+                <li class="page-item" (click)="changePage(pagerHeaders.pageIndex + 1)" [ngClass]="{ 'disabled': pagerHeaders.pageIndex >= pagerHeaders.totalPages - 1 }" *ngIf="pagerHeaders.totalPages>1">
+                    <a class="page-link" [routerLink]="" queryParamsHandling="preserve">
+                        <i class="fas fa-fw fa-angle-right"></i>
+                    </a>
+                </li>
+
+                <li class="page-item" (click)="changePage(pagerHeaders.totalPages - 1)" [ngClass]="{ 'disabled': pagerHeaders.pageIndex >= pagerHeaders.totalPages - 1 }" *ngIf="pagerHeaders.totalPages>1">
+                    <a class="page-link" [routerLink]="" queryParamsHandling="preserve">
+                        <i class="fas fa-fw fa-angle-double-right"></i>
+                    </a>
+                </li>
+
+            </ul>
+        </nav>
+    </div>
+</div>

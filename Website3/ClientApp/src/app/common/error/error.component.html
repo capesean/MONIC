@@ -1,0 +1,143 @@
+<form name="form" novalidate #form="ngForm">
+
+    <fieldset class="group">
+
+        <legend>Error</legend>
+
+        <div class="row">
+
+            <div class="col-sm-6 col-md-4">
+                <div class="form-group">
+
+                    <label>
+                        Id:
+                    </label>
+
+                    <input type="text" [value]="error.id" class="form-control" readonly />
+
+                </div>
+            </div>
+
+            <div class="col-sm-6 col-md-3">
+                <div class="form-group">
+
+                    <label>
+                        Date:
+                    </label>
+
+                    <input type="text" [value]="error.dateUtc | momentPipe: 'DD MMM YYYY HH:mm:SS'" class="form-control" readonly />
+
+                </div>
+            </div>
+
+            <div class="col-sm-6 col-md-5">
+                <div class="form-group">
+
+                    <label>
+                        Message:
+                    </label>
+
+                    <input type="text" [value]="error.message" class="form-control" readonly />
+
+                </div>
+            </div>
+
+            <div class="col-sm-6 col-md-4">
+                <div class="form-group">
+
+                    <label>
+                        User Name:
+                    </label>
+
+                    <input type="text" [value]="error.userName" class="form-control" readonly />
+
+                </div>
+            </div>
+
+            <div class="col-sm-6 col-md-3">
+                <div class="form-group">
+
+                    <label>
+                        Method:
+                    </label>
+
+                    <input type="text" [value]="error.method" class="form-control" readonly />
+
+                </div>
+            </div>
+
+            <div class="col-sm-6 col-md-5">
+                <div class="form-group">
+
+                    <label>
+                        Url:
+                    </label>
+
+                    <input type="text" [value]="error.url" class="form-control" readonly />
+
+                </div>
+            </div>
+
+            <div class="col-sm-12">
+                <div class="form-group">
+
+                    <label>
+                        Form:
+                    </label>
+
+                    <textarea readonly rows="10" class="form-control">{{error.form}}</textarea>
+
+                </div>
+            </div>
+
+        </div>
+
+    </fieldset>
+
+    <fieldset class="group" *ngFor="let exception of exceptions">
+
+        <legend>Inner Exception</legend>
+
+        <div class="row">
+
+            <div class="col-sm-6 col-md-4">
+                <div class="form-group">
+
+                    <label>
+                        Id:
+                    </label>
+
+                    <input type="text" [value]="exception.id" class="form-control" readonly />
+
+                </div>
+            </div>
+
+            <div class="col-sm-6 col-md-8">
+                <div class="form-group">
+
+                    <label>
+                        Message:
+                    </label>
+
+                    <input type="text" [value]="exception.message" class="form-control" readonly />
+
+                </div>
+            </div>
+
+            <div class="col-sm-12">
+                <div class="form-group">
+
+                    <label>
+                        Stack Trace:
+                    </label>
+
+                    <textarea readonly rows="12" class="form-control">{{exception.stackTrace}}</textarea>
+
+                </div>
+            </div>
+
+        </div>
+
+    </fieldset>
+
+</form>

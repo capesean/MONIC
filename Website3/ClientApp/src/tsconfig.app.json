@@ -1,0 +1,25 @@
+{
+    "extends": "../tsconfig.json",
+    "baseUrl": "src",
+    "compilerOptions": {
+        "baseUrl": "src",
+        "emitDecoratorMetadata": true,
+        "experimentalDecorators": true,
+        "moduleResolution": "node",
+        "allowJs": true,
+        "outDir": "../out-tsc/app",
+        "types": []
+    },
+    "exclude": [
+        "src/test.ts",
+        "**/*.spec.ts"
+    ],
+    "files": [
+        "main.ts"
+    ],
+    "include": [
+        "src/**/*.ts",
+        "**/*.d.ts",
+        "polyfills.ts"
+    ]
+}
