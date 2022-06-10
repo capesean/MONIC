@@ -54,17 +54,13 @@ body {
     padding-bottom: 5px;
 }
 
-.ui-breadcrumb {
+.p-breadcrumb {
     border: none !important;
     background-color: white !important;
     font-size: small !important;
     padding: 0 !important;
     opacity: 0.80 !important;
 }
-
-    .ui-breadcrumb .ui-breadcrumb-chevron {
-        margin: 5px !important;
-    }
 
 .app-select .input-group:not(.disabled) input.form-control {
     background-color: white !important;
