@@ -33,62 +33,13 @@ namespace WEB.Controllers
         {
             db = applicationDbContext;
             this.userManager = userManager;
-            this.Settings = settings;
-            //Task.Delay(2000).Wait();
-            //    // added this to force the user to load before any other calls, else there were errors that an async call was already being made...
-            //CurrentUser = UserManager.FindByName(User.Identity.Name);
-            //CurrentUser = (await um.GetUserAsync(HttpContext.User).Wait();
-            //CurrentUser = Task.Run(() => um.GetUserAsync(HttpContext.User)).Wait();
-            //User.FindFirst(ClaimTypes.NameIdentifier).Value
+            Settings = settings;
         }
 
-        //internal Settings Settings
-        //{
-        //    get
-        //    {
-        //        if (_settings == null) _settings = new Settings(db);
-        //        return _settings;
-        //    }
-        //}
-        //internal User CurrentUser
-        //{
-        //    get
-        //    {
-        //        if (_currentUser == null) _currentUser = UserManager.FindByName(User.Identity.Name);
-        //        return _currentUser;
-        //    }
-        //}
-        //internal ModelFactory ModelFactory
-        //{
-        //    get
-        //    {
-        //        if (_modelFactory == null) _modelFactory = new ModelFactory();
-        //        return _modelFactory;
-        //    }
-        //}
-        //internal AppUserManager UserManager
-        //{
-        //    get
-        //    {
-        //        if (_userManager == null) _userManager = HttpContext.Current.GetOwinContext().GetUserManager<AppUserManager>();
-        //        return _userManager;
-        //    }
-        //}
-        //private Settings _settings;
-        //private User _currentUser;
-        //private ModelFactory _modelFactory;
-        //private AppUserManager _userManager;
-
-        //internal bool CurrentUserIsInRole(Roles role)
-        //{
-        //    return UserManager.IsInRole(CurrentUser.Id, role.ToString());
-        //}
-
-        //public BaseApiController() : base()
-        //{
-        //    // added this to force the user to load before any other calls, else there were errors that an async call was already being made...
-        //    _currentUser = UserManager.FindByName(User.Identity.Name);
-        //}
+        internal async Task<bool> CurrentUserIsInRoleAsync(Roles role)
+        {
+            return await userManager.IsInRoleAsync(CurrentUser, role.ToString());
+        }
 
         protected async Task<List<T>> GetPaginatedResponse<T>(IQueryable<T> query, PagingOptions pagingOptions)
         {
@@ -147,17 +98,6 @@ namespace WEB.Controllers
 
             return null;
         }
-
-        //protected ResponseMessageResult Forbidden()
-        //{
-        //    return ResponseMessage(new HttpResponseMessage(HttpStatusCode.Forbidden));
-        //}
-
-        //protected BadRequestObjectResult BadRequest(ModelStateDictionary ModelState, string key, string error)
-        //{
-        //    ModelState.AddModelError(key, error);
-        //    return BadRequest(ModelState);
-        //}
     }
 
     public class AuthorizeRolesAttribute : AuthorizeAttribute
@@ -183,22 +123,4 @@ namespace WEB.Controllers
         public bool OrderByAscending { get; set; }
         public bool IncludeEntities { get; set; } = false;
     }
-
-    //public class BadRequestErrors : IHttpActionResult
-    //{
-    //    private List<string> messages;
-    //    private HttpRequestMessage request;
-
-    //    public BadRequestErrors(List<string> messages, HttpRequestMessage request)
-    //    {
-    //        this.messages = messages;
-    //        this.request = request;
-    //    }
-
-    //    public Task<HttpResponseMessage> ExecuteAsync(CancellationToken cancellationToken)
-    //    {
-    //        var response = request.CreateResponse(HttpStatusCode.BadRequest, messages);
-    //        return Task.FromResult(response);
-    //    }
-    //}
 }
