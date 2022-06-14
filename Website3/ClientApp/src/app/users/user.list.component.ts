@@ -5,6 +5,7 @@ import { PagingOptions } from '../common/models/http.model';
 import { ErrorService } from '../common/services/error.service';
 import { UserSearchOptions, UserSearchResponse, User } from '../common/models/user.model';
 import { UserService } from '../common/services/user.service';
+import { Roles } from '../common/models/roles.model';
 
 @Component({
     selector: 'user-list',
@@ -16,6 +17,7 @@ export class UserListComponent implements OnInit {
     public searchOptions = new UserSearchOptions();
     public headers = new PagingOptions();
     private routerSubscription: Subscription;
+    public roles = Roles.List;
 
     constructor(
         public route: ActivatedRoute,

@@ -20,16 +20,21 @@ namespace WEB.Controllers
             : base(db, um, settings) { this.rm = rm; this.opts = opts; }
 
         [HttpGet]
-        public async Task<IActionResult> Search([FromQuery] PagingOptions pagingOptions, [FromQuery] string q = null, string roleName = null, [FromQuery] bool? disabled = null)
+        public async Task<IActionResult> Search([FromQuery] PagingOptions pagingOptions, [FromQuery] string q = null, [FromQuery] string roleName = null, [FromQuery] bool? disabled = null)
         {
             if (pagingOptions == null) pagingOptions = new PagingOptions();
 
             IQueryable<User> results = userManager.Users;
             results = results.Include(o => o.Roles);
 
-
             if (!string.IsNullOrWhiteSpace(q))
                 results = results.Where(o => o.Email.Contains(q) || o.FullName.Contains(q) || o.Email.Contains(q));
+
+            if (!string.IsNullOrWhiteSpace(roleName))
+            {
+                var role = await rm.Roles.SingleOrDefaultAsync(o => o.Name == roleName);
+                results = results.Where(o => o.Roles.Any(r => r.RoleId == role.Id));
+            }
 
             if (disabled.HasValue) results = results.Where(o => o.Disabled == disabled);
 

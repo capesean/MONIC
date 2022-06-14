@@ -85,7 +85,7 @@ export class ErrorService extends SearchQuery {
                     message = `${httpError.status}: ${this.friendlyHttpStatus[httpError.status]} `;
             }
 
-            message += ` <span class="badge rounded-pill bg-light text-danger float-end">${httpError.status}</span>`;
+            if (httpError.status) message += ` <span class="badge rounded-pill bg-light text-danger float-end">${httpError.status}</span>`;
         } else {
             if (err.message) message = err.message;
         }
