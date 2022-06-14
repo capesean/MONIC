@@ -1,9 +1,7 @@
 <ng-template #content let-modal>
     <div class="modal-header">
         <h4 class="modal-title" id="modal-basic-title">{{title}}</h4>
-        <button type="button" class="close" aria-label="Close" (click)="modal.dismiss()">
-            <span aria-hidden="true">&times;</span>
-        </button>
+        <button type="button" class="btn-close" (click)="modal.dismiss()" aria-label="Close"></button>
     </div>
     <div class="modal-body">
 
@@ -11,7 +9,7 @@
 
             <fieldset>
 
-                <div class="alert alert-info alert-dismissible" *ngIf="role!=undefined"><button type="button" class="close" data-dismiss="alert" aria-label="Close" (click)="searchOptions.roleName=undefined;role=undefined;runSearch();"><span aria-hidden="true" *ngIf="canRemoveFilters">&times;</span></button>Filtered by role: {{role.label}}</div>
+                <div class="alert alert-info alert-dismissible" *ngIf="role!=undefined">Filtered by role: {{role.label}}<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close" (click)="searchOptions.roleName=undefined;role=undefined;runSearch();" *ngIf="canRemoveFilters"></button></div>
 
                 <div class="row g-3">
 

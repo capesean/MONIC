@@ -98,8 +98,6 @@ namespace WEB.Controllers
             if (!saveResult.Succeeded)
                 return GetErrorResult(saveResult);
 
-            var appRoles = await rm.Roles.ToListAsync();
-
             if (!isNew)
             {
                 foreach (var roleId in user.Roles.ToList())

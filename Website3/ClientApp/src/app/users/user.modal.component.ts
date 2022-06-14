@@ -27,7 +27,7 @@ export class UserModalComponent implements OnInit {
     @Input() canRemoveFilters = false;
     @Input() multiple = false;
     @Input() showAddNew = false;
-    @Input() title = this.multiple ? "Select Users" : "Select a user";
+    @Input() title = this.multiple ? "Select users" : "Select an user";
     @Input() role: Role;
 
     constructor(
@@ -42,7 +42,6 @@ export class UserModalComponent implements OnInit {
     }
 
     open(): NgbModalRef {
-        //this.selectedItems = []; <-- allow multiple selects to re-open with selection in tact
         this.searchOptions.roleName = this.role ? this.role.name : undefined;
         this.modal = this.modalService.open(this.content, { size: 'xl', centered: true, scrollable: true });
         this.runSearch();

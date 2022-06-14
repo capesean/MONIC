@@ -30,13 +30,13 @@ namespace WEB.Models
 
     public static partial class ModelFactory
     {
-        public static UserDTO Create(User user, List<Role> appRoles = null)
+        public static UserDTO Create(User user, List<Role> dbRoles = null)
         {
             if (user == null) return null;
 
-            var roles = new List<string>();
-            if (user.Roles != null && appRoles != null)
-                roles = appRoles.Where(o => user.Roles.Any(r => r.RoleId == o.Id)).Select(o => o.Name).ToList();
+            var userRoles = new List<string>();
+            if (user.Roles != null && dbRoles != null)
+                userRoles = dbRoles.Where(o => user.Roles.Any(r => r.RoleId == o.Id)).Select(o => o.Name).ToList();
 
             var userDTO = new UserDTO();
 
@@ -46,7 +46,7 @@ namespace WEB.Models
             userDTO.FullName = user.FullName;
             userDTO.Email = user.Email;
             userDTO.Disabled = user.Disabled;
-            userDTO.Roles = roles;
+            userDTO.Roles = userRoles;
 
             return userDTO;
         }
