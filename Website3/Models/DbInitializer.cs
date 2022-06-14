@@ -7,11 +7,11 @@ namespace WEB.Models
     {
         private Settings settings;
         private ApplicationDbContext db;
-        private RoleManager<AppRole> rm;
+        private RoleManager<Role> rm;
         private UserManager<User> um;
         private const int errorExpiryDays = 7;
 
-        public DbInitializer(Settings settings, ApplicationDbContext db, UserManager<User> um, RoleManager<AppRole> rm)
+        public DbInitializer(Settings settings, ApplicationDbContext db, UserManager<User> um, RoleManager<Role> rm)
         {
             this.settings = settings;
             this.db = db;
@@ -52,7 +52,7 @@ namespace WEB.Models
         {
             var roles = Enum.GetNames(typeof(Roles));
             foreach (var role in roles)
-                if (!await rm.RoleExistsAsync(role)) await rm.CreateAsync(new AppRole { Name = role });
+                if (!await rm.RoleExistsAsync(role)) await rm.CreateAsync(new Role { Name = role });
         }
 
         private async Task DeleteErrors()

@@ -13,12 +13,12 @@ namespace AuthorizationServer.Controllers
     [Route("api/[Controller]")]
     public class SetupController : BaseApiController
     {
-        private readonly RoleManager<AppRole> roleManager;
+        private readonly RoleManager<Role> roleManager;
 
         public SetupController(
             ApplicationDbContext _db,
             UserManager<User> _um,
-            RoleManager<AppRole> _rm,
+            RoleManager<Role> _rm,
             Settings _settings
             )
             : base(_db, _um, _settings)

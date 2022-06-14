@@ -27,7 +27,7 @@ namespace AuthorizationServer.Controllers
         public AuthorizationController(
             ApplicationDbContext _db,
             UserManager<User> _um,
-            RoleManager<AppRole> _rm,
+            RoleManager<Role> _rm,
             Settings _settings,
             SignInManager<User> _sm,
             IOptions<IdentityOptions> _id,
@@ -187,7 +187,7 @@ namespace AuthorizationServer.Controllers
             return Ok(profile);
         }
 
-        private IEnumerable<string> GetDestinations(Claim claim, ClaimsPrincipal principal)
+        private IEnumerable<string> GetDestinations(Claim claim, System.Security.Claims.ClaimsPrincipal principal)
         {
             // Note: by default, claims are NOT automatically included in the access and identity tokens.
             // To allow OpenIddict to serialize them, you must attach them a destination, that specifies

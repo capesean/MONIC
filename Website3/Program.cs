@@ -36,7 +36,7 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
     });
 
 builder.Services
-    .AddIdentity<User, AppRole>()
+    .AddIdentity<User, Role>()
     .AddUserManager<UserManager<User>>()
     .AddEntityFrameworkStores<ApplicationDbContext>();
 
@@ -78,7 +78,7 @@ var app = builder.Build();
 using (var scope = app.Services.GetRequiredService<IServiceScopeFactory>().CreateScope())
 using (var db = scope.ServiceProvider.GetService<ApplicationDbContext>())
 using (var um = scope.ServiceProvider.GetService<UserManager<User>>())
-using (var rm = scope.ServiceProvider.GetService<RoleManager<AppRole>>())
+using (var rm = scope.ServiceProvider.GetService<RoleManager<Role>>())
 {
     // initialise, seed, etc
     var initializer = new DbInitializer(settings, db, um, rm);

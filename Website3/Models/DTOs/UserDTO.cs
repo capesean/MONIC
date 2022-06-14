@@ -30,7 +30,7 @@ namespace WEB.Models
 
     public static partial class ModelFactory
     {
-        public static UserDTO Create(User user, List<AppRole> appRoles = null)
+        public static UserDTO Create(User user, List<Role> appRoles = null)
         {
             if (user == null) return null;
 

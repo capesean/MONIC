@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace WEB.Models
 {
-    public partial class ApplicationDbContext : IdentityDbContext<User, AppRole, Guid>
+    public partial class ApplicationDbContext : IdentityDbContext<User, Role, Guid>
     {
         public DbSet<Error> Errors { get; set; }
         public DbSet<ErrorException> Exceptions { get; set; }

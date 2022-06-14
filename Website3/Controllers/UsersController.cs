@@ -13,10 +13,10 @@ namespace WEB.Controllers
     [Route("api/[Controller]"), Authorize]
     public class UsersController : BaseApiController
     {
-        private RoleManager<AppRole> rm;
+        private RoleManager<Role> rm;
         private IOptions<PasswordOptions> opts;
 
-        public UsersController(ApplicationDbContext db, UserManager<User> um, Settings settings, RoleManager<AppRole> rm, IOptions<PasswordOptions> opts)
+        public UsersController(ApplicationDbContext db, UserManager<User> um, Settings settings, RoleManager<Role> rm, IOptions<PasswordOptions> opts)
             : base(db, um, settings) { this.rm = rm; this.opts = opts; }
 
         [HttpGet]
