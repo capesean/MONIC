@@ -40,12 +40,6 @@ namespace WEB
                         options.AddDevelopmentEncryptionCertificate()
                                 .AddDevelopmentSigningCertificate();
                     }
-                    //else
-                    //{
-                    //    var certificate = Certificate.GetCertificate(settings);
-                    //    options.AddEncryptionCertificate(certificate);
-                    //    options.AddSigningCertificate(certificate);
-                    //}
 
                     // Force client applications to use Proof Key for Code Exchange (PKCE).
                     options.RequireProofKeyForCodeExchange();
