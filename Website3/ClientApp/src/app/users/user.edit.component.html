@@ -13,7 +13,7 @@
                         First Name:
                     </label>
 
-                    <input id="firstName" name="firstName" class="form-select" type="text" [(ngModel)]="user.firstName" #firstName="ngModel" required maxlength="50" />
+                    <input id="firstName" name="firstName" class="form-control" type="text" [(ngModel)]="user.firstName" #firstName="ngModel" required maxlength="50" />
 
                     <div *ngIf="firstName.errors?.required" class="invalid-feedback">
                         First Name is required
@@ -33,7 +33,7 @@
                         Last Name:
                     </label>
 
-                    <input id="lastName" name="lastName" class="form-select" type="text" [(ngModel)]="user.lastName" #lastName="ngModel" required maxlength="50" />
+                    <input id="lastName" name="lastName" class="form-control" type="text" [(ngModel)]="user.lastName" #lastName="ngModel" required maxlength="50" />
 
                     <div *ngIf="lastName.errors?.required" class="invalid-feedback">
                         Last Name is required
@@ -53,7 +53,7 @@
                         Email:
                     </label>
 
-                    <input id="email" name="email" class="form-select" type="text" [(ngModel)]="user.email" #email="ngModel" required maxlength="256" pattern="^[^@\s]+@[^@\s]+\.[^@\s]+$" />
+                    <input id="email" name="email" class="form-control" type="text" [(ngModel)]="user.email" #email="ngModel" required maxlength="256" pattern="^[^@\s]+@[^@\s]+\.[^@\s]+$" />
 
                     <div *ngIf="email.errors?.required" class="invalid-feedback">
                         Email is required
