@@ -5,6 +5,8 @@ import { NgForm } from '@angular/forms';
 import { HttpErrorResponse } from '@angular/common/http';
 import { BreadcrumbService } from 'angular-crumbs';
 import { ErrorService } from '../common/services/error.service';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { ConfirmModalComponent, ModalOptions } from '../common/components/confirm.component';
 import { User } from '../common/models/user.model';
 import { UserService } from '../common/services/user.service';
 import { Roles, Role } from '../common/models/roles.model';
@@ -27,6 +29,7 @@ export class UserEditComponent implements OnInit {
         private route: ActivatedRoute,
         private toastr: ToastrService,
         private breadcrumbService: BreadcrumbService,
+        private modalService: NgbModal,
         private userService: UserService,
         private profileService: ProfileService,
         private errorService: ErrorService
@@ -101,19 +104,23 @@ export class UserEditComponent implements OnInit {
 
     delete(): void {
 
-        if (!confirm("Confirm delete?")) return;
+        let modalRef = this.modalService.open(ConfirmModalComponent, { centered: true });
+        (modalRef.componentInstance as ConfirmModalComponent).options = { title: "Delete User", text: "Are you sure you want to delete this user?" } as ModalOptions;
+        modalRef.result.then(
+            () => {
 
-        this.userService.delete(this.user.id)
-            .subscribe(
-                () => {
-                    this.toastr.success("The user has been deleted", "Delete User");
-                    this.router.navigate(["../"], { relativeTo: this.route });
-                },
-                err => {
-                    this.errorService.handleError(err, "User", "Delete");
-                }
-            );
+                this.userService.delete(this.user.id)
+                    .subscribe(
+                        () => {
+                            this.toastr.success("The user has been deleted", "Delete User");
+                            this.router.navigate(["../"], { relativeTo: this.route });
+                        },
+                        err => {
+                            this.errorService.handleError(err, "User", "Delete");
+                        }
+                    );
 
+        }, () => { });
     }
 
     changeBreadcrumb(): void {
