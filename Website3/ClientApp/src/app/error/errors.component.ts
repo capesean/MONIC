@@ -1,9 +1,9 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Router, ActivatedRoute, NavigationEnd } from '@angular/router';
 import { Observable, Subscription } from 'rxjs';
-import { PagingOptions } from '../../common/models/http.model';
-import { ErrorService } from '../../common/services/error.service';
-import { ErrorSearchOptions, ErrorSearchResponse, Error } from '../../common/models/error.model';
+import { PagingOptions } from '../common/models/http.model';
+import { ErrorService } from '../common/services/error.service';
+import { ErrorSearchOptions, ErrorSearchResponse, Error } from '../common/models/error.model';
 
 @Component({
     selector: 'errors',

@@ -59,6 +59,10 @@ export class ErrorService extends SearchQuery {
                         message = err.error.errorDescription;
                     } else if (err.error.error_description) {
                         message = err.error.error_description;
+                    } else if (err.error.errors) {
+                        Object.keys(err.error.errors).forEach(key => {
+                            message += err.error.errors[key] + "<br/>";
+                        })
                     } else {
                         for (const key in err.error) {
                             if (err.error[key])
@@ -70,8 +74,10 @@ export class ErrorService extends SearchQuery {
                 }
             }
             else if (httpError.status === 403)
-                // todo: reroute to home page?
                 message = `You do not have permission to perform that action`;
+            else if (httpError.status === 401) {
+                message = `You are not logged in`;
+            }
             else if (httpError.status === 404) {
                 if (action === "Load" || action === "Save" || action === "Delete")
                     message = `The ${item.toLowerCase()} could not be found`;

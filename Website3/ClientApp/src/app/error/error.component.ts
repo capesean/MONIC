@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { ErrorService } from '../../common/services/error.service';
-import { Error, Exception } from '../../common/models/error.model';
+import { ErrorService } from '../common/services/error.service';
+import { Error, Exception } from '../common/models/error.model';
 
 @Component({
     selector: 'error',

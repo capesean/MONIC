@@ -8,8 +8,8 @@ import { SharedModule } from './shared.module';
 import { HomeComponent } from './home/home.component';
 import { ChangePasswordComponent } from './users/changepassword.component';
 import { CustomRoutes } from './custom.routes';
-import { ErrorComponent } from './common/error/error.component';
-import { ErrorsComponent } from './common/error/errors.component';
+import { ErrorComponent } from './error/error.component';
+import { ErrorsComponent } from './error/errors.component';
 import { SettingsComponent } from './settings/settings.component';
 import { SetupComponent } from './setup/setup.component';
 
