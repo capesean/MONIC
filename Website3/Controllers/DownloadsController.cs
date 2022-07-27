@@ -2,7 +2,7 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.StaticFiles;
-using System.Threading.Tasks;
+using System.Net.Mime;
 using WEB.Controllers;
 using WEB.Models;
 using WEB.Reports.PDF;
@@ -21,9 +21,17 @@ namespace KPI.Controllers
 
             byte[] bytes = await report.GenerateAsync();
 
-            Response.Headers.Add("Content-Disposition", report.GetContentDisposition().ToString());
+            return DownloadResult(report.GetReportName(), bytes);
+        }
 
-            return File(bytes, report.GetContentType());
+        private FileContentResult DownloadResult(string fileName, byte[] fileContents)
+        {
+            Response.Headers.Add("Content-Disposition", GetContentDisposition(fileName).ToString());
+
+            return new FileContentResult(fileContents, GetContentType(fileName))
+            {
+                FileDownloadName = fileName
+            };
         }
 
         private string GetContentType(string fileName)
@@ -35,6 +43,15 @@ namespace KPI.Controllers
                 contentType = "application/octet-stream";
             }
             return contentType;
+        }
+
+        private ContentDisposition GetContentDisposition(string fileName)
+        {
+            return new ContentDisposition
+            {
+                FileName = string.Format(fileName),
+                Inline = false,
+            };
         }
     }
 }
