@@ -1,0 +1,32 @@
+.input-group input[type=file] {
+    display: none;
+}
+
+/*todo: when control is actually disabled, this should be overridden*/
+#label[readonly] {
+    background-color: white;
+}
+
+.was-validated .form-group.is-invalid app-file #label {
+    border: solid 1px #dc3545;
+    color: #dc3545;
+}
+
+.was-validated .form-group.is-invalid app-file .input-group-text {
+    background-color: #dc3545;
+    border: solid 1px #dc3545;
+    color: white;
+}
+
+.custom-file-label {
+    overflow-x: hidden;
+    white-space: nowrap;
+    flex: 1;
+    padding: .375rem .75rem;
+    font-weight: 400;
+    line-height: 1.5;
+    color: #495057;
+    background-color: #fff;
+    border: 1px solid #ced4da;
+    border-radius: .25rem;
+}

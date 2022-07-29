@@ -1,0 +1,7 @@
+<div class="input-group flex-nowrap">
+    <label class="input-group-text" for="input">Browse</label>
+    <input type="file" id="input" name="input" class="form-control" (ngModel)="fileContents" #fileInput>
+    <input type="text" id="label" name="label" class="form-control" (click)="fileInput.click()" [ngbTooltip]="fileName" container="body" readonly [ngModel]="fileName || 'No file'" #label="ngModel" required [ngClass]="{ 'text-muted': !fileName }" />
+    <button type="button" class="btn btn-outline-danger" ngbTooltip="Clear file" container="body" (click)="clear()" *ngIf="fileName"><i class="fa fa fa-times"></i></button>
+    <button type="button" class="btn btn-primary" (click)="download()" ngbTooltip="Download file" container="body" *ngIf="enableDownload"><i class="fa fa fa-cloud-download-alt"></i></button>
+</div>

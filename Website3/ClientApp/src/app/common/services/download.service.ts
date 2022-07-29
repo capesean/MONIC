@@ -12,8 +12,9 @@ export class DownloadService extends SearchQuery {
         super();
     }
 
-    testReport(): Observable<void> {
-        return this.http.get<DownloadModel>(`${environment.baseApiUrl}downloads/test`, { responseType: 'blob' as 'json', observe: 'response' })
+    // add or customize download actions like below:
+    downloadUserFile(id: string): Observable<void> {
+        return this.http.get<DownloadModel>(`${environment.baseApiUrl}downloads/user/type/${id}`, { responseType: 'blob' as 'json', observe: 'response' })
             .pipe(
                 map(response => this.downloadFile(this.convertResponse(response)))
             );

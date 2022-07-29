@@ -11,6 +11,7 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { DragDropModule } from '@angular/cdk/drag-drop';
 import { BreadcrumbModule } from 'primeng/breadcrumb';
 import { AppFileInputDirective } from './common/directives/appfileinput';
+import { FileComponent } from './common/components/file.component';
 import { AppHasRoleDirective } from './common/directives/apphasrole';
 import { UserSelectComponent } from './users/user.select.component';
 import { UserModalComponent } from './users/user.modal.component';
@@ -31,6 +32,7 @@ import { UserModalComponent } from './users/user.modal.component';
         MomentPipe,
         BooleanPipe,
         AppFileInputDirective,
+        FileComponent,
         AppHasRoleDirective,
         UserSelectComponent,
         UserModalComponent
@@ -43,6 +45,7 @@ import { UserModalComponent } from './users/user.modal.component';
         MomentPipe,
         BooleanPipe,
         AppFileInputDirective,
+        FileComponent,
         AppHasRoleDirective,
         UserSelectComponent,
         UserModalComponent
