@@ -6,6 +6,6 @@
     <p>{{_options.text}}</p>
 </div>
 <div class="modal-footer">
-    <button type="button" class="btn btn-outline-secondary" (click)="modal.close()">{{_options.ok}}</button>
-    <button type="button" class="btn btn-danger" (click)="modal.dismiss()">{{_options.cancel}}</button>
+    <button type="button" class="btn" [ngClass]="{ 'btn-outline-secondary': !_options.deleteStyle, 'btn-danger': _options.deleteStyle }" (click)="modal.close()">{{_options.ok}}</button>
+    <button type="button" class="btn" [ngClass]="{ 'btn-danger': !_options.deleteStyle, 'btn-outline-secondary': _options.deleteStyle }" (click)="modal.dismiss()">{{_options.cancel}}</button>
 </div>

@@ -17,6 +17,7 @@ export class ConfirmModalComponent {
 export class ModalOptions {
     title: string = "Confirm";
     text: string = "Please confirm if you want to proceed";
-    ok = "Ok";
-    cancel = "Cancel";
+    ok: string = "Ok";
+    cancel: string = "Cancel";
+    deleteStyle: boolean = false;
 }
