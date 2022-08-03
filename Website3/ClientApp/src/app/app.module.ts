@@ -9,7 +9,7 @@ import { NgHttpLoaderModule } from 'ng-http-loader';
 import { AppComponent } from './app.component';
 import { FormsModule } from '@angular/forms';
 import { NgbModule, NgbDateAdapter, NgbDateNativeAdapter } from '@ng-bootstrap/ng-bootstrap';
-import { BreadcrumbService, BreadcrumbComponent } from 'angular-crumbs';
+import { BreadcrumbService, BreadcrumbComponent } from 'angular-crumbs-2';
 import { ErrorService } from './common/services/error.service';
 import { NotFoundComponent } from './common/notfound.component';
 import { AccessGuard } from './common/auth/auth.accessguard';

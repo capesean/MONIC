@@ -1,6 +1,6 @@
 import { Component, OnInit, Inject, ViewEncapsulation } from '@angular/core';
 import { Title } from '@angular/platform-browser';
-import { BreadcrumbService, Breadcrumb } from 'angular-crumbs';
+import { BreadcrumbService, Breadcrumb } from 'angular-crumbs-2';
 import { MenuItem } from 'primeng/api';
 import { DOCUMENT } from '@angular/common';
 import { environment } from '../environments/environment';
