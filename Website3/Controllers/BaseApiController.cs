@@ -41,9 +41,9 @@ namespace WEB.Controllers
             return await userManager.IsInRoleAsync(CurrentUser, role.ToString());
         }
 
-        protected async Task<List<T>> GetPaginatedResponse<T>(IQueryable<T> query, PagingOptions pagingOptions)
+        protected async Task<List<T>> GetPaginatedResponse<T>(IQueryable<T> query, SearchOptions pagingOptions)
         {
-            if (pagingOptions == null) pagingOptions = new PagingOptions();
+            if (pagingOptions == null) pagingOptions = new SearchOptions();
             if (pagingOptions.PageIndex < 0) pagingOptions.PageIndex = 0;
 
             var totalRecords = query.Count();
@@ -108,9 +108,9 @@ namespace WEB.Controllers
         }
     }
 
-    public class PagingOptions
+    public class SearchOptions
     {
-        public PagingOptions()
+        public SearchOptions()
         {
             PageIndex = 0;
             PageSize = 10;
@@ -121,6 +121,7 @@ namespace WEB.Controllers
         public int PageSize { get; set; }
         public string OrderBy { get; set; }
         public bool OrderByAscending { get; set; }
-        public bool IncludeEntities { get; set; } = false;
+        public bool IncludeParents { get; set; } = false;
+        public bool IncludeChildren { get; set; } = false;
     }
 }

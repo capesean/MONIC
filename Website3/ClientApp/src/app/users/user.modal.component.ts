@@ -38,7 +38,7 @@ export class UserModalComponent implements OnInit {
     }
 
     ngOnInit(): void {
-        this.searchOptions.includeEntities = true;
+        this.searchOptions.includeParents = true;
     }
 
     open(): NgbModalRef {

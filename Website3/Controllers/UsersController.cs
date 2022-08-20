@@ -20,9 +20,9 @@ namespace WEB.Controllers
             : base(db, um, settings) { this.rm = rm; this.opts = opts; }
 
         [HttpGet]
-        public async Task<IActionResult> Search([FromQuery] PagingOptions pagingOptions, [FromQuery] string q = null, [FromQuery] string roleName = null, [FromQuery] bool? disabled = null)
+        public async Task<IActionResult> Search([FromQuery] SearchOptions pagingOptions, [FromQuery] string q = null, [FromQuery] string roleName = null, [FromQuery] bool? disabled = null)
         {
-            if (pagingOptions == null) pagingOptions = new PagingOptions();
+            if (pagingOptions == null) pagingOptions = new SearchOptions();
 
             IQueryable<User> results = userManager.Users;
             results = results.Include(o => o.Roles);

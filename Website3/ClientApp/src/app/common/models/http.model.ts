@@ -21,7 +21,8 @@ export class SearchQuery {
 }
 
 export class SearchOptions {
-    includeEntities = false;
+    includeParents = false;
+    includeChildren = false;
     pageIndex = 0;
     pageSize = 10;
     orderBy: string = undefined;

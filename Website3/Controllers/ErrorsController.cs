@@ -15,9 +15,9 @@ namespace WEB.Controllers
             : base(db, um, settings) { }
 
         [HttpGet]
-        public async Task<IActionResult> Search([FromQuery]PagingOptions pagingOptions)
+        public async Task<IActionResult> Search([FromQuery]SearchOptions pagingOptions)
         {
-            if (pagingOptions == null) pagingOptions = new PagingOptions();
+            if (pagingOptions == null) pagingOptions = new SearchOptions();
 
             IQueryable<Models.Error> results = db.Errors;
 
