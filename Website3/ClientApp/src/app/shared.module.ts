@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { PagerComponent } from './common/pager.component';
+import { PagerComponent } from './common/components/pager.component';
 import { RouterModule } from '@angular/router';
 import { MainComponent } from './main.component';
 import { NavMenuComponent } from './common/nav-menu/nav-menu.component';

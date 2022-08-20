@@ -1,5 +1,5 @@
 import { Component, Input, OnInit, Output, EventEmitter } from '@angular/core';
-import { PagingHeaders } from './models/http.model';
+import { PagingHeaders } from './../models/http.model';
 
 @Component({
     selector: 'pager',

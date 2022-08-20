@@ -1,5 +1,5 @@
 import { Route, } from '@angular/router';
-import { NotFoundComponent } from './common/notfound.component';
+import { NotFoundComponent } from './common/components/notfound.component';
 import { MainComponent } from './main.component';
 import { SetupComponent } from './setup/setup.component';
 

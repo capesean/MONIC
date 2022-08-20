@@ -11,7 +11,7 @@ import { FormsModule } from '@angular/forms';
 import { NgbModule, NgbDateAdapter, NgbDateNativeAdapter } from '@ng-bootstrap/ng-bootstrap';
 import { BreadcrumbService, BreadcrumbComponent } from 'angular-crumbs-2';
 import { ErrorService } from './common/services/error.service';
-import { NotFoundComponent } from './common/notfound.component';
+import { NotFoundComponent } from './common/components/notfound.component';
 import { AccessGuard } from './common/auth/auth.accessguard';
 import { AuthoriseRequestInterceptor, UnauthorisedResponseInterceptor } from './common/auth/auth.interceptors';
 import { SharedModule } from './shared.module';
