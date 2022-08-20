@@ -4,7 +4,7 @@ import { HttpErrorResponse, HttpClient, HttpParams } from "@angular/common/http"
 import { Observable } from "rxjs";
 import { environment } from "../../../environments/environment";
 import { Error, ErrorSearchOptions, ErrorSearchResponse } from "../models/error.model";
-import { SearchQuery, PagingOptions } from "../models/http.model";
+import { SearchQuery, PagingHeaders } from "../models/http.model";
 import { map } from "rxjs/operators";
 
 @Injectable()
@@ -22,7 +22,7 @@ export class ErrorService extends SearchQuery {
         return this.http.get(`${environment.baseApiUrl}errors`, { params: queryParams, observe: 'response' })
             .pipe(
                 map(response => {
-                    const headers = JSON.parse(response.headers.get("x-pagination")) as PagingOptions;
+                    const headers = JSON.parse(response.headers.get("x-pagination")) as PagingHeaders;
                     const errors = response.body as Error[];
                     return { errors: errors, headers: headers };
                 })

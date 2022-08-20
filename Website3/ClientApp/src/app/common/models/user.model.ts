@@ -1,4 +1,4 @@
-import { SearchOptions, PagingOptions } from './http.model';
+import { SearchOptions, PagingHeaders } from './http.model';
 
 export class User {
     id: string;
@@ -22,5 +22,5 @@ export class UserSearchOptions extends SearchOptions {
 
 export class UserSearchResponse {
     users: User[] = [];
-    headers: PagingOptions;
+    headers: PagingHeaders;
 }

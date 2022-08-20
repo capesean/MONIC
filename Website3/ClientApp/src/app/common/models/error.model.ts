@@ -1,4 +1,4 @@
-import { SearchOptions, PagingOptions } from './http.model';
+import { SearchOptions, PagingHeaders } from './http.model';
 
 export class Error {
     id: string;
@@ -25,5 +25,5 @@ export class ErrorSearchOptions extends SearchOptions {
 
 export class ErrorSearchResponse {
     errors: Error[] = [];
-    headers: PagingOptions;
+    headers: PagingHeaders;
 }

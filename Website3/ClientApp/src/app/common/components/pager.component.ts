@@ -1,5 +1,5 @@
 import { Component, Input, OnInit, Output, EventEmitter } from '@angular/core';
-import { PagingOptions } from './models/http.model';
+import { PagingHeaders } from './models/http.model';
 
 @Component({
     selector: 'pager',
@@ -9,7 +9,7 @@ import { PagingOptions } from './models/http.model';
 export class PagerComponent {
 
     @Input()
-    set headers(headers: PagingOptions) {
+    set headers(headers: PagingHeaders) {
         this.pagerHeaders = headers;
         if (headers == undefined || headers.totalRecords === undefined)
             this.pagerInfo = "";
@@ -27,7 +27,7 @@ export class PagerComponent {
 
     @Output() pageChanged: EventEmitter<number> = new EventEmitter();
     pagerInfo: string;
-    pagerHeaders: PagingOptions;
+    pagerHeaders: PagingHeaders;
 
     constructor() { }
 

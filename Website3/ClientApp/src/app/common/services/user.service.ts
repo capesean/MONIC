@@ -4,7 +4,7 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { User, UserSearchOptions, UserSearchResponse } from '../models/user.model';
-import { SearchQuery, PagingOptions } from '../models/http.model';
+import { SearchQuery, SearchOptions, PagingHeaders } from '../models/http.model';
 
 @Injectable({ providedIn: 'root' })
 export class UserService extends SearchQuery {
@@ -18,7 +18,7 @@ export class UserService extends SearchQuery {
         return this.http.get(`${environment.baseApiUrl}users`, { params: queryParams, observe: 'response' })
             .pipe(
                 map(response => {
-                    const headers = JSON.parse(response.headers.get("x-pagination")) as PagingOptions;
+                    const headers = JSON.parse(response.headers.get("x-pagination")) as PagingHeaders;
                     const users = response.body as User[];
                     return { users: users, headers: headers };
                 })

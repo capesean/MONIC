@@ -20,9 +20,9 @@ namespace WEB.Controllers
             : base(db, um, settings) { this.rm = rm; this.opts = opts; }
 
         [HttpGet]
-        public async Task<IActionResult> Search([FromQuery] SearchOptions pagingOptions, [FromQuery] string q = null, [FromQuery] string roleName = null, [FromQuery] bool? disabled = null)
+        public async Task<IActionResult> Search([FromQuery] SearchOptions searchOptions, [FromQuery] string q = null, [FromQuery] string roleName = null, [FromQuery] bool? disabled = null)
         {
-            if (pagingOptions == null) pagingOptions = new SearchOptions();
+            if (searchOptions == null) searchOptions = new SearchOptions();
 
             IQueryable<User> results = userManager.Users;
             results = results.Include(o => o.Roles);
@@ -42,7 +42,7 @@ namespace WEB.Controllers
 
             var roles = await db.Roles.ToListAsync();
 
-            return Ok((await GetPaginatedResponse(results, pagingOptions)).Select(o => ModelFactory.Create(o, roles)));
+            return Ok((await GetPaginatedResponse(results, searchOptions)).Select(o => ModelFactory.Create(o, roles)));
         }
 
         [HttpGet("{id:Guid}")]

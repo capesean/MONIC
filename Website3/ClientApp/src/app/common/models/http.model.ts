@@ -29,7 +29,7 @@ export class SearchOptions {
     orderByAscending: boolean = undefined;
 }
 
-export class PagingOptions {
+export class PagingHeaders {
     pageIndex = 0;
     pageSize = 10;
     records: number;

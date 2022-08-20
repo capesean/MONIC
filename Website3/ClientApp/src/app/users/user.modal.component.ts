@@ -3,7 +3,7 @@ import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { Observable } from 'rxjs';
 import { UserSearchOptions, UserSearchResponse, User } from '../common/models/user.model';
 import { UserService } from '../common/services/user.service';
-import { PagingOptions } from '../common/models/http.model';
+import { PagingHeaders } from '../common/models/http.model';
 import { ErrorService } from '../common/services/error.service';
 import { Role } from '../common/models/roles.model';
 
@@ -16,7 +16,7 @@ export class UserModalComponent implements OnInit {
     modal: NgbModalRef;
     user: User | User[];
     selectedItems: User[] = [];
-    headers: PagingOptions = new PagingOptions();
+    headers: PagingHeaders = new PagingHeaders();
     searchOptions: UserSearchOptions = new UserSearchOptions();
     users: User[];
     allSelected = false;
