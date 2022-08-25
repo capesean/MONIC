@@ -51,5 +51,7 @@ export class ColorComponent implements ControlValueAccessor, Validator {
     validate(): ValidationErrors {
         return this.picker?.errors;
     }
-
+    clear(): void {
+        this.writeValue(undefined);
+    }
 }
