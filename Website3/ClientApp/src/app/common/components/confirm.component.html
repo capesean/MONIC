@@ -3,9 +3,10 @@
     <button type="button" class="btn-close" aria-label="Close button" aria-describedby="modal-title" (click)="modal.dismiss()"></button>
 </div>
 <div class="modal-body">
-    <p>{{_options.text}}</p>
+    <div [innerHtml]="_options.text"></div>
 </div>
 <div class="modal-footer">
-    <button type="button" class="btn" [ngClass]="{ 'btn-outline-secondary': !_options.deleteStyle, 'btn-danger': _options.deleteStyle }" (click)="modal.close()">{{_options.ok}}</button>
-    <button type="button" class="btn" [ngClass]="{ 'btn-danger': !_options.deleteStyle, 'btn-outline-secondary': _options.deleteStyle }" (click)="modal.dismiss()">{{_options.cancel}}</button>
+    <button type="button" class="btn" [ngClass]="okClass" (click)="modal.close(true)" *ngIf="_options.ok">{{_options.ok}}</button>
+    <button type="button" class="btn" [ngClass]="noClass" (click)="modal.close(false)" *ngIf="_options.no">{{_options.no}}</button>
+    <button type="button" class="btn" [ngClass]="cancelClass" (click)="modal.dismiss()" *ngIf="_options.cancel">{{_options.cancel}}</button>
 </div>
