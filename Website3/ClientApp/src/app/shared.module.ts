@@ -4,8 +4,8 @@ import { PagerComponent } from './common/components/pager.component';
 import { RouterModule } from '@angular/router';
 import { MainComponent } from './main.component';
 import { NavMenuComponent } from './common/nav-menu/nav-menu.component';
-import { MomentPipe } from './common/pipes/momentPipe';
-import { BooleanPipe } from './common/pipes/booleanPipe';
+import { MomentPipe } from './common/pipes/momentpipe';
+import { BooleanPipe } from './common/pipes/booleanpipe';
 import { ConfirmModalComponent } from './common/components/confirm.component';
 import { FormsModule } from '@angular/forms';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
@@ -13,6 +13,7 @@ import { DragDropModule } from '@angular/cdk/drag-drop';
 import { BreadcrumbModule } from 'primeng/breadcrumb';
 import { AppFileInputDirective } from './common/directives/appfileinput';
 import { FileComponent } from './common/components/file.component';
+import { ColorComponent } from './common/components/color.component';
 import { AppHasRoleDirective } from './common/directives/apphasrole';
 import { UserSelectComponent } from './users/user.select.component';
 import { UserModalComponent } from './users/user.modal.component';
@@ -35,6 +36,7 @@ import { UserModalComponent } from './users/user.modal.component';
         ConfirmModalComponent,
         AppFileInputDirective,
         FileComponent,
+        ColorComponent,
         AppHasRoleDirective,
         UserSelectComponent,
         UserModalComponent
@@ -49,6 +51,7 @@ import { UserModalComponent } from './users/user.modal.component';
         ConfirmModalComponent,
         AppFileInputDirective,
         FileComponent,
+        ColorComponent,
         AppHasRoleDirective,
         UserSelectComponent,
         UserModalComponent
