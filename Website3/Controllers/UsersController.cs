@@ -42,7 +42,7 @@ namespace WEB.Controllers
 
             var roles = await db.Roles.ToListAsync();
 
-            return Ok((await GetPaginatedResponse(results, searchOptions)).Select(o => ModelFactory.Create(o, roles)));
+            return Ok((await GetPaginatedResponse(results, searchOptions)).Select(o => ModelFactory.Create(o, searchOptions.IncludeParents, searchOptions.IncludeChildren, roles)));
         }
 
         [HttpGet("{id:Guid}")]
@@ -57,7 +57,7 @@ namespace WEB.Controllers
 
             var roles = await db.Roles.ToListAsync();
 
-            return Ok(ModelFactory.Create(user, roles));
+            return Ok(ModelFactory.Create(user, dbRoles: roles));
         }
 
         [HttpPost("{id:Guid}"), AuthorizeRoles(Roles.Administrator)]

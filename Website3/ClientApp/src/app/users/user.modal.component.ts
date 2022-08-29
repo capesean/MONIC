@@ -5,7 +5,7 @@ import { UserSearchOptions, UserSearchResponse, User } from '../common/models/us
 import { UserService } from '../common/services/user.service';
 import { PagingHeaders } from '../common/models/http.model';
 import { ErrorService } from '../common/services/error.service';
-import { Enum, Enums, Roles } from '../common/models/enums.model';
+import { Enum } from '../common/models/enums.model';
 
 @Component({
     selector: 'user-modal',

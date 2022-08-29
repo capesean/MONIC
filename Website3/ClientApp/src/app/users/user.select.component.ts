@@ -2,7 +2,7 @@ import { Component, OnInit, forwardRef, ViewChild, Input, EventEmitter, Output }
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { UserModalComponent } from './user.modal.component';
 import { User } from '../common/models/user.model';
-import { Enum, Enums, Roles } from '../common/models/enums.model';
+import { Enum } from '../common/models/enums.model';
 
 @Component({
     selector: 'user-select',
