@@ -5,7 +5,7 @@ import { UserSearchOptions, UserSearchResponse, User } from '../common/models/us
 import { UserService } from '../common/services/user.service';
 import { PagingHeaders } from '../common/models/http.model';
 import { ErrorService } from '../common/services/error.service';
-import { Role } from '../common/models/roles.model';
+import { Enum, Enums, Roles } from '../common/models/enums.model';
 
 @Component({
     selector: 'user-modal',
@@ -28,7 +28,7 @@ export class UserModalComponent implements OnInit {
     @Input() multiple = false;
     @Input() showAddNew = false;
     @Input() title = this.multiple ? "Select users" : "Select an user";
-    @Input() role: Role;
+    @Input() role: Enum;
 
     constructor(
         private modalService: NgbModal,

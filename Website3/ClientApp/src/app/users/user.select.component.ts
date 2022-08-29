@@ -2,8 +2,7 @@ import { Component, OnInit, forwardRef, ViewChild, Input, EventEmitter, Output }
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { UserModalComponent } from './user.modal.component';
 import { User } from '../common/models/user.model';
-import { Enum } from '../common/models/enums.model';
-import { Role } from '../common/models/roles.model';
+import { Enum, Enums, Roles } from '../common/models/enums.model';
 
 @Component({
     selector: 'user-select',
@@ -24,7 +23,7 @@ export class UserSelectComponent implements OnInit, ControlValueAccessor {
     @Input() canRemoveFilters = false;
     @Input() multiple = false;
     @Input() showAddNew = false;
-    @Input() role: Role;
+    @Input() role: Enum;
 
     disabled = false;
     placeholder = this.multiple ? "Select users" : "Select an user";

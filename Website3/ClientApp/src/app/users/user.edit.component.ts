@@ -9,7 +9,7 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ConfirmModalComponent, ModalOptions } from '../common/components/confirm.component';
 import { User } from '../common/models/user.model';
 import { UserService } from '../common/services/user.service';
-import { Roles, Role } from '../common/models/roles.model';
+import { Enum, Enums, Roles } from '../common/models/enums.model';
 import { ProfileModel } from '../common/models/profile.models';
 import { ProfileService } from '../common/services/profile.service';
 
@@ -21,7 +21,7 @@ export class UserEditComponent implements OnInit {
 
     public user: User = new User();
     public isNew = true;
-    public roles: Role[] = Roles.List;
+    public roles: Enum[] = Enums.Roles;
     private profile: ProfileModel;
 
     constructor(

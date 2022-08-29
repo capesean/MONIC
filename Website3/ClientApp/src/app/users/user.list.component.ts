@@ -5,7 +5,7 @@ import { PagingHeaders } from '../common/models/http.model';
 import { ErrorService } from '../common/services/error.service';
 import { UserSearchOptions, UserSearchResponse, User } from '../common/models/user.model';
 import { UserService } from '../common/services/user.service';
-import { Roles } from '../common/models/roles.model';
+import { Enums } from '../common/models/enums.model';
 
 @Component({
     selector: 'user-list',
@@ -17,7 +17,7 @@ export class UserListComponent implements OnInit {
     public searchOptions = new UserSearchOptions();
     public headers = new PagingHeaders();
     private routerSubscription: Subscription;
-    public roles = Roles.List;
+    public roles = Enums.Roles;
 
     constructor(
         public route: ActivatedRoute,

@@ -7,7 +7,7 @@ import { catchError, filter, first, flatMap, map, mergeMap, share, tap } from "r
 import { environment } from "../../../environments/environment";
 import { AuthStateModel, AuthTokenModel, ChangePasswordModel, JwtTokenModel, LoginModel, RefreshGrantModel, RegisterModel, ResetModel, ResetPasswordModel } from "../models/auth.models";
 import { ProfileModel } from "../models/profile.models";
-import { Role } from "../models/roles.model";
+import { Enums, Roles } from "../models/enums.model";
 import { ProfileService } from "./profile.service";
 
 const jwt = new JwtHelperService();
@@ -79,11 +79,11 @@ export class AuthService {
         return this.http.post<void>(`${environment.baseApiUrl}authorization/changepassword`, changePassword);
     }
 
-    isInRole(profile: ProfileModel, role: string | Role): boolean {
+    isInRole(profile: ProfileModel, role: string | Roles): boolean {
         if (!profile || !profile.roles) return false;
-        if (typeof (role) === "object") role = role.name;
+        if (typeof (role) === "number") role = Enums.Roles[role].name;
         if (typeof (profile.roles) === "string") return role === profile.roles;
-        return profile.roles.indexOf(role) !== -1;
+        return profile.roles.indexOf(role) > -1;
     }
 
     refreshTokens(): Observable<AuthTokenModel> {
