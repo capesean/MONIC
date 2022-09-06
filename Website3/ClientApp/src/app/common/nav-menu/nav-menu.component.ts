@@ -4,7 +4,6 @@ import { Router } from '@angular/router';
 import { BehaviorSubject } from 'rxjs';
 import { ProfileModel } from '../models/profile.models';
 import { AuthService } from '../services/auth.service';
-import { ProfileService } from '../services/profile.service';
 
 @Component({
     selector: 'app-nav-menu',
@@ -18,14 +17,13 @@ export class NavMenuComponent implements OnInit {
 
     constructor(
         private authService: AuthService,
-        private profileService: ProfileService,
         private toastr: ToastrService,
         private router: Router
     ) {
     }
 
     ngOnInit(): void {
-        this.profileService.getProfile().subscribe(profile => {
+        this.authService.getProfile().subscribe(profile => {
             this.profile$.next(profile);
         });
     }

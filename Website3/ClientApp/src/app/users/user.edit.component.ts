@@ -11,7 +11,7 @@ import { User } from '../common/models/user.model';
 import { UserService } from '../common/services/user.service';
 import { Enum, Enums, Roles } from '../common/models/enums.model';
 import { ProfileModel } from '../common/models/profile.models';
-import { ProfileService } from '../common/services/profile.service';
+import { AuthService } from '../common/services/auth.service';
 
 @Component({
     selector: 'user-edit',
@@ -31,14 +31,14 @@ export class UserEditComponent implements OnInit {
         private breadcrumbService: BreadcrumbService,
         private modalService: NgbModal,
         private userService: UserService,
-        private profileService: ProfileService,
+        private authService: AuthService,
         private errorService: ErrorService
     ) {
     }
 
     ngOnInit(): void {
 
-        this.profileService.getProfile().subscribe(profile => {
+        this.authService.getProfile().subscribe(profile => {
             this.profile = profile;
         });
 
@@ -92,7 +92,7 @@ export class UserEditComponent implements OnInit {
                     else {
                         // reload profile if editing self
                         if (this.user.id === this.profile.userId)
-                            this.profileService.getProfile(true).subscribe();
+                            this.authService.getProfile(true).subscribe();
                     }
                 },
                 err => {

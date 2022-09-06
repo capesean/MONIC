@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ProfileModel } from '../common/models/profile.models';
-import { ProfileService } from '../common/services/profile.service';
+import { AuthService } from '../common/services/auth.service';
 
 @Component({
   selector: 'app-home',
@@ -10,11 +10,11 @@ export class HomeComponent implements OnInit {
 
     profile: ProfileModel;
 
-    constructor(private profileService: ProfileService) {
+    constructor(private authService: AuthService) {
     }
 
     ngOnInit(): void {
-        this.profileService.getProfile()
+        this.authService.getProfile()
             .subscribe(profile => this.profile = profile);
     }
 

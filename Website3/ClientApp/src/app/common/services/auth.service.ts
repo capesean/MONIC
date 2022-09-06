@@ -8,7 +8,6 @@ import { environment } from "../../../environments/environment";
 import { AuthStateModel, AuthTokenModel, ChangePasswordModel, JwtTokenModel, LoginModel, RefreshGrantModel, RegisterModel, ResetModel, ResetPasswordModel } from "../models/auth.models";
 import { ProfileModel } from "../models/profile.models";
 import { Enums, Roles } from "../models/enums.model";
-import { ProfileService } from "./profile.service";
 
 const jwt = new JwtHelperService();
 
@@ -22,11 +21,12 @@ export class AuthService {
     tokens$: Observable<AuthTokenModel>;
     jwtToken$: Observable<JwtTokenModel>;
     loggedIn$: Observable<boolean>;
+    private _profile: ProfileModel;
+    private profileGet: Observable<ProfileModel>;
 
     constructor(
         private http: HttpClient,
-        private router: Router,
-        private profileService: ProfileService
+        private router: Router
     ) {
         this.state = new BehaviorSubject<AuthStateModel>(this.initalState);
         this.state$ = this.state.asObservable();
@@ -72,7 +72,11 @@ export class AuthService {
             this.refreshSubscription$.unsubscribe();
         }
         this.removeToken();
-        this.profileService.clearProfile();
+        this.clearProfile();
+    }
+
+    clearProfile(): void {
+        this._profile = undefined;
     }
 
     changePassword(changePassword: ChangePasswordModel): Observable<void> {
@@ -196,5 +200,24 @@ export class AuthService {
             }))
             .pipe(flatMap(() => this.refreshTokens()))
             .subscribe();
+    }
+
+    getProfile(refresh?: boolean): Observable<ProfileModel> {
+        // if the profile has already been retrieved, return it
+        if (!refresh && this._profile) {
+            return of(this._profile);
+        }
+        // if a request is currently outstanding, return that request
+        if (!this.profileGet) {
+            this.profileGet = this.http
+                .get<ProfileModel>(`${environment.baseApiUrl}profile`)
+                .pipe(share())
+                .pipe(tap(profile => {
+                    this._profile = profile;
+                    // clear the outstanding request
+                    this.profileGet = undefined;
+                }));
+        }
+        return this.profileGet;
     }
 }
