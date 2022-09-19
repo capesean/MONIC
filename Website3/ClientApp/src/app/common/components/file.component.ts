@@ -1,4 +1,4 @@
-import { Component, OnInit, forwardRef, Input, EventEmitter, Output, HostListener, ViewEncapsulation } from '@angular/core';
+import { Component, OnInit, forwardRef, Input, EventEmitter, Output, HostListener, ViewEncapsulation, ViewChild, ElementRef } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 
 @Component({
@@ -9,8 +9,7 @@ import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
         provide: NG_VALUE_ACCESSOR,
         useExisting: forwardRef(() => FileComponent),
         multi: true
-    }],
-    encapsulation: ViewEncapsulation.None
+    }]
 })
 export class FileComponent implements OnInit, ControlValueAccessor {
 
@@ -21,6 +20,8 @@ export class FileComponent implements OnInit, ControlValueAccessor {
 
     @Output() onDownload = new EventEmitter<string>();
     @Output() fileContentsChange = new EventEmitter<string>();
+
+    @ViewChild("fileInput") fileInput: ElementRef;;
 
     public disabled = false;
 
@@ -54,6 +55,7 @@ export class FileComponent implements OnInit, ControlValueAccessor {
     clear(): void {
         this.fileContents = undefined;
         this.fileName = undefined;
+        this.fileInput.nativeElement.value = "";
         this.writeValue(undefined);
     }
 
@@ -87,10 +89,16 @@ export class FileComponent implements OnInit, ControlValueAccessor {
             this.fileName = undefined;
             this.fileContents = undefined;
             this.writeValue(undefined);
+            this.fileInput.nativeElement.value = "";
         }
     };
 
     download(): void {
         this.onDownload.emit(this.fileId);
+    }
+
+    click(): void {
+        this.clear();
+        this.fileInput.nativeElement.click();
     }
 }
