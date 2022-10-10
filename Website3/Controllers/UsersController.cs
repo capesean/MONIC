@@ -14,9 +14,9 @@ namespace WEB.Controllers
     public class UsersController : BaseApiController
     {
         private RoleManager<Role> rm;
-        private IOptions<PasswordOptions> opts;
+        private IOptions<IdentityOptions> opts;
 
-        public UsersController(ApplicationDbContext db, UserManager<User> um, Settings settings, RoleManager<Role> rm, IOptions<PasswordOptions> opts)
+        public UsersController(ApplicationDbContext db, UserManager<User> um, Settings settings, RoleManager<Role> rm, IOptions<IdentityOptions> opts)
             : base(db, um, settings) { this.rm = rm; this.opts = opts; }
 
         [HttpGet]
@@ -77,7 +77,7 @@ namespace WEB.Controllers
             if (isNew)
             {
                 user = new User();
-                password = Utilities.General.GenerateRandomPassword(opts.Value);
+                password = Utilities.General.GenerateRandomPassword(opts.Value.Password);
 
             }
             else
