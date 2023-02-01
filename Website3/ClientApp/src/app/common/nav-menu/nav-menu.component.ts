@@ -1,8 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { ToastrService } from 'ngx-toastr';
-import { Router } from '@angular/router';
+import { NavigationEnd, Router } from '@angular/router';
 import { ProfileModel } from '../models/profile.models';
 import { AuthService } from '../services/auth.service';
+import { ActivatedRoute } from '@angular/router';
+import { filter, map, tap } from 'rxjs';
 
 @Component({
     selector: 'app-nav-menu',
@@ -15,22 +17,51 @@ export class NavMenuComponent implements OnInit {
     public profile: ProfileModel;
     public isAdmin = false;
     public isCollapsed = true;
-    public adminCollapsed = true;
+    public menuStates: { [key: string]: boolean; } = { admin: true };
+    public activeMenu: string;
+    //public test = false;
 
     constructor(
         private authService: AuthService,
         private toastr: ToastrService,
-        private router: Router
+        private router: Router,
+        private activatedRoute: ActivatedRoute
     ) {
-        if (router.url === '/') { }
-        else if (router.url.startsWith('/settings')
-            || router.url.startsWith('/users')
-        )
-            this.adminCollapsed = false;
+        this.authService.getProfile().subscribe(profile => this.profile = profile);
+        let initialized = false;
+
+        this.router
+            .events
+            .pipe(filter(event => event instanceof NavigationEnd))
+            .pipe(map(() => {
+                let child = this.activatedRoute.firstChild;
+                while (child) {
+                    if (child.firstChild) {
+                        child = child.firstChild;
+                    } else {
+                        return child.snapshot.data?.menu;
+                    }
+                }
+                return null;
+            }))
+            .subscribe((activeMenu: string) => {
+                if (!initialized) {
+                    this.menuStates[activeMenu] = false;
+                    //if (activeMenu === 'Admin')
+                    initialized = true;
+                }
+                this.activeMenu = activeMenu;
+            });
     }
 
     ngOnInit(): void {
-        this.authService.getProfile().subscribe(profile => this.profile = profile);
+        
+
+        //if (this.router.url === '/') { }
+        //else if (this.router.url.startsWith('/settings')
+        //    || this.router.url.startsWith('/users')
+        //)
+        //    this.adminCollapsed = false;
     }
 
     logout() {

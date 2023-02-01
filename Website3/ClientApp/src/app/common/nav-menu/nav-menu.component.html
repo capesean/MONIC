@@ -3,7 +3,7 @@
     <div class="container-fluid">
 
         <a class="navbar-brand" href="/">
-            <img src="/assets/images/logo.png" class="navbar-brand-img logo-dark logo-large" alt="M&E Monic - Open Source Monitoring & Evaluation System" height="36" />
+            <img src="/assets/images/logo.png" class="navbar-brand-img logo-dark logo-large" alt="Website 3: Template" />
         </a>
 
         <a class="navbar-toggler" (click)="sidenavCollapse.toggle()">
@@ -12,14 +12,14 @@
 
         <div class="collapse navbar-collapse" id="sidenavCollapse" #sidenavCollapse="ngbCollapse" [(ngbCollapse)]="isCollapsed">
 
-            <ul class="navbar-nav">
-                <li class="nav-item"><a class="nav-link" routerLinkActive="active" routerLink="/"><i class="fas fa-fw me-2 fa-house"></i>Home</a></li>
+            <ul class="navbar-nav" appHasRole="Administrator">
+                <li class="nav-item"><a class="nav-link" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}" routerLink="/"><i class="fas fa-fw me-2 fa-house"></i>Home</a></li>
 
-                <li class="nav-item dropdown" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}" appHasRole="Administrator">
-                    <a class="nav-link" [ngClass]="{ 'collapsed': adminCollapsed }" (click)="adminMenu.toggle();">
+                <li class="nav-item dropdown">
+                    <a class="nav-link" [ngClass]="{ 'active': activeMenu === 'admin', 'collapsed': !menuStates['admin'] }" (click)="adminMenu.toggle();">
                         <i class="fas fa-fw fa-cogs"></i>Admin Tools<i class="fas fa-fw fa-chevron-down"></i>
                     </a>
-                    <div #adminMenu="ngbCollapse" [(ngbCollapse)]="adminCollapsed">
+                    <div #adminMenu="ngbCollapse" [(ngbCollapse)]="menuStates['admin']">
                         <ul class="nav flex-column">
                             <li class="nav-item"><a class="nav-link" routerLinkActive="active" routerLink="/users"><i class="fas fa-fw me-2 fa-users"></i>Users</a></li>
                             <li class="nav-item"><a class="nav-link" routerLinkActive="active" routerLink="/settings"><i class="fas fa-fw me-2 fa-cogs"></i>Settings</a></li>
@@ -33,3 +33,4 @@
 
     </div>
 </nav>
+

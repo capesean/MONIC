@@ -14,7 +14,9 @@ export const CustomRoutes: Route[] = [
         canActivateChild: [AccessGuard],
         component: HomeComponent,
         pathMatch: 'full',
-        data: { breadcrumb: 'Home' },
+        data: {
+            breadcrumb: 'Home'
+        },
     },
     {
         path: 'changepassword',
@@ -22,7 +24,9 @@ export const CustomRoutes: Route[] = [
         canActivateChild: [AccessGuard],
         component: ChangePasswordComponent,
         pathMatch: 'full',
-        data: { breadcrumb: 'Change Password' },
+        data: {
+            breadcrumb: 'Change Password'
+        },
     },
     {
         path: 'setup',
@@ -35,7 +39,10 @@ export const CustomRoutes: Route[] = [
         canActivateChild: [AccessGuard],
         component: SettingsComponent,
         pathMatch: 'full',
-        data: { breadcrumb: 'Settings' },
+        data: {
+            breadcrumb: 'Settings',
+            menu: 'admin'
+        },
     },
     {
         path: 'errors',

@@ -23851,3 +23851,7 @@ html:not([data-sidebar-behaviour=condensed]) .navbar.navbar-dark {
   margin-bottom: 0;
   padding-left: 0;
 }
+
+.navbar-brand-img {
+  height: 36px;
+}
