@@ -23886,7 +23886,7 @@ html:not([data-sidebar-behaviour=condensed]) .navbar.navbar-dark {
   padding: 1rem var(--bs-card-cap-padding-x);
 }
 
-.form-control {
+.form-control, .form-select {
   border: 1px solid var(--bs-gray-400);
 }
 
@@ -23896,4 +23896,8 @@ html:not([data-sidebar-behaviour=condensed]) .navbar.navbar-dark {
 
 .modal-header {
   background-color: var(--bs-gray-100);
+}
+
+.table > :not(caption) > * > * {
+  padding: 0.75rem 1.25rem;
 }
