@@ -10,14 +10,17 @@ import { SharedModule } from './shared.module';
 import { GeneratedRoutes } from './generated.routes';
 
 @NgModule({
-   declarations: [UserListComponent, UserEditComponent],
-   imports: [
-      CommonModule,
-      FormsModule,
-      RouterModule.forChild(GeneratedRoutes),
-      NgbModule,
-      DragDropModule,
-      SharedModule
-   ]
+    declarations: [
+        UserListComponent,
+        UserEditComponent
+    ],
+    imports: [
+        CommonModule,
+        FormsModule,
+        RouterModule.forChild(GeneratedRoutes),
+        NgbModule,
+        DragDropModule,
+        SharedModule
+    ]
 })
 export class GeneratedModule { }

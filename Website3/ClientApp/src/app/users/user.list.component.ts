@@ -11,7 +11,7 @@ import { Enums } from '../common/models/enums.model';
     selector: 'user-list',
     templateUrl: './user.list.component.html'
 })
-export class UserListComponent implements OnInit {
+export class UserListComponent implements OnInit, OnDestroy {
 
     public users: User[] = [];
     public searchOptions = new UserSearchOptions();

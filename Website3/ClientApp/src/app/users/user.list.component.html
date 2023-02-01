@@ -1,8 +1,6 @@
 <ng-container *ngIf="route.children.length === 0">
 
-    <h1 class="h2">
-        Users
-    </h1>
+    <h2>Users</h2>
 
     <div class="card border-0">
 
@@ -45,14 +43,12 @@
     <div class="card border-0">
 
         <div class="card-header border-0 card-header-space-between">
-            <h2 class="card-header-title h4 text-uppercase">
-                Users
-            </h2>
+            <h4 class="card-header-title text-uppercase">Users</h4>
         </div>
 
         <div class="table-responsive">
 
-            <table class="table __table-striped table-hover __table-sm row-navigation table-edge table-nowrap mb-0 align-middle">
+            <table class="table table-hover">
                 <thead class="thead-light">
                     <tr>
                         <th>First Name</th>
@@ -61,7 +57,7 @@
                         <th>Disabled</th>
                     </tr>
                 </thead>
-                <tbody class="list">
+                <tbody class="list cursor-pointer">
                     <tr *ngFor="let user of users" (click)="goToUser(user)">
                         <td>{{ user.firstName }}</td>
                         <td>{{ user.lastName }}</td>
@@ -73,12 +69,8 @@
 
         </div>
 
-        <div class="card-footer">
-            <!--<div class="d-flex justify-content-between align-items-center">-->
-            <pager [headers]="headers" (pageChanged)="runSearch($event)"></pager>
-            <!--</div>-->
-        </div>
-
+    <div class="card-footer">
+        <pager [headers]="headers" (pageChanged)="runSearch($event)"></pager>
     </div>
 
 </ng-container>

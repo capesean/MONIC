@@ -1,10 +1,10 @@
-import { Component as NgComponent, OnInit, forwardRef, ViewChild, Input, EventEmitter, Output } from '@angular/core';
+import { Component, OnInit, forwardRef, ViewChild, Input, EventEmitter, Output } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { UserModalComponent } from './user.modal.component';
 import { User } from '../common/models/user.model';
 import { Enum } from '../common/models/enums.model';
 
-@NgComponent({
+@Component({
     selector: 'user-select',
     templateUrl: './user.select.component.html',
     providers: [{
