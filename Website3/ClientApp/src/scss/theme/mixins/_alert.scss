@@ -1,0 +1,13 @@
+//
+// Alert
+//
+
+// scss-docs-start alert-variant-mixin
+@mixin alert-variant($background, $border, $color) {
+    --#{$prefix}alert-link-color: #{shade-color($color, 0%)};
+
+    .alert-link {
+        color: var(--#{$prefix}alert-link-color);
+    }
+}
+// scss-docs-end alert-variant-mixin

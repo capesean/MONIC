@@ -1,0 +1,132 @@
+//
+// Utilities
+//
+
+$utilities: (
+    "position": (
+        property: position,
+        responsive: true,
+        values: static relative absolute fixed sticky
+    ),
+    "min-viewport-height": (
+        responsive: true,
+        property: min-height,
+        class: min-vh,
+        values: (
+            25: 25vh,
+            50: 50vh,
+            75: 75vh,
+            100: 100vh,
+            auto: auto
+        )
+    ),
+    "width": (
+        responsive: true,
+        property: width,
+        class: w,
+        values: $custom-sizes
+    ),
+    "max-width": (
+        responsive: true,
+        property: max-width,
+        class: mw,
+        values: $custom-sizes
+    ),
+    "min-width": (
+        responsive: true,
+        property: min-width,
+        class: min-w,
+        values: $custom-sizes
+    ),
+    "height": (
+        responsive: true,
+        property: height,
+        class: h,
+        values: $custom-sizes
+    ),
+    "max-height": (
+        responsive: true,
+        property: max-height,
+        class: mh,
+        values: $custom-sizes
+    ),
+    "min-height": (
+        responsive: true,
+        property: min-height,
+        class: min-h,
+        values: $custom-sizes
+    ),
+    "scroll-margin": (
+        responsive: true,
+        property: scroll-margin,
+        class: scroll-m,
+        values: map-merge($spacers, (auto: auto))
+    ),
+    "scroll-margin-x": (
+        responsive: true,
+        property: scroll-margin-right scroll-margin-left,
+        class: scroll-mx,
+        values: map-merge($spacers, (auto: auto))
+    ),
+    "scroll-margin-y": (
+        responsive: true,
+        property: scroll-margin-top scroll-margin-bottom,
+        class: scroll-my,
+        values: map-merge($spacers, (auto: auto))
+    ),
+    "scroll-margin-top": (
+        responsive: true,
+        property: scroll-margin-top,
+        class: scroll-mt,
+        values: map-merge($spacers, (auto: auto))
+    ),
+    "scroll-margin-end": (
+        responsive: true,
+        property: scroll-margin-right,
+        class: scroll-me,
+        values: map-merge($spacers, (auto: auto))
+    ),
+    "scroll-margin-bottom": (
+        responsive: true,
+        property: scroll-margin-bottom,
+        class: scroll-mb,
+        values: map-merge($spacers, (auto: auto))
+    ),
+    "scroll-margin-start": (
+        responsive: true,
+        property: scroll-margin-left,
+        class: scroll-ms,
+        values: map-merge($spacers, (auto: auto))
+    ),
+    "z-index": (
+        property: z-index,
+        class: z-index,
+        values: (
+            n1: -1, 
+            0: 0,
+            10: 10,
+            100: 100,
+            1000: 1000,
+            10000: 10000
+        )
+    ),
+    "opacity": (
+        property: opacity,
+        values: $opacity-values
+    ),
+    "background-size": (
+        property: background-size,
+        class: bg-size,
+        values: initial auto contain cover
+    ),
+    "background-repeat": (
+        property: background-repeat,
+        class: bg-repeat,
+        values: initial repeat no-repeat repeat-x repeat-y
+    ),
+    "background-position": (
+        property: background-position,
+        class: bg-position,
+        values: top right bottom left center
+    ),
+);

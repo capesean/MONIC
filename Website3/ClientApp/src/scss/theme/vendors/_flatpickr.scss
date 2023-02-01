@@ -1,0 +1,171 @@
+//
+// flatpickr
+//
+
+@import "~flatpickr/dist/flatpickr.css";
+
+.flatpickr-calendar {
+    --#{$prefix}datepicker-bg: #{$datepicker-bg};
+    --#{$prefix}datepicker-color: #{$datepicker-color};
+
+    width: 21.125rem;
+    padding: 1rem;
+    box-shadow: $box-shadow-lg;
+    border: $border-width solid var(--#{$prefix}border-color);
+    background-color: var(--#{$prefix}datepicker-bg);
+    color: var(--#{$prefix}datepicker-color);
+
+    &::before {
+        border-width: .5rem;
+    }
+
+    &::after {
+        border-width: .4375rem;
+    }
+
+    &.arrowTop {
+        margin-top: .5rem;
+
+        &:before {
+            border-bottom-color: var(--#{$prefix}border-color);
+        }
+
+        &:after {
+            border-bottom-color: var(--#{$prefix}datepicker-bg);
+        }
+    }
+
+    &.arrowBottom {
+        &:before {
+            border-top-color: var(--#{$prefix}border-color);
+        }
+
+        &:after {
+            border-top-color: var(--#{$prefix}datepicker-bg);
+        }
+    }
+
+    .flatpickr-day {
+        &.today,
+        &.today:hover,
+        &.today:focus {
+            border: none;
+            background-color: $primary;
+            color: $white;
+        }
+
+        &.selected,
+        &.selected:hover,
+        &.selected:focus,
+        &.inRange,
+        &.startRange,
+        &.endRange {
+            border: none;
+            background-color: var(--#{$prefix}dark);
+            color: $white;
+        }
+
+        &.inRange {
+            box-shadow: -5px 0 0 var(--#{$prefix}dark), 5px 0 0 var(--#{$prefix}dark);
+        }
+
+        &:hover,
+        &:focus {
+            border-color: var(--#{$prefix}light);
+            background-color: var(--#{$prefix}light);
+            color: var(--#{$prefix}dark);
+        }
+
+        &.selected.startRange + .endRange:not(:nth-child(7n+1)),
+        &.startRange.startRange + .endRange:not(:nth-child(7n+1)),
+        &.endRange.startRange + .endRange:not(:nth-child(7n+1)) {
+            box-shadow: -10px 0 0 var(--#{$prefix}dark);
+        }
+    }
+
+    &.hasTime {
+        .flatpickr-time {
+            border-top: none;
+        }
+    }
+}
+
+.flatpickr-months {
+    position: relative;
+    color: var(--#{$prefix}datepicker-color);
+    fill: var(--#{$prefix}datepicker-color);
+
+    .flatpickr-prev-month,
+    .flatpickr-next-month {
+        padding-top: .25rem;
+        padding-bottom: .25rem;
+        color: var(--#{$prefix}datepicker-color);
+        fill: var(--#{$prefix}datepicker-color);
+    }
+
+    .flatpickr-month {
+        color: var(--#{$prefix}datepicker-color);
+        fill: var(--#{$prefix}datepicker-color);
+    }
+}
+
+.flatpickr-day {
+    color: var(--#{$prefix}datepicker-color);
+
+    &.flatpickr-disabled,
+    &.flatpickr-disabled:hover,
+    &.prevMonthDay,
+    &.nextMonthDay,
+    &.notAllowed,
+    &.notAllowed.prevMonthDay,
+    &.notAllowed.nextMonthDay {
+        color: $gray-600 !important;
+    }
+}
+
+.flatpickr-day.flatpickr-disabled,
+.flatpickr-day.flatpickr-disabled:hover,
+.flatpickr-day.prevMonthDay,
+.flatpickr-day.nextMonthDay,
+.flatpickr-day.notAllowed,
+.flatpickr-day.notAllowed.prevMonthDay,
+.flatpickr-day.notAllowed.nextMonthDay {
+  color: rgba(57,57,57,0.3);
+  background: transparent;
+  border-color: transparent;
+  cursor: default;
+}
+
+span.flatpickr-weekday {
+    color: var(--#{$prefix}secondary);
+}
+
+.flatpickr-current-month {
+    padding-top: .3125rem;
+
+    .flatpickr-monthDropdown-months,
+    input.cur-year {
+        font-size: $h3-font-size;
+        font-weight: $font-weight-semibold;
+    }
+}
+
+.flatpickr-time {
+    input,
+    input:hover,
+    input:focus,
+    .flatpickr-am-pm,
+    .flatpickr-am-pm:hover,
+    .flatpickr-am-pm:focus,
+    .flatpickr-time-separator {
+        background-color: var(--#{$prefix}datepicker-bg);
+        color: var(--#{$prefix}datepicker-color);
+    }
+}
+
+[data-theme="dark"] {
+    .flatpickr-calendar {
+        --#{$prefix}datepicker-bg: #{$datepicker-dark-bg};
+        --#{$prefix}datepicker-color: #{$datepicker-dark-color};
+    }
+}

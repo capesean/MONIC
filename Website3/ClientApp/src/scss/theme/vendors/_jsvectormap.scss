@@ -1,0 +1,35 @@
+//
+// jsvectormap override
+//
+
+// Tooltip
+$tooltip-shadow: none !default;
+$tooltip-font-family: $map-tooltip-font-family;
+$tooltip-bg-color: $map-tooltip-bg;
+$tooltip-radius: $map-tooltip-border-radius;
+$tooltip-font-size: $map-tooltip-font-size;
+$tooltip-padding: .375rem .5rem !default;
+
+// Zoom buttons
+$zoom-btns-bg-color: $map-zoom-btn-bg;
+$zoom-btns-radius: 3px !default;
+$zoom-btns-height: 15px !default;
+$zoom-btns-padding: 3px !default;
+$zoom-btns-width: 15px !default;
+
+@import "~jsvectormap/src/scss/jsvectormap";
+
+
+.jvm-region {
+    fill: $map-regions-bg;
+}
+
+circle.jvm-marker {
+    fill: $map-markers-fill;
+    stroke: $map-markers-stroke;
+
+    &:hover {
+        fill: $map-markers-hover-fill;
+        stroke: $map-markers-hover-stroke;
+    }
+}

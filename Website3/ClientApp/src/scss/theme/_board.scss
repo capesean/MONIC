@@ -1,0 +1,30 @@
+//
+// Board
+//
+
+.board {
+    display: block;
+    white-space: nowrap;
+    overflow-x: auto;
+}
+
+.tasks {
+    display: inline-block;
+    width: 20rem;
+    vertical-align: top;
+    white-space: normal;
+
+    &:not(:last-child) {
+        margin-right: $grid-gutter-width;
+    }
+
+    &:not(:first-child) {
+        margin-left: -.25rem;
+    }
+
+    .card {
+        &:last-child {
+            margin-bottom: 0 !important;
+        }
+    }
+}

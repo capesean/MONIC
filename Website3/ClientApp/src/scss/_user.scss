@@ -1,0 +1,174 @@
+/**
+ * Define you custome style here.
+ * It will be merged with the default style.
+ */
+@include media-breakpoint-up(lg) {
+    #mainNavbar {
+        border-right: 1px solid var(--#{$prefix}navbar-vertical-border-color);
+        bottom: 0;
+        display: block;
+        max-width: 18rem;
+        overflow-y: auto;
+        position: fixed;
+        top: 0;
+        width: 100%;
+        z-index: 1000;
+    }
+
+
+    #mainNavbar > [class*=container] {
+        align-items: stretch;
+        flex-direction: column;
+        min-height: 100%;
+        padding-left: 0;
+        padding-right: 0;
+    }
+
+    #mainNavbar .navbar-brand {
+        margin-bottom: 2.375rem;
+    }
+
+    .navbar-expand-lg .navbar-collapse {
+        align-items: stretch;
+        display: flex;
+        flex: 1;
+        flex-direction: column;
+        display: flex !important;
+        flex-basis: auto;
+    }
+
+    .navbar-expand-lg .navbar-nav {
+        flex-direction: column;
+        margin-left: calc(var(--#{$prefix}navbar-padding-x)*-1);
+        margin-right: calc(var(--#{$prefix}navbar-padding-x)*-1);
+    }
+
+    .mb-lg-7 {
+        margin-bottom: 2.8125rem !important;
+    }
+
+    .navbar-expand-lg .navbar-nav .nav-link {
+        padding-left: var(--#{$prefix}navbar-nav-link-padding-x);
+        padding-right: var(--#{$prefix}navbar-nav-link-padding-x);
+        white-space: nowrap;
+        margin-right: 0;
+    }
+
+    .help-box {
+        display: block;
+    }
+}
+
+@include media-breakpoint-down(lg) {
+    #mainNavbar {
+        padding-left: 0;
+        padding-right: 0;
+        padding-top: calc(var(--#{$prefix}navbar-padding-y) / 1.75);
+        padding-bottom: calc(var(--#{$prefix}navbar-padding-y) / 1.75);
+    }
+}
+
+.navbar-expand-lg .navbar-nav .nav .nav-item:first-child:after {
+    height: 0.46875rem;
+}
+
+.navbar-expand-lg .navbar-nav > .nav-item.dropdown > .nav-link {
+    display: flex;
+}
+
+.navbar-expand-lg .navbar-nav > .nav-item.dropdown > .nav-link i.fa-chevron-down {
+    transition: transform .2s;
+    margin-left: auto;
+}
+
+.navbar-expand-lg .navbar-nav > .nav-item.dropdown > .nav-link.collapsed i.fa-chevron-down {
+    transform: rotate(-180deg);
+}
+
+.navbar-expand-lg .navbar-nav > .nav-item.dropdown > .nav-link i:not(.fa-chevron-down) {
+    margin-right: 0.5rem;
+}
+
+.navbar-expand-lg .navbar-nav > .nav-item.dropdown .nav > .nav-item:first-child {
+    margin-top: 0 !important;
+}
+
+.navbar-expand-lg .navbar-nav > .nav-item.dropdown .nav > .nav-item:last-child {
+    padding-bottom: 0.624999375rem !important;
+}
+
+.navbar-expand-lg hr {
+    color: white;
+}
+
+/*prevent jumping of dropdown menus*/
+.navbar-expand-lg .navbar-nav .nav {
+    margin-bottom: 0;
+    margin-top: 0;
+}
+
+@media (min-width: 992px) {
+    main::before {
+        content: "";
+        position: absolute;
+        top: 13.625rem;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        z-index: -1;
+        background-color: var(--bs-main-content-bg);
+    }
+}
+
+.table > :not(caption) > * > * {
+    background-color: var(--bs-table-bg);
+    border-bottom-width: 1px;
+    box-shadow: inset 0 0 0 9999px var(--bs-table-accent-bg);
+    padding: 1rem 1.25rem;
+}
+
+.table {
+    --bs-table-color: var(--bs-body-color);
+    --bs-table-bg: transparent;
+    --bs-table-accent-bg: transparent;
+    --bs-table-striped-color: var(--bs-body-color);
+    --bs-table-striped-bg: rgba(0,0,0,.05);
+    --bs-table-active-color: var(--bs-body-color);
+    --bs-table-active-bg: rgba(0,186,199,.1);
+    --bs-table-hover-color: var(--bs-body-color);
+    --bs-table-hover-bg: rgba(0,186,199,.1);
+    border-color: var(--bs-table-border-color);
+    color: var(--bs-table-color);
+    margin-bottom: 1.875rem;
+    vertical-align: top;
+    width: 100%;
+}
+
+.card {
+    --bs-card-box-shadow: 0 0.1875rem 0.5rem 0 rgba(14, 34, 56, 0.17);
+}
+
+.list-group {
+    --bs-list-group-color: var(--bs-body-color);
+    --bs-list-group-bg: transparent;
+    --bs-list-group-border-color: hsla(214,7%,62%,.1);
+    --bs-list-group-border-width: 1px;
+    --bs-list-group-border-radius: 0.625rem;
+    --bs-list-group-item-padding-x: 1.25rem;
+    --bs-list-group-item-padding-y: 0.9375rem;
+    --bs-list-group-action-color: var(--bs-body-color);
+    --bs-list-group-action-hover-color: var(--bs-body-color);
+    --bs-list-group-action-hover-bg: rgba(0,186,199,.1);
+    --bs-list-group-action-active-color: var(--bs-body-color);
+    --bs-list-group-action-active-bg: rgba(0,186,199,.1);
+    --bs-list-group-disabled-color: #989ea6;
+    --bs-list-group-disabled-bg: transparent;
+    --bs-list-group-active-color: var(--bs-body-color);
+    --bs-list-group-active-bg: rgba(0,186,199,.1);
+    --bs-list-group-active-border-color: rgba(0,186,199,.1);
+    border-radius: var(--bs-list-group-border-radius);
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 0;
+    padding-left: 0
+}

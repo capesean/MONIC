@@ -1,0 +1,101 @@
+//
+// Steps
+//
+
+.steps {
+    overflow: hidden;
+    justify-content: space-between;
+
+    .nav-item {
+        display: flex;
+        width: $steps-size;
+        height: $steps-size;
+        position: relative;
+
+        &::before {
+            content: "";
+            position: absolute;
+            height: 3px;
+            width: 10000px;
+            top: 50%;
+            left: 0;
+            z-index: 1;
+            transform: translateY(-50%);
+            background-color: $steps-link-bg;
+        }
+
+        &::after {
+            content: "";
+            position: absolute;
+            height: 2px;
+            width: 10000px;
+            top: 50%;
+            right: 0;
+            transform: translateY(-50%);
+            background-color: $steps-link-bg;
+        }
+    }
+
+    .nav-link {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: $steps-size;
+        height: $steps-size;
+        border-radius: $steps-border-radius;
+        font-size: $steps-font-size;
+        font-weight: $steps-font-weight;
+        background-color: $steps-link-bg;
+        color: $steps-link-color;
+        z-index: 1;
+    }
+
+    .nav-item {
+        &.visited {
+            .nav-link {
+                background-color: $nav-pills-link-active-bg;
+                color: var(--#{$prefix}nav-pills-link-active-color);
+                padding: 0;
+                text-indent: -999em;
+
+                &::after {
+                    content: "";
+                    mask: $step-check-bg-image no-repeat center;
+                    mask-size: cover;
+                    width: $steps-check-bg-size;
+                    height: $steps-check-bg-size;
+                    background-color: var(--#{$prefix}nav-pills-link-active-color);
+                    text-indent: 0;
+                }
+            }
+
+            &::before {
+                background-color: $nav-pills-link-active-bg;
+                z-index: 1;
+            }
+        }
+    }
+
+    &.steps-vertical {
+        flex-direction: column;
+
+        .nav-item {
+            &::before {
+                width: 3px;
+                height: 10000px;
+                left: 50%;
+                top: 0;
+                z-index: 1;
+                transform: translateX(-50%);
+            }
+    
+            &::after {
+                width: 2px;
+                height: 10000px;
+                right: 50%;
+                top: 0;
+                transform: translateX(-50%);
+            }
+        }
+    }
+}

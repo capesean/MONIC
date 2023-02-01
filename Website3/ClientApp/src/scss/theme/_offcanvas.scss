@@ -1,0 +1,14 @@
+//
+// Offcanvas
+//
+
+.offcanvas-header {
+    border-bottom: var(--#{$prefix}border-width) solid var(--#{$prefix}border-color);
+}
+
+
+.offcanvas-backdrop {
+    [data-theme="dark"] & { 
+        @include overlay-backdrop($zindex-offcanvas-backdrop, $offcanvas-backdrop-dark-bg, $offcanvas-backdrop-dark-opacity);
+    }
+}

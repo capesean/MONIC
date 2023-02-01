@@ -1,0 +1,29 @@
+//
+// Card
+//
+
+.card {
+    margin-bottom: $card-margin-bottom;
+    box-shadow: var(--#{$prefix}card-box-shadow);
+}
+
+.card-header-space-between {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+
+    > :first-child {
+        flex-grow: 1;
+    }
+}
+
+.card-header-title {
+    margin-bottom: 0;
+}
+
+.card {
+    [data-theme="dark"] & {
+        --#{$prefix}card-bg: #{$card-bg-dark};
+    }
+}

@@ -1,0 +1,25 @@
+//
+// Nav
+//
+
+// Tabs
+.nav-tabs {
+    .nav-item {
+        margin: $nav-tabs-item-margin-y $nav-tabs-item-margin-x;
+
+        &:first-child {
+            margin-left: 0;
+        }
+
+        &:last-child {
+            margin-right: 0;
+        }
+    }
+    
+    .nav-link {
+        border-width: 0 0 $nav-tabs-link-border-width;
+        color: $nav-tabs-link-color;
+        font-weight: $nav-tabs-link-font-weight;
+        padding: $nav-tabs-link-padding-y $nav-tabs-link-padding-x;
+    }
+}

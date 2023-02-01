@@ -1,0 +1,16 @@
+//
+// Form control
+//
+
+.form-control {
+    font-family: $input-font-family;
+    
+    &[readonly] {
+        background-color: $input-bg !important;
+    }
+
+    &:disabled {
+        background-color: $input-disabled-bg !important;
+        cursor: not-allowed;
+    }
+}

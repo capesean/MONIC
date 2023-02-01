@@ -1,0 +1,47 @@
+// Dark color mode variables
+//
+// Custom variables for the `[data-theme="dark"]` theme. Use this as a starting point for your own custom color modes by creating a new theme-specific file like `_variables-dark.scss` and adding the variables you need.
+
+$theme-dark-colors: (
+    "primary":      $primary,
+    "secondary":    $secondary,
+    "success":      $success,
+    "info":         $info,
+    "warning":      $warning,
+    "danger":       $danger,
+    "light":        shade-color($light, 78%),
+    "dark":         tint-color($gray-900, 25%),
+    "light-green":  shade-color($light-green, 88%),
+    "white":        shade-color($white, 82.25%),
+    "black":        $white,
+    "gray-100":     shade-color($gray-100, 87.5%),
+    "gray-200":     shade-color($gray-200, 87.5%),
+    "gray-300":     shade-color($gray-300, 87.5%),
+    "gray-400":     shade-color($gray-400, 87.5%),
+    "gray-500":     tint-color($gray-500, 20%),
+    "gray-600":     tint-color($gray-600, 25%),
+    "gray-700":     tint-color($gray-700, 30%),
+    "gray-800":     tint-color($gray-800, 40%),
+    "gray-900":     tint-color($gray-900, 50%)
+) !default;
+
+$body-color-dark:                       tint-color($gray-500, 25%) !default;
+$body-bg-dark:                          shade-color($body-bg, 85%) !default;
+$border-color-dark:                     shade-color($gray-700, 50%) !default;
+
+$card-bg-dark:                          shade-color($card-bg, 82.5%) !default;
+$main-content-bg-dark:                  shade-color($body-bg, 87.5%) !default;
+
+$table-dark-active-bg:                  rgba($primary, .2) !default;
+$table-dark-hover-bg:                   $table-dark-active-bg !default;
+
+$tooltip-dark-color:                    $light !default;
+
+$modal-backdrop-dark-bg:                $black !default;
+$modal-backdrop-dark-opacity:           .4 !default;
+
+$offcanvas-backdrop-dark-bg:            $modal-backdrop-dark-bg !default;
+$offcanvas-backdrop-dark-opacity:       $modal-backdrop-dark-opacity !default;
+
+$form-select-indicator-color-dark:      $body-color-dark !default;
+$form-select-indicator-dark:            url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'><path fill='none' stroke='#{$form-select-indicator-color-dark}' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='m2 5 6 6 6-6'/></svg>") !default;

@@ -1,0 +1,78 @@
+//
+// Caret
+//
+
+@mixin caret-down($width: $caret-width) {
+    // Leave it empty for not throwing error
+}
+
+@mixin caret-up($width: $caret-width) {
+    transform: rotateX(180deg);
+}
+
+@mixin caret-end($width: $caret-width) {
+    transform-origin: right top;
+    transform: rotateZ(-90deg) translateY(-100%);
+}
+
+@mixin caret-start($width: $caret-width) {
+    transform: rotate(90deg);
+}
+
+@mixin caret(
+  $direction: down,
+  $width: $caret-width,
+  $spacing: $caret-spacing,
+  $vertical-align: $caret-vertical-align,
+  $caret-image: $caret-bg-image
+) {
+    @if $enable-caret {
+        &::after {
+            display: inline-block;
+            margin-left: 0;
+            padding-left: 0;
+            width: $width;
+            height: $width;
+            mask-image: $caret-image;
+            mask-size: $width;
+            mask-repeat: no-repeat;
+            mask-position: center right #{'/*rtl:center left*/'};
+            border-width: 0 !important;
+            background-color: currentColor;
+            vertical-align: 0;
+            content: "";
+
+            .dropdown & {
+                padding-left: $spacing;
+            }
+
+            @if $direction == down {
+                @include caret-down($width);
+              } @else if $direction == up {
+                @include caret-up($width);
+              } @else if $direction == end {
+                @include caret-end($width);
+              }
+        }
+
+        &:not(.dropdown-toggle-split) {
+            &::after {
+                margin-left: $spacing;
+            }
+        }
+
+        @if $direction == start {
+            &::after {
+                @include caret-start($width);
+            }
+
+            &::before {
+                display: none;
+            }
+        }
+
+        &:empty::after {
+            padding-left: 0;
+        }
+    }
+}

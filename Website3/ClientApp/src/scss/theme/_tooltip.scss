@@ -1,0 +1,13 @@
+//
+// Tooltip
+//
+
+.tooltip-inner {
+    box-shadow: $tooltip-box-shadow;
+}
+
+.tooltip {
+    [data-theme="dark"] & {
+        --#{$prefix}tooltip-color: #{$tooltip-dark-color};
+    }
+}

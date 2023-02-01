@@ -1,0 +1,83 @@
+//
+// Tables
+//
+
+.table {
+    --#{$prefix}table-border-color: #{$table-border-color};
+}
+
+.table {
+    > thead {
+        th {
+            font-size: $table-th-font-size;
+            color: $table-th-color;
+            padding: $table-th-cell-padding-y $table-th-cell-padding-x;
+            border-bottom-width: 0;
+        }
+    }
+}
+
+// Tables when it goes edge to edge
+.table.table-edge:not(.table-borderless) {
+    > :last-child > :last-child > * {
+        border-bottom-color: transparent;
+    }
+
+    tbody {
+        tr:not(:last-child) {
+            td:first-child,
+            td:last-child,
+            th:first-child,
+            th:last-child {
+                position: relative;
+                border-bottom-color: transparent;
+    
+                &::before {
+                    content: "";
+                    position: absolute;
+                    bottom: calc(-1 * var(--#{$prefix}border-width));
+                    right: 0;
+                    width: calc(100% - $table-cell-padding-x);
+                    height: var(--#{$prefix}border-width);
+                    background-color: var(--#{$prefix}table-border-color);
+                }
+            }
+    
+            td:last-child,
+            th:last-child {
+                &::before {
+                    right: auto;
+                    left: 0;
+                }
+            }
+        }
+    }
+}
+
+.table-sm {
+    > thead {
+        th {
+            padding: $table-th-cell-padding-y-sm $table-th-cell-padding-x-sm;
+        }
+    }
+}
+
+.table-fixed {
+    table-layout: fixed;
+}
+
+.table-nowrap {
+    td, th {
+        white-space: nowrap;
+    }
+}
+
+.table {
+    [data-theme="dark"] & {
+        --#{$prefix}table-hover-bg: #{$table-dark-hover-bg};
+    }
+}
+
+.thead-light {
+    background-color: $table-head-light-bg;
+}

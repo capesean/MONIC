@@ -17,25 +17,26 @@ html {
     font-size: 10.5pt;
 }
 
-body {
-    font-family: Font Awesome 6 Free;
+/* bootstrap adds padding to body when modal is open */
+body.modal-open {
+    padding-right: 0px !important;
 }
 
-    body#login,
-    body#setup {
-        display: -ms-flexbox;
-        display: -webkit-box;
-        display: flex;
-        -ms-flex-align: center;
-        -ms-flex-pack: center;
-        -webkit-box-align: center;
-        align-items: center;
-        -webkit-box-pack: center;
-        justify-content: center;
-        padding-top: 40px;
-        padding-bottom: 40px;
-        background-color: #f5f5f5;
-    }
+body#login,
+body#setup {
+    display: -ms-flexbox;
+    display: -webkit-box;
+    display: flex;
+    -ms-flex-align: center;
+    -ms-flex-pack: center;
+    -webkit-box-align: center;
+    align-items: center;
+    -webkit-box-pack: center;
+    justify-content: center;
+    padding-top: 40px;
+    padding-bottom: 40px;
+    background-color: #f5f5f5;
+}
 
 @media (min-width: 576px) {
     .container {
@@ -43,10 +44,6 @@ body {
         padding-left: 30px;
         padding-right: 30px;
     }
-}
-
-#mainContainer {
-    margin-bottom: 10rem;
 }
 
 .form-check {
@@ -95,11 +92,6 @@ fieldset[disabled] .app-select .input-group input.form-control {
     display: block;
 }
 
-.was-validated .form-group.is-invalid .input-group .input-group-append .btn {
-    background-color: #dc3545;
-    border-color: #dc3545;
-}
-
 /* to get ngbdatepicker to show validation messages */
 .was-validated .form-group.is-invalid .invalid-feedback {
     display: block;
@@ -118,12 +110,8 @@ fieldset[disabled] .app-select .input-group input.form-control {
     font-size: small;
 }
 
-.table-bordered thead td, .table-bordered thead th {
-    border-color: #464646;
-    background-color: #a2a2a2;
-    font-weight: normal;
-    color: white;
-    border-bottom-width: 1px;
+.toast-container small {
+    font-size: 10px;
 }
 
 table.row-navigation tbody td {
@@ -153,6 +141,11 @@ table.row-navigation tbody td {
 .was-validated .form-control:invalid {
     background-image: none !important;
     padding-right: 0.75rem;
+}
+
+.was-validated .form-select:invalid,
+.was-validated .form-select:valid {
+    background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3e%3cpath fill='none' stroke='%23343a40' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M2 5l6 6 6-6'/%3e%3c/svg%3e") !important;
 }
 
 .form-check-input:valid ~ .form-check-label {
@@ -229,7 +222,7 @@ hr {
 fieldset.group {
     margin-bottom: 20px;
     border: dotted 1px #888;
-    padding: 5px 20px 15px;
+    padding: 5px 20px 20px;
     background-color: #f8f8f8;
 }
 
@@ -270,12 +263,14 @@ fieldset.form-horizontal span.control-label {
     cursor: grab !important;
 }
 
-table tbody.cdk-drop-list-dragging td {
-    cursor: grabbing !important;
+tbody.cdk-drop-list-dragging tr.cdk-drag-placeholder td {
+    background-color: rgb(255, 243, 205) !important;
+    box-shadow: none !important;
 }
 
-table tbody tr.cdk-drag-placeholder td {
-    opacity: 0.75;
+.cdk-drag-dragging, .cdk-drag-preview, .cdk-drag-placeholder {
+    cursor: grabbing !important;
+    pointer-events: auto !important;
 }
 
 .tab-content {
@@ -308,7 +303,6 @@ ngb-datepicker .is-valid, .was-validated ngb-datepicker :valid {
 }
 
 input[type=file] {
-    padding: 2px;
     overflow-x: hidden;
 }
 
@@ -339,5 +333,109 @@ button[aria-label="Close"] {
     outline: none;
     border: none;
     opacity: 1;
-    background: none;
+    /*can't remove bg else btn-close will lose the X*/
+    /*background: none;*/
 }
+
+.modal .alert {
+    padding: 0.5rem 1rem;
+}
+
+.modal fieldset div.alert:not(:nth-last-child(2)) {
+    margin-bottom: 0.5rem;
+}
+
+.mandatory {
+    color: red;
+}
+
+th i.fas.fa-sort {
+    opacity: 0.5;
+}
+
+form-select.is-valid, .was-validated .form-select:valid,
+.form-check-input.is-valid, .was-validated .form-check-input:valid {
+    border-color: #ced4da;
+}
+
+    .form-check-input.is-valid:checked, .was-validated .form-check-input:valid:checked {
+        background-color: #0d6efd;
+    }
+
+.modal-footer button.btn-info {
+    cursor: default;
+}
+
+.spinContainer {
+    position: relative;
+    top: 50%;
+    transform: translateY(-65%);
+    text-align: center;
+}
+
+.simple-spinner {
+    display: block;
+    margin: 0 auto;
+    width: 50px;
+    height: 50px;
+    border: 3px solid rgba(255,255,255,.3);
+    border-radius: 50%;
+    border-top-color: #808080;
+    animation: simplerspinner 1s ease-in-out infinite;
+    -webkit-animation: simplerspinner 1s ease-in-out infinite;
+}
+
+@keyframes simplerspinner {
+    to {
+        -webkit-transform: rotate(360deg);
+    }
+}
+
+@-webkit-keyframes simplerspinner {
+    to {
+        -webkit-transform: rotate(360deg);
+    }
+}
+
+.widgetHeader {
+    font-size: 0.9rem;
+    text-align: center;
+    font-weight: bold;
+}
+
+.widgetSubheader {
+    font-size: 0.75rem;
+    color: #808080;
+    text-align: center;
+    margin-bottom: 0.5rem;
+}
+
+.widget {
+    position: relative;
+    min-height: 250px;
+    height: 100%;
+    padding: 0.5rem;
+    border: solid 1px white;
+    border-radius: 5px;
+}
+
+    .widget:hover {
+        border-color: #cccccc;
+    }
+
+    .widget .widgetSettings {
+        display: none;
+        position: absolute;
+        right: 0.5rem;
+        top: 0.5rem;
+        z-index: 5;
+    }
+
+    .widget:hover .widgetSettings {
+        display: inline-block;
+    }
+
+    .widget .btn.widgetSettings:not(:hover) {
+        background-color: white;
+    }
+

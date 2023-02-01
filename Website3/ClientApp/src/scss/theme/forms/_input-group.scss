@@ -1,0 +1,71 @@
+//
+// Input group
+//
+
+
+.input-group {
+    > .form-control:focus,
+    > .form-select:focus {
+        z-index: 3;
+
+        ~ .btn {
+            z-index: 3;
+        }
+    }
+}
+
+
+// Dashly only
+.input-group-merge {
+    flex-wrap: nowrap;
+    
+    > .form-control {
+
+        &:first-child {
+            border-right-width: 0;
+        }
+
+        &:last-child {
+            border-left-width: 0;
+        }
+
+        &:not(:first-child):not(:last-child) {
+            border-left-width: 0;
+            border-right-width: 0;
+        }
+
+        &:focus {
+            box-shadow: none;
+        }
+    }
+
+    > .input-group-text {
+        &:first-child {
+            border-right-width: 0;
+        }
+
+        &:last-child {
+            border-left-width: 0;
+        }
+
+        &:not(:first-child):not(:last-child) {
+            border-left-width: 0;
+        }
+
+        @include transition($input-transition);
+    }
+
+    &:focus-within {
+        > .form-control,
+        > .input-group-text {
+            border-color: $input-focus-border-color;
+        }
+    }
+}
+
+
+.form-control-single-number {
+    text-align: center;
+    font-size: $input-single-text-font-size;
+    font-weight: $font-weight-bold;
+}

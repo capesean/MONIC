@@ -1,0 +1,16 @@
+//
+// Select
+//
+
+.form-select {
+    --#{$prefix}form-select-bg: #{escape-svg($form-select-indicator)};
+     
+    background-color: $form-select-bg;
+    background-image: var(--#{$prefix}form-select-bg);
+}
+    
+[data-theme="dark"] {
+    .form-select {
+        --#{$prefix}form-select-bg: #{escape-svg($form-select-indicator-dark)};
+    }
+}

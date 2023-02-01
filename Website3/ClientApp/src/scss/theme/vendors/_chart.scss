@@ -1,0 +1,48 @@
+//
+// Chart.js
+//
+
+.chart-container {
+    position: relative;
+    height: $chart-height;
+}
+
+.ds-chartjs-tooltip-wrap {
+    position: absolute;
+    z-index: 3;
+    transition: opacity .2s ease-in-out,left .2s ease,top .2s ease;
+
+    .ds-chartjs-tooltip {
+        position: relative;
+        font-size: $chart-tooltip-font-size;
+        background-color: $chart-tooltip-bg;
+        border-radius: $chart-tooltip-border-radius;
+        padding: $chart-tooltip-padding-y $chart-tooltip-padding-x;
+        transition: opacity .2s ease-in-out, left .2s ease, top .2s ease, top 0s;
+        box-shadow: $tooltip-box-shadow;
+    
+        &::before {
+            content: "";
+            position: absolute;
+            left: calc(50% - .5rem);
+            bottom: -.4375rem;
+            width: 1rem;
+            height: .5rem;
+            mask-image: url("data:image/svg+xml,%3Csvg width='1rem' height='0.5rem' xmlns='http://www.w3.org/2000/svg' x='0px' y='0px' viewBox='0 0 50 22.49'%3E%3Cpath fill='%23132144' d='M0,0h50L31.87,19.65c-3.45,3.73-9.33,3.79-12.85,0.13L0,0z'/%3E%3C/svg%3E");
+            mask-repeat: no-repeat;
+            mask-position: center center;
+            mask-size: 1rem .5rem;
+            background-color: $chart-tooltip-bg;
+        }
+    
+        .ds-chartjs-tooltip-header {
+            color: $chart-tooltip-header-color;
+            font-weight: 600;
+            white-space: nowrap;
+        }
+        
+        .ds-chartjs-tooltip-body {
+            color: $chart-tooltip-color;
+        }
+    }
+}

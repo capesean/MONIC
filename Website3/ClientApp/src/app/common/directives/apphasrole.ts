@@ -1,32 +1,25 @@
-import { Input, Directive, ViewContainerRef, TemplateRef, AfterContentInit, ChangeDetectorRef } from "@angular/core";
+import { Input, Directive, ElementRef } from "@angular/core";
 import { AuthService } from "../services/auth.service";
 
 @Directive({
     selector: '[appHasRole]'
 })
-export class AppHasRoleDirective implements AfterContentInit {
+export class AppHasRoleDirective {
 
     @Input('appHasRole')
     public role: string;
 
     constructor(
-        private viewContainer: ViewContainerRef,
-        private templateRef: TemplateRef<unknown>,
         private authService: AuthService,
-        private cd: ChangeDetectorRef
+        private elementRef: ElementRef
     ) {
     }
 
-    ngAfterContentInit(): void {
+
+    ngOnInit(): void {
         this.authService.getProfile().subscribe(
             profile => {
-
-                if (this.role && profile && this.authService.isInRole(profile, this.role)) {
-                    this.viewContainer.createEmbeddedView(this.templateRef);
-                } else {
-                    this.viewContainer.clear();
-                }
-                this.cd.detectChanges();
+                this.elementRef.nativeElement.style.display = this.role && profile && this.authService.isInRole(profile, this.role) ? "block" : "none";
             }
         );
     }

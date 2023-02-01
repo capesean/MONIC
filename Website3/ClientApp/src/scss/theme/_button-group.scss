@@ -1,0 +1,28 @@
+//
+// Button group
+//
+
+.btn-group {
+    border-radius: var(--#{$prefix}btn-border-radius);
+}
+
+.btn-group-lg {
+    border-radius: var(--#{$prefix}btn-border-radius-lg);
+}
+
+.btn-group-sm {
+    border-radius: var(--#{$prefix}btn-border-radius)-sm;
+}
+
+// Split button dropdowns
+.dropdown-toggle-split {
+    &::after,
+    .dropup &::after,
+    .dropend &::after {
+        padding-left: 0;
+    }
+  
+    .dropstart &::before {
+        padding-right: 0;
+    }
+}

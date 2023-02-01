@@ -1,0 +1,17 @@
+//
+// Breadcrumb
+//
+
+.breadcrumb {
+    // scss-docs-start breadcrumb-css-vars
+    --#{$prefix}breadcrumb-link-color: #{$breadcrumb-link-color};
+    // scss-docs-end breadcrumb-css-vars
+}
+
+.breadcrumb-item {
+    font-weight: $breadcrumb-font-weight;
+    
+    a {
+        color: var(--#{$prefix}breadcrumb-link-color);
+    }
+}

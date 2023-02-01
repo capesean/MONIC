@@ -1,0 +1,16 @@
+//
+// Modal
+//
+
+// Modal background
+.modal-backdrop {
+    [data-theme="dark"] & { 
+        // scss-docs-start modal-backdrop-dark-css-vars
+        --#{$prefix}backdrop-zindex: #{$zindex-modal-backdrop};
+        --#{$prefix}backdrop-bg: #{$modal-backdrop-dark-bg};
+        --#{$prefix}backdrop-opacity: #{$modal-backdrop-dark-opacity};
+        // scss-docs-end modal-backdrop-dark-css-vars
+    
+        @include overlay-backdrop(var(--#{$prefix}backdrop-zindex), var(--#{$prefix}backdrop-bg), var(--#{$prefix}backdrop-opacity));
+    }
+}

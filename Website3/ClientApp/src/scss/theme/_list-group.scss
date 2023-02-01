@@ -1,0 +1,27 @@
+//
+// List group
+//
+
+.list-group-active-border {
+    > .list-group-item {
+        border-left: 3px solid transparent;
+
+        &.active {
+            background-color: transparent;
+            color: var(--#{$prefix}link-color)r;
+            border-color: var(--#{$prefix}link-color);
+        }
+    }
+}
+
+.list-group-flush-all {
+    > .list-group-item {
+        border-top: 0;
+        border-bottom: 0;
+
+        &.active {
+            margin-top: 0;
+            border-top-width: 0;
+        }
+    }
+}

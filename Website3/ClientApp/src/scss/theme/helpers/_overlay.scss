@@ -1,0 +1,32 @@
+//
+// Overlay
+//
+
+.overlay {
+    position: relative;
+    
+    &::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        left: 0;
+    }
+}
+
+@each $key, $opacity in $opacity-values {
+    .overlay-#{$key} {
+        &::before {
+            opacity: percentage(calc($key / 100)) !important;
+        }
+    }
+}
+
+@each $element, $value in $theme-colors {
+    .overlay-#{$element} {
+        &::before {
+            background-color: $value !important;
+        }
+    }
+}

@@ -1,0 +1,35 @@
+//
+// Color background
+//
+
+
+// Soft variant
+@each $color, $value in $theme-colors {
+    .text-bg-#{$color}-soft {
+        color: $value !important;
+        background-color: #{shift-color($value, $bg-soft-scale)} !important;
+
+        .alert-link {
+            color: $value;
+        }
+    }
+}
+
+[data-theme="dark"] {
+    @each $color, $value in $theme-dark-colors {
+        $color-rgb: to-rgb($value);
+
+        .text-bg-#{$color} {
+            color: color-contrast($value) if($enable-important-utilities, !important, null);
+            background-color: RGBA($color-rgb, var(--#{$prefix}bg-opacity, 1)) if($enable-important-utilities, !important, null);
+        }
+    }
+
+    // Soft variant
+    @each $color, $value in $theme-dark-colors {
+        .text-bg-#{$color}-soft {
+            color: $value !important;
+            background-color: #{shift-color($value, $bg-soft-scale)} !important;
+        }
+    }
+}

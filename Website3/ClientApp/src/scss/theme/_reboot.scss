@@ -1,0 +1,36 @@
+//
+// Reboot
+//
+
+html {
+    position: relative;
+    min-height: 100%;
+}
+
+body {
+    overflow-x: hidden;
+}
+
+dt {
+    font-weight: $dt-font-weight;
+    color: $dt-color;
+}
+
+main {
+    height: 100%;
+}
+
+a,
+button {
+    outline: 0 !important;
+}
+
+::-moz-selection {
+    color: $white;
+    background-color: rgba($primary, .75);
+}
+
+::selection {
+    color: $white;
+    background-color: rgba($primary, .75);
+}
