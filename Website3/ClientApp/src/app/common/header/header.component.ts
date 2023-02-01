@@ -6,6 +6,9 @@ import { DOCUMENT } from '@angular/common';
 import { environment } from '../../../environments/environment';
 import { Options } from '@popperjs/core';
 import { NgbOffcanvas } from '@ng-bootstrap/ng-bootstrap';
+import { ToastrService } from 'ngx-toastr';
+import { Router } from '@angular/router';
+import { AuthService } from '../services/auth.service';
 
 @Component({
     selector: 'app-header',
@@ -32,7 +35,10 @@ export class HeaderComponent implements OnInit {
         private titleService: Title,
         private breadcrumbService: BreadcrumbService,
         @Inject(DOCUMENT) private document: Document,
-        private offcanvasService: NgbOffcanvas
+        private offcanvasService: NgbOffcanvas,
+        private toastr: ToastrService,
+        private router: Router,
+        private authService: AuthService
     ) {
         this.breadcrumbService.breadcrumbChanged.subscribe((crumbs) => {
             if (crumbs.length) this.breadcrumbs = crumbs.map(c => this.toPrimeNgMenuItem(c));
@@ -67,4 +73,11 @@ export class HeaderComponent implements OnInit {
             return `${curr.displayName} - ${prev}`;
         }, '');
     }
+
+    logout() {
+        this.authService.logout();
+        this.toastr.success("You have been logged out successfully", "Log Out");
+        this.router.navigate(["/auth/login"]);
+    }
+
 }

@@ -39,3 +39,7 @@ form.init {
 form.form-auth img {
     max-width: 100%;
 }
+
+form.form-auth input[type=email].form-control, form.form-auth input[type=password].form-control {
+    border-color: var(--bs-gray-500);
+}
