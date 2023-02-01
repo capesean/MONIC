@@ -18,6 +18,8 @@ import { ColorComponent } from './common/components/color.component';
 import { AppHasRoleDirective } from './common/directives/apphasrole';
 import { UserSelectComponent } from './users/user.select.component';
 import { UserModalComponent } from './users/user.modal.component';
+import { UserTestSelectComponent } from './usertests/usertest.select.component';
+import { UserTestModalComponent } from './usertests/usertest.modal.component';
 
 @NgModule({
     imports: [
@@ -41,7 +43,9 @@ import { UserModalComponent } from './users/user.modal.component';
         ColorComponent,
         AppHasRoleDirective,
         UserSelectComponent,
-        UserModalComponent
+        UserModalComponent,
+        UserTestSelectComponent,
+        UserTestModalComponent
     ],
     exports: [
         PagerComponent,
@@ -57,7 +61,9 @@ import { UserModalComponent } from './users/user.modal.component';
         ColorComponent,
         AppHasRoleDirective,
         UserSelectComponent,
-        UserModalComponent
+        UserModalComponent,
+        UserTestSelectComponent,
+        UserTestModalComponent
     ]
 })
 export class SharedModule { }

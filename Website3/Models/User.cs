@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
@@ -17,6 +18,8 @@ namespace WEB.Models
 
         [Required]
         public bool Disabled { get; set; }
+
+        public virtual ICollection<UserTest> UserTests { get; set; } = new List<UserTest>();
 
         public User()
         {

@@ -9,19 +9,25 @@
 
             <fieldset>
 
-                <div class="alert alert-info alert-dismissible" *ngIf="role!=undefined">Filtered by role: {{role.label}}<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close" (click)="searchOptions.roleName=undefined;role=undefined;runSearch();" *ngIf="canRemoveFilters"></button></div>
+                <div class="alert alert-info alert-dismissible" *ngIf="user!=undefined">Filtered by user: {{user.fullName}}<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close" (click)="searchOptions.userId=undefined;user=undefined;runSearch();" *ngIf="canRemoveFilters"></button></div>
 
                 <div class="row g-3">
 
                     <div class="col-sm-6 col-md-6 col-lg-4">
                         <div class="form-group">
-                            <input type="search" ngbAutofocus name="q" id="q" [(ngModel)]="searchOptions.q" max="100" class="form-control" placeholder="Search users" />
+                            <input type="search" ngbAutofocus name="q" id="q" [(ngModel)]="searchOptions.q" max="100" class="form-control" placeholder="Search user tests" />
+                        </div>
+                    </div>
+
+                    <div class="col-sm-6 col-md-6 col-lg-4" *ngIf="!user">
+                        <div class="form-group">
+                            <user-select id="userId" name="userId" [(ngModel)]="searchOptions.userId"></user-select>
                         </div>
                     </div>
 
                     <div class="col-sm-6 col-md-6 col-lg-4">
                         <div class="form-group">
-                            <button type="submit" class="btn btn-primary">Search<i class="fas fa-search ms-2"></i></button>
+                            <button type="submit" class="btn btn-success">Search<i class="fas fa-search ms-1"></i></button>
                         </div>
                     </div>
                 </div>
@@ -33,20 +39,14 @@
         <table class="table table-striped table-hover table-sm row-navigation mt-4">
             <thead>
                 <tr>
-                    <th>First Name</th>
-                    <th>Last Name</th>
-                    <th>Email</th>
-                    <th>Disabled</th>
+                    <th *ngIf="!user">User</th>
                     <th class="text-center fa-col-width" *ngIf="multiple"><i class="fas fa-fw clickable" [ngClass]="{ 'fa-check-square': allSelected, 'fa-square': !allSelected }" (click)="toggleAll()"></i></th>
                 </tr>
             </thead>
             <tbody>
-                <tr *ngFor="let user of users" (click)="select(user)">
-                    <td>{{ user.firstName }}</td>
-                    <td>{{ user.lastName }}</td>
-                    <td>{{ user.email }}</td>
-                    <td>{{ user.disabled | booleanPipe }}</td>
-                    <td *ngIf="multiple" class="text-center"><i [ngClass]="{ 'fa-check-square': isSelected(user), 'fa-square': !isSelected(user) }" class="fas fa-fw"></i></td>
+                <tr *ngFor="let userTest of userTests" (click)="select(userTest)">
+                    <td *ngIf="!user">{{ userTest.user.fullName }}</td>
+                    <td *ngIf="multiple" class="text-center"><i [ngClass]="{ 'fa-check-square': isSelected(userTest), 'fa-square': !isSelected(userTest) }" class="fas fa-fw"></i></td>
                 </tr>
             </tbody>
         </table>

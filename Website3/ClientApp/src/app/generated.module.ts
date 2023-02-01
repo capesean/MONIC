@@ -6,13 +6,17 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { DragDropModule } from '@angular/cdk/drag-drop';
 import { UserListComponent } from './users/user.list.component';
 import { UserEditComponent } from './users/user.edit.component';
+import { UserTestListComponent } from './usertests/usertest.list.component';
+import { UserTestEditComponent } from './usertests/usertest.edit.component';
 import { SharedModule } from './shared.module';
 import { GeneratedRoutes } from './generated.routes';
 
 @NgModule({
     declarations: [
         UserListComponent,
-        UserEditComponent
+        UserEditComponent,
+        UserTestListComponent,
+        UserTestEditComponent
     ],
     imports: [
         CommonModule,

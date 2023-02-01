@@ -27,6 +27,11 @@ namespace WEB.Controllers
             IQueryable<User> results = userManager.Users;
             results = results.Include(o => o.Roles);
 
+            if (searchOptions.IncludeChildren)
+            {
+                results = results.Include(o => o.UserTests);
+            }
+
             if (!string.IsNullOrWhiteSpace(q))
                 results = results.Where(o => o.Email.Contains(q) || o.FullName.Contains(q) || o.Email.Contains(q));
 
@@ -129,10 +134,24 @@ namespace WEB.Controllers
             if (user == null)
                 return NotFound();
 
+            foreach (var userTest in db.UserTests.Where(o => o.UserId == user.Id))
+                db.Entry(userTest).State = EntityState.Deleted;
+
             foreach (var role in await userManager.GetRolesAsync(user))
                 await userManager.RemoveFromRoleAsync(user, role);
 
             await userManager.DeleteAsync(user);
+
+            return Ok();
+        }
+
+        [HttpDelete("{id:Guid}/usertests"), AuthorizeRoles(Roles.Administrator)]
+        public async Task<IActionResult> DeleteUserTests(Guid id)
+        {
+            foreach (var userTest in db.UserTests.Where(o => o.UserId == id).ToList())
+                db.Entry(userTest).State = EntityState.Deleted;
+
+            await db.SaveChangesAsync();
 
             return Ok();
         }

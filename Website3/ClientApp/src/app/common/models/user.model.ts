@@ -1,4 +1,5 @@
 import { SearchOptions, PagingHeaders } from './http.model';
+import { UserTest } from './usertest.model';
 
 export class User {
     id: string;
@@ -8,6 +9,8 @@ export class User {
     email: string;
     disabled: boolean;
     roles: string[] = [];
+
+    userTests: UserTest[];
 
     constructor() {
         this.id = "00000000-0000-0000-0000-000000000000";

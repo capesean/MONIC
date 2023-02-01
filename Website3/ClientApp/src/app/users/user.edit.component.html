@@ -1,121 +1,194 @@
-<h2>User</h2>
+<ng-container *ngIf="route.children.length === 0">
 
-<form id="form" name="form" (submit)="save(form)" novalidate #form="ngForm" [ngClass]="{ 'was-validated': form.submitted }">
+    <h2>User</h2>
 
-    <div class="card border-0">
+    <form id="form" name="form" (submit)="save(form)" novalidate #form="ngForm" [ngClass]="{ 'was-validated': form.submitted }">
 
-        <div class="card-body">
+        <div class="card border-0">
 
-            <fieldset class="group">
+            <div class="card-body">
 
-                <div class="row g-3">
+                <fieldset class="group">
 
-                    <div class="col-sm-6 col-md-4">
-                        <div class="form-group" [ngClass]="{ 'is-invalid': firstName.invalid }">
+                    <div class="row g-3">
 
-                            <label for="firstName">
-                                First Name:
-                            </label>
+                        <div class="col-sm-6 col-md-4">
+                            <div class="form-group" [ngClass]="{ 'is-invalid': firstName.invalid }">
 
-                            <input id="firstName" name="firstName" class="form-control" type="text" [(ngModel)]="user.firstName" #firstName="ngModel" required maxlength="50" />
-
-                            <div *ngIf="firstName.errors?.required" class="invalid-feedback">
-                                First Name is required
-                            </div>
-
-                            <div *ngIf="firstName.errors?.maxlength" class="invalid-feedback">
-                                First Name must be at most 50 characters long
-                            </div>
-
-                        </div>
-                    </div>
-
-                    <div class="col-sm-6 col-md-4">
-                        <div class="form-group" [ngClass]="{ 'is-invalid': lastName.invalid }">
-
-                            <label for="lastName">
-                                Last Name:
-                            </label>
-
-                            <input id="lastName" name="lastName" class="form-control" type="text" [(ngModel)]="user.lastName" #lastName="ngModel" required maxlength="50" />
-
-                            <div *ngIf="lastName.errors?.required" class="invalid-feedback">
-                                Last Name is required
-                            </div>
-
-                            <div *ngIf="lastName.errors?.maxlength" class="invalid-feedback">
-                                Last Name must be at most 50 characters long
-                            </div>
-
-                        </div>
-                    </div>
-
-                    <div class="col-sm-6 col-md-4">
-                        <div class="form-group" [ngClass]="{ 'is-invalid': email.invalid }">
-
-                            <label for="email">
-                                Email:
-                            </label>
-
-                            <input id="email" name="email" class="form-control" type="text" [(ngModel)]="user.email" #email="ngModel" required maxlength="256" pattern="^[^@\s]+@[^@\s]+\.[^@\s]+$" />
-
-                            <div *ngIf="email.errors?.required" class="invalid-feedback">
-                                Email is required
-                            </div>
-
-                            <div *ngIf="email.errors?.maxlength" class="invalid-feedback">
-                                Email must be at most 256 characters long
-                            </div>
-
-                            <div *ngIf="email.errors?.pattern" class="invalid-feedback">
-                                Email does not match the specified pattern
-                            </div>
-
-                        </div>
-                    </div>
-
-                    <div class="col-sm-6 col-md-4">
-                        <div class="form-group" [ngClass]="{ 'is-invalid': disabled.invalid }">
-
-                            <label for="disabled">
-                                Disabled:
-                            </label>
-
-                            <div class="form-check">
-                                <input id="disabled" name="disabled" class="form-check-input" type="checkbox" [(ngModel)]="user.disabled" #disabled="ngModel" />
-                                <label class="form-check-label" for="disabled">
-                                    Disabled
+                                <label for="firstName">
+                                    First Name:
                                 </label>
+
+                                <input id="firstName" name="firstName" class="form-control" type="text" [(ngModel)]="user.firstName" #firstName="ngModel" required maxlength="50" />
+
+                                <div *ngIf="firstName.errors?.required" class="invalid-feedback">
+                                    First Name is required
+                                </div>
+
+                                <div *ngIf="firstName.errors?.maxlength" class="invalid-feedback">
+                                    First Name must be at most 50 characters long
+                                </div>
+
                             </div>
-
                         </div>
+
+                        <div class="col-sm-6 col-md-4">
+                            <div class="form-group" [ngClass]="{ 'is-invalid': lastName.invalid }">
+
+                                <label for="lastName">
+                                    Last Name:
+                                </label>
+
+                                <input id="lastName" name="lastName" class="form-control" type="text" [(ngModel)]="user.lastName" #lastName="ngModel" required maxlength="50" />
+
+                                <div *ngIf="lastName.errors?.required" class="invalid-feedback">
+                                    Last Name is required
+                                </div>
+
+                                <div *ngIf="lastName.errors?.maxlength" class="invalid-feedback">
+                                    Last Name must be at most 50 characters long
+                                </div>
+
+                            </div>
+                        </div>
+
+                        <div class="col-sm-6 col-md-4">
+                            <div class="form-group" [ngClass]="{ 'is-invalid': email.invalid }">
+
+                                <label for="email">
+                                    Email:
+                                </label>
+
+                                <input id="email" name="email" class="form-control" type="text" [(ngModel)]="user.email" #email="ngModel" required maxlength="256" pattern="^[^@\s]+@[^@\s]+\.[^@\s]+$" />
+
+                                <div *ngIf="email.errors?.required" class="invalid-feedback">
+                                    Email is required
+                                </div>
+
+                                <div *ngIf="email.errors?.maxlength" class="invalid-feedback">
+                                    Email must be at most 256 characters long
+                                </div>
+
+                                <div *ngIf="email.errors?.pattern" class="invalid-feedback">
+                                    Email does not match the specified pattern
+                                </div>
+
+                            </div>
+                        </div>
+
+                        <div class="col-sm-6 col-md-4">
+                            <div class="form-group" [ngClass]="{ 'is-invalid': disabled.invalid }">
+
+                                <label for="disabled">
+                                    Disabled:
+                                </label>
+
+                                <div class="form-check">
+                                    <input id="disabled" name="disabled" class="form-check-input" type="checkbox" [(ngModel)]="user.disabled" #disabled="ngModel" />
+                                    <label class="form-check-label" for="disabled">
+                                        Disabled
+                                    </label>
+                                </div>
+
+                            </div>
+                        </div>
+
+                        <div class="col-sm-6 col-md-4">
+                            <div class="form-group">
+
+                                <label>
+                                    Roles:
+                                </label>
+
+                                <select id="roles" name="roles" [multiple]="true" class="form-control" [(ngModel)]="user.roles">
+                                    <option *ngFor="let role of roles" [ngValue]="role.name">{{role.label}}</option>
+                                </select>
+
+                            </div>
+                        </div>
+
                     </div>
 
-                    <div class="col-sm-6 col-md-4">
-                        <div class="form-group">
+                </fieldset>
 
-                            <label>
-                                Roles:
-                            </label>
-
-                            <select id="roles" name="roles" [multiple]="true" class="form-control" [(ngModel)]="user.roles">
-                                <option *ngFor="let role of roles" [ngValue]="role.name">{{role.label}}</option>
-                            </select>
-
-                        </div>
-                    </div>
-
-                </div>
-
-            </fieldset>
+            </div>
 
         </div>
 
-    </div>
+        <fieldset class="my-3">
+            <button type="submit" class="btn btn-outline-primary me-2 mb-1">Save<i class="fas fa-check ms-2"></i></button>
+            <button type="button" *ngIf="!isNew" class="btn btn-outline-danger me-2 mb-1" (click)="delete()">Delete<i class="fas fa-times ms-2"></i></button>
+        </fieldset>
 
-    <fieldset class="my-3">
-        <button type="submit" class="btn btn-success me-2 mb-1">Save<i class="fas fa-check ms-1"></i></button>
-        <button type="button" *ngIf="!isNew" class="btn btn-outline-danger me-2 mb-1" (click)="delete()">Delete<i class="fas fa-times ms-1"></i></button>
-    </fieldset>
+    </form>
 
-</form>
+    <ng-container *ngIf="!isNew">
+
+        <hr />
+
+        <nav ngbNav #nav="ngbNav" class="nav-tabs">
+
+            <ng-container ngbNavItem class="pt-6">
+
+                <a ngbNavLink>User Tests</a>
+
+                <ng-template ngbNavContent class="pt-6">
+
+                    <div class="card border-0 search-results">
+
+                        <div class="card-header border-0">
+
+                            <h4 class="card-header-title text-uppercase">
+                                User Tests
+                            </h4>
+
+                        </div>
+
+                        <div class="card-body">
+
+                            search functions here...
+
+                            <div class="mb-3">
+                                <a [routerLink]="['./usertests', 'add']" class="btn btn-outline-primary me-2 mb-1">Add User Test<i class="fas fa-plus ms-2"></i></a>
+                            </div>
+
+                        </div>
+
+                        <div class="table-responsive">
+
+                            <table class="table table-hover table-edge table-nowrap mb-0 align-middle">
+                                <thead class="thead-light">
+                                    <tr>
+                                        <th>Name</th>
+                                        <th class="w-20px text-center"><i class="fas fa-times text-danger clickable" (click)="deleteUserTests()" ngbTooltip="Delete all user tests" container="body" placement="left"></i></th>
+                                    </tr>
+                                </thead>
+                                <tbody class="list cursor-pointer">
+                                    <tr *ngFor="let userTest of userTests" (click)="goToUserTest(userTest)">
+                                        <td>{{ userTest.name }}</td>
+                                        <td class="text-center"><i class="fas fa-times clickable p-1 text-danger" (click)="deleteUserTest(userTest, $event)"></i></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+
+                        </div>
+
+                        <div class="card-footer">
+                            <pager [headers]="userTestsHeaders" (pageChanged)="loadUserTests($event)"></pager>
+                        </div>
+
+                    </div>
+
+                </ng-template>
+
+            </ng-container>
+
+        </nav>
+
+        <div [ngbNavOutlet]="nav" class="mt-1"></div>
+
+    </ng-container>
+
+</ng-container>
+
+<router-outlet></router-outlet>

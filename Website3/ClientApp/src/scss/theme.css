@@ -23692,6 +23692,28 @@ html:not([data-sidebar-behaviour=condensed]) .navbar.navbar-dark {
  * Define you custome style here.
  * It will be merged with the default style.
  */
+:root {
+  --bs-form-control-bg: var(--bs-gray-200);
+}
+
+.modal {
+  --bs-modal-header-padding: 1.25rem 1.75rem 1.25rem 1.5rem;
+  --bs-modal-footer-padding: 1.25rem 1.5rem;
+}
+
+.modal-header .btn-close {
+  padding: calc(var(--bs-modal-header-padding-y) * 0.4) calc(var(--bs-modal-header-padding-x) * 0.4);
+}
+
+.modal-header {
+  padding: var(--bs-modal-header-padding);
+  border-bottom: solid 1px var(--bs-gray-400);
+}
+
+.modal-footer {
+  padding: var(--bs-modal-footer-padding);
+}
+
 @media (min-width: 992px) {
   #mainNavbar {
     border-right: 1px solid var(--bs-navbar-vertical-border-color);
@@ -23854,4 +23876,24 @@ html:not([data-sidebar-behaviour=condensed]) .navbar.navbar-dark {
 
 .navbar-brand-img {
   height: 36px;
+}
+
+.table > thead th {
+  font-size: var(--bs-body-font-size);
+}
+
+.card.search-results .card-header {
+  padding: 1rem var(--bs-card-cap-padding-x);
+}
+
+.form-control {
+  border: 1px solid var(--bs-gray-400);
+}
+
+.form-control:focus {
+  background-color: var(--bs-gray-100);
+}
+
+.modal-header {
+  background-color: var(--bs-gray-100);
 }
