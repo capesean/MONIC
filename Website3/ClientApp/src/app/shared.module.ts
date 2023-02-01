@@ -4,6 +4,7 @@ import { PagerComponent } from './common/components/pager.component';
 import { RouterModule } from '@angular/router';
 import { MainComponent } from './main.component';
 import { NavMenuComponent } from './common/nav-menu/nav-menu.component';
+import { HeaderComponent } from './common/header/header.component';
 import { MomentPipe } from './common/pipes/momentpipe';
 import { BooleanPipe } from './common/pipes/booleanpipe';
 import { ConfirmModalComponent } from './common/components/confirm.component';
@@ -31,6 +32,7 @@ import { UserModalComponent } from './users/user.modal.component';
         PagerComponent,
         MainComponent,
         NavMenuComponent,
+        HeaderComponent,
         MomentPipe,
         BooleanPipe,
         ConfirmModalComponent,
@@ -45,6 +47,7 @@ import { UserModalComponent } from './users/user.modal.component';
         PagerComponent,
         MainComponent,
         NavMenuComponent,
+        HeaderComponent,
         NgbModule,
         MomentPipe,
         BooleanPipe,

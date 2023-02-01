@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ToastrService } from 'ngx-toastr';
 import { Router } from '@angular/router';
-import { BehaviorSubject } from 'rxjs';
 import { ProfileModel } from '../models/profile.models';
 import { AuthService } from '../services/auth.service';
 
@@ -13,19 +12,25 @@ import { AuthService } from '../services/auth.service';
 export class NavMenuComponent implements OnInit {
 
     public isExpanded = false;
-    public profile$ = new BehaviorSubject<ProfileModel>(undefined);
+    public profile: ProfileModel;
+    public isAdmin = false;
+    public isCollapsed = true;
+    public adminCollapsed = true;
 
     constructor(
         private authService: AuthService,
         private toastr: ToastrService,
         private router: Router
     ) {
+        if (router.url === '/') { }
+        else if (router.url.startsWith('/settings')
+            || router.url.startsWith('/users')
+        )
+            this.adminCollapsed = false;
     }
 
     ngOnInit(): void {
-        this.authService.getProfile().subscribe(profile => {
-            this.profile$.next(profile);
-        });
+        this.authService.getProfile().subscribe(profile => this.profile = profile);
     }
 
     logout() {
