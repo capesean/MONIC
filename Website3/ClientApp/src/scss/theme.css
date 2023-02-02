@@ -23693,7 +23693,7 @@ html:not([data-sidebar-behaviour=condensed]) .navbar.navbar-dark {
  * It will be merged with the default style.
  */
 :root {
-  --bs-form-control-bg: var(--bs-gray-200);
+  --bs-form-control-bg: #f6fdff;
 }
 
 .modal {
@@ -23891,7 +23891,7 @@ html:not([data-sidebar-behaviour=condensed]) .navbar.navbar-dark {
 }
 
 .form-control:focus {
-  background-color: var(--bs-gray-100);
+  background-color: #ecf3fa;
 }
 
 .modal-header {
