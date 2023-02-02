@@ -10,7 +10,10 @@ export class BreadcrumbComponent {
     breadcrumbs: Breadcrumb[];
 
     constructor(private breadcrumbService: BreadcrumbService) {
-        breadcrumbService.breadcrumbChanged.subscribe((crumbs: Breadcrumb[]) => { this.onBreadcrumbChange(crumbs); });
+        breadcrumbService.breadcrumbChanged.subscribe((crumbs: Breadcrumb[]) => {
+            console.log("changed", crumbs);
+            this.onBreadcrumbChange(crumbs);
+        });
     }
 
     private onBreadcrumbChange(crumbs: Breadcrumb[]) {

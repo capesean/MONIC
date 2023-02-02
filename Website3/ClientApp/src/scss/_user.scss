@@ -240,3 +240,7 @@
 .cursor-grab {
     cursor: grab;
 }
+
+nav#breadcrumbs li.breadcrumb-item a:hover {
+    color: rgb(0,186,199);
+}
