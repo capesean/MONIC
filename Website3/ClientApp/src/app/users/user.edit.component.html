@@ -1,6 +1,14 @@
 <ng-container *ngIf="route.children.length === 0">
 
-    <h2>User</h2>
+    <div class="d-flex align-items-baseline justify-content-between">
+        <h2 class="mb-3 mb-md-5">User</h2>
+        <nav class="mb-3 mb-md-0">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a routerLink="/users">Users</a></li>
+                <li class="breadcrumb-item active">Sean Walsh</li>
+            </ol>
+        </nav>
+    </div>
 
     <form id="form" name="form" (submit)="save(form)" novalidate #form="ngForm" [ngClass]="{ 'was-validated': form.submitted }">
 

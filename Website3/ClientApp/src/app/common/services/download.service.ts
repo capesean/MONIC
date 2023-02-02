@@ -6,6 +6,13 @@ import { map } from 'rxjs/operators';
 import { SearchQuery } from '../models/http.model';
 
 @Injectable({ providedIn: 'root' })
+export class BCService  {
+    setBreadcrumb(value: string): void {
+        console.log(value);
+    }
+}
+
+@Injectable({ providedIn: 'root' })
 export class DownloadService extends SearchQuery {
 
     constructor(private http: HttpClient) {
