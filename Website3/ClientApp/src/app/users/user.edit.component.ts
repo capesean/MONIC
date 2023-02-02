@@ -16,6 +16,7 @@ import { UserTestService } from '../common/services/usertest.service';
 import { Enum, Enums, Roles } from '../common/models/enums.model';
 import { ProfileModel } from '../common/models/profile.models';
 import { AuthService } from '../common/services/auth.service';
+import { UserTestSortComponent } from '../usertests/usertest.sort.component';
 
 @Component({
     selector: 'user-edit',
@@ -221,6 +222,15 @@ export class UserEditComponent implements OnInit, OnDestroy {
                     );
             }, () => { });
 
+    }
+
+    showUserTestSort() {
+        let modalRef = this.modalService.open(UserTestSortComponent, { size: 'xl', centered: true, scrollable: false });
+        (modalRef.componentInstance as UserTestSortComponent).userId = this.user.id;
+        modalRef.result.then(
+            () => this.loadUserTests(this.userTestsHeaders.pageIndex),
+            () => { }
+        );
     }
 
 }

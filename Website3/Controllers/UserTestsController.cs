@@ -31,7 +31,7 @@ namespace WEB.Controllers
 
             if (userId.HasValue) results = results.Where(o => o.UserId == userId);
 
-            results = results.OrderBy(o => o.UserTestId);
+            results = results.OrderBy(o => o.SortOrder);
 
             return Ok((await GetPaginatedResponse(results, searchOptions)).Select(o => ModelFactory.Create(o, searchOptions.IncludeParents, searchOptions.IncludeChildren)));
         }
@@ -63,6 +63,8 @@ namespace WEB.Controllers
             {
                 userTest = new UserTest();
 
+                userTestDTO.SortOrder = (await db.UserTests.Where(o => o.UserId == userTestDTO.UserId).MaxAsync(o => (int?)o.SortOrder) ?? 0) + 1;
+
                 db.Entry(userTest).State = EntityState.Added;
             }
             else
@@ -93,6 +95,25 @@ namespace WEB.Controllers
                 return NotFound();
 
             db.Entry(userTest).State = EntityState.Deleted;
+
+            await db.SaveChangesAsync();
+
+            return Ok();
+        }
+
+        [HttpPost("sort"), AuthorizeRoles(Roles.Administrator)]
+        public async Task<IActionResult> Sort([FromQuery] Guid userId, [FromBody] Guid[] sortedIds)
+        {
+            var userTests = await db.UserTests
+                .Where(o => o.UserId == userId)
+                .ToListAsync();
+            if (userTests.Count != sortedIds.Length) return BadRequest("Some of the user tests could not be found");
+
+            foreach (var userTest in userTests)
+            {
+                db.Entry(userTest).State = EntityState.Modified;
+                userTest.SortOrder = Array.IndexOf(sortedIds, userTest.UserTestId);
+            }
 
             await db.SaveChangesAsync();
 

@@ -5,6 +5,9 @@ import { PagingHeaders } from '../common/models/http.model';
 import { ErrorService } from '../common/services/error.service';
 import { UserTestSearchOptions, UserTestSearchResponse, UserTest } from '../common/models/usertest.model';
 import { UserTestService } from '../common/services/usertest.service';
+import { ToastrService } from 'ngx-toastr';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { UserTestSortComponent } from './usertest.sort.component';
 
 @Component({
     selector: 'usertest-list',
@@ -20,6 +23,7 @@ export class UserTestListComponent implements OnInit {
         public route: ActivatedRoute,
         private router: Router,
         private errorService: ErrorService,
+        private modalService: NgbModal,
         private userTestService: UserTestService
     ) {
     }
@@ -49,6 +53,16 @@ export class UserTestListComponent implements OnInit {
 
         return subject;
 
+    }
+
+    showSort() {
+        let modalRef = this.modalService.open(UserTestSortComponent, { size: 'xl', centered: true, scrollable: false });
+        modalRef.result.then(
+            () => {
+
+                this.runSearch(this.headers.pageIndex);
+
+            }, () => { });
     }
 
     goToUserTest(userTest: UserTest): void {

@@ -14,6 +14,9 @@ namespace WEB.Models
         [DisplayFormat(ConvertEmptyStringToNull = false), MaxLength(50)]
         public string Name { get; set; }
 
+        [Required]
+        public int SortOrder { get; set; }
+
         public UserDTO User { get; set; }
 
     }
@@ -29,6 +32,7 @@ namespace WEB.Models
             userTestDTO.UserTestId = userTest.UserTestId;
             userTestDTO.UserId = userTest.UserId;
             userTestDTO.Name = userTest.Name;
+            userTestDTO.SortOrder = userTest.SortOrder;
 
             if (includeParents)
             {
@@ -42,6 +46,7 @@ namespace WEB.Models
         {
             userTest.UserId = userTestDTO.UserId;
             userTest.Name = userTestDTO.Name;
+            userTest.SortOrder = userTestDTO.SortOrder;
         }
     }
 }

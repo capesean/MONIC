@@ -15,6 +15,9 @@ namespace WEB.Models
         [Required(AllowEmptyStrings = true), MaxLength(50)]
         public string Name { get; set; }
 
+        [Required]
+        public int SortOrder { get; set; }
+
         [ForeignKey("UserId")]
         public virtual User User { get; set; }
 

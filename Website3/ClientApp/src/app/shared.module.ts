@@ -20,6 +20,7 @@ import { UserSelectComponent } from './users/user.select.component';
 import { UserModalComponent } from './users/user.modal.component';
 import { UserTestSelectComponent } from './usertests/usertest.select.component';
 import { UserTestModalComponent } from './usertests/usertest.modal.component';
+import { UserTestSortComponent } from './usertests/usertest.sort.component';
 
 @NgModule({
     imports: [
@@ -45,7 +46,8 @@ import { UserTestModalComponent } from './usertests/usertest.modal.component';
         UserSelectComponent,
         UserModalComponent,
         UserTestSelectComponent,
-        UserTestModalComponent
+        UserTestModalComponent,
+        UserTestSortComponent
     ],
     exports: [
         PagerComponent,
@@ -63,7 +65,8 @@ import { UserTestModalComponent } from './usertests/usertest.modal.component';
         UserSelectComponent,
         UserModalComponent,
         UserTestSelectComponent,
-        UserTestModalComponent
+        UserTestModalComponent,
+        UserTestSortComponent
     ]
 })
 export class SharedModule { }

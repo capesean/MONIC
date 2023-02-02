@@ -150,6 +150,7 @@
 
                             <div class="mb-3">
                                 <a [routerLink]="['./usertests', 'add']" class="btn btn-outline-success me-2 mb-1">Add User Test<i class="fas fa-plus ms-2"></i></a>
+                                <button type="button" class="btn btn-outline-secondary me-2 mb-1" (click)="showUserTestSort()" *ngIf="userTestsHeaders.totalRecords > 1">Sort User Tests<i class="fas fa-sort ms-2"></i></button>
                             </div>
 
                         </div>

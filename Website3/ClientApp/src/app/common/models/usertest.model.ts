@@ -5,6 +5,7 @@ export class UserTest {
     userTestId: string;
     userId: string;
     name: string;
+    sortOrder: number;
     user: User;
 
     constructor() {

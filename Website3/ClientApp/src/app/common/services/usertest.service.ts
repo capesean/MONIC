@@ -37,4 +37,8 @@ export class UserTestService extends SearchQuery {
         return this.http.delete<void>(`${environment.baseApiUrl}usertests/${userTestId}`);
     }
 
+    sort(userId: string, ids: string[]): Observable<void> {
+        return this.http.post<void>(`${environment.baseApiUrl}usertests/sort?userid=${userId}`, ids);
+    }
+
 }

@@ -1,0 +1,28 @@
+<div class="modal-header">
+    <h4 class="modal-title" id="modal-title">Sort UserTests</h4>
+    <button type="button" class="btn-close" aria-label="Close button" aria-describedby="modal-title" (click)="modal.dismiss()"></button>
+</div>
+<div class="modal-body">
+
+    <table class="table table-striped table-hover table-sm">
+        <thead>
+            <tr>
+                <th class="text-center fa-col-width"><i class="fas fa-sort"></i></th>
+                <th>User</th>
+                <th>Name</th>
+            </tr>
+        </thead>
+        <tbody cdkDropList (cdkDropListDropped)="drop($event)">
+            <tr *ngFor="let userTest of userTests" cdkDrag cdkDragHandle>
+                <td class="text-center fa-col-width"><i class="fas fa-sort"></i></td>
+                <td>{{ userTest.user.fullName }}</td>
+                <td>{{ userTest.name }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+</div>
+<div class="modal-footer">
+    <button type="button" class="btn btn-success" (click)="close()">Ok</button>
+    <button type="button" class="btn btn-outline-secondary" (click)="modal.dismiss()">Cancel</button>
+</div>
