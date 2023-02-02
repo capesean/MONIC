@@ -4,7 +4,7 @@ import { UserTestSearchOptions, UserTestSearchResponse, UserTest } from '../comm
 import { UserTestService } from '../common/services/usertest.service';
 import { PagingHeaders } from '../common/models/http.model';
 import { ErrorService } from '../common/services/error.service';
-import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
+import { CdkDragDrop, CdkDragStart, moveItemInArray } from '@angular/cdk/drag-drop';
 import { ToastrService } from 'ngx-toastr';
 
 @Component({
@@ -16,6 +16,7 @@ export class UserTestSortComponent implements OnInit {
     public headers: PagingHeaders = new PagingHeaders();
     public userTests: UserTest[];
     public userId: string;
+    private bodyElement: HTMLElement = document.body;
 
     constructor(
         public modal: NgbActiveModal,
@@ -33,7 +34,14 @@ export class UserTestSortComponent implements OnInit {
             );
     }
 
+    dragStart(event: CdkDragStart) {
+        this.bodyElement.classList.add('inheritCursors');
+        this.bodyElement.style.cursor = 'grabbing';
+    }
+
     drop(event: CdkDragDrop<UserTest[]>) {
+        this.bodyElement.classList.remove('inheritCursors');
+        this.bodyElement.style.cursor = 'unset';
         moveItemInArray(this.userTests, event.previousIndex, event.currentIndex);
     }
 

@@ -23917,3 +23917,7 @@ html:not([data-sidebar-behaviour=condensed]) .navbar.navbar-dark {
 .btn-outline-secondary {
   background-color: #fafafa;
 }
+
+.cursor-grab {
+  cursor: grab;
+}

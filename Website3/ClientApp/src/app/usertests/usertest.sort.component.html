@@ -1,5 +1,5 @@
 <div class="modal-header">
-    <h4 class="modal-title" id="modal-title">Sort UserTests</h4>
+    <h4 class="modal-title" id="modal-title">Sort User Tests</h4>
     <button type="button" class="btn-close" aria-label="Close button" aria-describedby="modal-title" (click)="modal.dismiss()"></button>
 </div>
 
@@ -13,8 +13,8 @@
                 <th>Name</th>
             </tr>
         </thead>
-        <tbody cdkDropList (cdkDropListDropped)="drop($event)">
-            <tr *ngFor="let userTest of userTests" cdkDrag cdkDragHandle>
+        <tbody cdkDropList (cdkDropListDropped)="drop($event)" class="cursor-grab">
+            <tr *ngFor="let userTest of userTests" cdkDrag cdkDragHandle (cdkDragStarted)="dragStart($event)">
                 <td class="text-center"><i class="fas fa-sort"></i></td>
                 <td>{{ userTest.user.fullName }}</td>
                 <td>{{ userTest.name }}</td>
