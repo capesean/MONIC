@@ -161,13 +161,13 @@
                                 <thead class="thead-light">
                                     <tr>
                                         <th>Name</th>
-                                        <th class="w-20px text-center"><i class="fas fa-times text-danger clickable" (click)="deleteUserTests()" ngbTooltip="Delete all user tests" container="body" placement="left"></i></th>
+                                        <th class="w-20px text-center"><i class="fas fa-times text-danger cursor-pointer" (click)="deleteUserTests()" ngbTooltip="Delete all user tests" container="body" placement="left"></i></th>
                                     </tr>
                                 </thead>
                                 <tbody class="list cursor-pointer">
                                     <tr *ngFor="let userTest of userTests" (click)="goToUserTest(userTest)">
                                         <td>{{ userTest.name }}</td>
-                                        <td class="text-center"><i class="fas fa-times clickable p-1 text-danger" (click)="deleteUserTest(userTest, $event)"></i></td>
+                                        <td class="text-center"><i class="fas fa-times cursor-pointer p-1 text-danger" (click)="deleteUserTest(userTest, $event)"></i></td>
                                     </tr>
                                 </tbody>
                             </table>

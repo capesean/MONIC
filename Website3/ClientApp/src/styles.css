@@ -303,10 +303,6 @@ ngb-datepicker .is-valid, .was-validated ngb-datepicker :valid {
     background-color: white !important;
 }
 
-.clickable {
-    cursor: pointer;
-}
-
 input[type=file] {
     padding: 2px;
     overflow-x: hidden;

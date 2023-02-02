@@ -14,9 +14,9 @@ import { ToastrService } from 'ngx-toastr';
 export class UserTestSortComponent implements OnInit {
 
     public headers: PagingHeaders = new PagingHeaders();
+    private bodyElement: HTMLElement = document.body;
     public userTests: UserTest[];
     public userId: string;
-    private bodyElement: HTMLElement = document.body;
 
     constructor(
         public modal: NgbActiveModal,

@@ -151,10 +151,6 @@ button#add-widget {
     user-select: none
 }
 
-.clickable {
-    cursor: pointer !important;
-}
-
 .form-group label {
     font-size: .75rem;
     font-weight: 700;

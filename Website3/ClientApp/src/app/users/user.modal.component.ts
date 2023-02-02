@@ -27,7 +27,7 @@ export class UserModalComponent implements OnInit {
     @Input() canRemoveFilters = false;
     @Input() multiple = false;
     @Input() showAddNew = false;
-    @Input() title = this.multiple ? "Select users" : "Select an user";
+    @Input() title = this.multiple ? "Select users" : "Select a user";
     @Input() role: Enum;
 
     constructor(
