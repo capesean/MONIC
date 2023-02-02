@@ -4,7 +4,6 @@ import { ToastrService } from 'ngx-toastr';
 import { NgForm } from '@angular/forms';
 import { Subject, Subscription } from 'rxjs';
 import { HttpErrorResponse } from '@angular/common/http';
-import { BreadcrumbService } from 'angular-crumbs-2';
 import { ErrorService } from '../common/services/error.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ConfirmModalComponent, ModalOptions } from '../common/components/confirm.component';
@@ -17,6 +16,7 @@ import { Enum, Enums, Roles } from '../common/models/enums.model';
 import { ProfileModel } from '../common/models/profile.models';
 import { AuthService } from '../common/services/auth.service';
 import { UserTestSortComponent } from '../usertests/usertest.sort.component';
+import { BreadcrumbService } from '../common/services/breadcrumb.service';
 
 @Component({
     selector: 'user-edit',

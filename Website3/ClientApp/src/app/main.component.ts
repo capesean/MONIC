@@ -1,9 +1,9 @@
 import { Component, OnInit, Inject, ViewEncapsulation } from '@angular/core';
 import { Title } from '@angular/platform-browser';
-import { BreadcrumbService, Breadcrumb } from 'angular-crumbs-2';
-import { MenuItem } from 'primeng/api';
 import { DOCUMENT } from '@angular/common';
 import { environment } from '../environments/environment';
+import { BreadcrumbService } from './common/services/breadcrumb.service';
+import { Breadcrumb } from './common/models/breadcrumb.model';
 
 @Component({
     selector: 'main-root',
@@ -11,8 +11,8 @@ import { environment } from '../environments/environment';
 })
 export class MainComponent implements OnInit {
 
-    breadcrumbs: MenuItem[];
-    home: MenuItem = { icon: 'pi pi-home', routerLink: ['/'] };;
+    breadcrumbs: any[];// MenuItem[];
+    home: any /*MenuItem*/ = { icon: 'pi pi-home', routerLink: ['/'] };;
 
     constructor(
         private titleService: Title,
@@ -20,19 +20,16 @@ export class MainComponent implements OnInit {
         @Inject(DOCUMENT) private document: Document
     ) {
         this.breadcrumbService.breadcrumbChanged.subscribe((crumbs) => {
-            if (crumbs.length) this.breadcrumbs = crumbs.map(c => this.toPrimeNgMenuItem(c));
-            else this.breadcrumbs = [{ label: 'Home', routerLink: ['/'] }];
-            this.titleService.setTitle(this.createTitle(crumbs));
+            debugger;
+            //if (crumbs.length) this.breadcrumbs = crumbs.map(c => this.toPrimeNgMenuItem(c));
+            //else this.breadcrumbs = [{ label: 'Home', routerLink: ['/'] }];
+            //this.titleService.setTitle(this.createTitle(crumbs));
         });
 
     }
 
     ngOnInit() {
         this.document.body.id = "app";
-    }
-
-    private toPrimeNgMenuItem(crumb: Breadcrumb) {
-        return <MenuItem>{ label: crumb.displayName, routerLink: [`${crumb.url}`] }
     }
 
     private createTitle(routesCollection: Breadcrumb[]) {

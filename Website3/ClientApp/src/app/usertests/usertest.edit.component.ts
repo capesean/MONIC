@@ -3,12 +3,12 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { NgForm } from '@angular/forms';
 import { HttpErrorResponse } from '@angular/common/http';
-import { BreadcrumbService } from 'angular-crumbs-2';
 import { ErrorService } from '../common/services/error.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ConfirmModalComponent, ModalOptions } from '../common/components/confirm.component';
 import { UserTest } from '../common/models/usertest.model';
 import { UserTestService } from '../common/services/usertest.service';
+import { BreadcrumbService } from '../common/services/breadcrumb.service';
 
 @Component({
     selector: 'usertest-edit',
@@ -26,7 +26,7 @@ export class UserTestEditComponent implements OnInit {
         private breadcrumbService: BreadcrumbService,
         private modalService: NgbModal,
         private userTestService: UserTestService,
-        private errorService: ErrorService,
+        private errorService: ErrorService
 
     ) {
     }

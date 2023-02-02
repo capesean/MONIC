@@ -5,13 +5,14 @@ import { RouterModule } from '@angular/router';
 import { MainComponent } from './main.component';
 import { NavMenuComponent } from './common/nav-menu/nav-menu.component';
 import { HeaderComponent } from './common/header/header.component';
+import { BreadcrumbComponent } from './common/components/breadcrumb.component';
 import { MomentPipe } from './common/pipes/momentpipe';
 import { BooleanPipe } from './common/pipes/booleanpipe';
 import { ConfirmModalComponent } from './common/components/confirm.component';
 import { FormsModule } from '@angular/forms';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { DragDropModule } from '@angular/cdk/drag-drop';
-import { BreadcrumbModule } from 'primeng/breadcrumb';
+import { BreadcrumbModule } from './breadcrumb.module';
 import { AppFileInputDirective } from './common/directives/appfileinput';
 import { FileComponent } from './common/components/file.component';
 import { ColorComponent } from './common/components/color.component';
@@ -36,6 +37,7 @@ import { UserTestSortComponent } from './usertests/usertest.sort.component';
         MainComponent,
         NavMenuComponent,
         HeaderComponent,
+        BreadcrumbComponent,
         MomentPipe,
         BooleanPipe,
         ConfirmModalComponent,
@@ -54,6 +56,7 @@ import { UserTestSortComponent } from './usertests/usertest.sort.component';
         MainComponent,
         NavMenuComponent,
         HeaderComponent,
+        BreadcrumbComponent,
         NgbModule,
         MomentPipe,
         BooleanPipe,
