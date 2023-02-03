@@ -32,6 +32,7 @@ export const GeneratedRoutes: Route[] = [
                         canActivate: [AccessGuard],
                         canActivateChild: [AccessGuard],
                         data: {
+                            menu: 'admin',
                             breadcrumb: 'Add User Test'
                         }
                     }
