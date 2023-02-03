@@ -1,15 +1,12 @@
 import { HttpClient, HttpHeaders } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { Router } from "@angular/router";
-import { JwtHelperService } from "@auth0/angular-jwt";
 import { BehaviorSubject, interval, Observable, of, Subscription, throwError } from "rxjs";
 import { catchError, filter, first, flatMap, map, mergeMap, share, tap } from "rxjs/operators";
 import { environment } from "../../../environments/environment";
 import { AuthStateModel, AuthTokenModel, ChangePasswordModel, JwtTokenModel, LoginModel, RefreshGrantModel, RegisterModel, ResetModel, ResetPasswordModel } from "../models/auth.models";
 import { ProfileModel } from "../models/profile.models";
 import { Enums, Roles } from "../models/enums.model";
-
-const jwt = new JwtHelperService();
 
 @Injectable({ providedIn: 'root' })
 export class AuthService {
@@ -159,7 +156,7 @@ export class AuthService {
                 const now = new Date();
                 tokens.expiration_date = new Date(now.getTime() + tokens.expires_in * 1000).getTime().toString();
 
-                const jwtToken: JwtTokenModel = jwt.decodeToken(tokens.id_token);
+                const jwtToken: JwtTokenModel = this.decodeToken(tokens.id_token);
 
                 this.storeToken(tokens);
                 this.updateState({ authReady: true, tokens, jwtToken });
@@ -173,7 +170,7 @@ export class AuthService {
                     this.updateState({ authReady: true });
                     return of(undefined);
                 }
-                const jwtToken: JwtTokenModel = jwt.decodeToken(tokens.id_token);
+                const jwtToken: JwtTokenModel = this.decodeToken(tokens.id_token);
                 this.updateState({ tokens, jwtToken });
 
                 if (+tokens.expiration_date > new Date().getTime()) {
@@ -220,4 +217,75 @@ export class AuthService {
         }
         return this.profileGet;
     }
+
+    private decodeToken(token: string): JwtTokenModel {
+        if (!token || token === "") {
+            return null;
+        }
+        const parts = token.split(".");
+        if (parts.length !== 3) {
+            throw new Error("The inspected token doesn't appear to be a JWT. Check to make sure it has three parts and see https://jwt.io for more.");
+        }
+        const decoded = this.urlBase64Decode(parts[1]);
+        if (!decoded) {
+            throw new Error("Cannot decode the token.");
+        }
+        return JSON.parse(decoded);
+    }
+
+    private urlBase64Decode(str: string): string {
+        let output = str.replace(/-/g, "+").replace(/_/g, "/");
+        switch (output.length % 4) {
+            case 0: {
+                break;
+            }
+            case 2: {
+                output += "==";
+                break;
+            }
+            case 3: {
+                output += "=";
+                break;
+            }
+            default: {
+                throw new Error("Illegal base64url string!");
+            }
+        }
+        return this.b64DecodeUnicode(output);
+    }
+
+    private b64DecodeUnicode(str: string): string {
+        return decodeURIComponent(Array.prototype.map
+            .call(this.b64decode(str), (c) => {
+                return "%" + ("00" + c.charCodeAt(0).toString(16)).slice(-2);
+            })
+            .join(""));
+    }
+
+    private b64decode(str: string): string {
+        const chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/=";
+        let output = "";
+        str = String(str).replace(/=+$/, "");
+        if (str.length % 4 === 1) {
+            throw new Error("'atob' failed: The string to be decoded is not correctly encoded.");
+        }
+        for (
+            // initialize result and counters
+            let bc = 0, bs: number, buffer, idx = 0;
+            // get next character
+            (buffer = str.charAt(idx++));
+            // character found in table? initialize bit storage and add its ascii value;
+            ~buffer &&
+                ((bs = bc % 4 ? bs * 64 + buffer : buffer),
+                    // and if not first of each 4 characters,
+                    // convert the first 8 bits to one ascii character
+                    bc++ % 4)
+                ? (output += String.fromCharCode(255 & (bs >> ((-2 * bc) & 6))))
+                : 0) {
+            // try to find character in table (0-63, not found => -1)
+            buffer = chars.indexOf(buffer);
+        }
+        return output;
+    }
+
 }
