@@ -1,5 +1,6 @@
 import { Injectable, EventEmitter } from '@angular/core';
 import { Router, ActivatedRouteSnapshot, Event, NavigationEnd } from '@angular/router';
+import { filter, ReplaySubject } from 'rxjs';
 import { Breadcrumb } from '../models/breadcrumb.model';
 
 @Injectable({
@@ -7,27 +8,28 @@ import { Breadcrumb } from '../models/breadcrumb.model';
 })
 @Injectable()
 export class BreadcrumbService {
-    breadcrumbChanged = new EventEmitter<Breadcrumb[]>(false);
+    breadcrumbChanged = new ReplaySubject<Breadcrumb[]>();
 
     private breadcrumbs = new Array<Breadcrumb>();
 
     constructor(private router: Router) {
-        this.router.events.subscribe((routeEvent) => { this.onRouteEvent(routeEvent); });
+        this.router.events
+            .pipe(filter(event => event instanceof NavigationEnd))
+            .subscribe(() => { this.onRouteEvent(); });
     }
 
     public changeBreadcrumb(route: ActivatedRouteSnapshot, name: string) {
         const rootUrl = this.createRootUrl(route);
         const breadcrumb = this.breadcrumbs.find(function (bc) { return bc.url === rootUrl; });
 
-        if (!breadcrumb) { return; }
+        if (!breadcrumb) return;
 
         breadcrumb.displayName = name;
 
-        this.breadcrumbChanged.emit(this.breadcrumbs);
+        this.breadcrumbChanged.next(this.breadcrumbs);
     }
 
-    private onRouteEvent(routeEvent: Event) {
-        if (!(routeEvent instanceof NavigationEnd)) { return; }
+    private onRouteEvent() {
 
         let route = this.router.routerState.root.snapshot;
         let url = '';
@@ -59,7 +61,7 @@ export class BreadcrumbService {
         }
 
         this.breadcrumbs = newCrumbs;
-        this.breadcrumbChanged.emit(this.breadcrumbs);
+        this.breadcrumbChanged.next(this.breadcrumbs);
     }
 
     private createBreadcrumb(route: ActivatedRouteSnapshot, url: string): Breadcrumb {
