@@ -30,9 +30,10 @@ export class UserEditComponent implements OnInit, OnDestroy {
     public roles: Enum[] = Enums.Roles;
     private profile: ProfileModel;
 
-    private userTestsSearchOptions = new UserTestSearchOptions();
+    public userTestsSearchOptions = new UserTestSearchOptions();
     public userTestsHeaders = new PagingHeaders();
     public userTests: UserTest[] = [];
+    public showUserTestsSearch = false;
 
     constructor(
         private router: Router,
