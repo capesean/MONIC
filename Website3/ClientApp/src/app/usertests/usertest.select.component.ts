@@ -74,7 +74,9 @@ export class UserTestSelectComponent implements OnInit, ControlValueAccessor {
         return this.multiple ? this.userTests.map(userTest => userTest.name).join(", ") : this.userTest?.name ?? "";
     }
 
-    openModal() {
-        if (!this.disabled) this.modal.open();
+    click(button = false) {
+        if (this.disabled) return;
+        if (button && this.userTest || this.userTests) this.userTest = this.userTests = null;
+        else this.modal.open();
     }
 }
