@@ -17,13 +17,13 @@
                 "build": {
                     "builder": "@angular-devkit/build-angular:browser",
                     "options": {
-                        "progress": false,
                         "outputPath": "dist",
                         "index": "src/index.html",
                         "main": "src/main.ts",
                         "polyfills": "src/polyfills.ts",
                         "tsConfig": "tsconfig.app.json",
                         "assets": [
+                            "src/favicon.ico",
                             "src/assets"
                         ],
                         "styles": [
@@ -38,6 +38,7 @@
 
 
                         ],
+                        "allowedCommonJsDependencies": ["moment"],
                         "scripts": []
                     },
                     "configurations": {
@@ -100,6 +101,7 @@
                         "tsConfig": "tsconfig.spec.json",
                         "karmaConfig": "karma.conf.js",
                         "assets": [
+                            "src/favicon.ico",
                             "src/assets"
                         ],
                         "styles": [
@@ -136,5 +138,6 @@
                 }
             }
         }
-    }
+    },
+    "defaultProject": "Website3"
 }
