@@ -161,10 +161,10 @@
                             </form>
 
                             <div class="mb-3">
-                                <button *ngIf="!showUserTestsSearch" type="button" class="btn btn-outline-secondary me-2 mb-1" (click)="showUserTestsSearch=true">Filter User Tests<i class="fas fa-filter ms-2"></i></button>
+                                <a [routerLink]="['./usertests', 'add']" class="btn btn-outline-success me-2 mb-1">Add<i class="fas fa-plus ms-2"></i></a>
+                                <button *ngIf="!showUserTestsSearch" type="button" class="btn btn-outline-secondary me-2 mb-1" (click)="showUserTestsSearch=true">Filter<i class="fas fa-filter ms-2"></i></button>
                                 <button *ngIf="showUserTestsSearch" form="formUserTests" type="submit" class="btn btn-outline-primary me-2 mb-1">Search<i class="fas fa-search ms-2"></i></button>
-                                <a [routerLink]="['./usertests', 'add']" class="btn btn-outline-success me-2 mb-1">Add User Test<i class="fas fa-plus ms-2"></i></a>
-                                <button type="button" class="btn btn-outline-secondary me-2 mb-1" (click)="showUserTestSort()" *ngIf="userTestsHeaders.totalRecords > 1 && !showUserTestsSearch">Sort User Tests<i class="fas fa-sort ms-2"></i></button>
+                                <button type="button" class="btn btn-outline-secondary me-2 mb-1" (click)="showUserTestSort()" *ngIf="userTestsHeaders.totalRecords > 1 && !showUserTestsSearch">Sort<i class="fas fa-sort ms-2"></i></button>
                             </div>
 
                         </div>
