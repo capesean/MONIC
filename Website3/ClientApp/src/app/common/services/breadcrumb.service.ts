@@ -2,6 +2,9 @@ import { Injectable, EventEmitter } from '@angular/core';
 import { Router, ActivatedRouteSnapshot, Event, NavigationEnd } from '@angular/router';
 import { Breadcrumb } from '../models/breadcrumb.model';
 
+@Injectable({
+    providedIn: 'root',
+})
 @Injectable()
 export class BreadcrumbService {
     breadcrumbChanged = new EventEmitter<Breadcrumb[]>(false);

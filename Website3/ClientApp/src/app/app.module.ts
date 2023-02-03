@@ -9,7 +9,6 @@ import { NgHttpLoaderModule } from 'ng-http-loader';
 import { AppComponent } from './app.component';
 import { FormsModule } from '@angular/forms';
 import { NgbModule, NgbDateAdapter, NgbDateNativeAdapter } from '@ng-bootstrap/ng-bootstrap';
-import { BreadcrumbService } from './common/services/breadcrumb.service';
 import { ErrorService } from './common/services/error.service';
 import { NotFoundComponent } from './common/components/notfound.component';
 import { AccessGuard } from './common/auth/auth.accessguard';
@@ -42,7 +41,6 @@ import { JsonDateInterceptor } from './common/interceptors/jsondate.interceptor'
         { provide: HTTP_INTERCEPTORS, useClass: JsonDateInterceptor, multi: true },
         { provide: NgbDateAdapter, useClass: NgbDateNativeAdapter },
         AccessGuard,
-        BreadcrumbService,
         ErrorService
     ],
     bootstrap: [AppComponent]
