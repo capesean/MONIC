@@ -66,14 +66,14 @@ export class UserEditComponent implements OnInit, OnDestroy {
 
                 this.userTestsSearchOptions.userId = id;
                 this.userTestsSearchOptions.includeParents = true;
-                this.loadUserTests();
+                this.searchUserTests();
 
             }
 
             this.routerSubscription = this.router.events.subscribe(event => {
                 if (event instanceof NavigationEnd && !this.route.firstChild) {
                     // this will double-load on new save, as params change (above) + nav ends
-                    this.loadUserTests();
+                    this.searchUserTests();
                 }
             });
 
@@ -157,7 +157,7 @@ export class UserEditComponent implements OnInit, OnDestroy {
         this.breadcrumbService.changeBreadcrumb(this.route.snapshot, this.user.fullName !== undefined ? this.user.fullName.substring(0, 25) : "(new user)");
     }
 
-    loadUserTests(pageIndex = 0): Subject<UserTestSearchResponse> {
+    searchUserTests(pageIndex = 0): Subject<UserTestSearchResponse> {
 
         this.userTestsSearchOptions.pageIndex = pageIndex;
 
@@ -195,7 +195,7 @@ export class UserEditComponent implements OnInit, OnDestroy {
                     .subscribe(
                         () => {
                             this.toastr.success("The user test has been deleted", "Delete User Test");
-                            this.loadUserTests(this.userTestsHeaders.pageIndex);
+                            this.searchUserTests(this.userTestsHeaders.pageIndex);
                         },
                         err => {
                             this.errorService.handleError(err, "User Test", "Delete");
@@ -215,7 +215,7 @@ export class UserEditComponent implements OnInit, OnDestroy {
                     .subscribe(
                         () => {
                             this.toastr.success("The user tests have been deleted", "Delete User Tests");
-                            this.loadUserTests();
+                            this.searchUserTests();
                         },
                         err => {
                             this.errorService.handleError(err, "User Tests", "Delete");
@@ -229,7 +229,7 @@ export class UserEditComponent implements OnInit, OnDestroy {
         let modalRef = this.modalService.open(UserTestSortComponent, { size: 'xl', centered: true, scrollable: false });
         (modalRef.componentInstance as UserTestSortComponent).userId = this.user.id;
         modalRef.result.then(
-            () => this.loadUserTests(this.userTestsHeaders.pageIndex),
+            () => this.searchUserTests(this.userTestsHeaders.pageIndex),
             () => { }
         );
     }
