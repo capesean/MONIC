@@ -35,18 +35,6 @@
 
 </div>
 
-<style>
-    .sortable {
-        background-color: blue;
-    }
-        .sortable.sorted {
-            background-color: green;
-        }
-        .sortable.sorted.sorted-desc {
-            background-color: red;
-        }
-</style>
-
 <div class="card border-0">
 
     <div class="card-header border-0 card-header-space-between">
@@ -54,12 +42,12 @@
     </div>
 
     <div class="table-responsive">
-        <pre>{{searchOptions|json}}</pre>
+        
         <table class="table table-hover table-edge table-nowrap mb-0 align-middle">
             <thead class="thead-light">
                 <tr>
                     <th>User</th>
-                    <th class='cursor-pointer sortable' (click)="runSearch(headers.pageIndex, 'name')" [ngClass]="{ 'sorted': searchOptions.orderBy==='name', 'sorted-desc': searchOptions.orderByAscending===false }">Name</th>
+                    <th class='cursor-pointer' (click)="runSearch(headers.pageIndex, 'name')">Name<app-sort-icon name="name" [searchOptions]="searchOptions"></app-sort-icon></th>
                 </tr>
             </thead>
             <tbody class="list cursor-pointer">

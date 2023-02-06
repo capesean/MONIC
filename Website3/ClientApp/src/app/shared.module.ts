@@ -9,6 +9,7 @@ import { NavMenuComponent } from './common/components/nav-menu.component';
 import { HeaderComponent } from './common/components/header.component';
 import { ConfirmModalComponent } from './common/components/confirm.component';
 import { PagerComponent } from './common/components/pager.component';
+import { SortIconComponent } from './common/components/sorticon.component';
 import { FileComponent } from './common/components/file.component';
 import { ColorComponent } from './common/components/color.component';
 import { BreadcrumbComponent } from './common/components/breadcrumb.component';
@@ -37,6 +38,7 @@ import { UserTestSortComponent } from './usertests/usertest.sort.component';
         HeaderComponent,
         ConfirmModalComponent,
         PagerComponent,
+        SortIconComponent,
         FileComponent,
         ColorComponent,
         BreadcrumbComponent,
@@ -57,6 +59,7 @@ import { UserTestSortComponent } from './usertests/usertest.sort.component';
         HeaderComponent,
         ConfirmModalComponent,
         PagerComponent,
+        SortIconComponent,
         FileComponent,
         ColorComponent,
         BreadcrumbComponent,
