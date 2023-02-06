@@ -18,7 +18,7 @@ namespace WEB.Controllers
         public async Task<IActionResult> Search([FromQuery] UserTestSearchOptions searchOptions)
         {
             IQueryable<UserTest> results = db.UserTests;
-            
+
             if (searchOptions.IncludeParents)
             {
                 results = results.Include(o => o.User);

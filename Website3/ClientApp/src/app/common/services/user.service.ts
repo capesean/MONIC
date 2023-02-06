@@ -4,7 +4,7 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { User, UserSearchOptions, UserSearchResponse } from '../models/user.model';
-import { SearchQuery, SearchOptions, PagingHeaders } from '../models/http.model';
+import { SearchQuery, PagingHeaders } from '../models/http.model';
 
 @Injectable({ providedIn: 'root' })
 export class UserService extends SearchQuery {
