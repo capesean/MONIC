@@ -5,5 +5,6 @@ namespace WEB.Models
         public string q { get; set; }
 
         public bool? Disabled { get; set; }
+
     }
 }
