@@ -32,7 +32,7 @@ namespace WEB.Controllers
             if (searchOptions.OrderBy == "name")
                 results = searchOptions.OrderByAscending ? results.OrderBy(o => o.Name) : results.OrderByDescending(o => o.Name);
             else
-                results = searchOptions.OrderByAscending ? results.OrderBy(o => o.SortOrder) : results.OrderByDescending(o => o.SortOrder); 
+                results = results.OrderBy(o => o.SortOrder);
 
             return Ok((await GetPaginatedResponse(results, searchOptions)).Select(o => ModelFactory.Create(o, searchOptions.IncludeParents, searchOptions.IncludeChildren)));
         }
