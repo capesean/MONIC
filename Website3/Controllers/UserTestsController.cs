@@ -15,21 +15,19 @@ namespace WEB.Controllers
         public UserTestsController(ApplicationDbContext db, UserManager<User> um, Settings settings) : base(db, um, settings) { }
 
         [HttpGet, AuthorizeRoles(Roles.Administrator)]
-        public async Task<IActionResult> Search([FromQuery] SearchOptions searchOptions, [FromQuery] string q = null, [FromQuery] Guid? userId = null)
+        public async Task<IActionResult> Search([FromQuery] UserTestSearchOptions searchOptions)
         {
-            if (searchOptions == null) searchOptions = new SearchOptions();
-
             IQueryable<UserTest> results = db.UserTests;
-
+            
             if (searchOptions.IncludeParents)
             {
                 results = results.Include(o => o.User);
             }
 
-            if (!string.IsNullOrWhiteSpace(q))
-                results = results.Where(o => o.Name.Contains(q));
+            if (!string.IsNullOrWhiteSpace(searchOptions.q))
+                results = results.Where(o => o.Name.Contains(searchOptions.q));
 
-            if (userId.HasValue) results = results.Where(o => o.UserId == userId);
+            if (searchOptions.UserId.HasValue) results = results.Where(o => o.UserId == searchOptions.UserId);
 
             results = results.OrderBy(o => o.SortOrder);
 
