@@ -33,9 +33,18 @@ export class UserTestListComponent implements OnInit {
         this.runSearch();
     }
 
-    runSearch(pageIndex = 0): Subject<UserTestSearchResponse> {
+    runSearch(pageIndex = 0, orderBy: string = null): Subject<UserTestSearchResponse> {
 
         this.searchOptions.pageIndex = pageIndex;
+
+        if (orderBy != null) {
+            if (this.searchOptions.orderBy === orderBy)
+                this.searchOptions.orderByAscending = this.searchOptions.orderByAscending == null ? true : !this.searchOptions.orderByAscending;
+            else {
+                this.searchOptions.orderBy = orderBy;
+                this.searchOptions.orderByAscending = true;
+            }
+        }
 
         const subject = new Subject<UserTestSearchResponse>();
 
