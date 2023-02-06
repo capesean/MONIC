@@ -69,6 +69,7 @@ export class UserTestListComponent implements OnInit {
         modalRef.result.then(
             () => {
 
+                this.searchOptions.orderBy = null;
                 this.runSearch(this.headers.pageIndex);
 
             }, () => { });
