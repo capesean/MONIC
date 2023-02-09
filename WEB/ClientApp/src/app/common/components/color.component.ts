@@ -20,6 +20,7 @@ import { ControlValueAccessor, NgModel, NG_VALIDATORS, NG_VALUE_ACCESSOR, Valida
 export class ColorComponent implements ControlValueAccessor, Validator {
 
     public bg: string;
+    public hex: string;
 
     @ViewChild("picker") picker: NgModel;
 
@@ -32,6 +33,7 @@ export class ColorComponent implements ControlValueAccessor, Validator {
     onValidationChange: any = () => { };
 
     writeValue(val: any): void {
+        this.hex = val;
         this.bg = val + " !important";
         this.onChanged(val);
         //this.propagateChange(val);
