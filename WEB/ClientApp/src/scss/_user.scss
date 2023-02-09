@@ -22,6 +22,7 @@
 
 .modal-footer {
     padding: var(--bs-modal-footer-padding);
+    border-top: solid 1px var(--bs-gray-400);
 }
 
 @include media-breakpoint-up(lg) {

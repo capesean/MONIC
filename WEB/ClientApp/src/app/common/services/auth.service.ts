@@ -14,10 +14,10 @@ export class AuthService {
     private initalState: AuthStateModel = { jwtToken: null, tokens: null, authReady: false };
     private state: BehaviorSubject<AuthStateModel>;
     private refreshSubscription$: Subscription;
-    state$: Observable<AuthStateModel>;
-    tokens$: Observable<AuthTokenModel>;
-    jwtToken$: Observable<JwtTokenModel>;
-    loggedIn$: Observable<boolean>;
+    public state$: Observable<AuthStateModel>;
+    public tokens$: Observable<AuthTokenModel>;
+    private jwtToken$: Observable<JwtTokenModel>;
+    public loggedIn$: Observable<boolean>;
     private _profile: ProfileModel;
     private profileGet: Observable<ProfileModel>;
 
