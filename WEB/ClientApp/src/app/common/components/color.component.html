@@ -1,6 +1,6 @@
 <div class="input-group">
-    <span class="input-group-text" (click)="picker.click()"><i class="fa fa-eye-dropper"></i></span>
+    <button class="input-group-text btn btn-outline-secondary" (click)="picker.click()"><i class="fa fa-eye-dropper"></i></button>
     <input type="color" [(ngModel)]="hex" #picker (ngModelChange)="writeValue(hex)" />
     <input type="text" (click)="picker.click()" class="form-control cursor-pointer" [ngClass]="{ 'transparent': !hex }" [style.backgroundColor]="bg" readonly [ngbTooltip]="hex ? hex : 'Transparent'" />
-    <button class="input-group-text btn btn-outline-danger" (click)="clear()" [disabled]="!hex" ngbTooltip="Clear (remove) the selected color"><i class="fa fa-times"></i></button>
+    <button class="input-group-text btn btn-outline-secondary" (click)="clear()" [disabled]="!hex" ngbTooltip="Clear (remove) the selected color"><i class="fa fa-times"></i></button>
 </div>

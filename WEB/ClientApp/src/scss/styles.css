@@ -158,8 +158,8 @@ button#add-widget {
 }
 
 .was-validated .app-select.ng-invalid input.form-control,
-.was-validated app-color .input-group input[type=text],
-.was-validated app-color .input-group .input-group-text {
+.was-validated app-color.ng-invalid .input-group input[type=text],
+.was-validated app-color.ng-invalid .input-group .input-group-text {
     border-color: #dc3545;
 }
 
