@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { ErrorService } from '../common/services/error.service';
 import { Error, Exception } from '../common/models/error.model';
+import { BreadcrumbService } from '../common/services/breadcrumb.service';
+import * as moment from 'moment';
 
 @Component({
     selector: 'error',
@@ -14,7 +16,8 @@ export class ErrorComponent implements OnInit {
 
     constructor(
         private route: ActivatedRoute,
-        private errorService: ErrorService
+        private errorService: ErrorService,
+        private breadcrumbService: BreadcrumbService
     ) {
     }
 
@@ -27,6 +30,7 @@ export class ErrorComponent implements OnInit {
                 .subscribe(
                     error => {
                         this.error = error;
+                        this.breadcrumbService.changeBreadcrumb(this.route.snapshot, moment(this.error.dateUtc).format('DD MMM YYYY HH:mm:SS'));
                         this.exceptions = [];
                         if (error.exception) {
                             this.exceptions.push(error.exception);

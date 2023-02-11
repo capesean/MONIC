@@ -1,143 +1,164 @@
+<app-page-title title="Error"></app-page-title>
+
 <form name="form" novalidate #form="ngForm">
 
-    <fieldset class="group">
+    <div class="card border-0">
 
-        <legend>Error</legend>
+        <div class="card-body">
 
-        <div class="row">
+            <fieldset class="group">
 
-            <div class="col-sm-6 col-md-4">
-                <div class="form-group">
+                <div class="row g-3">
 
-                    <label>
-                        Id:
-                    </label>
+                    <div class="col-sm-6 col-md-4">
+                        <div class="form-group">
 
-                    <input type="text" [value]="error.id" class="form-control" readonly />
+                            <label>
+                                Id:
+                            </label>
+
+                            <input type="text" [value]="error.id" class="form-control" readonly />
+
+                        </div>
+                    </div>
+
+                    <div class="col-sm-6 col-md-3">
+                        <div class="form-group">
+
+                            <label>
+                                Date:
+                            </label>
+
+                            <input type="text" [value]="error.dateUtc | momentPipe: 'DD MMM YYYY HH:mm:SS'" class="form-control" readonly />
+
+                        </div>
+                    </div>
+
+                    <div class="col-sm-6 col-md-5">
+                        <div class="form-group">
+
+                            <label>
+                                Message:
+                            </label>
+
+                            <input type="text" [value]="error.message" class="form-control" readonly />
+
+                        </div>
+                    </div>
+
+                    <div class="col-sm-6 col-md-4">
+                        <div class="form-group">
+
+                            <label>
+                                User Name:
+                            </label>
+
+                            <input type="text" [value]="error.userName" class="form-control" readonly />
+
+                        </div>
+                    </div>
+
+                    <div class="col-sm-6 col-md-3">
+                        <div class="form-group">
+
+                            <label>
+                                Method:
+                            </label>
+
+                            <input type="text" [value]="error.method" class="form-control" readonly />
+
+                        </div>
+                    </div>
+
+                    <div class="col-sm-6 col-md-5">
+                        <div class="form-group">
+
+                            <label>
+                                Url:
+                            </label>
+
+                            <input type="text" [value]="error.url" class="form-control" readonly />
+
+                        </div>
+                    </div>
+
+                    <div class="col-sm-12">
+                        <div class="form-group">
+
+                            <label>
+                                Form:
+                            </label>
+
+                            <textarea readonly rows="10" class="form-control">{{error.form}}</textarea>
+
+                        </div>
+                    </div>
 
                 </div>
-            </div>
 
-            <div class="col-sm-6 col-md-3">
-                <div class="form-group">
-
-                    <label>
-                        Date:
-                    </label>
-
-                    <input type="text" [value]="error.dateUtc | momentPipe: 'DD MMM YYYY HH:mm:SS'" class="form-control" readonly />
-
-                </div>
-            </div>
-
-            <div class="col-sm-6 col-md-5">
-                <div class="form-group">
-
-                    <label>
-                        Message:
-                    </label>
-
-                    <input type="text" [value]="error.message" class="form-control" readonly />
-
-                </div>
-            </div>
-
-            <div class="col-sm-6 col-md-4">
-                <div class="form-group">
-
-                    <label>
-                        User Name:
-                    </label>
-
-                    <input type="text" [value]="error.userName" class="form-control" readonly />
-
-                </div>
-            </div>
-
-            <div class="col-sm-6 col-md-3">
-                <div class="form-group">
-
-                    <label>
-                        Method:
-                    </label>
-
-                    <input type="text" [value]="error.method" class="form-control" readonly />
-
-                </div>
-            </div>
-
-            <div class="col-sm-6 col-md-5">
-                <div class="form-group">
-
-                    <label>
-                        Url:
-                    </label>
-
-                    <input type="text" [value]="error.url" class="form-control" readonly />
-
-                </div>
-            </div>
-
-            <div class="col-sm-12">
-                <div class="form-group">
-
-                    <label>
-                        Form:
-                    </label>
-
-                    <textarea readonly rows="10" class="form-control">{{error.form}}</textarea>
-
-                </div>
-            </div>
+            </fieldset>
 
         </div>
 
-    </fieldset>
+    </div>
 
-    <fieldset class="group" *ngFor="let exception of exceptions">
+    <div class="card border-0">
 
-        <legend>Inner Exception</legend>
+        <div class="card-header border-0">
+            <h4 class="card-header-title text-uppercase">
+                Inner Exception
+            </h4>
+        </div>
 
-        <div class="row">
+        <div class="card-body">
 
-            <div class="col-sm-6 col-md-4">
-                <div class="form-group">
+            <fieldset class="group" *ngFor="let exception of exceptions">
 
-                    <label>
-                        Id:
-                    </label>
+                <div class="row g-3">
 
-                    <input type="text" [value]="exception.id" class="form-control" readonly />
+                    <div class="col-sm-6 col-md-4">
+                        <div class="form-group">
+
+                            <label>
+                                Id:
+                            </label>
+
+                            <input type="text" [value]="exception.id" class="form-control" readonly />
+
+                        </div>
+                    </div>
+
+                    <div class="col-sm-6 col-md-8">
+                        <div class="form-group">
+
+                            <label>
+                                Message:
+                            </label>
+
+                            <input type="text" [value]="exception.message" class="form-control" readonly />
+
+                        </div>
+                    </div>
+
+                    <div class="col-sm-12">
+                        <div class="form-group">
+
+                            <label>
+                                Stack Trace:
+                            </label>
+
+                            <textarea readonly rows="12" class="form-control">{{exception.stackTrace}}</textarea>
+
+                        </div>
+                    </div>
 
                 </div>
-            </div>
 
-            <div class="col-sm-6 col-md-8">
-                <div class="form-group">
-
-                    <label>
-                        Message:
-                    </label>
-
-                    <input type="text" [value]="exception.message" class="form-control" readonly />
-
-                </div>
-            </div>
-
-            <div class="col-sm-12">
-                <div class="form-group">
-
-                    <label>
-                        Stack Trace:
-                    </label>
-
-                    <textarea readonly rows="12" class="form-control">{{exception.stackTrace}}</textarea>
-
-                </div>
-            </div>
+            </fieldset>
 
         </div>
 
-    </fieldset>
+
+    </div>
 
 </form>

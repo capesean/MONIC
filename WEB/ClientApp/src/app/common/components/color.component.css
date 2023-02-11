@@ -1,7 +1,7 @@
 .transparent {
     background-repeat: repeat;
     background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAoAAAAKBAMAAAB/HNKOAAAAAXNSR0IB2cksfwAAAAlwSFlzAAALEwAACxMBAJqcGAAAAB5QTFRF1dXV/Pv8/////v7+09PT1tbW19fX/f391NTU0tLSLLfxngAAADFJREFUeJxjYGBgVFJiYGBgUjJiYGABkaxANkgkSamIQUlJAcgyUi5gYAGTLQhySgsAlyYH0/K8wF8AAAAASUVORK5CYII=);
-    border: solid 1px #eee;
+    border: solid 1px #d5d5d5;
 }
 
 input[type=color] {

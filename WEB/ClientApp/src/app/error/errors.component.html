@@ -1,22 +1,38 @@
-<div *ngIf="route.children.length === 0">
+<ng-container *ngIf="route.children.length === 0">
 
-    <table class="table table-bordered table-striped table-hover table-sm row-navigation">
-        <thead>
-            <tr>
-                <th>Date</th>
-                <th>Message</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr *ngFor="let error of errors" (click)="goToError(error)">
-                <td>{{ error.dateUtc | momentPipe: 'DD MMM YYYY HH:mm:SS' }}</td>
-                <td>{{ error.message }}</td>
-            </tr>
-        </tbody>
-    </table>
+    <app-page-title title="Errors"></app-page-title>
 
-    <pager [headers]="headers" (pageChanged)="runSearch($event)"></pager>
+    <div class="card border-0">
 
-</div>
+        <div class="card-header border-0 card-header-space-between">
+            <h4 class="card-header-title text-uppercase">Categories</h4>
+        </div>
+
+        <div class="table-responsive">
+
+            <table class="table table-hover table-edge table-nowrap mb-0 align-middle">
+                <thead class="thead-light">
+                    <tr>
+                        <th>Date</th>
+                        <th>Message</th>
+                    </tr>
+                </thead>
+                <tbody class="list cursor-pointer">
+                    <tr *ngFor="let error of errors" (click)="goToError(error)">
+                        <td>{{ error.dateUtc | momentPipe: 'DD MMM YYYY HH:mm:SS' }}</td>
+                        <td>{{ error.message }}</td>
+                    </tr>
+                </tbody>
+            </table>
+
+        </div>
+
+        <div class="card-footer">
+            <pager [headers]="headers" (pageChanged)="runSearch($event)"></pager>
+        </div>
+
+    </div>
+
+</ng-container>
 
 <router-outlet></router-outlet>
