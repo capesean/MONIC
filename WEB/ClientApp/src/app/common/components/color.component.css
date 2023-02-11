@@ -1,6 +1,7 @@
 .transparent {
     background-repeat: repeat;
     background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAoAAAAKBAMAAAB/HNKOAAAAAXNSR0IB2cksfwAAAAlwSFlzAAALEwAACxMBAJqcGAAAAB5QTFRF1dXV/Pv8/////v7+09PT1tbW19fX/f391NTU0tLSLLfxngAAADFJREFUeJxjYGBgVFJiYGBgUjJiYGABkaxANkgkSamIQUlJAcgyUi5gYAGTLQhySgsAlyYH0/K8wF8AAAAASUVORK5CYII=);
+    border: solid 1px #eee;
 }
 
 input[type=color] {
@@ -11,3 +12,17 @@ input[type=color] {
     border: 0;
     opacity: 0;
 }
+
+.palette-container {
+    position: relative;
+    flex: 1 1 auto;
+    width: 1%;
+    min-width: 0;
+    border: solid 1px var(--bs-gray-400);
+    height: 39px;
+}
+
+    .palette-container div {
+        height: 100%;
+        width: 100%;
+    }
