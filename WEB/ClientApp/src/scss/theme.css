@@ -23721,6 +23721,30 @@ html:not([data-sidebar-behaviour=condensed]) .navbar.navbar-dark {
   --bs-tooltip-color: #F6F7F8;
 }
 
+.scrollspy {
+  padding-left: 0;
+  list-style: none;
+}
+.scrollspy li a {
+  border-left: 3px solid transparent;
+  position: relative;
+  display: block;
+  padding: 0.9375rem 1.25rem;
+  color: var(--bs-body-color);
+}
+.scrollspy li a.disabled, .scrollspy li a:disabled {
+  color: var(--bs-list-group-disabled-color);
+  pointer-events: none;
+  background-color: var(--bs-list-group-disabled-bg);
+}
+.scrollspy li:hover a, .scrollspy li:focus a {
+  color: var(--bs-link-color);
+}
+.scrollspy li.active a {
+  color: var(--bs-link-color);
+  border-color: var(--bs-link-color);
+}
+
 /**
  * Define you custome style here.
  * It will be merged with the default style.
