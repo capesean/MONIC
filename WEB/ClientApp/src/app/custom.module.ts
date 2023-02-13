@@ -13,6 +13,8 @@ import { ErrorComponent } from './error/error.component';
 import { SettingsComponent } from './settings/settings.component';
 import { SetupComponent } from './setup/setup.component';
 import { CustomRoutes } from './custom.routes';
+import { StrongPasswordModule } from './common/zxcvbn/strong-password.module';
+//import { StrongPasswordModule } from '../strong-password/strong-password.module';
 
 @NgModule({
     declarations: [
@@ -30,7 +32,9 @@ import { CustomRoutes } from './custom.routes';
         RouterModule.forChild(CustomRoutes),
         NgbModule,
         DragDropModule,
-        SharedModule
+        SharedModule,
+        StrongPasswordModule
+        //zxcvbn
     ]
 })
 export class CustomModule { }

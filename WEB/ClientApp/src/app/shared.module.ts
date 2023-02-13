@@ -4,7 +4,6 @@ import { RouterModule } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { DragDropModule } from '@angular/cdk/drag-drop';
-//import { ScrollSpyModule } from 'ng-spy';
 import { MainComponent } from './main.component';
 import { NavMenuComponent } from './common/components/nav-menu.component';
 import { HeaderComponent } from './common/components/header.component';
@@ -24,7 +23,7 @@ import { UserModalComponent } from './users/user.modal.component';
 import { UserTestSelectComponent } from './usertests/usertest.select.component';
 import { UserTestModalComponent } from './usertests/usertest.modal.component';
 import { UserTestSortComponent } from './usertests/usertest.sort.component';
-import { SpyOnDirective } from './common/spy/spy-on.directive';
+import { SpyOnDirective } from './common/scroll-spy/spy-on.directive';
 
 @NgModule({
     imports: [
@@ -32,8 +31,7 @@ import { SpyOnDirective } from './common/spy/spy-on.directive';
         RouterModule,
         FormsModule,
         NgbModule,
-        DragDropModule,
-        //ScrollSpyModule
+        DragDropModule
     ],
     declarations: [
         MainComponent,
