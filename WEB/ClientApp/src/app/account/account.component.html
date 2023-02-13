@@ -268,8 +268,6 @@
                                 <strength-meter [password]="newPassword.value"></strength-meter>
                             </div>
 
-                            <password-feedback *ngIf="newPassword.value && newPassword.errors?.strongPassword" [feedback]="newPassword.errors.strongPassword.feedback"></password-feedback>
-
                             <!--todo: this won't show if it's not a sibling of invalid-->
                             <div *ngIf="newPassword.errors?.required" class="invalid-feedback">
                                 New password is required
@@ -304,6 +302,8 @@
 
                     <div class="row">
                         <div class="col-lg offset-lg-3">
+
+                            <password-feedback *ngIf="newPassword.value && newPassword.errors?.strongPassword" [feedback]="newPassword.errors.strongPassword.feedback"></password-feedback>
 
                             <!--todo: link these to the password options of identity-->
                             <div class="alert bg-light mw-450px" role="alert">
