@@ -259,30 +259,37 @@
 
                             <div class="input-group input-group-merge">
 
-                                <input type="password" id="newPassword" name="newPassword" [(ngModel)]="changePasswordModel.newPassword" #newPassword="ngModel" maxlength="256" class="form-control" required placeholder="New password" autocomplete="off" />
+                                <input type="password" id="newPassword" name="newPassword" [(ngModel)]="changePasswordModel.newPassword"
+                                       #newPassword="ngModel" minlength="8" maxlength="256" class="form-control" required placeholder="New password" autocomplete="off"
+                                       strongPassword="3" [user_inputs]="dictionary" />
 
                                 <button type="button" class="input-group-text px-4 text-secondary link-primary" data-toggle-password></button>
 
                             </div>
-
-                            <password-feedback *ngIf="newPassword.errors?.strongPassword" [feedback]="newPassword.errors.strongPassword.feedback"></password-feedback>
-
-                            <!--todo: this won't show if it's not a sibling of invalid-->
-                            <div *ngIf="newPassword.errors?.required" class="invalid-feedback">
-                                New password is required
-                            </div>
-                            
-                            <div *ngIf="newPassword.errors?.maxlength" class="invalid-feedback">
-                                New password must be at most 256 characters long
-                            </div>
-
-                            <div class="invalid-feedback">Please add a new password</div>
 
                             <div class="mt-3 h-15px" [ngClass]="{ 'invisible': !newPassword.value }">
 
                                 <strength-meter [password]="newPassword.value"></strength-meter>
 
                             </div>
+
+                            <password-feedback *ngIf="newPassword.value && newPassword.errors?.strongPassword" [feedback]="newPassword.errors.strongPassword.feedback"></password-feedback>
+
+                            <!--todo: this won't show if it's not a sibling of invalid-->
+                            <div *ngIf="newPassword.errors?.required" class="invalid-feedback">
+                                New password is required
+                            </div>
+
+                            <!--todo: this should come from settings-->
+                            <div *ngIf="newPassword.errors?.minlength" class="invalid-feedback">
+                                New password must be at least 8 characters long
+                            </div>
+
+                            <div *ngIf="newPassword.errors?.maxlength" class="invalid-feedback">
+                                New password must be at most 256 characters long
+                            </div>
+
+                            <div class="invalid-feedback">Please add a new password</div>
 
                         </div>
 

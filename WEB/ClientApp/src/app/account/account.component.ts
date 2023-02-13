@@ -13,8 +13,11 @@ import { ErrorService } from '../common/services/error.service';
 })
 export class AccountComponent implements OnInit, AfterViewInit {
 
+    /*todo: strongPassword includes a LARGE dictionary that will bloat the app size. lazy load or remove?*/
     public profile: ProfileModel = {} as any;
     public changePasswordModel: ChangePasswordModel = new ChangePasswordModel();
+    // array of disallowed passwords
+    public dictionary: string[] = [];
 
     // todo: remove this
     public rootPath = "https://d33wubrfki0l68.cloudfront.net/053f2dfd0df2f52c41e903a21d177b0b44abc9b1/1282c";
