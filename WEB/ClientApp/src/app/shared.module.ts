@@ -4,6 +4,7 @@ import { RouterModule } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { DragDropModule } from '@angular/cdk/drag-drop';
+import { ScrollSpyModule } from 'ng-spy';
 import { MainComponent } from './main.component';
 import { NavMenuComponent } from './common/components/nav-menu.component';
 import { HeaderComponent } from './common/components/header.component';
@@ -23,9 +24,6 @@ import { UserModalComponent } from './users/user.modal.component';
 import { UserTestSelectComponent } from './usertests/usertest.select.component';
 import { UserTestModalComponent } from './usertests/usertest.modal.component';
 import { UserTestSortComponent } from './usertests/usertest.sort.component';
-//import { SpyOnDirective } from './common/directives/spy-on.directive';
-//import { SpyOnDirective } from 'ng-spy';
-import { ScrollSpyModule } from 'ng-spy';
 
 @NgModule({
     imports: [
@@ -55,8 +53,7 @@ import { ScrollSpyModule } from 'ng-spy';
         UserModalComponent,
         UserTestSelectComponent,
         UserTestModalComponent,
-        UserTestSortComponent,
-        //SpyOnDirective
+        UserTestSortComponent
     ],
     exports: [
         MainComponent,
@@ -77,8 +74,7 @@ import { ScrollSpyModule } from 'ng-spy';
         UserModalComponent,
         UserTestSelectComponent,
         UserTestModalComponent,
-        UserTestSortComponent,
-        //SpyOnDirective
+        UserTestSortComponent
     ]
 })
 export class SharedModule { }

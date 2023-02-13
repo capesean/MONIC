@@ -1,5 +1,5 @@
 import { AfterViewInit, Component, OnInit } from '@angular/core';
-import { ScrollSpyService } from 'ng-spy';
+//import { ScrollSpyService } from 'ng-spy';
 
 @Component({
     selector: 'app-account',
@@ -12,13 +12,13 @@ export class AccountComponent implements OnInit, AfterViewInit {
     public activeTarget: string;
 
     constructor(
-        private spyService: ScrollSpyService
+        //private spyService: ScrollSpyService
     ) {
         //this.spyService.addTarget('basicInformationSection'(
-        console.warn(this.spyService.activeSpyTarget);
-        this.spyService.activeSpyTarget.subscribe(
-            (activeTargetName: string) => console.log(activeTargetName)
-        );
+        //console.warn(this.spyService.activeSpyTarget);
+        //this.spyService.activeSpyTarget.subscribe(
+        //    (activeTargetName: string) => console.log(activeTargetName)
+        //);
     }
 
     ngOnInit(): void {
@@ -26,11 +26,7 @@ export class AccountComponent implements OnInit, AfterViewInit {
     }
 
     ngAfterViewInit(): void {
-        this.spyService.spy({ thresholdBottom: 50 });
-    }
-
-    setActiveTarget(targetName: string) {
-        this.activeTarget = targetName;
+        //this.spyService.spy({ thresholdBottom: 50 });
     }
 }
 
