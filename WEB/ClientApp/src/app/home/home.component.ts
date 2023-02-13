@@ -37,9 +37,6 @@ export class HomeComponent implements OnInit, AfterViewInit {
             .subscribe(profile => this.profile = profile);
     }
 
-    title = 'scroll-spy';
-    activeTarget: string;
-
     ngAfterViewInit() {
         this.spyService.spy({ thresholdBottom: 0 });
         //this.spyService.stopSpying();
