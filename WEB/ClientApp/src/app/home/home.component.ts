@@ -1,5 +1,5 @@
 import { AfterViewInit, Component, ElementRef, OnInit, ViewChild } from '@angular/core';
-import { ScrollSpyService } from 'ng-spy';
+//import { ScrollSpyService } from 'ng-spy';
 import { ProfileModel } from '../common/models/profile.models';
 import { AuthService } from '../common/services/auth.service';
 
@@ -18,7 +18,7 @@ export class HomeComponent implements OnInit, AfterViewInit {
 
     constructor(
         private authService: AuthService,
-        private spyService: ScrollSpyService
+        //private spyService: ScrollSpyService
     ) {
         //this.spyService.addTarget('basicInformationSection'(
         //console.warn(this.spyService.activeSpyTarget);
@@ -28,17 +28,17 @@ export class HomeComponent implements OnInit, AfterViewInit {
     }
 
     ngOnInit(): void {
-        this.spyService.addTarget({ name: 'target-1', element: this.target1 });
-        this.spyService.addTarget({ name: 'target-2', element: this.target2 });
-        this.spyService.addTarget({ name: 'target-3', element: this.target3 });
-        this.spyService.addTarget({ name: 'target-4', element: this.target4 });
+        //this.spyService.addTarget({ name: 'target-1', element: this.target1 });
+        //this.spyService.addTarget({ name: 'target-2', element: this.target2 });
+        //this.spyService.addTarget({ name: 'target-3', element: this.target3 });
+        //this.spyService.addTarget({ name: 'target-4', element: this.target4 });
 
         this.authService.getProfile()
             .subscribe(profile => this.profile = profile);
     }
 
     ngAfterViewInit() {
-        this.spyService.spy({ thresholdBottom: 0 });
+        //this.spyService.spy({ thresholdBottom: 0 });
         //this.spyService.stopSpying();
     }
 
