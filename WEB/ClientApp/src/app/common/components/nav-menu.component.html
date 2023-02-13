@@ -34,3 +34,31 @@
     </div>
 </nav>
 
+<nav class="navbar" id="top">
+    <ul class="navbar__items">
+        <li class="navbar__item">
+            <a spyOn="target-1" activeClass="navbar__link--active" class="navbar__link" href="#target-1">target 1</a>
+        </li>
+        <li class="navbar__item">
+            <a spyOn="target-2" activeClass="navbar__link--active" class="navbar__link" href="#target-2">target 2</a>
+        </li>
+        <li class="navbar__item">
+            <a spyOn="target-3" activeClass="navbar__link--active" class="navbar__link" href="#target-3">target 3</a>
+        </li>
+        <li class="navbar__item">
+            <a spyOn="target-4" activeClass="navbar__link--active" class="navbar__link" href="#target-4">target 4</a>
+        </li>
+    </ul>
+</nav>
+<style>
+    #top {
+        position: fixed;
+        top: 0;
+        background: white;
+        z-index: 1000;
+    }
+
+    .navbar__link--active {
+        color: red !important;
+    }
+</style>

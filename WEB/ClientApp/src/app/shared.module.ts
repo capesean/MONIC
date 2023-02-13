@@ -23,8 +23,9 @@ import { UserModalComponent } from './users/user.modal.component';
 import { UserTestSelectComponent } from './usertests/usertest.select.component';
 import { UserTestModalComponent } from './usertests/usertest.modal.component';
 import { UserTestSortComponent } from './usertests/usertest.sort.component';
-import { SpyOnDirective, xxxDirective } from './common/directives/spy-on.directive';
+//import { SpyOnDirective } from './common/directives/spy-on.directive';
 //import { SpyOnDirective } from 'ng-spy';
+import { ScrollSpyModule } from 'ng-spy';
 
 @NgModule({
     imports: [
@@ -33,7 +34,7 @@ import { SpyOnDirective, xxxDirective } from './common/directives/spy-on.directi
         FormsModule,
         NgbModule,
         DragDropModule,
-        //ScrollSpyModule
+        ScrollSpyModule
     ],
     declarations: [
         MainComponent,
@@ -55,8 +56,7 @@ import { SpyOnDirective, xxxDirective } from './common/directives/spy-on.directi
         UserTestSelectComponent,
         UserTestModalComponent,
         UserTestSortComponent,
-        SpyOnDirective,
-        xxxDirective
+        //SpyOnDirective
     ],
     exports: [
         MainComponent,
@@ -78,8 +78,7 @@ import { SpyOnDirective, xxxDirective } from './common/directives/spy-on.directi
         UserTestSelectComponent,
         UserTestModalComponent,
         UserTestSortComponent,
-        SpyOnDirective,
-        xxxDirective
+        //SpyOnDirective
     ]
 })
 export class SharedModule { }

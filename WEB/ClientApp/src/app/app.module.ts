@@ -15,7 +15,7 @@ import { AccessGuard } from './common/auth/auth.accessguard';
 import { AuthoriseRequestInterceptor, UnauthorisedResponseInterceptor } from './common/auth/auth.interceptors';
 import { SharedModule } from './shared.module';
 import { JsonDateInterceptor } from './common/interceptors/jsondate.interceptor';
-import { ScrollSpyModule } from 'ng-spy';
+//import { ScrollSpyModule } from 'ng-spy';
 
 @NgModule({
     declarations: [AppComponent, NotFoundComponent],

@@ -3,16 +3,6 @@ import { Directive, ElementRef, Renderer2, Input, OnInit } from '@angular/core';
 import { ScrollSpyService } from './scroll-spy.service';
 
 @Directive({
-    selector: '[xxx]'
-})
-export class xxxDirective implements OnInit {
-    ngOnInit(): void {
-        //throw new Error('Method not implemented.');
-    }
-    
-}
-
-@Directive({
     selector: '[spyOn]'
 })
 export class SpyOnDirective implements OnInit {
