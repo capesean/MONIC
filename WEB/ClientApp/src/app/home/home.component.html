@@ -17,9 +17,67 @@
         <div class="row">
             <div class="col-md-4"><user-select></user-select></div>
         </div>
-        
+
+
+        <style>
+            .cont {
+                padding-top: 200px;
+                padding-bottom: 200px;
+                border: solid 1px red;
+                margin: 10px 0;
+            }
+        </style>
+
+
+        <div class="cont">
+            <h1 #target1>None...</h1>
+        </div>
+
+        <div class="cont">
+            <h1 #target2>Hello, World 1</h1>
+        </div>
+
+        <div class="cont">
+            <h1>Hola, Mundo 2</h1>
+        </div>
+
+        <div class="cont">
+            <h1>Hello World 3</h1>
+        </div>
+
+        <div class="cont">
+            <h1>Hello World 4</h1>
+        </div>
 
 
     </div>
 
 </div>
+<nav class="navbar" id="top">
+    <ul class="navbar__items">
+        <li class="navbar__item">
+            <a xxx spyOn="target-1" activeClass="navbar__link--active" class="navbar__link" href="#target-1">target 1</a>
+        </li>
+        <li class="navbar__item">
+            <a spyOn="target-2" activeClass="navbar__link--active" class="navbar__link" href="#target-2">target 2</a>
+        </li>
+        <li class="navbar__item">
+            <a spyOn="target-3" activeClass="navbar__link--active" class="navbar__link" href="#target-3">target 3</a>
+        </li>
+        <li class="navbar__item">
+            <a spyOn="target-4" activeClass="navbar__link--active" class="navbar__link" href="#target-4">target 4</a>
+        </li>
+    </ul>
+</nav>
+<style>
+    #top {
+        position: fixed;
+        top: 0;
+        background: white;
+        z-index: 1000;
+    }
+
+    .navbar__link--active {
+        color: red !important;
+    }
+</style>
