@@ -14,18 +14,11 @@ export class AccountComponent implements OnInit, AfterViewInit {
 
     @ViewChild('basicInformationSection', { static: true }) basicInformationSection: ElementRef;
     @ViewChild('usernameSection', { static: true }) usernameSection: ElementRef;
-    @ViewChild('formTest', { static: true }) formTest: ElementRef;
     
 
     constructor(
-        private element: ElementRef,
         private spyService: ScrollSpyService
     ) {
-        //this.spyService.addTarget('basicInformationSection'(
-        //console.warn(this.spyService.activeSpyTarget);
-        this.spyService.activeSpyTarget.subscribe(
-            (activeTargetName: string) => console.log(activeTargetName)
-        );
     }
 
     ngOnInit(): void {
@@ -35,7 +28,7 @@ export class AccountComponent implements OnInit, AfterViewInit {
 
     ngAfterViewInit(): void {
         //this.spyService.spy({ scrollContainer: this.formTest });
-        this.spyService.spy({ thresholdBottom: 50 });
+        this.spyService.spy({ thresholdBottom: 150 });
     }
 }
 

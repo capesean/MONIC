@@ -31,16 +31,16 @@
                 <hr class="mb-0">
             </div>
 
-            <ul class="mb-5" id="account"> <!--class="scrollspy"-->
-                <li class="active">
-                    <a href="#basicInformationSection" class="d-flex align-items-center py-3" spyOn="basicInformationSection" activeClass="spy-active">
+            <ul class="mb-5 scrollspy" id="account">
+                <li spyOn="basicInformationSection" activeClass="active">
+                    <a href="account#basicInformationSection" class="d-flex align-items-center py-3">
                         <svg viewBox="0 0 24 24" height="14" width="14" class="me-3" xmlns="http://www.w3.org/2000/svg"><path d="M6.750 6.000 A5.250 5.250 0 1 0 17.250 6.000 A5.250 5.250 0 1 0 6.750 6.000 Z" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" /><path d="M2.25,23.25a9.75,9.75,0,0,1,19.5,0" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" /></svg>
                         Basic information
                     </a>
                 </li>
 
-                <li>
-                    <a href="#usernameSection" class="d-flex align-items-center py-3" spyOn="usernameSection" activeClass="spy-active">
+                <li spyOn="usernameSection" activeClass="active">
+                    <a href="account#usernameSection" class="d-flex align-items-center py-3">
                         <svg viewBox="0 0 24 24" height="14" width="14" class="me-3" xmlns="http://www.w3.org/2000/svg"><path d="M17.25,12A5.25,5.25,0,1,1,12,6.75,5.25,5.25,0,0,1,17.25,12Z" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" /><path d="M17.25,12v2.25a3,3,0,0,0,6,0V12a11.249,11.249,0,1,0-4.5,9" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" /></svg>
                         Username
                     </a>
@@ -114,10 +114,10 @@
     </div>
 
     <div class="col">
-        <form novalidate id="formTest" #formTest>
+        <form novalidate>
 
             <!-- Card -->
-            <div class="card border-0 scroll-mt-3" id="basicInformationSection" #basicInformationSection spyTarget="basicInformationSection"> 
+            <div class="card border-0 scroll-mt-3" id="basicInformationSection" #basicInformationSection> 
                 <div class="card-header">
                     <h2 class="h3 mb-0">Basic information</h2>
                 </div>
@@ -212,7 +212,7 @@
             </div>
 
             <!-- Card -->
-            <div class="card border-0 scroll-mt-3" id="usernameSection" #usernameSection spyTarget="usernameSection">
+            <div class="card border-0 scroll-mt-3" id="usernameSection" #usernameSection>
                 <div class="card-header">
                     <h2 class="h3 mb-0">Username</h2>
                 </div>
