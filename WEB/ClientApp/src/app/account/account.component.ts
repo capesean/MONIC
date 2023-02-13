@@ -18,6 +18,7 @@ export class AccountComponent implements OnInit, AfterViewInit {
     public changePasswordModel: ChangePasswordModel = new ChangePasswordModel();
     // array of disallowed passwords
     public dictionary: string[] = [];
+    public showPasswords = false;
 
     // todo: remove this
     public rootPath = "https://d33wubrfki0l68.cloudfront.net/053f2dfd0df2f52c41e903a21d177b0b44abc9b1/1282c";
@@ -26,6 +27,11 @@ export class AccountComponent implements OnInit, AfterViewInit {
     @ViewChild('basicInformationSection', { static: true }) basicInformationSection: ElementRef;
     @ViewChild('usernameSection', { static: true }) usernameSection: ElementRef;
     @ViewChild('passwordSection', { static: true }) passwordSection: ElementRef;
+    @ViewChild('privacyAndSafetySection', { static: true }) privacyAndSafetySection: ElementRef;
+    @ViewChild('paymentMethodsSection', { static: true }) paymentMethodsSection: ElementRef;
+    @ViewChild('notificationsSection', { static: true }) notificationsSection: ElementRef;
+    @ViewChild('connectedAccountsSection', { static: true }) connectedAccountsSection: ElementRef;
+    @ViewChild('deleteAccountSection', { static: true }) deleteAccountSection: ElementRef;
 
     constructor(
         private toastr: ToastrService,
@@ -42,6 +48,11 @@ export class AccountComponent implements OnInit, AfterViewInit {
         this.spyService.addTarget({ name: 'basicInformationSection', element: this.basicInformationSection });
         this.spyService.addTarget({ name: 'usernameSection', element: this.usernameSection });
         this.spyService.addTarget({ name: 'passwordSection', element: this.passwordSection });
+        this.spyService.addTarget({ name: 'privacyAndSafetySection', element: this.privacyAndSafetySection });
+        this.spyService.addTarget({ name: 'paymentMethodsSection', element: this.paymentMethodsSection });
+        this.spyService.addTarget({ name: 'notificationsSection', element: this.notificationsSection });
+        this.spyService.addTarget({ name: 'connectedAccountsSection', element: this.connectedAccountsSection });
+        this.spyService.addTarget({ name: 'deleteAccountSection', element: this.deleteAccountSection });
     }
 
     ngAfterViewInit(): void {
@@ -107,11 +118,6 @@ export class AccountComponent implements OnInit, AfterViewInit {
                 }
             );
 
-    }
-
-    onStrength(strength: any) {
-        console.info( strength );
-        //this.user.strength = strength;
     }
 
 }

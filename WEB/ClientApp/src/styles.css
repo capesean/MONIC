@@ -1,11 +1,11 @@
-@media (min-width: 576px) {
+/*@media (min-width: 576px) {
     header nav .dropdown:hover > .dropdown-menu {
         display: block;
     }
-}
+}*/
 
 /* these styles will apply to auth/login AND main app */
-@font-face {
+/*@font-face {
     font-family: 'Roboto';
     src: url('/assets/fonts/Roboto-Regular.ttf') format('truetype');
     font-weight: normal;
@@ -98,10 +98,10 @@ fieldset[disabled] .app-select .input-group input.form-control {
 .was-validated .form-group.is-invalid .input-group .input-group-append .btn {
     background-color: #dc3545;
     border-color: #dc3545;
-}
+}*/
 
 /* to get ngbdatepicker to show validation messages */
-.was-validated .form-group.is-invalid .invalid-feedback {
+/*.was-validated .form-group.is-invalid .invalid-feedback {
     display: block;
 }
 
@@ -336,4 +336,4 @@ button[aria-label="Close"] {
     border: none;
     opacity: 1;
     background: none;
-}
+}*/

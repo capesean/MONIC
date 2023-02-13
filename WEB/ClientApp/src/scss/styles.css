@@ -347,3 +347,8 @@ nav.nav-tabs.nav ~ .tab-content {
     #headerSearch input:focus ~ button i {
         opacity: 1 !important;
     }
+
+.was-validated .form-group.is-invalid .btn {
+    background-color: #dc3545;
+    border-color: #dc3545;
+}
