@@ -13,6 +13,8 @@ export class HomeComponent implements OnInit, AfterViewInit {
 
     @ViewChild('target1', { static: true }) target1: ElementRef;
     @ViewChild('target2', { static: true }) target2: ElementRef;
+    @ViewChild('target3', { static: true }) target3: ElementRef;
+    @ViewChild('target4', { static: true }) target4: ElementRef;
 
     constructor(
         private authService: AuthService,
@@ -28,6 +30,9 @@ export class HomeComponent implements OnInit, AfterViewInit {
     ngOnInit(): void {
         this.spyService.addTarget({ name: 'target-1', element: this.target1 });
         this.spyService.addTarget({ name: 'target-2', element: this.target2 });
+        this.spyService.addTarget({ name: 'target-3', element: this.target3 });
+        this.spyService.addTarget({ name: 'target-4', element: this.target4 });
+
         this.authService.getProfile()
             .subscribe(profile => this.profile = profile);
     }
@@ -37,12 +42,6 @@ export class HomeComponent implements OnInit, AfterViewInit {
 
     ngAfterViewInit() {
         this.spyService.spy({ thresholdBottom: 0 });
-        console.log("ngAfterViewInit");
-    }
-
-    setActiveTarget(targetName: string) {
-        this.activeTarget = targetName;
-        console.log("setActiveTarget");
     }
 
 }
