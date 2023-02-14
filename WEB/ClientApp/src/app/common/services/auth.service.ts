@@ -4,7 +4,7 @@ import { Router } from "@angular/router";
 import { BehaviorSubject, interval, Observable, of, Subscription, throwError } from "rxjs";
 import { catchError, filter, first, flatMap, map, mergeMap, share, tap } from "rxjs/operators";
 import { environment } from "../../../environments/environment";
-import { AuthStateModel, AuthTokenModel, ChangePasswordModel, JwtTokenModel, LoginModel, RefreshGrantModel, RegisterModel, ResetModel, ResetPasswordModel } from "../models/auth.models";
+import { AuthStateModel, AuthTokenModel, ChangePasswordModel, JwtTokenModel, LoginModel, PasswordRequirements, RefreshGrantModel, RegisterModel, ResetModel, ResetPasswordModel } from "../models/auth.models";
 import { ProfileModel } from "../models/profile.models";
 import { Enums, Roles } from "../models/enums.model";
 
@@ -16,7 +16,6 @@ export class AuthService {
     private refreshSubscription$: Subscription;
     public state$: Observable<AuthStateModel>;
     public tokens$: Observable<AuthTokenModel>;
-    private jwtToken$: Observable<JwtTokenModel>;
     public loggedIn$: Observable<boolean>;
     private _profile: ProfileModel;
     private profileGet: Observable<ProfileModel>;
@@ -31,10 +30,6 @@ export class AuthService {
         this.tokens$ = this.state
             .pipe(filter(state => state.authReady))
             .pipe(map(state => state.tokens));
-
-        this.jwtToken$ = this.state
-            .pipe(filter(state => state.authReady))
-            .pipe(map(state => state.jwtToken));
 
         this.loggedIn$ = this.tokens$
             .pipe(map(tokens => !!tokens));
@@ -74,6 +69,10 @@ export class AuthService {
 
     clearProfile(): void {
         this._profile = undefined;
+    }
+
+    getPasswordRequirements(): Observable<PasswordRequirements> {
+        return this.http.get<PasswordRequirements>(`${environment.baseApiUrl}authorization/passwordrequirements`);
     }
 
     changePassword(changePassword: ChangePasswordModel): Observable<void> {

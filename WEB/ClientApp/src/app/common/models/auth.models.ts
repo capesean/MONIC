@@ -57,3 +57,12 @@ export interface JwtTokenModel {
     iss: string;
     role: string[] | string;
 }
+
+export class PasswordRequirements {
+    requiredLength = 6;
+    requiredUniqueChars = 1;
+    requireNonAlphanumeric = true;
+    requireLowercase = true;
+    requireUppercase = true;
+    requireDigit = true;
+}

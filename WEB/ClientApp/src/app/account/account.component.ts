@@ -1,7 +1,7 @@
 import { AfterViewInit, Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
-import { ChangePasswordModel } from '../common/models/auth.models';
+import { ChangePasswordModel, PasswordRequirements } from '../common/models/auth.models';
 import { ProfileModel } from '../common/models/profile.models';
 import { AuthService } from '../common/services/auth.service';
 import { ScrollSpyService } from '../common/scroll-spy/scroll-spy.service';
@@ -15,6 +15,8 @@ export class AccountComponent implements OnInit, AfterViewInit {
 
     /*todo: strongPassword includes a LARGE dictionary that will bloat the app size. lazy load or remove?*/
     public profile: ProfileModel = {} as any;
+    public passwordRequirements = new PasswordRequirements();
+
     public changePasswordModel: ChangePasswordModel = new ChangePasswordModel();
     // array of disallowed passwords
     public dictionary: string[] = [];
@@ -44,6 +46,8 @@ export class AccountComponent implements OnInit, AfterViewInit {
     ngOnInit(): void {
 
         this.authService.getProfile().subscribe(o => this.profile = o);
+
+        this.authService.getPasswordRequirements().subscribe(o => this.passwordRequirements = o);
 
         this.spyService.addTarget({ name: 'basicInformationSection', element: this.basicInformationSection });
         this.spyService.addTarget({ name: 'usernameSection', element: this.usernameSection });

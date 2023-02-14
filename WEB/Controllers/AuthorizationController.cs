@@ -21,21 +21,22 @@ namespace AuthorizationServer.Controllers
     [Route("api/[Controller]")]
     public class AuthorizationController : BaseApiController
     {
+        private IOptions<IdentityOptions> opts;
         private readonly SignInManager<User> signInManager;
         private IEmailSender emailSender;
 
         public AuthorizationController(
             ApplicationDbContext _db,
             UserManager<User> _um,
-            RoleManager<Role> _rm,
             Settings _settings,
             SignInManager<User> _sm,
-            IOptions<IdentityOptions> _id,
-            IEmailSender _es)
+            IEmailSender _es,
+            IOptions<IdentityOptions> _opts)
             : base(_db, _um, _settings)
         {
             signInManager = _sm;
             emailSender = _es;
+            opts = _opts;
         }
 
         [HttpPost("~/connect/token"), Produces("application/json"), AllowAnonymous]
@@ -298,6 +299,12 @@ namespace AuthorizationServer.Controllers
             await emailSender.SendEmailAsync(user.Email, user.FullName, "Password Reset", body);
 
             return Ok();
+        }
+
+        [HttpGet("[Action]")]
+        public IActionResult PasswordRequirements()
+        {
+            return Ok(opts.Value.Password);
         }
 
     }

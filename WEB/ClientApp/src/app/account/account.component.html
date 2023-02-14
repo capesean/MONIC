@@ -259,7 +259,7 @@
 
                             <div class="input-group">
                                 <input type="{{(showPasswords ? 'text' : 'password')}}" id="newPassword" name="newPassword" [(ngModel)]="changePasswordModel.newPassword"
-                                       #newPassword="ngModel" minlength="8" maxlength="256" class="form-control" required placeholder="New password" autocomplete="off"
+                                       #newPassword="ngModel" [minlength]="passwordRequirements.requiredLength" maxlength="256" class="form-control" required placeholder="New password" autocomplete="off"
                                        strongPassword="3" [user_inputs]="dictionary" />
                                 <button class="btn btn-secondary" (click)="showPasswords = !showPasswords" type="button"><i class="fas fa-fw" [ngClass]="{ 'fa-eye': !showPasswords, 'fa-eye-slash': showPasswords }"></i></button>
                             </div>
@@ -268,14 +268,12 @@
                                 <strength-meter [password]="newPassword.value"></strength-meter>
                             </div>
 
-                            <!--todo: this won't show if it's not a sibling of invalid-->
                             <div *ngIf="newPassword.errors?.required" class="invalid-feedback">
                                 New password is required
                             </div>
 
-                            <!--todo: this should come from settings-->
                             <div *ngIf="newPassword.errors?.minlength" class="invalid-feedback">
-                                New password must be at least 8 characters long
+                                New password must be at least [passwordRequirements.requiredLength] characters long
                             </div>
 
                             <div *ngIf="newPassword.errors?.maxlength" class="invalid-feedback">
@@ -290,7 +288,7 @@
 
                             <div class="input-group">
                                 <input type="{{(showPasswords ? 'text' : 'password')}}" id="confirmPassword" name="confirmPassword" [(ngModel)]="changePasswordModel.confirmPassword"
-                                       #confirmPassword="ngModel" minlength="8" maxlength="256" class="form-control" required placeholder="New password" autocomplete="off"
+                                       #confirmPassword="ngModel" [minlength]="passwordRequirements.requiredLength" maxlength="256" class="form-control" required placeholder="New password" autocomplete="off"
                                        strongPassword="3" [user_inputs]="dictionary" />
                                 <button class="btn btn-secondary" (click)="showPasswords = !showPasswords" type="button"><i class="fas fa-fw" [ngClass]="{ 'fa-eye': !showPasswords, 'fa-eye-slash': showPasswords }"></i></button>
                             </div>
@@ -305,14 +303,15 @@
 
                             <password-feedback *ngIf="newPassword.value && newPassword.errors?.strongPassword" [feedback]="newPassword.errors.strongPassword.feedback"></password-feedback>
 
-                            <!--todo: link these to the password options of identity-->
                             <div class="alert bg-light mw-450px" role="alert">
                                 <h4 class="mb-3">Password requirements:</h4>
                                 <ul class="p-3 mb-0">
-                                    <li>Minimum 8 characters long - the more, the better</li>
-                                    <li>At least one lowercase character</li>
-                                    <li>At least one uppercase character</li>
-                                    <li>At least one number, symbol, or whitespace character</li>
+                                    <li>Minimum {{passwordRequirements.requiredLength}} characters long - the more, the better</li>
+                                    <li *ngIf="passwordRequirements.requireLowercase">At least one lowercase character</li>
+                                    <li *ngIf="passwordRequirements.requireUppercase">At least one uppercase character</li>
+                                    <li *ngIf="passwordRequirements.requireNonAlphanumeric">At least one non-alphanumeric character</li>
+                                    <li *ngIf="passwordRequirements.requireDigit">At least one digit character</li>
+                                    <li *ngIf="passwordRequirements.requiredUniqueChars > 1">At least {{passwordRequirements.requiredUniqueChars+1}} unique characters</li>
                                 </ul>
                             </div>
 
