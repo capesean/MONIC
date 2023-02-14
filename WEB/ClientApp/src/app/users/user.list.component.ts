@@ -2,10 +2,10 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Router, ActivatedRoute, NavigationEnd } from '@angular/router';
 import { Subject, Subscription } from 'rxjs';
 import { PagingHeaders } from '../common/models/http.model';
-import { ErrorService } from '../common/services/error.service';
 import { UserSearchOptions, UserSearchResponse, User } from '../common/models/user.model';
-import { UserService } from '../common/services/user.service';
 import { Enums } from '../common/models/enums.model';
+import { ErrorService } from '../common/services/error.service';
+import { UserService } from '../common/services/user.service';
 
 @Component({
     selector: 'user-list',

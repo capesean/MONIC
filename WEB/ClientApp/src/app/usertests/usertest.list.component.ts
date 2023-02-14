@@ -1,12 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { Subject } from 'rxjs';
-import { PagingHeaders } from '../common/models/http.model';
-import { ErrorService } from '../common/services/error.service';
-import { UserTestSearchOptions, UserTestSearchResponse, UserTest } from '../common/models/usertest.model';
-import { UserTestService } from '../common/services/usertest.service';
 import { ToastrService } from 'ngx-toastr';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { PagingHeaders } from '../common/models/http.model';
+import { UserTestSearchOptions, UserTestSearchResponse, UserTest } from '../common/models/usertest.model';
+import { ErrorService } from '../common/services/error.service';
+import { UserTestService } from '../common/services/usertest.service';
 import { UserTestSortComponent } from './usertest.sort.component';
 
 @Component({

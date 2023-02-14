@@ -1,10 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
+import { CdkDragDrop, CdkDragStart, moveItemInArray } from '@angular/cdk/drag-drop';
 import { UserTestSearchOptions, UserTestSearchResponse, UserTest } from '../common/models/usertest.model';
 import { UserTestService } from '../common/services/usertest.service';
 import { PagingHeaders } from '../common/models/http.model';
 import { ErrorService } from '../common/services/error.service';
-import { CdkDragDrop, CdkDragStart, moveItemInArray } from '@angular/cdk/drag-drop';
 import { ToastrService } from 'ngx-toastr';
 
 @Component({

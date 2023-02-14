@@ -4,18 +4,18 @@ import { ToastrService } from 'ngx-toastr';
 import { NgForm } from '@angular/forms';
 import { Subject, Subscription } from 'rxjs';
 import { HttpErrorResponse } from '@angular/common/http';
-import { BreadcrumbService } from '../common/services/breadcrumb.service';
-import { ErrorService } from '../common/services/error.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ConfirmModalComponent, ModalOptions } from '../common/components/confirm.component';
 import { PagingHeaders } from '../common/models/http.model';
 import { User } from '../common/models/user.model';
-import { UserService } from '../common/services/user.service';
-import { UserTest, UserTestSearchOptions, UserTestSearchResponse } from '../common/models/usertest.model';
-import { UserTestService } from '../common/services/usertest.service';
 import { Enum, Enums, Roles } from '../common/models/enums.model';
 import { ProfileModel } from '../common/models/profile.models';
 import { AuthService } from '../common/services/auth.service';
+import { BreadcrumbService } from '../common/services/breadcrumb.service';
+import { ErrorService } from '../common/services/error.service';
+import { UserService } from '../common/services/user.service';
+import { UserTest, UserTestSearchOptions, UserTestSearchResponse } from '../common/models/usertest.model';
+import { UserTestService } from '../common/services/usertest.service';
 import { UserTestSortComponent } from '../usertests/usertest.sort.component';
 
 @Component({
