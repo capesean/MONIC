@@ -10,11 +10,6 @@ export class HomeComponent implements OnInit {
 
     profile: ProfileModel;
 
-    @ViewChild('target1', { static: true }) target1: ElementRef;
-    @ViewChild('target2', { static: true }) target2: ElementRef;
-    @ViewChild('target3', { static: true }) target3: ElementRef;
-    @ViewChild('target4', { static: true }) target4: ElementRef;
-
     constructor(
         private authService: AuthService
     ) {
