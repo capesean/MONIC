@@ -4,6 +4,7 @@ import { Observable, throwError } from 'rxjs';
 import { catchError, switchMap, first } from 'rxjs/operators';
 import { AuthService } from '../../common/services/auth.service';
 import { Router } from '@angular/router';
+import { environment } from '../../../environments/environment';
 
 @Injectable()
 export class AuthoriseRequestInterceptor implements HttpInterceptor {
@@ -13,7 +14,7 @@ export class AuthoriseRequestInterceptor implements HttpInterceptor {
     intercept(req: HttpRequest<unknown>,
         next: HttpHandler): Observable<HttpEvent<unknown>> {
 
-        if (req.url.endsWith("connect/token"))
+        if (!req.url.startsWith(environment.baseApiUrl) || req.url.endsWith("connect/token"))
             return next.handle(req);
 
         return this.authService.tokens$
