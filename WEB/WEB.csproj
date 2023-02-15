@@ -32,19 +32,11 @@
 
   <ItemGroup>
     <!-- Don't publish the SPA source files, but do show them in the project files list -->
-    <Compile Remove="ClientApp\src-new\**" />
-    <Compile Remove="ClientApp\src-old\**" />
     <Compile Remove="wwwroot\**" />
     <Content Remove="$(SpaRoot)**" />
-    <Content Remove="ClientApp\src-new\**" />
-    <Content Remove="ClientApp\src-old\**" />
     <Content Remove="wwwroot\**" />
-    <EmbeddedResource Remove="ClientApp\src-new\**" />
-    <EmbeddedResource Remove="ClientApp\src-old\**" />
     <EmbeddedResource Remove="wwwroot\**" />
     <None Remove="$(SpaRoot)**" />
-    <None Remove="ClientApp\src-new\**" />
-    <None Remove="ClientApp\src-old\**" />
     <None Remove="wwwroot\**" />
     <None Include="$(SpaRoot)**" Exclude="$(SpaRoot)node_modules\**" />
   </ItemGroup>
