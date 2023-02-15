@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
 import { ChangePasswordModel, PasswordRequirements } from '../common/models/auth.models';
@@ -11,7 +11,7 @@ import { ErrorService } from '../common/services/error.service';
     selector: 'app-account',
     templateUrl: './account.component.html'
 })
-export class AccountComponent implements OnInit, AfterViewInit {
+export class AccountComponent implements OnInit, AfterViewInit, OnDestroy {
 
     /*todo: strongPassword includes a LARGE dictionary that will bloat the app size. lazy load or remove?*/
     public profile: ProfileModel = {} as any;
@@ -124,5 +124,8 @@ export class AccountComponent implements OnInit, AfterViewInit {
 
     }
 
+    ngOnDestroy(): void {
+        this.spyService.stopSpying();
+    }
 }
 
