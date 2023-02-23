@@ -54,7 +54,6 @@ export class AuthService {
 
     login(user: LoginModel): Observable<void | AuthTokenModel> {
         return this.getTokens(user, 'password')
-            .pipe(catchError(res => throwError(res)))
             .pipe(tap(() => this.scheduleRefresh()));
     }
 
