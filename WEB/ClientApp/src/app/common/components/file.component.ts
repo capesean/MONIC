@@ -19,6 +19,7 @@ export class FileComponent implements OnInit, ControlValueAccessor {
     @Input() enableDownload: boolean = true;
 
     @Output() onDownload = new EventEmitter<string>();
+    @Output() onClear = new EventEmitter<void>();
     @Output() fileContentsChange = new EventEmitter<string>();
 
     @ViewChild("fileInput") fileInput: ElementRef;;
@@ -57,6 +58,7 @@ export class FileComponent implements OnInit, ControlValueAccessor {
         this.fileName = undefined;
         this.fileInput.nativeElement.value = "";
         this.writeValue(undefined);
+        this.onClear.emit();
     }
 
     @HostListener('change', ['$event.target.files']) onFileChange = (fileList: FileList) => {
