@@ -3,9 +3,13 @@ import { SpyTargetDirective } from './spy-target.directive';
 import { SpyOnDirective } from './spy-on.directive';
 
 @NgModule({
-  declarations: [SpyTargetDirective, SpyOnDirective],
-  imports: [
-  ],
-  exports: [SpyTargetDirective, SpyOnDirective]
+    declarations: [
+        SpyTargetDirective,
+        SpyOnDirective
+    ],
+    exports: [
+        SpyTargetDirective,
+        SpyOnDirective
+    ]
 })
 export class ScrollSpyModule { }

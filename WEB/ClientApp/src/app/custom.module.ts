@@ -15,14 +15,6 @@ import { SetupComponent } from './setup/setup.component';
 import { CustomRoutes } from './custom.routes';
 
 @NgModule({
-    declarations: [
-        HomeComponent,
-        AccountComponent,
-        ErrorsComponent,
-        ErrorComponent,
-        SettingsComponent,
-        SetupComponent
-    ],
     imports: [
         CommonModule,
         FormsModule,
@@ -31,6 +23,14 @@ import { CustomRoutes } from './custom.routes';
         DragDropModule,
         SharedModule,
         StrongPasswordModule
+    ],
+    declarations: [
+        HomeComponent,
+        AccountComponent,
+        ErrorsComponent,
+        ErrorComponent,
+        SettingsComponent,
+        SetupComponent
     ]
 })
 export class CustomModule { }

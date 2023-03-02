@@ -17,11 +17,10 @@ import { SharedModule } from './shared.module';
 import { JsonDateInterceptor } from './common/interceptors/jsondate.interceptor';
 
 @NgModule({
-    declarations: [AppComponent, NotFoundComponent],
     imports: [
         BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
         HttpClientModule,
-        RouterModule.forRoot(AppRoutes, { }),
+        RouterModule.forRoot(AppRoutes, {}),
         ToastrModule.forRoot({
             closeButton: true,
             positionClass: "toast-bottom-right",
@@ -34,6 +33,10 @@ import { JsonDateInterceptor } from './common/interceptors/jsondate.interceptor'
         FormsModule,
         NgbModule,
         SharedModule
+    ],
+    declarations: [
+        AppComponent,
+        NotFoundComponent
     ],
     providers: [
         { provide: HTTP_INTERCEPTORS, useClass: AuthoriseRequestInterceptor, multi: true },

@@ -12,7 +12,13 @@ import { ResetComponent } from './reset/reset.component';
     imports: [
         CommonModule,
         RouterModule.forChild(AuthRoutes),
-        FormsModule],
-    declarations: [AuthComponent, LoginComponent, ResetPasswordComponent, ResetComponent]
+        FormsModule
+    ],
+    declarations: [
+        AuthComponent,
+        LoginComponent,
+        ResetPasswordComponent,
+        ResetComponent
+    ]
 })
 export class AuthModule { }

@@ -12,12 +12,6 @@ import { UserTestListComponent } from './usertests/usertest.list.component';
 import { UserTestEditComponent } from './usertests/usertest.edit.component';
 
 @NgModule({
-    declarations: [
-        UserListComponent,
-        UserEditComponent,
-        UserTestListComponent,
-        UserTestEditComponent
-    ],
     imports: [
         CommonModule,
         FormsModule,
@@ -25,6 +19,12 @@ import { UserTestEditComponent } from './usertests/usertest.edit.component';
         NgbModule,
         DragDropModule,
         SharedModule
+    ],
+    declarations: [
+        UserListComponent,
+        UserEditComponent,
+        UserTestListComponent,
+        UserTestEditComponent
     ]
 })
 export class GeneratedModule { }
