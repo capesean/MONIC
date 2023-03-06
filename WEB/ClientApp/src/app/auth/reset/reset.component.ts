@@ -14,6 +14,7 @@ import { ErrorService } from '../../common/services/error.service';
 export class ResetComponent implements OnInit {
 
     public reset: ResetModel = { userName: undefined, token: undefined, newPassword: undefined, confirmPassword: undefined };
+    public loading = false;
 
     constructor(
         private toastr: ToastrService,
@@ -44,6 +45,8 @@ export class ResetComponent implements OnInit {
 
         }
 
+        this.loading = true;
+
         this.authService.reset(this.reset)
             .subscribe(
                 () => {
@@ -52,6 +55,7 @@ export class ResetComponent implements OnInit {
                 },
                 err => {
                     this.errorService.handleError(err, "Password", "Change");
+                    this.loading = false;
                 }
             );
 

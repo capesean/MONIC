@@ -43,3 +43,7 @@ form.form-auth img {
 form.form-auth input[type=email].form-control, form.form-auth input[type=password].form-control {
     border-color: var(--bs-gray-500);
 }
+
+form.form-auth fieldset[disabled] input {
+    opacity: 0.5;
+}
