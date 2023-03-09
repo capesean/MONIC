@@ -20,7 +20,13 @@ builder.Services.AddControllersWithViews(options => options.Filters.Add(typeof(A
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
     {
         // Configure the context to use Microsoft SQL Server.
-        options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"), sqlOptions => sqlOptions.CommandTimeout(300));
+        options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"),
+            sqlOptions =>
+            {
+                sqlOptions.CommandTimeout(300);
+                sqlOptions.UseQuerySplittingBehavior(QuerySplittingBehavior.SplitQuery);
+            }
+        );
 
         options.UseQueryTrackingBehavior(QueryTrackingBehavior.NoTracking);
 
