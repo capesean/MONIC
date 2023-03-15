@@ -47,7 +47,7 @@ namespace WEB.Controllers
             if (pagingOptions.PageIndex < 0) pagingOptions.PageIndex = 0;
 
             var totalRecords = query.Count();
-            var totalPages = (int)Math.Ceiling((double)totalRecords / pagingOptions.PageSize);
+            var totalPages = pagingOptions.PageSize == 0 ? totalRecords == 0 ? 0 : (int)Math.Ceiling((double)totalRecords / pagingOptions.PageSize);
 
             var results = await (pagingOptions.PageSize <= 0
                 ? query.ToListAsync()
