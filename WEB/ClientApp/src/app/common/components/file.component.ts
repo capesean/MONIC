@@ -100,7 +100,8 @@ export class FileComponent implements OnInit, ControlValueAccessor {
     }
 
     click(): void {
-        this.clear();
+        if (this.disabled) return;
+        //this.clear();
         this.fileInput.nativeElement.click();
     }
 }
