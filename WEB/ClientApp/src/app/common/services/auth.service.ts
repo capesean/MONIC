@@ -80,6 +80,8 @@ export class AuthService {
 
     isInRole(profile: ProfileModel, role: string | Roles): boolean {
         if (!profile || !profile.roles) return false;
+        if (typeof (profile.roles) === "string" && profile.roles === "Administrator") return true;
+        if (typeof (profile.roles) !== "string" && profile.roles.indexOf("Administrator") > -1) return true;
         if (typeof (role) === "number") role = Enums.Roles[role].name;
         if (typeof (profile.roles) === "string") return role === profile.roles;
         return profile.roles.indexOf(role) > -1;

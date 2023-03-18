@@ -105,6 +105,7 @@ namespace WEB.Controllers
         public AuthorizeRolesAttribute(params Roles[] roles) : base()
         {
             Roles = string.Join(",", roles.Select(r => r.ToString()));
+            if (!roles.Contains(Models.Roles.Administrator)) Roles += ",Administrator";
         }
     }
 
