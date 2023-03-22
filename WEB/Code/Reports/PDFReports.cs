@@ -69,7 +69,7 @@ namespace WEB.Reports.PDF
             doc.Add(new Paragraph(Environment.NewLine));
 
             // logo
-            var logo = Image.GetInstance(imagesFolder + "logo.png");
+            var logo = Image.GetInstance(imagesFolder + "reportlogo.png");
             logo.ScalePercent(50f);
             logo.Alignment = Element.ALIGN_LEFT;
             var p = new Paragraph { SpacingBefore = 20f, SpacingAfter = 25f };
