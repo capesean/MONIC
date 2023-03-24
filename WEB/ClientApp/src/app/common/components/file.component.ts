@@ -17,6 +17,7 @@ export class FileComponent implements OnInit, ControlValueAccessor {
     @Input() fileContents: string;
     @Input() fileId: string;
     @Input() enableDownload: boolean = true;
+    @Input() required: boolean;
 
     @Output() onDownload = new EventEmitter<string>();
     @Output() onClear = new EventEmitter<void>();

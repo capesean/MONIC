@@ -352,3 +352,8 @@ nav.nav-tabs.nav ~ .tab-content {
     background-color: #dc3545;
     border-color: #dc3545;
 }
+
+.was-validated app-file.ng-invalid label.input-group-text,
+.was-validated app-file.ng-invalid input[type=text] {
+    border: solid 1px #D82C5B !important;
+}
