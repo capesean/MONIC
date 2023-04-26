@@ -88,17 +88,17 @@ export class UserEditComponent implements OnInit, OnDestroy {
     private loadUser(): void {
 
         this.userService.get(this.user.id)
-            .subscribe(
-                user => {
+            .subscribe({
+                next: user => {
                     this.user = user;
                     this.changeBreadcrumb();
                 },
-                err => {
+                error: err => {
                     this.errorService.handleError(err, "User", "Load");
                     if (err instanceof HttpErrorResponse && err.status === 404)
                         this.router.navigate(["../"], { relativeTo: this.route });
                 }
-            );
+            });
 
     }
 
@@ -112,8 +112,8 @@ export class UserEditComponent implements OnInit, OnDestroy {
         }
 
         this.userService.save(this.user)
-            .subscribe(
-                user => {
+            .subscribe({
+                next: user => {
                     this.toastr.success("The user has been saved", "Save User");
                     if (this.isNew) {
                         this.ngOnDestroy();
@@ -125,10 +125,10 @@ export class UserEditComponent implements OnInit, OnDestroy {
                             this.authService.getProfile(true).subscribe();
                     }
                 },
-                err => {
+                error: err => {
                     this.errorService.handleError(err, "User", "Save");
                 }
-            );
+            });
 
     }
 
@@ -140,17 +140,17 @@ export class UserEditComponent implements OnInit, OnDestroy {
             () => {
 
                 this.userService.delete(this.user.id)
-                    .subscribe(
-                        () => {
+                    .subscribe({
+                        next: () => {
                             this.toastr.success("The user has been deleted", "Delete User");
                             this.router.navigate(["../"], { relativeTo: this.route });
                         },
-                        err => {
+                        error: err => {
                             this.errorService.handleError(err, "User", "Delete");
                         }
-                    );
+                    });
 
-        }, () => { });
+            }, () => { });
     }
 
     changeBreadcrumb(): void {
@@ -164,16 +164,16 @@ export class UserEditComponent implements OnInit, OnDestroy {
         const subject = new Subject<UserTestSearchResponse>()
 
         this.userTestService.search(this.userTestsSearchOptions)
-            .subscribe(
-                response => {
+            .subscribe({
+                next: response => {
                     subject.next(response);
                     this.userTests = response.userTests;
                     this.userTestsHeaders = response.headers;
                 },
-                err => {
+                error: err => {
                     this.errorService.handleError(err, "User Tests", "Load");
                 }
-            );
+            });
 
         return subject;
 
@@ -192,15 +192,15 @@ export class UserEditComponent implements OnInit, OnDestroy {
             () => {
 
                 this.userTestService.delete(userTest.userTestId)
-                    .subscribe(
-                        () => {
+                    .subscribe({
+                        next: () => {
                             this.toastr.success("The user test has been deleted", "Delete User Test");
                             this.searchUserTests(this.userTestsHeaders.pageIndex);
                         },
-                        err => {
+                        error: err => {
                             this.errorService.handleError(err, "User Test", "Delete");
                         }
-                    );
+                    });
 
             }, () => { });
     }
@@ -212,20 +212,20 @@ export class UserEditComponent implements OnInit, OnDestroy {
             () => {
 
                 this.userService.deleteUserTests(this.user.id)
-                    .subscribe(
-                        () => {
+                    .subscribe({
+                        next: () => {
                             this.toastr.success("The user tests have been deleted", "Delete User Tests");
                             this.searchUserTests();
                         },
-                        err => {
+                        error: err => {
                             this.errorService.handleError(err, "User Tests", "Delete");
                         }
-                    );
+                    });
             }, () => { });
 
     }
 
-    showUserTestSort() {
+    showUserTestSort(): void {
         let modalRef = this.modalService.open(UserTestSortComponent, { size: 'xl', centered: true, scrollable: false });
         (modalRef.componentInstance as UserTestSortComponent).userId = this.user.id;
         modalRef.result.then(

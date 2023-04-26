@@ -52,17 +52,17 @@ export class UserTestEditComponent implements OnInit {
     private loadUserTest(): void {
 
         this.userTestService.get(this.userTest.userTestId)
-            .subscribe(
-                userTest => {
+            .subscribe({
+                next: userTest => {
                     this.userTest = userTest;
                     this.changeBreadcrumb();
                 },
-                err => {
+                error: err => {
                     this.errorService.handleError(err, "User Test", "Load");
                     if (err instanceof HttpErrorResponse && err.status === 404)
                         this.router.navigate(["../../"], { relativeTo: this.route });
                 }
-            );
+            });
 
     }
 
@@ -76,15 +76,15 @@ export class UserTestEditComponent implements OnInit {
         }
 
         this.userTestService.save(this.userTest)
-            .subscribe(
-                userTest => {
+            .subscribe({
+                next: userTest => {
                     this.toastr.success("The user test has been saved", "Save User Test");
                     if (this.isNew) this.router.navigate(["../", userTest.userTestId], { relativeTo: this.route });
                 },
-                err => {
+                error: err => {
                     this.errorService.handleError(err, "User Test", "Save");
                 }
-            );
+            });
 
     }
 
@@ -96,17 +96,17 @@ export class UserTestEditComponent implements OnInit {
             () => {
 
                 this.userTestService.delete(this.userTest.userTestId)
-                    .subscribe(
-                        () => {
+                    .subscribe({
+                        next: () => {
                             this.toastr.success("The user test has been deleted", "Delete User Test");
                             this.router.navigate(["../../"], { relativeTo: this.route });
                         },
-                        err => {
+                        error: err => {
                             this.errorService.handleError(err, "User Test", "Delete");
                         }
-                    );
+                    });
 
-        }, () => { });
+            }, () => { });
     }
 
     changeBreadcrumb(): void {

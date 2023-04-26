@@ -47,16 +47,16 @@ export class UserListComponent implements OnInit, OnDestroy {
         const subject = new Subject<UserSearchResponse>();
 
         this.userService.search(this.searchOptions)
-            .subscribe(
-                response => {
+            .subscribe({
+                next: response => {
                     subject.next(response);
                     this.users = response.users;
                     this.headers = response.headers;
                 },
-                err => {
+                error: err => {
                     this.errorService.handleError(err, "Users", "Load");
                 }
-            );
+            });
 
         return subject;
 

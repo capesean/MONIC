@@ -28,10 +28,10 @@ export class UserTestSortComponent implements OnInit {
 
     ngOnInit(): void {
         this.userTestService.search({ userId: this.userId, pageSize: 0, includeParents: true } as UserTestSearchOptions)
-            .subscribe(
-                response => this.userTests = response.userTests,
-                err => this.errorService.handleError(err, "UserTests", "Load")
-            );
+            .subscribe({
+                next: response => this.userTests = response.userTests,
+                error: err => this.errorService.handleError(err, "UserTests", "Load")
+            });
     }
 
     dragStart(event: CdkDragStart) {
@@ -46,13 +46,15 @@ export class UserTestSortComponent implements OnInit {
     }
 
     close() {
-        this.userTestService.sort(this.userId, this.userTests.map(o => o.userTestId)).subscribe(
-            () => {
-                this.modal.close();
-                this.toastr.success("The sort order has been updated", "Change Sort Order");
-            },
-            err => {
-                this.errorService.handleError(err, "UserTests", "Sort");
+        this.userTestService.sort(this.userId, this.userTests.map(o => o.userTestId))
+            .subscribe({
+                next: () => {
+                    this.modal.close();
+                    this.toastr.success("The sort order has been updated", "Change Sort Order");
+                },
+                error: err => {
+                    this.errorService.handleError(err, "UserTests", "Sort");
+                }
             });
     }
 

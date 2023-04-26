@@ -25,12 +25,22 @@
                         </div>
                     </div>
 
+                    <div class="col-sm-6 col-md-4 col-lg-4 col-xl-3">
+                        <div class="form-group">
+                            <select id="disabled" name="disabled" [(ngModel)]="searchOptions.disabled" #disabled="ngModel" class="form-select">
+                                <option [ngValue]="undefined">Disabled: Any</option>
+                                <option [ngValue]="true">Disabled: Yes</option>
+                                <option [ngValue]="false">Disabled: No</option>
+                            </select>
+                        </div>
+                    </div>
+
                 </div>
 
                 <fieldset class="mt-3">
 
                     <button type="submit" class="btn btn-outline-primary me-2 mb-1">Search<i class="fas fa-search ms-2"></i></button>
-                    <a [routerLink]="['./', 'add']" class="btn btn-outline-success me-2 mb-1">Add<i class="fas fa-plus ms-2"></i></a>
+                    <a [routerLink]="['./', 'add']" class="btn btn-outline-primary me-2 mb-1">Add<i class="fas fa-plus ms-2"></i></a>
 
                 </fieldset>
 

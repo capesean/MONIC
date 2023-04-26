@@ -13,13 +13,12 @@ import { Enum } from '../common/models/enums.model';
 })
 export class UserModalComponent implements OnInit {
 
-    modal: NgbModalRef;
-    user: User | User[];
-    selectedItems: User[] = [];
-    headers: PagingHeaders = new PagingHeaders();
-    searchOptions: UserSearchOptions = new UserSearchOptions();
-    users: User[];
-    allSelected = false;
+    public modal: NgbModalRef;
+    public selectedItems: User[] = [];
+    public headers: PagingHeaders = new PagingHeaders();
+    public searchOptions: UserSearchOptions = new UserSearchOptions();
+    public users: User[];
+    public allSelected = false;
 
     @ViewChild('content') content: TemplateRef<unknown>;
     @Output() change: EventEmitter<User> = new EventEmitter<User>();
@@ -46,7 +45,6 @@ export class UserModalComponent implements OnInit {
         this.modal = this.modalService.open(this.content, { size: 'xl', centered: true, scrollable: true });
         this.runSearch();
         this.modal.result.then((user: User | User[]) => {
-            this.user = user;
             if (this.multiple) this.changes.emit(user as User[]);
             else this.change.emit(user as User);
         }, () => {
@@ -62,17 +60,17 @@ export class UserModalComponent implements OnInit {
         const observable = this.userService
             .search(this.searchOptions);
 
-        observable.subscribe(
-            response => {
+        observable.subscribe({
+            next: response => {
                 this.users = response.users;
                 this.headers = response.headers;
             },
-            err => {
+            error: err => {
 
                 this.errorService.handleError(err, "Users", "Load");
 
             }
-        );
+        });
 
         return observable;
 
@@ -134,17 +132,16 @@ export class UserModalComponent implements OnInit {
         this.searchOptions.pageIndex = 0;
 
         this.userService.search(this.searchOptions)
-
-            .subscribe(
-                response => {
+            .subscribe({
+                next: response => {
                     this.modal.close(response.users);
                     this.users = response.users;
                     this.searchOptions.pageSize = oldPageSize;
                 },
-                err => {
+                error: err => {
                     this.errorService.handleError(err, "Users", "Load");
                 }
-            );
+            });
 
     }
 

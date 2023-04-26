@@ -49,22 +49,22 @@ export class UserTestListComponent implements OnInit {
         const subject = new Subject<UserTestSearchResponse>();
 
         this.userTestService.search(this.searchOptions)
-            .subscribe(
-                response => {
+            .subscribe({
+                next: response => {
                     subject.next(response);
                     this.userTests = response.userTests;
                     this.headers = response.headers;
                 },
-                err => {
+                error: err => {
                     this.errorService.handleError(err, "User Tests", "Load");
                 }
-            );
+            });
 
         return subject;
 
     }
 
-    showSort() {
+    showSort(): void {
         let modalRef = this.modalService.open(UserTestSortComponent, { size: 'xl', centered: true, scrollable: false });
         modalRef.result.then(
             () => {

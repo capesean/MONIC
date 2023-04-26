@@ -111,16 +111,16 @@ export class AccountComponent implements OnInit, AfterViewInit, OnDestroy {
         }
 
         this.authService.changePassword(this.changePasswordModel)
-            .subscribe(
-                () => {
+            .subscribe({
+                next: () => {
                     this.toastr.success("Your password has been changed", "Change Password");
                     form.resetForm();
                     this.changePasswordModel = new ChangePasswordModel();
                 },
-                err => {
+                error: err => {
                     this.errorService.handleError(err, "Password", "Change");
                 }
-            );
+            });
 
     }
 

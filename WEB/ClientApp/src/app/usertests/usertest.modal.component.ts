@@ -13,13 +13,12 @@ import { User } from '../common/models/user.model';
 })
 export class UserTestModalComponent implements OnInit {
 
-    modal: NgbModalRef;
-    userTest: UserTest | UserTest[];
-    selectedItems: UserTest[] = [];
-    headers: PagingHeaders = new PagingHeaders();
-    searchOptions: UserTestSearchOptions = new UserTestSearchOptions();
-    userTests: UserTest[];
-    allSelected = false;
+    public modal: NgbModalRef;
+    public selectedItems: UserTest[] = [];
+    public headers: PagingHeaders = new PagingHeaders();
+    public searchOptions: UserTestSearchOptions = new UserTestSearchOptions();
+    public userTests: UserTest[];
+    public allSelected = false;
 
     @ViewChild('content') content: TemplateRef<unknown>;
     @Output() change: EventEmitter<UserTest> = new EventEmitter<UserTest>();
@@ -42,11 +41,10 @@ export class UserTestModalComponent implements OnInit {
     }
 
     open(): NgbModalRef {
-        this.searchOptions.userId = this.user ? this.user.id : undefined;
+        this.searchOptions.userId = this.user?.id;
         this.modal = this.modalService.open(this.content, { size: 'xl', centered: true, scrollable: true });
         this.runSearch();
         this.modal.result.then((userTest: UserTest | UserTest[]) => {
-            this.userTest = userTest;
             if (this.multiple) this.changes.emit(userTest as UserTest[]);
             else this.change.emit(userTest as UserTest);
         }, () => {
@@ -62,17 +60,17 @@ export class UserTestModalComponent implements OnInit {
         const observable = this.userTestService
             .search(this.searchOptions);
 
-        observable.subscribe(
-            response => {
+        observable.subscribe({
+            next: response => {
                 this.userTests = response.userTests;
                 this.headers = response.headers;
             },
-            err => {
+            error: err => {
 
                 this.errorService.handleError(err, "User Tests", "Load");
 
             }
-        );
+        });
 
         return observable;
 
@@ -134,17 +132,16 @@ export class UserTestModalComponent implements OnInit {
         this.searchOptions.pageIndex = 0;
 
         this.userTestService.search(this.searchOptions)
-
-            .subscribe(
-                response => {
+            .subscribe({
+                next: response => {
                     this.modal.close(response.userTests);
                     this.userTests = response.userTests;
                     this.searchOptions.pageSize = oldPageSize;
                 },
-                err => {
+                error: err => {
                     this.errorService.handleError(err, "User Tests", "Load");
                 }
-            );
+            });
 
     }
 

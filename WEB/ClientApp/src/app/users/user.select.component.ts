@@ -17,7 +17,7 @@ import { Enum } from '../common/models/enums.model';
 export class UserSelectComponent implements OnInit, ControlValueAccessor {
 
     @Input() user: User;
-    @Input() users: User[];
+    @Input() users: User[] = [];
     @Output() userChange = new EventEmitter<User>();
     @Output() usersChange = new EventEmitter<User[]>();
     @Input() canRemoveFilters = false;
@@ -75,7 +75,7 @@ export class UserSelectComponent implements OnInit, ControlValueAccessor {
 
     click(button = false) {
         if (this.disabled) return;
-        if (button && this.user || this.users) this.user = this.users = null;
+        if (button && (this.user || this.users)) this.changed(this.multiple ? [] : null);
         else this.modal.open();
     }
 }

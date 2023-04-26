@@ -18,7 +18,7 @@ import { User } from '../common/models/user.model';
 export class UserTestSelectComponent implements OnInit, ControlValueAccessor {
 
     @Input() userTest: UserTest;
-    @Input() userTests: UserTest[];
+    @Input() userTests: UserTest[] = [];
     @Output() userTestChange = new EventEmitter<UserTest>();
     @Output() userTestsChange = new EventEmitter<UserTest[]>();
     @Input() canRemoveFilters = false;
@@ -76,7 +76,7 @@ export class UserTestSelectComponent implements OnInit, ControlValueAccessor {
 
     click(button = false) {
         if (this.disabled) return;
-        if (button && this.userTest || this.userTests) this.userTest = this.userTests = null;
+        if (button && (this.userTest || this.userTests)) this.changed(this.multiple ? [] : null);
         else this.modal.open();
     }
 }

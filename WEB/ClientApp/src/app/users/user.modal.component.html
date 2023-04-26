@@ -64,7 +64,7 @@
     <div class="modal-footer" [ngClass]="{ 'justify-content-between': multiple }">
         <button type="button" class="btn btn-info me-2" *ngIf="multiple">{{selectedItems.length}} selected</button>
         <div>
-            <button type="button" class="btn btn-info me-2" (click)="addNew()" target="_blank" *ngIf="showAddNew">Add New</button>
+            <button type="button" class="btn btn-outline-primary me-2" (click)="addNew()" target="_blank" *ngIf="showAddNew">Add New</button>
             <button type="button" class="btn btn-outline-dark me-2" (click)="close()">{{(multiple ? "Select Checked" : "Close")}}</button>
             <button type="button" class="btn btn-outline-dark me-2" (click)="selectAll()" *ngIf="multiple">Select All</button>
             <button type="button" class="btn btn-outline-secondary" (click)="clear()">Clear</button>

@@ -1,7 +1,7 @@
 <div class="input-group" [ngClass]="{ 'disabled': disabled }">
     <input placeholder="{{placeholder}}" (click)="click()" type="text" tabindex="-1" class="form-control cursor-pointer" readonly value="{{getLabel()}}" [disabled]="disabled" />
     <button type="button" class="btn btn-secondary" (click)="click(true)" [ngClass]="{ 'disabled': disabled}">
-        <i class="fas fa-fw" [ngClass]="{ 'fa-search': !userTest && !userTests, 'fa-times': !!userTest || !!userTests }"></i>
+        <i class="fas fa-fw" [ngClass]="{ 'fa-search': !userTest && !userTests?.length, 'fa-times': !!userTest || !!userTests?.length }"></i>
     </button>
 </div>
 
