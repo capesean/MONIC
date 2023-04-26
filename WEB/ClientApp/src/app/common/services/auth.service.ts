@@ -2,7 +2,7 @@ import { HttpClient, HttpHeaders } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { Router } from "@angular/router";
 import { BehaviorSubject, interval, Observable, of, Subscription, throwError } from "rxjs";
-import { catchError, filter, first, flatMap, map, mergeMap, share, tap } from "rxjs/operators";
+import { catchError, filter, first, map, mergeMap, share, tap } from "rxjs/operators";
 import { environment } from "../../../environments/environment";
 import { AuthStateModel, AuthTokenModel, ChangePasswordModel, JwtTokenModel, LoginModel, PasswordRequirements, RefreshGrantModel, RegisterModel, ResetModel, ResetPasswordModel } from "../models/auth.models";
 import { ProfileModel } from "../models/profile.models";
@@ -111,7 +111,7 @@ export class AuthService {
                             // error attempting to refresh tokens: redirect to login
                             if (window.location.pathname !== "/auth/login") this.router.navigate(["/auth/login"]);
 
-                            return throwError('Session Expired');
+                            return throwError(() => 'Session Expired');
                         }));
                 }
                 ));
@@ -182,7 +182,7 @@ export class AuthService {
             .pipe(catchError(error => {
                 this.logout();
                 this.updateState({ authReady: true });
-                return throwError(error);
+                return throwError(() => error);
             }));
     }
 
@@ -190,12 +190,12 @@ export class AuthService {
         this.refreshSubscription$ = this.tokens$
             .pipe(first())
             // refresh every half the total expiration time
-            .pipe(flatMap(tokens => {
+            .pipe(mergeMap(tokens => {
                 if (!tokens) return of(undefined);
 
                 return interval(tokens.expires_in / 2 * 1000);
             }))
-            .pipe(flatMap(() => this.refreshTokens()))
+            .pipe(mergeMap(() => this.refreshTokens()))
             .subscribe();
     }
 
