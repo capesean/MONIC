@@ -6,8 +6,8 @@ namespace WEB.Reports.PDF
 {
     public class TestReport : PDFReports
     {
-        public TestReport(ApplicationDbContext db, Settings settings)
-            : base(db, settings)
+        public TestReport(ApplicationDbContext db, AppSettings appSettings)
+            : base(db, appSettings)
         {
         }
 

@@ -15,25 +15,25 @@ namespace WEB
 
     public class EmailSender : IEmailSender
     {
-        private readonly Settings _settings;
+        private readonly AppSettings _appSettings;
 
-        public EmailSender(Settings settings)
+        public EmailSender(AppSettings appSettings)
         {
-            _settings = settings;
+            _appSettings = appSettings;
         }
 
         public Task SendEmailAsync(string toEmail, string toName, string subject, string bodyText, string bodyHtml = null, bool isErrorEmail = false, List<Attachment> attachments = null, bool textOnly = false)
         {
-            if (!isErrorEmail && !_settings.EmailSettings.SendEmails)
+            if (!isErrorEmail && !_appSettings.EmailSettings.SendEmails)
                 return Task.CompletedTask;
-            if (isErrorEmail && !_settings.EmailSettings.SendErrorEmails)
+            if (isErrorEmail && !_appSettings.EmailSettings.SendErrorEmails)
                 return Task.CompletedTask;
 
             var html = bodyText;
             if (!textOnly)
             {
-                html = System.IO.File.ReadAllText(System.IO.Path.Join(_settings.RootPath, "wwwroot/templates/email.html"));
-                html = html.Replace("{rootUrl}", _settings.RootUrl);
+                html = System.IO.File.ReadAllText(System.IO.Path.Join(_appSettings.RootPath, "wwwroot/templates/email.html"));
+                html = html.Replace("{rootUrl}", _appSettings.RootUrl);
                 html = html.Replace("{title}", subject);
                 if (bodyHtml == null) bodyHtml = bodyText;
                 while (bodyHtml.IndexOf(Environment.NewLine + Environment.NewLine) >= 0)
@@ -43,16 +43,16 @@ namespace WEB
             }
 
 
-            using (var smtp = new SmtpClient(_settings.EmailSettings.SMTP, _settings.EmailSettings.SMTPPort))
+            using (var smtp = new SmtpClient(_appSettings.EmailSettings.SMTP, _appSettings.EmailSettings.SMTPPort))
             {
                 smtp.UseDefaultCredentials = false;
-                smtp.Credentials = new NetworkCredential(_settings.EmailSettings.UserName, _settings.EmailSettings.Password);
-                smtp.EnableSsl = _settings.EmailSettings.SSL;
+                smtp.Credentials = new NetworkCredential(_appSettings.EmailSettings.UserName, _appSettings.EmailSettings.Password);
+                smtp.EnableSsl = _appSettings.EmailSettings.SSL;
 
                 using (var mailMessage = new MailMessage())
                 {
-                    mailMessage.From = new MailAddress(_settings.EmailSettings.Sender, _settings.EmailSettings.SenderName);
-                    var to = new MailAddress(string.IsNullOrWhiteSpace(_settings.EmailSettings.SubstitutionEmailAddress) ? toEmail : _settings.EmailSettings.SubstitutionEmailAddress, toName);
+                    mailMessage.From = new MailAddress(_appSettings.EmailSettings.Sender, _appSettings.EmailSettings.SenderName);
+                    var to = new MailAddress(string.IsNullOrWhiteSpace(_appSettings.EmailSettings.SubstitutionEmailAddress) ? toEmail : _appSettings.EmailSettings.SubstitutionEmailAddress, toName);
                     mailMessage.To.Add(to);
                     mailMessage.Subject = subject;
                     mailMessage.Body = bodyText;

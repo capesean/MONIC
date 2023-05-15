@@ -6,45 +6,34 @@ using WEB.Models;
 
 namespace WEB.Controllers
 {
-    [Route("api/[Controller]"), AuthorizeRoles(Roles.Administrator)]
+    [Route("api/[Controller]"), Authorize]
     public class SettingsController : BaseApiController
     {
-        public SettingsController(ApplicationDbContext db, UserManager<User> um, Settings settings)
-            : base(db, um, settings) { }
+        public SettingsController(ApplicationDbContext db, UserManager<User> um, AppSettings appSettings) : base(db, um, appSettings) { }
 
-        [HttpGet, AllowAnonymous]
+        [AuthorizeRoles(Roles.Administrator)]
         public async Task<IActionResult> Get()
         {
             var settings = await db.Settings
-                .SingleOrDefaultAsync();
+                .SingleAsync(o => o.Id == Guid.Empty);
 
-            if (settings == null) settings = new DbSettings();
+            if (settings == null)
+                return NotFound();
 
-            // NB! action doesn't have authentication! don't send sensitive data if user is not logged in!
-
-            return Ok(settings);
+            return Ok(ModelFactory.Create(settings));
         }
 
-        [HttpPost]
-        public async Task<IActionResult> Save([FromBody] DbSettingsDTO settingsDTO)
+        [HttpPost, AuthorizeRoles(Roles.Administrator)]
+        public async Task<IActionResult> Save([FromBody] SettingsDTO settingsDTO)
         {
             if (!ModelState.IsValid) return BadRequest(ModelState);
 
             var settings = await db.Settings
-                .SingleOrDefaultAsync();
-
-            if (settings == null)
-            {
-                settings = new DbSettings();
-                db.Entry(settings).State = EntityState.Added;
-            }
-            else
-            {
-                db.Entry(settings).State = EntityState.Modified;
-            }
+                .SingleAsync(o => o.Id == Guid.Empty);
 
             ModelFactory.Hydrate(settings, settingsDTO);
-            
+            db.Entry(settings).State = EntityState.Modified;
+
             await db.SaveChangesAsync();
 
             return await Get();

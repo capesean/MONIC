@@ -14,9 +14,9 @@ namespace AuthorizationServer.Controllers
         public ProfileController(
             ApplicationDbContext _db,
             UserManager<User> _um,
-            Settings _settings
+            AppSettings _appSettings
             )
-            : base(_db, _um, _settings)
+            : base(_db, _um, _appSettings)
         {
         }
 

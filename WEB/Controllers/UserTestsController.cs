@@ -12,7 +12,7 @@ namespace WEB.Controllers
     [Route("api/[Controller]"), Authorize]
     public class UserTestsController : BaseApiController
     {
-        public UserTestsController(ApplicationDbContext db, UserManager<User> um, Settings settings) : base(db, um, settings) { }
+        public UserTestsController(ApplicationDbContext db, UserManager<User> um, AppSettings appSettings) : base(db, um, appSettings) { }
 
         [HttpGet, AuthorizeRoles(Roles.Administrator)]
         public async Task<IActionResult> Search([FromQuery] UserTestSearchOptions searchOptions)

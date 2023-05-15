@@ -16,13 +16,13 @@ namespace WEB.Error
 
     public class ApiExceptionAttribute : ExceptionFilterAttribute, IFilterMetadata
     {
-        Settings _settings;
+        AppSettings _settings;
         IEmailSender _emailSender;
         DbContextOptions _options;
 
-        public ApiExceptionAttribute(Settings settings, IEmailSender emailSender, DbContextOptions options)
+        public ApiExceptionAttribute(AppSettings appSettings, IEmailSender emailSender, DbContextOptions options)
         {
-            _settings = settings;
+            _settings = appSettings;
             _emailSender = emailSender;
             _options = options;
         }
@@ -47,7 +47,7 @@ namespace WEB.Error
 
     public static class Logger
     {
-        public static void Log(ExceptionContext context, Settings settings, IEmailSender emailSender, DbContextOptions options)
+        public static void Log(ExceptionContext context, AppSettings appSettings, IEmailSender emailSender, DbContextOptions options)
         {
             if (context.Exception == null) return;
             if (context.Exception.Message == "A task was canceled.") return;
@@ -105,14 +105,14 @@ namespace WEB.Error
             }
             catch { }
             
-            if (!string.IsNullOrWhiteSpace(settings.EmailSettings.EmailToErrors))
+            if (!string.IsNullOrWhiteSpace(appSettings.EmailSettings.EmailToErrors))
             {
                 var body = string.Empty;
                 body += "URL: " + url + Environment.NewLine;
                 body += "DATE: " + DateTime.UtcNow.ToString("dd MMMM yyyy, HH:mm:ss") + Environment.NewLine;
                 body += "USER: " + userName + Environment.NewLine;
                 body += "MESSAGE: " + errorMessage + Environment.NewLine;
-                body += "LINK: " + settings.RootUrl + "errors/" + error.Id.ToString().ToLower() + Environment.NewLine;
+                body += "LINK: " + appSettings.RootUrl + "errors/" + error.Id.ToString().ToLower() + Environment.NewLine;
                 body += Environment.NewLine;
 
                 var exception = error.Exception;
@@ -123,11 +123,11 @@ namespace WEB.Error
                     exception = exception.InnerException;
                 }
 
-                body += settings.RootUrl + "api/errors/" + error.Id + Environment.NewLine;
+                body += appSettings.RootUrl + "api/errors/" + error.Id + Environment.NewLine;
 
                 try
                 {
-                    emailSender.SendEmailAsync(settings.EmailSettings.EmailToErrors, settings.EmailSettings.EmailToErrors, settings.SiteName + " Error", body, isErrorEmail: true).Wait();
+                    emailSender.SendEmailAsync(appSettings.EmailSettings.EmailToErrors, appSettings.EmailSettings.EmailToErrors, appSettings.SiteName + " Error", body, isErrorEmail: true).Wait();
                 }
                 catch { }
             }

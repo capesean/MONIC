@@ -7,7 +7,7 @@ using static OpenIddict.Abstractions.OpenIddictConstants;
 
 var builder = WebApplication.CreateBuilder(args);
 
-var settings = builder.Configuration.GetSection("Settings").Get<Settings>();
+var appSettings = builder.Configuration.GetSection("Settings").Get<AppSettings>();
 DbContextOptions dbContextOptions = null;
 
 //settings.RootPath = Environment.ContentRootPath + (Environment.ContentRootPath.EndsWith(@"\") ? "" : @"\");
@@ -55,7 +55,7 @@ builder.Services.Configure<IdentityOptions>(options =>
     options.ClaimsIdentity.UserIdClaimType = Claims.Subject;
     options.ClaimsIdentity.RoleClaimType = Claims.Role;
 
-    if (settings.IsDevelopment)
+    if (appSettings.IsDevelopment)
     {
         options.Password.RequireDigit = false;
         options.Password.RequireLowercase = false;
@@ -74,9 +74,9 @@ builder.Services.Configure<IdentityOptions>(options =>
     }
 });
 
-builder.ConfigureOpenIddict(settings);
+builder.ConfigureOpenIddict(appSettings);
 
-builder.Services.AddSingleton(settings);
+builder.Services.AddSingleton(appSettings);
 builder.Services.AddSingleton<IEmailSender, EmailSender>();
 
 var app = builder.Build();
@@ -87,7 +87,7 @@ using (var um = scope.ServiceProvider.GetService<UserManager<User>>())
 using (var rm = scope.ServiceProvider.GetService<RoleManager<Role>>())
 {
     // initialise, seed, etc
-    var initializer = new DbInitializer(settings, db, um, rm);
+    var initializer = new DbInitializer(appSettings, db, um, rm);
     await initializer.InitializeAsync();
 }
 

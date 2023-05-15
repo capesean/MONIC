@@ -7,7 +7,6 @@ namespace WEB.Models
     {
         public DbSet<Error> Errors { get; set; }
         public DbSet<ErrorException> Exceptions { get; set; }
-        public DbSet<DbSettings> Settings { get; set; }
 
         public ApplicationDbContext()
         {
@@ -44,7 +43,6 @@ namespace WEB.Models
             ConfigureModelBuilder(modelBuilder);
 
             modelBuilder.Entity<User>(o => o.HasMany(u => u.Roles).WithOne().HasForeignKey(ur => ur.UserId).IsRequired());
-            modelBuilder.Entity<DbSettings>(o => o.ToTable("Settings"));
 
             foreach (var relationship in modelBuilder.Model.GetEntityTypes().SelectMany(e => e.GetForeignKeys()))
             {

@@ -27,13 +27,13 @@ namespace WEB.Controllers
             }
 
         }
-        internal Settings Settings;
+        internal AppSettings AppSettings;
 
-        internal BaseApiController(ApplicationDbContext applicationDbContext, UserManager<User> userManager, Settings settings)
+        internal BaseApiController(ApplicationDbContext applicationDbContext, UserManager<User> userManager, AppSettings appSettings)
         {
             db = applicationDbContext;
             this.userManager = userManager;
-            Settings = settings;
+            AppSettings = appSettings;
         }
 
         internal async Task<bool> CurrentUserIsInRoleAsync(Roles role)

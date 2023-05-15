@@ -5,15 +5,15 @@ namespace WEB.Models
 {
     public class DbInitializer
     {
-        private Settings settings;
+        private AppSettings appSettings;
         private ApplicationDbContext db;
         private RoleManager<Role> rm;
         private UserManager<User> um;
         private const int errorExpiryDays = 7;
 
-        public DbInitializer(Settings settings, ApplicationDbContext db, UserManager<User> um, RoleManager<Role> rm)
+        public DbInitializer(AppSettings appSettings, ApplicationDbContext db, UserManager<User> um, RoleManager<Role> rm)
         {
-            this.settings = settings;
+            this.appSettings = appSettings;
             this.db = db;
             this.um = um;
             this.rm = rm;
@@ -21,7 +21,7 @@ namespace WEB.Models
 
         public async Task InitializeAsync()
         {
-            if (settings.IsDevelopment)
+            if (appSettings.IsDevelopment)
             {
                 // dev option 1: drop & recreate
                 //db.Database.EnsureDeleted();

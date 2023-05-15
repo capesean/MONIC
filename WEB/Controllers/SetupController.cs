@@ -19,9 +19,9 @@ namespace AuthorizationServer.Controllers
             ApplicationDbContext _db,
             UserManager<User> _um,
             RoleManager<Role> _rm,
-            Settings _settings
+            AppSettings _appSettings
             )
-            : base(_db, _um, _settings)
+            : base(_db, _um, _appSettings)
         {
             roleManager = _rm;
         }

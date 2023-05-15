@@ -28,11 +28,11 @@ namespace AuthorizationServer.Controllers
         public AuthorizationController(
             ApplicationDbContext _db,
             UserManager<User> _um,
-            Settings _settings,
+            AppSettings _appSettings,
             SignInManager<User> _sm,
             IEmailSender _es,
             IOptions<IdentityOptions> _opts)
-            : base(_db, _um, _settings)
+            : base(_db, _um, _appSettings)
         {
             signInManager = _sm;
             emailSender = _es;
@@ -266,13 +266,13 @@ namespace AuthorizationServer.Controllers
             text += Environment.NewLine;
             text += "A password reset has been requested. Please use the link below to reset your password." + Environment.NewLine;
             text += Environment.NewLine;
-            text += Settings.RootUrl + "auth/reset?e=" + user.Email + "&t=" + token + Environment.NewLine;
+            text += AppSettings.RootUrl + "auth/reset?e=" + user.Email + "&t=" + token + Environment.NewLine;
 
             var html = user.FirstName + Environment.NewLine;
             html += Environment.NewLine;
             html += "A password reset has been requested. Please use the link below to reset your password." + Environment.NewLine;
             html += Environment.NewLine;
-            html += Settings.RootUrl + "auth/reset?e=" + user.Email + "&t=" + WebUtility.UrlEncode(token) + Environment.NewLine;
+            html += AppSettings.RootUrl + "auth/reset?e=" + user.Email + "&t=" + WebUtility.UrlEncode(token) + Environment.NewLine;
 
             await emailSender.SendEmailAsync(user.Email, user.FullName, "Password Reset", text, html);
 

@@ -16,8 +16,8 @@ namespace WEB.Controllers
         private RoleManager<Role> rm;
         private IOptions<IdentityOptions> opts;
 
-        public UsersController(ApplicationDbContext db, UserManager<User> um, Settings settings, RoleManager<Role> rm, IOptions<IdentityOptions> opts)
-            : base(db, um, settings) { this.rm = rm; this.opts = opts; }
+        public UsersController(ApplicationDbContext db, UserManager<User> um, AppSettings appSettings, RoleManager<Role> rm, IOptions<IdentityOptions> opts)
+            : base(db, um, appSettings) { this.rm = rm; this.opts = opts; }
 
         [HttpGet]
         public async Task<IActionResult> Search([FromQuery] UserSearchOptions searchOptions, [FromQuery] string roleName = null)
@@ -118,7 +118,7 @@ namespace WEB.Controllers
                 }
             }
 
-            if (isNew) await Utilities.General.SendWelcomeMailAsync(user, password, Settings);
+            if (isNew) await Utilities.General.SendWelcomeMailAsync(user, password, AppSettings);
 
             return await Get(user.Id);
         }

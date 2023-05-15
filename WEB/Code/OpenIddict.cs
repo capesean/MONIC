@@ -5,7 +5,7 @@ namespace WEB
 {
     public static class OpenIddictExtensions
     {
-        public static void ConfigureOpenIddict(this WebApplicationBuilder builder, Settings settings)
+        public static void ConfigureOpenIddict(this WebApplicationBuilder builder, AppSettings appSettings)
         {
             builder.Services
                 .AddOpenIddict()
@@ -30,11 +30,11 @@ namespace WEB
 
                     options.RegisterScopes(Scopes.Profile, Scopes.Roles);
 
-                    options.SetAccessTokenLifetime(TimeSpan.FromMinutes(settings.AccessTokenExpiryMinutes));
-                    options.SetRefreshTokenLifetime(TimeSpan.FromMinutes(settings.RefreshTokenExpiryMinutes));
+                    options.SetAccessTokenLifetime(TimeSpan.FromMinutes(appSettings.AccessTokenExpiryMinutes));
+                    options.SetRefreshTokenLifetime(TimeSpan.FromMinutes(appSettings.RefreshTokenExpiryMinutes));
 
                     // register the signing and encryption credentials.
-                    if (settings.IsDevelopment)
+                    if (appSettings.IsDevelopment)
                     {
                         // can also use options.AddEphemeralEncryptionKey().AddEphemeralSigningKey();
                         options.AddDevelopmentEncryptionCertificate()

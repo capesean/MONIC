@@ -26,13 +26,13 @@ namespace WEB.Reports.PDF
         private TwoColumnHeaderFooter pageEvent;
         private string imagesFolder;
         protected const string PDFContentType = "application/pdf";
-        protected Settings settings;
+        protected AppSettings appSettings;
 
-        protected PDFReports(ApplicationDbContext dbContext, Settings settings)
+        protected PDFReports(ApplicationDbContext dbContext, AppSettings appSettings)
         {
             db = dbContext;
-            this.settings = settings;
-            this.imagesFolder = settings.RootPath + "wwwroot/images/";
+            this.appSettings = appSettings;
+            imagesFolder = appSettings.RootPath + "wwwroot/images/";
             //var baseFontPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "fonts", "GOTHIC.TTF");
             //_bf = BaseFont.CreateFont(baseFontPath, BaseFont.CP1252, BaseFont.EMBEDDED);
             baseFont = BaseFont.CreateFont(BaseFont.HELVETICA, BaseFont.CP1252, false);
