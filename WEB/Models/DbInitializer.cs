@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using System.Reflection.Metadata;
 
 namespace WEB.Models
 {
@@ -30,13 +31,13 @@ namespace WEB.Models
 
                 // dev option 2: use migrations
                 db.Database.Migrate();
-                await SeedAsync();
             }
             else
             {
                 db.Database.Migrate();
             }
 
+            await SeedAsync();
             db.AddComputedColumns();
             db.AddNullableUniqueIndexes();
 
@@ -53,6 +54,12 @@ namespace WEB.Models
             var roles = Enum.GetNames(typeof(Roles));
             foreach (var role in roles)
                 if (!await rm.RoleExistsAsync(role)) await rm.CreateAsync(new Role { Name = role });
+
+            if (!db.Settings.Any())
+            {
+                db.Entry(new Settings { Id = Guid.Empty }).State = EntityState.Added;
+                await db.SaveChangesAsync();
+            }
         }
 
         private async Task DeleteErrors()
