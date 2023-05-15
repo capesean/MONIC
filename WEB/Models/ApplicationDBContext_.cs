@@ -5,7 +5,6 @@ namespace WEB.Models
     public partial class ApplicationDbContext
     {
         public DbSet<UserTest> UserTests { get; set; }
-        public DbSet<Settings> Settings { get; set; }
 
         public void ConfigureModelBuilder(ModelBuilder modelBuilder)
         {
