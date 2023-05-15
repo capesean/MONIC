@@ -1,6 +1,5 @@
 import { Route } from '@angular/router';
 import { AccessGuard } from './common/auth/auth.accessguard';
-import { SettingsListComponent } from './settings/settings.list.component';
 import { SettingsEditComponent } from './settings/settings.edit.component';
 import { UserListComponent } from './users/user.list.component';
 import { UserEditComponent } from './users/user.edit.component';
@@ -12,22 +11,10 @@ export const GeneratedRoutes: Route[] = [
         path: 'settings',
         canActivate: [AccessGuard],
         canActivateChild: [AccessGuard],
-        component: SettingsListComponent,
+        component: SettingsEditComponent,
         data: {
             breadcrumb: 'Settings'
         },
-        children: [
-            {
-                path: ':id',
-                component: SettingsEditComponent,
-                canActivate: [AccessGuard],
-                canActivateChild: [AccessGuard],
-                data: {
-                    menu: '',
-                    breadcrumb: 'Add Settings'
-                }
-            }
-        ]
     },
     {
         path: 'users',

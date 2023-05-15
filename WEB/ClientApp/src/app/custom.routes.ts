@@ -3,7 +3,6 @@ import { AccessGuard } from './common/auth/auth.accessguard';
 import { HomeComponent } from './home/home.component';
 import { ErrorComponent } from './error/error.component';
 import { ErrorsComponent } from './error/errors.component';
-import { SettingsComponent } from './settings/settings.component';
 import { SetupComponent } from './setup/setup.component';
 import { AccountComponent } from './account/account.component';
 
@@ -32,17 +31,6 @@ export const CustomRoutes: Route[] = [
         path: 'setup',
         component: SetupComponent,
         pathMatch: 'full'
-    },
-    {
-        path: 'settings',
-        canActivate: [AccessGuard],
-        canActivateChild: [AccessGuard],
-        component: SettingsComponent,
-        pathMatch: 'full',
-        data: {
-            breadcrumb: 'Settings',
-            menu: 'admin'
-        },
     },
     {
         path: 'errors',

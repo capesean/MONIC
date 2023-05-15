@@ -10,7 +10,6 @@ import { HomeComponent } from './home/home.component';
 import { AccountComponent } from './account/account.component';
 import { ErrorsComponent } from './error/errors.component';
 import { ErrorComponent } from './error/error.component';
-import { SettingsComponent } from './settings/settings.component';
 import { SetupComponent } from './setup/setup.component';
 import { CustomRoutes } from './custom.routes';
 
@@ -29,7 +28,6 @@ import { CustomRoutes } from './custom.routes';
         AccountComponent,
         ErrorsComponent,
         ErrorComponent,
-        SettingsComponent,
         SetupComponent
     ]
 })

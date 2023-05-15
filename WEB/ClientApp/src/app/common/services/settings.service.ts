@@ -13,28 +13,12 @@ export class SettingsService extends SearchQuery {
         super();
     }
 
-    search(params: SettingsSearchOptions): Observable<SettingsSearchResponse> {
-        const queryParams: HttpParams = this.buildQueryParams(params);
-        return this.http.get(`${environment.baseApiUrl}settings`, { params: queryParams, observe: 'response' })
-            .pipe(
-                map(response => {
-                    const headers = JSON.parse(response.headers.get("x-pagination")) as PagingHeaders;
-                    const settings = response.body as Settings[];
-                    return { settings: settings, headers: headers };
-                })
-            );
-    }
-
-    get(id: string): Observable<Settings> {
-        return this.http.get<Settings>(`${environment.baseApiUrl}settings/${id}`);
+    get(): Observable<Settings> {
+        return this.http.get<Settings>(`${environment.baseApiUrl}settings`);
     }
 
     save(settings: Settings): Observable<Settings> {
-        return this.http.post<Settings>(`${environment.baseApiUrl}settings/${settings.id}`, settings);
-    }
-
-    delete(id: string): Observable<void> {
-        return this.http.delete<void>(`${environment.baseApiUrl}settings/${id}`);
+        return this.http.post<Settings>(`${environment.baseApiUrl}settings`, settings);
     }
 
 }
