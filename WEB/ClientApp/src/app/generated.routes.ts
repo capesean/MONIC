@@ -1,11 +1,34 @@
 import { Route } from '@angular/router';
 import { AccessGuard } from './common/auth/auth.accessguard';
+import { SettingsListComponent } from './settings/settings.list.component';
+import { SettingsEditComponent } from './settings/settings.edit.component';
 import { UserListComponent } from './users/user.list.component';
 import { UserEditComponent } from './users/user.edit.component';
 import { UserTestListComponent } from './usertests/usertest.list.component';
 import { UserTestEditComponent } from './usertests/usertest.edit.component';
 
 export const GeneratedRoutes: Route[] = [
+    {
+        path: 'settings',
+        canActivate: [AccessGuard],
+        canActivateChild: [AccessGuard],
+        component: SettingsListComponent,
+        data: {
+            breadcrumb: 'Settings'
+        },
+        children: [
+            {
+                path: ':id',
+                component: SettingsEditComponent,
+                canActivate: [AccessGuard],
+                canActivateChild: [AccessGuard],
+                data: {
+                    menu: '',
+                    breadcrumb: 'Add Settings'
+                }
+            }
+        ]
+    },
     {
         path: 'users',
         canActivate: [AccessGuard],

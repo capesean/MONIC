@@ -1,3 +1,6 @@
+using System;
+using System.Linq;
+using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Authorization;
@@ -11,11 +14,11 @@ namespace WEB.Controllers
     {
         public SettingsController(ApplicationDbContext db, UserManager<User> um, AppSettings appSettings) : base(db, um, appSettings) { }
 
-        [AuthorizeRoles(Roles.Administrator)]
+        [HttpGet, AuthorizeRoles(Roles.Administrator)]
         public async Task<IActionResult> Get()
         {
             var settings = await db.Settings
-                .SingleAsync(o => o.Id == Guid.Empty);
+                .SingleAsync();
 
             if (settings == null)
                 return NotFound();
@@ -29,10 +32,11 @@ namespace WEB.Controllers
             if (!ModelState.IsValid) return BadRequest(ModelState);
 
             var settings = await db.Settings
-                .SingleAsync(o => o.Id == Guid.Empty);
+                .SingleAsync();
+
+            db.Entry(settings).State = EntityState.Modified;
 
             ModelFactory.Hydrate(settings, settingsDTO);
-            db.Entry(settings).State = EntityState.Modified;
 
             await db.SaveChangesAsync();
 

@@ -1,21 +1,40 @@
 import { environment } from '../../../environments/environment';
 import { Injectable } from '@angular/core';
-import { HttpClient, } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { Settings } from '../models/settings.model';
+import { map } from 'rxjs/operators';
+import { Settings, SettingsSearchOptions, SettingsSearchResponse } from '../models/settings.model';
+import { SearchQuery, PagingHeaders } from '../models/http.model';
 
 @Injectable({ providedIn: 'root' })
-export class SettingsService {
+export class SettingsService extends SearchQuery {
 
     constructor(private http: HttpClient) {
+        super();
     }
 
-    get(): Observable<Settings> {
-        return this.http.get<Settings>(`${environment.baseApiUrl}settings`);
+    search(params: SettingsSearchOptions): Observable<SettingsSearchResponse> {
+        const queryParams: HttpParams = this.buildQueryParams(params);
+        return this.http.get(`${environment.baseApiUrl}settings`, { params: queryParams, observe: 'response' })
+            .pipe(
+                map(response => {
+                    const headers = JSON.parse(response.headers.get("x-pagination")) as PagingHeaders;
+                    const settings = response.body as Settings[];
+                    return { settings: settings, headers: headers };
+                })
+            );
+    }
+
+    get(id: string): Observable<Settings> {
+        return this.http.get<Settings>(`${environment.baseApiUrl}settings/${id}`);
     }
 
     save(settings: Settings): Observable<Settings> {
-        return this.http.post<Settings>(`${environment.baseApiUrl}settings`, settings);
+        return this.http.post<Settings>(`${environment.baseApiUrl}settings/${settings.id}`, settings);
+    }
+
+    delete(id: string): Observable<void> {
+        return this.http.delete<void>(`${environment.baseApiUrl}settings/${id}`);
     }
 
 }
