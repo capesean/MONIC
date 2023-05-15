@@ -118,7 +118,7 @@ namespace WEB.Controllers
                 }
             }
 
-            if (isNew) await Utilities.General.SendWelcomeMailAsync(user, password, appSettings);
+            if (isNew) await Utilities.General.SendWelcomeMailAsync(user, password, AppSettings);
 
             return await Get(user.Id);
         }

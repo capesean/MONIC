@@ -20,9 +20,6 @@ namespace WEB.Controllers
             var settings = await db.Settings
                 .SingleAsync();
 
-            if (settings == null)
-                return NotFound();
-
             return Ok(ModelFactory.Create(settings));
         }
 
@@ -34,7 +31,7 @@ namespace WEB.Controllers
             var settings = await db.Settings
                 .SingleAsync();
 
-            db.Entry(settings).State = EntityState.Modified;
+                db.Entry(settings).State = EntityState.Modified;
 
             ModelFactory.Hydrate(settings, settingsDTO);
 
