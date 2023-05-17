@@ -1,0 +1,58 @@
+import { Component as NgComponent, OnInit } from '@angular/core';
+import { Router, ActivatedRoute } from '@angular/router';
+import { Subject } from 'rxjs';
+import { PagingHeaders } from '../../common/models/http.model';
+import { DocumentSearchOptions, DocumentSearchResponse, Document } from '../../common/models/document.model';
+import { ErrorService } from '../../common/services/error.service';
+import { DocumentService } from '../../common/services/document.service';
+
+@NgComponent({
+    selector: 'document-list',
+    templateUrl: './document.list.component.html'
+})
+export class DocumentListComponent implements OnInit {
+
+    public documents: Document[] = [];
+    public searchOptions = new DocumentSearchOptions();
+    public headers = new PagingHeaders();
+
+    constructor(
+        public route: ActivatedRoute,
+        private router: Router,
+        private errorService: ErrorService,
+        private documentService: DocumentService
+    ) {
+    }
+
+    ngOnInit(): void {
+        this.searchOptions.includeParents = true;
+        this.runSearch();
+    }
+
+    runSearch(pageIndex = 0): Subject<DocumentSearchResponse> {
+
+        this.searchOptions.pageIndex = pageIndex;
+
+        const subject = new Subject<DocumentSearchResponse>();
+
+        this.documentService.search(this.searchOptions)
+            .subscribe({
+                next: response => {
+                    subject.next(response);
+                    this.documents = response.documents;
+                    this.headers = response.headers;
+                },
+                error: err => {
+                    this.errorService.handleError(err, "Documents", "Load");
+                }
+            });
+
+        return subject;
+
+    }
+
+    goToDocument(document: Document): void {
+        this.router.navigate(["/items", document.item.itemId, "documents", document.documentId]);
+    }
+}
+

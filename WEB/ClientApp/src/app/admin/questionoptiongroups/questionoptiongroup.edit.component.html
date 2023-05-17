@@ -1,0 +1,244 @@
+<ng-container *ngIf="route.children.length === 0">
+
+    <app-page-title title="Question Option Group"></app-page-title>
+
+    <form id="form" name="form" (submit)="save(form)" novalidate #form="ngForm" [ngClass]="{ 'was-validated': form.submitted }">
+
+        <div class="card border-0">
+
+            <div class="card-body">
+
+                <fieldset class="group">
+
+                    <div class="row g-3">
+
+                        <div class="col-sm-6 col-md-4">
+                            <div class="form-group" [ngClass]="{ 'is-invalid': name.invalid }">
+
+                                <label for="name">
+                                    Name:
+                                </label>
+
+                                <input id="name" name="name" class="form-control" type="text" [(ngModel)]="questionOptionGroup.name" #name="ngModel" required (ngModelChange)="changeBreadcrumb()" maxlength="50" />
+
+                                <div *ngIf="name.errors?.required" class="invalid-feedback">
+                                    Name is required
+                                </div>
+
+                                <div *ngIf="name.errors?.maxlength" class="invalid-feedback">
+                                    Name must be at most 50 characters long
+                                </div>
+
+                            </div>
+                        </div>
+
+                        <div class="col-sm-6 col-md-4">
+                            <div class="form-group" [ngClass]="{ 'is-invalid': shared.invalid }">
+
+                                <label for="shared">
+                                    Shared:
+                                </label>
+
+                                <div class="form-check">
+                                    <input id="shared" name="shared" class="form-check-input" type="checkbox" [(ngModel)]="questionOptionGroup.shared" #shared="ngModel" />
+                                    <label class="form-check-label" for="shared">
+                                        Shared
+                                    </label>
+                                </div>
+
+                            </div>
+                        </div>
+
+                    </div>
+
+                </fieldset>
+
+                <fieldset class="my-3">
+                    <button type="submit" class="btn btn-outline-success me-2 mb-1">Save<i class="fas fa-check ms-2"></i></button>
+                    <button type="button" *ngIf="!isNew" class="btn btn-outline-danger me-2 mb-1" (click)="delete()">Delete<i class="fas fa-times ms-2"></i></button>
+                </fieldset>
+
+            </div>
+
+        </div>
+
+    </form>
+
+    <ng-container *ngIf="!isNew">
+
+        <hr />
+
+        <nav ngbNav #nav="ngbNav" class="nav-tabs">
+
+            <ng-container ngbNavItem class="pt-6">
+
+                <a ngbNavLink>Options</a>
+
+                <ng-template ngbNavContent>
+
+                    <div class="card border-0 search-results">
+
+                        <div class="card-header border-0">
+
+                            <h4 class="card-header-title text-uppercase">
+                                Options
+                            </h4>
+
+                        </div>
+
+                        <div class="card-body">
+
+                            <form id="formSearchQuestionOptions" (submit)="searchQuestionOptions(0)" novalidate *ngIf="showQuestionOptionsSearch" class="mb-5">
+
+                                <div class="row g-3">
+
+                                    <div class="col-sm-6 col-md-5 col-lg-4 col-xl-3">
+                                        <div class="form-group">
+                                            <input type="search" name="q" id="q" [(ngModel)]="questionOptionsSearchOptions.q" max="100" class="form-control" placeholder="Search options" />
+                                        </div>
+                                    </div>
+
+                                </div>
+
+                            </form>
+
+                            <div class="mb-3">
+                                <a [routerLink]="['./questionoptions', 'add']" class="btn btn-outline-primary me-2 mb-1">Add<i class="fas fa-plus ms-2"></i></a>
+                                <button *ngIf="!showQuestionOptionsSearch" type="button" class="btn btn-outline-secondary me-2 mb-1" (click)="showQuestionOptionsSearch=true">Filter<i class="fas fa-filter ms-2"></i></button>
+                                <button *ngIf="showQuestionOptionsSearch" form="formSearchQuestionOptions" type="submit" class="btn btn-outline-primary me-2 mb-1">Search<i class="fas fa-search ms-2"></i></button>
+                                <button type="button" class="btn btn-outline-secondary me-2 mb-1" (click)="showQuestionOptionSort()" *ngIf="questionOptionsHeaders.totalRecords > 1 && !showQuestionOptionsSearch">Sort<i class="fas fa-sort ms-2"></i></button>
+                            </div>
+
+                        </div>
+
+                        <div class="table-responsive">
+
+                            <table class="table table-hover table-edge table-nowrap mb-0 align-middle">
+                                <thead class="thead-light">
+                                    <tr>
+                                        <th>Label</th>
+                                        <th>Value</th>
+                                        <th class="w-20px text-center"><i class="fas fa-times text-danger cursor-pointer" (click)="deleteQuestionOptions()" ngbTooltip="Delete all options" container="body" placement="left"></i></th>
+                                    </tr>
+                                </thead>
+                                <tbody class="list cursor-pointer">
+                                    <tr *ngFor="let questionOption of questionOptions" (click)="goToQuestionOption(questionOption)">
+                                        <td>{{ questionOption.label }}</td>
+                                        <td>{{ questionOption.value }}</td>
+                                        <td class="text-center"><i class="fas fa-times cursor-pointer p-1 text-danger" (click)="deleteQuestionOption(questionOption, $event)"></i></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+
+                        </div>
+
+                        <div class="card-footer">
+                            <pager [headers]="questionOptionsHeaders" (pageChanged)="searchQuestionOptions($event)"></pager>
+                        </div>
+
+                    </div>
+
+                </ng-template>
+
+            </ng-container>
+
+            <ng-container ngbNavItem class="pt-6">
+
+                <a ngbNavLink>Questions</a>
+
+                <ng-template ngbNavContent>
+
+                    <div class="card border-0 search-results">
+
+                        <div class="card-header border-0">
+
+                            <h4 class="card-header-title text-uppercase">
+                                Questions
+                            </h4>
+
+                        </div>
+
+                        <div class="card-body">
+
+                            <form id="formSearchQuestions" (submit)="searchQuestions(0)" novalidate *ngIf="showQuestionsSearch" class="mb-5">
+
+                                <div class="row g-3">
+
+                                    <div class="col-sm-6 col-md-5 col-lg-4 col-xl-3">
+                                        <div class="form-group">
+                                            <input type="search" name="q" id="q" [(ngModel)]="questionsSearchOptions.q" max="100" class="form-control" placeholder="Search questions" />
+                                        </div>
+                                    </div>
+
+                                    <div class="col-sm-6 col-md-4 col-lg-4 col-xl-3">
+                                        <div class="form-group">
+                                            <section-select id="sectionId" name="sectionId" [(ngModel)]="questionsSearchOptions.sectionId"></section-select>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-sm-6 col-md-4 col-lg-4 col-xl-3">
+                                        <div class="form-group">
+                                            <select id="questionType" name="questionType" [(ngModel)]="questionsSearchOptions.questionType" #questionType="ngModel" class="form-select">
+                                                <option *ngFor="let questionType of questionTypes" [ngValue]="questionType.value">{{ questionType.label }}</option>
+                                            </select>
+                                        </div>
+                                    </div>
+
+                                </div>
+
+                            </form>
+
+                            <div class="mb-3">
+                                <button *ngIf="!showQuestionsSearch" type="button" class="btn btn-outline-secondary me-2 mb-1" (click)="showQuestionsSearch=true">Filter<i class="fas fa-filter ms-2"></i></button>
+                                <button *ngIf="showQuestionsSearch" form="formSearchQuestions" type="submit" class="btn btn-outline-primary me-2 mb-1">Search<i class="fas fa-search ms-2"></i></button>
+                            </div>
+
+                        </div>
+
+                        <div class="table-responsive">
+
+                            <table class="table table-hover table-edge table-nowrap mb-0 align-middle">
+                                <thead class="thead-light">
+                                    <tr>
+                                        <th>Section</th>
+                                        <th>Code</th>
+                                        <th>Text</th>
+                                        <th>Question Type</th>
+                                        <th>Required</th>
+                                        <th class="w-20px text-center"><i class="fas fa-times text-danger cursor-pointer" (click)="deleteQuestions()" ngbTooltip="Delete all questions" container="body" placement="left"></i></th>
+                                    </tr>
+                                </thead>
+                                <tbody class="list cursor-pointer">
+                                    <tr *ngFor="let question of questions" (click)="goToQuestion(question)">
+                                        <td>{{ question.section.name }}</td>
+                                        <td>{{ question.code }}</td>
+                                        <td>{{ question.text }}</td>
+                                        <td>{{ questionTypes[question.questionType].label }}</td>
+                                        <td>{{ question.required | booleanPipe }}</td>
+                                        <td class="text-center"><i class="fas fa-times cursor-pointer p-1 text-danger" (click)="deleteQuestion(question, $event)"></i></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+
+                        </div>
+
+                        <div class="card-footer">
+                            <pager [headers]="questionsHeaders" (pageChanged)="searchQuestions($event)"></pager>
+                        </div>
+
+                    </div>
+
+                </ng-template>
+
+            </ng-container>
+
+        </nav>
+
+        <div [ngbNavOutlet]="nav" class="mt-1"></div>
+
+    </ng-container>
+
+</ng-container>
+
+<router-outlet></router-outlet>
+

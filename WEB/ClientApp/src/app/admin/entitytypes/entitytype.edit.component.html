@@ -1,0 +1,245 @@
+<app-page-title title="Entity Type"></app-page-title>
+
+<form id="form" name="form" (submit)="save(form)" novalidate #form="ngForm" [ngClass]="{ 'was-validated': form.submitted }">
+
+    <div class="card border-0">
+
+        <div class="card-body">
+
+            <fieldset class="group">
+
+                <div class="row g-3">
+
+                    <div class="col-sm-6 col-md-4">
+                        <div class="form-group" [ngClass]="{ 'is-invalid': name.invalid }">
+
+                            <label for="name">
+                                Name:
+                            </label>
+
+                            <input id="name" name="name" class="form-control" type="text" [(ngModel)]="entityType.name" #name="ngModel" required (ngModelChange)="changeBreadcrumb()" maxlength="50" />
+
+                            <div *ngIf="name.errors?.required" class="invalid-feedback">
+                                Name is required
+                            </div>
+
+                            <div *ngIf="name.errors?.maxlength" class="invalid-feedback">
+                                Name must be at most 50 characters long
+                            </div>
+
+                        </div>
+                    </div>
+
+                    <div class="col-sm-6 col-md-4">
+                        <div class="form-group" [ngClass]="{ 'is-invalid': plural.invalid }">
+
+                            <label for="plural">
+                                Plural:
+                            </label>
+
+                            <input id="plural" name="plural" class="form-control" type="text" [(ngModel)]="entityType.plural" #plural="ngModel" required maxlength="50" />
+
+                            <div *ngIf="plural.errors?.required" class="invalid-feedback">
+                                Plural is required
+                            </div>
+
+                            <div *ngIf="plural.errors?.maxlength" class="invalid-feedback">
+                                Plural must be at most 50 characters long
+                            </div>
+
+                        </div>
+                    </div>
+
+                </div>
+
+            </fieldset>
+
+            <fieldset class="my-3">
+                <button type="submit" class="btn btn-outline-success me-2 mb-1">Save<i class="fas fa-check ms-2"></i></button>
+                <button type="button" *ngIf="!isNew" class="btn btn-outline-danger me-2 mb-1" (click)="delete()">Delete<i class="fas fa-times ms-2"></i></button>
+            </fieldset>
+
+        </div>
+
+    </div>
+
+</form>
+
+<ng-container *ngIf="!isNew">
+
+    <hr />
+
+    <nav ngbNav #nav="ngbNav" class="nav-tabs">
+
+        <ng-container ngbNavItem class="pt-6">
+
+            <a ngbNavLink>Entities</a>
+
+            <ng-template ngbNavContent>
+
+                <div class="card border-0 search-results">
+
+                    <div class="card-header border-0">
+
+                        <h4 class="card-header-title text-uppercase">
+                            Entities
+                        </h4>
+
+                    </div>
+
+                    <div class="card-body">
+
+                        <form id="formSearchEntities" (submit)="searchEntities(0)" novalidate *ngIf="showEntitiesSearch" class="mb-5">
+
+                            <div class="row g-3">
+
+                                <div class="col-sm-6 col-md-5 col-lg-4 col-xl-3">
+                                    <div class="form-group">
+                                        <input type="search" name="q" id="q" [(ngModel)]="entitiesSearchOptions.q" max="100" class="form-control" placeholder="Search entities" />
+                                    </div>
+                                </div>
+
+                                <div class="col-sm-6 col-md-4 col-lg-4 col-xl-3">
+                                    <div class="form-group">
+                                        <organisation-select id="organisationId" name="organisationId" [(ngModel)]="entitiesSearchOptions.organisationId"></organisation-select>
+                                    </div>
+                                </div>
+
+                                <div class="col-sm-6 col-md-4 col-lg-4 col-xl-3">
+                                    <div class="form-group">
+                                        <select id="disabled" name="disabled" [(ngModel)]="entitiesSearchOptions.disabled" #disabled="ngModel" class="form-select">
+                                            <option [ngValue]="undefined">Disabled: Any</option>
+                                            <option [ngValue]="true">Disabled: Yes</option>
+                                            <option [ngValue]="false">Disabled: No</option>
+                                        </select>
+                                    </div>
+                                </div>
+
+                            </div>
+
+                        </form>
+
+                        <div class="mb-3">
+                            <button *ngIf="!showEntitiesSearch" type="button" class="btn btn-outline-secondary me-2 mb-1" (click)="showEntitiesSearch=true">Filter<i class="fas fa-filter ms-2"></i></button>
+                            <button *ngIf="showEntitiesSearch" form="formSearchEntities" type="submit" class="btn btn-outline-primary me-2 mb-1">Search<i class="fas fa-search ms-2"></i></button>
+                        </div>
+
+                    </div>
+
+                    <div class="table-responsive">
+
+                        <table class="table table-hover table-edge table-nowrap mb-0 align-middle">
+                            <thead class="thead-light">
+                                <tr>
+                                    <th>Name</th>
+                                    <th>Code</th>
+                                    <th>Organisation</th>
+                                    <th class="w-20px text-center"><i class="fas fa-times text-danger cursor-pointer" (click)="deleteEntities()" ngbTooltip="Delete all entities" container="body" placement="left"></i></th>
+                                </tr>
+                            </thead>
+                            <tbody class="list cursor-pointer">
+                                <tr *ngFor="let entity of entities" (click)="goToEntity(entity)">
+                                    <td>{{ entity.name }}</td>
+                                    <td>{{ entity.code }}</td>
+                                    <td>{{ entity.organisation?.name }}</td>
+                                    <td class="text-center"><i class="fas fa-times cursor-pointer p-1 text-danger" (click)="deleteEntity(entity, $event)"></i></td>
+                                </tr>
+                            </tbody>
+                        </table>
+
+                    </div>
+
+                    <div class="card-footer">
+                        <pager [headers]="entitiesHeaders" (pageChanged)="searchEntities($event)"></pager>
+                    </div>
+
+                </div>
+
+            </ng-template>
+
+        </ng-container>
+
+        <ng-container ngbNavItem class="pt-6">
+
+            <a ngbNavLink>Questionnaires</a>
+
+            <ng-template ngbNavContent>
+
+                <div class="card border-0 search-results">
+
+                    <div class="card-header border-0">
+
+                        <h4 class="card-header-title text-uppercase">
+                            Questionnaires
+                        </h4>
+
+                    </div>
+
+                    <div class="card-body">
+
+                        <form id="formSearchQuestionnaires" (submit)="searchQuestionnaires(0)" novalidate *ngIf="showQuestionnairesSearch" class="mb-5">
+
+                            <div class="row g-3">
+
+                                <div class="col-sm-6 col-md-5 col-lg-4 col-xl-3">
+                                    <div class="form-group">
+                                        <input type="search" name="q" id="q" [(ngModel)]="questionnairesSearchOptions.q" max="100" class="form-control" placeholder="Search questionnaires" />
+                                    </div>
+                                </div>
+
+                                <div class="col-sm-6 col-md-4 col-lg-4 col-xl-3">
+                                    <div class="form-group">
+                                        <select id="dateType" name="dateType" [(ngModel)]="questionnairesSearchOptions.dateType" #dateType="ngModel" class="form-select">
+                                            <option *ngFor="let dateType of dateTypes" [ngValue]="dateType.value">{{ dateType.label }}</option>
+                                        </select>
+                                    </div>
+                                </div>
+
+                            </div>
+
+                        </form>
+
+                        <div class="mb-3">
+                            <button *ngIf="!showQuestionnairesSearch" type="button" class="btn btn-outline-secondary me-2 mb-1" (click)="showQuestionnairesSearch=true">Filter<i class="fas fa-filter ms-2"></i></button>
+                            <button *ngIf="showQuestionnairesSearch" form="formSearchQuestionnaires" type="submit" class="btn btn-outline-primary me-2 mb-1">Search<i class="fas fa-search ms-2"></i></button>
+                        </div>
+
+                    </div>
+
+                    <div class="table-responsive">
+
+                        <table class="table table-hover table-edge table-nowrap mb-0 align-middle">
+                            <thead class="thead-light">
+                                <tr>
+                                    <th>Name</th>
+                                    <th>Date Type</th>
+                                    <th class="w-20px text-center"><i class="fas fa-times text-danger cursor-pointer" (click)="deleteQuestionnaires()" ngbTooltip="Delete all questionnaires" container="body" placement="left"></i></th>
+                                </tr>
+                            </thead>
+                            <tbody class="list cursor-pointer">
+                                <tr *ngFor="let questionnaire of questionnaires" (click)="goToQuestionnaire(questionnaire)">
+                                    <td>{{ questionnaire.name }}</td>
+                                    <td>{{ dateTypes[questionnaire.dateType].label }}</td>
+                                    <td class="text-center"><i class="fas fa-times cursor-pointer p-1 text-danger" (click)="deleteQuestionnaire(questionnaire, $event)"></i></td>
+                                </tr>
+                            </tbody>
+                        </table>
+
+                    </div>
+
+                    <div class="card-footer">
+                        <pager [headers]="questionnairesHeaders" (pageChanged)="searchQuestionnaires($event)"></pager>
+                    </div>
+
+                </div>
+
+            </ng-template>
+
+        </ng-container>
+
+    </nav>
+
+    <div [ngbNavOutlet]="nav" class="mt-1"></div>
+
+</ng-container>
+

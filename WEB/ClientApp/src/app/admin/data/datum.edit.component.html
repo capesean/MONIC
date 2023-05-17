@@ -1,0 +1,151 @@
+<app-page-title title="Datum"></app-page-title>
+
+<form id="form" name="form" (submit)="save(form)" novalidate #form="ngForm" [ngClass]="{ 'was-validated': form.submitted }">
+
+    <div class="card border-0">
+
+        <div class="card-body">
+
+            <fieldset class="group">
+
+                <div class="row g-3">
+
+                    <div class="col-sm-6 col-md-4">
+                        <div class="form-group" [ngClass]="{ 'is-invalid': indicatorId.invalid }">
+
+                            <label for="indicatorId">
+                                Indicator:
+                            </label>
+
+                            <indicator-select id="indicatorId" name="indicatorId" [(indicator)]="datum.indicator" [(ngModel)]="datum.indicatorId" #indicatorId="ngModel" required></indicator-select>
+
+                            <div *ngIf="indicatorId.errors?.required" class="invalid-feedback">
+                                Indicator is required
+                            </div>
+
+                        </div>
+                    </div>
+
+                    <div class="col-sm-6 col-md-4">
+                        <div class="form-group" [ngClass]="{ 'is-invalid': entityId.invalid }">
+
+                            <label for="entityId">
+                                Entity:
+                            </label>
+
+                            <entity-select id="entityId" name="entityId" [(entity)]="datum.entity" [(ngModel)]="datum.entityId" #entityId="ngModel" required></entity-select>
+
+                            <div *ngIf="entityId.errors?.required" class="invalid-feedback">
+                                Entity is required
+                            </div>
+
+                        </div>
+                    </div>
+
+                    <div class="col-sm-6 col-md-4">
+                        <div class="form-group" [ngClass]="{ 'is-invalid': dateId.invalid }">
+
+                            <label for="dateId">
+                                Date:
+                            </label>
+
+                            <date-select id="dateId" name="dateId" [(date)]="datum.date" [(ngModel)]="datum.dateId" #dateId="ngModel" required></date-select>
+
+                            <div *ngIf="dateId.errors?.required" class="invalid-feedback">
+                                Date is required
+                            </div>
+
+                        </div>
+                    </div>
+
+                    <div class="col-sm-6 col-md-4">
+                        <div class="form-group" [ngClass]="{ 'is-invalid': value.invalid }">
+
+                            <label for="value">
+                                Value:
+                            </label>
+
+                            <input id="value" name="value" class="form-control" type="number" [(ngModel)]="datum.value" #value="ngModel" (ngModelChange)="changeBreadcrumb()" step="any" />
+
+                        </div>
+                    </div>
+
+                    <div class="col-sm-6 col-md-4">
+                        <div class="form-group" [ngClass]="{ 'is-invalid': note.invalid }">
+
+                            <label for="note">
+                                Note:
+                            </label>
+
+                            <input id="note" name="note" class="form-control" type="text" [(ngModel)]="datum.note" #note="ngModel" maxlength="250" />
+
+                            <div *ngIf="note.errors?.maxlength" class="invalid-feedback">
+                                Note must be at most 250 characters long
+                            </div>
+
+                        </div>
+                    </div>
+
+                    <div class="col-sm-6 col-md-4">
+                        <div class="form-group">
+
+                            <label for="submitDataReviewId">
+                                Submit Review:
+                            </label>
+
+                            <data-review-select id="submitDataReviewId" name="submitDataReviewId" [(dataReview)]="datum.submitReview" [(ngModel)]="datum.submitDataReviewId" readonly disabled></data-review-select>
+
+                        </div>
+                    </div>
+
+                    <div class="col-sm-6 col-md-4">
+                        <div class="form-group">
+
+                            <label for="verifyDataReviewId">
+                                Verify Review:
+                            </label>
+
+                            <data-review-select id="verifyDataReviewId" name="verifyDataReviewId" [(dataReview)]="datum.verifyReview" [(ngModel)]="datum.verifyDataReviewId" readonly disabled></data-review-select>
+
+                        </div>
+                    </div>
+
+                    <div class="col-sm-6 col-md-4">
+                        <div class="form-group">
+
+                            <label for="approveDataReviewId">
+                                Approve Review:
+                            </label>
+
+                            <data-review-select id="approveDataReviewId" name="approveDataReviewId" [(dataReview)]="datum.approveReview" [(ngModel)]="datum.approveDataReviewId" readonly disabled></data-review-select>
+
+                        </div>
+                    </div>
+
+                    <div class="col-sm-6 col-md-4">
+                        <div class="form-group">
+
+                            <label for="rejectDataReviewId">
+                                Reject Review:
+                            </label>
+
+                            <data-review-select id="rejectDataReviewId" name="rejectDataReviewId" [(dataReview)]="datum.rejectReview" [(ngModel)]="datum.rejectDataReviewId" readonly disabled></data-review-select>
+
+                        </div>
+                    </div>
+
+                </div>
+
+            </fieldset>
+
+            <fieldset class="my-3">
+                <button type="submit" class="btn btn-outline-success me-2 mb-1">Save<i class="fas fa-check ms-2"></i></button>
+                <button type="button" *ngIf="!isNew" class="btn btn-outline-danger me-2 mb-1" (click)="delete()">Delete<i class="fas fa-times ms-2"></i></button>
+            </fieldset>
+
+        </div>
+
+    </div>
+
+</form>
+

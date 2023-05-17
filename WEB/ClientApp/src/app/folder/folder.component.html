@@ -1,0 +1,97 @@
+<ng-container *ngIf="crumbs.length && crumbs[crumbs.length - 1] as crumb">
+
+    <nav id="breadcrumbs" class="mb-5">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item" *ngFor="let crumb of crumbs" (click)="selectCrumb(crumb)">
+                <a class="cursor-pointer">{{crumb.path}}</a>
+            </li>
+        </ol>
+    </nav>
+
+    <div class="card" *ngIf="crumb.folderView.subfolders.length">
+
+        <div class="card-body" *ngIf="crumbs.length">
+
+            <div *ngFor="let folder of crumb.folderView.subfolders" (click)="selectFolder(folder)" class="cursor-pointer my-1">
+                <i class="fa fa-fw fa-folder me-2"></i>{{folder.name}}
+            </div>
+
+        </div>
+
+    </div>
+
+    <div class="alert text-dark bg-light-monic mb-6" *ngIf="crumb.folderView.folder?.description as description">{{description}}</div>
+
+    <div class="card border-0" *ngIf="crumb.folderView.folderContents.length">
+
+        <div class="card-header border-0 card-header-space-between">
+            <h4 class="card-header-title text-uppercase">Contents</h4>
+        </div>
+
+        <div class="table-responsive">
+
+            <table class="table table-hover table-edge table-nowrap mb-5 align-middle">
+                <thead class="thead-light">
+                    <tr>
+                        <th>Name</th>
+                    </tr>
+                </thead>
+                <tbody class="list cursor-pointer">
+                    <tr *ngFor="let folderContent of crumb.folderView.folderContents" (click)="selectFolderContent(folderContentView, folderContent)">
+                        <td>{{ folderContent.name }}</td>
+                    </tr>
+                </tbody>
+            </table>
+
+        </div>
+
+    </div>
+
+    <div class="card border-0" *ngIf="crumb.folderView.documents.length">
+
+        <div class="card-header border-0 card-header-space-between">
+            <h4 class="card-header-title text-uppercase">Documents</h4>
+        </div>
+
+        <div class="table-responsive">
+
+            <table class="table table-hover table-edge table-nowrap mb-5 align-middle">
+                <thead class="thead-light">
+                    <tr>
+                        <th>Name</th>
+                        <th>Uploaded By</th>
+                        <th>Uploaded On</th>
+                        <th>Size</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody class="list cursor-pointer">
+                    <tr *ngFor="let document of crumb.folderView.documents" (click)="selectDocument(document)">
+                        <td>{{ document.fileName }}</td>
+                        <td>{{ document.uploadedBy.fullName }}</td>
+                        <td>{{ document.uploadedOn | momentPipe: 'DD MMM YYYY HH:mm' }}</td>
+                        <td>{{ document.size | fileSizePipe }}</td>
+                        <td class="w-20px"><i class="fa fa-info-circle text-muted" *ngIf="document.notes" [ngbPopover]="document.notes" container="body" (click)="$event.stopPropagation()"></i></td>
+                    </tr>
+                </tbody>
+            </table>
+
+        </div>
+
+    </div>
+
+    <div class="alert alert-warning" *ngIf="crumb.folderView.folder?.folderId && crumb.folderView.folderContents.length === 0 && crumb.folderView.documents.length === 0">
+        This folder is empty.
+    </div>
+
+</ng-container>
+
+<ng-template #folderContentView let-modal>
+    <div class="modal-header">
+        <h4 class="modal-title" id="modal-basic-title">{{selectedFolderContent?.name}}</h4>
+        <button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss()"></button>
+    </div>
+    <div class="modal-body">
+        <div [innerHtml]="sanitize(selectedFolderContent.html)" class="overflow-auto quill-render" *ngIf="selectedFolderContent"></div>
+    </div>
+</ng-template>

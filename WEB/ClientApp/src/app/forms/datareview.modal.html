@@ -1,0 +1,44 @@
+<div class="modal-header">
+    <h4 class="modal-title" id="modal-basic-title">{{title}}</h4>
+    <button type="button" class="btn-close" (click)="modal.dismiss()" aria-label="Close"></button>
+</div>
+<div class="modal-body px-md-5 mb-3">
+
+    <div class="alert alert-info">
+        You are about to {{verb.toLowerCase()}} the following data for {{entity.name}}: {{date.name}}
+    </div>
+
+    <!--todo: use responsive divs or table-responsive wrapper?-->
+    <table class="table table-hover table-edge table-nowrap mb-0 align-middle">
+        <thead class="thead-light">
+            <tr>
+                <th>Indicator</th>
+                <th class="col-lg-2">Value</th>
+                <th class="col-lg-2">Note</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let row of indicatorRows">
+                <td>{{row.indicator.name}} <small class="text-muted">({{row.indicator.code}})</small></td>
+                <td>{{row.datum.value}}</td>
+                <td>{{row.datum.note}}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <ng-container *ngIf="verb === 'Reject'">
+
+        <hr />
+
+        <p>Provide a rejection note below:</p>
+
+        <textarea id="note" name="note" class="form-control" rows="5" [(ngModel)]="rejectionNote"></textarea>
+
+    </ng-container>
+
+</div>
+<div class="modal-footer">
+    <button type="button" (click)="accept()" class="btn btn-outline-success" *ngIf="verb !== 'Reject'">{{verb}}</button>
+    <button type="button" (click)="reject()" class="btn btn-danger" *ngIf="verb === 'Reject'">Reject</button>
+    <button type="button" class="btn btn-outline-secondary" (click)="modal.dismiss()">Cancel</button>
+</div>

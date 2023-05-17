@@ -1,0 +1,30 @@
+//
+// Legend
+//
+
+.legend-circle {
+    display: inline-block;
+    width: $legend-circle-diamater;
+    height: $legend-circle-diamater;
+    background-color: $legend-circle-bg;
+    border-radius: 50%;
+    margin-right: .375rem;
+}
+
+.legend-circle-sm {
+    display: inline-block;
+    width: $legend-circle-diamater-sm;
+    height: $legend-circle-diamater-sm;
+    background-color: $legend-circle-bg;
+    border-radius: 50%;
+    margin-right: .25rem;
+}
+
+.legend-circle-lg {
+    display: inline-block;
+    width: $legend-circle-diamater-lg;
+    height: $legend-circle-diamater-lg;
+    background-color: $legend-circle-bg;
+    border-radius: 50%;
+    margin-right: .5rem;
+}

@@ -1,0 +1,45 @@
+//
+// Emoji
+//
+
+div.picmo-picker {
+    --background-color: var(--#{$prefix}white);
+    --accent-color: var(--#{$prefix}primary);
+    --border-color: var(--#{$prefix}gray-200);
+    --category-name-background-color: var(--#{$prefix}white);
+    --category-name-text-color: var(--#{$prefix}gray-500);
+    --error-color: var(--#{$prefix}danger);
+    --ui-font-size: var(--#{$prefix}body-font-size);
+    --search-height: 2.5em;
+    --border-radius: #{$border-radius};
+    --hover-background-color: var(--#{$prefix}gray-300);
+    --focus-indicator-background-color: rgba(var(--#{$prefix}primary), .8);
+    --placeholder-background-color: var(--#{$prefix}white);
+    --preview-background-color: var(--#{$prefix}white);
+    --scrollbar-background-color: var(--#{$prefix}white);
+    --scrollbar-color: var(--#{$prefix}gray-600);
+    --search-background-color: var(--#{$prefix}light-green);
+    --search-focus-background-color: var(--#{$prefix}light-green);
+    --search-icon-color: var(--#{$prefix}secondary);
+    --search-placeholder-color: var(--#{$prefix}secondary);
+    --secondary-background-color: var(--#{$prefix}white);
+    --tag-background-color: var(--#{$prefix}white);
+    --text-color: var(--#{$prefix}body-color);
+    --ui-font: var(--#{$prefix}body-font-family);
+    --category-tab-color: var(--#{$prefix}gray-600);
+
+    > button {
+        &:hover {
+            --accent-color: var(--#{$prefix}primary);
+        }
+    }
+}
+
+.popupContainer.emoji-popup {
+    box-shadow: $box-shadow-lg;
+    z-index: 100;
+
+    > button {
+        z-index: 101;
+    }
+}

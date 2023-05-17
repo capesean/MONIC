@@ -1,0 +1,18 @@
+div#toc {
+    height: 600px;
+    /*background: #f8f8f8;
+    border: solid 1px #aaaaaa;*/
+}
+
+.node {
+    cursor: pointer;
+}
+
+div#toc .node:hover rect {
+    opacity: 0.75;
+}
+
+div#toc .node.selected rect {
+    stroke: black;
+    stroke-width:3px;
+}

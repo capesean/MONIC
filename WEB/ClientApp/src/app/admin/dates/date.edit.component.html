@@ -1,0 +1,415 @@
+<app-page-title title="Date"></app-page-title>
+
+<form id="form" name="form" (submit)="save(form)" novalidate #form="ngForm" [ngClass]="{ 'was-validated': form.submitted }">
+
+    <div class="card border-0">
+
+        <div class="card-body">
+
+            <fieldset class="group">
+
+                <div class="row g-3">
+
+                    <div class="col-sm-6 col-md-4">
+                        <div class="form-group" [ngClass]="{ 'is-invalid': name.invalid }">
+
+                            <label for="name">
+                                Name:
+                            </label>
+
+                            <input id="name" name="name" class="form-control" type="text" [(ngModel)]="date.name" #name="ngModel" required (ngModelChange)="changeBreadcrumb()" maxlength="15" />
+
+                            <div *ngIf="name.errors?.required" class="invalid-feedback">
+                                Name is required
+                            </div>
+
+                            <div *ngIf="name.errors?.maxlength" class="invalid-feedback">
+                                Name must be at most 15 characters long
+                            </div>
+
+                        </div>
+                    </div>
+
+                    <div class="col-sm-6 col-md-4">
+                        <div class="form-group" [ngClass]="{ 'is-invalid': code.invalid }">
+
+                            <label for="code">
+                                Code:
+                            </label>
+
+                            <input id="code" name="code" class="form-control" type="text" [(ngModel)]="date.code" #code="ngModel" required maxlength="8" />
+
+                            <div *ngIf="code.errors?.required" class="invalid-feedback">
+                                Code is required
+                            </div>
+
+                            <div *ngIf="code.errors?.maxlength" class="invalid-feedback">
+                                Code must be at most 8 characters long
+                            </div>
+
+                        </div>
+                    </div>
+
+                    <div class="col-sm-6 col-md-4">
+                        <div class="form-group" [ngClass]="{ 'is-invalid': dateType.invalid }">
+
+                            <label for="dateType">
+                                Date Type:
+                            </label>
+
+                            <select id="dateType" name="dateType" class="form-select" [(ngModel)]="date.dateType" #dateType="ngModel" required>
+                                <option *ngFor="let dateType of dateTypes" [ngValue]="dateType.value">{{ dateType.label }}</option>
+                            </select>
+
+                            <div *ngIf="dateType.errors?.required" class="invalid-feedback">
+                                Date Type is required
+                            </div>
+
+                        </div>
+                    </div>
+
+                    <div class="col-sm-6 col-md-4" *ngIf="date.dateType === 2">
+                        <div class="form-group" [ngClass]="{ 'is-invalid': quarterId.invalid }">
+
+                            <label for="quarterId">
+                                Quarter:
+                            </label>
+
+                            <date-select id="quarterId" name="quarterId" [(date)]="date.quarter" [(ngModel)]="date.quarterId" #quarterId="ngModel" [dateType]="dateTypeQuarter" required></date-select>
+
+                            <div *ngIf="quarterId.errors?.required" class="invalid-feedback">
+                                Quarter is required
+                            </div>
+
+                        </div>
+                    </div>
+
+                    <div class="col-sm-6 col-md-4" *ngIf="date.dateType !== 0">
+                        <div class="form-group" [ngClass]="{ 'is-invalid': yearId.invalid }">
+
+                            <label for="yearId">
+                                Year:
+                            </label>
+
+                            <date-select id="yearId" name="yearId" [(date)]="date.year" [(ngModel)]="date.yearId" #yearId="ngModel" [dateType]="dateTypeYear" required></date-select>
+
+                            <div *ngIf="yearId.errors?.required" class="invalid-feedback">
+                                Year is required
+                            </div>
+
+                        </div>
+                    </div>
+
+                    <div class="col-sm-6 col-md-4">
+                        <div class="form-group" [ngClass]="{ 'is-invalid': openFrom.invalid }">
+
+                            <label for="openFrom">
+                                Open From:
+                            </label>
+
+                            <div class="input-group">
+                                <input id="openFrom" name="openFrom" class="form-control" type="text" [(ngModel)]="date.openFrom" #openFrom="ngModel" required readonly placeholder="yyyy-mm-dd" ngbDatepicker #dpOpenFrom="ngbDatepicker" tabindex="-1" (click)="dpOpenFrom.toggle()" container="body" />
+                                <button class="btn btn-secondary calendar" (click)="dpOpenFrom.toggle()" type="button"><i class="fas fa-fw fa-calendar-alt"></i></button>
+                            </div>
+
+                            <div *ngIf="openFrom.errors?.required" class="invalid-feedback">
+                                Open From is required
+                            </div>
+
+                        </div>
+                    </div>
+
+                    <div class="col-sm-6 col-md-4">
+                        <div class="form-group" [ngClass]="{ 'is-invalid': openTo.invalid }">
+
+                            <label for="openTo">
+                                Open To:
+                            </label>
+
+                            <div class="input-group">
+                                <input id="openTo" name="openTo" class="form-control" type="text" [(ngModel)]="date.openTo" #openTo="ngModel" required readonly placeholder="yyyy-mm-dd" ngbDatepicker #dpOpenTo="ngbDatepicker" tabindex="-1" (click)="dpOpenTo.toggle()" container="body" />
+                                <button class="btn btn-secondary calendar" (click)="dpOpenTo.toggle()" type="button"><i class="fas fa-fw fa-calendar-alt"></i></button>
+                            </div>
+
+                            <div *ngIf="openTo.errors?.required" class="invalid-feedback">
+                                Open To is required
+                            </div>
+
+                        </div>
+                    </div>
+
+                </div>
+
+            </fieldset>
+
+            <fieldset class="my-3">
+                <button type="submit" class="btn btn-outline-success me-2 mb-1">Save<i class="fas fa-check ms-2"></i></button>
+                <button type="button" *ngIf="!isNew" class="btn btn-outline-danger me-2 mb-1" (click)="delete()">Delete<i class="fas fa-times ms-2"></i></button>
+            </fieldset>
+
+        </div>
+
+    </div>
+
+</form>
+
+<ng-container *ngIf="!isNew && date.dateType !== 2">
+
+    <hr />
+
+    <nav ngbNav #nav="ngbNav" class="nav-tabs" [activeId]="date.dateType">
+
+        <ng-container [ngbNavItem]="1" [disabled]="date.dateType !== 1" class="pt-6">
+
+            <a ngbNavLink>Dates in Quarter</a>
+
+            <ng-template ngbNavContent>
+
+                <div class="card border-0 search-results">
+
+                    <div class="card-header border-0">
+
+                        <h4 class="card-header-title text-uppercase">
+                            Dates in Quarter
+                        </h4>
+
+                    </div>
+
+                    <div class="card-body">
+
+                        <form id="formSearchDatesInQuarter" (submit)="searchDatesInQuarter(0)" novalidate *ngIf="showDatesInQuarterSearch" class="mb-5">
+
+                            <div class="row g-3">
+
+                                <div class="col-sm-6 col-md-5 col-lg-4 col-xl-3">
+                                    <div class="form-group">
+                                        <input type="search" name="q" id="q" [(ngModel)]="datesInQuarterSearchOptions.q" max="100" class="form-control" placeholder="Search dates in quarter" />
+                                    </div>
+                                </div>
+
+                                <div class="col-sm-6 col-md-4 col-lg-4 col-xl-3">
+                                    <div class="form-group">
+                                        <select id="dateType" name="dateType" [(ngModel)]="datesInQuarterSearchOptions.dateType" #dateType="ngModel" class="form-select">
+                                            <option *ngFor="let dateType of dateTypes" [ngValue]="dateType.value">{{ dateType.label }}</option>
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <div class="col-sm-6 col-md-4 col-lg-4 col-xl-3">
+                                    <div class="form-group">
+                                        <date-select id="yearId" name="yearId" [(ngModel)]="datesInQuarterSearchOptions.yearId"></date-select>
+                                    </div>
+                                </div>
+
+                            </div>
+
+                        </form>
+
+                        <div class="mb-3">
+                            <button *ngIf="!showDatesInQuarterSearch" type="button" class="btn btn-outline-secondary me-2 mb-1" (click)="showDatesInQuarterSearch=true">Filter<i class="fas fa-filter ms-2"></i></button>
+                            <button *ngIf="showDatesInQuarterSearch" form="formSearchDatesInQuarter" type="submit" class="btn btn-outline-primary me-2 mb-1">Search<i class="fas fa-search ms-2"></i></button>
+                        </div>
+
+                    </div>
+
+                    <div class="table-responsive">
+
+                        <table class="table table-hover table-edge table-nowrap mb-0 align-middle">
+                            <thead class="thead-light">
+                                <tr>
+                                    <th>Name</th>
+                                    <th>Code</th>
+                                    <th>Date Type</th>
+                                    <th class="w-20px text-center"><i class="fas fa-times text-danger cursor-pointer" (click)="deleteDatesInQuarter()" ngbTooltip="Delete all dates in quarter" container="body" placement="left"></i></th>
+                                </tr>
+                            </thead>
+                            <tbody class="list cursor-pointer">
+                                <tr *ngFor="let date of datesInQuarter" (click)="goToDateInQuarter(date)">
+                                    <td>{{ date.name }}</td>
+                                    <td>{{ date.code }}</td>
+                                    <td>{{ dateTypes[date.dateType].label }}</td>
+                                    <td class="text-center"><i class="fas fa-times cursor-pointer p-1 text-danger" (click)="deleteDateInQuarter(date, $event)"></i></td>
+                                </tr>
+                            </tbody>
+                        </table>
+
+                    </div>
+
+                    <div class="card-footer">
+                        <pager [headers]="datesInQuarterHeaders" (pageChanged)="searchDatesInQuarter($event)"></pager>
+                    </div>
+
+                </div>
+
+            </ng-template>
+
+        </ng-container>
+
+        <ng-container [ngbNavItem]="0" [disabled]="date.dateType !== 0" class="pt-6">
+
+            <a ngbNavLink>Dates in Year</a>
+
+            <ng-template ngbNavContent>
+
+                <div class="card border-0 search-results">
+
+                    <div class="card-header border-0">
+
+                        <h4 class="card-header-title text-uppercase">
+                            Dates in Year
+                        </h4>
+
+                    </div>
+
+                    <div class="card-body">
+
+                        <form id="formSearchDatesInYear" (submit)="searchDatesInYear(0)" novalidate *ngIf="showDatesInYearSearch" class="mb-5">
+
+                            <div class="row g-3">
+
+                                <div class="col-sm-6 col-md-5 col-lg-4 col-xl-3">
+                                    <div class="form-group">
+                                        <input type="search" name="q" id="q" [(ngModel)]="datesInYearSearchOptions.q" max="100" class="form-control" placeholder="Search dates in year" />
+                                    </div>
+                                </div>
+
+                                <div class="col-sm-6 col-md-4 col-lg-4 col-xl-3">
+                                    <div class="form-group">
+                                        <select id="dateType" name="dateType" [(ngModel)]="datesInYearSearchOptions.dateType" #dateType="ngModel" class="form-select">
+                                            <option *ngFor="let dateType of dateTypes" [ngValue]="dateType.value">{{ dateType.label }}</option>
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <div class="col-sm-6 col-md-4 col-lg-4 col-xl-3">
+                                    <div class="form-group">
+                                        <date-select id="quarterId" name="quarterId" [(ngModel)]="datesInYearSearchOptions.quarterId"></date-select>
+                                    </div>
+                                </div>
+
+                            </div>
+
+                        </form>
+
+                        <div class="mb-3">
+                            <button *ngIf="!showDatesInYearSearch" type="button" class="btn btn-outline-secondary me-2 mb-1" (click)="showDatesInYearSearch=true">Filter<i class="fas fa-filter ms-2"></i></button>
+                            <button *ngIf="showDatesInYearSearch" form="formSearchDatesInYear" type="submit" class="btn btn-outline-primary me-2 mb-1">Search<i class="fas fa-search ms-2"></i></button>
+                        </div>
+
+                    </div>
+
+                    <div class="table-responsive">
+
+                        <table class="table table-hover table-edge table-nowrap mb-0 align-middle">
+                            <thead class="thead-light">
+                                <tr>
+                                    <th>Name</th>
+                                    <th>Code</th>
+                                    <th>Date Type</th>
+                                    <th class="w-20px text-center"><i class="fas fa-times text-danger cursor-pointer" (click)="deleteDatesInYear()" ngbTooltip="Delete all dates in year" container="body" placement="left"></i></th>
+                                </tr>
+                            </thead>
+                            <tbody class="list cursor-pointer">
+                                <tr *ngFor="let date of datesInYear" (click)="goToDateInYear(date)">
+                                    <td>{{ date.name }}</td>
+                                    <td>{{ date.code }}</td>
+                                    <td>{{ dateTypes[date.dateType].label }}</td>
+                                    <td class="text-center"><i class="fas fa-times cursor-pointer p-1 text-danger" (click)="deleteDateInYear(date, $event)"></i></td>
+                                </tr>
+                            </tbody>
+                        </table>
+
+                    </div>
+
+                    <div class="card-footer">
+                        <pager [headers]="datesInYearHeaders" (pageChanged)="searchDatesInYear($event)"></pager>
+                    </div>
+
+                </div>
+
+            </ng-template>
+
+        </ng-container>
+
+        <ng-container ngbNavItem class="pt-6">
+
+            <a ngbNavLink>Responses</a>
+
+            <ng-template ngbNavContent>
+
+                <div class="card border-0 search-results">
+
+                    <div class="card-header border-0">
+
+                        <h4 class="card-header-title text-uppercase">
+                            Responses
+                        </h4>
+
+                    </div>
+
+                    <div class="card-body">
+
+                        <form id="formSearchResponses" (submit)="searchResponses(0)" novalidate *ngIf="showResponsesSearch" class="mb-5">
+
+                            <div class="row g-3">
+
+                                <div class="col-sm-6 col-md-4 col-lg-4 col-xl-3">
+                                    <div class="form-group">
+                                        <questionnaire-select id="questionnaireId" name="questionnaireId" [(ngModel)]="responsesSearchOptions.questionnaireId"></questionnaire-select>
+                                    </div>
+                                </div>
+
+                                <div class="col-sm-6 col-md-4 col-lg-4 col-xl-3">
+                                    <div class="form-group">
+                                        <entity-select id="entityId" name="entityId" [(ngModel)]="responsesSearchOptions.entityId"></entity-select>
+                                    </div>
+                                </div>
+
+                            </div>
+
+                        </form>
+
+                        <div class="mb-3">
+                            <button *ngIf="!showResponsesSearch" type="button" class="btn btn-outline-secondary me-2 mb-1" (click)="showResponsesSearch=true">Filter<i class="fas fa-filter ms-2"></i></button>
+                            <button *ngIf="showResponsesSearch" form="formSearchResponses" type="submit" class="btn btn-outline-primary me-2 mb-1">Search<i class="fas fa-search ms-2"></i></button>
+                        </div>
+
+                    </div>
+
+                    <div class="table-responsive">
+
+                        <table class="table table-hover table-edge table-nowrap mb-0 align-middle">
+                            <thead class="thead-light">
+                                <tr>
+                                    <th>Questionnaire</th>
+                                    <th>Entity</th>
+                                    <th class="w-20px text-center"><i class="fas fa-times text-danger cursor-pointer" (click)="deleteResponses()" ngbTooltip="Delete all responses" container="body" placement="left"></i></th>
+                                </tr>
+                            </thead>
+                            <tbody class="list cursor-pointer">
+                                <tr *ngFor="let response of responses" (click)="goToResponse(response)">
+                                    <td>{{ response.questionnaire.name }}</td>
+                                    <td>{{ response.entity.name }}</td>
+                                    <td class="text-center"><i class="fas fa-times cursor-pointer p-1 text-danger" (click)="deleteResponse(response, $event)"></i></td>
+                                </tr>
+                            </tbody>
+                        </table>
+
+                    </div>
+
+                    <div class="card-footer">
+                        <pager [headers]="responsesHeaders" (pageChanged)="searchResponses($event)"></pager>
+                    </div>
+
+                </div>
+
+            </ng-template>
+
+        </ng-container>
+
+    </nav>
+
+    <div [ngbNavOutlet]="nav" class="mt-1"></div>
+
+</ng-container>
+

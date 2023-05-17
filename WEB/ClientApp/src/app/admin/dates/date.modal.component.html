@@ -1,0 +1,90 @@
+<ng-template #content let-modal>
+
+    <div class="modal-header">
+        <h4 class="modal-title" id="modal-basic-title">{{title}}</h4>
+        <button type="button" class="btn-close" (click)="modal.dismiss()" aria-label="Close"></button>
+    </div>
+    
+    <div class="modal-body">
+
+        <form (submit)="runSearch()" novalidate>
+
+            <fieldset>
+
+                <div class="alert alert-info alert-dismissible" *ngIf="dateType!=undefined">Filtered by date type: {{dateType.label}}<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close" (click)="searchOptions.dateType=undefined;dateType=undefined;runSearch();" *ngIf="canRemoveFilters"></button></div>
+                <div class="alert alert-info alert-dismissible" *ngIf="quarter!=undefined">Filtered by quarter: {{quarter.name}}<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close" (click)="searchOptions.quarterId=undefined;quarter=undefined;runSearch();" *ngIf="canRemoveFilters"></button></div>
+                <div class="alert alert-info alert-dismissible" *ngIf="year!=undefined">Filtered by year: {{year.name}}<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close" (click)="searchOptions.yearId=undefined;year=undefined;runSearch();" *ngIf="canRemoveFilters"></button></div>
+
+                <div class="row g-3">
+
+                    <div class="col-sm-6 col-md-6 col-lg-4">
+                        <div class="form-group">
+                            <input type="search" ngbAutofocus name="q" id="q" [(ngModel)]="searchOptions.q" max="100" class="form-control" placeholder="Search dates" autocomplete="off" />
+                        </div>
+                    </div>
+
+                    <div class="col-sm-6 col-md-6 col-lg-4" *ngIf="!dateType">
+                        <select id="dateType" name="dateType" [(ngModel)]="searchOptions.dateType" #dateType="ngModel" class="form-select">
+                            <option *ngFor="let dateType of dateTypes" [ngValue]="dateType.value">{{ dateType.label }}</option>
+                        </select>
+                    </div>
+
+                    <div class="col-sm-6 col-md-6 col-lg-4" *ngIf="!quarter">
+                        <div class="form-group">
+                            <date-select id="quarterId" name="quarterId" [(ngModel)]="searchOptions.quarterId"></date-select>
+                        </div>
+                    </div>
+
+                    <div class="col-sm-6 col-md-6 col-lg-4" *ngIf="!year">
+                        <div class="form-group">
+                            <date-select id="yearId" name="yearId" [(ngModel)]="searchOptions.yearId"></date-select>
+                        </div>
+                    </div>
+
+                    <div class="col-sm-6 col-md-6 col-lg-4">
+                        <div class="form-group">
+                            <button type="submit" class="btn btn-outline-primary">Search<i class="fas fa-search ms-2"></i></button>
+                        </div>
+                    </div>
+                </div>
+
+            </fieldset>
+
+        </form>
+
+        <div class="table-responsive mt-6 mb-5">
+
+            <table class="table table-hover table-edge table-nowrap mb-0 align-middle">
+                <thead class="thead-light">
+                    <tr>
+                    <th>Name</th>
+                    <th *ngIf="!dateType">Date Type</th>
+                        <th class="text-center w-20px" *ngIf="multiple"><i class="fas fa-fw cursor-pointer" [ngClass]="{ 'fa-check-square': allSelected, 'fa-square': !allSelected }" (click)="toggleAll()"></i></th>
+                    </tr>
+                </thead>
+                <tbody class="cursor-pointer">
+                    <tr *ngFor="let date of dates" (click)="select(date)">
+                    <td>{{ date.name }}</td>
+                    <td *ngIf="!dateType">{{ dateTypes[date.dateType].label }}</td>
+                        <td *ngIf="multiple" class="text-center"><i [ngClass]="{ 'fa-check-square': isSelected(date), 'fa-square': !isSelected(date) }" class="fas fa-fw"></i></td>
+                    </tr>
+                </tbody>
+            </table>
+
+        </div>
+
+        <pager [headers]="headers" (pageChanged)="runSearch($event)"></pager>
+
+    </div>
+    
+    <div class="modal-footer" [ngClass]="{ 'justify-content-between': multiple }">
+        <button type="button" class="btn btn-info me-2" *ngIf="multiple">{{selectedItems.length}} selected</button>
+        <div>
+            <button type="button" class="btn btn-outline-primary me-2" (click)="addNew()" target="_blank" *ngIf="showAddNew">Add New</button>
+            <button type="button" class="btn btn-outline-dark me-2" (click)="close()">{{(multiple ? "Select Checked" : "Close")}}</button>
+            <button type="button" class="btn btn-outline-dark me-2" (click)="selectAll()" *ngIf="multiple">Select All</button>
+            <button type="button" class="btn btn-outline-secondary" (click)="clear()">Clear</button>
+        </div>
+    </div>
+
+</ng-template>

@@ -1,0 +1,114 @@
+#ganttContainer {
+    display: flex;
+    flex-direction: row;
+    margin-bottom: 100px;
+    margin-top: 20px;
+}
+
+    #ganttContainer #dataPane {
+        width: 25%;
+        overflow-x: auto;
+        white-space: nowrap;
+        border-top: solid 1px #808080;
+        border-left: solid 1px #808080;
+        border-bottom: solid 1px #808080;
+        display: grid;
+    }
+
+        #ganttContainer #dataPane h5 {
+            padding: 0 0.5rem;
+            margin: 0;
+            line-height: 30px;
+            height: 30px;
+        }
+
+        #ganttContainer #dataPane .ganttHeader {
+            background-color: #f0f0f0;
+            border-bottom: solid 1px #808080;
+        }
+
+        #ganttContainer #dataPane .ganttRow {
+            padding: 0 0.5rem;
+        }
+
+    #ganttContainer #barPane {
+        width: 75%;
+        overflow-x: auto;
+        display: grid;
+        border-right: solid 1px #808080;
+        border-bottom: solid 1px #808080;
+    }
+
+        #ganttContainer #barPane .ganttHeader {
+            display: flex;
+            flex-direction: row;
+            border-top: solid 1px #808080;
+            border-bottom: solid 1px #808080;
+            background-color: #f0f0f0;
+            border-left: solid 1px #808080;
+            height: 32px;
+        }
+
+        #ganttContainer #barPane .bucket {
+            border-right: solid 1px #808080;
+            height: 30px;
+            min-width: 80px;
+            text-align: center;
+            line-height: 30px;
+        }
+
+            #ganttContainer #barPane .bucket:last-child {
+                border-right: none;
+            }
+
+    #ganttContainer #bars {
+        border-left: dashed 2px #dddddd;
+    }
+
+    #ganttContainer .ganttRow {
+        height: 25px;
+        overflow-y: clip;
+        cursor: pointer;
+    }
+
+    #ganttContainer #dataPane .ganttRow.milestone {
+        font-weight: bold;
+    }
+
+    #ganttContainer #barPane .ganttRow.milestone .bar {
+        clip-path: polygon(0 0, 100% 0, 100% 100%, calc(100% - 0.5rem) 60%, 0.5rem 60%, 0 100%);
+        margin-top: 9px;
+        margin-bottom: 5px;
+        height: 10px;
+        cursor: pointer;
+    }
+
+    #ganttContainer #barPane .ganttRow.task .bar {
+        height: 12px;
+        border-radius: 4px;
+        margin-top: 6px;
+        margin-bottom: 6px;
+        cursor: pointer;
+    }
+
+    #ganttContainer #barPane .ganttRow.task .completion {
+        height: 12px;
+        border-top-left-radius: 4px;
+        border-bottom-left-radius: 4px;
+        cursor: pointer;
+        display: block;
+    }
+
+        #ganttContainer #barPane .ganttRow.task .completion.completed {
+            border-radius: 4px;
+        }
+
+    #ganttContainer #dataPane .ganttRow.task {
+        padding-left: 1rem;
+    }
+
+    #ganttContainer #barPane .ganttRow {
+        display: flex;
+        flex-direction: row;
+        border-bottom: dashed 1px #e0e0e0;
+    }

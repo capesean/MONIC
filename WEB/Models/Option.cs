@@ -1,0 +1,37 @@
+using System;
+using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
+
+namespace WEB.Models
+{
+    public class Option
+    {
+        [Key, Required]
+        public Guid OptionId { get; set; }
+
+        [Required]
+        public Guid FieldId { get; set; }
+
+        [Required(AllowEmptyStrings = true), MaxLength(2000)]
+        public string Name { get; set; }
+
+        [Required]
+        public int SortOrder { get; set; }
+
+        public virtual ICollection<OptionValue> OptionValues { get; set; } = new List<OptionValue>();
+
+        [ForeignKey("FieldId")]
+        public virtual Field Field { get; set; }
+
+        public Option()
+        {
+            OptionId = Guid.NewGuid();
+        }
+
+        public override string ToString()
+        {
+            return Name;
+        }
+    }
+}

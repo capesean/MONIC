@@ -1,0 +1,236 @@
+<ng-container>
+
+    <ng-container *ngIf="controlType === 0">
+
+        <div class="form-group" [ngClass]="{ 'is-invalid': checkboxField?.invalid }">
+
+            <label for="{{controlName}}">
+                {{_field.name}}: <span *ngIf="_field.required" class="mandatory">*</span>
+            </label>
+
+            <div class="form-check">
+                <input id="{{controlName}}" name="{{controlName}}" class="form-check-input"
+                       type="checkbox" [(ngModel)]="value" #checkboxField="ngModel" />
+                <label class="form-check-label" for="{{controlName}}">
+                    {{_field.name}}
+                </label>
+            </div>
+
+        </div>
+
+    </ng-container>
+
+    <ng-container *ngIf="controlType === 1">
+
+        <div class="form-group" [ngClass]="{ 'is-invalid': multipleCheckbox?.invalid }">
+
+            <label>
+                {{_field.name}}: <span *ngIf="_field.required" class="mandatory">*</span>
+            </label>
+
+            <ng-container *ngFor="let option of _field.options; let isLast = last; let i = index;">
+
+                <div class="form-check form-check-inline">
+                    <input type="checkbox" id="{{option.optionId}}"
+                           name="{{option.optionId}}"
+                           class="form-check-input"
+                           [ngModel]="checkboxes.get(option.optionId)"
+                           (ngModelChange)="checkboxChanged(option, $event)"
+                           #multipleCheckbox="ngModel"
+                           [required]="_field.required" />
+                    <!--todo: required!-->
+                    <label class="form-check-label" for="{{option.optionId}}">{{option.name}}</label>
+                </div>
+
+                <div *ngIf="isLast && multipleCheckbox.errors?.required" class="invalid-feedback">
+                    {{_field.name}} is required
+                </div>
+
+            </ng-container>
+
+        </div>
+
+    </ng-container>
+
+    <ng-container *ngIf="controlType === 2">
+
+        <div class="form-group" [ngClass]="{ 'is-invalid': multipleSelect?.invalid }">
+
+            <label for="{{controlName}}">
+                {{_field.name}}: <span *ngIf="_field.required" class="mandatory">*</span>
+            </label>
+
+            <select id="{{controlName}}"
+                    name="{{controlName}}"
+                    class="form-select"
+                    [(ngModel)]="value"
+                    [required]="_field.required"
+                    #multipleSelect="ngModel">
+                <option *ngFor="let option of _field.options" [ngValue]="option.optionId">{{ option.name }}</option>
+            </select>
+
+            <div *ngIf="multipleSelect.errors?.required" class="invalid-feedback">
+                {{_field.name}} is required
+            </div>
+
+        </div>
+
+    </ng-container>
+
+    <ng-container *ngIf="controlType === 3">
+
+        <div class="form-group">
+            <!--todo: [ngClass]="{ 'is-invalid': radioButton?.invalid }"-->
+
+            <label for="{{controlName}}">
+                {{_field.name}}: <span *ngIf="_field.required" class="mandatory">*</span>
+            </label>
+
+            <ng-container *ngFor="let option of _field.options; let isLast = last; let i = index;">
+
+                <div class="form-check form-check-inline">
+                    <input type="radio" id="{{option.optionId}}"
+                           name="{{controlName}}"
+                           class="form-check-input"
+                           [(ngModel)]="value"
+                           [required]="_field.required"
+                           #radioButton="ngModel"
+                           [value]="option.optionId" />
+                    <label class="form-check-label" for="{{option.optionId}}">{{option.name}}</label>
+                </div>
+
+                <div *ngIf="isLast && radioButton.errors?.required" class="invalid-feedback d-block">
+                    {{_field.name}} is required
+                </div>
+
+            </ng-container>
+
+        </div>
+
+    </ng-container>
+
+    <ng-container *ngIf="controlType === 4">
+
+        <div class="form-group" [ngClass]="{ 'is-invalid': select?.invalid }">
+
+            <label for="{{controlName}}">
+                {{_field.name}}: <span *ngIf="_field.required" class="mandatory">*</span>
+            </label>
+
+            <select id="{{controlName}}"
+                    name="{{controlName}}"
+                    multiple
+                    class="form-control"
+                    [(ngModel)]="value"
+                    [required]="_field.required"
+                    #select="ngModel">
+                <option *ngFor="let option of _field.options" [ngValue]="option.optionId">{{ option.name }}</option>
+            </select>
+
+            <div *ngIf="select.errors?.required" class="invalid-feedback">
+                {{_field.name}} is required
+            </div>
+
+        </div>
+
+    </ng-container>
+
+    <ng-container *ngIf="controlType === 5">
+
+        <div class="form-group" [ngClass]="{ 'is-invalid': textbox?.invalid }">
+
+            <label for="{{controlName}}">
+                {{_field.name}}: <span *ngIf="_field.required" class="mandatory">*</span>
+            </label>
+
+            <input id="{{controlName}}"
+                   name="{{controlName}}"
+                   class="form-control"
+                   type="text"
+                   [(ngModel)]="value"
+                   [required]="_field.required"
+                   [pattern]="_field.regEx"
+                   [minlength]="_field.minLength"
+                   [maxlength]="_field.maxLength"
+                   #textbox="ngModel" />
+
+            <div *ngIf="textbox.errors?.required" class="invalid-feedback">
+                {{_field.name}} is required
+            </div>
+
+            <div *ngIf="textbox.errors?.maxlength" class="invalid-feedback">
+                {{_field.name}} must be at most {{_field.maxLength}} characters long
+            </div>
+
+            <div *ngIf="textbox.errors?.minlength" class="invalid-feedback">
+                {{_field.name}} must be at least {{_field.minLength}} characters long
+            </div>
+
+        </div>
+
+    </ng-container>
+
+    <ng-container *ngIf="controlType === 6">
+
+        <div class="form-group" [ngClass]="{ 'is-invalid': textArea?.invalid }">
+
+            <label for="{{controlName}}">
+                {{_field.name}}: <span *ngIf="_field.required" class="mandatory">*</span>
+            </label>
+
+            <textarea id="{{controlName}}"
+                      name="{{controlName}}"
+                      class="form-control"
+                      [(ngModel)]="value"
+                      [required]="_field.required"
+                      [pattern]="_field.regEx"
+                      [minlength]="_field.minLength"
+                      [maxlength]="_field.maxLength"
+                      #textArea="ngModel"
+                      [rows]="_field.rows"></textarea>
+
+            <div *ngIf="textArea.errors?.required" class="invalid-feedback">
+                {{_field.name}} is required
+            </div>
+
+            <div *ngIf="textArea.errors?.maxlength" class="invalid-feedback">
+                {{_field.name}} must be at most {{_field.maxLength}} characters long
+            </div>
+
+            <div *ngIf="textArea.errors?.minlength" class="invalid-feedback">
+                {{_field.name}} must be at least {{_field.minLength}} characters long
+            </div>
+
+        </div>
+
+    </ng-container>
+
+    <!--<ng-container *ngIf="controlType === 7">
+
+            <div class="form-group" [ngClass]="{ 'is-invalid': fileInput?.invalid }">
+
+                <label for="{{controlName}}">
+                    {{_field.name}}: <span *ngIf="_field.required" class="mandatory">*</span>
+                </label>
+
+                <div class="input-group">
+                    <div class="input-group-prepend" *ngIf="file.fileContents === null">
+                        <button type="button" class="btn btn-outline-primary" (click)="download()"><i class="fa fa-fw fa-cloud-download-alt"></i></button>
+                    </div>
+                    <div class="custom-file">
+                        <input id="{{controlName}}" name="{{controlName}}" class="form-control"
+                               type="file" (ngModel)="file" #fileInput="ngModel" [required]="_field.required" app-file-input
+                               [(appFileContent)]="file.fileContents" [(appFileName)]="file.fileName" />
+                        <label class="custom-file-label" for="{{controlName}}">{{ file.fileName || "Choose file"}}</label>
+                    </div>
+                </div>
+
+                <div *ngIf="fileInput.errors?.required" class="invalid-feedback">
+                    {{_field.name}} is required
+                </div>
+
+            </div>
+
+    </ng-container>-->
+
+</ng-container>

@@ -1,0 +1,67 @@
+<app-page-title title="Answer Options"></app-page-title>
+
+<div class="card border-0">
+
+    <div class="card-body">
+
+        <form (submit)="runSearch(0)" novalidate>
+
+            <div class="row g-3">
+
+                <div class="col-sm-6 col-md-4 col-lg-3">
+                    <div class="form-group">
+                        <answer-select id="answerId" name="answerId" [(ngModel)]="searchOptions.answerId"></answer-select>
+                    </div>
+                </div>
+
+                <div class="col-sm-6 col-md-4 col-lg-3">
+                    <div class="form-group">
+                        <question-option-select id="questionOptionId" name="questionOptionId" [(ngModel)]="searchOptions.questionOptionId"></question-option-select>
+                    </div>
+                </div>
+
+            </div>
+
+            <fieldset class="mt-3">
+
+                <button type="submit" class="btn btn-outline-primary me-2 mb-1">Search<i class="fas fa-search ms-2"></i></button>
+
+            </fieldset>
+
+        </form>
+
+    </div>
+
+</div>
+
+<div class="card border-0">
+
+    <div class="card-header border-0 card-header-space-between">
+        <h4 class="card-header-title text-uppercase">Answer Options</h4>
+    </div>
+
+    <div class="table-responsive">
+
+        <table class="table table-hover table-edge table-nowrap mb-0 align-middle">
+            <thead class="thead-light">
+                <tr>
+                    <th>Answer</th>
+                    <th>Question Option</th>
+                </tr>
+            </thead>
+            <tbody class="list cursor-pointer">
+                <tr *ngFor="let answerOption of answerOptions" (click)="goToAnswerOption(answerOption)">
+                    <td>{{ answerOption.answer.questionId }}</td>
+                    <td>{{ answerOption.questionOption.label }}</td>
+                </tr>
+            </tbody>
+        </table>
+
+        </div>
+
+        <div class="card-footer">
+            <pager [headers]="headers" (pageChanged)="runSearch($event)"></pager>
+        </div>
+
+    </div>
+

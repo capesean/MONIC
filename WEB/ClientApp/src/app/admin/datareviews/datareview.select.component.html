@@ -1,0 +1,8 @@
+<div class="input-group" [ngClass]="{ 'disabled': disabled }">
+    <input placeholder="{{placeholder}}" (click)="click()" type="text" tabindex="-1" class="form-control cursor-pointer" readonly value="{{getLabel()}}" [disabled]="disabled" />
+    <button type="button" class="btn btn-secondary" (click)="click(true)" [ngClass]="{ 'disabled': disabled}">
+        <i class="fas fa-fw" [ngClass]="{ 'fa-search': !dataReview && !dataReviews?.length, 'fa-times': !!dataReview || !!dataReviews?.length }"></i>
+    </button>
+</div>
+
+<data-review-modal #modal (change)="changed($event)" (changes)="changed($event)" [multiple]="multiple" [canRemoveFilters]="canRemoveFilters" [user]="user" [reviewStatus]="reviewStatus" [showAddNew]="showAddNew" [title]="placeholder"></data-review-modal>

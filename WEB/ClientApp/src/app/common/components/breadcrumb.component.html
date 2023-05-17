@@ -1,0 +1,9 @@
+<nav id="breadcrumbs" class="mb-3 mb-md-0">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item" *ngFor="let route of breadcrumbs" [ngClass]="{'last': route.terminal}">
+            <a *ngIf="!route.terminal" [routerLink]="[route.url]">{{ route.displayName }}</a>
+            <span *ngIf="route.terminal">{{ route.displayName }}</span>
+        </li>
+    </ol>
+</nav>
+

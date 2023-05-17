@@ -1,0 +1,62 @@
+.subcategorybox {
+    border-bottom: dashed 1px #aaaaaa;
+}
+
+    .subcategorybox:last-child {
+        margin-bottom: 0;
+        border-bottom: none;
+    }
+
+.subcategory .header {
+    background-color: #f0f0f0;
+    font-weight: bold;
+}
+
+.subcategory .col-icon {
+    flex: 0 0 30px;
+}
+
+.subcategory .indicator:nth-child(2n+1) {
+    background-color: #f8f8f8;
+}
+
+::ng-deep button.accordion-button {
+    text-transform: uppercase;
+    font-weight: bold;
+    font-size: 1.4rem;
+}
+
+::ng-deep .accordion-button.collapsed {
+    background-color: #fc8d62cc;
+}
+
+::ng-deep .accordion-button:not(.collapsed) {
+    background-color: #fc8d627f;
+    color: black;
+}
+
+.changed {
+    background-color: lightgoldenrodyellow !important;
+}
+
+::ng-deep .accordion-item {
+    margin-top: 2rem;
+    margin-bottom: 2rem;
+}
+
+.text-tiny {
+    font-size: xx-small;
+}
+
+#dataEntryForm .indicatorRow .fa.text-muted {
+    cursor: not-allowed;
+}
+
+#dataEntryForm .fa.cursor-pointer:hover {
+    color: #0a58ca;
+}
+
+#dataEntryForm .fa.fa-square-check:not(.text-muted),
+#dataEntryForm .fa.fa-square:not(.text-muted):hover {
+    color: #0d6efd;
+}

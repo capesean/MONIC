@@ -1,0 +1,91 @@
+<app-page-title title="Document"></app-page-title>
+
+<form id="form" name="form" (submit)="save(form)" novalidate #form="ngForm" [ngClass]="{ 'was-validated': form.submitted }">
+
+    <div class="card border-0">
+
+        <div class="card-body">
+
+            <fieldset class="group">
+
+                <div class="row g-3">
+
+                    <div class="col-sm-6 col-md-4">
+                        <div class="form-group" [ngClass]="{ 'is-invalid': fileName.invalid }">
+
+                            <label for="fileName">
+                                File Name:
+                            </label>
+
+                            <app-file id="fileName" name="fileName" [(fileContents)]="document.fileContents" [enableDownload]="!isNew && !!document.fileName" [(ngModel)]="document.fileName" #fileName="ngModel" [required]="true" (ngModelChange)="changeBreadcrumb()" [fileId]="document.documentId" (onDownload)="download($event)"></app-file>
+
+                            <div *ngIf="fileName.errors?.required" class="invalid-feedback">
+                                A file is required
+                            </div>
+
+                        </div>
+                    </div>
+
+                    <div class="col-sm-6 col-md-4">
+                        <div class="form-group" [ngClass]="{ 'is-invalid': notes.invalid }">
+
+                            <label for="notes">
+                                Notes:
+                            </label>
+
+                            <textarea id="notes" name="notes" class="form-control" rows="5" [(ngModel)]="document.notes" #notes="ngModel"></textarea>
+
+                        </div>
+                    </div>
+
+                    <div class="col-sm-6 col-md-4">
+                        <div class="form-group">
+
+                            <label for="uploadedOn">
+                                Uploaded On:
+                            </label>
+
+                            <input id="uploadedOn" name="uploadedOn" class="form-control" type="text" readonly value="{{document.uploadedOn | momentPipe: 'DD MMM YYYY HH:mm'}}" />
+
+                        </div>
+                    </div>
+
+                    <div class="col-sm-6 col-md-4">
+                        <div class="form-group">
+
+                            <label for="uploadedById">
+                                Uploaded By:
+                            </label>
+
+                            <user-select id="uploadedById" name="uploadedById" [(user)]="document.uploadedBy" [(ngModel)]="document.uploadedById" readonly disabled></user-select>
+
+                        </div>
+                    </div>
+
+                    <div class="col-sm-6 col-md-4">
+                        <div class="form-group">
+
+                            <label for="size">
+                                Size:
+                            </label>
+
+                            <input id="size" name="size" class="form-control" type="text" readonly value="{{document.size}}" />
+
+                        </div>
+                    </div>
+
+                </div>
+
+            </fieldset>
+
+            <fieldset class="my-3">
+                <button type="submit" class="btn btn-outline-success me-2 mb-1">Save<i class="fas fa-check ms-2"></i></button>
+                <button type="button" *ngIf="!isNew" class="btn btn-outline-danger me-2 mb-1" (click)="delete()">Delete<i class="fas fa-times ms-2"></i></button>
+            </fieldset>
+
+        </div>
+
+    </div>
+
+</form>
+

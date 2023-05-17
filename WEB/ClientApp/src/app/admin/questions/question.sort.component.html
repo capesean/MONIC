@@ -1,0 +1,36 @@
+<div class="modal-header">
+    <h4 class="modal-title" id="modal-title">Sort Questions</h4>
+    <button type="button" class="btn-close" aria-label="Close button" aria-describedby="modal-title" (click)="modal.dismiss()"></button>
+</div>
+
+<div class="table-responsive">
+
+    <table class="table table-hover table-edge table-nowrap mt-6 mb-0 align-middle">
+        <thead class="thead-light">
+            <tr>
+                <th class="text-center w-20px"><i class="fas fa-sort"></i></th>
+                <th>Section</th>
+                <th>Code</th>
+                <th>Text</th>
+                <th>Question Type</th>
+                <th>Required</th>
+            </tr>
+        </thead>
+        <tbody cdkDropList (cdkDropListDropped)="drop($event)" class="cursor-grab">
+            <tr *ngFor="let question of questions" cdkDrag cdkDragHandle (cdkDragStarted)="dragStart($event)">
+                <td class="text-center"><i class="fas fa-sort"></i></td>
+                <td>{{ question.section.name }}</td>
+                <td>{{ question.code }}</td>
+                <td>{{ question.text }}</td>
+                <td>{{ questionTypes[question.questionType].label }}</td>
+                <td>{{ question.required | booleanPipe }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+</div>
+
+<div class="modal-footer">
+    <button type="button" class="btn btn-outline-success" (click)="close()">Save</button>
+    <button type="button" class="btn btn-outline-secondary" (click)="modal.dismiss()">Cancel</button>
+</div>

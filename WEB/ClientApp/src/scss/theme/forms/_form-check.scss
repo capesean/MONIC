@@ -1,0 +1,73 @@
+//
+// Check/radio
+//
+
+
+// Input
+.form-check-input {
+    margin-top: calc((#{$line-height-base} * 1em - 1rem) / 2);
+}
+
+.form-check-label {
+    font-size: $form-check-label-size;
+    font-weight: $form-check-label-font-weight;
+}
+
+
+// Switch
+.form-switch {
+    height: $form-switch-height;
+
+    .form-check-input {
+        margin-top: 0;
+        height: $form-switch-height;
+        background-color: $form-switch-color;
+        border-color: $form-switch-border-color;
+
+        &:checked {
+            background-color: $form-switch-checked-bg;
+            border-color: $form-switch-checked-bg;
+        }
+    }
+
+    .form-check-label {
+        margin-top: calc((#{$form-switch-height} - #{$line-height-base} * 1em) / 2);
+    }
+}
+
+// State switch
+.form-state-switch {
+    display: inline-block;
+    padding-left: 0;
+    margin-bottom: 0;
+
+    .form-state-input {
+        display: none;
+
+        & ~.form-state-label {
+            .form-state-default {
+                display: block;
+            }
+
+            .form-state-active {
+                display: none;
+            }
+        }
+
+        &:checked {
+            & ~.form-state-label {
+                .form-state-default {
+                    display: none;
+                }
+    
+                .form-state-active {
+                    display: block;
+                }
+            }
+        }
+    }
+
+    .form-state-label {
+        cursor: pointer;
+    }
+}

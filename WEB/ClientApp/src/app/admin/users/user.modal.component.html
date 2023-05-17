@@ -1,0 +1,92 @@
+<ng-template #content let-modal>
+
+    <div class="modal-header">
+        <h4 class="modal-title" id="modal-basic-title">{{title}}</h4>
+        <button type="button" class="btn-close" (click)="modal.dismiss()" aria-label="Close"></button>
+    </div>
+    
+    <div class="modal-body">
+
+        <form (submit)="runSearch()" novalidate>
+
+            <fieldset>
+
+                <div class="alert alert-info alert-dismissible" *ngIf="role!=undefined">Filtered by role: {{role.label}}<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close" (click)="searchOptions.roleName=undefined;role=undefined;runSearch();" *ngIf="canRemoveFilters"></button></div>
+                <div class="alert alert-info alert-dismissible" *ngIf="entity!=undefined">Filtered by affiliated entity: {{entity.name}}<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close" (click)="searchOptions.affiliatedEntityId=undefined;entity=undefined;runSearch();" *ngIf="canRemoveFilters"></button></div>
+                <div class="alert alert-info alert-dismissible" *ngIf="organisation!=undefined">Filtered by organisation: {{organisation.name}}<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close" (click)="searchOptions.organisationId=undefined;organisation=undefined;runSearch();" *ngIf="canRemoveFilters"></button></div>
+
+                <div class="row g-3">
+
+                    <div class="col-sm-6 col-md-6 col-lg-4">
+                        <div class="form-group">
+                            <input type="search" ngbAutofocus name="q" id="q" [(ngModel)]="searchOptions.q" max="100" class="form-control" placeholder="Search users" autocomplete="off" />
+                        </div>
+                    </div>
+
+                    <div class="col-sm-6 col-md-6 col-lg-4" *ngIf="!entity">
+                        <div class="form-group">
+                            <entity-select id="affiliatedEntityId" name="affiliatedEntityId" [(ngModel)]="searchOptions.affiliatedEntityId"></entity-select>
+                        </div>
+                    </div>
+
+                    <div class="col-sm-6 col-md-6 col-lg-4" *ngIf="!organisation">
+                        <div class="form-group">
+                            <organisation-select id="organisationId" name="organisationId" [(ngModel)]="searchOptions.organisationId"></organisation-select>
+                        </div>
+                    </div>
+
+                    <div class="col-sm-6 col-md-6 col-lg-4">
+                        <div class="form-group">
+                            <button type="submit" class="btn btn-outline-primary">Search<i class="fas fa-search ms-2"></i></button>
+                        </div>
+                    </div>
+                </div>
+
+            </fieldset>
+
+        </form>
+
+        <div class="table-responsive mt-6 mb-5">
+
+            <table class="table table-hover table-edge table-nowrap mb-0 align-middle">
+                <thead class="thead-light">
+                    <tr>
+                    <th>First Name</th>
+                    <th>Last Name</th>
+                    <th>Email</th>
+                    <th>Disabled</th>
+                    <th *ngIf="!entity">Affiliated Entity</th>
+                    <th *ngIf="!organisation">Organisation</th>
+                        <th class="text-center w-20px" *ngIf="multiple"><i class="fas fa-fw cursor-pointer" [ngClass]="{ 'fa-check-square': allSelected, 'fa-square': !allSelected }" (click)="toggleAll()"></i></th>
+                    </tr>
+                </thead>
+                <tbody class="cursor-pointer">
+                    <tr *ngFor="let user of users" (click)="select(user)">
+                    <td>{{ user.firstName }}</td>
+                    <td>{{ user.lastName }}</td>
+                    <td>{{ user.email }}</td>
+                    <td>{{ user.disabled | booleanPipe }}</td>
+                    <td *ngIf="!entity">{{ user.entity?.name }}</td>
+                    <td *ngIf="!organisation">{{ user.organisation?.name }}</td>
+                        <td *ngIf="multiple" class="text-center"><i [ngClass]="{ 'fa-check-square': isSelected(user), 'fa-square': !isSelected(user) }" class="fas fa-fw"></i></td>
+                    </tr>
+                </tbody>
+            </table>
+
+        </div>
+
+        <pager [headers]="headers" (pageChanged)="runSearch($event)"></pager>
+
+    </div>
+    
+    <div class="modal-footer" [ngClass]="{ 'justify-content-between': multiple }">
+        <button type="button" class="btn btn-info me-2" *ngIf="multiple">{{selectedItems.length}} selected</button>
+        <div>
+            <button type="button" class="btn btn-outline-primary me-2" (click)="addNew()" target="_blank" *ngIf="showAddNew">Add New</button>
+            <button type="button" class="btn btn-outline-dark me-2" (click)="close()">{{(multiple ? "Select Checked" : "Close")}}</button>
+            <button type="button" class="btn btn-outline-dark me-2" (click)="selectAll()" *ngIf="multiple">Select All</button>
+            <button type="button" class="btn btn-outline-secondary" (click)="clear()">Clear</button>
+        </div>
+    </div>
+
+</ng-template>

@@ -1,0 +1,168 @@
+<ng-container *ngIf="route.children.length === 0">
+
+    <app-page-title title="Milestone"></app-page-title>
+
+    <form id="form" name="form" (submit)="save(form)" novalidate #form="ngForm" [ngClass]="{ 'was-validated': form.submitted }">
+
+        <div class="card border-0">
+
+            <div class="card-body">
+
+                <fieldset class="group">
+
+                    <div class="row g-3">
+
+                        <div class="col-sm-6 col-md-4">
+                            <div class="form-group" [ngClass]="{ 'is-invalid': name.invalid }">
+
+                                <label for="name">
+                                    Name:
+                                </label>
+
+                                <input id="name" name="name" class="form-control" type="text" [(ngModel)]="milestone.name" #name="ngModel" required (ngModelChange)="changeBreadcrumb()" maxlength="250" />
+
+                                <div *ngIf="name.errors?.required" class="invalid-feedback">
+                                    Name is required
+                                </div>
+
+                                <div *ngIf="name.errors?.maxlength" class="invalid-feedback">
+                                    Name must be at most 250 characters long
+                                </div>
+
+                            </div>
+                        </div>
+
+                        <div class="col-sm-6 col-md-4">
+                            <div class="form-group" [ngClass]="{ 'is-invalid': description.invalid }">
+
+                                <label for="description">
+                                    Description:
+                                </label>
+
+                                <textarea id="description" name="description" class="form-control" rows="5" [(ngModel)]="milestone.description" #description="ngModel"></textarea>
+
+                            </div>
+                        </div>
+
+                        <div class="col-sm-6 col-md-4">
+                            <div class="form-group" [ngClass]="{ 'is-invalid': colour.invalid }">
+
+                                <label for="colour">
+                                    Colour:
+                                </label>
+
+                                <app-color id="colour" name="colour" [(ngModel)]="milestone.colour" #colour="ngModel"></app-color>
+
+                                <div *ngIf="colour.errors?.maxlength" class="invalid-feedback">
+                                    Colour must be at most 7 characters long
+                                </div>
+
+                            </div>
+                        </div>
+
+                    </div>
+
+                </fieldset>
+
+                <fieldset class="my-3">
+                    <button type="submit" class="btn btn-outline-success me-2 mb-1">Save<i class="fas fa-check ms-2"></i></button>
+                    <button type="button" *ngIf="!isNew" class="btn btn-outline-danger me-2 mb-1" (click)="delete()">Delete<i class="fas fa-times ms-2"></i></button>
+                </fieldset>
+
+            </div>
+
+        </div>
+
+    </form>
+
+    <ng-container *ngIf="!isNew">
+
+        <hr />
+
+        <nav ngbNav #nav="ngbNav" class="nav-tabs">
+
+            <ng-container ngbNavItem class="pt-6">
+
+                <a ngbNavLink>Tasks</a>
+
+                <ng-template ngbNavContent>
+
+                    <div class="card border-0 search-results">
+
+                        <div class="card-header border-0">
+
+                            <h4 class="card-header-title text-uppercase">
+                                Tasks
+                            </h4>
+
+                        </div>
+
+                        <div class="card-body">
+
+                            <form id="formSearchTasks" (submit)="searchTasks(0)" novalidate *ngIf="showTasksSearch" class="mb-5">
+
+                                <div class="row g-3">
+
+                                    <div class="col-sm-6 col-md-5 col-lg-4 col-xl-3">
+                                        <div class="form-group">
+                                            <input type="search" name="q" id="q" [(ngModel)]="tasksSearchOptions.q" max="100" class="form-control" placeholder="Search tasks" />
+                                        </div>
+                                    </div>
+
+                                </div>
+
+                            </form>
+
+                            <div class="mb-3">
+                                <a [routerLink]="['./tasks', 'add']" class="btn btn-outline-primary me-2 mb-1">Add<i class="fas fa-plus ms-2"></i></a>
+                                <button *ngIf="!showTasksSearch" type="button" class="btn btn-outline-secondary me-2 mb-1" (click)="showTasksSearch=true">Filter<i class="fas fa-filter ms-2"></i></button>
+                                <button *ngIf="showTasksSearch" form="formSearchTasks" type="submit" class="btn btn-outline-primary me-2 mb-1">Search<i class="fas fa-search ms-2"></i></button>
+                            </div>
+
+                        </div>
+
+                        <div class="table-responsive">
+
+                            <table class="table table-hover table-edge table-nowrap mb-0 align-middle">
+                                <thead class="thead-light">
+                                    <tr>
+                                        <th>Name</th>
+                                        <th>Start Date</th>
+                                        <th>End Date</th>
+                                        <th>Completion Date</th>
+                                        <th class="w-20px text-center"><i class="fas fa-times text-danger cursor-pointer" (click)="deleteTasks()" ngbTooltip="Delete all tasks" container="body" placement="left"></i></th>
+                                    </tr>
+                                </thead>
+                                <tbody class="list cursor-pointer">
+                                    <tr *ngFor="let task of tasks" (click)="goToTask(task)">
+                                        <td>{{ task.name }}</td>
+                                        <td>{{ task.startDate | momentPipe: 'DD MMM YYYY' }}</td>
+                                        <td>{{ task.endDate | momentPipe: 'DD MMM YYYY' }}</td>
+                                        <td>{{ task.completionDate | momentPipe: 'DD MMM YYYY' }}</td>
+                                        <td class="text-center"><i class="fas fa-times cursor-pointer p-1 text-danger" (click)="deleteTask(task, $event)"></i></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+
+                        </div>
+
+                        <div class="card-footer">
+                            <pager [headers]="tasksHeaders" (pageChanged)="searchTasks($event)"></pager>
+                        </div>
+
+                    </div>
+
+                </ng-template>
+
+            </ng-container>
+
+        </nav>
+
+        <div [ngbNavOutlet]="nav" class="mt-1"></div>
+
+    </ng-container>
+
+</ng-container>
+
+<router-outlet></router-outlet>
+

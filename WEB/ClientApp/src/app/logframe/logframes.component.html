@@ -1,0 +1,40 @@
+<ng-container *ngIf="route.children.length === 0">
+
+    <app-page-title title="Logical Frameworks"></app-page-title>
+
+    <div class="mb-3">
+        <a [routerLink]="['./', 'add']" class="btn btn-outline-primary me-2 mb-1">Add<i class="fas fa-plus ms-2"></i></a>
+    </div>
+
+    <div class="card border-0">
+
+        <div class="card-header border-0 card-header-space-between">
+            <h4 class="card-header-title text-uppercase">Logical Frameworks</h4>
+        </div>
+
+        <div class="table-responsive">
+
+            <table class="table table-hover table-edge table-nowrap mb-0 align-middle">
+                <thead class="thead-light">
+                    <tr>
+                        <th>Name</th>
+                    </tr>
+                </thead>
+                <tbody class="list cursor-pointer">
+                    <tr *ngFor="let logFrame of logFrames" (click)="selectLogFrame(logFrame)">
+                        <td>{{ logFrame.name }}</td>
+                    </tr>
+                </tbody>
+            </table>
+
+        </div>
+
+        <div class="card-footer">
+            <pager [headers]="headers" (pageChanged)="runSearch($event)"></pager>
+        </div>
+
+    </div>
+
+</ng-container>
+
+<router-outlet></router-outlet>

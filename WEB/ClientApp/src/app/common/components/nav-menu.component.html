@@ -1,0 +1,79 @@
+<nav id="mainNavbar" class="navbar navbar-expand-lg scrollbar bg-dark navbar-dark">
+
+    <div class="container-fluid">
+
+        <a class="navbar-brand" routerLink="/">
+            <img src="/assets/images/logo2.png" class="navbar-brand-img logo-dark logo-large" alt="Monic" />
+        </a>
+
+        <a class="navbar-toggler" (click)="sidenavCollapse.toggle()">
+            <span class="navbar-toggler-icon"></span>
+        </a>
+
+        <div class="collapse navbar-collapse" id="sidenavCollapse" #sidenavCollapse="ngbCollapse" [(ngbCollapse)]="isCollapsed">
+
+            <ul class="navbar-nav">
+
+                <li class="nav-item dropdown">
+                    <a class="nav-link" [ngClass]="{ 'active': activeMenu === 'dashboards', 'collapsed': !menuStates['dashboards'] }" (click)="dashboardsMenu.toggle();">
+                        <i class="fas fa-fw fa-house"></i>Dashboards<i class="fas fa-fw fa-chevron-down"></i>
+                    </a>
+                    <div #dashboardsMenu="ngbCollapse" [(ngbCollapse)]="menuStates['dashboards']">
+                        <ul class="nav flex-column">
+                            <li class="nav-item"><a class="nav-link" routerLinkActive="active" routerLink="/" [routerLinkActiveOptions]="{exact: true}"><i class="fas fa-fw me-2 fa-house"></i>Home</a></li>
+                        </ul>
+                    </div>
+                </li>
+
+                <li class="nav-item dropdown" appHasRole="Questionnaires">
+                    <a class="nav-link" [ngClass]="{ 'active': activeMenu === 'mneTools', 'collapsed': !menuStates['mneTools'] }" (click)="mneToolsMenu.toggle();">
+                        <i class="fas fa-fw fa-chart-area"></i>M&amp;E Tools<i class="fas fa-fw fa-chevron-down"></i>
+                    </a>
+                    <div #mneToolsMenu="ngbCollapse" [(ngbCollapse)]="menuStates['mneTools']">
+                        <ul class="nav flex-column">
+                            <li class="nav-item" appHasRole="Administrator"><a class="nav-link" routerLinkActive="active" routerLink="/dataentry"><i class="fas fa-fw me-2 fa-table-list"></i>Data Entry</a></li>
+                            <li class="nav-item" appHasRole="Administrator"><a class="nav-link" routerLinkActive="active" routerLink="/theoryofchange"><i class="fas fa-fw me-2 fa-diagram-project"></i>Theories of Change</a></li>
+                            <li class="nav-item" appHasRole="Administrator"><a class="nav-link" routerLinkActive="active" routerLink="/logframe"><i class="fas fa-fw me-2 fa-table"></i>Logical Frameworks</a></li>
+                            <li class="nav-item" appHasRole="Administrator"><a class="nav-link" routerLinkActive="active" routerLink="/ganttchart"><i class="fas fa-fw me-2 fa-bar-chart"></i>Gantt Charts</a></li>
+                            <li class="nav-item" appHasRole="Questionnaires"><a class="nav-link" routerLinkActive="active" routerLink="/questionnaire"><i class="fas fa-fw me-2 fa-clipboard-list"></i>Questionnaires</a></li>
+                            <li class="nav-item" appHasRole="Folders"><a class="nav-link" routerLinkActive="active" routerLink="/folder"><i class="fas fa-fw me-2 fa-folder"></i>Folders</a></li>
+                        </ul>
+                    </div>
+                </li>
+
+                <li class="nav-item dropdown" appHasRole="Administrator">
+                    <a class="nav-link" [ngClass]="{ 'active': activeMenu === 'admin', 'collapsed': !menuStates['admin'] }" (click)="adminMenu.toggle();">
+                        <i class="fas fa-fw fa-cogs"></i>Administration<i class="fas fa-fw fa-chevron-down"></i>
+                    </a>
+                    <div #adminMenu="ngbCollapse" [(ngbCollapse)]="menuStates['admin']">
+                        <ul class="nav flex-column">
+                            <li class="nav-item"><a class="nav-link" routerLinkActive="active" routerLink="/indicators"><i class="fas fa-fw me-2 fa-thermometer-half"></i>Indicators</a></li>
+                            <li class="nav-item"><a class="nav-link" routerLinkActive="active" routerLink="/categories"><i class="fas fa-fw me-2 fa-sitemap"></i>Categories</a></li>
+                            <li class="nav-item"><a class="nav-link" routerLinkActive="active" routerLink="/organisations"><i class="fas fa-fw me-2 fa-building"></i>Organisations</a></li>
+                            <li class="nav-item"><a class="nav-link" routerLinkActive="active" routerLink="/entities"><i class="fas fa-fw me-2 fa-city"></i>Entities</a></li>
+                            <li class="nav-item"><a class="nav-link" routerLinkActive="active" routerLink="/dates"><i class="fas fa-fw me-2 fa-calendar"></i>Dates</a></li>
+                            <li class="nav-item"><a class="nav-link" routerLinkActive="active" routerLink="/data"><i class="fas fa-fw me-2 fa-database"></i>Data</a></li>
+                            <li class="nav-item"><a class="nav-link" routerLinkActive="active" routerLink="/documents"><i class="fas fa-fw me-2 fa-file-alt"></i>Documents</a></li>
+                            <li class="nav-item"><a class="nav-link" routerLinkActive="active" routerLink="/entitytypes"><i class="fas fa-fw me-2 fa-tags"></i>Entity Types</a></li>
+                            <li class="nav-item"><a class="nav-link" routerLinkActive="active" routerLink="/components"><i class="fas fa-fw me-2 fa-sitemap"></i>Components</a></li>
+                            <li class="nav-item"><a class="nav-link" routerLinkActive="active" routerLink="/logframes"><i class="fas fa-fw me-2 fa-table"></i>Logical Frameworks</a></li>
+                            <li class="nav-item"><a class="nav-link" routerLinkActive="active" routerLink="/theoriesofchange"><i class="fas fa-fw me-2 fa-diagram-project"></i>Theories of Change</a></li>
+                            <li class="nav-item"><a class="nav-link" routerLinkActive="active" routerLink="/projects"><i class="fas fa-fw me-2 fa-suitcase"></i>Projects</a></li>
+                            <li class="nav-item"><a class="nav-link" routerLinkActive="active" routerLink="/questionnaires"><i class="fas fa-fw me-2 fa-clipboard-list"></i>Questionnaires</a></li>
+                            <li class="nav-item"><a class="nav-link" routerLinkActive="active" routerLink="/folders"><i class="fas fa-fw me-2 fa-folder"></i>Folders</a></li>
+                            <li class="nav-item"><a class="nav-link" routerLinkActive="active" routerLink="/fields"><i class="fas fa-fw me-2 fa-tasks"></i>Fields</a></li>
+                            <li class="nav-item"><a class="nav-link" routerLinkActive="active" routerLink="/groups"><i class="fas fa-fw me-2 fa-object-group"></i>Groups</a></li>
+                            <li class="nav-item"><a class="nav-link" routerLinkActive="active" routerLink="/tools"><i class="fas fa-fw me-2 fa-tools"></i>Tools</a></li>
+                            <li class="nav-item"><a class="nav-link" routerLinkActive="active" routerLink="/users"><i class="fas fa-fw me-2 fa-users"></i>Users</a></li>
+                            <li class="nav-item"><a class="nav-link" routerLinkActive="active" routerLink="/settings"><i class="fas fa-fw me-2 fa-cogs"></i>Settings</a></li>
+                        </ul>
+                    </div>
+                </li>
+
+            </ul>
+
+        </div>
+
+    </div>
+</nav>
+

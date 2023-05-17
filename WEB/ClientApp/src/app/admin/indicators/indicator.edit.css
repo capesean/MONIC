@@ -1,0 +1,91 @@
+#formulaBox {
+    margin-bottom: 1rem;
+}
+
+    #formulaBox legend {
+        top: 1px;
+        position: relative;
+    }
+
+    #formulaBox:disabled {
+        pointer-events: none;
+    }
+
+        #formulaBox:disabled .token {
+            opacity: 0.6;
+        }
+
+    #formulaBox #formula {
+        min-height: 250px;
+        display: flex;
+        align-items: center;
+        flex-direction: row;
+        overflow-x: scroll;
+    }
+
+    #formulaBox .indicator.card {
+        border: solid 1px #49b6d6;
+    }
+
+    #formulaBox .token, #formulaBox #cursor {
+        display: inline-block;
+        vertical-align: middle;
+        margin-right: 5px;
+    }
+
+        #formulaBox .token .number,
+        #formulaBox .token .operator,
+        #formulaBox .token .parenthesis,
+        #formulaBox .token .empty {
+            border-radius: calc(.25rem - 1px);
+            padding: 8px 14px;
+            text-align: center;
+            background-color: rgba(0,0,0,.03);
+            border: 1px solid rgba(0,0,0,.125);
+            cursor: pointer;
+        }
+
+        #formulaBox .token .indicator {
+            max-width: 250px;
+            min-width: 250px;
+        }
+
+    #formulaBox .activeToken {
+        box-shadow: 0px 0px 10px #999;
+    }
+
+    #formulaBox #formula:focus {
+        outline: none;
+    }
+
+        #formulaBox #formula:focus .blink {
+            opacity: 1;
+            animation: blinker 1.5s linear infinite;
+        }
+
+    #formulaBox #cursor > span {
+        font-size: 2em;
+        opacity: 0;
+    }
+
+    #formulaBox #formula:focus #cursor {
+        display: inherit;
+    }
+
+@keyframes blinker {
+    0% {
+        opacity: 1;
+    }
+
+    65% {
+        opacity: 1;
+    }
+
+    66% {
+        opacity: 0;
+    }
+
+    100% {
+        opacity: 0;
+    }
+}

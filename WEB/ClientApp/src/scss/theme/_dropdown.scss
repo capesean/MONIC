@@ -1,0 +1,86 @@
+//
+// Dropdown
+//
+
+.dropdown-menu {
+    animation-name: slideIn;
+    animation-duration: .2s;
+    animation-fill-mode: both;
+}
+
+.dropdown-item {
+    display: flex;
+    align-items: center;
+}
+
+.dropdown-header {
+    font-weight: $dropdown-header-font-weight;
+}
+
+.dropdown-toggle {
+    display: inline-flex;
+    align-items: center;
+    
+    // Generate caret
+    @include caret();
+
+    &.no-arrow {
+        &::before,
+        &::after {
+            display: none !important;
+        }
+    }
+}
+
+.dropup {
+    .dropdown-toggle {
+        @include caret(up);
+    }
+}
+  
+.dropend {
+    .dropdown-toggle {
+        @include caret(end);
+    }
+}
+  
+.dropstart {
+    .dropdown-toggle {
+        @include caret(start);
+    }
+}
+
+@keyframes slideIn {
+    0% {
+        margin-top: 1rem;
+        opacity: 0;
+    }
+    100% {
+        margin-top: 0;
+        opacity: 1;
+    }
+    0% {
+        margin-top: 1rem;
+        opacity: 0;
+    }
+}
+
+.dropdown-menu {
+    &.dropdown-menu-dark,
+    [data-theme="dark"] & {
+        // scss-docs-start dropdown-dark-css-vars
+        --#{$prefix}dropdown-color: #{$dropdown-dark-color};
+        --#{$prefix}dropdown-bg: #{$dropdown-dark-bg};
+        --#{$prefix}dropdown-border-color: #{$dropdown-dark-border-color};
+        --#{$prefix}dropdown-box-shadow: #{$dropdown-dark-box-shadow};
+        --#{$prefix}dropdown-link-color: #{$dropdown-dark-link-color};
+        --#{$prefix}dropdown-link-hover-color: #{$dropdown-dark-link-hover-color};
+        --#{$prefix}dropdown-divider-bg: #{$dropdown-dark-divider-bg};
+        --#{$prefix}dropdown-link-hover-bg: #{$dropdown-dark-link-hover-bg};
+        --#{$prefix}dropdown-link-active-color: #{$dropdown-dark-link-active-color};
+        --#{$prefix}dropdown-link-active-bg: #{$dropdown-dark-link-active-bg};
+        --#{$prefix}dropdown-link-disabled-color: #{$dropdown-dark-link-disabled-color};
+        --#{$prefix}dropdown-header-color: #{$dropdown-dark-header-color};
+        // scss-docs-end dropdown-dark-css-vars
+    }
+}

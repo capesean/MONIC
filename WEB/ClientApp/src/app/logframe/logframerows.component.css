@@ -1,0 +1,34 @@
+#logFrame .lfRow {
+    display: flex;
+    flex-direction: row;
+    min-height: 5rem;
+    cursor: pointer;
+}
+
+    #logFrame .lfRow:hover {
+        background-color: #cff4fc;
+    }
+
+    #logFrame .lfRow > div {
+        width: 25%;
+        min-width: 190px;
+        padding: 0 0.5rem;
+    }
+
+    #logFrame .lfRow:not(:last-child) > div {
+        border-bottom: solid 1px #dddddd;
+    }
+
+    #logFrame .lfRow > div:not(:first-child) {
+        border-left: solid 1px #dddddd;
+    }
+
+app-logframerows {
+    width: 80%;
+    display: grid;
+}
+
+#logFrame .lfRows {
+    border-bottom: solid 1px #808080;
+    border-right: solid 1px #808080;
+}

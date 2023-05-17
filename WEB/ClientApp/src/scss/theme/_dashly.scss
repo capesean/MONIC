@@ -1,0 +1,38 @@
+//
+// Dashly layout & components
+//
+
+// Configuration
+@import "mixins";
+@import "reboot";
+
+@import "alert";
+@import "avatar";
+@import "badge";
+@import "board";
+@import "breadcrumb";
+@import "button-group";
+@import "buttons";
+@import "card";
+@import "chat";
+@import "close";
+@import "cursor";
+@import "dropdown";
+@import "forms";
+@import "layout";
+@import "legend-circle";
+@import "list-group";
+@import "modal";
+@import "nav";
+@import "navbar";
+@import "offcanvas";
+@import "progress";
+@import "scroll-shadow";
+@import "scrollbar";
+@import "steps";
+@import "tables";
+@import "tooltip";
+
+
+// Dashly only components
+@import "vendors";

@@ -1,0 +1,83 @@
+//
+// Dropzone
+//
+
+.dz-cursor-pointer {
+    cursor: pointer;
+
+    * {
+      cursor: default;
+    }
+
+    .dz-message {
+        &, * {
+            cursor: pointer;
+        }
+    }
+}
+
+.dropzone {
+    border: $dropzone-border-width dashed $dropzone-border-color;
+    border-radius: $dropzone-border-radius;
+    background-color: $dropzone-bg;
+
+    .dz-drag-hover,
+    .dz-drag-hover & {
+        background-color: $dropzone-drag-bg;
+    }
+}
+
+.dz-preview {
+    background-color: $dropzone-preview-bg;
+    border-radius: $dropzone-border-radius;
+    padding: 1rem;
+}
+
+.dz-image-preview {
+    margin-bottom: .4rem;    
+    
+    &:last-child {
+        margin-bottom: 0;
+    }
+}
+
+.dropzone.dz-drag-hover {
+    background-color: $dropzone-drag-bg;
+}
+
+.dz-image {
+    overflow: hidden;
+    position: relative;
+    display: inline-block;
+    z-index: 10;
+    height: 2rem;
+    margin-right: .5rem;
+
+    &:not([src]) {
+        width: 0;
+        height: 0;
+        margin: 0;
+    }
+}
+
+.dz-progress {
+    height: .5rem;
+}
+
+.dz-error-mark,
+.dz-success-mark,
+.dz-error-message {
+    display: none;
+}
+
+.dz-error {
+    .dz-error-mark {
+        display: flex;
+    }
+}
+
+.dz-success {
+    .dz-success-mark {
+        display: flex;
+    }
+}

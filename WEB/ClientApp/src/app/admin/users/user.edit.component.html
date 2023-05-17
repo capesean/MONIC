@@ -1,0 +1,349 @@
+<ng-container *ngIf="route.children.length === 0">
+
+    <app-page-title title="User"></app-page-title>
+
+    <form id="form" name="form" (submit)="save(form)" novalidate #form="ngForm" [ngClass]="{ 'was-validated': form.submitted }">
+
+        <div class="card border-0">
+
+            <div class="card-body">
+
+                <fieldset class="group">
+
+                    <div class="row g-3">
+
+                        <div class="col-sm-6 col-md-4">
+                            <div class="form-group" [ngClass]="{ 'is-invalid': firstName.invalid }">
+
+                                <label for="firstName">
+                                    First Name:
+                                </label>
+
+                                <input id="firstName" name="firstName" class="form-control" type="text" [(ngModel)]="user.firstName" #firstName="ngModel" required maxlength="50" />
+
+                                <div *ngIf="firstName.errors?.required" class="invalid-feedback">
+                                    First Name is required
+                                </div>
+
+                                <div *ngIf="firstName.errors?.maxlength" class="invalid-feedback">
+                                    First Name must be at most 50 characters long
+                                </div>
+
+                            </div>
+                        </div>
+
+                        <div class="col-sm-6 col-md-4">
+                            <div class="form-group" [ngClass]="{ 'is-invalid': lastName.invalid }">
+
+                                <label for="lastName">
+                                    Last Name:
+                                </label>
+
+                                <input id="lastName" name="lastName" class="form-control" type="text" [(ngModel)]="user.lastName" #lastName="ngModel" required maxlength="50" />
+
+                                <div *ngIf="lastName.errors?.required" class="invalid-feedback">
+                                    Last Name is required
+                                </div>
+
+                                <div *ngIf="lastName.errors?.maxlength" class="invalid-feedback">
+                                    Last Name must be at most 50 characters long
+                                </div>
+
+                            </div>
+                        </div>
+
+                        <div class="col-sm-6 col-md-4">
+                            <div class="form-group" [ngClass]="{ 'is-invalid': email.invalid }">
+
+                                <label for="email">
+                                    Email:
+                                </label>
+
+                                <input id="email" name="email" class="form-control" type="text" [(ngModel)]="user.email" #email="ngModel" required maxlength="256" pattern="^[^@\s]+@[^@\s]+\.[^@\s]+$" />
+
+                                <div *ngIf="email.errors?.required" class="invalid-feedback">
+                                    Email is required
+                                </div>
+
+                                <div *ngIf="email.errors?.maxlength" class="invalid-feedback">
+                                    Email must be at most 256 characters long
+                                </div>
+
+                                <div *ngIf="email.errors?.pattern" class="invalid-feedback">
+                                    Email does not match the specified pattern
+                                </div>
+
+                            </div>
+                        </div>
+
+                        <div class="col-sm-6 col-md-4">
+                            <div class="form-group" [ngClass]="{ 'is-invalid': disabled.invalid }">
+
+                                <label for="disabled">
+                                    Disabled:
+                                </label>
+
+                                <div class="form-check">
+                                    <input id="disabled" name="disabled" class="form-check-input" type="checkbox" [(ngModel)]="user.disabled" #disabled="ngModel" />
+                                    <label class="form-check-label" for="disabled">
+                                        Disabled
+                                    </label>
+                                </div>
+
+                            </div>
+                        </div>
+
+                        <div class="col-sm-6 col-md-4">
+                            <div class="form-group" [ngClass]="{ 'is-invalid': affiliatedEntityId.invalid }">
+
+                                <label for="affiliatedEntityId">
+                                    Affiliated Entity:
+                                </label>
+
+                                <entity-select id="affiliatedEntityId" name="affiliatedEntityId" [(entity)]="user.entity" [(ngModel)]="user.affiliatedEntityId" #affiliatedEntityId="ngModel" [role]="0" [disabled]="!isOversight()"></entity-select>
+
+                            </div>
+                        </div>
+
+                        <div class="col-sm-6 col-md-4">
+                            <div class="form-group" [ngClass]="{ 'is-invalid': organisationId.invalid }">
+
+                                <label for="organisationId">
+                                    Organisation:
+                                </label>
+
+                                <organisation-select id="organisationId" name="organisationId" [(organisation)]="user.organisation" [(ngModel)]="user.organisationId" #organisationId="ngModel" [disabled]="isOversight()"></organisation-select>
+
+                            </div>
+                        </div>
+
+                        <div class="col-sm-6 col-md-4">
+                            <div class="form-group" [ngClass]="{ 'is-invalid': lastLoginDate.invalid }">
+
+                                <label for="lastLoginDate">
+                                    Last Login:
+                                </label>
+
+                                <div class="input-group">
+                                    <input id="lastLoginDate" name="lastLoginDate" class="form-control" type="text" [(ngModel)]="user.lastLoginDate" #lastLoginDate="ngModel" readonly placeholder="yyyy-mm-dd" ngbDatepicker #dpLastLoginDate="ngbDatepicker" tabindex="-1" (click)="dpLastLoginDate.toggle()" container="body" />
+                                    <button class="btn btn-secondary calendar" (click)="dpLastLoginDate.toggle()" type="button"><i class="fas fa-fw fa-calendar-alt"></i></button>
+                                </div>
+
+                            </div>
+                        </div>
+
+                        <div class="col-sm-6 col-md-4">
+                            <div class="form-group">
+
+                                <label>
+                                    Roles:
+                                </label>
+
+                                <select id="roles" name="roles" [multiple]="true" class="form-control" [(ngModel)]="user.roles" (change)="changeRoles()">
+                                    <option *ngFor="let role of roles" [ngValue]="role.name">{{role.label}}</option>
+                                </select>
+
+                                <small class="text-info"><i class="fas fa-info-circle me-1"></i>Select all roles that apply (using the Ctrl key)</small>
+
+                            </div>
+                        </div>
+
+                    </div>
+
+                </fieldset>
+
+                <fieldset class="my-3">
+                    <button type="submit" class="btn btn-outline-success me-2 mb-1">Save<i class="fas fa-check ms-2"></i></button>
+                    <button type="button" *ngIf="!isNew" class="btn btn-outline-danger me-2 mb-1" (click)="delete()">Delete<i class="fas fa-times ms-2"></i></button>
+                </fieldset>
+
+            </div>
+
+        </div>
+
+    </form>
+
+    <ng-container *ngIf="!isNew">
+
+        <hr />
+
+        <nav ngbNav #nav="ngbNav" class="nav-tabs">
+
+            <ng-container ngbNavItem class="pt-6">
+
+                <a ngbNavLink>Entity Permissions</a>
+
+                <ng-template ngbNavContent>
+
+                    <div class="card border-0 search-results">
+
+                        <div class="card-header border-0">
+
+                            <h4 class="card-header-title text-uppercase">
+                                Entity Permissions
+                            </h4>
+
+                        </div>
+
+                        <div class="card-body">
+
+                            <form id="formSearchEntityPermissions" (submit)="searchEntityPermissions(0)" novalidate *ngIf="showEntityPermissionsSearch" class="mb-5">
+
+                                <div class="row g-3">
+
+                                    <div class="col-sm-6 col-md-4 col-lg-4 col-xl-3">
+                                        <div class="form-group">
+                                            <entity-select id="entityId" name="entityId" [(ngModel)]="entityPermissionsSearchOptions.entityId"></entity-select>
+                                        </div>
+                                    </div>
+
+                                </div>
+
+                            </form>
+
+                            <div class="mb-3">
+                            <button class="btn btn-outline-primary me-2 mb-1" (click)="addEntityPermissions()">Add Entity Permissions<i class="fas fa-plus ms-2"></i></button>
+                                <a [routerLink]="['./entitypermissions', 'add']" class="btn btn-outline-primary me-2 mb-1">Add<i class="fas fa-plus ms-2"></i></a>
+                                <button *ngIf="!showEntityPermissionsSearch" type="button" class="btn btn-outline-secondary me-2 mb-1" (click)="showEntityPermissionsSearch=true">Filter<i class="fas fa-filter ms-2"></i></button>
+                                <button *ngIf="showEntityPermissionsSearch" form="formSearchEntityPermissions" type="submit" class="btn btn-outline-primary me-2 mb-1">Search<i class="fas fa-search ms-2"></i></button>
+                            </div>
+
+                        </div>
+
+                        <div class="table-responsive">
+
+                            <table class="table table-hover table-edge table-nowrap mb-0 align-middle">
+                                <thead class="thead-light">
+                                    <tr>
+                                        <th>Entity Type</th>
+                                        <th>Entity</th>
+                                        <th class="w-20px text-center"><i class="fas fa-times text-danger cursor-pointer" (click)="deleteEntityPermissions()" ngbTooltip="Delete all entity permissions" container="body" placement="left"></i></th>
+                                    </tr>
+                                </thead>
+                                <tbody class="list cursor-pointer">
+                                    <tr *ngFor="let entityPermission of entityPermissions" (click)="goToEntityPermission(entityPermission)">
+                                        <td>{{ entityPermission.entity.entityType.name }}</td>
+                                        <td>{{ entityPermission.entity.name }}</td>
+                                        <td class="text-center"><i class="fas fa-times cursor-pointer p-1 text-danger" (click)="deleteEntityPermission(entityPermission, $event)"></i></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+
+                        </div>
+
+                        <div class="card-footer">
+                            <pager [headers]="entityPermissionsHeaders" (pageChanged)="searchEntityPermissions($event)"></pager>
+                        </div>
+
+                    </div>
+
+                </ng-template>
+
+            </ng-container>
+
+            <ng-container ngbNavItem class="pt-6">
+
+                <a ngbNavLink>Indicator Permissions</a>
+
+                <ng-template ngbNavContent>
+
+                    <div class="card border-0 search-results">
+
+                        <div class="card-header border-0">
+
+                            <h4 class="card-header-title text-uppercase">
+                                Indicator Permissions
+                            </h4>
+
+                        </div>
+
+                        <div class="card-body">
+
+                            <form id="formSearchIndicatorPermissions" (submit)="searchIndicatorPermissions(0)" novalidate *ngIf="showIndicatorPermissionsSearch" class="mb-5">
+
+                                <div class="row g-3">
+
+                                    <div class="col-sm-6 col-md-4 col-lg-4 col-xl-3">
+                                        <div class="form-group">
+                                            <indicator-select id="indicatorId" name="indicatorId" [(ngModel)]="indicatorPermissionsSearchOptions.indicatorId"></indicator-select>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-sm-6 col-md-4 col-lg-4 col-xl-3">
+                                        <div class="form-group">
+                                            <select id="verify" name="verify" [(ngModel)]="indicatorPermissionsSearchOptions.verify" #verify="ngModel" class="form-select">
+                                                <option [ngValue]="undefined">Verify: Any</option>
+                                                <option [ngValue]="true">Verify: Yes</option>
+                                                <option [ngValue]="false">Verify: No</option>
+                                            </select>
+                                        </div>
+                                    </div>
+
+                                </div>
+
+                            </form>
+
+                            <div class="mb-3">
+                                <button *ngIf="!showIndicatorPermissionsSearch" type="button" class="btn btn-outline-secondary me-2 mb-1" (click)="showIndicatorPermissionsSearch=true">Filter<i class="fas fa-filter ms-2"></i></button>
+                                <button *ngIf="showIndicatorPermissionsSearch" form="formSearchIndicatorPermissions" type="submit" class="btn btn-outline-primary me-2 mb-1">Search<i class="fas fa-search ms-2"></i></button>
+                            </div>
+
+                            <div class="mb-3">
+                                <button type="button" class="btn btn-outline-success me-2 mb-1" (click)="addIndicatorPermissions()">Add Indicator Permission<i class="fa fa-plus ms-2"></i></button>
+                            </div>
+
+                        </div>
+
+                        <div class="table-responsive">
+
+                            <table class="table table-hover table-edge table-nowrap mb-0 align-middle">
+                                <thead class="thead-light">
+                                    <tr>
+                                        <th>Category</th>
+                                        <th>Subcategory</th>
+                                        <th>Indicator</th>
+                                        <th class="text-center w-20px" ngbTooltip="Edit permission" container="body"><i class="fa fa-pencil"></i></th>
+                                        <th *ngIf="environment.useSubmit" class="text-center w-20px" ngbTooltip="Submit permission" container="body"><i class="fa fa-floppy-disk"></i></th>
+                                        <th *ngIf="environment.useVerify" class="text-center w-20px" ngbTooltip="Verify permission" container="body"><i class="fa fa-clipboard-check"></i></th>
+                                        <th *ngIf="environment.useApprove" class="text-center w-20px" ngbTooltip="Approve permission" container="body"><i class="fa fa-lock"></i></th>
+                                        <th class="w-20px text-center"><i class="fas fa-times text-danger cursor-pointer p-1 text-danger" (click)="deleteIndicatorPermissions()" ngbTooltip="Remove all permissions" container="body"></i></th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr *ngFor="let indicatorPermission of indicatorPermissions">
+                                        <td>{{ indicatorPermission.indicatorId === null ? 'All indicators' : indicatorPermission.indicator.subcategory.category.name }}</td>
+                                        <td>{{ indicatorPermission.indicatorId === null ? 'All indicators' : indicatorPermission.indicator.subcategory.name }}</td>
+                                        <td>{{ indicatorPermission.indicator?.code }}</td>
+                                        <td>{{ indicatorPermission.edit | booleanPipe }}</td>
+                                        <td>{{ indicatorPermission.submit | booleanPipe }}</td>
+                                        <td>{{ indicatorPermission.verify | booleanPipe }}</td>
+                                        <td>{{ indicatorPermission.approve | booleanPipe }}</td>
+                                        <td class="text-center"><i class="fas fa-times cursor-pointer p-1 text-danger" (click)="deleteIndicatorPermission(indicatorPermission, $event)"></i></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+
+                        </div>
+
+                        <div class="card-footer">
+                            <pager [headers]="indicatorPermissionsHeaders" (pageChanged)="searchIndicatorPermissions($event)"></pager>
+                        </div>
+
+                    </div>
+
+                </ng-template>
+
+            </ng-container>
+
+        </nav>
+
+        <div [ngbNavOutlet]="nav" class="mt-1"></div>
+
+    </ng-container>
+
+</ng-container>
+
+<entity-modal #entityModal (changes)="changeEntity($event)" [multiple]="true" [organisation]="user.organisation" [canRemoveFilters]="false" [role]="0"></entity-modal>
+
+<router-outlet></router-outlet>
+

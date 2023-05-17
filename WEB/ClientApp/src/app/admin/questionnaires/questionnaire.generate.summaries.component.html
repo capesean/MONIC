@@ -1,0 +1,107 @@
+<div class="modal-header">
+    <h4 class="modal-title" id="modal-title">Generate Summaries</h4>
+    <button type="button" class="btn-close" aria-label="Close button" aria-describedby="modal-title" (click)="modal.dismiss()"></button>
+</div>
+
+<div class="modal-body min-h-200px">
+
+    <form id="formGenerateSummaries" name="formGenerateSummaries" (submit)="submit(formGenerateSummaries)" novalidate #formGenerateSummaries="ngForm" [ngClass]="{ 'was-validated': formGenerateSummaries.submitted }">
+
+        <div class="row g-3">
+
+            <div class="col-sm-12 col-md-6 col-lg-8 col-xl-9" [ngClass]="{ 'is-invalid': questionnaireId.invalid }">
+                <div class="form-group">
+
+                    <questionnaire-select id="questionnaireId" name="questionnaireId" [(questionnaire)]="generateSummariesModel.questionnaire" [(ngModel)]="generateSummariesModel.questionnaireId" #questionnaireId="ngModel" required></questionnaire-select>
+
+                    <div *ngIf="questionnaireId.errors?.required" class="invalid-feedback">
+                        Questionnaire is required
+                    </div>
+
+                </div>
+            </div>
+
+            <div class="col-sm-12 col-md-6 col-lg-4 col-xl-3" [ngClass]="{ 'is-invalid': dateId.invalid }">
+                <div class="form-group">
+
+                    <date-select id="dateId" name="dateId" [(date)]="generateSummariesModel.date" [(ngModel)]="generateSummariesModel.dateId" #dateId="ngModel" required [dateType]="dateTypes[questionnaire.dateType]"></date-select>
+
+                    <div *ngIf="dateId.errors?.required" class="invalid-feedback">
+                        Date is required
+                    </div>
+
+                </div>
+            </div>
+
+            <div class="col-sm-6 col-md-4 col-lg-3 col-xl-2" [ngClass]="{ 'is-invalid': maxTokens.invalid }">
+                <div class="form-group">
+
+                    <input type="number" id="maxTokens" name="maxTokens" [(ngModel)]="generateSummariesModel.maxTokens" #maxTokens="ngModel" class="form-control" required min="0" max="4096" maxlength="4" step="1" ngbTooltip="Max Tokens" placeholder="Max Tokens" />
+
+                    <div *ngIf="maxTokens.errors?.required" class="invalid-feedback">
+                        Max Tokens is required
+                    </div>
+
+                    <div *ngIf="maxTokens.errors?.max" class="invalid-feedback">
+                        Max Tokens is too large
+                    </div>
+
+                </div>
+            </div>
+
+            <div class="col-sm-6 col-md-4 col-lg-3 col-xl-2" [ngClass]="{ 'is-invalid': temperature.invalid }">
+                <div class="form-group">
+
+                    <input type="number" id="temperature" name="temperature" [(ngModel)]="generateSummariesModel.temperature" #temperature="ngModel" class="form-control" required min="0" max="1" step="0.01" ngbTooltip="Temperature" placeholder="Temperature" />
+
+                    <div *ngIf="temperature.errors?.required" class="invalid-feedback">
+                        Temperature is required
+                    </div>
+
+                    <div *ngIf="temperature.errors?.max" class="invalid-feedback">
+                        Temperature is too large
+                    </div>
+
+                </div>
+            </div>
+
+        </div>
+
+    </form>
+
+    <div class="table-responsive mt-4">
+
+        <table class="table table-hover table-edge table-nowrap mb-0 align-middle">
+            <thead class="thead-light">
+                <tr>
+                    <th>Status</th>
+                    <th>Code</th>
+                    <th class="d-none d-lg-table-cell">Text</th>
+                    <th>Question Type</th>
+                </tr>
+            </thead>
+            <tbody class="list">
+                <tr *ngFor="let questionSummary of questionSummaries" [ngClass]="{ 'table-info': getStatus(questionSummary) === 1, 'table-success': getStatus(questionSummary) === 2, 'table-danger': getStatus(questionSummary) === 3 }">
+                    <td>{{ getStatusName(questionSummary) }}</td>
+                    <td>{{ questionSummary.question.code }}</td>
+                    <td class="d-none d-lg-table-cell mw-200px text-truncate">{{ questionSummary.question.text }}</td>
+                    <td>{{ questionTypes[questionSummary.question.questionType].label }}</td>
+                </tr>
+                <tr *ngIf="!questionSummaries.length" class="cursor-pointer table-warning" (click)="btnAddQuestions.click()">
+                    <td colspan="4" class="text-muted">No questions have been selected</td>
+                </tr>
+            </tbody>
+        </table>
+
+    </div>
+
+</div>
+
+<div class="modal-footer">
+    <button type="button" #btnAddQuestions class="btn btn-outline-primary" (click)="openQuestionModal()">Add Questions</button>
+    <button type="submit" form="formGenerateSummaries" class="btn btn-outline-primary">Generate</button>
+    <button type="button" class="btn btn-outline-secondary" (click)="reset()" *ngIf="hasNonQueued()">Reset</button>
+    <button type="button" class="btn btn-outline-secondary" (click)="modal.dismiss()">Close</button>
+</div>
+
+<question-modal #questionModal (changes)="questionsSelected($event)" [multiple]="true" [canRemoveFilters]="false" [questionnaire]="questionnaire"></question-modal>

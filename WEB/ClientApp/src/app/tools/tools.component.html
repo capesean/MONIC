@@ -1,0 +1,217 @@
+<div class="row g-5">
+
+    <div class="col-md-6 col-xl-4">
+
+        <div class="card">
+            <div class="card-header">
+                Upload GeoJSON
+            </div>
+            <div class="card-body mb-4">
+
+                <form id="formGeoJSON" name="formGeoJSON" (submit)="uploadGeoJSON(formGeoJSON)" novalidate #formGeoJSON="ngForm" [ngClass]="{ 'was-validated': formGeoJSON.submitted }">
+
+                    <fieldset>
+
+                        <div class="row g-3">
+
+                            <div class="col-12">
+                                <div class="form-group" [ngClass]="{ 'is-invalid': entityTypeId.invalid }">
+
+                                    <label for="entityTypeId">
+                                        Entity Type:
+                                    </label>
+
+                                    <entity-type-select id="entityTypeId" name="entityTypeId" [(entityType)]="geoJson.entityType" [(ngModel)]="geoJson.entityTypeId" #entityTypeId="ngModel" required></entity-type-select>
+
+                                    <div *ngIf="entityTypeId.errors?.required" class="invalid-feedback">
+                                        Entity Type is required
+                                    </div>
+
+                                </div>
+                            </div>
+
+                            <div class="col-12">
+                                <div class="form-group" [ngClass]="{ 'is-invalid': fileName.invalid }">
+
+                                    <label for="fileName">
+                                        File:
+                                    </label>
+
+                                    <app-file id="fileName" name="fileName" [(fileContents)]="geoJson.fileContents" [enableDownload]="false" [(ngModel)]="geoJson.fileName" #fileName="ngModel" [required]="true"></app-file>
+
+                                    <div *ngIf="fileName.errors?.required" class="invalid-feedback">
+                                        A file is required
+                                    </div>
+
+                                </div>
+                            </div>
+
+                        </div>
+
+                    </fieldset>
+
+                </form>
+
+            </div>
+            <div class="card-footer text-end">
+                <button type="submit" form="formGeoJSON" class="btn btn-outline-primary ms-2">Upload<i class="fas fa-cloud-upload ms-1"></i></button>
+            </div>
+
+        </div>
+
+    </div>
+
+    <div class="col-md-6 col-xl-4">
+
+        <div class="card">
+            <div class="card-header">
+                Import CSV File
+            </div>
+            <div class="card-body mb-4">
+
+                <form id="formImportCSV" name="formImportCSV" (submit)="importCSV(formImportCSV)" novalidate #formImportCSV="ngForm" [ngClass]="{ 'was-validated': formImportCSV.submitted }">
+
+                    <fieldset>
+
+                        <div class="row g-3">
+
+                            <div class="col-12">
+                                <div class="form-group" [ngClass]="{ 'is-invalid': csvFileName.invalid }">
+
+                                    <label for="csvFileName">
+                                        File:
+                                    </label>
+
+                                    <app-file id="csvFileName" name="csvFileName" [(fileContents)]="importCSVSettings.fileContents" [enableDownload]="false" [(ngModel)]="importCSVSettings.fileName" #csvFileName="ngModel" [required]="true"></app-file>
+
+                                    <div *ngIf="csvFileName.errors?.required" class="invalid-feedback">
+                                        A file is required
+                                    </div>
+
+                                </div>
+                            </div>
+
+                        </div>
+
+                    </fieldset>
+
+                </form>
+
+            </div>
+            <div class="card-footer text-end">
+                <button type="submit" form="formImportCSV" class="btn btn-outline-primary ms-2">Import<i class="fas fa-cloud-upload ms-1"></i></button>
+            </div>
+
+        </div>
+
+    </div>
+
+    <div class="col-md-6 col-xl-4">
+
+        <div class="card">
+            <div class="card-header">
+                Export to CSV File
+            </div>
+            <div class="card-body mb-4">
+
+                <form id="formExportCSV" name="formExportCSV" (submit)="exportCSV(formExportCSV)" novalidate #formExportCSV="ngForm" [ngClass]="{ 'was-validated': formExportCSV.submitted }">
+
+                    <fieldset>
+
+                        <div class="row g-3">
+
+                            <div class="col-12">
+                                <div class="form-group" [ngClass]="{ 'is-invalid': indicatorIds.invalid }">
+
+                                    <label for="indicatorIds">
+                                        Indicators:
+                                    </label>
+
+                                    <indicator-select id="indicatorIds" name="indicatorIds" [(ngModel)]="exportCSVSettings.indicatorIds" [indicators]="exportCSVSettings.indicators" #indicatorIds="ngModel" required [multiple]="true"></indicator-select>
+
+                                    <div *ngIf="indicatorIds.errors?.required" class="invalid-feedback">
+                                        At least one indicator is required
+                                    </div>
+
+                                </div>
+                            </div>
+
+                            <div class="col-12">
+                                <div class="form-group" [ngClass]="{ 'is-invalid': entityIds.invalid }">
+
+                                    <label for="entityIds">
+                                        Entities:
+                                    </label>
+
+                                    <entity-select id="entityIds" name="entityIds" [(ngModel)]="exportCSVSettings.entityIds" [entities]="exportCSVSettings.entities" #entityIds="ngModel" required [multiple]="true"></entity-select>
+
+                                    <div *ngIf="entityIds.errors?.required" class="invalid-feedback">
+                                        At least one entity is required
+                                    </div>
+
+                                </div>
+                            </div>
+
+                            <div class="col-12">
+                                <div class="form-group" [ngClass]="{ 'is-invalid': dateIds.invalid }">
+
+                                    <label for="dateIds">
+                                        Dates:
+                                    </label>
+
+                                    <date-select id="dateIds" name="dateIds" [(ngModel)]="exportCSVSettings.dateIds" [dates]="exportCSVSettings.dates" #dateIds="ngModel" required [multiple]="true"></date-select>
+
+                                    <div *ngIf="dateIds.errors?.required" class="invalid-feedback">
+                                        At least one date is required
+                                    </div>
+
+                                </div>
+                            </div>
+
+                        </div>
+
+                    </fieldset>
+
+                </form>
+
+            </div>
+            <div class="card-footer text-end">
+                <button type="submit" form="formExportCSV" class="btn btn-outline-primary ms-2">Export<i class="fas fa-cloud-download ms-1"></i></button>
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+<ng-template #csvModal let-modal>
+    <div class="modal-header">
+        <h4 class="modal-title" id="modal-basic-title">CSV Import Error</h4>
+        <button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss()"></button>
+    </div>
+    <div class="modal-body">
+
+        <table class="table table-hover table-edge table-nowrap mb-0 align-middle">
+            <thead class="thead-light">
+                <tr>
+                    <th>Row</th>
+                    <th>Column</th>
+                    <th>Contents</th>
+                    <th>Error</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let csvError of csvErrors">
+                    <td>{{ csvError.row }}</td>
+                    <td>{{ csvError.column }}</td>
+                    <td>{{ csvError.contents }}</td>
+                    <td class="text-danger">{{ csvError.error }}</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <div class="modal-footer">
+        <button type="submit" form="formSettings" class="btn btn-outline-secondary" (click)="modal.dismiss()">Close</button>
+    </div>
+</ng-template>

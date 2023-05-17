@@ -1,0 +1,214 @@
+<ng-container *ngIf="route.children.length === 0">
+
+    <app-page-title title="Theory of Change"></app-page-title>
+
+    <form id="form" name="form" (submit)="save(form)" novalidate #form="ngForm" [ngClass]="{ 'was-validated': form.submitted }">
+
+        <div class="card border-0">
+
+            <div class="card-body">
+
+                <fieldset class="group">
+
+                    <div class="row g-3">
+
+                        <div class="col-sm-6 col-md-4">
+                            <div class="form-group" [ngClass]="{ 'is-invalid': name.invalid }">
+
+                                <label for="name">
+                                    Name:
+                                </label>
+
+                                <input id="name" name="name" class="form-control" type="text" [(ngModel)]="theoryOfChange.name" #name="ngModel" required (ngModelChange)="changeBreadcrumb()" maxlength="250" />
+
+                                <div *ngIf="name.errors?.required" class="invalid-feedback">
+                                    Name is required
+                                </div>
+
+                                <div *ngIf="name.errors?.maxlength" class="invalid-feedback">
+                                    Name must be at most 250 characters long
+                                </div>
+
+                            </div>
+                        </div>
+
+                    </div>
+
+                </fieldset>
+
+                <fieldset class="my-3">
+                    <button type="submit" class="btn btn-outline-success me-2 mb-1">Save<i class="fas fa-check ms-2"></i></button>
+                    <button type="button" *ngIf="!isNew" class="btn btn-outline-danger me-2 mb-1" (click)="delete()">Delete<i class="fas fa-times ms-2"></i></button>
+                </fieldset>
+
+            </div>
+
+        </div>
+
+    </form>
+
+    <ng-container *ngIf="!isNew">
+
+        <hr />
+
+        <nav ngbNav #nav="ngbNav" class="nav-tabs">
+
+            <ng-container ngbNavItem class="pt-6">
+
+                <a ngbNavLink>Components</a>
+
+                <ng-template ngbNavContent>
+
+                    <div class="card border-0 search-results">
+
+                        <div class="card-header border-0">
+
+                            <h4 class="card-header-title text-uppercase">
+                                Components
+                            </h4>
+
+                        </div>
+
+                        <div class="card-body">
+
+                            <form id="formSearchTheoryOfChangeComponents" (submit)="searchTheoryOfChangeComponents(0)" novalidate *ngIf="showTheoryOfChangeComponentsSearch" class="mb-5">
+
+                                <div class="row g-3">
+
+                                    <div class="col-sm-6 col-md-4 col-lg-4 col-xl-3">
+                                        <div class="form-group">
+                                            <component-select id="componentId" name="componentId" [(ngModel)]="theoryOfChangeComponentsSearchOptions.componentId"></component-select>
+                                        </div>
+                                    </div>
+
+                                </div>
+
+                            </form>
+
+                            <div class="mb-3">
+                            <button class="btn btn-outline-primary me-2 mb-1" (click)="addTheoryOfChangeComponents()">Add Components<i class="fas fa-plus ms-2"></i></button>
+                                <a [routerLink]="['./theoryofchangecomponents', 'add']" class="btn btn-outline-primary me-2 mb-1">Add<i class="fas fa-plus ms-2"></i></a>
+                                <button *ngIf="!showTheoryOfChangeComponentsSearch" type="button" class="btn btn-outline-secondary me-2 mb-1" (click)="showTheoryOfChangeComponentsSearch=true">Filter<i class="fas fa-filter ms-2"></i></button>
+                                <button *ngIf="showTheoryOfChangeComponentsSearch" form="formSearchTheoryOfChangeComponents" type="submit" class="btn btn-outline-primary me-2 mb-1">Search<i class="fas fa-search ms-2"></i></button>
+                            </div>
+
+                        </div>
+
+                        <div class="table-responsive">
+
+                            <table class="table table-hover table-edge table-nowrap mb-0 align-middle">
+                                <thead class="thead-light">
+                                    <tr>
+                                        <th>Component</th>
+                                        <th class="w-20px text-center"><i class="fas fa-times text-danger cursor-pointer" (click)="deleteTheoryOfChangeComponents()" ngbTooltip="Delete all components" container="body" placement="left"></i></th>
+                                    </tr>
+                                </thead>
+                                <tbody class="list cursor-pointer">
+                                    <tr *ngFor="let theoryOfChangeComponent of theoryOfChangeComponents" (click)="goToTheoryOfChangeComponent(theoryOfChangeComponent)">
+                                        <td>{{ theoryOfChangeComponent.component.name }}</td>
+                                        <td class="text-center"><i class="fas fa-times cursor-pointer p-1 text-danger" (click)="deleteTheoryOfChangeComponent(theoryOfChangeComponent, $event)"></i></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+
+                        </div>
+
+                        <div class="card-footer">
+                            <pager [headers]="theoryOfChangeComponentsHeaders" (pageChanged)="searchTheoryOfChangeComponents($event)"></pager>
+                        </div>
+
+                    </div>
+
+                </ng-template>
+
+            </ng-container>
+
+            <ng-container ngbNavItem class="pt-6">
+
+                <a ngbNavLink>Relationships</a>
+
+                <ng-template ngbNavContent>
+
+                    <div class="card border-0 search-results">
+
+                        <div class="card-header border-0">
+
+                            <h4 class="card-header-title text-uppercase">
+                                Relationships
+                            </h4>
+
+                        </div>
+
+                        <div class="card-body">
+
+                            <form id="formSearchRelationships" (submit)="searchRelationships(0)" novalidate *ngIf="showRelationshipsSearch" class="mb-5">
+
+                                <div class="row g-3">
+
+                                    <div class="col-sm-6 col-md-4 col-lg-4 col-xl-3">
+                                        <div class="form-group">
+                                            <component-select id="sourceComponentId" name="sourceComponentId" [(ngModel)]="relationshipsSearchOptions.sourceComponentId"></component-select>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-sm-6 col-md-4 col-lg-4 col-xl-3">
+                                        <div class="form-group">
+                                            <component-select id="targetComponentId" name="targetComponentId" [(ngModel)]="relationshipsSearchOptions.targetComponentId"></component-select>
+                                        </div>
+                                    </div>
+
+                                </div>
+
+                            </form>
+
+                            <div class="mb-3">
+                                <a [routerLink]="['./relationships', 'add']" class="btn btn-outline-primary me-2 mb-1">Add<i class="fas fa-plus ms-2"></i></a>
+                                <button *ngIf="!showRelationshipsSearch" type="button" class="btn btn-outline-secondary me-2 mb-1" (click)="showRelationshipsSearch=true">Filter<i class="fas fa-filter ms-2"></i></button>
+                                <button *ngIf="showRelationshipsSearch" form="formSearchRelationships" type="submit" class="btn btn-outline-primary me-2 mb-1">Search<i class="fas fa-search ms-2"></i></button>
+                            </div>
+
+                        </div>
+
+                        <div class="table-responsive">
+
+                            <table class="table table-hover table-edge table-nowrap mb-0 align-middle">
+                                <thead class="thead-light">
+                                    <tr>
+                                        <th>Component</th>
+                                        <th>Component</th>
+                                        <th class="w-20px text-center"><i class="fas fa-times text-danger cursor-pointer" (click)="deleteRelationships()" ngbTooltip="Delete all relationships" container="body" placement="left"></i></th>
+                                    </tr>
+                                </thead>
+                                <tbody class="list cursor-pointer">
+                                    <tr *ngFor="let relationship of relationships" (click)="goToRelationship(relationship)">
+                                        <td>{{ relationship.sourceComponent.name }}</td>
+                                        <td>{{ relationship.targetComponent.name }}</td>
+                                        <td class="text-center"><i class="fas fa-times cursor-pointer p-1 text-danger" (click)="deleteRelationship(relationship, $event)"></i></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+
+                        </div>
+
+                        <div class="card-footer">
+                            <pager [headers]="relationshipsHeaders" (pageChanged)="searchRelationships($event)"></pager>
+                        </div>
+
+                    </div>
+
+                </ng-template>
+
+            </ng-container>
+
+        </nav>
+
+        <div [ngbNavOutlet]="nav" class="mt-1"></div>
+
+    </ng-container>
+
+</ng-container>
+
+<component-modal #componentModal (changes)="changeComponent($event)" [multiple]="true"></component-modal>
+
+<router-outlet></router-outlet>
+

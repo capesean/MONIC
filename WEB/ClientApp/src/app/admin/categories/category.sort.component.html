@@ -1,0 +1,30 @@
+<div class="modal-header">
+    <h4 class="modal-title" id="modal-title">Sort Categories</h4>
+    <button type="button" class="btn-close" aria-label="Close button" aria-describedby="modal-title" (click)="modal.dismiss()"></button>
+</div>
+
+<div class="table-responsive">
+
+    <table class="table table-hover table-edge table-nowrap mt-6 mb-0 align-middle">
+        <thead class="thead-light">
+            <tr>
+                <th class="text-center w-20px"><i class="fas fa-sort"></i></th>
+                <th>Name</th>
+                <th>Code</th>
+            </tr>
+        </thead>
+        <tbody cdkDropList (cdkDropListDropped)="drop($event)" class="cursor-grab">
+            <tr *ngFor="let category of categories" cdkDrag cdkDragHandle (cdkDragStarted)="dragStart($event)">
+                <td class="text-center"><i class="fas fa-sort"></i></td>
+                <td>{{ category.name }}</td>
+                <td>{{ category.code }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+</div>
+
+<div class="modal-footer">
+    <button type="button" class="btn btn-outline-success" (click)="close()">Save</button>
+    <button type="button" class="btn btn-outline-secondary" (click)="modal.dismiss()">Cancel</button>
+</div>

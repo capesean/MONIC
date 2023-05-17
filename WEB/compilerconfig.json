@@ -1,0 +1,20 @@
+[
+  {
+    "outputFile": "ClientApp/src/avatar.css",
+    "inputFile": "ClientApp/src/avatar.scss",
+    "sourceMap": false,
+    "useNodeSass": false
+  },
+  {
+    "outputFile": "ClientApp/src/theme.css",
+    "inputFile": "ClientApp/src/theme.scss",
+    "sourceMap": false,
+    "useNodeSass": false
+  },
+  {
+    "outputFile": "ClientApp/src/scss/theme.css",
+    "inputFile": "ClientApp/src/scss/theme.scss",
+    "sourceMap": false,
+    "useNodeSass": false
+  }
+]

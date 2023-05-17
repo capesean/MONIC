@@ -1,0 +1,65 @@
+//
+// Layout (main, sidebar)
+//
+
+main {
+    --#{$prefix}main-content-bg: #{$main-content-bg};
+}
+
+.navbar-vertical ~ main {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    height: 100%;
+    
+    @include media-breakpoint-up(lg) {
+        &::before {
+            content: "";
+            position: absolute;
+            top: $main-content-position-top;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            z-index: -1;
+            background-color: var(--#{$prefix}main-content-bg);
+        }
+    }
+  
+    .container,
+    .container-fluid {
+        @include media-breakpoint-up(xl) {
+            padding-left: ($main-container-padding-x + $container-padding-x) !important;
+            padding-right: ($main-container-padding-x + $container-padding-x) !important; 
+        }
+    }
+}
+
+.navbar-vertical.navbar-expand {
+    @each $breakpoint, $value in $grid-breakpoints {
+        &-#{$breakpoint} {
+            @include media-breakpoint-up(lg) {
+                ~ main {
+                    margin-left: $navbar-vertical-width;
+
+                    [data-sidebar-behaviour="condensed"] & {
+                        margin-left: $navbar-vertical-condensed-width;
+                    }
+                }
+            }
+        }
+    }
+}
+
+@include media-breakpoint-up(lg){
+    html[data-is-fluid="false"] {
+        body {
+            @include container-width();
+        }
+    }
+}
+
+main {
+    [data-theme="dark"] & {
+        --#{$prefix}main-content-bg: #{$main-content-bg-dark};
+    }
+}

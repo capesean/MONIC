@@ -1,0 +1,426 @@
+<ng-container *ngIf="route.children.length === 0">
+
+    <app-page-title title="Field"></app-page-title>
+
+    <form id="form" name="form" (submit)="save(form)" novalidate #form="ngForm" [ngClass]="{ 'was-validated': form.submitted }">
+
+        <div class="card border-0">
+
+            <div class="card-body">
+
+                <fieldset class="group">
+
+                    <div class="row g-3">
+
+                        <div class="col-sm-6 col-md-4">
+                            <div class="form-group" [ngClass]="{ 'is-invalid': name.invalid }">
+
+                                <label for="name">
+                                    Name:
+                                </label>
+
+                                <input id="name" name="name" class="form-control" type="text" [(ngModel)]="field.name" #name="ngModel" required (ngModelChange)="changeBreadcrumb()" maxlength="2000" />
+
+                                <div *ngIf="name.errors?.required" class="invalid-feedback">
+                                    Name is required
+                                </div>
+
+                                <div *ngIf="name.errors?.maxlength" class="invalid-feedback">
+                                    Name must be at most 2000 characters long
+                                </div>
+
+                            </div>
+                        </div>
+
+                        <div class="col-sm-6 col-md-4">
+                            <div class="form-group" [ngClass]="{ 'is-invalid': fieldType.invalid }">
+
+                                <label for="fieldType">
+                                    Field Type:
+                                </label>
+
+                                <select id="fieldType" name="fieldType" class="form-select" [(ngModel)]="field.fieldType" #fieldType="ngModel" required [disabled]="!isNew">
+                                    <option *ngFor="let fieldType of fieldTypes" [ngValue]="fieldType.value">{{ fieldType.label }}</option>
+                                </select>
+
+                                <div *ngIf="fieldType.errors?.required" class="invalid-feedback">
+                                    Field Type is required
+                                </div>
+
+                            </div>
+                        </div>
+
+                        <div class="col-sm-6 col-md-4">
+                            <div class="form-group" [ngClass]="{ 'is-invalid': organisation.invalid }">
+
+                                <label for="organisation">
+                                    Organisation:
+                                </label>
+
+                                <div class="form-check">
+                                    <input id="organisation" name="organisation" class="form-check-input" type="checkbox" [(ngModel)]="field.organisation" #organisation="ngModel" />
+                                    <label class="form-check-label" for="organisation">
+                                        Organisation
+                                    </label>
+                                </div>
+
+                            </div>
+                        </div>
+
+                        <div class="col-sm-6 col-md-4">
+                            <div class="form-group" [ngClass]="{ 'is-invalid': entity.invalid }">
+
+                                <label for="entity">
+                                    Entity:
+                                </label>
+
+                                <div class="form-check">
+                                    <input id="entity" name="entity" class="form-check-input" type="checkbox" [(ngModel)]="field.entity" #entity="ngModel" />
+                                    <label class="form-check-label" for="entity">
+                                        Entity
+                                    </label>
+                                </div>
+
+                            </div>
+                        </div>
+
+                        <div class="col-sm-6 col-md-4">
+                            <div class="form-group" [ngClass]="{ 'is-invalid': indicator.invalid }">
+
+                                <label for="indicator">
+                                    Indicator:
+                                </label>
+
+                                <div class="form-check">
+                                    <input id="indicator" name="indicator" class="form-check-input" type="checkbox" [(ngModel)]="field.indicator" #indicator="ngModel" />
+                                    <label class="form-check-label" for="indicator">
+                                        Indicator
+                                    </label>
+                                </div>
+
+                            </div>
+                        </div>
+
+                        <div class="col-sm-6 col-md-4">
+                            <div class="form-group" [ngClass]="{ 'is-invalid': component.invalid }">
+
+                                <label for="component">
+                                    Component:
+                                </label>
+
+                                <div class="form-check">
+                                    <input id="component" name="component" class="form-check-input" type="checkbox" [(ngModel)]="field.component" #component="ngModel" />
+                                    <label class="form-check-label" for="component">
+                                        Component
+                                    </label>
+                                </div>
+
+                            </div>
+                        </div>
+
+                        <div class="col-sm-6 col-md-4">
+                            <div class="form-group" [ngClass]="{ 'is-invalid': relationship.invalid }">
+
+                                <label for="relationship">
+                                    Relationship:
+                                </label>
+
+                                <div class="form-check">
+                                    <input id="relationship" name="relationship" class="form-check-input" type="checkbox" [(ngModel)]="field.relationship" #relationship="ngModel" />
+                                    <label class="form-check-label" for="relationship">
+                                        Relationship
+                                    </label>
+                                </div>
+
+                            </div>
+                        </div>
+
+                        <div class="col-sm-6 col-md-4">
+                            <div class="form-group" [ngClass]="{ 'is-invalid': folder.invalid }">
+
+                                <label for="folder">
+                                    Folder:
+                                </label>
+
+                                <div class="form-check">
+                                    <input id="folder" name="folder" class="form-check-input" type="checkbox" [(ngModel)]="field.folder" #folder="ngModel" />
+                                    <label class="form-check-label" for="folder">
+                                        Folder
+                                    </label>
+                                </div>
+
+                            </div>
+                        </div>
+
+                        <div class="col-sm-6 col-md-4">
+                            <div class="form-group" [ngClass]="{ 'is-invalid': required.invalid }">
+
+                                <label for="required">
+                                    Required:
+                                </label>
+
+                                <div class="form-check">
+                                    <input id="required" name="required" class="form-check-input" type="checkbox" [(ngModel)]="field.required" #required="ngModel" />
+                                    <label class="form-check-label" for="required">
+                                        Required
+                                    </label>
+                                </div>
+
+                            </div>
+                        </div>
+
+                        <div class="col-sm-6 col-md-4" *ngIf="showUnique()">
+                            <div class="form-group" [ngClass]="{ 'is-invalid': isUnique.invalid }">
+
+                                <label for="isUnique">
+                                    Unique:
+                                </label>
+
+                                <div class="form-check">
+                                    <input id="isUnique" name="isUnique" class="form-check-input" type="checkbox" [(ngModel)]="field.isUnique" #isUnique="ngModel" />
+                                    <label class="form-check-label" for="isUnique">
+                                        Unique
+                                    </label>
+                                </div>
+
+                            </div>
+                        </div>
+
+                        <div class="col-sm-6 col-md-4">
+                            <div class="form-group" [ngClass]="{ 'is-invalid': size.invalid }">
+
+                                <label for="size">
+                                    Size:
+                                </label>
+
+                                <select id="size" name="size" class="form-select" [(ngModel)]="field.size" #size="ngModel" required>
+                                    <option *ngFor="let size of sizes" [ngValue]="size.value">{{ size.label }}</option>
+                                </select>
+
+                                <div *ngIf="size.errors?.required" class="invalid-feedback">
+                                    Size is required
+                                </div>
+
+                            </div>
+                        </div>
+
+                        <div class="col-sm-6 col-md-4" *ngIf="showLengths()">
+                            <div class="form-group" [ngClass]="{ 'is-invalid': minLength.invalid }">
+
+                                <label for="minLength">
+                                    Minimum Length:
+                                </label>
+
+                                <input id="minLength" name="minLength" class="form-control" type="number" [(ngModel)]="field.minLength" #minLength="ngModel" />
+
+                            </div>
+                        </div>
+
+                        <div class="col-sm-6 col-md-4" *ngIf="showLengths()">
+                            <div class="form-group" [ngClass]="{ 'is-invalid': maxLength.invalid }">
+
+                                <label for="maxLength">
+                                    Maximum Length:
+                                </label>
+
+                                <input id="maxLength" name="maxLength" class="form-control" type="number" [(ngModel)]="field.maxLength" #maxLength="ngModel" />
+
+                            </div>
+                        </div>
+
+                        <div class="col-sm-6 col-md-4" *ngIf="showRegex()">
+                            <div class="form-group" [ngClass]="{ 'is-invalid': regEx.invalid }">
+
+                                <label for="regEx">
+                                    Regular Expression:
+                                </label>
+
+                                <input id="regEx" name="regEx" class="form-control" type="text" [(ngModel)]="field.regEx" #regEx="ngModel" maxlength="250" />
+
+                                <div *ngIf="regEx.errors?.maxlength" class="invalid-feedback">
+                                    Regular Expression must be at most 250 characters long
+                                </div>
+
+                            </div>
+                        </div>
+
+                        <div class="col-sm-6 col-md-4" *ngIf="isPicklist()">
+                            <div class="form-group" [ngClass]="{ 'is-invalid': multiple.invalid }">
+
+                                <label for="multiple">
+                                    Multiple:
+                                </label>
+
+                                <div class="form-check">
+                                    <input id="multiple" name="multiple" class="form-check-input" type="checkbox" [(ngModel)]="field.multiple" #multiple="ngModel" />
+                                    <label class="form-check-label" for="multiple">
+                                        Multiple
+                                    </label>
+                                </div>
+
+                            </div>
+                        </div>
+
+                        <div class="col-sm-6 col-md-4" *ngIf="isPicklist()">
+                            <div class="form-group" [ngClass]="{ 'is-invalid': radioCheckbox.invalid }">
+
+                                <label for="radioCheckbox">
+                                    Radio buttons / Checkboxes:
+                                </label>
+
+                                <div class="form-check">
+                                    <input id="radioCheckbox" name="radioCheckbox" class="form-check-input" type="checkbox" [(ngModel)]="field.radioCheckbox" #radioCheckbox="ngModel" />
+                                    <label class="form-check-label" for="radioCheckbox">
+                                        Radio buttons / Checkboxes
+                                    </label>
+                                </div>
+
+                            </div>
+                        </div>
+
+                        <div class="col-sm-6 col-md-4" *ngIf="showMultiLine()">
+                            <div class="form-group" [ngClass]="{ 'is-invalid': multiLine.invalid }">
+
+                                <label for="multiLine">
+                                    Multi-line:
+                                </label>
+
+                                <div class="form-check">
+                                    <input id="multiLine" name="multiLine" class="form-check-input" type="checkbox" [(ngModel)]="field.multiLine" #multiLine="ngModel" />
+                                    <label class="form-check-label" for="multiLine">
+                                        Multi-line
+                                    </label>
+                                </div>
+
+                            </div>
+                        </div>
+
+                        <div class="col-sm-6 col-md-4">
+                            <div class="form-group" [ngClass]="{ 'is-invalid': groupId.invalid }">
+
+                                <label for="groupId">
+                                    Group:
+                                </label>
+
+                                <group-select id="groupId" name="groupId" [(group)]="field.group" [(ngModel)]="field.groupId" #groupId="ngModel"></group-select>
+
+                            </div>
+                        </div>
+
+                        <div class="col-sm-6 col-md-4" *ngIf="field.fieldType === 0 && field.multiLine">
+                            <div class="form-group" [ngClass]="{ 'is-invalid': rows.invalid }">
+
+                                <label for="rows">
+                                    Rows:
+                                </label>
+
+                                <input id="rows" name="rows" class="form-control" type="number" [(ngModel)]="field.rows" #rows="ngModel" required />
+
+                                <div *ngIf="rows.errors?.required" class="invalid-feedback">
+                                    Rows is required
+                                </div>
+
+                            </div>
+                        </div>
+
+                    </div>
+
+                </fieldset>
+
+                <fieldset class="my-3">
+                    <button type="submit" class="btn btn-outline-success me-2 mb-1">Save<i class="fas fa-check ms-2"></i></button>
+                    <button type="button" *ngIf="!isNew" class="btn btn-outline-danger me-2 mb-1" (click)="delete()">Delete<i class="fas fa-times ms-2"></i></button>
+                </fieldset>
+
+            </div>
+
+        </div>
+
+    </form>
+
+    <ng-container *ngIf="!isNew && showOptions">
+
+        <hr />
+
+        <nav ngbNav #nav="ngbNav" class="nav-tabs">
+
+            <ng-container ngbNavItem class="pt-6">
+
+                <a ngbNavLink>Options</a>
+
+                <ng-template ngbNavContent>
+
+                    <div class="card border-0 search-results">
+
+                        <div class="card-header border-0">
+
+                            <h4 class="card-header-title text-uppercase">
+                                Options
+                            </h4>
+
+                        </div>
+
+                        <div class="card-body">
+
+                            <form id="formSearchOptions" (submit)="searchOptions(0)" novalidate *ngIf="showOptionsSearch" class="mb-5">
+
+                                <div class="row g-3">
+
+                                    <div class="col-sm-6 col-md-5 col-lg-4 col-xl-3">
+                                        <div class="form-group">
+                                            <input type="search" name="q" id="q" [(ngModel)]="optionsSearchOptions.q" max="100" class="form-control" placeholder="Search options" />
+                                        </div>
+                                    </div>
+
+                                </div>
+
+                            </form>
+
+                            <div class="mb-3">
+                                <a [routerLink]="['./options', 'add']" class="btn btn-outline-primary me-2 mb-1">Add<i class="fas fa-plus ms-2"></i></a>
+                                <button *ngIf="!showOptionsSearch" type="button" class="btn btn-outline-secondary me-2 mb-1" (click)="showOptionsSearch=true">Filter<i class="fas fa-filter ms-2"></i></button>
+                                <button *ngIf="showOptionsSearch" form="formSearchOptions" type="submit" class="btn btn-outline-primary me-2 mb-1">Search<i class="fas fa-search ms-2"></i></button>
+                                <button type="button" class="btn btn-outline-secondary me-2 mb-1" (click)="showOptionSort()" *ngIf="optionsHeaders.totalRecords > 1 && !showOptionsSearch">Sort<i class="fas fa-sort ms-2"></i></button>
+                            </div>
+
+                        </div>
+
+                        <div class="table-responsive">
+
+                            <table class="table table-hover table-edge table-nowrap mb-0 align-middle">
+                                <thead class="thead-light">
+                                    <tr>
+                                        <th>Name</th>
+                                        <th class="w-20px text-center"><i class="fas fa-times text-danger cursor-pointer" (click)="deleteOptions()" ngbTooltip="Delete all options" container="body" placement="left"></i></th>
+                                    </tr>
+                                </thead>
+                                <tbody class="list cursor-pointer">
+                                    <tr *ngFor="let option of options" (click)="goToOption(option)">
+                                        <td>{{ option.name }}</td>
+                                        <td class="text-center"><i class="fas fa-times cursor-pointer p-1 text-danger" (click)="deleteOption(option, $event)"></i></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+
+                        </div>
+
+                        <div class="card-footer">
+                            <pager [headers]="optionsHeaders" (pageChanged)="searchOptions($event)"></pager>
+                        </div>
+
+                    </div>
+
+                </ng-template>
+
+            </ng-container>
+
+        </nav>
+
+        <div [ngbNavOutlet]="nav" class="mt-1"></div>
+
+    </ng-container>
+
+</ng-container>
+
+<router-outlet></router-outlet>
+

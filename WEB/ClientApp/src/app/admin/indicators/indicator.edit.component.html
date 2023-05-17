@@ -1,0 +1,483 @@
+<app-page-title title="Indicator"></app-page-title>
+
+<form id="form" name="form" (submit)="save(form)" novalidate #form="ngForm" [ngClass]="{ 'was-validated': form.submitted }">
+
+    <div class="card border-0">
+
+        <div class="card-body">
+
+            <fieldset class="group">
+
+                <div class="row g-3">
+
+                    <div class="col-sm-12 col-md-8 col-lg-6 col-xl-6">
+                        <div class="form-group" [ngClass]="{ 'is-invalid': name.invalid }">
+
+                            <label for="name">
+                                Name:
+                            </label>
+
+                            <input type="text" id="name" name="name" [(ngModel)]="indicator.name" #name="ngModel" class="form-control" required (ngModelChange)="changeBreadcrumb()" maxlength="250" />
+
+                            <div *ngIf="name.errors?.required" class="invalid-feedback">
+                                Name is required
+                            </div>
+
+                            <div *ngIf="name.errors?.maxlength" class="invalid-feedback">
+                                Name must be at most 250 characters long
+                            </div>
+
+                        </div>
+                    </div>
+
+                    <div class="col-sm-6 col-md-4 col-lg-3 col-xl-2">
+                        <div class="form-group" [ngClass]="{ 'is-invalid': code.invalid }">
+
+                            <label for="code">
+                                Code:
+                            </label>
+
+                            <input type="text" id="code" name="code" [(ngModel)]="indicator.code" #code="ngModel" class="form-control" required maxlength="20" />
+
+                            <div *ngIf="code.errors?.required" class="invalid-feedback">
+                                Code is required
+                            </div>
+
+                            <div *ngIf="code.errors?.maxlength" class="invalid-feedback">
+                                Code must be at most 10 characters long
+                            </div>
+
+                        </div>
+                    </div>
+
+                    <div class="col-sm-6 col-md-6 col-lg-3 col-xl-4">
+                        <div class="form-group" [ngClass]="{ 'is-invalid': subcategoryId.invalid }">
+
+                            <label for="subcategoryId">
+                                Subcategory:
+                            </label>
+
+                            <subcategory-select id="subcategoryId" name="subcategoryId" [(subcategory)]="indicator.subcategory" [(ngModel)]="indicator.subcategoryId" #subcategoryId="ngModel" required></subcategory-select>
+
+                            <div *ngIf="subcategoryId.errors?.required" class="invalid-feedback">
+                                Subcategory is required
+                            </div>
+
+                        </div>
+                    </div>
+
+                </div>
+
+                <div class="row g-3">
+
+                    <div class="col-sm-6 col-md-4 col-lg-3 col-xl-2">
+                        <div class="form-group" [ngClass]="{ 'is-invalid': indicatorType.invalid }">
+
+                            <label for="dataType">
+                                Indicator Type:
+                            </label>
+
+                            <select id="indicatorType" name="indicatorType" [(ngModel)]="indicator.indicatorType" #indicatorType="ngModel" class="form-select" required [disabled]="!isNew">
+                                <option *ngFor="let indicatorType of indicatorTypes" [ngValue]="indicatorType.value">{{ indicatorType.label }}</option>
+                            </select>
+
+                            <div *ngIf="indicatorType.errors?.required" class="invalid-feedback">
+                                Indicator Type is required
+                            </div>
+
+                        </div>
+                    </div>
+
+                    <div class="col-sm-6 col-md-4 col-xl-3">
+                        <div class="form-group" [ngClass]="{ 'is-invalid': entityTypeId.invalid }">
+
+                            <label for="entityTypeId">
+                                Entity Type:
+                            </label>
+
+                            <entity-type-select id="entityTypeId" name="entityTypeId" [(ngModel)]="indicator.entityTypeId" #entityTypeId="ngModel" [entityType]="indicator.entityType" required [disabled]="!isNew"></entity-type-select>
+
+                            <div *ngIf="entityTypeId.errors?.required" class="invalid-feedback">
+                                Entity Type is required
+                            </div>
+
+                        </div>
+                    </div>
+
+                    <div class="col-sm-6 col-md-4 col-lg-3 col-xl-2">
+                        <div class="form-group" [ngClass]="{ 'is-invalid': reportingFrequency.invalid }">
+
+                            <label for="reportingFrequency">
+                                Frequency of Reporting:
+                            </label>
+
+                            <select id="reportingFrequency" name="reportingFrequency" [(ngModel)]="indicator.reportingFrequency" #reportingFrequency="ngModel" class="form-select" required [disabled]="!isNew">
+                                <option *ngFor="let dateType of dateTypes" [ngValue]="dateType.value">{{ dateType.label }}</option>
+                            </select>
+
+                            <div *ngIf="reportingFrequency.errors?.required" class="invalid-feedback">
+                                Frequency of Reporting is required
+                            </div>
+
+                        </div>
+                    </div>
+
+                    <div class="col-sm-6 col-md-4 col-lg-3 col-xl-2">
+                        <div class="form-group" [ngClass]="{ 'is-invalid': dateAggregationType.invalid }">
+
+                            <label for="dateAggregationType">
+                                Date Aggregation:
+                            </label>
+
+                            <select id="dateAggregationType" name="dateAggregationType" class="form-select" type="text" [(ngModel)]="indicator.dateAggregationType" #dateAggregationType="ngModel" required [disabled]="!isNew">
+                                <option *ngFor="let aggregationType of aggregationTypes" [ngValue]="aggregationType.value">{{ aggregationType.label }}</option>
+                            </select>
+
+                            <div *ngIf="dateAggregationType.errors?.required" class="invalid-feedback">
+                                Date Aggregation is required
+                            </div>
+
+                        </div>
+                    </div>
+
+                    <div class="col-sm-6 col-md-4 col-lg-3 col-xl-2">
+                        <div class="form-group" [ngClass]="{ 'is-invalid': indicatorStatus.invalid }">
+
+                            <label for="indicatorStatus">
+                                Status:
+                            </label>
+
+                            <select id="indicatorStatus" name="indicatorStatus" [(ngModel)]="indicator.indicatorStatus" #indicatorStatus="ngModel" class="form-select" required>
+                                <option *ngFor="let indicatorStatus of indicatorStatuses" [ngValue]="indicatorStatus.value">{{ indicatorStatus.label }}</option>
+                            </select>
+
+                            <div *ngIf="indicatorStatus.errors?.required" class="invalid-feedback">
+                                Status is required
+                            </div>
+
+                        </div>
+                    </div>
+
+                </div>
+
+                <div class="row g-3">
+
+                    <div class="col-sm-6 col-md-4 col-lg-3 col-xl-2" *ngIf="env.useSubmit">
+                        <div class="form-group" [ngClass]="{ 'is-invalid': requiresSubmit.invalid }">
+
+                            <label for="requiresSubmit">
+                                Requires Submit:
+                            </label>
+
+                            <div class="form-check">
+                                <input id="requiresSubmit" name="requiresSubmit" class="form-check-input" type="checkbox" [(ngModel)]="indicator.requiresSubmit" #requiresSubmit="ngModel" />
+                                <label class="form-check-label" for="requiresSubmit">
+                                    Requires Submit
+                                </label>
+                            </div>
+
+                        </div>
+                    </div>
+
+                    <div class="col-sm-6 col-md-4 col-lg-3 col-xl-2" *ngIf="env.useVerify">
+                        <div class="form-group" [ngClass]="{ 'is-invalid': requiresVerify.invalid }">
+
+                            <label for="requiresVerify">
+                                Requires Verify:
+                            </label>
+
+                            <div class="form-check">
+                                <input id="requiresVerify" name="requiresVerify" class="form-check-input" type="checkbox" [(ngModel)]="indicator.requiresVerify" #requiresVerify="ngModel" />
+                                <label class="form-check-label" for="requiresVerify">
+                                    Requires Verify
+                                </label>
+                            </div>
+
+                        </div>
+                    </div>
+
+                    <div class="col-sm-6 col-md-4 col-lg-3 col-xl-2" *ngIf="env.useApprove">
+                        <div class="form-group" [ngClass]="{ 'is-invalid': requiresApprove.invalid }">
+
+                            <label for="requiresApprove">
+                                Requires Approve:
+                            </label>
+
+                            <div class="form-check">
+                                <input id="requiresApprove" name="requiresApprove" class="form-check-input" type="checkbox" [(ngModel)]="indicator.requiresApprove" #requiresApprove="ngModel" />
+                                <label class="form-check-label" for="requiresApprove">
+                                    Requires Approve
+                                </label>
+                            </div>
+
+                        </div>
+                    </div>
+
+                </div>
+
+                <div class="row g-3">
+
+                    <div class="col-sm-6 col-md-4 col-lg-3 col-xl-2">
+                        <div class="form-group" [ngClass]="{ 'is-invalid': dataType.invalid }">
+
+                            <label for="dataType">
+                                Data Type:
+                            </label>
+
+                            <select id="dataType" name="dataType" [(ngModel)]="indicator.dataType" #dataType="ngModel" class="form-select" required>
+                                <option *ngFor="let dataType of dataTypes" [ngValue]="dataType.value">{{ dataType.label }}</option>
+                            </select>
+
+                            <div *ngIf="dataType.errors?.required" class="invalid-feedback">
+                                Data Type is required
+                            </div>
+
+                        </div>
+                    </div>
+
+                    <div class="col-sm-6 col-md-4 col-lg-3 col-xl-2">
+                        <div class="form-group" [ngClass]="{ 'is-invalid': decimalPlaces.invalid }">
+
+                            <label for="decimalPlaces">
+                                Decimal Places:
+                            </label>
+
+                            <input type="number" id="decimalPlaces" name="decimalPlaces" [(ngModel)]="indicator.decimalPlaces" #decimalPlaces="ngModel" class="form-control" required />
+
+                            <div *ngIf="decimalPlaces.errors?.required" class="invalid-feedback">
+                                Decimal Places is required
+                            </div>
+
+                        </div>
+                    </div>
+
+                    <div class="col-sm-6 col-md-4 col-lg-3 col-xl-2">
+                        <div class="form-group" [ngClass]="{ 'is-invalid': units.invalid }">
+
+                            <label for="units">
+                                Units of Measurement:
+                            </label>
+
+                            <input type="text" id="units" name="units" [(ngModel)]="indicator.units" #units="ngModel" class="form-control" required maxlength="100" />
+
+                            <div *ngIf="units.errors?.required" class="invalid-feedback">
+                                Units of Measurement is required
+                            </div>
+
+                            <div *ngIf="units.errors?.maxlength" class="invalid-feedback">
+                                Units of Measurement must be at most 100 characters long
+                            </div>
+
+                        </div>
+                    </div>
+
+                    <div class="col-sm-6 col-md-4">
+                        <div class="form-group" [ngClass]="{ 'is-invalid': disableNote.invalid }">
+
+                            <label for="disableNote">
+                                Disable Note:
+                            </label>
+
+                            <div class="form-check">
+                                <input id="disableNote" name="disableNote" class="form-check-input" type="checkbox" [(ngModel)]="indicator.disableNote" #disableNote="ngModel" />
+                                <label class="form-check-label" for="disableNote">
+                                    Disable Note
+                                </label>
+                            </div>
+
+                        </div>
+                    </div>
+
+                    <ng-container *ngFor="let field of fields | groupPipe : null">
+
+                        <!--[(file)]="files[field.fieldId]" (downloadClicked)="download($event)"-->
+                        <field [field]="field" id="{{field.fieldId}}" name="{{field.fieldId}}" [ngModel]="fieldValues.get(field.fieldId)" (ngModelChange)="fieldValues.set(field.fieldId, $event)" [fieldValues]="fieldValues" class="{{field | fieldSizePipe}}"></field>
+
+                    </ng-container>
+
+                </div>
+
+            </fieldset>
+
+            <ng-container *ngFor="let group of groups">
+
+                <fieldset class="group">
+
+                    <legend>{{group.name}}</legend>
+
+                    <div class="row g-3">
+
+                        <ng-container *ngFor="let field of fields | groupPipe : group.groupId">
+
+                            <!--[(file)]="files[field.fieldId]" (downloadClicked)="download($event)"-->
+                            <field [field]="field" id="{{field.fieldId}}" name="{{field.fieldId}}" [ngModel]="fieldValues.get(field.fieldId)" (ngModelChange)="fieldValues.set(field.fieldId, $event)" [fieldValues]="fieldValues" class="{{field | fieldSizePipe}}"></field>
+
+                        </ng-container>
+
+                    </div>
+
+                </fieldset>
+
+            </ng-container>
+
+            <fieldset id="formulaBox" class="group px-0 pb-0" *ngIf="indicator.indicatorType === indicatorTypesCalculated">
+
+                <legend class="ms-4">Formula</legend>
+
+                <div id="formula" class="px-3 mt-1 pb-3" tabindex="0" (keydown)="keyDown($event)" (keyup)="key($event)" (click)="formulaClick();">
+
+                    <div id="cursor">
+                        <span [ngClass]="{'blink': -1 === activeToken}">|</span>
+                    </div>
+
+                    <ng-container *ngFor="let token of tokens; let ix=index;">
+
+                        <div class="token" (click)="selectToken(ix, $event)">
+
+                            <div *ngIf="token.tokenType === tokenTypesOperator" class="operator bg-dark text-white">
+                                <div *ngIf="token.operatorType === operatorTypesAdd">+</div>
+                                <div *ngIf="token.operatorType === operatorTypesSubtract">&minus;</div>
+                                <div *ngIf="token.operatorType === operatorTypesDivide">&divide;</div>
+                                <div *ngIf="token.operatorType === operatorTypesMultiply">&times;</div>
+                            </div>
+
+                            <div *ngIf="token.tokenType === tokenTypesNumber" class="number bg-dark text-white">
+                                {{token.numberAsText}}
+                            </div>
+
+                            <div *ngIf="token.tokenType === tokenTypesIndicator" class="indicator card">
+                                <div class="card-header bg-info text-white">
+                                    <i *ngIf="token.convertNullToZero" ngbTooltip="Convert Nulls to zero" class="fa fa-toggle-on float-right mt-1 cursor-pointer" (click)="token.convertNullToZero = !token.convertNullToZero"></i>
+                                    <i *ngIf="!token.convertNullToZero" ngbTooltip="Do not convert Nulls to zero" class="fa fa-toggle-off float-right mt-1 cursor-pointer" (click)="token.convertNullToZero = !token.convertNullToZero"></i>
+                                    {{token.sourceIndicator.code}}
+                                </div>
+                                <div class="card-body">
+                                    <p>{{token.sourceIndicator.name}}</p>
+                                </div>
+                                <div class="card-footer">
+                                    <p class="small text-muted mb-0">{{token.sourceIndicator.entityType.name}}, {{dateTypes[token.sourceIndicator.reportingFrequency].label}}</p>
+                                </div>
+                            </div>
+
+                            <div *ngIf="token.tokenType === tokenTypesParenthesis" class="parenthesis bg-dark text-white">
+                                <div *ngIf="token.parenthesisType === parenthesisTypesOpen">(</div>
+                                <div *ngIf="token.parenthesisType === parenthesisTypesClose">)</div>
+                            </div>
+
+                        </div>
+
+                        <div id="cursor">
+                            <span [ngClass]="{'blink': ix === activeToken}">|</span>
+                        </div>
+
+                    </ng-container>
+
+                </div>
+
+            </fieldset>
+
+            <fieldset class="my-3">
+                <button type="submit" class="btn btn-outline-success me-2 mb-1">Save<i class="fas fa-check ms-2"></i></button>
+                <button type="button" *ngIf="!isNew" class="btn btn-outline-danger me-2 mb-1" (click)="delete()">Delete<i class="fas fa-times ms-2"></i></button>
+                <button type="button" *ngIf="!isNew && indicator.indicatorType === indicatorTypesCalculated" class="btn btn-outline-primary me-2 mb-1" (click)="calculate()">Calculate<i class="fa fa-cogs ms-1"></i></button>
+                <button type="button" *ngIf="!isNew && indicator.indicatorType === indicatorTypesCalculated" class="btn btn-outline-dark me-2 mb-1" (click)="showHelp()">Help<i class="fa fa-question-circle ms-1"></i></button>
+            </fieldset>
+
+        </div>
+
+    </div>
+
+</form>
+
+<ng-container *ngIf="!isNew">
+
+    <hr />
+
+    <nav ngbNav #nav="ngbNav" class="nav-tabs">
+
+        <ng-container ngbNavItem class="pt-6">
+
+            <a ngbNavLink>Documents</a>
+
+            <ng-template ngbNavContent>
+
+                <div class="card border-0 search-results">
+
+                    <div class="card-header border-0">
+
+                        <h4 class="card-header-title text-uppercase">
+                            Entities
+                        </h4>
+
+                    </div>
+
+                    <div class="card-body">
+
+                        <div class="mb-3">
+                            <button class="btn btn-outline-success me-2 mb-1" (click)="showDocumentManageModal()">Add Document<i class="fas fa-plus ms-2"></i></button>
+                        </div>
+
+                    </div>
+
+                    <div class="table-responsive">
+
+                        <table class="table table-hover table-edge table-nowrap mb-0 align-middle">
+                            <thead class="thead-light">
+                                <tr>
+                                    <th>Name</th>
+                                </tr>
+                            </thead>
+                            <tbody class="list cursor-pointer">
+                                <tr *ngFor="let document of documents" (click)="goToDocument(document)">
+                                    <td>{{ document.fileName }}</td>
+                                </tr>
+                            </tbody>
+                        </table>
+
+                    </div>
+
+                    <div class="card-footer">
+                        <pager [headers]="documentHeaders" (pageChanged)="searchDocuments($event)"></pager>
+                    </div>
+
+                </div>
+
+            </ng-template>
+
+        </ng-container>
+
+    </nav>
+
+    <div [ngbNavOutlet]="nav" class="mt-1"></div>
+
+</ng-container>
+
+<ng-template #helpModal let-modal>
+    <div class="modal-header">
+        <h4 class="modal-title" id="modal-basic-title">Formula Help</h4>
+        <button type="button" class="btn-close" (click)="modal.dismiss()" aria-label="Close"></button>
+    </div>
+    <div class="modal-body">
+
+        <p>To edit the formula, first click on the grey formula box to activate it. You will then see a flashing cursor.</p>
+        <p>You can use the following keys to build the formula:</p>
+        <ul id="formulaHelp">
+            <li>Operators <kbd>+</kbd>, <kbd>-</kbd>, <kbd>*</kbd> and <kbd>/</kbd>: add mathematical operators to your formula.</li>
+            <li>Numbers <kbd>0</kbd> to <kbd>9</kbd> and the period (<kbd>.</kbd>): add numbers to your formula, e.g. if you need to multiply by 100.</li>
+            <li>Parentheses <kbd>(</kbd> and <kbd>)</kbd>: group calculations, as you would do in a normal mathematical equation.</li>
+            <li>The <kbd>i</kbd> key: opens the <strong>Select Indicator</strong> window, from where you can search for and select an indicator to embed in the formula.</li>
+            <li>The <kbd><i class="fa fa-arrow-left"></i></kbd>, <kbd><i class="fa fa-arrow-right"></i></kbd>, <kbd>Home</kbd> and <kbd>End</kbd> keys: move your cursor around the formula.</li>
+            <li>The <kbd>Backspace</kbd> key: deletes one item behind your cursor.</li>
+            <li>The <kbd>Delete</kbd> key: deletes one item in front of your cursor.</li>
+            <li>The <kbd>Enter</kbd> key: <strong>Saves</strong> the formula.</li>
+        </ul>
+
+    </div>
+    <div class="modal-footer">
+        <div class="w-100">
+            <button type="button" class="btn btn-outline-dark" (click)="closeHelpModal()">Close</button>
+        </div>
+    </div>
+</ng-template>
+
+<indicator-modal #indicatorModal (change)="changeIndicator($event)" [canRemoveFilters]="false" [reportingFrequency]="dateTypes[indicator.reportingFrequency]" [indicatorType]="indicatorTypesCollected"></indicator-modal>

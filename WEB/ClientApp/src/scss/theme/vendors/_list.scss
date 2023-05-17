@@ -1,0 +1,45 @@
+//
+// list.js
+//
+
+[data-sort] {
+    position: relative;
+
+    &::before,
+    &::after {        
+        content: "";
+        position: absolute;
+        left: calc(100% + 5px);
+        top: 50%;
+        width: 9px;
+        height: 4px;
+        background-repeat: no-repeat;
+        background-position: center;
+        background-size: 9px 4px;
+        margin-left: $caret-spacing;
+        vertical-align: $caret-vertical-align;
+        opacity: .4;
+    }
+
+    &::before {
+        background-image: escape-svg($sort-up-bg);
+        margin-top: -4px;
+    }
+
+    &::after {
+        background-image: escape-svg($sort-down-bg);
+        margin-top: 2px;
+    }
+
+    &.asc {
+        &::before {
+            opacity: 1;
+        }
+    }
+
+    &.desc {
+        &::after {
+            opacity: 1;
+        }
+    }
+}

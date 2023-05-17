@@ -1,0 +1,57 @@
+<div *ngIf="route.children.length === 0">
+
+    <form (submit)="runSearch(0)" novalidate>
+
+        <div class="row g-3">
+
+            <div class="col-sm-6 col-md-4 col-lg-3">
+                <div class="form-group">
+                    <input type="search" name="q" id="q" [(ngModel)]="searchOptions.q" max="100" class="form-control" placeholder="Search subcategories" />
+                </div>
+            </div>
+
+            <div class="col-sm-6 col-md-4 col-lg-3">
+                <div class="form-group">
+                    <category-select id="categoryId" name="categoryId" [(ngModel)]="searchOptions.categoryId"></category-select>
+                </div>
+            </div>
+
+        </div>
+
+        <fieldset class="my-3">
+
+            <button type="submit" class="btn btn-outline-success me-2 mb-1">Search<i class="fas fa-search ms-2"></i></button>
+            <button type="button" class="btn btn-outline-secondary me-2 mb-1" (click)="showSort()" *ngIf="headers.totalRecords > 1">Sort<i class="fas fa-sort ms-2"></i></button>
+
+        </fieldset>
+
+    </form>
+
+    <hr />
+
+    <div class="table-responsive">
+
+        <table class="table table-hover table-edge table-nowrap mb-0 align-middle">
+            <thead class="thead-light">
+                <tr>
+                    <th>Category</th>
+                    <th>Code</th>
+                    <th>Name</th>
+                </tr>
+            </thead>
+            <tbody class="list cursor-pointer">
+                <tr *ngFor="let subcategory of subcategories" (click)="goToSubcategory(subcategory)">
+                    <td>{{ subcategory.category.name }}</td>
+                    <td>{{ subcategory.code }}</td>
+                    <td>{{ subcategory.name }}</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <pager [headers]="headers" (pageChanged)="runSearch($event)"></pager>
+
+    </div>
+
+</div>
+
+<router-outlet></router-outlet>

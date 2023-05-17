@@ -1,0 +1,92 @@
+<app-page-title title="Logical Framework"></app-page-title>
+
+<div class="card border-0">
+
+    <div class="card-body">
+
+        <form id="formLogFrame" name="formLogFrame" (submit)="save(form)" novalidate #form="ngForm" [ngClass]="{ 'was-validated': form.submitted }">
+
+            <fieldset class="group">
+
+                <div class="row g-3">
+
+                    <div class="col-sm-6 col-md-4">
+                        <div class="form-group" [ngClass]="{ 'is-invalid': name.invalid }">
+
+                            <label for="name">
+                                Name:
+                            </label>
+
+                            <input id="name" name="name" class="form-control" type="text" [(ngModel)]="logFrame.name" #name="ngModel" required (ngModelChange)="changeBreadcrumb()" maxlength="255" />
+
+                            <div *ngIf="name.errors?.required" class="invalid-feedback">
+                                Name is required
+                            </div>
+
+                            <div *ngIf="name.errors?.maxlength" class="invalid-feedback">
+                                Name must be at most 255 characters long
+                            </div>
+
+                        </div>
+                    </div>
+
+                </div>
+
+            </fieldset>
+
+            <fieldset class="my-3">
+                <button type="submit" class="btn btn-outline-success me-2 mb-1">Save<i class="fas fa-check ms-2"></i></button>
+                <button type="button" *ngIf="!isNew" class="btn btn-outline-danger me-2 mb-1" (click)="delete()">Delete<i class="fas fa-times ms-2"></i></button>
+            </fieldset>
+
+        </form>
+
+        <ng-container *ngIf="!isNew">
+
+            <hr />
+
+            <div id="logFrame">
+
+                <div id="headerRow">
+                    <div id="corner"></div>
+                    <div id="description">Description</div>
+                    <div id="indicators">Indicators</div>
+                    <div id="mov">Means of Verification</div>
+                    <div id="raa">Risks &amp; Assumptions</div>
+                </div>
+
+                <div class="rowType" id="goals">
+                    <div class="rowLabel">
+                        Goals<i class="fa fa-plus-circle ms-1 text-primary cursor-pointer" (click)="addRow(logFrameRowTypesGoals)" ngbTooltip="Add a Goal row"></i>
+                    </div>
+                    <app-logframerows [rows]="logFrameRows | logFrameRowPipe : logFrameRowTypesGoals" (rowClick)="rowClick($event, logFrameRowTypesGoals)"></app-logframerows>
+                </div>
+
+                <div class="rowType" id="outcomes">
+                    <div class="rowLabel">
+                        Outcomes<i class="fa fa-plus-circle ms-1 text-primary cursor-pointer" (click)="addRow(logFrameRowTypesOutcomes)" ngbTooltip="Add an Outcomes row"></i>
+                    </div>
+                    <app-logframerows [rows]="logFrameRows | logFrameRowPipe : logFrameRowTypesOutcomes" (rowClick)="rowClick($event, logFrameRowTypesOutcomes)"></app-logframerows>
+                </div>
+
+                <div class="rowType" id="outputs">
+                    <div class="rowLabel">
+                        Outputs<i class="fa fa-plus-circle ms-1 text-primary cursor-pointer" (click)="addRow(logFrameRowTypesOutputs)" ngbTooltip="Add an Outputs row"></i>
+                    </div>
+                    <app-logframerows [rows]="logFrameRows | logFrameRowPipe : logFrameRowTypesOutputs" (rowClick)="rowClick($event, logFrameRowTypesOutputs)"></app-logframerows>
+                </div>
+
+                <div class="rowType" id="activities">
+                    <div class="rowLabel">
+                        Activities<i class="fa fa-plus-circle ms-1 text-primary cursor-pointer" (click)="addRow(logFrameRowTypesActivities)" ngbTooltip="Add an Activities row"></i>
+                    </div>
+                    <app-logframerows [rows]="logFrameRows | logFrameRowPipe : logFrameRowTypesActivities" (rowClick)="rowClick($event, logFrameRowTypesActivities)"></app-logframerows>
+                </div>
+
+            </div>
+
+        </ng-container>
+
+    </div>
+
+</div>

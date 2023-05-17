@@ -1,0 +1,200 @@
+<ng-container *ngIf="route.children.length === 0">
+
+    <app-page-title title="Item"></app-page-title>
+
+    <form id="form" name="form" (submit)="save(form)" novalidate #form="ngForm" [ngClass]="{ 'was-validated': form.submitted }">
+
+        <div class="card border-0">
+
+            <div class="card-body">
+
+                <fieldset class="group">
+
+                    <div class="row g-3">
+
+                        <div class="col-sm-6 col-md-4">
+                            <div class="form-group" [ngClass]="{ 'is-invalid': itemType.invalid }">
+
+                                <label for="itemType">
+                                    Item Type:
+                                </label>
+
+                                <select id="itemType" name="itemType" class="form-select" [(ngModel)]="item.itemType" #itemType="ngModel" required>
+                                    <option *ngFor="let itemType of itemTypes" [ngValue]="itemType.value">{{ itemType.label }}</option>
+                                </select>
+
+                                <div *ngIf="itemType.errors?.required" class="invalid-feedback">
+                                    Item Type is required
+                                </div>
+
+                            </div>
+                        </div>
+
+                    </div>
+
+                </fieldset>
+
+                <fieldset class="my-3">
+                    <button type="submit" class="btn btn-outline-success me-2 mb-1">Save<i class="fas fa-check ms-2"></i></button>
+                    <button type="button" *ngIf="!isNew" class="btn btn-outline-danger me-2 mb-1" (click)="delete()">Delete<i class="fas fa-times ms-2"></i></button>
+                </fieldset>
+
+            </div>
+
+        </div>
+
+    </form>
+
+    <ng-container *ngIf="!isNew">
+
+        <hr />
+
+        <nav ngbNav #nav="ngbNav" class="nav-tabs">
+
+            <ng-container ngbNavItem class="pt-6">
+
+                <a ngbNavLink>Option Values</a>
+
+                <ng-template ngbNavContent>
+
+                    <div class="card border-0 search-results">
+
+                        <div class="card-header border-0">
+
+                            <h4 class="card-header-title text-uppercase">
+                                Option Values
+                            </h4>
+
+                        </div>
+
+                        <div class="card-body">
+
+                            <form id="formSearchOptionValues" (submit)="searchOptionValues(0)" novalidate *ngIf="showOptionValuesSearch" class="mb-5">
+
+                                <div class="row g-3">
+
+                                    <div class="col-sm-6 col-md-4 col-lg-4 col-xl-3">
+                                        <div class="form-group">
+                                            <option-select id="optionId" name="optionId" [(ngModel)]="optionValuesSearchOptions.optionId"></option-select>
+                                        </div>
+                                    </div>
+
+                                </div>
+
+                            </form>
+
+                            <div class="mb-3">
+                                <button *ngIf="!showOptionValuesSearch" type="button" class="btn btn-outline-secondary me-2 mb-1" (click)="showOptionValuesSearch=true">Filter<i class="fas fa-filter ms-2"></i></button>
+                                <button *ngIf="showOptionValuesSearch" form="formSearchOptionValues" type="submit" class="btn btn-outline-primary me-2 mb-1">Search<i class="fas fa-search ms-2"></i></button>
+                            </div>
+
+                        </div>
+
+                        <div class="table-responsive">
+
+                            <table class="table table-hover table-edge table-nowrap mb-0 align-middle">
+                                <thead class="thead-light">
+                                    <tr>
+                                        <th>Option</th>
+                                        <th class="w-20px text-center"><i class="fas fa-times text-danger cursor-pointer" (click)="deleteOptionValues()" ngbTooltip="Delete all option values" container="body" placement="left"></i></th>
+                                    </tr>
+                                </thead>
+                                <tbody class="list cursor-pointer">
+                                    <tr *ngFor="let optionValue of optionValues" (click)="goToOptionValue(optionValue)">
+                                        <td>{{ optionValue.option.name }}</td>
+                                        <td class="text-center"><i class="fas fa-times cursor-pointer p-1 text-danger" (click)="deleteOptionValue(optionValue, $event)"></i></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+
+                        </div>
+
+                        <div class="card-footer">
+                            <pager [headers]="optionValuesHeaders" (pageChanged)="searchOptionValues($event)"></pager>
+                        </div>
+
+                    </div>
+
+                </ng-template>
+
+            </ng-container>
+
+            <ng-container ngbNavItem class="pt-6">
+
+                <a ngbNavLink>Documents</a>
+
+                <ng-template ngbNavContent>
+
+                    <div class="card border-0 search-results">
+
+                        <div class="card-header border-0">
+
+                            <h4 class="card-header-title text-uppercase">
+                                Documents
+                            </h4>
+
+                        </div>
+
+                        <div class="card-body">
+
+                            <form id="formSearchDocuments" (submit)="searchDocuments(0)" novalidate *ngIf="showDocumentsSearch" class="mb-5">
+
+                                <div class="row g-3">
+
+                                    <div class="col-sm-6 col-md-5 col-lg-4 col-xl-3">
+                                        <div class="form-group">
+                                            <input type="search" name="q" id="q" [(ngModel)]="documentsSearchOptions.q" max="100" class="form-control" placeholder="Search documents" />
+                                        </div>
+                                    </div>
+
+                                </div>
+
+                            </form>
+
+                            <div class="mb-3">
+                                <a [routerLink]="['./documents', 'add']" class="btn btn-outline-primary me-2 mb-1">Add<i class="fas fa-plus ms-2"></i></a>
+                                <button *ngIf="!showDocumentsSearch" type="button" class="btn btn-outline-secondary me-2 mb-1" (click)="showDocumentsSearch=true">Filter<i class="fas fa-filter ms-2"></i></button>
+                                <button *ngIf="showDocumentsSearch" form="formSearchDocuments" type="submit" class="btn btn-outline-primary me-2 mb-1">Search<i class="fas fa-search ms-2"></i></button>
+                            </div>
+
+                        </div>
+
+                        <div class="table-responsive">
+
+                            <table class="table table-hover table-edge table-nowrap mb-0 align-middle">
+                                <thead class="thead-light">
+                                    <tr>
+                                        <th>File Name</th>
+                                        <th class="w-20px text-center"><i class="fas fa-times text-danger cursor-pointer" (click)="deleteDocuments()" ngbTooltip="Delete all documents" container="body" placement="left"></i></th>
+                                    </tr>
+                                </thead>
+                                <tbody class="list cursor-pointer">
+                                    <tr *ngFor="let document of documents" (click)="goToDocument(document)">
+                                        <td>{{ document.fileName }}</td>
+                                        <td class="text-center"><i class="fas fa-times cursor-pointer p-1 text-danger" (click)="deleteDocument(document, $event)"></i></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+
+                        </div>
+
+                        <div class="card-footer">
+                            <pager [headers]="documentsHeaders" (pageChanged)="searchDocuments($event)"></pager>
+                        </div>
+
+                    </div>
+
+                </ng-template>
+
+            </ng-container>
+
+        </nav>
+
+        <div [ngbNavOutlet]="nav" class="mt-1"></div>
+
+    </ng-container>
+
+</ng-container>
+
+<router-outlet></router-outlet>
+

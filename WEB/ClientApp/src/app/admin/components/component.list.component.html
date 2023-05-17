@@ -1,0 +1,78 @@
+<ng-container *ngIf="route.children.length === 0">
+
+    <app-page-title title="Components"></app-page-title>
+
+    <div class="card border-0">
+
+        <div class="card-body">
+
+            <form (submit)="runSearch(0)" novalidate>
+
+                <div class="row g-3">
+
+                    <div class="col-sm-6 col-md-4 col-lg-3">
+                        <div class="form-group">
+                            <input type="search" name="q" id="q" [(ngModel)]="searchOptions.q" max="100" class="form-control" placeholder="Search components" />
+                        </div>
+                    </div>
+
+                    <div class="col-sm-6 col-md-4 col-lg-3">
+                        <div class="form-group">
+                            <select id="componentType" name="componentType" [(ngModel)]="searchOptions.componentType" #componentType="ngModel" class="form-select">
+                                <option *ngFor="let componentType of componentTypes" [ngValue]="componentType.value">{{ componentType.label }}</option>
+                            </select>
+                        </div>
+                    </div>
+
+                </div>
+
+                <fieldset class="mt-3">
+
+                    <button type="submit" class="btn btn-outline-primary me-2 mb-1">Search<i class="fas fa-search ms-2"></i></button>
+                    <a [routerLink]="['./', 'add']" class="btn btn-outline-primary me-2 mb-1">Add<i class="fas fa-plus ms-2"></i></a>
+                    <button type="button" class="btn btn-outline-secondary me-2 mb-1" (click)="showSort()" *ngIf="headers.totalRecords > 1">Sort<i class="fas fa-sort ms-2"></i></button>
+
+                </fieldset>
+
+            </form>
+
+        </div>
+
+    </div>
+
+    <div class="card border-0">
+
+        <div class="card-header border-0 card-header-space-between">
+            <h4 class="card-header-title text-uppercase">Components</h4>
+        </div>
+
+        <div class="table-responsive">
+
+            <table class="table table-hover table-edge table-nowrap mb-0 align-middle">
+                <thead class="thead-light">
+                    <tr>
+                        <th>Name</th>
+                        <th>Code</th>
+                        <th>Component Type</th>
+                    </tr>
+                </thead>
+                <tbody class="list cursor-pointer">
+                    <tr *ngFor="let component of components" (click)="goToComponent(component)">
+                        <td>{{ component.name }}</td>
+                        <td>{{ component.code }}</td>
+                        <td>{{ componentTypes[component.componentType].label }}</td>
+                    </tr>
+                </tbody>
+            </table>
+
+        </div>
+
+        <div class="card-footer">
+            <pager [headers]="headers" (pageChanged)="runSearch($event)"></pager>
+        </div>
+
+    </div>
+
+</ng-container>
+
+<router-outlet></router-outlet>

@@ -1,0 +1,8 @@
+<div class="input-group" [ngClass]="{ 'disabled': disabled }">
+    <input placeholder="{{placeholder}}" (click)="click()" type="text" tabindex="-1" class="form-control cursor-pointer" readonly value="{{getLabel()}}" [disabled]="disabled" />
+    <button type="button" class="btn btn-secondary" (click)="click(true)" [ngClass]="{ 'disabled': disabled}">
+        <i class="fas fa-fw" [ngClass]="{ 'fa-search': !logFrameRow && !logFrameRows?.length, 'fa-times': !!logFrameRow || !!logFrameRows?.length }"></i>
+    </button>
+</div>
+
+<log-frame-row-modal #modal (change)="changed($event)" (changes)="changed($event)" [multiple]="multiple" [canRemoveFilters]="canRemoveFilters" [logFrame]="logFrame" [rowType]="rowType" [showAddNew]="showAddNew" [title]="placeholder"></log-frame-row-modal>

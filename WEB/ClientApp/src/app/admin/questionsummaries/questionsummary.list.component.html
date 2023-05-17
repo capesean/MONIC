@@ -1,0 +1,67 @@
+<app-page-title title="Question Summaries"></app-page-title>
+
+<div class="card border-0">
+
+    <div class="card-body">
+
+        <form (submit)="runSearch(0)" novalidate>
+
+            <div class="row g-3">
+
+                <div class="col-sm-6 col-md-4 col-lg-3">
+                    <div class="form-group">
+                        <question-select id="questionId" name="questionId" [(ngModel)]="searchOptions.questionId"></question-select>
+                    </div>
+                </div>
+
+                <div class="col-sm-6 col-md-4 col-lg-3">
+                    <div class="form-group">
+                        <date-select id="dateId" name="dateId" [(ngModel)]="searchOptions.dateId"></date-select>
+                    </div>
+                </div>
+
+            </div>
+
+            <fieldset class="mt-3">
+
+                <button type="submit" class="btn btn-outline-primary me-2 mb-1">Search<i class="fas fa-search ms-2"></i></button>
+
+            </fieldset>
+
+        </form>
+
+    </div>
+
+</div>
+
+<div class="card border-0">
+
+    <div class="card-header border-0 card-header-space-between">
+        <h4 class="card-header-title text-uppercase">Question Summaries</h4>
+    </div>
+
+    <div class="table-responsive">
+
+        <table class="table table-hover table-edge table-nowrap mb-0 align-middle">
+            <thead class="thead-light">
+                <tr>
+                    <th>Question</th>
+                    <th>Date</th>
+                </tr>
+            </thead>
+            <tbody class="list cursor-pointer">
+                <tr *ngFor="let questionSummary of questionSummaries" (click)="goToQuestionSummary(questionSummary)">
+                    <td>{{ questionSummary.question.code }}</td>
+                    <td>{{ questionSummary.date.name }}</td>
+                </tr>
+            </tbody>
+        </table>
+
+        </div>
+
+        <div class="card-footer">
+            <pager [headers]="headers" (pageChanged)="runSearch($event)"></pager>
+        </div>
+
+    </div>
+

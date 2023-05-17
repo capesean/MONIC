@@ -1,0 +1,75 @@
+<div class="modal-header">
+    <h4 class="modal-title" id="modal-title">Download Questionnaire PDF</h4>
+    <button type="button" class="btn-close" aria-label="Close button" aria-describedby="modal-title" (click)="modal.dismiss()"></button>
+</div>
+
+<div class="modal-body">
+
+    <form id="formDownload" name="formDownload" (submit)="submit(formDownload)" novalidate #formDownload="ngForm" [ngClass]="{ 'was-validated': formDownload.submitted }">
+
+        <fieldset class="group">
+
+            <div class="row g-3">
+
+                <div class="col-12" *ngIf="options.includeSummaries">
+                    <div class="form-group" [ngClass]="{ 'is-invalid': dateId.invalid }">
+
+                        <label for="dateId">
+                            Date:
+                        </label>
+
+                        <date-select id="dateId" name="dateId" [(ngModel)]="options.dateId" #dateId="ngModel" [dateType]="dateTypes[questionnaire.dateType]" required></date-select>
+
+                        <div *ngIf="dateId.errors?.required" class="invalid-feedback">
+                            Date is required
+                        </div>
+
+                    </div>
+                </div>
+
+                <div class="col-md-6 col-xl-5">
+                    <div class="form-group" [ngClass]="{ 'is-invalid': includeSkipLogic.invalid }">
+
+                        <label for="includeSkipLogic">
+                            Include Skip Logic:
+                        </label>
+
+                        <div class="form-check">
+                            <input id="includeSkipLogic" name="includeSkipLogic" class="form-check-input" type="checkbox" [(ngModel)]="options.includeSkipLogic" #includeSkipLogic="ngModel" />
+                            <label class="form-check-label" for="includeSkipLogic">
+                                Include Skip Logic
+                            </label>
+                        </div>
+
+                    </div>
+                </div>
+
+                <div class="col-md-6 col-xl-5">
+                    <div class="form-group" [ngClass]="{ 'is-invalid': includeSummaries.invalid }">
+
+                        <label for="includeSummaries">
+                            Include Summaries:
+                        </label>
+
+                        <div class="form-check">
+                            <input id="includeSummaries" name="includeSummaries" class="form-check-input" type="checkbox" [(ngModel)]="options.includeSummaries" #includeSummaries="ngModel" />
+                            <label class="form-check-label" for="includeSummaries">
+                                Include Summaries
+                            </label>
+                        </div>
+
+                    </div>
+                </div>
+
+            </div>
+
+        </fieldset>
+
+    </form>
+
+</div>
+
+<div class="modal-footer">
+    <button type="submit" form="formDownload" class="btn btn-outline-success">Download</button>
+    <button type="button" class="btn btn-outline-secondary" (click)="modal.dismiss()">Cancel</button>
+</div>

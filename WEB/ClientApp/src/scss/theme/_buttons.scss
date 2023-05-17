@@ -1,0 +1,25 @@
+//
+// Buttons
+//
+
+.btn {
+    // scss-docs-start btn-css-vars
+    --#{$prefix}btn-focus-box-shadow: #{$btn-focus-box-shadow};
+    // scss-docs-end btn-css-vars
+}
+
+// scss-docs-start btn-variant-loops
+[data-theme="dark"] {
+    @each $color, $value in $theme-dark-colors {
+        .btn-#{$color} {
+            @include button-variant($value, $value);
+        }
+    }
+    
+    @each $color, $value in $theme-dark-colors {
+        .btn-outline-#{$color} {
+            @include button-outline-variant($value);
+        }
+    }
+}
+// scss-docs-end btn-variant-loops

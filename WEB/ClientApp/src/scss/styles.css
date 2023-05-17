@@ -1,0 +1,339 @@
+main {
+    margin-bottom: 5rem;
+}
+
+body#app {
+    min-height: 800px;
+}
+
+@media(min-width: 992px) {
+    main {
+        margin-left: 18rem;
+    }
+}
+
+@media(min-width: 1200px) {
+    main .container-fluid {
+        padding-left: 2.8125rem !important;
+        padding-right: 2.8125rem !important
+    }
+}
+
+.widget.extra-small [echarts], .widget.extra-small google-map {
+    height: 150px;
+}
+
+.widget.small [echarts],
+.widget.small google-map {
+    height: 250px;
+}
+
+.widget.medium [echarts],
+.widget.medium google-map {
+    height: 350px;
+}
+
+.widget.large [echarts],
+.widget.large google-map {
+    height: 450px;
+}
+
+.widget.extra-large [echarts],
+.widget.extra-large google-map {
+    height: 550px;
+}
+
+.widget .subheader {
+    line-height: 1;
+}
+
+.widgetInfo {
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow-x: hidden;
+    width: 85%;
+}
+
+    .widgetInfo h5 {
+        overflow-x: hidden;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+        overflow-y: hidden;
+    }
+
+.widget.deleted {
+    animation-duration: 1s;
+    animation-fill-mode: both;
+    animation-name: fadeOut;
+    opacity: 0;
+    display: none;
+}
+
+.widget.shrink {
+    animation-duration: 1s;
+    animation-fill-mode: both;
+    animation-name: shrink;
+    opacity: 0;
+    display: none;
+}
+
+@keyframes fadeOut {
+    0% {
+        opacity: 1;
+    }
+
+    100% {
+        opacity: 0;
+    }
+}
+
+@keyframes shrink {
+    100% {
+        width: 0;
+        padding: 0;
+    }
+}
+
+button#add-widget {
+    opacity: 0.33;
+}
+
+    button#add-widget:hover {
+        opacity: 1;
+    }
+
+.widget .dropdown .dropdown-toggle {
+    border: none;
+    padding: 0;
+}
+
+    .widget .dropdown .dropdown-toggle:focus {
+        outline: none !important;
+        box-shadow: none;
+    }
+
+    .widget .dropdown .dropdown-toggle:after,
+    table.table .dropdown .dropdown-toggle:after {
+        display: none;
+    }
+
+.py-6 {
+    padding-bottom: 1.875rem !important;
+    padding-top: 1.875rem !important
+}
+
+.py-7 {
+    padding-bottom: 2.8125rem !important;
+    padding-top: 2.8125rem !important
+}
+
+.py-8 {
+    padding-bottom: 3.75rem !important;
+    padding-top: 3.75rem !important
+}
+
+.py-9 {
+    padding-bottom: 5.625rem !important;
+    padding-top: 5.625rem !important
+}
+
+.py-10 {
+    padding-bottom: 8.4375rem !important;
+    padding-top: 8.4375rem !important
+}
+
+
+.dropdown-toggle.no-arrow:after, .dropdown-toggle.no-arrow:before {
+    display: none !important
+}
+
+/*display empty anchor tags as cursor-pointer*/
+#mainNavbar.navbar-expand-lg a:not([href]) {
+    cursor: pointer;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    user-select: none
+}
+
+.form-group label {
+    font-size: .75rem;
+    font-weight: 700;
+    margin-bottom: 0.25rem; /*todo: use a variable?*/
+}
+
+    .form-group label.input-group-text {
+        margin-bottom: 0;
+    }
+
+.was-validated .app-select.ng-invalid input.form-control,
+.was-validated app-color.ng-invalid .input-group input[type=text],
+.was-validated app-color.ng-invalid .input-group .input-group-text {
+    border-color: #dc3545;
+}
+
+.was-validated /*.form-group*/.is-invalid .app-select .btn {
+    background-color: #dc3545;
+    border-color: #dc3545;
+}
+
+.was-validated /*.form-group*/.is-invalid input[ngbdatepicker].ng-invalid {
+    border-color: #dc3545;
+}
+
+.was-validated .app-select.ng-invalid ~ .invalid-feedback {
+    display: block;
+}
+
+/* to get ngbdatepicker to show validation messages */
+.was-validated .form-group.is-invalid .invalid-feedback {
+    display: block;
+}
+
+.was-validated .custom-file .ng-invalid.form-control + label {
+    color: blue;
+}
+
+    .was-validated .custom-file .ng-invalid.form-control + label::after {
+        background-color: #dc3545;
+        color: white;
+    }
+
+.was-validated .form-control:valid {
+    background-image: none !important;
+    padding-right: 0.75rem;
+    border-color: #ced4da !important;
+}
+
+.was-validated .form-control:invalid {
+    background-image: none !important;
+    padding-right: 0.75rem;
+}
+
+.was-validated .form-select:invalid,
+.was-validated .form-select:valid {
+    background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3e%3cpath fill='none' stroke='%23343a40' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M2 5l6 6 6-6'/%3e%3c/svg%3e") !important;
+}
+
+ngb-datepicker .is-valid, .was-validated ngb-datepicker :valid {
+    border-color: inherit !important;
+    padding-right: inherit !important;
+    background: inherit !important;
+}
+
+form-select.is-valid, .was-validated .form-select:valid,
+.form-check-input.is-valid, .was-validated .form-check-input:valid {
+    border-color: #ced4da;
+}
+
+    .form-check-input.is-valid:checked, .was-validated .form-check-input:valid:checked {
+        background-color: #0d6efd;
+    }
+
+.form-check-input:valid ~ .form-check-label {
+    color: #212529 !important;
+}
+
+.form-group .form-check .form-check-label {
+    font-weight: normal;
+}
+
+
+
+
+
+
+/*should embed replaced with .mb-3 wherever this class is applied*/
+.form-group {
+    margin-bottom: 10px;
+}
+
+.card-footer pager .pager .pager-info,
+.card-footer pager .pager ul.pagination {
+    margin-bottom: 0px;
+    color: rgb(var(--bs-secondary-rgb)) !important;
+}
+
+nav.nav-tabs.nav ~ .tab-content {
+    padding-top: 1.875rem !important;
+}
+
+.border-solid {
+    border-style: solid !important;
+}
+
+.bg-hover-light:hover {
+    background-color: lightgoldenrodyellow;
+}
+/*todo: use variables*/
+#headerSearch input:hover {
+    background-color: rgb(244, 244, 244) !important;
+}
+
+#headerSearch input:focus {
+    background-color: white !important;
+    border-color: rgb(165, 171, 179) !important;
+}
+
+    #headerSearch input:focus ~ button {
+        border-color: rgb(165, 171, 179) !important;
+    }
+
+        #headerSearch input:focus ~ button i {
+            opacity: 1 !important;
+        }
+
+.was-validated .form-group.is-invalid .btn {
+    background-color: #dc3545;
+    border-color: #dc3545;
+}
+
+html {
+    overflow-y: scroll;
+}
+
+#questionLogic:hover .d-none {
+    display: block !important;
+}
+
+.overflow-x-auto {
+    overflow-x: auto;
+}
+
+#toast-container .ngx-toastr {
+    background-image: none !important;
+    padding: 15px 15px 10px 20px;
+}
+
+.question .required {
+    color: rgb(216,44,91) !important;
+    opacity: 1;
+    font-size: 0.7rem !important;
+    margin-left: 0.1rem !important;
+    vertical-align: top;
+}
+
+.question .questionCode {
+    /*color: rgba(var(--bs-body-color-rgb), 0.5) !important*/
+    font-weight: bold;
+}
+
+.was-validated app-file.ng-invalid label.input-group-text,
+.was-validated app-file.ng-invalid input[type=text] {
+    border: solid 1px #D82C5B !important;
+}
+
+.ql-editor {
+    min-height: 12rem;
+}
+
+quill-editor .ql-editor {
+    background: white;
+}
+
+.quill-render p {
+    margin-bottom: 0;
+}
+
+.quill-render img, .quill-render iframe {
+    max-width: 100%;
+}

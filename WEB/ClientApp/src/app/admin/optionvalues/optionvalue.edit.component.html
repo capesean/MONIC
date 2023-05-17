@@ -1,0 +1,59 @@
+<app-page-title title="Option Value"></app-page-title>
+
+<form id="form" name="form" (submit)="save(form)" novalidate #form="ngForm" [ngClass]="{ 'was-validated': form.submitted }">
+
+    <div class="card border-0">
+
+        <div class="card-body">
+
+            <fieldset class="group">
+
+                <div class="row g-3">
+
+                    <div class="col-sm-6 col-md-4">
+                        <div class="form-group" [ngClass]="{ 'is-invalid': itemId.invalid }">
+
+                            <label for="itemId">
+                                Item:
+                            </label>
+
+                            <item-select id="itemId" name="itemId" [(item)]="optionValue.item" [(ngModel)]="optionValue.itemId" #itemId="ngModel" required></item-select>
+
+                            <div *ngIf="itemId.errors?.required" class="invalid-feedback">
+                                Item is required
+                            </div>
+
+                        </div>
+                    </div>
+
+                    <div class="col-sm-6 col-md-4">
+                        <div class="form-group" [ngClass]="{ 'is-invalid': optionId.invalid }">
+
+                            <label for="optionId">
+                                Option:
+                            </label>
+
+                            <option-select id="optionId" name="optionId" [(option)]="optionValue.option" [(ngModel)]="optionValue.optionId" #optionId="ngModel" required (ngModelChange)="changeBreadcrumb()"></option-select>
+
+                            <div *ngIf="optionId.errors?.required" class="invalid-feedback">
+                                Option is required
+                            </div>
+
+                        </div>
+                    </div>
+
+                </div>
+
+            </fieldset>
+
+            <fieldset class="my-3">
+                <button type="submit" class="btn btn-outline-success me-2 mb-1">Save<i class="fas fa-check ms-2"></i></button>
+                <button type="button" *ngIf="!isNew" class="btn btn-outline-danger me-2 mb-1" (click)="delete()">Delete<i class="fas fa-times ms-2"></i></button>
+            </fieldset>
+
+        </div>
+
+    </div>
+
+</form>
+

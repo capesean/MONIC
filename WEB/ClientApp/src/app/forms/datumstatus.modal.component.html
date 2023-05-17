@@ -1,0 +1,93 @@
+<div class="modal-header">
+    <h4 class="modal-title" id="modal-basic-title">Data Status</h4>
+    <button type="button" class="btn-close" (click)="modal.dismiss()" aria-label="Close"></button>
+</div>
+<div class="modal-body px-md-5">
+
+    <dl class="row mb-1" *ngIf="entity">
+        <dt class="col-sm-3 col-lg-2">{{ entity.entityType.name }}:</dt>
+        <dd class="col-sm-9 col-lg-10">{{ entity.name }} <small class="text-muted">({{ entity.code }})</small></dd>
+    </dl>
+
+    <dl class="row mb-1" *ngIf="date">
+        <dt class="col-sm-3 col-lg-2">Date:</dt>
+        <dd class="col-sm-9 col-lg-10">{{ date.name }} <small class="text-muted">({{ date.code }})</small></dd>
+    </dl>
+
+    <dl class="row mb-1" *ngIf="indicator">
+        <dt class="col-sm-3 col-lg-2">Indicator:</dt>
+        <dd class="col-sm-9 col-lg-10">{{ indicator.name }} <small class="text-muted">({{ indicator.code }})</small></dd>
+    </dl>
+
+    <ng-container *ngIf="datum && entity">
+
+        <dl class="row mb-1">
+            <dt class="col-sm-3 col-lg-2">Submitted:</dt>
+            <dd class="col-sm-9 col-lg-10">
+                <ng-container *ngIf="datum.submitted;else no_content">
+                    {{ datum.submitReview.user.fullName }} on {{ datum.submitReview.dateUtc | momentPipe: 'DD MMM YYYY HH:mm' }}
+                </ng-container>
+            </dd>
+        </dl>
+
+        <dl class="row mb-1">
+            <dt class="col-sm-3 col-lg-2">Verified:</dt>
+            <dd class="col-sm-9 col-lg-10">
+                <ng-container *ngIf="datum.verified;else no_content">
+                    {{ datum.submitReview.user.fullName }} on {{ datum.submitReview.dateUtc | momentPipe: 'DD MMM YYYY HH:mm' }}
+                </ng-container>
+            </dd>
+        </dl>
+
+        <dl class="row mb-1">
+            <dt class="col-sm-3 col-lg-2">Approved:</dt>
+            <dd class="col-sm-9 col-lg-10">
+                <ng-container *ngIf="datum.approved;else no_content">
+                    {{ datum.submitReview.user.fullName }} on {{ datum.submitReview.dateUtc | momentPipe: 'DD MMM YYYY HH:mm' }}
+                </ng-container>
+            </dd>
+        </dl>
+
+        <ng-template #no_content>&minus;</ng-template>
+
+        <ng-container *ngIf="dataReviews.length">
+
+            <hr />
+
+            <h5>Data Review History</h5>
+
+            <!--todo: use responsive divs or table-responsive wrapper?-->
+            <table class="table table-hover table-edge table-nowrap mb-0 align-middle">
+                <thead class="thead-light">
+                    <tr>
+                        <th>Date</th>
+                        <th>User</th>
+                        <th>Status</th>
+                        <th><i class="fa fa-note-sticky"></i></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let dataReview of dataReviews">
+                        <td>{{ dataReview.dateUtc | momentPipe: 'DD MMM YYYY HH:mm' }}</td>
+                        <td>{{ dataReview.user.fullName }}</td>
+                        <td>{{ getStatus(dataReview) }}</td>
+                        <td>
+                            <i *ngIf="dataReview.note" class="fa fa-note-sticky cursor-pointer" (click)="showNote(dataReview)"></i>
+                        </td>
+                    </tr>
+                </tbody>
+
+            </table>
+
+        </ng-container>
+
+    </ng-container>
+
+    <div *ngIf="noData" class="alert alert-info">
+        <i class="fa fa-info-circle me-1"></i>There is currently no data.
+    </div>
+
+</div>
+<div class="modal-footer">
+    <button type="button" class="btn btn-outline-secondary" (click)="modal.dismiss()">Close</button>
+</div>

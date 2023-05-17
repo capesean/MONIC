@@ -1,0 +1,354 @@
+<app-page-title title="Organisation"></app-page-title>
+
+<form id="form" name="form" (submit)="save(form)" novalidate #form="ngForm" [ngClass]="{ 'was-validated': form.submitted }">
+
+    <div class="card border-0">
+
+        <div class="card-body">
+
+            <fieldset class="group">
+
+                <div class="row g-3">
+
+                    <div class="col-sm-6 col-md-4">
+                        <div class="form-group" [ngClass]="{ 'is-invalid': name.invalid }">
+
+                            <label for="name">
+                                Name:
+                            </label>
+
+                            <input id="name" name="name" class="form-control" type="text" [(ngModel)]="organisation.name" #name="ngModel" required (ngModelChange)="changeBreadcrumb()" maxlength="100" />
+
+                            <div *ngIf="name.errors?.required" class="invalid-feedback">
+                                Name is required
+                            </div>
+
+                            <div *ngIf="name.errors?.maxlength" class="invalid-feedback">
+                                Name must be at most 100 characters long
+                            </div>
+
+                        </div>
+                    </div>
+
+                    <div class="col-sm-6 col-md-4">
+                        <div class="form-group" [ngClass]="{ 'is-invalid': code.invalid }">
+
+                            <label for="code">
+                                Code:
+                            </label>
+
+                            <input id="code" name="code" class="form-control" type="text" [(ngModel)]="organisation.code" #code="ngModel" required maxlength="10" />
+
+                            <div *ngIf="code.errors?.required" class="invalid-feedback">
+                                Code is required
+                            </div>
+
+                            <div *ngIf="code.errors?.maxlength" class="invalid-feedback">
+                                Code must be at most 10 characters long
+                            </div>
+
+                        </div>
+                    </div>
+
+                    <ng-container *ngFor="let field of fields | groupPipe : null">
+
+                        <!--[(file)]="files[field.fieldId]" (downloadClicked)="download($event)"-->
+                        <field [field]="field" id="{{field.fieldId}}" name="{{field.fieldId}}" [ngModel]="fieldValues.get(field.fieldId)" (ngModelChange)="fieldValues.set(field.fieldId, $event)" [fieldValues]="fieldValues" class="{{field | fieldSizePipe}}"></field>
+
+                    </ng-container>
+
+                </div>
+
+            </fieldset>
+
+            <ng-container *ngFor="let group of groups">
+
+                <fieldset class="group">
+
+                    <legend>{{group.name}}</legend>
+
+                    <div class="row g-3">
+
+                        <ng-container *ngFor="let field of fields | groupPipe : group.groupId">
+
+                            <!--[(file)]="files[field.fieldId]" (downloadClicked)="download($event)"-->
+                            <field [field]="field" id="{{field.fieldId}}" name="{{field.fieldId}}" [ngModel]="fieldValues.get(field.fieldId)" (ngModelChange)="fieldValues.set(field.fieldId, $event)" [fieldValues]="fieldValues" class="{{field | fieldSizePipe}}"></field>
+
+                        </ng-container>
+
+                    </div>
+
+                </fieldset>
+
+            </ng-container>
+
+            <fieldset class="my-3">
+                <button type="submit" class="btn btn-outline-success me-2 mb-1">Save<i class="fas fa-check ms-2"></i></button>
+                <button type="button" *ngIf="!isNew" class="btn btn-outline-danger me-2 mb-1" (click)="delete()">Delete<i class="fas fa-times ms-2"></i></button>
+            </fieldset>
+
+        </div>
+
+    </div>
+
+</form>
+
+<ng-container *ngIf="!isNew">
+
+    <hr />
+
+    <nav ngbNav #nav="ngbNav" class="nav-tabs">
+
+        <ng-container ngbNavItem class="pt-6">
+
+            <a ngbNavLink>Entities</a>
+
+            <ng-template ngbNavContent>
+
+                <div class="card border-0 search-results">
+
+                    <div class="card-header border-0">
+
+                        <h4 class="card-header-title text-uppercase">
+                            Entities
+                        </h4>
+
+                    </div>
+
+                    <div class="card-body">
+
+                        <form id="formSearchEntities" (submit)="searchEntities(0)" novalidate *ngIf="showEntitiesSearch" class="mb-5">
+
+                            <div class="row g-3">
+
+                                <div class="col-sm-6 col-md-5 col-lg-4 col-xl-3">
+                                    <div class="form-group">
+                                        <input type="search" name="q" id="q" [(ngModel)]="entitiesSearchOptions.q" max="100" class="form-control" placeholder="Search entities" />
+                                    </div>
+                                </div>
+
+                                <div class="col-sm-6 col-md-4 col-lg-4 col-xl-3">
+                                    <div class="form-group">
+                                        <entity-type-select id="entityTypeId" name="entityTypeId" [(ngModel)]="entitiesSearchOptions.entityTypeId"></entity-type-select>
+                                    </div>
+                                </div>
+
+                                <div class="col-sm-6 col-md-4 col-lg-4 col-xl-3">
+                                    <div class="form-group">
+                                        <select id="disabled" name="disabled" [(ngModel)]="entitiesSearchOptions.disabled" #disabled="ngModel" class="form-select">
+                                            <option [ngValue]="undefined">Disabled: Any</option>
+                                            <option [ngValue]="true">Disabled: Yes</option>
+                                            <option [ngValue]="false">Disabled: No</option>
+                                        </select>
+                                    </div>
+                                </div>
+
+                            </div>
+
+                        </form>
+
+                        <div class="mb-3">
+                            <button *ngIf="!showEntitiesSearch" type="button" class="btn btn-outline-secondary me-2 mb-1" (click)="showEntitiesSearch=true">Filter<i class="fas fa-filter ms-2"></i></button>
+                            <button *ngIf="showEntitiesSearch" form="formSearchEntities" type="submit" class="btn btn-outline-primary me-2 mb-1">Search<i class="fas fa-search ms-2"></i></button>
+                        </div>
+
+                    </div>
+
+                    <div class="table-responsive">
+
+                        <table class="table table-hover table-edge table-nowrap mb-0 align-middle">
+                            <thead class="thead-light">
+                                <tr>
+                                    <th>Name</th>
+                                    <th>Code</th>
+                                    <th>Entity Type</th>
+                                    <th class="w-20px text-center"><i class="fas fa-times text-danger cursor-pointer" (click)="deleteEntities()" ngbTooltip="Delete all entities" container="body" placement="left"></i></th>
+                                </tr>
+                            </thead>
+                            <tbody class="list cursor-pointer">
+                                <tr *ngFor="let entity of entities" (click)="goToEntity(entity)">
+                                    <td>{{ entity.name }}</td>
+                                    <td>{{ entity.code }}</td>
+                                    <td>{{ entity.entityType.name }}</td>
+                                    <td class="text-center"><i class="fas fa-times cursor-pointer p-1 text-danger" (click)="deleteEntity(entity, $event)"></i></td>
+                                </tr>
+                            </tbody>
+                        </table>
+
+                    </div>
+
+                    <div class="card-footer">
+                        <pager [headers]="entitiesHeaders" (pageChanged)="searchEntities($event)"></pager>
+                    </div>
+
+                </div>
+
+            </ng-template>
+
+        </ng-container>
+
+        <ng-container ngbNavItem class="pt-6">
+
+            <a ngbNavLink>Users</a>
+
+            <ng-template ngbNavContent>
+
+                <div class="card border-0 search-results">
+
+                    <div class="card-header border-0">
+
+                        <h4 class="card-header-title text-uppercase">
+                            Users
+                        </h4>
+
+                    </div>
+
+                    <div class="card-body">
+
+                        <form id="formSearchUsers" (submit)="searchUsers(0)" novalidate *ngIf="showUsersSearch" class="mb-5">
+
+                            <div class="row g-3">
+
+                                <div class="col-sm-6 col-md-5 col-lg-4 col-xl-3">
+                                    <div class="form-group">
+                                        <input type="search" name="q" id="q" [(ngModel)]="usersSearchOptions.q" max="100" class="form-control" placeholder="Search users" />
+                                    </div>
+                                </div>
+
+                                <div class="col-sm-6 col-md-4 col-lg-4 col-xl-3">
+                                    <div class="form-group">
+                                        <select id="disabled" name="disabled" [(ngModel)]="usersSearchOptions.disabled" #disabled="ngModel" class="form-select">
+                                            <option [ngValue]="undefined">Disabled: Any</option>
+                                            <option [ngValue]="true">Disabled: Yes</option>
+                                            <option [ngValue]="false">Disabled: No</option>
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <div class="col-sm-6 col-md-4 col-lg-4 col-xl-3">
+                                    <div class="form-group">
+                                        <entity-select id="affiliatedEntityId" name="affiliatedEntityId" [(ngModel)]="usersSearchOptions.affiliatedEntityId"></entity-select>
+                                    </div>
+                                </div>
+
+                            </div>
+
+                        </form>
+
+                        <div class="mb-3">
+                            <button *ngIf="!showUsersSearch" type="button" class="btn btn-outline-secondary me-2 mb-1" (click)="showUsersSearch=true">Filter<i class="fas fa-filter ms-2"></i></button>
+                            <button *ngIf="showUsersSearch" form="formSearchUsers" type="submit" class="btn btn-outline-primary me-2 mb-1">Search<i class="fas fa-search ms-2"></i></button>
+                        </div>
+
+                    </div>
+
+                    <div class="table-responsive">
+
+                        <table class="table table-hover table-edge table-nowrap mb-0 align-middle">
+                            <thead class="thead-light">
+                                <tr>
+                                    <th>First Name</th>
+                                    <th>Last Name</th>
+                                    <th>Email</th>
+                                    <th>Disabled</th>
+                                    <th>Entity</th>
+                                    <th class="w-20px text-center"><i class="fas fa-times text-danger cursor-pointer" (click)="deleteUsers()" ngbTooltip="Delete all users" container="body" placement="left"></i></th>
+                                </tr>
+                            </thead>
+                            <tbody class="list cursor-pointer">
+                                <tr *ngFor="let user of users" (click)="goToUser(user)">
+                                    <td>{{ user.firstName }}</td>
+                                    <td>{{ user.lastName }}</td>
+                                    <td>{{ user.email }}</td>
+                                    <td>{{ user.disabled | booleanPipe }}</td>
+                                    <td>{{ user.entity?.name }}</td>
+                                    <td class="text-center"><i class="fas fa-times cursor-pointer p-1 text-danger" (click)="deleteUser(user, $event)"></i></td>
+                                </tr>
+                            </tbody>
+                        </table>
+
+                    </div>
+
+                    <div class="card-footer">
+                        <pager [headers]="usersHeaders" (pageChanged)="searchUsers($event)"></pager>
+                    </div>
+
+                </div>
+
+            </ng-template>
+
+        </ng-container>
+
+        <ng-container ngbNavItem>
+
+            <a ngbNavLink>Documents</a>
+
+            <ng-template ngbNavContent>
+
+                <div class="card border-0 search-results">
+
+                    <div class="card-header border-0">
+
+                        <h4 class="card-header-title text-uppercase">
+                            Documents
+                        </h4>
+
+                    </div>
+
+                    <div class="card-body">
+
+                        <form id="formSearchDocuments" (submit)="searchDocuments(0)" novalidate *ngIf="showDocumentsSearch" class="mb-5">
+
+                            <div class="row g-3">
+
+                                <div class="col-sm-6 col-md-4 col-lg-3">
+                                    <div class="form-group">
+                                        <input type="search" name="q" id="q" [(ngModel)]="documentSearchOptions.q" max="100" class="form-control" placeholder="Search documents" />
+                                    </div>
+                                </div>
+
+                            </div>
+
+                        </form>
+
+                        <div class="mb-3">
+                            <button class="btn btn-outline-primary me-2 mb-1" (click)="showDocumentManageModal()">Add Document<i class="fas fa-plus ms-2"></i></button>
+                            <button *ngIf="!showDocumentsSearch" type="button" class="btn btn-outline-secondary me-2 mb-1" (click)="showDocumentsSearch=true">Filter<i class="fas fa-filter ms-2"></i></button>
+                            <button *ngIf="showDocumentsSearch" form="formSearchDocuments" type="submit" class="btn btn-outline-primary me-2 mb-1">Search<i class="fas fa-search ms-2"></i></button>
+                        </div>
+
+                    </div>
+
+                    <div class="table-responsive">
+
+                        <table class="table table-hover table-edge table-nowrap mb-0 align-middle">
+                            <thead class="thead-light">
+                                <tr>
+                                    <th>Name</th>
+                                </tr>
+                            </thead>
+                            <tbody class="list cursor-pointer">
+                                <tr *ngFor="let document of documents" (click)="goToDocument(document)">
+                                    <td>{{ document.fileName }}</td>
+                                </tr>
+                            </tbody>
+                        </table>
+
+                    </div>
+
+                    <div class="card-footer">
+                        <pager [headers]="documentHeaders" (pageChanged)="searchDocuments($event)"></pager>
+                    </div>
+
+                </div>
+
+            </ng-template>
+
+        </ng-container>
+
+    </nav>
+
+    <div [ngbNavOutlet]="nav" class="mt-1"></div>
+
+</ng-container>
+

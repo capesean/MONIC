@@ -1,0 +1,8 @@
+<div class="input-group" [ngClass]="{ 'disabled': disabled }">
+    <input placeholder="{{placeholder}}" (click)="click()" type="text" tabindex="-1" class="form-control cursor-pointer" readonly value="{{getLabel()}}" [disabled]="disabled" />
+    <button type="button" class="btn btn-secondary" (click)="click(true)" [ngClass]="{ 'disabled': disabled}">
+        <i class="fas fa-fw" [ngClass]="{ 'fa-search': !indicator && !indicators?.length, 'fa-times': !!indicator || !!indicators?.length }"></i>
+    </button>
+</div>
+
+<indicator-modal #modal (change)="changed($event)" (changes)="changed($event)" [multiple]="multiple" [canRemoveFilters]="canRemoveFilters" [subcategory]="subcategory" [indicatorType]="indicatorType" [indicatorStatus]="indicatorStatus" [entityType]="entityType" [reportingFrequency]="reportingFrequency" [showAddNew]="showAddNew" [title]="placeholder"></indicator-modal>

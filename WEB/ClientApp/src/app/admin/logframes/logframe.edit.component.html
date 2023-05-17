@@ -1,0 +1,143 @@
+<ng-container *ngIf="route.children.length === 0">
+
+    <app-page-title title="Logical Framework"></app-page-title>
+
+    <form id="form" name="form" (submit)="save(form)" novalidate #form="ngForm" [ngClass]="{ 'was-validated': form.submitted }">
+
+        <div class="card border-0">
+
+            <div class="card-body">
+
+                <fieldset class="group">
+
+                    <div class="row g-3">
+
+                        <div class="col-sm-6 col-md-4">
+                            <div class="form-group" [ngClass]="{ 'is-invalid': name.invalid }">
+
+                                <label for="name">
+                                    Name:
+                                </label>
+
+                                <input id="name" name="name" class="form-control" type="text" [(ngModel)]="logFrame.name" #name="ngModel" required (ngModelChange)="changeBreadcrumb()" maxlength="255" />
+
+                                <div *ngIf="name.errors?.required" class="invalid-feedback">
+                                    Name is required
+                                </div>
+
+                                <div *ngIf="name.errors?.maxlength" class="invalid-feedback">
+                                    Name must be at most 255 characters long
+                                </div>
+
+                            </div>
+                        </div>
+
+                    </div>
+
+                </fieldset>
+
+                <fieldset class="my-3">
+                    <button type="submit" class="btn btn-outline-success me-2 mb-1">Save<i class="fas fa-check ms-2"></i></button>
+                    <button type="button" *ngIf="!isNew" class="btn btn-outline-danger me-2 mb-1" (click)="delete()">Delete<i class="fas fa-times ms-2"></i></button>
+                </fieldset>
+
+            </div>
+
+        </div>
+
+    </form>
+
+    <ng-container *ngIf="!isNew">
+
+        <hr />
+
+        <nav ngbNav #nav="ngbNav" class="nav-tabs">
+
+            <ng-container ngbNavItem class="pt-6">
+
+                <a ngbNavLink>LogFrame Rows</a>
+
+                <ng-template ngbNavContent>
+
+                    <div class="card border-0 search-results">
+
+                        <div class="card-header border-0">
+
+                            <h4 class="card-header-title text-uppercase">
+                                LogFrame Rows
+                            </h4>
+
+                        </div>
+
+                        <div class="card-body">
+
+                            <form id="formSearchLogFrameRows" (submit)="searchLogFrameRows(0)" novalidate *ngIf="showLogFrameRowsSearch" class="mb-5">
+
+                                <div class="row g-3">
+
+                                    <div class="col-sm-6 col-md-5 col-lg-4 col-xl-3">
+                                        <div class="form-group">
+                                            <input type="search" name="q" id="q" [(ngModel)]="logFrameRowsSearchOptions.q" max="100" class="form-control" placeholder="Search logframe rows" />
+                                        </div>
+                                    </div>
+
+                                    <div class="col-sm-6 col-md-4 col-lg-4 col-xl-3">
+                                        <div class="form-group">
+                                            <select id="rowType" name="rowType" [(ngModel)]="logFrameRowsSearchOptions.rowType" #rowType="ngModel" class="form-select">
+                                                <option *ngFor="let logFrameRowType of logFrameRowTypes" [ngValue]="logFrameRowType.value">{{ logFrameRowType.label }}</option>
+                                            </select>
+                                        </div>
+                                    </div>
+
+                                </div>
+
+                            </form>
+
+                            <div class="mb-3">
+                                <a [routerLink]="['./logframerows', 'add']" class="btn btn-outline-primary me-2 mb-1">Add<i class="fas fa-plus ms-2"></i></a>
+                                <button *ngIf="!showLogFrameRowsSearch" type="button" class="btn btn-outline-secondary me-2 mb-1" (click)="showLogFrameRowsSearch=true">Filter<i class="fas fa-filter ms-2"></i></button>
+                                <button *ngIf="showLogFrameRowsSearch" form="formSearchLogFrameRows" type="submit" class="btn btn-outline-primary me-2 mb-1">Search<i class="fas fa-search ms-2"></i></button>
+                                <button type="button" class="btn btn-outline-secondary me-2 mb-1" (click)="showLogFrameRowSort()" *ngIf="logFrameRowsHeaders.totalRecords > 1 && !showLogFrameRowsSearch">Sort<i class="fas fa-sort ms-2"></i></button>
+                            </div>
+
+                        </div>
+
+                        <div class="table-responsive">
+
+                            <table class="table table-hover table-edge table-nowrap mb-0 align-middle">
+                                <thead class="thead-light">
+                                    <tr>
+                                        <th>Row Type</th>
+                                        <th class="w-20px text-center"><i class="fas fa-times text-danger cursor-pointer" (click)="deleteLogFrameRows()" ngbTooltip="Delete all logframe rows" container="body" placement="left"></i></th>
+                                    </tr>
+                                </thead>
+                                <tbody class="list cursor-pointer">
+                                    <tr *ngFor="let logFrameRow of logFrameRows" (click)="goToLogFrameRow(logFrameRow)">
+                                        <td>{{ logFrameRowTypes[logFrameRow.rowType].label }}</td>
+                                        <td class="text-center"><i class="fas fa-times cursor-pointer p-1 text-danger" (click)="deleteLogFrameRow(logFrameRow, $event)"></i></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+
+                        </div>
+
+                        <div class="card-footer">
+                            <pager [headers]="logFrameRowsHeaders" (pageChanged)="searchLogFrameRows($event)"></pager>
+                        </div>
+
+                    </div>
+
+                </ng-template>
+
+            </ng-container>
+
+        </nav>
+
+        <div [ngbNavOutlet]="nav" class="mt-1"></div>
+
+    </ng-container>
+
+</ng-container>
+
+<router-outlet></router-outlet>
+

@@ -1,0 +1,9 @@
+//
+// Close button
+//
+
+[data-theme="dark"] {
+    .btn-close {
+        filter: $btn-close-white-filter;
+    }
+}

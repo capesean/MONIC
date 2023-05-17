@@ -1,0 +1,557 @@
+<ng-container *ngIf="route.children.length === 0">
+
+    <app-page-title title="Questionnaire"></app-page-title>
+
+    <form id="form" name="form" (submit)="save(form)" novalidate #form="ngForm" [ngClass]="{ 'was-validated': form.submitted }">
+
+        <div class="card border-0">
+
+            <div class="card-body">
+
+                <fieldset class="group">
+
+                    <div class="row g-3">
+
+                        <div class="col-sm-6 col-md-4">
+                            <div class="form-group" [ngClass]="{ 'is-invalid': name.invalid }">
+
+                                <label for="name">
+                                    Name:
+                                </label>
+
+                                <input id="name" name="name" class="form-control" type="text" [(ngModel)]="questionnaire.name" #name="ngModel" required (ngModelChange)="changeBreadcrumb()" maxlength="250" />
+
+                                <div *ngIf="name.errors?.required" class="invalid-feedback">
+                                    Name is required
+                                </div>
+
+                                <div *ngIf="name.errors?.maxlength" class="invalid-feedback">
+                                    Name must be at most 250 characters long
+                                </div>
+
+                            </div>
+                        </div>
+
+                        <div class="col-sm-6 col-md-4">
+                            <div class="form-group" [ngClass]="{ 'is-invalid': entityTypeId.invalid }">
+
+                                <label for="entityTypeId">
+                                    Entity Type:
+                                </label>
+
+                                <entity-type-select id="entityTypeId" name="entityTypeId" [(entityType)]="questionnaire.entityType" [(ngModel)]="questionnaire.entityTypeId" #entityTypeId="ngModel" required></entity-type-select>
+
+                                <div *ngIf="entityTypeId.errors?.required" class="invalid-feedback">
+                                    Entity Type is required
+                                </div>
+
+                            </div>
+                        </div>
+
+                        <div class="col-sm-6 col-md-4">
+                            <div class="form-group" [ngClass]="{ 'is-invalid': dateType.invalid }">
+
+                                <label for="dateType">
+                                    Date Type:
+                                </label>
+
+                                <select id="dateType" name="dateType" class="form-select" [(ngModel)]="questionnaire.dateType" #dateType="ngModel" required>
+                                    <option *ngFor="let dateType of dateTypes" [ngValue]="dateType.value">{{ dateType.label }}</option>
+                                </select>
+
+                                <div *ngIf="dateType.errors?.required" class="invalid-feedback">
+                                    Date Type is required
+                                </div>
+
+                            </div>
+                        </div>
+
+                        <div class="col-sm-6 col-md-4">
+                            <div class="form-group" [ngClass]="{ 'is-invalid': creationText.invalid }">
+
+                                <label for="creationText">
+                                    Creation Text:
+                                </label>
+
+                                <textarea id="creationText" name="creationText" class="form-control" rows="5" [(ngModel)]="questionnaire.creationText" #creationText="ngModel"></textarea>
+
+                            </div>
+                        </div>
+
+                        <div class="col-sm-6 col-md-4">
+                            <div class="form-group" [ngClass]="{ 'is-invalid': completionText.invalid }">
+
+                                <label for="completionText">
+                                    Completion Text:
+                                </label>
+
+                                <textarea id="completionText" name="completionText" class="form-control" rows="5" [(ngModel)]="questionnaire.completionText" #completionText="ngModel" required></textarea>
+
+                                <div *ngIf="completionText.errors?.required" class="invalid-feedback">
+                                    Completion Text is required
+                                </div>
+
+                            </div>
+                        </div>
+
+                        <div class="col-sm-6 col-md-4">
+                            <div class="form-group" [ngClass]="{ 'is-invalid': calculateProgress.invalid }">
+
+                                <label for="calculateProgress">
+                                    Calculate Progress:
+                                </label>
+
+                                <div class="form-check">
+                                    <input id="calculateProgress" name="calculateProgress" class="form-check-input" type="checkbox" [(ngModel)]="questionnaire.calculateProgress" #calculateProgress="ngModel" />
+                                    <label class="form-check-label" for="calculateProgress">
+                                        Calculate Progress
+                                    </label>
+                                </div>
+
+                            </div>
+                        </div>
+
+                        <div class="col-sm-6 col-md-4">
+                            <div class="form-group" [ngClass]="{ 'is-invalid': displayQuestionCode.invalid }">
+
+                                <label for="displayQuestionCode">
+                                    Display Question Code:
+                                </label>
+
+                                <div class="form-check">
+                                    <input id="displayQuestionCode" name="displayQuestionCode" class="form-check-input" type="checkbox" [(ngModel)]="questionnaire.displayQuestionCode" #displayQuestionCode="ngModel" />
+                                    <label class="form-check-label" for="displayQuestionCode">
+                                        Display Question Code
+                                    </label>
+                                </div>
+
+                            </div>
+                        </div>
+
+                        <div class="col-sm-6 col-md-4">
+                            <div class="form-group" [ngClass]="{ 'is-invalid': showSections.invalid }">
+
+                                <label for="showSections">
+                                    Show Sections:
+                                </label>
+
+                                <div class="form-check">
+                                    <input id="showSections" name="showSections" class="form-check-input" type="checkbox" [(ngModel)]="questionnaire.showSections" #showSections="ngModel" />
+                                    <label class="form-check-label" for="showSections">
+                                        Show Sections
+                                    </label>
+                                </div>
+
+                            </div>
+                        </div>
+
+                        <div class="col-sm-6 col-md-4">
+                            <div class="form-group" [ngClass]="{ 'is-invalid': publicCode.invalid }">
+
+                                <label for="publicCode">
+                                    Public Code:
+                                </label>
+
+                                <div class="input-group">
+                                    <input id="publicCode" name="publicCode" class="form-control" type="text" [(ngModel)]="questionnaire.publicCode" #publicCode="ngModel" maxlength="50" />
+                                    <button class="btn btn-secondary" type="button" (click)="copyUrl()" [disabled]="!questionnaire.publicCode"><i class="fas fa-fw fa-link"></i></button>
+                                </div>
+
+                                <div *ngIf="publicCode.errors?.maxlength" class="invalid-feedback">
+                                    Public Code must be at most 50 characters long
+                                </div>
+
+                            </div>
+                        </div>
+
+                        <div class="col-sm-6 col-md-4">
+                            <div class="form-group" [ngClass]="{ 'is-invalid': allowMultiple.invalid }">
+
+                                <label for="allowMultiple">
+                                    Allow Multiple Responses:
+                                </label>
+
+                                <div class="form-check">
+                                    <input id="allowMultiple" name="allowMultiple" class="form-check-input" type="checkbox" [(ngModel)]="questionnaire.allowMultiple" #allowMultiple="ngModel" />
+                                    <label class="form-check-label" for="allowMultiple">
+                                        Allow Multiple Responses
+                                    </label>
+                                </div>
+
+                            </div>
+                        </div>
+
+                        <div class="col-sm-6 col-md-4">
+                            <div class="form-group" [ngClass]="{ 'is-invalid': defaultDateId.invalid }">
+
+                                <label for="defaultDateId">
+                                    Default Date:
+                                </label>
+
+                                <date-select id="defaultDateId" name="defaultDateId" [(date)]="questionnaire.date" [(ngModel)]="questionnaire.defaultDateId" #defaultDateId="ngModel" [dateType]="dateTypes[questionnaire.dateType]"></date-select>
+
+                            </div>
+                        </div>
+
+                        <div class="col-sm-6 col-md-4">
+                            <div class="form-group" [ngClass]="{ 'is-invalid': useSubmit.invalid }">
+
+                                <label for="useSubmit">
+                                    Use Submit:
+                                </label>
+
+                                <div class="form-check">
+                                    <input id="useSubmit" name="useSubmit" class="form-check-input" type="checkbox" [(ngModel)]="questionnaire.useSubmit" #useSubmit="ngModel" />
+                                    <label class="form-check-label" for="useSubmit">
+                                        Use Submit
+                                    </label>
+                                </div>
+
+                            </div>
+                        </div>
+
+                        <div class="col-sm-6 col-md-4">
+                            <div class="form-group" [ngClass]="{ 'is-invalid': submitOnCompletion.invalid }">
+
+                                <label for="submitOnCompletion">
+                                    Submit on Completion:
+                                </label>
+
+                                <div class="form-check">
+                                    <input id="submitOnCompletion" name="submitOnCompletion" class="form-check-input" type="checkbox" [(ngModel)]="questionnaire.submitOnCompletion" #submitOnCompletion="ngModel" />
+                                    <label class="form-check-label" for="submitOnCompletion">
+                                        Submit on Completion
+                                    </label>
+                                </div>
+
+                            </div>
+                        </div>
+
+                    </div>
+
+                </fieldset>
+
+                <fieldset class="my-3">
+                    <button type="submit" class="btn btn-outline-success me-2 mb-1">Save<i class="fas fa-check ms-2"></i></button>
+                    <button type="button" *ngIf="!isNew" class="btn btn-outline-danger me-2 mb-1" (click)="delete()">Delete<i class="fas fa-times ms-2"></i></button>
+                    <button type="button" *ngIf="!isNew" class="btn btn-outline-secondary me-2 mb-1" (click)="export()">Export<i class="fas fa-cloud-download ms-2"></i></button>
+                    <button type="button" *ngIf="!isNew" class="btn btn-outline-secondary me-2 mb-1" (click)="download()">Download PDF<i class="fas fa-cloud-download ms-2"></i></button>
+                    <button type="button" *ngIf="!isNew" class="btn btn-outline-secondary me-2 mb-1" (click)="generateSummaries()">Generate Summaries<i class="fas fa-robot ms-2"></i></button>
+                </fieldset>
+
+            </div>
+
+        </div>
+
+    </form>
+
+    <ng-container *ngIf="!isNew">
+
+        <hr />
+
+        <nav ngbNav #nav="ngbNav" class="nav-tabs">
+
+            <ng-container ngbNavItem class="pt-6">
+
+                <a ngbNavLink>Sections</a>
+
+                <ng-template ngbNavContent>
+
+                    <div class="card border-0 search-results">
+
+                        <div class="card-header border-0">
+
+                            <h4 class="card-header-title text-uppercase">
+                                Sections
+                            </h4>
+
+                        </div>
+
+                        <div class="card-body">
+
+                            <form id="formSearchSections" (submit)="searchSections(0)" novalidate *ngIf="showSectionsSearch" class="mb-5">
+
+                                <div class="row g-3">
+
+                                    <div class="col-sm-6 col-md-5 col-lg-4 col-xl-3">
+                                        <div class="form-group">
+                                            <input type="search" name="q" id="q" [(ngModel)]="sectionsSearchOptions.q" max="100" class="form-control" placeholder="Search sections" />
+                                        </div>
+                                    </div>
+
+                                </div>
+
+                            </form>
+
+                            <div class="mb-3">
+                                <a [routerLink]="['./sections', 'add']" class="btn btn-outline-primary me-2 mb-1">Add<i class="fas fa-plus ms-2"></i></a>
+                                <button *ngIf="!showSectionsSearch" type="button" class="btn btn-outline-secondary me-2 mb-1" (click)="showSectionsSearch=true">Filter<i class="fas fa-filter ms-2"></i></button>
+                                <button *ngIf="showSectionsSearch" form="formSearchSections" type="submit" class="btn btn-outline-primary me-2 mb-1">Search<i class="fas fa-search ms-2"></i></button>
+                                <button type="button" class="btn btn-outline-secondary me-2 mb-1" (click)="showSectionSort()" *ngIf="sectionsHeaders.totalRecords > 1 && !showSectionsSearch">Sort<i class="fas fa-sort ms-2"></i></button>
+                            </div>
+
+                        </div>
+
+                        <div class="table-responsive">
+
+                            <table class="table table-hover table-edge table-nowrap mb-0 align-middle">
+                                <thead class="thead-light">
+                                    <tr>
+                                        <th>Name</th>
+                                        <th class="w-20px text-center"><i class="fas fa-times text-danger cursor-pointer" (click)="deleteSections()" ngbTooltip="Delete all sections" container="body" placement="left"></i></th>
+                                    </tr>
+                                </thead>
+                                <tbody class="list cursor-pointer">
+                                    <tr *ngFor="let section of sections" (click)="goToSection(section)">
+                                        <td>{{ section.name }}</td>
+                                        <td class="text-center"><i class="fas fa-times cursor-pointer p-1 text-danger" (click)="deleteSection(section, $event)"></i></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+
+                        </div>
+
+                        <div class="card-footer">
+                            <pager [headers]="sectionsHeaders" (pageChanged)="searchSections($event)"></pager>
+                        </div>
+
+                    </div>
+
+                </ng-template>
+
+            </ng-container>
+
+            <ng-container ngbNavItem class="pt-6">
+
+                <a ngbNavLink>Responses</a>
+
+                <ng-template ngbNavContent>
+
+                    <div class="card border-0 search-results">
+
+                        <div class="card-header border-0">
+
+                            <h4 class="card-header-title text-uppercase">
+                                Responses
+                            </h4>
+
+                        </div>
+
+                        <div class="card-body">
+
+                            <form id="formSearchResponses" (submit)="searchResponses(0)" novalidate *ngIf="showResponsesSearch" class="mb-5">
+
+                                <div class="row g-3">
+
+                                    <div class="col-sm-6 col-md-4 col-lg-4 col-xl-3">
+                                        <div class="form-group">
+                                            <entity-select id="entityId" name="entityId" [(ngModel)]="responsesSearchOptions.entityId"></entity-select>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-sm-6 col-md-4 col-lg-4 col-xl-3">
+                                        <div class="form-group">
+                                            <date-select id="dateId" name="dateId" [(ngModel)]="responsesSearchOptions.dateId" [dateType]="dateTypes[questionnaire.dateType]"></date-select>
+                                        </div>
+                                    </div>
+
+                                </div>
+
+                            </form>
+
+                            <div class="mb-3">
+                                <a [routerLink]="['./responses', 'add']" class="btn btn-outline-primary me-2 mb-1">Add<i class="fas fa-plus ms-2"></i></a>
+                                <button *ngIf="!showResponsesSearch" type="button" class="btn btn-outline-secondary me-2 mb-1" (click)="showResponsesSearch=true">Filter<i class="fas fa-filter ms-2"></i></button>
+                                <button *ngIf="showResponsesSearch" form="formSearchResponses" type="submit" class="btn btn-outline-primary me-2 mb-1">Search<i class="fas fa-search ms-2"></i></button>
+                            </div>
+
+                        </div>
+
+                        <div class="table-responsive">
+
+                            <table class="table table-hover table-edge table-nowrap mb-0 align-middle">
+                                <thead class="thead-light">
+                                    <tr>
+                                        <th>Entity</th>
+                                        <th>Date</th>
+                                        <th class="w-20px text-center"><i class="fas fa-times text-danger cursor-pointer" (click)="deleteResponses()" ngbTooltip="Delete all responses" container="body" placement="left"></i></th>
+                                    </tr>
+                                </thead>
+                                <tbody class="list cursor-pointer">
+                                    <tr *ngFor="let response of responses" (click)="goToResponse(response)">
+                                        <td>{{ response.entity.name }}</td>
+                                        <td>{{ response.date.name }}</td>
+                                        <td class="text-center"><i class="fas fa-times cursor-pointer p-1 text-danger" (click)="deleteResponse(response, $event)"></i></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+
+                        </div>
+
+                        <div class="card-footer">
+                            <pager [headers]="responsesHeaders" (pageChanged)="searchResponses($event)"></pager>
+                        </div>
+
+                    </div>
+
+                </ng-template>
+
+            </ng-container>
+
+            <ng-container ngbNavItem class="pt-6">
+
+                <a ngbNavLink>Analysis</a>
+
+                <ng-template ngbNavContent>
+
+                    <div class="card border-0 search-results">
+
+                        <div class="card-header border-0">
+
+                            <h4 class="card-header-title text-uppercase">
+                                Analysis
+                            </h4>
+
+                        </div>
+
+                        <div class="card-body">
+
+                            <form id="formLoadAnalysis" (submit)="loadAnalysis(formLoadAnalysis)" #formLoadAnalysis="ngForm" novalidate class="mb-5" [ngClass]="{ 'was-validated': formLoadAnalysis.submitted }">
+
+                                <div class="row g-3">
+
+                                    <div class="col-sm-12 col-md-6 col-lg-8 col-xl-9" [ngClass]="{ 'is-invalid': questionId.invalid }">
+                                        <div class="form-group">
+
+                                            <question-select id="questionId" name="questionId" [(question)]="analysisOptions.question" [(ngModel)]="analysisOptions.questionId" #questionId="ngModel" required [questionnaire]="questionnaire"></question-select>
+
+                                            <div *ngIf="questionId.errors?.required" class="invalid-feedback">
+                                                Question is required
+                                            </div>
+
+                                        </div>
+                                    </div>
+
+                                    <div class="col-sm-12 col-md-6 col-lg-4 col-xl-3" [ngClass]="{ 'is-invalid': dateId.invalid }">
+                                        <div class="form-group">
+
+                                            <date-select id="dateId" name="dateId" [(date)]="analysisOptions.date" [(ngModel)]="analysisOptions.dateId" #dateId="ngModel" required [dateType]="dateTypes[questionnaire.dateType]"></date-select>
+
+                                            <div *ngIf="dateId.errors?.required" class="invalid-feedback">
+                                                Date is required
+                                            </div>
+
+                                        </div>
+                                    </div>
+
+                                    <div class="col-sm-12 col-md-6 col-lg-5 col-xl-4" [ngClass]="{ 'is-invalid': optionId.invalid }">
+                                        <div class="form-group">
+
+                                            <option-select id="optionId" name="optionId" [(ngModel)]="analysisOptions.optionId" #optionId="ngModel" ngbTooltip="Add a filter"></option-select>
+
+                                        </div>
+                                    </div>
+
+                                </div>
+
+                            </form>
+
+                            <div class="mb-3">
+                                <button type="submit" form="formLoadAnalysis" class="btn btn-outline-primary">Load Analysis</button>
+                            </div>
+
+                            <ng-container *ngIf="analysisResults.questionSummary">
+
+                                <div class="row">
+                                    <div class="col-12" [ngClass]="{ 'col-xl-6': analysisResults.chartOptions }">
+
+                                        <div class="table-responsive mb-3">
+
+                                            <table class="table table-edge mb-4 align-middle">
+                                                <tbody class="list">
+                                                    <tr>
+                                                        <th>Questionnaire:</th>
+                                                        <td>{{ analysisResults.questionSummary.question.section.questionnaire.name }}</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <th>Section:</th>
+                                                        <td>{{ analysisResults.questionSummary.question.section.name }}</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <th>Question:</th>
+                                                        <td>{{ analysisResults.questionSummary.question.code }}: {{ analysisResults.questionSummary.question.text }}</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <th>Summary:</th>
+                                                        <td>
+                                                            <ng-container *ngIf="!analysisResults.editing">
+                                                                <div>{{ analysisResults.questionSummary.summary }}</div>
+                                                                <button class="btn btn-outline-secondary btn-sm mt-2" (click)="analysisResults.editing=true">Edit</button>
+                                                            </ng-container>
+                                                            <ng-container *ngIf="analysisResults.editing">
+                                                                <textarea id="summary" name="summary" class="form-control" rows="5" [(ngModel)]="analysisResults.questionSummary.summary" #summary="ngModel"></textarea>
+                                                                <button class="btn btn-outline-primary btn-sm my-2" (click)="saveSummary()">Save</button>
+                                                            </ng-container>
+                                                        </td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+
+                                        </div>
+
+                                    </div>
+
+                                    <div class="col-xl-6" *ngIf="analysisResults.chartOptions">
+
+                                        <div echarts [options]="analysisResults.chartOptions" class="h-500px mb-4"></div>
+
+                                    </div>
+
+                                </div>
+
+                                <button class="btn btn-outline-primary mb-4" (click)="analysisResults.showAnswers = !analysisResults.showAnswers">{{(analysisResults.showAnswers ? "Hide" : "Show")}} Answers</button>
+
+                                <ng-container *ngIf="analysisResults.showAnswers">
+
+                                    <!--todo: paginate this-->
+
+                                    <table class="table table-edge mb-4 align-middle">
+
+                                        <thead class="thead-light">
+                                            <tr>
+                                                <th>{{questionnaire.entityType.name}}</th>
+                                                <th>Answer</th>
+                                            </tr>
+                                        </thead>
+
+                                        <tbody class="list">
+                                            <tr *ngFor="let answer of analysisResults.answers">
+                                                <td>{{ answer.entity }} <small class="text-muted">({{answer.entityCode}})</small></td>
+                                                <td>{{ answer.value }}</td>
+                                            </tr>
+                                        </tbody>
+
+                                    </table>
+
+                                </ng-container>
+
+                            </ng-container>
+
+                        </div>
+
+                    </div>
+
+                </ng-template>
+
+            </ng-container>
+
+        </nav>
+
+        <div [ngbNavOutlet]="nav" class="mt-1"></div>
+
+    </ng-container>
+
+</ng-container>
+
+<router-outlet></router-outlet>
+

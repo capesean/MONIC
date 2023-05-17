@@ -1,0 +1,74 @@
+<div class="modal-header">
+    <h4 class="modal-title" id="modal-basic-title">Gantt Milestone Editor</h4>
+    <button type="button" class="btn-close" (click)="modal.dismiss()" aria-label="Close"></button>
+</div>
+<div class="modal-body">
+
+    <form id="form" name="form" (submit)="save(form)" novalidate #form="ngForm" [ngClass]="{ 'was-validated': form.submitted }">
+
+        <fieldset class="group">
+
+            <div class="row g-3">
+
+                <div class="col-sm-12 col-md-12 col-lg-8 col-xl-6">
+                    <div class="form-group" [ngClass]="{ 'is-invalid': name.invalid }">
+
+                        <label for="name">
+                            Name:
+                        </label>
+
+                        <input id="name" name="name" class="form-control" type="text" [(ngModel)]="milestone.name" #name="ngModel" required maxlength="250" />
+
+                        <div *ngIf="name.errors?.required" class="invalid-feedback">
+                            Name is required
+                        </div>
+
+                        <div *ngIf="name.errors?.maxlength" class="invalid-feedback">
+                            Name must be at most 250 characters long
+                        </div>
+
+                    </div>
+                </div>
+
+                <div class="col-sm-6 col-md-6 col-lg-3 col-xl-2">
+                    <div class="form-group" [ngClass]="{ 'is-invalid': colour.invalid }">
+
+                        <label for="colour">
+                            Colour:
+                        </label>
+
+                        <app-color id="colour" name="colour" [(ngModel)]="milestone.colour" #colour="ngModel"></app-color>
+
+                        <div *ngIf="colour.errors?.maxlength" class="invalid-feedback">
+                            Colour must be at most 7 characters long
+                        </div>
+
+                    </div>
+                </div>
+
+                <div class="col-sm-12">
+                    <div class="form-group" [ngClass]="{ 'is-invalid': description.invalid }">
+
+                        <label for="description">
+                            Description:
+                        </label>
+
+                        <textarea id="description" name="description" class="form-control" rows="5" [(ngModel)]="milestone.description" #description="ngModel"></textarea>
+
+                    </div>
+                </div>
+
+            </div>
+
+        </fieldset>
+
+    </form>
+
+
+</div>
+<div class="modal-footer">
+    <button type="submit" class="btn btn-outline-success" form="form">Save<i class="fas fa-check ms-2"></i></button>
+    <button type="button" *ngIf="!isNew" class="btn btn-outline-danger" (click)="delete()">Delete<i class="fas fa-times ms-2"></i></button>
+    <button type="button" *ngIf="!isNew" class="btn btn-outline-primary" (click)="addTask()">Add Task<i class="fas fa-plus ms-2"></i></button>
+</div>
+

@@ -1,0 +1,183 @@
+<app-page-title title="Group"></app-page-title>
+
+<form id="form" name="form" (submit)="save(form)" novalidate #form="ngForm" [ngClass]="{ 'was-validated': form.submitted }">
+
+    <div class="card border-0">
+
+        <div class="card-body">
+
+            <fieldset class="group">
+
+                <div class="row g-3">
+
+                    <div class="col-sm-6 col-md-4">
+                        <div class="form-group" [ngClass]="{ 'is-invalid': name.invalid }">
+
+                            <label for="name">
+                                Name:
+                            </label>
+
+                            <input id="name" name="name" class="form-control" type="text" [(ngModel)]="group.name" #name="ngModel" required (ngModelChange)="changeBreadcrumb()" maxlength="50" />
+
+                            <div *ngIf="name.errors?.required" class="invalid-feedback">
+                                Name is required
+                            </div>
+
+                            <div *ngIf="name.errors?.maxlength" class="invalid-feedback">
+                                Name must be at most 50 characters long
+                            </div>
+
+                        </div>
+                    </div>
+
+                </div>
+
+            </fieldset>
+
+            <fieldset class="my-3">
+                <button type="submit" class="btn btn-outline-success me-2 mb-1">Save<i class="fas fa-check ms-2"></i></button>
+                <button type="button" *ngIf="!isNew" class="btn btn-outline-danger me-2 mb-1" (click)="delete()">Delete<i class="fas fa-times ms-2"></i></button>
+            </fieldset>
+
+        </div>
+
+    </div>
+
+</form>
+
+<ng-container *ngIf="!isNew">
+
+    <hr />
+
+    <nav ngbNav #nav="ngbNav" class="nav-tabs">
+
+        <ng-container ngbNavItem class="pt-6">
+
+            <a ngbNavLink>Fields</a>
+
+            <ng-template ngbNavContent>
+
+                <div class="card border-0 search-results">
+
+                    <div class="card-header border-0">
+
+                        <h4 class="card-header-title text-uppercase">
+                            Fields
+                        </h4>
+
+                    </div>
+
+                    <div class="card-body">
+
+                        <form id="formSearchFields" (submit)="searchFields(0)" novalidate *ngIf="showFieldsSearch" class="mb-5">
+
+                            <div class="row g-3">
+
+                                <div class="col-sm-6 col-md-5 col-lg-4 col-xl-3">
+                                    <div class="form-group">
+                                        <input type="search" name="q" id="q" [(ngModel)]="fieldsSearchOptions.q" max="100" class="form-control" placeholder="Search fields" />
+                                    </div>
+                                </div>
+
+                                <div class="col-sm-6 col-md-4 col-lg-4 col-xl-3">
+                                    <div class="form-group">
+                                        <select id="fieldType" name="fieldType" [(ngModel)]="fieldsSearchOptions.fieldType" #fieldType="ngModel" class="form-select">
+                                            <option *ngFor="let fieldType of fieldTypes" [ngValue]="fieldType.value">{{ fieldType.label }}</option>
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <div class="col-sm-6 col-md-4 col-lg-4 col-xl-3">
+                                    <div class="form-group">
+                                        <select id="organisation" name="organisation" [(ngModel)]="fieldsSearchOptions.organisation" #organisation="ngModel" class="form-select">
+                                            <option [ngValue]="undefined">Organisation: Any</option>
+                                            <option [ngValue]="true">Organisation: Yes</option>
+                                            <option [ngValue]="false">Organisation: No</option>
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <div class="col-sm-6 col-md-4 col-lg-4 col-xl-3">
+                                    <div class="form-group">
+                                        <select id="entity" name="entity" [(ngModel)]="fieldsSearchOptions.entity" #entity="ngModel" class="form-select">
+                                            <option [ngValue]="undefined">Entity: Any</option>
+                                            <option [ngValue]="true">Entity: Yes</option>
+                                            <option [ngValue]="false">Entity: No</option>
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <div class="col-sm-6 col-md-4 col-lg-4 col-xl-3">
+                                    <div class="form-group">
+                                        <select id="indicator" name="indicator" [(ngModel)]="fieldsSearchOptions.indicator" #indicator="ngModel" class="form-select">
+                                            <option [ngValue]="undefined">Indicator: Any</option>
+                                            <option [ngValue]="true">Indicator: Yes</option>
+                                            <option [ngValue]="false">Indicator: No</option>
+                                        </select>
+                                    </div>
+                                </div>
+
+                            </div>
+
+                        </form>
+
+                        <div class="mb-3">
+                            <button *ngIf="!showFieldsSearch" type="button" class="btn btn-outline-secondary me-2 mb-1" (click)="showFieldsSearch=true">Filter<i class="fas fa-filter ms-2"></i></button>
+                            <button *ngIf="showFieldsSearch" form="formSearchFields" type="submit" class="btn btn-outline-primary me-2 mb-1">Search<i class="fas fa-search ms-2"></i></button>
+                        </div>
+
+                    </div>
+
+                    <div class="table-responsive">
+
+                        <table class="table table-hover table-edge table-nowrap mb-0 align-middle">
+                            <thead class="thead-light">
+                                <tr>
+                                    <th>Name</th>
+                                    <th>Field Type</th>
+                                    <th>Organisation</th>
+                                    <th>Entity</th>
+                                    <th>Indicator</th>
+                                    <th>Component</th>
+                                    <th>Relationship</th>
+                                    <th>Folder</th>
+                                    <th>Required</th>
+                                    <th>Size</th>
+                                    <th class="w-20px text-center"><i class="fas fa-times text-danger cursor-pointer" (click)="deleteFields()" ngbTooltip="Delete all fields" container="body" placement="left"></i></th>
+                                </tr>
+                            </thead>
+                            <tbody class="list cursor-pointer">
+                                <tr *ngFor="let field of fields" (click)="goToField(field)">
+                                    <td>{{ field.name }}</td>
+                                    <td>{{ fieldTypes[field.fieldType].label }}</td>
+                                    <td>{{ field.organisation | booleanPipe }}</td>
+                                    <td>{{ field.entity | booleanPipe }}</td>
+                                    <td>{{ field.indicator | booleanPipe }}</td>
+                                    <td>{{ field.component | booleanPipe }}</td>
+                                    <td>{{ field.relationship | booleanPipe }}</td>
+                                    <td>{{ field.folder | booleanPipe }}</td>
+                                    <td>{{ field.required | booleanPipe }}</td>
+                                    <td>{{ sizes[field.size].label }}</td>
+                                    <td class="text-center"><i class="fas fa-times cursor-pointer p-1 text-danger" (click)="deleteField(field, $event)"></i></td>
+                                </tr>
+                            </tbody>
+                        </table>
+
+                    </div>
+
+                    <div class="card-footer">
+                        <pager [headers]="fieldsHeaders" (pageChanged)="searchFields($event)"></pager>
+                    </div>
+
+                </div>
+
+            </ng-template>
+
+        </ng-container>
+
+    </nav>
+
+    <div [ngbNavOutlet]="nav" class="mt-1"></div>
+
+</ng-container>
+

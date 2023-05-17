@@ -1,0 +1,174 @@
+<div class="modal-header">
+    <h4 class="modal-title" id="modal-basic-title">Gantt Task Editor</h4>
+    <button type="button" class="btn-close" (click)="modal.dismiss()" aria-label="Close"></button>
+</div>
+<div class="modal-body">
+
+    <form id="form" name="form" (submit)="save(form)" novalidate #form="ngForm" [ngClass]="{ 'was-validated': form.submitted }">
+
+        <fieldset class="group">
+
+            <div class="row g-3">
+
+                <div class="col-sm-12 col-lg-6">
+                    <div class="form-group">
+
+                        <label for="project">
+                            Project:
+                        </label>
+
+                        <input id="project" name="project" class="form-control" type="text" [(ngModel)]="milestone.project.name" maxlength="250" disabled />
+
+                    </div>
+                </div>
+
+                <div class="col-sm-12 col-lg-6">
+                    <div class="form-group">
+
+                        <label for="milestone">
+                            Milestone:
+                        </label>
+
+                        <input id="milestone" name="milestone" class="form-control" type="text" [(ngModel)]="milestone.name" maxlength="250" disabled />
+
+                    </div>
+                </div>
+
+            </div>
+
+        </fieldset>
+
+        <fieldset class="group">
+
+            <div class="row g-3">
+
+                <div class="col-sm-12 col-md-12 col-lg-6 col-xl-6">
+                    <div class="form-group" [ngClass]="{ 'is-invalid': name.invalid }">
+
+                        <label for="name">
+                            Name:
+                        </label>
+
+                        <input id="name" name="name" class="form-control" type="text" [(ngModel)]="task.name" #name="ngModel" required maxlength="250" />
+
+                        <div *ngIf="name.errors?.required" class="invalid-feedback">
+                            Name is required
+                        </div>
+
+                        <div *ngIf="name.errors?.maxlength" class="invalid-feedback">
+                            Name must be at most 250 characters long
+                        </div>
+
+                    </div>
+                </div>
+
+                <div class="col-sm-6 col-md-6 col-lg-3 col-xl-2">
+                    <div class="form-group" [ngClass]="{ 'is-invalid': colour.invalid }">
+
+                        <label for="colour">
+                            Colour:
+                        </label>
+
+                        <app-color id="colour" name="colour" [(ngModel)]="task.colour" #colour="ngModel"></app-color>
+
+                        <div *ngIf="colour.errors?.maxlength" class="invalid-feedback">
+                            Colour must be at most 7 characters long
+                        </div>
+
+                    </div>
+                </div>
+
+                <div class="col-sm-6 col-md-6 col-lg-3 col-xl-2">
+                    <div class="form-group" [ngClass]="{ 'is-invalid': startDate.invalid }">
+
+                        <label for="startDate">
+                            Start Date:
+                        </label>
+
+                        <div class="input-group">
+                            <input id="startDate" name="startDate" class="form-control" type="text" [(ngModel)]="task.startDate" #startDate="ngModel" required readonly placeholder="yyyy-mm-dd" ngbDatepicker #dpStartDate="ngbDatepicker" tabindex="-1" (click)="dpStartDate.toggle()" container="body" />
+                            <button class="btn btn-secondary calendar" (click)="dpStartDate.toggle()" type="button"><i class="fas fa-fw fa-calendar-alt"></i></button>
+                        </div>
+
+                        <div *ngIf="startDate.errors?.required" class="invalid-feedback">
+                            Start Date is required
+                        </div>
+
+                    </div>
+                </div>
+
+                <div class="col-sm-6 col-md-6 col-lg-3 col-xl-2">
+                    <div class="form-group" [ngClass]="{ 'is-invalid': endDate.invalid }">
+
+                        <label for="endDate">
+                            End Date:
+                        </label>
+
+                        <div class="input-group">
+                            <input id="endDate" name="endDate" class="form-control" type="text" [(ngModel)]="task.endDate" #endDate="ngModel" required readonly placeholder="yyyy-mm-dd" ngbDatepicker #dpEndDate="ngbDatepicker" tabindex="-1" (click)="dpEndDate.toggle()" container="body" />
+                            <button class="btn btn-secondary calendar" (click)="dpEndDate.toggle()" type="button"><i class="fas fa-fw fa-calendar-alt"></i></button>
+                        </div>
+
+                        <div *ngIf="endDate.errors?.required" class="invalid-feedback">
+                            End Date is required
+                        </div>
+
+                    </div>
+                </div>
+
+                <div class="col-sm-6 col-md-6 col-lg-3 col-xl-2">
+                    <div class="form-group" [ngClass]="{ 'is-invalid': percentCompleted.invalid }">
+
+                        <label for="percentCompleted">
+                            Percent Completed:
+                        </label>
+
+                        <input id="percentCompleted" name="percentCompleted" class="form-control" type="number" [(ngModel)]="task.percentCompleted" #percentCompleted="ngModel" required step="any" />
+
+                        <div *ngIf="percentCompleted.errors?.required" class="invalid-feedback">
+                            Percent Completed is required
+                        </div>
+
+                    </div>
+                </div>
+
+                <div class="col-sm-6 col-md-6 col-lg-3 col-xl-2">
+                    <div class="form-group" [ngClass]="{ 'is-invalid': completionDate.invalid }">
+
+                        <label for="completionDate">
+                            Completion Date:
+                        </label>
+
+                        <div class="input-group">
+                            <input id="completionDate" name="completionDate" class="form-control" type="text" [(ngModel)]="task.completionDate" #completionDate="ngModel" readonly placeholder="yyyy-mm-dd" ngbDatepicker #dpCompletionDate="ngbDatepicker" tabindex="-1" (click)="dpCompletionDate.toggle()" container="body" />
+                            <button class="btn btn-secondary calendar" (click)="dpCompletionDate.toggle()" type="button"><i class="fas fa-fw fa-calendar-alt"></i></button>
+                        </div>
+
+                    </div>
+                </div>
+
+                <div class="col-sm-12">
+                    <div class="form-group" [ngClass]="{ 'is-invalid': description.invalid }">
+
+                        <label for="description">
+                            Description:
+                        </label>
+
+                        <textarea id="description" name="description" class="form-control" rows="5" [(ngModel)]="task.description" #description="ngModel"></textarea>
+
+                    </div>
+                </div>
+
+            </div>
+
+        </fieldset>
+
+    </form>
+
+
+</div>
+<div class="modal-footer">
+    <button type="submit" class="btn btn-outline-success" form="form">Save<i class="fas fa-check ms-2"></i></button>
+    <button type="button" *ngIf="!isNew" class="btn btn-outline-danger" (click)="delete()">Delete<i class="fas fa-times ms-2"></i></button>
+</div>
+

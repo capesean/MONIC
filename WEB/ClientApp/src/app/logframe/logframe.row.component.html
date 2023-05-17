@@ -1,0 +1,168 @@
+<div class="modal-header">
+    <h4 class="modal-title" id="modal-basic-title">LogFrame Row Editor - {{logFrameRowTypes[logFrameRow.rowType].label}}</h4>
+    <button type="button" class="btn-close" (click)="modal.dismiss()" aria-label="Close"></button>
+</div>
+<div class="modal-body">
+
+    <form id="form" name="form" (submit)="save(form)" novalidate #form="ngForm" [ngClass]="{ 'was-validated': form.submitted }">
+
+        <fieldset class="group">
+
+            <div class="row g-3">
+
+                <div class="col-sm-12 col-lg-6">
+                    <div class="form-group" [ngClass]="{ 'is-invalid': description.invalid }">
+
+                        <label for="description">
+                            Description:
+                        </label>
+
+                        <textarea id="description" name="description" class="form-control" rows="5" [(ngModel)]="logFrameRow.description" #description="ngModel" required></textarea>
+
+                        <div *ngIf="description.errors?.required" class="invalid-feedback">
+                            Description is required
+                        </div>
+
+                    </div>
+                </div>
+
+                <div class="col-sm-12 col-lg-6">
+                    <div class="form-group" [ngClass]="{ 'is-invalid': indicators.invalid }">
+
+                        <label for="indicators">
+                            Indicators:
+                        </label>
+
+                        <textarea id="indicators" name="indicators" class="form-control" rows="5" [(ngModel)]="logFrameRow.indicators" #indicators="ngModel" required></textarea>
+
+                        <div *ngIf="indicators.errors?.required" class="invalid-feedback">
+                            Indicators is required
+                        </div>
+
+                    </div>
+                </div>
+
+                <div class="col-sm-12 col-lg-6">
+                    <div class="form-group" [ngClass]="{ 'is-invalid': meansOfVerification.invalid }">
+
+                        <label for="meansOfVerification">
+                            Means of Verification:
+                        </label>
+
+                        <textarea id="meansOfVerification" name="meansOfVerification" class="form-control" rows="5" [(ngModel)]="logFrameRow.meansOfVerification" #meansOfVerification="ngModel" required></textarea>
+
+                        <div *ngIf="meansOfVerification.errors?.required" class="invalid-feedback">
+                            Means of Verification is required
+                        </div>
+
+                    </div>
+                </div>
+
+                <div class="col-sm-12 col-lg-6">
+                    <div class="form-group" [ngClass]="{ 'is-invalid': risksAndAssumptions.invalid }">
+
+                        <label for="risksAndAssumptions">
+                            Risks And Assumptions:
+                        </label>
+
+                        <textarea id="risksAndAssumptions" name="risksAndAssumptions" class="form-control" rows="5" [(ngModel)]="logFrameRow.risksAndAssumptions" #risksAndAssumptions="ngModel" required></textarea>
+
+                        <div *ngIf="risksAndAssumptions.errors?.required" class="invalid-feedback">
+                            Risks And Assumptions is required
+                        </div>
+
+                    </div>
+                </div>
+
+            </div>
+
+        </fieldset>
+
+    </form>
+
+    <hr />
+
+    <nav ngbNav #nav="ngbNav" class="nav-tabs">
+
+        <ng-container ngbNavItem>
+
+            <a ngbNavLink>{{logFrameRowTypes[logFrameRow.rowType].label}}</a>
+
+            <ng-template ngbNavContent>
+
+                <div class="mb-3">
+                    <button class="btn btn-outline-primary me-2 mb-1" (click)="addLogFrameRowComponents()">Add {{logFrameRowTypes[logFrameRow.rowType].label}}<i class="fas fa-plus ms-2"></i></button>
+                </div>
+
+                <div class="table-responsive">
+
+                    <table class="table table-hover table-edge table-nowrap mb-0 align-middle">
+                        <thead class="thead-light">
+                            <tr>
+                                <th>{{logFrameRowTypes[logFrameRow.rowType].label}}</th>
+                                <th class="w-20px text-center"><i class="fas fa-times text-danger cursor-pointer" (click)="deleteLogFrameRowComponents()" ngbTooltip="Remove all indicators" container="body" placement="left" *ngIf="logFrameRow.logFrameRowComponents.length"></i></th>
+                            </tr>
+                        </thead>
+                        <tbody class="list cursor-pointer">
+                            <tr *ngFor="let logFrameRowComponent of logFrameRow.logFrameRowComponents">
+                                <td>{{ logFrameRowComponent.component.name }}</td>
+                                <td class="text-center"><i class="fas fa-times cursor-pointer p-1 text-danger" (click)="deleteLogFrameRowComponent(logFrameRowComponent, $event)"></i></td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+                </div>
+
+                <div class="alert alert-info" *ngIf="logFrameRow.logFrameRowComponents.length === 0">No {{logFrameRowTypes[logFrameRow.rowType].label}} have been selected</div>
+
+            </ng-template>
+
+        </ng-container>
+
+        <ng-container ngbNavItem>
+
+            <a ngbNavLink>Indicators</a>
+
+            <ng-template ngbNavContent>
+
+                <div class="mb-3">
+                    <button class="btn btn-outline-primary me-2 mb-1" (click)="addLogFrameRowIndicators()">Add Indicators<i class="fas fa-plus ms-2"></i></button>
+                </div>
+
+                <div class="table-responsive">
+
+                    <table class="table table-hover table-edge table-nowrap mb-0 align-middle">
+                        <thead class="thead-light">
+                            <tr>
+                                <th>Indicator</th>
+                                <th class="w-20px text-center"><i class="fas fa-times text-danger cursor-pointer" (click)="deleteLogFrameRowIndicators()" ngbTooltip="Remove all indicators" container="body" placement="left" *ngIf="logFrameRow.logFrameRowIndicators.length"></i></th>
+                            </tr>
+                        </thead>
+                        <tbody class="list cursor-pointer">
+                            <tr *ngFor="let logFrameRowIndicator of logFrameRow.logFrameRowIndicators">
+                                <td>{{ logFrameRowIndicator.indicator.name }}</td>
+                                <td class="text-center"><i class="fas fa-times cursor-pointer p-1 text-danger" (click)="deleteLogFrameRowIndicator(logFrameRowIndicator, $event)"></i></td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+                </div>
+
+                <div class="alert alert-info" *ngIf="logFrameRow.logFrameRowIndicators.length === 0">No indicators have been selected</div>
+
+            </ng-template>
+
+        </ng-container>
+
+    </nav>
+
+    <div [ngbNavOutlet]="nav" class="mt-1"></div>
+
+</div>
+<div class="modal-footer">
+    <button type="submit" class="btn btn-outline-success me-2 mb-1" form="form">Save<i class="fas fa-check ms-2"></i></button>
+    <button type="button" *ngIf="!isNew" class="btn btn-outline-danger me-2 mb-1" (click)="delete()">Delete<i class="fas fa-times ms-2"></i></button>
+</div>
+
+<indicator-modal #indicatorModal (changes)="changeIndicators($event)" [multiple]="true"></indicator-modal>
+<component-modal #componentModal (changes)="changeComponents($event)" [multiple]="true"></component-modal>

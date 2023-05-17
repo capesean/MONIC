@@ -1,0 +1,97 @@
+<div class="modal-header">
+    <h4 class="modal-title" id="modal-title">Edit Question Logic</h4>
+    <button type="button" class="btn-close" aria-label="Close button" aria-describedby="modal-title" (click)="modal.dismiss()"></button>
+</div>
+
+<div class="modal-body">
+
+    <form id="formQuestionLogic" name="formQuestionLogic" (submit)="saveLogic(formQuestionLogic)" novalidate #formQuestionLogic="ngForm" [ngClass]="{ 'was-validated': formQuestionLogic.submitted }">
+
+        <fieldset class="group">
+
+            <div class="row g-3">
+
+                <div class="col-sm-12 col-md-8 col-lg-6 col-xl-5">
+                    <div class="form-group" [ngClass]="{ 'is-invalid': questionId.invalid }">
+
+                        <label for="questionId">
+                            Question:
+                        </label>
+
+                        <question-select id="questionId" name="questionId" [(question)]="logic.checkQuestion" [(ngModel)]="logic.checkQuestionId" #questionId="ngModel" required (questionChange)="changeQuestion($event)" [questionnaire]="questionnaire" [section]="section" [canRemoveFilters]="true" [questionType]="questionType_optionList"></question-select>
+
+                        <div *ngIf="questionId.errors?.required" class="invalid-feedback">
+                            Question is required
+                        </div>
+
+                    </div>
+                </div>
+
+                <div class="col-sm-12 col-md-4 col-lg-3 col-xl-2">
+                    <div class="form-group" [ngClass]="{ 'is-invalid': skipLogicAction.invalid }">
+
+                        <label for="skipLogicAction">
+                            Action:
+                        </label>
+
+                        <select id="skipLogicAction" name="skipLogicAction" class="form-select" [(ngModel)]="logic.skipLogicAction" #skipLogicAction="ngModel" required>
+                            <option *ngFor="let skipLogicAction of skipLogicActions" [ngValue]="skipLogicAction.value">{{ skipLogicAction.label }}</option>
+                        </select>
+
+                        <div *ngIf="skipLogicAction.errors?.required" class="invalid-feedback">
+                            Action is required
+                        </div>
+
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="row g-3 mt-0">
+
+                <div class="col-12">
+                    <div class="form-group" [ngClass]="{ 'is-invalid': questionId.invalid }">
+
+                        <label for="questionId">
+                            Options:
+                        </label>
+
+                        <div class="table-responsive">
+
+                            <table class="table table-edge table-nowrap mb-0 align-middle">
+                                <thead class="thead-light">
+                                    <tr>
+                                        <th class="w-20px text-center" (click)="selectAll()"><i class="fas cursor-pointer fa-check-square"></i></th>
+                                        <th>Label</th>
+                                        <th>Value</th>
+                                    </tr>
+                                </thead>
+                                <tbody class="list user-select-none cursor-pointer">
+                                    <tr *ngFor="let questionOption of availableOptions" (click)="questionOptionClick(questionOption)">
+                                        <td class="text-center">
+                                            <input type="checkbox" id="{{questionOption.questionOptionId}}" name="{{questionOption.questionOptionId}}" [ngModel]="selectedOptions.get(questionOption.questionOptionId)" (ngModelChange)="selectedOptions.set(questionOption.questionOptionId, $event)" />
+                                        </td>
+                                        <td>{{ questionOption.label }}</td>
+                                        <td>{{ questionOption.value }}</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+
+                        </div>
+
+                    </div>
+                </div>
+
+            </div>
+
+        </fieldset>
+
+    </form>
+
+</div>
+
+<div class="modal-footer">
+    <button type="button" class="btn btn-outline-danger" (click)="clear()">Clear</button>
+    <button type="submit" form="formQuestionLogic" class="btn btn-outline-success">Accept</button>
+    <button type="button" class="btn btn-outline-secondary" (click)="modal.dismiss()">Cancel</button>
+</div>

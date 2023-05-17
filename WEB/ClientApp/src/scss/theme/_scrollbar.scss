@@ -1,0 +1,56 @@
+//
+// Scrollbar
+//
+
+.scrollbar {
+    scrollbar-gutter: stable;
+    scrollbar-color: $scrollbar-scroll-bg transparent;
+    scrollbar-width: thin;
+
+    overscroll-behavior: contain;
+    -webkit-overflow-scrolling: touch;
+    -ms-overflow-style: -ms-autohiding-scrollbar;
+
+
+    &::-webkit-scrollbar {
+        visibility: hidden;
+        -webkit-appearance: none;
+        width: .375rem;
+        height: .375rem;
+        background-color: transparent;
+    }
+
+    &::-webkit-scrollbar-thumb {
+        visibility: hidden;
+        border-radius: 3px;
+        background-color: rgba($scrollbar-scroll-bg, .4);
+
+        &:hover,
+        &:active {
+            background-color: rgba($scrollbar-scroll-bg, .7);
+
+        }
+        
+        &:vertical {
+            min-height: 1.5rem;
+        }
+
+        &:horizontal {
+            min-width: 1.5rem;
+        }
+    }
+
+    &:hover {
+        &::-webkit-scrollbar,
+        &::-webkit-scrollbar-thumb,
+        &:focus::-webkit-scrollbar,
+        &:focus::-webkit-scrollbar-thumb {
+            visibility: visible;
+        }
+    }
+
+    &::-webkit-scrollbar-corner,
+    &::-webkit-scrollbar-button {
+        display: none;
+    }
+}

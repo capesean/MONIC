@@ -1,0 +1,46 @@
+.was-validated label:has(input.form-check-input.ng-invalid) span {
+    color: #D82C5B !important;
+}
+
+.was-validated:has(input[type=hidden].ng-invalid) .invalid-feedback {
+    display: block;
+}
+
+#section-list .list-group-item:first-child {
+    border-top-left-radius: 0;
+    border-top-right-radius: 0;
+}
+
+#section-list .list-group-item:last-child {
+    border-bottom-left-radius: 0;
+    border-bottom-right-radius: 0;
+}
+
+#section-list > li {
+    border-left: solid 2.4px white;
+}
+
+    #section-list > li.active {
+        /*color: #00BAC7;*/
+        border-left: solid 2.4px #00BAC7; /*--bs-link-color*/
+    }
+
+    #section-list > li.can-access {
+        cursor: pointer;
+    }
+
+        #section-list > li:not(.active).can-access:hover {
+            color: #00BAC7; /*--bs-link-color*/
+        }
+
+#sections .list-group-item {
+    border-bottom-color: #D6DAE2; /*--bs-gray-400*/
+}
+
+.form-control, textarea, .form-select {
+    font-size: var(--bs-body-font-size);
+}
+
+.was-validated .form-check-input.ng-invalid {
+    border-color: #D82C5B;
+}

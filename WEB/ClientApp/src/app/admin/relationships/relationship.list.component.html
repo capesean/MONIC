@@ -1,0 +1,75 @@
+<app-page-title title="Relationships"></app-page-title>
+
+<div class="card border-0">
+
+    <div class="card-body">
+
+        <form (submit)="runSearch(0)" novalidate>
+
+            <div class="row g-3">
+
+                <div class="col-sm-6 col-md-4 col-lg-3">
+                    <div class="form-group">
+                        <theory-of-change-select id="theoryOfChangeId" name="theoryOfChangeId" [(ngModel)]="searchOptions.theoryOfChangeId"></theory-of-change-select>
+                    </div>
+                </div>
+
+                <div class="col-sm-6 col-md-4 col-lg-3">
+                    <div class="form-group">
+                        <component-select id="sourceComponentId" name="sourceComponentId" [(ngModel)]="searchOptions.sourceComponentId"></component-select>
+                    </div>
+                </div>
+
+                <div class="col-sm-6 col-md-4 col-lg-3">
+                    <div class="form-group">
+                        <component-select id="targetComponentId" name="targetComponentId" [(ngModel)]="searchOptions.targetComponentId"></component-select>
+                    </div>
+                </div>
+
+            </div>
+
+            <fieldset class="mt-3">
+
+                <button type="submit" class="btn btn-outline-primary me-2 mb-1">Search<i class="fas fa-search ms-2"></i></button>
+
+            </fieldset>
+
+        </form>
+
+    </div>
+
+</div>
+
+<div class="card border-0">
+
+    <div class="card-header border-0 card-header-space-between">
+        <h4 class="card-header-title text-uppercase">Relationships</h4>
+    </div>
+
+    <div class="table-responsive">
+
+        <table class="table table-hover table-edge table-nowrap mb-0 align-middle">
+            <thead class="thead-light">
+                <tr>
+                    <th>Theory of Change</th>
+                    <th>Source Component</th>
+                    <th>Target Component</th>
+                </tr>
+            </thead>
+            <tbody class="list cursor-pointer">
+                <tr *ngFor="let relationship of relationships" (click)="goToRelationship(relationship)">
+                    <td>{{ relationship.theoryOfChange.name }}</td>
+                    <td>{{ relationship.sourceComponent.name }}</td>
+                    <td>{{ relationship.targetComponent.name }}</td>
+                </tr>
+            </tbody>
+        </table>
+
+        </div>
+
+        <div class="card-footer">
+            <pager [headers]="headers" (pageChanged)="runSearch($event)"></pager>
+        </div>
+
+    </div>
+

@@ -1,0 +1,256 @@
+<div id="sections" class="row mt-6 mx-5" *ngIf="sections">
+
+    <!--left header+section panel-->
+    <div class="col-lg-4 mb-5" *ngIf="response.questionnaire.showSections">
+
+        <div class="sticky-md-top">
+
+            <div class="card sticky-md-top mb-3 border-gray-700">
+
+                <div class="card-header text-bg-secondary">
+
+                    <div class="text-center mb-0">
+                        <h3 class="mb-0">{{response.questionnaire.name}}</h3>
+                        <span class="fs-5 text-white fw-semibold">{{response.entity.name}} : {{response.date.name}}</span>
+
+                        <ngb-progressbar *ngIf="response.questionnaire.calculateProgress" class="mt-4 border border-gray-700" type="primary" textType="white" [value]="response.applicableQuestions == 0 ? 0 : response.completedQuestions / response.applicableQuestions * 100" [showValue]="true"></ngb-progressbar>
+
+                    </div>
+
+                </div>
+
+                <div class="card-header text-bg-gray-700-soft" *ngIf="response.submitted">
+
+                    <p class="mb-0"><i class="fa fa-circle-info me-2"></i>This questionnaire has been submitted and cannot be modified.</p>
+
+                </div>
+
+                <ul id="section-list" class="list-group list-group-flush my-3 border-top-0" *ngIf="response.questionnaire.showSections">
+                    <li *ngFor="let section of sections" class="list-group-item" (click)="setSection(section)" [ngClass]="{ 'active': section.sectionId === current?.question?.sectionId, 'can-access': section.canAccess }">
+                        <a [routerLink]="">{{section.name}}</a>
+                    </li>
+                    <li *ngIf="response.questionnaire.useSubmit && !response.submitted && response.totalQuestions && (response.completedQuestions >= response.applicableQuestions || !response.questionnaire.submitOnCompletion)" class="list-group-item can-access" (click)="goToSubmit()" [ngClass]="{ 'active': endOfQuestionnaire }">
+                        <a [routerLink]="">End of Questionnaire</a>
+                    </li>
+                </ul>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <!--right question+answer panel-->
+    <div id="section" [ngClass]="{ 'col': response.questionnaire.showSections, 'col-xl-8 col-lg-10 mx-auto': !response.questionnaire.showSections }">
+
+        <div class="card scroll-mt-3 border-gray-700" *ngIf="current">
+
+            <div class="card-header text-bg-primary-soft" *ngIf="response.questionnaire.showSections">
+
+                <h2 class="h3 mb-0">
+                    {{current.question.section.name}}
+                </h2>
+
+            </div>
+
+            <div class="card-header text-bg-secondary" *ngIf="!response.questionnaire.showSections">
+
+                <div class="text-center mb-0">
+
+                    <h3 class="mb-0">{{response.questionnaire.name}}</h3>
+                    <span class="fs-5 text-white fw-semibold">{{response.entity.name}} : {{response.date.name}}</span>
+
+                    <ngb-progressbar *ngIf="response.questionnaire.calculateProgress" class="mt-4 border border-gray-700" type="primary" textType="white" [value]="response.applicableQuestions == 0 ? 0 : response.completedQuestions / response.applicableQuestions * 100" [showValue]="true"></ngb-progressbar>
+
+                </div>
+
+            </div>
+
+
+            <div class="card-body mb-5">
+
+                <div class="question">
+
+                    <form id="formQuestion" name="formQuestion" (submit)="moveNext()" novalidate #form="ngForm" [ngClass]="{ 'was-validated': form.submitted }">
+
+                        <div class="mb-4">
+                            <p [innerHtml]="current | paragraphsPipe : response.questionnaire"></p>
+                        </div>
+
+                        <div class="mt-6" *ngIf="current.answer">
+
+                            <!-- QUESTION TYPE: single line text -->
+                            <ng-container *ngIf="current.question.questionType === questionTypes.Text">
+
+                                <input id="{{current.question.questionId}}" name="{{current.question.questionId}}" type="text" class="form-control" [(ngModel)]="current.answer.value" [required]="current.question.required" #answer="ngModel" tabindex="1" />
+
+                                <div *ngIf="answer.errors?.required" class="invalid-feedback">
+                                    An answer is required
+                                </div>
+
+                            </ng-container>
+
+                            <!-- QUESTION TYPE: multi-line text -->
+                            <ng-container *ngIf="current.question.questionType === questionTypes.Multiline">
+
+                                <textarea id="{{current.question.questionId}}" name="{{current.question.questionId}}" class="form-control" [(ngModel)]="current.answer.value" [required]="current.question.required" #answer="ngModel" rows="5" tabindex="1" [disabled]="response.submitted"></textarea>
+
+                                <div *ngIf="answer.errors?.required" class="invalid-feedback">
+                                    An answer is required
+                                </div>
+
+                            </ng-container>
+
+                            <!-- QUESTION TYPE: option list -->
+                            <ng-container *ngIf="current.question.questionType === questionTypes.OptionList">
+
+                                <!-- OPTION LIST TYPE: rating -->
+                                <ng-container *ngIf="current.question.optionListType === optionListTypes.Rating">
+
+                                    <input type="hidden" name="hidden{{current.question.questionId}}" id="hidden{{current.question.questionId}}" [(ngModel)]="current.answer.value" [required]="current.question.required" #hiddenRating="ngModel" />
+
+                                    <div class="d-flex align-items-end overflow-x-auto pb-5">
+
+                                        <div class="flex-even" *ngIf="current.question.questionOptionGroup.questionOptions.length <= 3"></div>
+
+                                        <div *ngFor="let option of current.question.questionOptionGroup.questionOptions" class="flex-even text-center">
+
+                                            <label>
+                                                <span class="d-block mx-2">{{option.label}}</span>
+                                                <input type="radio" id="{{option.questionOptionId}}" name="{{current.question.questionId}}" class="form-check-input"
+                                                       [(ngModel)]="current.answer.value" [value]="option.questionOptionId" [required]="current.question.required"
+                                                       #answer="ngModel" [disabled]="response.submitted" />
+                                            </label>
+
+                                        </div>
+
+                                        <div class="flex-even" *ngIf="current.question.questionOptionGroup.questionOptions.length <= 3"></div>
+
+                                    </div>
+
+                                    <div *ngIf="hiddenRating.errors?.required" class="invalid-feedback">
+                                        An answer is required
+                                    </div>
+
+                                </ng-container>
+
+                                <!-- OPTION LIST TYPE: radiolist -->
+                                <ng-container *ngIf="current.question.optionListType === optionListTypes.RadioList">
+
+                                    <input type="hidden" name="hidden{{current.question.questionId}}" id="hidden{{current.question.questionId}}" [(ngModel)]="current.answer.value" [required]="current.question.required" #hiddenRating="ngModel" />
+
+                                    <div class="form-check" *ngFor="let option of current.question.questionOptionGroup.questionOptions">
+
+                                        <input type="radio" id="{{option.questionOptionId}}" name="{{current.question.questionId}}" class="form-check-input"
+                                               [(ngModel)]="current.answer.value" [value]="option.questionOptionId" [required]="current.question.required"
+                                               #answer="ngModel" [disabled]="response.submitted" />
+                                        <label for="{{option.questionOptionId}}">
+                                            {{option.label}}
+                                        </label>
+
+                                    </div>
+
+                                    <div *ngIf="hiddenRating.errors?.required" class="invalid-feedback">
+                                        An answer is required
+                                    </div>
+
+                                </ng-container>
+
+                                <!-- OPTION LIST TYPE: dropdown -->
+                                <ng-container *ngIf="current.question.optionListType === optionListTypes.Dropdown">
+
+                                    <select id="{{current.question.questionId}}" name="{{current.question.questionId}}" class="form-select" [(ngModel)]="current.answer.value" #answer="ngModel" [required]="current.question.required" [disabled]="response.submitted">
+                                        <option *ngFor="let option of current.question.questionOptionGroup.questionOptions" [ngValue]="option.questionOptionId">{{ option.label }}</option>
+                                    </select>
+
+                                    <div *ngIf="answer.errors?.required" class="invalid-feedback">
+                                        An answer is required
+                                    </div>
+
+                                </ng-container>
+
+                                <!-- OPTION LIST TYPE: checkboxlist -->
+                                <ng-container *ngIf="current.question.optionListType === optionListTypes.Checkboxes">
+
+                                    <input type="hidden" name="hidden{{current.question.questionId}}" id="hidden{{current.question.questionId}}" [(ngModel)]="current.answer.value" [required]="current.question.required" #hiddenCheckboxes="ngModel" />
+
+                                    <div class="form-check" *ngFor="let option of current.question.questionOptionGroup.questionOptions">
+                                        <input class="form-check-input" name="{{option.questionOptionId}}" id="{{option.questionOptionId}}" [ngModel]="optionMap[option.questionOptionId]" (ngModelChange)="checkboxChanged($event, option)" type="checkbox" value="{{option.questionOptionId}}" [disabled]="response.submitted" [required]="current.question.required && !current.answer.value">
+                                        <label for="{{option.questionOptionId}}">
+                                            {{option.label}}
+                                        </label>
+                                    </div>
+
+                                    <div *ngIf="hiddenCheckboxes.errors?.required" class="invalid-feedback">
+                                        An answer is required
+                                    </div>
+
+                                </ng-container>
+
+
+                            </ng-container>
+
+                            <!-- QUESTION TYPE: document -->
+                            <ng-container *ngIf="current.question.questionType === questionTypes.Document">
+
+
+                                <div *ngFor="let document of current.answer.documents; let $index = index;" class="mb-5">
+
+                                    <app-file id="file{{$index}}" name="file{{$index}}" [(fileContents)]="document.fileContents" tabindex="1"
+                                              [enableDownload]="document.documentId !== '00000000-0000-0000-0000-000000000000' && !!document.fileName"
+                                              [(ngModel)]="document.fileName" #file="ngModel" [required]="current.question.required && $index < current.question.minimumDocuments"
+                                              [fileId]="document.documentId" (onClear)="clearDocument($index)" (onDownload)="download($event)" (fileContentsChange)="checkDocuments()"
+                                              [disabled]="response.submitted"></app-file>
+
+                                    <!--todo: this is not showing!-->
+                                    <div *ngIf="file.errors?.required" class="invalid-feedback mb-4">
+                                        A document is required
+                                    </div>
+
+                                </div>
+
+                            </ng-container>
+
+                            <p *ngIf="current.question.explanation" class="my-6 fs-5 cursor-help bg-light p-4 border-gray-400 border fst-italic">{{current.question.explanation}}</p>
+
+                            <div class="mt-8 row">
+                                <div class="col-5 col-md-4 col-lg-5 col-xl-4 col-xxl-3">
+                                    <button *ngIf="!current.isFirst" type="button" (click)="movePrevious(current)" class="btn btn-outline-primary w-100 text-nowrap" tabindex="3"><i class="fas fa-chevron-left me-2"></i><span class="d-none d-sm-inline">Previous</span></button>
+                                </div>
+                                <div class="col-2 col-md-4 col-lg-2 col-xl-4 col-xxl-6"></div>
+                                <div class="col-5 col-md-4 col-lg-5 col-xl-4 col-xxl-3">
+                                    <button type="submit" class="btn btn-outline-primary w-100 text-nowrap" tabindex="2"><span class="d-none d-sm-inline">Next</span><i class="fas fa-chevron-right ms-2"></i></button>
+                                </div>
+                            </div>
+
+                        </div>
+
+                    </form>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="card scroll-mt-3 border-gray-700" *ngIf="endOfQuestionnaire">
+
+            <div class="card-header text-bg-success-soft">
+                <h2 class="h3 mb-0">End of Questionnaire</h2>
+            </div>
+
+            <div class="card-body">
+
+                <p>{{response.questionnaire.completionText}}</p>
+
+                <div *ngIf="response.questionnaire.useSubmit && !response.submitted && isLoggedIn" class="d-grid mb-5 col-sm-10 col-md-8 col-lg-6 col-xl-5 mx-auto">
+                    <button type="button" class="btn btn-outline-primary" (click)="submit()">Submit</button>
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>

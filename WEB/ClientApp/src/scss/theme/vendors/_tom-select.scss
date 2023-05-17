@@ -1,0 +1,76 @@
+//
+// Tom Select
+//
+
+$select-ns: 'ts' !default;
+$select-color-dropdown-border-top: mix($border-color, $body-bg, .8) !default;
+
+.#{$select-ns}-dropdown {
+    --#{$prefix}select-color-dropdown: #{$dropdown-bg};
+    --#{$prefix}select-color-text: #{$dropdown-link-color};
+    --#{$prefix}select-color-dropdown-item-active: #{$dropdown-link-hover-bg};
+    --#{$prefix}select-color-dropdown-item-active-text: #{$dropdown-link-hover-color};
+}
+
+// Dashly custom style
+.#{$select-ns}-control {
+	> input {
+		min-width: 1rem;
+	}
+}
+
+.#{$select-ns}-wrapper.form-control,
+.#{$select-ns}-wrapper.form-select{
+    &.focus {
+        border-color: $input-focus-border-color;
+    }
+}
+
+
+@import "~tom-select/src/scss/tom-select.bootstrap5";
+
+
+.#{$select-ns}-dropdown {
+    .active {
+		background-color: var(--#{$prefix}select-color-dropdown-item-active);
+		color: var(--#{$prefix}select-color-dropdown-item-active-text);
+
+		&.create {
+			color: var(--#{$prefix}select-color-dropdown-item-active-text);
+		}
+	}
+
+	.create {
+		color: var(--#{$prefix}select-color-dropdown-item-active-text);
+	}
+
+    .option {
+        padding-top: .46875rem;
+        padding-bottom: .46875rem;
+    }
+}
+
+.#{$select-ns}-dropdown,
+.#{$select-ns}-dropdown.form-control,
+.#{$select-ns}-dropdown.form-select {
+	background: var(--#{$prefix}select-color-dropdown);
+}
+
+.#{$select-ns}-dropdown,
+.#{$select-ns}-control,
+.#{$select-ns}-control input {
+	color: var(--#{$prefix}select-color-text);
+}
+
+.#{$select-ns}-dropdown-content {
+	border-radius: var(--#{$prefix}border-radius);
+}
+
+[data-theme="dark"] {
+    .#{$select-ns}-dropdown {
+        --#{$prefix}select-color-dropdown: #{$dropdown-dark-bg};
+        --#{$prefix}select-color-text: #{$dropdown-dark-color};
+        --#{$prefix}select-color-dropdown-item-active: #{$dropdown-dark-link-hover-bg};
+        --#{$prefix}select-color-dropdown-item-active-text: #{$dropdown-dark-link-hover-color};
+    }
+}

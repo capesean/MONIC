@@ -1,0 +1,40 @@
+//
+// Scrollspy
+//
+
+.scrollspy {
+    padding-left: 0;
+    list-style: none;
+
+    li {
+        a {
+            border-left: 3px solid transparent;
+            position: relative;
+            display: block;
+            padding: $list-group-item-padding-y $list-group-item-padding-x;
+            color: $list-group-color;
+            text-decoration: if($link-decoration == none, null, none);
+
+            &.disabled,
+            &:disabled {
+                color: var(--#{$prefix}list-group-disabled-color);
+                pointer-events: none;
+                background-color: var(--#{$prefix}list-group-disabled-bg);
+            }
+        }
+
+        &:hover,
+        &:focus {
+            a {
+                color: var(--#{$prefix}link-color);
+            }
+        }
+
+        &.active {
+            a {
+                color: var(--#{$prefix}link-color);
+                border-color: var(--#{$prefix}link-color);
+            }
+        }
+    }
+}

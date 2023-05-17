@@ -1,0 +1,106 @@
+<app-page-title title="Gantt Chart"></app-page-title>
+
+<div class="card border-0">
+
+    <div class="card-body">
+
+
+        <form id="formGantt" name="formGantt" (submit)="save(form)" novalidate #form="ngForm" [ngClass]="{ 'was-validated': form.submitted }">
+
+            <fieldset class="group">
+
+                <div class="row g-3">
+
+                    <div class="col-sm-12 col-md-12 col-lg-8 col-xl-6">
+                        <div class="form-group" [ngClass]="{ 'is-invalid': name.invalid }">
+
+                            <label for="name">
+                                Name:
+                            </label>
+
+                            <input id="name" name="name" class="form-control" type="text" [(ngModel)]="project.name" #name="ngModel" required (ngModelChange)="changeBreadcrumb()" maxlength="250" />
+
+                            <div *ngIf="name.errors?.required" class="invalid-feedback">
+                                Name is required
+                            </div>
+
+                            <div *ngIf="name.errors?.maxlength" class="invalid-feedback">
+                                Name must be at most 250 characters long
+                            </div>
+
+                        </div>
+                    </div>
+
+                    <div class="col-sm-6 col-md-5 col-lg-4 col-xl-3">
+                        <div class="form-group" [ngClass]="{ 'is-invalid': colour.invalid }">
+
+                            <label for="colour">
+                                Colour:
+                            </label>
+
+                            <app-color id="colour" name="colour" [(ngModel)]="project.colour" #colour="ngModel"></app-color>
+
+                            <div *ngIf="colour.errors?.maxlength" class="invalid-feedback">
+                                Colour must be at most 7 characters long
+                            </div>
+
+                        </div>
+                    </div>
+
+                </div>
+
+            </fieldset>
+
+            <fieldset class="my-3">
+                <button type="submit" class="btn btn-outline-success me-2 mb-1">Save<i class="fas fa-check ms-2"></i></button>
+                <button type="button" *ngIf="!isNew" class="btn btn-outline-danger me-2 mb-1" (click)="delete()">Delete<i class="fas fa-times ms-2"></i></button>
+            </fieldset>
+
+        </form>
+
+        <ng-container *ngIf="!isNew">
+
+            <hr />
+
+            <div id="ganttContainer">
+
+                <div id="dataPane">
+
+                    <div class="ganttHeader">
+                        <h5>
+                            {{project.name}}
+                            <small class="fa fa-plus ms-1 text-primary cursor-pointer" (click)="addMilestone()" ngbTooltip="Add a milestone"></small>
+                        </h5>
+                    </div>
+
+                    <div *ngFor="let process of processes" class="ganttRow" [ngClass]="process.type" (click)="processClick(process)">
+                        {{process.name}}<small *ngIf="process.type==='milestone'" class="fa fa-plus ms-1 text-primary" (click)="addTask($event, process)" ngbTooltip="Add a task to this milestone"></small>
+                    </div>
+
+                </div>
+
+                <div id="barPane">
+
+                    <div class="ganttHeader">
+                        <div *ngFor="let bucket of buckets" class="bucket col">{{bucket.label}}</div>
+                    </div>
+
+                    <div id="bars">
+                        <div *ngFor="let process of processes" class="ganttRow" [ngClass]="process.type">
+                            <span class="spacer" [style.width.%]="process.left"></span>
+                            <span class="bar" [style.width.%]="process.width" [style.backgroundColor]="process.barColour"
+                                  [ngbTooltip]="process.tooltip" container="body" (click)="processClick(process)">
+                                <span *ngIf="process.type === 'task' && process.percentCompleted>0" class="completion" [ngClass]="{'completed': process.percentCompleted >= 100}" [style.backgroundColor]="process.colour" [style.width.%]="process.percentCompleted"></span>
+                            </span>
+                        </div>
+                    </div>
+
+                </div>
+
+            </div>
+
+        </ng-container>
+
+    </div>
+
+</div>

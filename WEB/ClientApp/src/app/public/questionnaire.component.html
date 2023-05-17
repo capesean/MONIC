@@ -1,0 +1,80 @@
+<div class="row mt-6 mx-5" *ngIf="questionnaire">
+
+    <div class="col-xxl-6 col-xl-8 col-lg-10 mx-auto">
+
+        <div class="card sticky-md-top mb-3 border-gray-700">
+
+            <div class="card-header text-bg-secondary">
+
+                <div class="text-center mb-0">
+                    <h3 class="mb-0">{{questionnaire.name}}</h3>
+
+                    <!--todo: preset date &amp; entity options-->
+                    <!--<span class="fs-5 text-white fw-semibold">{{response.entity.name}} : {{response.date.name}}</span>-->
+
+                </div>
+
+            </div>
+
+            <div class="card-body">
+
+                <p *ngIf="questionnaire.creationText">{{questionnaire.creationText}}</p>
+
+                <form id="formQuestionnaire" name="formQuestionnaire" (submit)="start(form)" novalidate #form="ngForm" [ngClass]="{ 'was-validated': form.submitted }">
+
+                    <fieldset class="group">
+
+                        <div class="row g-1">
+
+                            <div class="col-12">
+                                <div class="form-group" [ngClass]="{ 'is-invalid': entityId.invalid }">
+
+                                    <label for="entityId">
+                                        {{questionnaire.entityType.name}}:
+                                    </label>
+
+                                    <select id="entityId" name="entityId" class="form-select" [(ngModel)]="options.entityId" #entityId="ngModel" required>
+                                        <option *ngFor="let entity of entities" [ngValue]="entity.entityId">{{ entity.name }}</option>
+                                    </select>
+
+                                    <div *ngIf="entityId.errors?.required" class="invalid-feedback">
+                                        {{questionnaire.entityType.name}} is required
+                                    </div>
+
+                                </div>
+                            </div>
+
+                            <div class="col-12" *ngIf="!questionnaire.defaultDateId">
+                                <div class="form-group" [ngClass]="{ 'is-invalid': dateId.invalid }">
+
+                                    <label for="dateId">
+                                        {{dateTypes[questionnaire.dateType].label}}:
+                                    </label>
+
+                                    <select id="dateId" name="dateId" class="form-select" [(ngModel)]="options.dateId" #dateId="ngModel" required>
+                                        <option *ngFor="let date of dates" [ngValue]="date.dateId">{{ date.name }}</option>
+                                    </select>
+
+                                    <div *ngIf="dateId.errors?.required" class="invalid-feedback">
+                                        {{dateTypes[questionnaire.dateType].label}} is required
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+
+                    </fieldset>
+
+                    <fieldset class="my-6">
+                        <button type="submit" class="btn btn-outline-primary w-100 text-nowrap" tabindex="2">Start</button>
+                    </fieldset>
+
+                </form>
+
+            </div>
+
+        </div>
+    </div>
+</div>
+
+

@@ -1,0 +1,30 @@
+<div class="modal-header">
+    <h4 class="modal-title" id="modal-basic-title">Map Info</h4>
+    <button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss()"></button>
+</div>
+<div class="modal-body">
+
+    <table class="table">
+        <tr>
+            <th>Entity:</th>
+            <td>{{datum.entity.name}} <small class="text-muted">({{datum.entity.code}})</small></td>
+        </tr>
+        <tr>
+            <th>Indicator:</th>
+            <td>{{indicator.name}} <small class="text-muted">({{indicator.code}})</small></td>
+        </tr>
+        <tr>
+            <th>Date:</th>
+            <td>{{datum.date.name}} <small class="text-muted">({{datum.date.code}})</small></td>
+        </tr>
+        <tr>
+            <th>Value:</th>
+            <!--todo: formatting-->
+            <td>{{datum.value}}</td>
+        </tr>
+    </table>
+
+</div>
+<div class="modal-footer">
+    <button type="button" class="btn btn-outline-secondary" (click)="modal.dismiss()">Close</button>
+</div>

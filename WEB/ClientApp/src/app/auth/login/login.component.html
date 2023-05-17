@@ -1,0 +1,63 @@
+<form name="form" (submit)="submit(form)" class="form-auth my-5" id="auth" novalidate #form="ngForm">
+
+    <fieldset [disabled]="loading">
+
+        <div class="text-center mb-7 mt-5">
+            <img src="/assets/images/logo.png" alt="LOGIN" />
+        </div>
+
+        <div class="mb-0 auth-top">
+            <input type="email" id="username" name="username" [(ngModel)]="login.username" #username="ngModel"
+                   class="form-control" [ngClass]="{ 'is-invalid': form.submitted && username.invalid }"
+                   maxlength="100" required autofocus="" placeholder="Email address" />
+        </div>
+
+        <div class="mt-0 mb-4 auth-bottom">
+            <input type="password" id="password" name="password" [(ngModel)]="login.password" #password="ngModel"
+                   class="form-control" [ngClass]="{ 'is-invalid': form.submitted && password.invalid }"
+                   maxlength="250" required placeholder="Password" />
+        </div>
+
+        <div class="alert alert-danger mb-4" *ngIf="form.submitted && form.invalid">
+
+            <div>
+                Please correct the following errors:
+            </div>
+
+            <div *ngIf="username.invalid">
+
+                <div *ngIf="username.errors.required">
+                    <i class="fas fa-exclamation-circle me-2"></i>Email is required.
+                </div>
+
+                <div *ngIf="username.errors.maxlength">
+                    <i class="fas fa-exclamation-circle me-2"></i>Email must be at most 100 characters long.
+                </div>
+
+            </div>
+
+            <div *ngIf="password.invalid">
+
+                <div *ngIf="password.errors.required">
+                    <i class="fas fa-exclamation-circle me-2"></i>Password is required.
+                </div>
+
+                <div *ngIf="password.errors.maxlength">
+                    <i class="fas fa-exclamation-circle me-2"></i>Password must be at most 100 characters long.
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="d-grid">
+            <button id="authButton" type="submit" class="btn btn-lg btn-primary" value="login">Sign in</button>
+        </div>
+
+        <div class="small mt-2 text-end">
+            <a [routerLink]="['/auth/resetpassword']">reset password</a>
+        </div>
+
+    </fieldset>
+
+</form>

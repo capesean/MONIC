@@ -1,0 +1,200 @@
+//
+// Fulllcalendar
+//
+
+@import "~@fullcalendar/common/main.css";
+@import "~@fullcalendar/list/main.css";
+@import "~@fullcalendar/daygrid/main.css";
+@import "~@fullcalendar/timegrid/main.css";
+@import "~@fullcalendar/bootstrap5/main.css";
+
+.fc {
+    table {
+        font-size: $h5-font-size;
+    }
+
+    .fc-toolbar-title {
+        font-size: $h3-font-size;
+        text-transform: uppercase;
+    }
+
+    .fc-toolbar {
+        @include media-breakpoint-down(md) {
+            display: block;
+
+            .fc-toolbar-chunk {
+                display: flex;
+                justify-content: space-evenly;
+                margin-top: 1rem;
+            }
+
+            .fc-toolbar-title {
+                width: 100%;
+                text-align: center;
+            }
+        }
+
+        &.fc-header-toolbar {
+            margin-bottom: 1.8125rem;
+
+            .btn {
+                padding: .359375rem 1rem;
+                font-size: .6875rem;
+            }
+        }
+    }
+
+    .fc-day-other {
+        .fc-daygrid-day-top {
+            opacity: 1;
+            color: var(--#{$prefix}secondary);
+        }
+    }
+
+    .fc-daygrid-event-dot,
+    .fc-list-event-dot {  
+        border: 4px solid $white;
+    }
+
+    .fc-daygrid-day,
+    .fc-timegrid-col {
+        &.fc-day-today {
+            background-color: rgba(var(--#{$prefix}warning-rgb), .1);
+        }
+    }
+
+    .fc-list-event {
+        background-color: $info;
+        color: $white;
+
+        &:hover {
+            td {
+                background-color: inherit;
+            }
+        }
+    }
+
+    .fc-list-table {
+        td {
+            padding: .375rem 1rem;
+        }
+    }
+
+    .fc-list-day-cushion {
+        padding: .6875rem 1rem;
+    }
+
+    .fc-popover {
+        z-index: $zindex-modal-backdrop - 1;
+        box-shadow: var(--#{$prefix}popover-box-shadow);
+        background-color: var(--#{$prefix}popover-bg);
+        border: var(--#{$prefix}popover-border-width) solid var(--#{$prefix}popover-border-color);
+        border-radius: var(--#{$prefix}popover-border-radius);
+    }
+
+    .fc-popover-header {
+        background-color: var(--#{$prefix}popover-header-bg);
+    }
+
+    .fc-popover-title {
+        font-size: $small-font-size * .75;
+    }
+
+    .fc-more-popover {
+        .fc-popover-body {
+            padding: .5rem 0;
+        }
+    }
+
+    .fc-popover-close {
+        width: .5rem;
+        height: .5rem;
+        margin-right: .4rem;
+        color: $btn-close-color;
+        background: transparent escape-svg($btn-close-bg) center / $btn-close-width auto no-repeat; // include transparent for button elements
+    
+        [data-theme="dark"] & {
+            filter: $btn-close-white-filter;
+        }
+    }
+}
+
+.fc-timegrid-event {
+    .fc-event-main {
+        padding: .1875rem;
+    }
+}
+
+.fc-h-event,
+.fc-v-event {
+    border: none;
+}
+
+.fc-daygrid-event,
+.fc-daygrid-event:hover,
+.fc-timegrid-event,
+.fc-timegrid-event:hover {
+    font-size: .6875rem;
+    border-radius: var(--#{$prefix}border-radius-sm);
+    background-color: var(--#{$prefix}info);
+
+    .fc-event-title {
+        font-weight: $font-weight-normal;
+    }
+}
+
+.fc-daygrid-block-event .fc-event-time,
+.fc-daygrid-block-event .fc-event-title {
+    padding-left: .25rem;
+    padding-right: .25rem;
+}
+
+.fc-event-time,
+.fc-event-title {
+    color: $white;
+}
+
+.fc-theme-bootstrap5 {
+    .fc-list,
+    .fc-scrollgrid,
+    td,
+    th {
+        border: 1px solid var(--#{$prefix}border-color-translucent);
+    }
+
+    th {
+        background-color: rgba(var(--#{$prefix}light-rgb), .2);
+        border-bottom-width: 2px;
+
+        a {
+            text-transform: uppercase;
+        }
+    }
+}
+
+.fc-col-header {
+    th {
+        padding: .53125rem;
+    }
+}
+
+.fc-direction-ltr {
+    .fc-daygrid-event {
+        &.fc-event-end {
+            margin-left: .4rem;
+        }
+        &.fc-event-start {
+            margin-right: .4rem;
+        }
+    }
+}
+.fc-direction-rtl {
+    .fc-daygrid-event {
+        &.fc-event-start {
+            margin-left: .4rem;
+        }
+        &.fc-event-end {
+            margin-right: .4rem;
+        }
+    }
+}

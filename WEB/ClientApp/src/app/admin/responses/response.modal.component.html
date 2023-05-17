@@ -1,0 +1,86 @@
+<ng-template #content let-modal>
+
+    <div class="modal-header">
+        <h4 class="modal-title" id="modal-basic-title">{{title}}</h4>
+        <button type="button" class="btn-close" (click)="modal.dismiss()" aria-label="Close"></button>
+    </div>
+    
+    <div class="modal-body">
+
+        <form (submit)="runSearch()" novalidate>
+
+            <fieldset>
+
+                <div class="alert alert-info alert-dismissible" *ngIf="questionnaire!=undefined">Filtered by questionnaire: {{questionnaire.name}}<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close" (click)="searchOptions.questionnaireId=undefined;questionnaire=undefined;runSearch();" *ngIf="canRemoveFilters"></button></div>
+                <div class="alert alert-info alert-dismissible" *ngIf="entity!=undefined">Filtered by entity: {{entity.name}}<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close" (click)="searchOptions.entityId=undefined;entity=undefined;runSearch();" *ngIf="canRemoveFilters"></button></div>
+                <div class="alert alert-info alert-dismissible" *ngIf="date!=undefined">Filtered by date: {{date.name}}<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close" (click)="searchOptions.dateId=undefined;date=undefined;runSearch();" *ngIf="canRemoveFilters"></button></div>
+
+                <div class="row g-3">
+
+                    <div class="col-sm-6 col-md-6 col-lg-4" *ngIf="!questionnaire">
+                        <div class="form-group">
+                            <questionnaire-select id="questionnaireId" name="questionnaireId" [(ngModel)]="searchOptions.questionnaireId"></questionnaire-select>
+                        </div>
+                    </div>
+
+                    <div class="col-sm-6 col-md-6 col-lg-4" *ngIf="!entity">
+                        <div class="form-group">
+                            <entity-select id="entityId" name="entityId" [(ngModel)]="searchOptions.entityId"></entity-select>
+                        </div>
+                    </div>
+
+                    <div class="col-sm-6 col-md-6 col-lg-4" *ngIf="!date">
+                        <div class="form-group">
+                            <date-select id="dateId" name="dateId" [(ngModel)]="searchOptions.dateId"></date-select>
+                        </div>
+                    </div>
+
+                    <div class="col-sm-6 col-md-6 col-lg-4">
+                        <div class="form-group">
+                            <button type="submit" class="btn btn-outline-primary">Search<i class="fas fa-search ms-2"></i></button>
+                        </div>
+                    </div>
+                </div>
+
+            </fieldset>
+
+        </form>
+
+        <div class="table-responsive mt-6 mb-5">
+
+            <table class="table table-hover table-edge table-nowrap mb-0 align-middle">
+                <thead class="thead-light">
+                    <tr>
+                    <th *ngIf="!questionnaire">Questionnaire</th>
+                    <th *ngIf="!entity">Entity</th>
+                    <th *ngIf="!date">Date</th>
+                        <th class="text-center w-20px" *ngIf="multiple"><i class="fas fa-fw cursor-pointer" [ngClass]="{ 'fa-check-square': allSelected, 'fa-square': !allSelected }" (click)="toggleAll()"></i></th>
+                    </tr>
+                </thead>
+                <tbody class="cursor-pointer">
+                    <tr *ngFor="let response of responses" (click)="select(response)">
+                    <td *ngIf="!questionnaire">{{ response.questionnaire.name }}</td>
+                    <td *ngIf="!entity">{{ response.entity.name }}</td>
+                    <td *ngIf="!date">{{ response.date.name }}</td>
+                        <td *ngIf="multiple" class="text-center"><i [ngClass]="{ 'fa-check-square': isSelected(response), 'fa-square': !isSelected(response) }" class="fas fa-fw"></i></td>
+                    </tr>
+                </tbody>
+            </table>
+
+        </div>
+
+        <pager [headers]="headers" (pageChanged)="runSearch($event)"></pager>
+
+    </div>
+    
+    <div class="modal-footer" [ngClass]="{ 'justify-content-between': multiple }">
+        <button type="button" class="btn btn-info me-2" *ngIf="multiple">{{selectedItems.length}} selected</button>
+        <div>
+            <button type="button" class="btn btn-outline-primary me-2" (click)="addNew()" target="_blank" *ngIf="showAddNew">Add New</button>
+            <button type="button" class="btn btn-outline-dark me-2" (click)="close()">{{(multiple ? "Select Checked" : "Close")}}</button>
+            <button type="button" class="btn btn-outline-dark me-2" (click)="selectAll()" *ngIf="multiple">Select All</button>
+            <button type="button" class="btn btn-outline-secondary" (click)="clear()">Clear</button>
+        </div>
+    </div>
+
+</ng-template>

@@ -1,0 +1,123 @@
+<app-page-title title="Indicator Permission"></app-page-title>
+
+<form id="form" name="form" (submit)="save(form)" novalidate #form="ngForm" [ngClass]="{ 'was-validated': form.submitted }">
+
+    <div class="card border-0">
+
+        <div class="card-body">
+
+            <fieldset class="group">
+
+                <div class="row g-3">
+
+                    <div class="col-sm-6 col-md-4">
+                        <div class="form-group" [ngClass]="{ 'is-invalid': userId.invalid }">
+
+                            <label for="userId">
+                                User:
+                            </label>
+
+                            <user-select id="userId" name="userId" [(user)]="indicatorPermission.user" [(ngModel)]="indicatorPermission.userId" #userId="ngModel" required></user-select>
+
+                            <div *ngIf="userId.errors?.required" class="invalid-feedback">
+                                User is required
+                            </div>
+
+                        </div>
+                    </div>
+
+                    <div class="col-sm-6 col-md-4">
+                        <div class="form-group" [ngClass]="{ 'is-invalid': indicatorId.invalid }">
+
+                            <label for="indicatorId">
+                                Indicator:
+                            </label>
+
+                            <indicator-select id="indicatorId" name="indicatorId" [(indicator)]="indicatorPermission.indicator" [(ngModel)]="indicatorPermission.indicatorId" #indicatorId="ngModel"></indicator-select>
+
+                        </div>
+                    </div>
+
+                    <div class="col-sm-6 col-md-4">
+                        <div class="form-group" [ngClass]="{ 'is-invalid': edit.invalid }">
+
+                            <label for="edit">
+                                Edit:
+                            </label>
+
+                            <div class="form-check">
+                                <input id="edit" name="edit" class="form-check-input" type="checkbox" [(ngModel)]="indicatorPermission.edit" #edit="ngModel" />
+                                <label class="form-check-label" for="edit">
+                                    Edit
+                                </label>
+                            </div>
+
+                        </div>
+                    </div>
+
+                    <div class="col-sm-6 col-md-4">
+                        <div class="form-group" [ngClass]="{ 'is-invalid': submit.invalid }">
+
+                            <label for="submit">
+                                Submit:
+                            </label>
+
+                            <div class="form-check">
+                                <input id="submit" name="submit" class="form-check-input" type="checkbox" [(ngModel)]="indicatorPermission.submit" #submit="ngModel" />
+                                <label class="form-check-label" for="submit">
+                                    Submit
+                                </label>
+                            </div>
+
+                        </div>
+                    </div>
+
+                    <div class="col-sm-6 col-md-4">
+                        <div class="form-group" [ngClass]="{ 'is-invalid': verify.invalid }">
+
+                            <label for="verify">
+                                Verify:
+                            </label>
+
+                            <div class="form-check">
+                                <input id="verify" name="verify" class="form-check-input" type="checkbox" [(ngModel)]="indicatorPermission.verify" #verify="ngModel" />
+                                <label class="form-check-label" for="verify">
+                                    Verify
+                                </label>
+                            </div>
+
+                        </div>
+                    </div>
+
+                    <div class="col-sm-6 col-md-4">
+                        <div class="form-group" [ngClass]="{ 'is-invalid': approve.invalid }">
+
+                            <label for="approve">
+                                Approve:
+                            </label>
+
+                            <div class="form-check">
+                                <input id="approve" name="approve" class="form-check-input" type="checkbox" [(ngModel)]="indicatorPermission.approve" #approve="ngModel" />
+                                <label class="form-check-label" for="approve">
+                                    Approve
+                                </label>
+                            </div>
+
+                        </div>
+                    </div>
+
+                </div>
+
+            </fieldset>
+
+            <fieldset class="my-3">
+                <button type="submit" class="btn btn-outline-success me-2 mb-1">Save<i class="fas fa-check ms-2"></i></button>
+                <button type="button" *ngIf="!isNew" class="btn btn-outline-danger me-2 mb-1" (click)="delete()">Delete<i class="fas fa-times ms-2"></i></button>
+            </fieldset>
+
+        </div>
+
+    </div>
+
+</form>
+

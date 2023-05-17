@@ -1,0 +1,73 @@
+#logFrame {
+    overflow-x: auto;
+}
+
+    #logFrame #headerRow {
+        display: flex;
+        flex-direction: row;
+    }
+
+        #logFrame #headerRow > div {
+            width: 20%;
+            min-width: 190px;
+        }
+
+        #logFrame #headerRow > div {
+            border-right: solid 1px #808080;
+            padding: 0 0.5rem 0.5rem;
+        }
+
+        #logFrame #headerRow #corner {
+            border-bottom: solid 1px #808080;
+        }
+
+        #logFrame #headerRow > div:not(:first-child) {
+            white-space: nowrap;
+            overflow: hidden;
+            width: 20%;
+            background-color: #f0f0f0;
+            border-top: solid 1px #808080;
+            border-bottom: solid 1px #808080;
+        }
+
+        #logFrame #headerRow h5 {
+            margin: 0;
+        }
+
+    #logFrame .rowType {
+        display: flex;
+        flex-direction: row;
+    }
+
+    #logFrame .rowLabel {
+        width: 20%;
+        min-width: 190px;
+        background-color: #f0f0f0;
+        border-bottom: solid 1px #808080;
+        border-left: solid 1px #808080;
+        border-right: solid 1px #808080;
+        padding: 0 0.5rem;
+        position: relative;
+    }
+
+        #logFrame .rowLabel i.fa-plus-circle {
+            position: absolute;
+            right: 0.3rem;
+            top: 0.35rem;
+        }
+
+    #logFrame #goals .rowLabel {
+        background-color: #66c2a538;
+    }
+
+    #logFrame #outcomes .rowLabel {
+        background-color: #fc8d6238;
+    }
+
+    #logFrame #outputs .rowLabel {
+        background-color: #e78ac338;
+    }
+
+    #logFrame #activities .rowLabel {
+        background-color: #8da0cb38;
+    }

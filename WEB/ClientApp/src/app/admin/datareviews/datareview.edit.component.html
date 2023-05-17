@@ -1,0 +1,110 @@
+<app-page-title title="Data Review"></app-page-title>
+
+<form id="form" name="form" (submit)="save(form)" novalidate #form="ngForm" [ngClass]="{ 'was-validated': form.submitted }">
+
+    <div class="card border-0">
+
+        <div class="card-body">
+
+            <fieldset class="group">
+
+                <div class="row g-3">
+
+                    <div class="col-sm-6 col-md-4">
+                        <div class="form-group" [ngClass]="{ 'is-invalid': dateUtc.invalid }">
+
+                            <label for="dateUtc">
+                                Date:
+                            </label>
+
+                            <div class="input-group">
+                                <input id="dateUtc" name="dateUtc" class="form-control" type="text" [(ngModel)]="dataReview.dateUtc" #dateUtc="ngModel" required (ngModelChange)="changeBreadcrumb()" readonly placeholder="yyyy-mm-dd" ngbDatepicker #dpDateUtc="ngbDatepicker" tabindex="-1" (click)="dpDateUtc.toggle()" container="body" />
+                                <button class="btn btn-secondary calendar" (click)="dpDateUtc.toggle()" type="button"><i class="fas fa-fw fa-calendar-alt"></i></button>
+                            </div>
+
+                            <div *ngIf="dateUtc.errors?.required" class="invalid-feedback">
+                                Date is required
+                            </div>
+
+                        </div>
+                    </div>
+
+                    <div class="col-sm-6 col-md-4">
+                        <div class="form-group" [ngClass]="{ 'is-invalid': userId.invalid }">
+
+                            <label for="userId">
+                                User:
+                            </label>
+
+                            <user-select id="userId" name="userId" [(user)]="dataReview.user" [(ngModel)]="dataReview.userId" #userId="ngModel" required></user-select>
+
+                            <div *ngIf="userId.errors?.required" class="invalid-feedback">
+                                User is required
+                            </div>
+
+                        </div>
+                    </div>
+
+                    <div class="col-sm-6 col-md-4">
+                        <div class="form-group" [ngClass]="{ 'is-invalid': reviewStatus.invalid }">
+
+                            <label for="reviewStatus">
+                                Review Status:
+                            </label>
+
+                            <select id="reviewStatus" name="reviewStatus" class="form-select" [(ngModel)]="dataReview.reviewStatus" #reviewStatus="ngModel" required>
+                                <option *ngFor="let reviewStatus of reviewStatuses" [ngValue]="reviewStatus.value">{{ reviewStatus.label }}</option>
+                            </select>
+
+                            <div *ngIf="reviewStatus.errors?.required" class="invalid-feedback">
+                                Review Status is required
+                            </div>
+
+                        </div>
+                    </div>
+
+                    <div class="col-sm-6 col-md-4">
+                        <div class="form-group" [ngClass]="{ 'is-invalid': reviewResult.invalid }">
+
+                            <label for="reviewResult">
+                                Review Result:
+                            </label>
+
+                            <select id="reviewResult" name="reviewResult" class="form-select" [(ngModel)]="dataReview.reviewResult" #reviewResult="ngModel" required>
+                                <option *ngFor="let reviewResult of reviewResults" [ngValue]="reviewResult.value">{{ reviewResult.label }}</option>
+                            </select>
+
+                            <div *ngIf="reviewResult.errors?.required" class="invalid-feedback">
+                                Review Result is required
+                            </div>
+
+                        </div>
+                    </div>
+
+                    <div class="col-sm-6 col-md-4">
+                        <div class="form-group" [ngClass]="{ 'is-invalid': note.invalid }">
+
+                            <label for="note">
+                                Note:
+                            </label>
+
+                            <textarea id="note" name="note" class="form-control" rows="5" [(ngModel)]="dataReview.note" #note="ngModel"></textarea>
+
+                        </div>
+                    </div>
+
+                </div>
+
+            </fieldset>
+
+            <fieldset class="my-3">
+                <button type="submit" class="btn btn-outline-success me-2 mb-1">Save<i class="fas fa-check ms-2"></i></button>
+                <button type="button" *ngIf="!isNew" class="btn btn-outline-danger me-2 mb-1" (click)="delete()">Delete<i class="fas fa-times ms-2"></i></button>
+            </fieldset>
+
+        </div>
+
+    </div>
+
+</form>
+

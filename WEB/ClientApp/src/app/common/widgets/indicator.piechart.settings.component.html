@@ -1,0 +1,74 @@
+<div class="modal-header">
+    <h4 class="modal-title" id="modal-basic-title">Indicator Pie Chart Settings</h4>
+    <button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss()"></button>
+</div>
+<div class="modal-body">
+
+    <form id="formSettings" name="formSettings" (submit)="save(form)" #form="ngForm">
+
+        <fieldset class="group">
+
+            <div class="row g-3">
+
+                <div class="col-sm-12">
+                    <div class="form-group" [ngClass]="{ 'is-invalid': dateId.invalid }">
+
+                        <label for="dateId">
+                            Date:
+                        </label>
+
+                        <date-select id="dateId" name="dateId" [(date)]="date" [(ngModel)]="settings.dateId" #dateId="ngModel" required></date-select>
+
+                        <div *ngIf="dateId.errors?.required" class="invalid-feedback">
+                            Date is required
+                        </div>
+
+                    </div>
+                </div>
+
+                <div class="col-sm-12">
+                    <div class="form-group" [ngClass]="{ 'is-invalid': width.invalid }">
+
+                        <label for="width">
+                            Width:
+                        </label>
+
+                        <select id="width" name="width" [(ngModel)]="settings.width" #width="ngModel" class="form-select" required>
+                            <option *ngFor="let widgetSize of widgetSizes" [ngValue]="widgetSize.value">{{ widgetSize.label }}</option>
+                        </select>
+
+                        <div *ngIf="width.errors?.required" class="invalid-feedback">
+                            Width is required
+                        </div>
+
+                    </div>
+                </div>
+
+                <div class="col-sm-12">
+                    <div class="form-group" [ngClass]="{ 'is-invalid': height.invalid }">
+
+                        <label for="height">
+                            Height:
+                        </label>
+
+                        <select id="height" name="height" [(ngModel)]="settings.height" #height="ngModel" class="form-select" required>
+                            <option *ngFor="let widgetSize of widgetSizes" [ngValue]="widgetSize.value">{{ widgetSize.label }}</option>
+                        </select>
+
+                        <div *ngIf="height.errors?.required" class="invalid-feedback">
+                            Height is required
+                        </div>
+
+                    </div>
+                </div>
+
+            </div>
+
+        </fieldset>
+
+    </form>
+
+</div>
+<div class="modal-footer">
+    <button type="submit" form="formSettings" class="btn btn-outline-success">Save<i class="fas fa-check ms-2"></i></button>
+</div>

@@ -1,0 +1,8 @@
+<div class="input-group" [ngClass]="{ 'disabled': disabled }">
+    <input placeholder="{{placeholder}}" (click)="click()" type="text" tabindex="-1" class="form-control cursor-pointer" readonly value="{{getLabel()}}" [disabled]="disabled" />
+    <button type="button" class="btn btn-secondary" (click)="click(true)" [ngClass]="{ 'disabled': disabled}">
+        <i class="fas fa-fw" [ngClass]="{ 'fa-search': !answer && !answers?.length, 'fa-times': !!answer || !!answers?.length }"></i>
+    </button>
+</div>
+
+<answer-modal #modal (change)="changed($event)" (changes)="changed($event)" [multiple]="multiple" [canRemoveFilters]="canRemoveFilters" [response]="response" [question]="question" [showAddNew]="showAddNew" [title]="placeholder"></answer-modal>

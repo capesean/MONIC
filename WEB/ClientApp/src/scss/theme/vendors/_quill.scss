@@ -1,0 +1,169 @@
+//
+// Quill
+//
+
+@import "~quill/dist/quill.core.css";
+@import "~quill/dist/quill.snow.css";
+
+.ql-container {
+    font-family: $font-family-base;
+    border: none !important;
+}
+  
+.ql-toolbar {
+    position: relative;
+    padding: $input-padding-y $input-padding-x;
+    background-color: $input-bg;
+    border: $input-border-width solid $input-border-color !important;
+    border-radius: $input-border-radius $input-border-radius 0 0 !important;
+    color: $input-color;
+}
+  
+.ql-toolbar + .ql-container {
+    margin-top: calc(-1 * var(--#{$prefix}border-width));
+}
+  
+.ql-toolbar + .ql-container .ql-editor {
+    border-bottom-left-radius: $input-border-radius;
+    border-bottom-right-radius: $input-border-radius;
+}
+  
+.ql-editor {
+    min-height: $line-height-base * $font-size-base * 4;
+    display: block;
+    width: 100%;
+    padding: $input-padding-y $input-padding-x;
+    font-size: $font-size-base;
+    line-height: $input-line-height;
+    color: $input-color;
+    background-color: $input-bg;
+    background-clip: padding-box;
+    border: $input-border-width solid $input-border-color;
+
+    // Unstyle the caret on `<select>`s in IE10+.
+    &::-ms-expand {
+        background-color: transparent;
+        border: 0;
+    }
+
+    &:focus {
+        border-color: $input-focus-border-color;
+        box-shadow: $input-focus-box-shadow;
+    }
+}
+  
+.ql-hidden {
+    position: absolute;
+    transform: scale(0);
+}
+  
+  
+// Placeholder
+.ql-editor.ql-blank::before {
+    top: $input-padding-y;
+    left: $input-padding-x;
+    font-style: normal;
+    color: $input-placeholder-color;
+}
+  
+.ql-editor:focus::before {
+    display: none;
+}
+  
+  
+// Toolbar
+.ql-formats {
+    padding-left: .5rem;
+    padding-right: .5rem;
+
+    &:first-child {
+        padding-left: 0;
+    }
+
+    &:last-child {
+        padding-right: 0;
+    }
+}
+  
+.ql-toolbar button {
+    padding: 0 .25rem;
+    background: none;
+    border: none;
+    color: var(--#{$prefix}body-color);
+    cursor: pointer;
+    transition: $transition-base;
+
+    &:hover {
+        color: $primary;
+    }
+
+    &:first-child {
+        margin-left: -.25rem;
+    }
+}
+  
+.ql-toolbar .ql-active {
+    color: $primary;
+}
+  
+.ql-toolbar button svg {
+    height: $font-size-lg;
+    width: $font-size-lg;
+}
+  
+.ql-toolbar .ql-stroke {
+    stroke: currentColor !important;
+    stroke-width: 2;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    fill: none;
+}
+  
+.ql-toolbar .ql-thin {
+    stroke-width: 1;
+}
+  
+.ql-toolbar .ql-fill {
+    fill: currentColor !important;
+}
+  
+.ql-toolbar input.ql-image {
+    position: absolute;
+    transform: scale(0);
+}
+  
+  
+// Formatting
+.ql-editor blockquote {
+    margin-bottom: $spacer;
+    font-size: $blockquote-font-size;
+}
+  
+.ql-editor img {
+    max-width: 100%;
+    height: auto;
+}
+
+// Snow theme
+.ql-snow {
+    &.ql-toolbar button:hover,
+    .ql-toolbar button:hover,
+    &.ql-toolbar button:focus,
+    .ql-toolbar button:focus,
+    &.ql-toolbar button.ql-active,
+    .ql-toolbar button.ql-active,
+    &.ql-toolbar .ql-picker-label:hover,
+    .ql-toolbar .ql-picker-label:hover,
+    &.ql-toolbar .ql-picker-label.ql-active,
+    .ql-toolbar .ql-picker-label.ql-active,
+    &.ql-toolbar .ql-picker-item:hover,
+    .ql-toolbar .ql-picker-item:hover,
+    &.ql-toolbar .ql-picker-item.ql-selected,
+    .ql-toolbar .ql-picker-item.ql-selected {
+        color: $primary;
+    }
+
+    .ql-picker {
+        color: var(--#{$prefix}body-color);
+    }
+}

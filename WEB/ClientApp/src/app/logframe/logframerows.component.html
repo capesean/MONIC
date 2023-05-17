@@ -1,0 +1,20 @@
+<div class="lfRows">
+    <div class="lfRow" *ngFor="let row of rows" (click)="rowClicked(row)">
+        <div class="description">
+            <p>{{row.description}}</p>
+            <span *ngFor="let lfrc of row.logFrameRowComponents" class="badge rounded-pill text-bg-secondary me-2 mb-2" [ngbTooltip]="lfrc.component.name" placement="bottom">{{lfrc.component.code}}</span>
+        </div>
+        <div class="indicators">
+            <p>{{row.indicators}}</p>
+            <span *ngFor="let lfri of row.logFrameRowIndicators" class="badge rounded-pill text-bg-secondary me-2 mb-2" [ngbTooltip]="lfri.indicator.name" placement="bottom">{{lfri.indicator.code}}</span>
+        </div>
+        <div class="mov">{{row.meansOfVerification}}</div>
+        <div class="raa">{{row.risksAndAssumptions}}</div>
+    </div>
+    <div class="lfRow" *ngIf="rows.length === 0" (click)="rowClicked()">
+        <div class="description"></div>
+        <div class="indicators"></div>
+        <div class="mov"></div>
+        <div class="raa"></div>
+    </div>
+</div>

@@ -1,0 +1,54 @@
+<div class="modal-header">
+    <h4 class="modal-title" id="modal-basic-title">{{ isNew ? "Add Document" : "View/Edit Document" }}</h4>
+    <button type="button" class="btn-close" (click)="modal.dismiss()" aria-label="Close"></button>
+</div>
+<div class="modal-body">
+
+    <form id="formDocument" name="formDocument" (submit)="saveDocument(form)" novalidate #form="ngForm" [ngClass]="{ 'was-validated': form.submitted }">
+
+        <fieldset class="group">
+
+            <legend>Document</legend>
+
+            <div class="row g-3">
+
+                <div class="col-sm-12">
+                    <div class="form-group" [ngClass]="{ 'is-invalid': fileName.invalid }">
+
+                        <label for="fileName">
+                            File Name:
+                        </label>
+
+                        <app-file id="fileName" name="fileName" [(fileContents)]="document.fileContents" [enableDownload]="!isNew && !!document.fileName" [(ngModel)]="document.fileName" #fileName="ngModel" [required]="true" [fileId]="document.documentId" (onDownload)="download($event)"></app-file>
+
+                        <div *ngIf="fileName.errors?.required" class="invalid-feedback">
+                            A file is required
+                        </div>
+
+                    </div>
+                </div>
+
+                <div class="col-sm-12">
+                    <div class="form-group" [ngClass]="{ 'is-invalid': notes.invalid }">
+
+                        <label for="notes">
+                            Notes:
+                        </label>
+
+                        <textarea id="notes" name="notes" class="form-control" rows="5" [(ngModel)]="document.notes" #notes="ngModel"></textarea>
+
+                    </div>
+                </div>
+
+            </div>
+
+        </fieldset>
+
+    </form>
+
+</div>
+<div class="modal-footer">
+    <button type="submit" class="btn btn-outline-success" form="formDocument">Save<i class="fas fa-check ms-2"></i></button>
+    <button type="button" *ngIf="!isNew" class="btn btn-outline-danger" (click)="deleteDocument()">Delete<i class="fas fa-times ms-2"></i></button>
+</div>
+

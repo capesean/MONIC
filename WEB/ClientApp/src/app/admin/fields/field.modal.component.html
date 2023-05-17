@@ -1,0 +1,101 @@
+<ng-template #content let-modal>
+
+    <div class="modal-header">
+        <h4 class="modal-title" id="modal-basic-title">{{title}}</h4>
+        <button type="button" class="btn-close" (click)="modal.dismiss()" aria-label="Close"></button>
+    </div>
+    
+    <div class="modal-body">
+
+        <form (submit)="runSearch()" novalidate>
+
+            <fieldset>
+
+                <div class="alert alert-info alert-dismissible" *ngIf="fieldType!=undefined">Filtered by field type: {{fieldType.label}}<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close" (click)="searchOptions.fieldType=undefined;fieldType=undefined;runSearch();" *ngIf="canRemoveFilters"></button></div>
+                <div class="alert alert-info alert-dismissible" *ngIf="group!=undefined">Filtered by group: {{group.name}}<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close" (click)="searchOptions.groupId=undefined;group=undefined;runSearch();" *ngIf="canRemoveFilters"></button></div>
+
+                <div class="row g-3">
+
+                    <div class="col-sm-6 col-md-6 col-lg-4">
+                        <div class="form-group">
+                            <input type="search" ngbAutofocus name="q" id="q" [(ngModel)]="searchOptions.q" max="100" class="form-control" placeholder="Search fields" autocomplete="off" />
+                        </div>
+                    </div>
+
+                    <div class="col-sm-6 col-md-6 col-lg-4" *ngIf="!fieldType">
+                        <select id="fieldType" name="fieldType" [(ngModel)]="searchOptions.fieldType" #fieldType="ngModel" class="form-select">
+                            <option *ngFor="let fieldType of fieldTypes" [ngValue]="fieldType.value">{{ fieldType.label }}</option>
+                        </select>
+                    </div>
+
+                    <div class="col-sm-6 col-md-6 col-lg-4" *ngIf="!group">
+                        <div class="form-group">
+                            <group-select id="groupId" name="groupId" [(ngModel)]="searchOptions.groupId"></group-select>
+                        </div>
+                    </div>
+
+                    <div class="col-sm-6 col-md-6 col-lg-4">
+                        <div class="form-group">
+                            <button type="submit" class="btn btn-outline-primary">Search<i class="fas fa-search ms-2"></i></button>
+                        </div>
+                    </div>
+                </div>
+
+            </fieldset>
+
+        </form>
+
+        <div class="table-responsive mt-6 mb-5">
+
+            <table class="table table-hover table-edge table-nowrap mb-0 align-middle">
+                <thead class="thead-light">
+                    <tr>
+                    <th>Name</th>
+                    <th *ngIf="!fieldType">Field Type</th>
+                    <th>Organisation</th>
+                    <th>Entity</th>
+                    <th>Indicator</th>
+                    <th>Component</th>
+                    <th>Relationship</th>
+                    <th>Folder</th>
+                    <th>Required</th>
+                    <th>Size</th>
+                    <th *ngIf="!group">Group</th>
+                        <th class="text-center w-20px" *ngIf="multiple"><i class="fas fa-fw cursor-pointer" [ngClass]="{ 'fa-check-square': allSelected, 'fa-square': !allSelected }" (click)="toggleAll()"></i></th>
+                    </tr>
+                </thead>
+                <tbody class="cursor-pointer">
+                    <tr *ngFor="let field of fields" (click)="select(field)">
+                    <td>{{ field.name }}</td>
+                    <td *ngIf="!fieldType">{{ fieldTypes[field.fieldType].label }}</td>
+                    <td>{{ field.organisation | booleanPipe }}</td>
+                    <td>{{ field.entity | booleanPipe }}</td>
+                    <td>{{ field.indicator | booleanPipe }}</td>
+                    <td>{{ field.component | booleanPipe }}</td>
+                    <td>{{ field.relationship | booleanPipe }}</td>
+                    <td>{{ field.folder | booleanPipe }}</td>
+                    <td>{{ field.required | booleanPipe }}</td>
+                    <td>{{ sizes[field.size].label }}</td>
+                    <td *ngIf="!group">{{ field.group?.name }}</td>
+                        <td *ngIf="multiple" class="text-center"><i [ngClass]="{ 'fa-check-square': isSelected(field), 'fa-square': !isSelected(field) }" class="fas fa-fw"></i></td>
+                    </tr>
+                </tbody>
+            </table>
+
+        </div>
+
+        <pager [headers]="headers" (pageChanged)="runSearch($event)"></pager>
+
+    </div>
+    
+    <div class="modal-footer" [ngClass]="{ 'justify-content-between': multiple }">
+        <button type="button" class="btn btn-info me-2" *ngIf="multiple">{{selectedItems.length}} selected</button>
+        <div>
+            <button type="button" class="btn btn-outline-primary me-2" (click)="addNew()" target="_blank" *ngIf="showAddNew">Add New</button>
+            <button type="button" class="btn btn-outline-dark me-2" (click)="close()">{{(multiple ? "Select Checked" : "Close")}}</button>
+            <button type="button" class="btn btn-outline-dark me-2" (click)="selectAll()" *ngIf="multiple">Select All</button>
+            <button type="button" class="btn btn-outline-secondary" (click)="clear()">Clear</button>
+        </div>
+    </div>
+
+</ng-template>

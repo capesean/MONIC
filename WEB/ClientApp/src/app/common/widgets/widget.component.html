@@ -1,0 +1,60 @@
+<div class="card border-0 flex-fill">
+    <div class="card-body">
+
+        <div class="col d-flex justify-content-between mb-2">
+            <div class="mw-100">
+                <h5 *ngIf="title" class="text-muted text-uppercase fw-semibold mb-0 me-2 text-truncate">{{title}}</h5>
+                <div *ngIf="subtitle" class="lh-1"><small class="text-muted fs-6">{{subtitle}}</small></div>
+            </div>
+            <div class="text-nowrap user-select-none">
+                <div ngbDropdown>
+                    <button class="btn text-secondary align-top" ngbDropdownToggle><i class="fa fa-ellipsis-v cursor-pointer theme"></i></button>
+                    <div class="dropdown-menu dropdown-menu-end border-dark" ngbDropdownMenu>
+                        <button class="dropdown-item" (click)="openSettings()"><i class="fa fa-fw fa-cog cursor-pointer me-2"></i>Configure</button>
+                        <button class="dropdown-item" (click)="remove()"><i class="fa fa-fw fa-trash-can cursor-pointer me-2"></i>Remove</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <ng-container *ngIf="settings?.widgetType===widgetTypes.IndicatorMap">
+            <app-indicator-map #indicatorMap [settings]="$any(settings)" (loading)="loading=$event" (title)="title=$event" (subtitle)="subtitle=$event" (error)="error=$event"></app-indicator-map>
+        </ng-container>
+
+        <ng-container *ngIf="settings?.widgetType===widgetTypes.IndicatorLineChart">
+            <app-indicator-line-chart #indicatorLineChart [settings]="$any(settings)" (loading)="loading=$event" (title)="title=$event" (subtitle)="subtitle=$event" (error)="error=$event"></app-indicator-line-chart>
+        </ng-container>
+
+        <ng-container *ngIf="settings?.widgetType===widgetTypes.IndicatorBarChart">
+            <app-indicator-bar-chart #indicatorBarChart [settings]="$any(settings)" (loading)="loading=$event" (title)="title=$event" (subtitle)="subtitle=$event" (error)="error=$event"></app-indicator-bar-chart>
+        </ng-container>
+
+        <ng-container *ngIf="settings?.widgetType===widgetTypes.IndicatorPieChart">
+            <app-indicator-pie-chart #indicatorPieChart [settings]="$any(settings)" (loading)="loading=$event" (title)="title=$event" (subtitle)="subtitle=$event" (error)="error=$event"></app-indicator-pie-chart>
+        </ng-container>
+
+        <ng-container *ngIf="settings?.widgetType===widgetTypes.QuestionnaireBarChart">
+            <app-questionnaire-bar-chart #questionnaireBarChart [settings]="$any(settings)" (loading)="loading=$event" (title)="title=$event" (subtitle)="subtitle=$event" (error)="error=$event"></app-questionnaire-bar-chart>
+        </ng-container>
+
+        <ng-container *ngIf="settings?.widgetType===widgetTypes.FolderShortcut">
+            <app-folder-shortcut #folderShortcut [settings]="$any(settings)" (loading)="loading=$event" (title)="title=$event" (subtitle)="subtitle=$event" (error)="error=$event"></app-folder-shortcut>
+        </ng-container>
+
+        <ng-container *ngIf="loading">
+            <div class="spinContainer">
+                <div class="simple-spinner"></div>
+                <div class="text-muted text-center"><small>loading widget</small></div>
+            </div>
+        </ng-container>
+
+        <ng-container *ngIf="error">
+            <div class="spinContainer">
+                <div class="alert alert-warning text-center">
+                    <i class="fa fa-triangle-exclamation me-2"></i>The widget needs to be configured
+                </div>
+            </div>
+        </ng-container>
+
+    </div>
+</div>

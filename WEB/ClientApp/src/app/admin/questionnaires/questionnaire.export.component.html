@@ -1,0 +1,141 @@
+<div class="modal-header">
+    <h4 class="modal-title" id="modal-title">Export Questionnaire Responses</h4>
+    <button type="button" class="btn-close" aria-label="Close button" aria-describedby="modal-title" (click)="modal.dismiss()"></button>
+</div>
+
+<div class="modal-body">
+
+    <form id="formExport" name="formExport" (submit)="submit(formExport)" novalidate #formExport="ngForm" [ngClass]="{ 'was-validated': formExport.submitted }">
+
+        <fieldset class="group">
+
+            <div class="row g-3">
+
+                <div class="col-sm-12 col-lg-6">
+                    <div class="form-group" [ngClass]="{ 'is-invalid': entityIds.invalid }">
+
+                        <label for="entityIds">
+                            Entities:
+                        </label>
+
+                        <entity-select id="entityIds" name="entityIds" [(ngModel)]="options.entityIds" #entityIds="ngModel" [entityType]="questionnaire.entityType" [multiple]="true"></entity-select>
+
+                    </div>
+                </div>
+
+                <div class="col-sm-12 col-lg-6">
+                    <div class="form-group" [ngClass]="{ 'is-invalid': dateIds.invalid }">
+
+                        <label for="dateIds">
+                            Dates:
+                        </label>
+
+                        <date-select id="dateIds" name="dateIds" [(ngModel)]="options.dateIds" #dateIds="ngModel" [dateType]="dateTypes[questionnaire.dateType]" [multiple]="true" [required]="options.includeCharts"></date-select>
+
+                        <div *ngIf="dateIds.errors?.required" class="invalid-feedback">
+                            A date is required for charts
+                        </div>
+
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="row g-3">
+
+                <div class="col-sm-12 col-lg-6">
+                    <div class="form-group" [ngClass]="{ 'is-invalid': fieldIds.invalid }">
+
+                        <label for="fieldIds">
+                            Fields:
+                        </label>
+
+                        <field-select id="fieldIds" name="fieldIds" [(ngModel)]="options.fieldIds" #fieldIds="ngModel" [multiple]="true"></field-select>
+
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="row g-3">
+
+                <div class="col-md-6 col-lg-4 col-xl-2">
+                    <div class="form-group" [ngClass]="{ 'is-invalid': includeSummaries.invalid }">
+
+                        <label for="includeSummaries">
+                            Include Summaries:
+                        </label>
+
+                        <div class="form-check">
+                            <input id="includeSummaries" name="includeSummaries" class="form-check-input" type="checkbox" [(ngModel)]="options.includeSummaries" #includeSummaries="ngModel" />
+                            <label class="form-check-label" for="includeSummaries">
+                                Include Summaries
+                            </label>
+                        </div>
+
+                    </div>
+                </div>
+
+                <div class="col-md-6 col-lg-4 col-xl-2">
+                    <div class="form-group" [ngClass]="{ 'is-invalid': useOptionValues.invalid }">
+
+                        <label for="useOptionValues">
+                            Use Option Values:
+                        </label>
+
+                        <div class="form-check">
+                            <input id="useOptionValues" name="useOptionValues" class="form-check-input" type="checkbox" [(ngModel)]="options.useOptionValues" #useOptionValues="ngModel" />
+                            <label class="form-check-label" for="useOptionValues">
+                                Use Option Values
+                            </label>
+                        </div>
+
+                    </div>
+                </div>
+
+                <div class="col-md-6 col-lg-4 col-xl-2">
+                    <div class="form-group" [ngClass]="{ 'is-invalid': useOptionColors.invalid }">
+
+                        <label for="useOptionColors">
+                            Use Option Colors:
+                        </label>
+
+                        <div class="form-check">
+                            <input id="useOptionColors" name="useOptionColors" class="form-check-input" type="checkbox" [(ngModel)]="options.useOptionColors" #useOptionColors="ngModel" />
+                            <label class="form-check-label" for="useOptionColors">
+                                Use Option Colors
+                            </label>
+                        </div>
+
+                    </div>
+                </div>
+
+                <div class="col-md-6 col-lg-4 col-xl-2">
+                    <div class="form-group" [ngClass]="{ 'is-invalid': includeCharts.invalid }">
+
+                        <label for="includeCharts">
+                            Include Charts:
+                        </label>
+
+                        <div class="form-check">
+                            <input id="includeCharts" name="includeCharts" class="form-check-input" type="checkbox" [(ngModel)]="options.includeCharts" #includeCharts="ngModel" />
+                            <label class="form-check-label" for="includeCharts">
+                                Include Charts
+                            </label>
+                        </div>
+
+                    </div>
+                </div>
+
+            </div>
+
+        </fieldset>
+
+    </form>
+
+</div>
+
+<div class="modal-footer">
+    <button type="submit" form="formExport" class="btn btn-outline-primary">Export</button>
+    <button type="button" class="btn btn-outline-secondary" (click)="modal.dismiss()">Cancel</button>
+</div>

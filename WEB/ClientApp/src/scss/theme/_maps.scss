@@ -1,0 +1,9 @@
+//
+// Re-assigned maps
+//
+
+// Placed here so that others can override the default Sass maps and see automatic updates to utilities and more.
+
+// scss-docs-start theme-colors-rgb
+$theme-dark-colors-rgb: map-loop($theme-dark-colors, to-rgb, "$value") !default;
+// scss-docs-end theme-colors-rgb

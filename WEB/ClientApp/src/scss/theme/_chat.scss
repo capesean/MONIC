@@ -1,0 +1,35 @@
+//
+// Chat
+//
+
+.typing {
+    &::before,
+    &::after {
+        content: "";
+        display: inline-block;
+        margin-left: 1px;
+        margin-right: 1px;
+        width: 5px;
+        height: 5px;
+        border-radius: 50%;
+        background-color: currentColor;
+        transform: scale(0);
+        animation: scaling 2.5s ease-in-out infinite;
+    }
+
+    &::after {
+        animation-delay: .5s;   
+    }
+}
+
+@keyframes scaling {
+    0%, 100% {
+        transform: scale(0.4);
+    }
+    40%{
+        transform: scale(1);
+    }
+    50%{
+        transform: scale(1);
+    }
+}

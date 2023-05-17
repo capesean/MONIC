@@ -1,0 +1,406 @@
+<app-page-title title="Question"></app-page-title>
+
+<form id="form" name="form" (submit)="save(form)" novalidate #form="ngForm" [ngClass]="{ 'was-validated': form.submitted }">
+
+    <div class="card border-0">
+
+        <div class="card-body">
+
+            <fieldset class="group">
+
+                <div class="row g-3">
+
+                    <div class="col-sm-6 col-md-4 col-lg-3 col-xl-2">
+                        <div class="form-group" [ngClass]="{ 'is-invalid': code.invalid }">
+
+                            <label for="code">
+                                Code:
+                            </label>
+
+                            <input id="code" name="code" class="form-control" type="text" [(ngModel)]="question.code" #code="ngModel" required (ngModelChange)="changeBreadcrumb()" maxlength="50" pattern="^([a-zA-Z0-9_\-\.\(\)])+$" />
+
+                            <div *ngIf="code.errors?.required" class="invalid-feedback">
+                                Code is required
+                            </div>
+
+                            <div *ngIf="code.errors?.maxlength" class="invalid-feedback">
+                                Code must be at most 50 characters long
+                            </div>
+
+                            <div *ngIf="code.errors?.pattern" class="invalid-feedback">
+                                Code does not match the specified pattern
+                            </div>
+
+                        </div>
+                    </div>
+
+                    <div class="col-sm-6 col-md-6 col-lg-4 col-xl-2">
+                        <div class="form-group" [ngClass]="{ 'is-invalid': questionType.invalid }">
+
+                            <label for="questionType">
+                                Question Type:
+                            </label>
+
+                            <select id="questionType" name="questionType" class="form-select" [(ngModel)]="question.questionType" #questionType="ngModel" required>
+                                <option *ngFor="let questionType of questionTypes" [ngValue]="questionType.value">{{ questionType.label }}</option>
+                            </select>
+
+                            <div *ngIf="questionType.errors?.required" class="invalid-feedback">
+                                Question Type is required
+                            </div>
+
+                        </div>
+                    </div>
+
+                    <div class="col-sm-6 col-md-6 col-lg-5 col-xl-3" *ngIf="question.questionType === qTypes.OptionList">
+                        <div class="form-group" [ngClass]="{ 'is-invalid': optionListType.invalid }">
+
+                            <label for="optionListType">
+                                Option List Type:
+                            </label>
+
+                            <select id="optionListType" name="optionListType" class="form-select" [(ngModel)]="question.optionListType" #optionListType="ngModel" required>
+                                <option *ngFor="let optionListType of optionListTypes" [ngValue]="optionListType.value">{{ optionListType.label }}</option>
+                            </select>
+
+                            <div *ngIf="optionListType.errors?.required" class="invalid-feedback">
+                                Option List Type is required
+                            </div>
+
+                        </div>
+                    </div>
+
+                    <div class="col-sm-6 col-md-6 col-lg-6 col-xl-3" *ngIf="question.questionType === qTypes.OptionList">
+                        <div class="form-group" [ngClass]="{ 'is-invalid': questionOptionGroupId.invalid }">
+
+                            <label for="questionOptionGroupId">
+                                Option Group:
+                            </label>
+
+                            <question-option-group-select id="questionOptionGroupId" name="questionOptionGroupId" [(questionOptionGroup)]="sharedQuestionOptionGroup" [(ngModel)]="sharedQuestionOptionGroupId" #questionOptionGroupId="ngModel" [shared]="true"></question-option-group-select>
+
+                            <!--<div *ngIf="questionOptionGroupId.errors?.required" class="invalid-feedback">
+                    Option Group is required
+                </div>-->
+
+                        </div>
+                    </div>
+
+                    <div class="col-sm-6 col-md-4 col-lg-3 col-xl-2">
+                        <div class="form-group" [ngClass]="{ 'is-invalid': required.invalid }">
+
+                            <label for="required">
+                                Required:
+                            </label>
+
+                            <div class="form-check">
+                                <input id="required" name="required" class="form-check-input" type="checkbox" [(ngModel)]="question.required" #required="ngModel" />
+                                <label class="form-check-label" for="required">
+                                    Required
+                                </label>
+                            </div>
+
+                        </div>
+                    </div>
+
+                </div>
+
+                <div class="row g-3">
+
+                    <div class="col-sm-12 col-xxl-6">
+                        <div class="form-group" [ngClass]="{ 'is-invalid': text.invalid }">
+
+                            <label for="text">
+                                Text:
+                            </label>
+
+                            <textarea id="text" name="text" class="form-control" rows="5" [(ngModel)]="question.text" #text="ngModel" required></textarea>
+
+                            <div *ngIf="text.errors?.required" class="invalid-feedback">
+                                Text is required
+                            </div>
+
+                        </div>
+                    </div>
+
+                    <div class="col-sm-12 col-xxl-6">
+                        <div class="form-group" [ngClass]="{ 'is-invalid': explanation.invalid }">
+
+                            <label for="explanation">
+                                Explanation:
+                            </label>
+
+                            <textarea id="explanation" name="explanation" class="form-control" rows="5" [(ngModel)]="question.explanation" #explanation="ngModel"></textarea>
+
+                        </div>
+                    </div>
+
+                    <div class="col-sm-12">
+                        <div class="form-group">
+
+                            <label for="logic">
+                                Logic:
+                            </label>
+
+                            <div class="position-relative" id="questionLogic">
+                                <pre class="bg-light h-175px p-2 form-control cursor-pointer" [innerHtml]="logicText" (click)="editLogic($event)"></pre>
+                                <button type="button" class="btn btn-sm btn-secondary top-0 end-0 m-3 position-absolute d-none" (click)="editLogic($event)"><i class="fa fa-fw fa-pencil"></i></button>
+                            </div>
+
+                        </div>
+                    </div>
+
+                    <div class="col-sm-6 col-md-4" *ngIf="question.questionType === qTypes.Document">
+                        <div class="form-group" [ngClass]="{ 'is-invalid': minimumDocuments.invalid }">
+
+                            <label for="minimumDocuments">
+                                Minimum # of Documents:
+                            </label>
+
+                            <input id="minimumDocuments" name="minimumDocuments" class="form-control" type="number" [(ngModel)]="question.minimumDocuments" #minimumDocuments="ngModel" required />
+
+                            <div *ngIf="minimumDocuments.errors?.required" class="invalid-feedback">
+                                Minimum # of Documents is required
+                            </div>
+
+                        </div>
+                    </div>
+
+                    <div class="col-sm-6 col-md-4" *ngIf="question.questionType === qTypes.Document">
+                        <div class="form-group" [ngClass]="{ 'is-invalid': maximumDocuments.invalid }">
+
+                            <label for="maximumDocuments">
+                                Maximum # of Documents:
+                            </label>
+
+                            <input id="maximumDocuments" name="maximumDocuments" class="form-control" type="number" [(ngModel)]="question.maximumDocuments" #maximumDocuments="ngModel" required min="1" />
+
+                            <div *ngIf="maximumDocuments.errors?.required" class="invalid-feedback">
+                                Maximum # of Documents is required
+                            </div>
+
+                        </div>
+                    </div>
+
+                </div>
+
+            </fieldset>
+
+            <fieldset class="my-3">
+                <button type="submit" class="btn btn-outline-success me-2 mb-1">Save<i class="fas fa-check ms-2"></i></button>
+                <button type="button" *ngIf="!isNew" class="btn btn-outline-danger me-2 mb-1" (click)="delete()">Delete<i class="fas fa-times ms-2"></i></button>
+            </fieldset>
+
+        </div>
+
+    </div>
+
+</form>
+
+<ng-container *ngIf="!isNew">
+
+    <hr />
+
+    <nav ngbNav #nav="ngbNav" class="nav-tabs">
+
+        <ng-container ngbNavItem class="pt-6" *ngIf="showOptionsTab" [ngbNavItem]="0">
+
+            <a ngbNavLink>Options</a>
+
+            <ng-template ngbNavContent>
+
+                <div class="card border-0 search-results" *ngIf="question.questionOptionGroupId === question.questionId">
+
+                    <div class="card-header border-0">
+
+                        <h4 class="card-header-title text-uppercase">
+                            {{(editingQuestionOption ? "Edit" : "Add")}} Option
+                        </h4>
+
+                    </div>
+
+                    <div class="card-body">
+
+                        <form id="formQuestionOption" name="formQuestionOption" (submit)="saveQuestionOption(formQuestionOption)" novalidate #formQuestionOption="ngForm" [ngClass]="{ 'was-validated': formQuestionOption.submitted }">
+
+                            <fieldset class="group">
+
+                                <div class="row g-3">
+
+                                    <div class="col-sm-12 col-xl-8">
+                                        <div class="form-group" [ngClass]="{ 'is-invalid': label.invalid }">
+
+                                            <label for="label">
+                                                Label:
+                                            </label>
+
+                                            <input id="label" name="label" class="form-control" type="text" [(ngModel)]="questionOption.label" #label="ngModel" required (ngModelChange)="changeBreadcrumb()" maxlength="500" />
+
+                                            <div *ngIf="label.errors?.required" class="invalid-feedback">
+                                                Label is required
+                                            </div>
+
+                                            <div *ngIf="label.errors?.maxlength" class="invalid-feedback">
+                                                Label must be at most 500 characters long
+                                            </div>
+
+                                        </div>
+                                    </div>
+
+                                    <div class="col-sm-6 col-md-5 col-lg-4 col-xl-2">
+                                        <div class="form-group" [ngClass]="{ 'is-invalid': value.invalid }">
+
+                                            <label for="value">
+                                                Value:
+                                            </label>
+
+                                            <input id="value" name="value" class="form-control" type="number" [(ngModel)]="questionOption.value" #value="ngModel" />
+
+                                        </div>
+                                    </div>
+
+                                    <div class="col-sm-6 col-md-5 col-lg-4 col-xl-2">
+                                        <div class="form-group" [ngClass]="{ 'is-invalid': color.invalid }">
+
+                                            <label for="color">
+                                                Color:
+                                            </label>
+
+                                            <app-color id="color" name="color" [(ngModel)]="questionOption.color" #color="ngModel"></app-color>
+
+                                        </div>
+                                    </div>
+
+                                </div>
+
+                            </fieldset>
+
+                            <fieldset class="my-3">
+                                <button type="submit" class="btn btn-outline-success me-2 mb-1">Save<i class="fas fa-check ms-2"></i></button>
+                                <button type="button" (click)="cancelEdit()" *ngIf="editingQuestionOption" class="btn btn-outline-secondary me-2 mb-1">Cancel<i class="fas fa-times ms-2"></i></button>
+                                <button type="button" class="btn btn-outline-secondary me-2 mb-1" (click)="showQuestionOptionSort()" *ngIf="questionOptionsHeaders.totalRecords > 1">Sort<i class="fas fa-sort ms-2"></i></button>
+                            </fieldset>
+
+                        </form>
+
+                    </div>
+
+                </div>
+
+                <div class="card border-0 search-results">
+
+                    <div class="card-header border-0">
+
+                        <h4 class="card-header-title text-uppercase">
+                            Options
+                        </h4>
+
+                    </div>
+
+                    <div class="table-responsive">
+
+                        <table class="table table-hover table-edge table-nowrap mb-0 align-middle">
+                            <thead class="thead-light">
+                                <tr>
+                                    <th>Label</th>
+                                    <th>Value</th>
+                                    <th>Color</th>
+                                    <th class="w-20px text-center" *ngIf="question.questionOptionGroupId === question.questionId"><i class="fas fa-times text-danger cursor-pointer" (click)="deleteQuestionOptions()" ngbTooltip="Delete all options" container="body" placement="left"></i></th>
+                                </tr>
+                            </thead>
+                            <tbody class="list cursor-pointer">
+                                <tr *ngFor="let questionOption of questionOptions" (click)="editQuestionOption(questionOption)">
+                                    <td>{{ questionOption.label }}</td>
+                                    <td>{{ questionOption.value }}</td>
+                                    <!--todo: output this as a swatch?-->
+                                    <td>{{ questionOption.color }}</td>
+                                    <td class="text-center" *ngIf="question.questionOptionGroupId === question.questionId"><i class="fas fa-times cursor-pointer p-1 text-danger" (click)="deleteQuestionOption(questionOption, $event)"></i></td>
+                                </tr>
+                            </tbody>
+                        </table>
+
+                    </div>
+
+                    <div class="card-footer">
+                        <pager [headers]="questionOptionsHeaders" (pageChanged)="searchQuestionOptions($event)"></pager>
+                    </div>
+
+                </div>
+
+            </ng-template>
+
+        </ng-container>
+
+        <ng-container ngbNavItem class="pt-6" [ngbNavItem]="1">
+
+            <a ngbNavLink>Answers</a>
+
+            <ng-template ngbNavContent>
+
+                <div class="card border-0 search-results">
+
+                    <div class="card-header border-0">
+
+                        <h4 class="card-header-title text-uppercase">
+                            Answers
+                        </h4>
+
+                    </div>
+
+                    <div class="card-body">
+
+                        <form id="formSearchAnswers" (submit)="searchAnswers(0)" novalidate *ngIf="showAnswersSearch" class="mb-5">
+
+                            <div class="row g-3">
+
+                                <div class="col-sm-6 col-md-5 col-lg-4 col-xl-3">
+                                    <div class="form-group">
+                                        <input type="search" name="q" id="q" [(ngModel)]="answersSearchOptions.q" max="100" class="form-control" placeholder="Search answers" />
+                                    </div>
+                                </div>
+
+                            </div>
+
+                        </form>
+
+                    </div>
+
+                    <div class="table-responsive">
+
+                        <table class="table table-hover table-edge table-nowrap mb-0 align-middle">
+                            <thead class="thead-light">
+                                <tr>
+                                    <th>Entity</th>
+                                    <th>Date</th>
+                                    <th>Value</th>
+                                    <th class="w-20px text-center"><i class="fas fa-times text-danger cursor-pointer" (click)="deleteAnswers()" ngbTooltip="Delete all answers" container="body" placement="left"></i></th>
+                                </tr>
+                            </thead>
+                            <tbody class="list cursor-pointer">
+                                <tr *ngFor="let answer of answers" (click)="goToAnswer(answer)">
+                                    <td>{{ answer.response.entity.name }}</td>
+                                    <td>{{ answer.response.date.name }}</td>
+                                    <td>{{ answer.value }}</td>
+                                    <td class="text-center"><i class="fas fa-times cursor-pointer p-1 text-danger" (click)="deleteAnswer(answer, $event)"></i></td>
+                                </tr>
+                            </tbody>
+                        </table>
+
+                    </div>
+
+                    <div class="card-footer">
+                        <pager [headers]="answersHeaders" (pageChanged)="searchAnswers($event)"></pager>
+                    </div>
+
+                </div>
+
+            </ng-template>
+
+        </ng-container>
+
+    </nav>
+
+    <div [ngbNavOutlet]="nav" class="mt-1"></div>
+
+</ng-container>
+

@@ -1,0 +1,9 @@
+<div class="alert cursor-pointer" (click)="load()" [ngClass]="{ 'alert-info': !loaded, 'alert-warning': loading, 'alert-success': loaded }">{{folder.name}}</div>
+
+<div *ngFor="let folder of subfolders">
+    <folderview [folder]="folder"></folderview>
+</div>
+
+<div *ngFor="let document of documents">
+    <div>{{document.fileName}}</div>
+</div>

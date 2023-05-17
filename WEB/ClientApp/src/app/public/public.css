@@ -1,0 +1,45 @@
+.form-auth {
+    width: 100%;
+    max-width: 420px;
+    margin: 0 auto;
+    background-color: white;
+    border: solid 1px grey;
+    padding: 20px 30px;
+    box-shadow: 0px 0px 20px grey;
+    border-radius: 5px;
+}
+
+form.init {
+    min-width: 420px;
+}
+
+.auth-top input {
+    border-bottom-right-radius: 0 !important;
+    border-bottom-left-radius: 0 !important;
+}
+
+.auth-middle input {
+    border-radius: 0 !important;
+    margin-top: -1px;
+}
+
+.auth-bottom input {
+    border-top-right-radius: 0 !important;
+    border-top-left-radius: 0 !important;
+    margin-top: -1px;
+}
+
+    .auth-top input:focus,
+    .auth-middle input:focus,
+    .auth-bottom input:focus {
+        outline: none !important;
+        box-shadow: none !important;
+    }
+
+form.form-auth img {
+    max-width: 100%;
+}
+
+form.form-auth input[type=email].form-control, form.form-auth input[type=password].form-control {
+    border-color: var(--bs-gray-500);
+}
