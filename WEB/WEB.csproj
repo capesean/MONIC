@@ -52,7 +52,6 @@
 
 	<ItemGroup>
 	  <None Remove="ClientApp\src\app\common\models\download.model.ts" />
-	  <None Remove="ClientApp\src\assets\templates\devcharges.html" />
 	</ItemGroup>
 
 
@@ -73,10 +72,6 @@
 			<ExcludeFromSingleFile>true</ExcludeFromSingleFile>
 			<CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
 		</Content>
-		<Content Include="ClientApp\src\assets\templates\devcharges.html">
-		  <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
-		  <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
-		</Content>
 		<Content Include="ClientApp\src\assets\templates\email.html">
 			<ExcludeFromSingleFile>true</ExcludeFromSingleFile>
 			<CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
@@ -89,6 +84,7 @@
 
 	<ItemGroup>
 		<Folder Include="ClientApp\src\app\common\scroll-spy\" />
+		<Folder Include="ClientApp\src\assets\geojson\" />
 		<Folder Include="Migrations\" />
 	</ItemGroup>
 

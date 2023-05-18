@@ -127,10 +127,13 @@ namespace WEB.Controllers
 
             if (responseCount == 0) return BadRequest("There are no responses for this questionnaire");
 
+            var apiKey = AppSettings.GetDbSettings(db).ChatGPTAPIKey;
+            if (string.IsNullOrWhiteSpace(apiKey)) return BadRequest("ChatGPT API Key is not set (in Settings)");
+
             var gpt = new OpenAIService(new OpenAiOptions()
             {
                 // todo: move to config
-                ApiKey = AppSettings.GetDbSettings(db).ChatGPTAPIKey
+                ApiKey = apiKey
             });
 
             var answers = await db.Answers
