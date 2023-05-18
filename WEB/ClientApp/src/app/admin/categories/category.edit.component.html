@@ -16,17 +16,17 @@
                             <div class="form-group" [ngClass]="{ 'is-invalid': name.invalid }">
 
                                 <label for="name">
-                                    Name:
+                                    Category:
                                 </label>
 
                                 <input id="name" name="name" class="form-control" type="text" [(ngModel)]="category.name" #name="ngModel" required (ngModelChange)="changeBreadcrumb()" maxlength="100" />
 
                                 <div *ngIf="name.errors?.required" class="invalid-feedback">
-                                    Name is required
+                                    Category is required
                                 </div>
 
                                 <div *ngIf="name.errors?.maxlength" class="invalid-feedback">
-                                    Name must be at most 100 characters long
+                                    Category must be at most 100 characters long
                                 </div>
 
                             </div>
@@ -119,7 +119,7 @@
                             <table class="table table-hover table-edge table-nowrap mb-0 align-middle">
                                 <thead class="thead-light">
                                     <tr>
-                                        <th>Name</th>
+                                        <th>Subcategory</th>
                                         <th>Code</th>
                                         <th class="w-20px text-center"><i class="fas fa-times text-danger cursor-pointer" (click)="deleteSubcategories()" ngbTooltip="Delete all subcategories" container="body" placement="left"></i></th>
                                     </tr>

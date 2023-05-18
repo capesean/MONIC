@@ -52,7 +52,7 @@ namespace WEB.Controllers
             if (categoryDTO.CategoryId != categoryId) return BadRequest("Id mismatch");
 
             if (await db.Categories.AnyAsync(o => o.Name == categoryDTO.Name && o.CategoryId != categoryDTO.CategoryId))
-                return BadRequest("Name already exists.");
+                return BadRequest("Category already exists.");
 
             if (await db.Categories.AnyAsync(o => o.Code == categoryDTO.Code && o.CategoryId != categoryDTO.CategoryId))
                 return BadRequest("Code already exists.");

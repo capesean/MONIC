@@ -60,7 +60,7 @@ namespace WEB.Controllers
             if (subcategoryDTO.SubcategoryId != subcategoryId) return BadRequest("Id mismatch");
 
             if (await db.Subcategories.AnyAsync(o => o.CategoryId == subcategoryDTO.CategoryId && o.Name == subcategoryDTO.Name && o.SubcategoryId != subcategoryDTO.SubcategoryId))
-                return BadRequest("Name already exists on this Category.");
+                return BadRequest("Subcategory already exists on this Category.");
 
             if (await db.Subcategories.AnyAsync(o => o.Code == subcategoryDTO.Code && o.SubcategoryId != subcategoryDTO.SubcategoryId))
                 return BadRequest("Code already exists.");
