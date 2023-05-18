@@ -154,6 +154,13 @@ export class IndicatorEditComponent extends ItemComponent implements OnInit {
 
         }
 
+        if (this.indicator.indicatorType == IndicatorTypes.Calculated && !this.tokens.length) {
+
+            this.toastr.error("The formula has not been completed.", "Form Error");
+            return;
+
+        }
+
         this.getData(this.indicator);
 
         this.indicatorService.save(this.indicator)
