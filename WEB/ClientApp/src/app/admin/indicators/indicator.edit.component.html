@@ -347,8 +347,8 @@
 
                             <div *ngIf="token.tokenType === tokenTypesIndicator" class="indicator card">
                                 <div class="card-header bg-info text-white">
-                                    <i *ngIf="token.convertNullToZero" ngbTooltip="Convert Nulls to zero" class="fa fa-toggle-on float-right mt-1 cursor-pointer" (click)="token.convertNullToZero = !token.convertNullToZero"></i>
-                                    <i *ngIf="!token.convertNullToZero" ngbTooltip="Do not convert Nulls to zero" class="fa fa-toggle-off float-right mt-1 cursor-pointer" (click)="token.convertNullToZero = !token.convertNullToZero"></i>
+                                    <i *ngIf="token.convertNullToZero" ngbTooltip="Treat blanks as a zero (0)" class="fa fa-toggle-on float-right mt-1 cursor-pointer" (click)="token.convertNullToZero = !token.convertNullToZero"></i>
+                                    <i *ngIf="!token.convertNullToZero" ngbTooltip="Do not treat blanks as a zero (0)" class="fa fa-toggle-off float-right mt-1 cursor-pointer" (click)="token.convertNullToZero = !token.convertNullToZero"></i>
                                     {{token.sourceIndicator.code}}
                                 </div>
                                 <div class="card-body">

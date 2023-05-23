@@ -31,7 +31,7 @@ namespace WEB
             var html = bodyText;
             if (!textOnly)
             {
-                html = System.IO.File.ReadAllText(System.IO.Path.Join(_appSettings.WebRootPath, "wwwroot/templates/email.html"));
+                html = File.ReadAllText(Path.Combine(_appSettings.WebRootPath, "assets/templates/email.html"));
                 html = html.Replace("{rootUrl}", _appSettings.RootUrl);
                 html = html.Replace("{title}", subject);
                 if (bodyHtml == null) bodyHtml = bodyText;

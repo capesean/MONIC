@@ -33,7 +33,7 @@ namespace WEB.Reports.PDF
         {
             db = dbContext;
             this.appSettings = appSettings;
-            imagesFolder = appSettings.WebRootPath + "wwwroot/images/";
+            imagesFolder = Path.Combine(appSettings.WebRootPath, "assets", "images");
             //var baseFontPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "fonts", "GOTHIC.TTF");
             //_bf = BaseFont.CreateFont(baseFontPath, BaseFont.CP1252, BaseFont.EMBEDDED);
             baseFont = BaseFont.CreateFont(BaseFont.HELVETICA, BaseFont.CP1252, false);

@@ -11,7 +11,7 @@ var appSettings = builder.Configuration.GetSection("Settings").Get<AppSettings>(
 DbContextOptions dbContextOptions = null;
 
 // todo: this is not correct - find out a better way to get correct path
-appSettings.WebRootPath = Path.Combine(Directory.GetCurrentDirectory(), appSettings.IsDevelopment ? "ClientApp\\src" : "wwwroot");
+appSettings.WebRootPath = Path.Combine(Directory.GetCurrentDirectory(), appSettings.IsDevelopment ? "ClientApp\\src\\" : "wwwroot\\");
 appSettings.RootPath = Path.Combine(Directory.GetCurrentDirectory());
 
 //builder.Services.AddControllers(options => options.Filters.Add(typeof(ApiExceptionAttribute)))
