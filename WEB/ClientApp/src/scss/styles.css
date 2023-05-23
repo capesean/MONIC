@@ -337,3 +337,9 @@ quill-editor .ql-editor {
 .quill-render img, .quill-render iframe {
     max-width: 100%;
 }
+
+.text-overflow-ellipsis {
+    overflow-x: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}

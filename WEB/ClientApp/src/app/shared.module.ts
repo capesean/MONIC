@@ -107,6 +107,7 @@ import { QuestionnaireDownloadComponent } from './admin/questionnaires/questionn
 import { FileSizePipe } from './common/pipes/filesizepipe';
 import { QuillModule } from 'ngx-quill';
 import { QuestionnaireGenerateSummariesComponent } from './admin/questionnaires/questionnaire.generate.summaries.component';
+import { FrequencyAdverb } from './common/pipes/frequencyadverbpipe';
 
 @NgModule({
     imports: [
@@ -136,6 +137,7 @@ import { QuestionnaireGenerateSummariesComponent } from './admin/questionnaires/
         ParagraphsPipe,
         FieldComponent,
         FieldSizePipe,
+        FrequencyAdverb,
         DocumentManageComponent,
         HeaderComponent,
         QuestionLogicModalComponent,
@@ -241,6 +243,7 @@ import { QuestionnaireGenerateSummariesComponent } from './admin/questionnaires/
         ParagraphsPipe,
         FieldComponent,
         FieldSizePipe,
+        FrequencyAdverb,
         DocumentManageComponent,
         HeaderComponent,
         QuestionLogicModalComponent,
