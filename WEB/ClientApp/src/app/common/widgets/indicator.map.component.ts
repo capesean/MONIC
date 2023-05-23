@@ -20,6 +20,7 @@ import { UtilitiesService } from '../services/utilities.service';
 import { Subject } from 'rxjs';
 import { ViewChild } from '@angular/core';
 import { IndicatorMapInfoWindowComponent } from './indicator.map.infowindow.component';
+import { ToastrService } from 'ngx-toastr';
 
 @NgComponent({
     selector: 'app-indicator-map',
@@ -69,7 +70,8 @@ export class IndicatorMapComponent implements OnInit, Widget {
         private modalService: NgbModal,
         private mapService: GoogleMapsApiService,
         private utilitiesService: UtilitiesService,
-        private zone: NgZone
+        private zone: NgZone,
+        private toastr: ToastrService
     ) {
         // configure map when ready
         this.mapReady.subscribe(map => {
@@ -132,9 +134,14 @@ export class IndicatorMapComponent implements OnInit, Widget {
                         next: geoJson => {
                             this.geoJson = geoJson.body;
                             this.geoJsonReady.next(this.geoJson)
-
-
-                            // todo: handle errors...
+                        },
+                        error: err => {
+                            if(err.status === 404) {
+                                this.loading.emit(false);
+                                this.toastr.error(`No geojson found for entity type: ${response.indicator.entityType.name}`);
+                                // todo: this should emit an error description?
+                                this.error.emit(true);
+                            }
                         },
                         complete: () => this.loaded = true
                     });

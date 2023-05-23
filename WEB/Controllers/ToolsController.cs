@@ -20,8 +20,7 @@ namespace WEB.Controllers
 
             var bytes = Convert.FromBase64String(fileContentsDTO.FileContents);
 
-            if (DateTime.Now < DateTime.MaxValue) throw new Exception("won't work on Azure");
-            System.IO.File.WriteAllBytes(Path.Join(AppSettings.WebRootPath, $"ClientApp/src/assets/geojson/{entityTypeId.ToString().ToLowerInvariant()}.json"), bytes);
+            System.IO.File.WriteAllBytes(Path.Join(AppSettings.WebRootPath, $"assets/geojson/{entityTypeId.ToString().ToLowerInvariant()}.json"), bytes);
 
             return Ok();
         }
