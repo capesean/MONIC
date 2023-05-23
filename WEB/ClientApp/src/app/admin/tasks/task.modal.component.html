@@ -43,21 +43,21 @@
             <table class="table table-hover table-edge table-nowrap mb-0 align-middle">
                 <thead class="thead-light">
                     <tr>
-                    <th>Name</th>
-                    <th *ngIf="!milestone">Milestone</th>
-                    <th>Start Date</th>
-                    <th>End Date</th>
-                    <th>Completion Date</th>
+                        <th>Name</th>
+                        <th *ngIf="!milestone">Milestone</th>
+                        <th>Start Date</th>
+                        <th>End Date</th>
+                        <th>Completion Date</th>
                         <th class="text-center w-20px" *ngIf="multiple"><i class="fas fa-fw cursor-pointer" [ngClass]="{ 'fa-check-square': allSelected, 'fa-square': !allSelected }" (click)="toggleAll()"></i></th>
                     </tr>
                 </thead>
                 <tbody class="cursor-pointer">
                     <tr *ngFor="let task of tasks" (click)="select(task)">
-                    <td>{{ task.name }}</td>
-                    <td *ngIf="!milestone">{{ task.milestone.name }}</td>
-                    <td>{{ task.startDate | momentPipe: 'DD MMM YYYY' }}</td>
-                    <td>{{ task.endDate | momentPipe: 'DD MMM YYYY' }}</td>
-                    <td>{{ task.completionDate === null ? "" : task.completionDate | momentPipe: 'DD MMM YYYY' }}</td>
+                        <td>{{ task.name }}</td>
+                        <td *ngIf="!milestone">{{ task.milestone.name }}</td>
+                        <td>{{ task.startDate | momentPipe: 'DD MMM YYYY' }}</td>
+                        <td>{{ task.endDate | momentPipe: 'DD MMM YYYY' }}</td>
+                        <td>{{ task.completionDate === null ? "" : task.completionDate | momentPipe: 'DD MMM YYYY' }}</td>
                         <td *ngIf="multiple" class="text-center"><i [ngClass]="{ 'fa-check-square': isSelected(task), 'fa-square': !isSelected(task) }" class="fas fa-fw"></i></td>
                     </tr>
                 </tbody>

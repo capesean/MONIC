@@ -43,17 +43,17 @@
             <table class="table table-hover table-edge table-nowrap mb-0 align-middle">
                 <thead class="thead-light">
                     <tr>
-                    <th>Name</th>
-                    <th>Code</th>
-                    <th *ngIf="!componentType">Component Type</th>
+                        <th>Name</th>
+                        <th>Code</th>
+                        <th *ngIf="!componentType">Component Type</th>
                         <th class="text-center w-20px" *ngIf="multiple"><i class="fas fa-fw cursor-pointer" [ngClass]="{ 'fa-check-square': allSelected, 'fa-square': !allSelected }" (click)="toggleAll()"></i></th>
                     </tr>
                 </thead>
                 <tbody class="cursor-pointer">
                     <tr *ngFor="let component of components" (click)="select(component)">
-                    <td>{{ component.name }}</td>
-                    <td>{{ component.code }}</td>
-                    <td *ngIf="!componentType">{{ componentTypes[component.componentType].label }}</td>
+                        <td>{{ component.name }}</td>
+                        <td>{{ component.code }}</td>
+                        <td *ngIf="!componentType">{{ componentTypes[component.componentType].label }}</td>
                         <td *ngIf="multiple" class="text-center"><i [ngClass]="{ 'fa-check-square': isSelected(component), 'fa-square': !isSelected(component) }" class="fas fa-fw"></i></td>
                     </tr>
                 </tbody>
