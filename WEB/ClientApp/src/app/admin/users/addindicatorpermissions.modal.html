@@ -167,7 +167,7 @@
                     </div>
 
                     <div class="col-sm-6 col-md-6 col-lg-4 col-xl-3">
-                        <select id="reportingFrequency" name="reportingFrequency" [(ngModel)]="searchOptions.reportingFrequency" #reportingFrequency="ngModel" class="form-select">
+                        <select id="frequency" name="frequency" [(ngModel)]="searchOptions.frequency" #frequency="ngModel" class="form-select">
                             <option *ngFor="let dateType of dateTypes" [ngValue]="dateType.value">{{ dateType.label }}</option>
                         </select>
                     </div>

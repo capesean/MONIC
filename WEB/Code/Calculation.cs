@@ -122,7 +122,7 @@ namespace WEB
         //    var parentEntityIds = await db.EntityLinks.Where(o => childEntityIds.Contains(o.ChildEntityId)).Select(o => o.ParentEntityId).Distinct().ToListAsync();
         //    var entityIds = childEntityIds.Union(parentEntityIds).ToList();
 
-        //    var collectionDates = await db.Dates.Where(o => o.DateType == indicator.ReportingFrequency && o.Data.Any(d => !d.Aggregated && d.Entity.EntityTypeId == indicator.EntityTypeId)).ToListAsync();
+        //    var collectionDates = await db.Dates.Where(o => o.DateType == indicator.Frequency && o.Data.Any(d => !d.Aggregated && d.Entity.EntityTypeId == indicator.EntityTypeId)).ToListAsync();
         //    var quarterIds = collectionDates.Where(o => o.QuarterId.HasValue).Select(o => o.QuarterId.Value).Distinct();
         //    var yearIds = collectionDates.Where(o => o.YearId.HasValue).Select(o => o.YearId.Value).Distinct();
         //    var dateIds = collectionDates.Select(o => o.DateId).ToList().Union(quarterIds).Union(yearIds);

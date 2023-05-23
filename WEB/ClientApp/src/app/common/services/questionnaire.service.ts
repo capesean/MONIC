@@ -51,8 +51,8 @@ export class QuestionnaireService extends SearchQuery {
         return this.http.delete<void>(`${environment.baseApiUrl}questionnaires/${questionnaireId}/responses`);
     }
 
-    export(questionnaireId: string, entityIds: string[], dateIds: string[], includeSummaries: boolean, useOptionValues: boolean, useOptionColors: boolean, includeCharts: boolean): Observable<void> {
-        return this.http.post<DownloadModel>(`${environment.baseApiUrl}questionnaires/${questionnaireId}/export`, { entityIds, dateIds, includeSummaries, useOptionValues, useOptionColors, includeCharts }, { responseType: 'blob' as 'json', observe: 'response' })
+    export(exportModel: ExportModel): Observable<void> {
+        return this.http.post<DownloadModel>(`${environment.baseApiUrl}questionnaires/export`, exportModel, { responseType: 'blob' as 'json', observe: 'response' })
             .pipe(
                 map(response => this.downloadService.downloadFile(this.downloadService.convertResponse(response)))
             );
@@ -69,9 +69,20 @@ export class QuestionnaireService extends SearchQuery {
             );
     }
 
-    generateSummary(questionnaireId: string, generateSummariesModel: GenerateSummariesModel): Observable<QuestionSummary> {
+    generateSummary(generateSummariesModel: GenerateSummariesModel): Observable<QuestionSummary> {
         return this.http.post<QuestionSummary>(`${environment.baseApiUrl}questionnaires/generatesummaries`, generateSummariesModel);
     }
+}
+
+export class ExportModel {
+    public questionnaireId: string;
+    public entityIds: string[] = [];
+    public fieldIds: string[] = [];
+    public dateIds: string[] = [];
+    public includeSummaries: boolean;
+    public useOptionValues: boolean;
+    public useOptionColors: boolean;
+    public includeCharts: boolean;
 }
 
 export class GenerateSummariesModel {

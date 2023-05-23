@@ -143,7 +143,7 @@ AND		d.DateType <= i.Frequency
 --INNER JOIN @EntityIds entityFilter ON e.EntityId = entityFilter.Id
 --WHERE	i.IndicatorId = @IndicatorId
 --AND		i.EntityTypeId = e.EntityTypeId
---AND		d.DateType <= i.ReportingFrequency
+--AND		d.DateType <= i.Frequency
 
 WHILE EXISTS(SELECT * FROM @Tokens WHERE TokenNumber > @TokenNumber)
 BEGIN
@@ -558,7 +558,7 @@ BEGIN TRY
 		SourceIndicatorId uniqueidentifier NOT NULL,
 		EntityId uniqueidentifier NOT NULL,
 		DateId uniqueidentifier NOT NULL,
-		ReportingFrequency int NOT NULL,
+		Frequency int NOT NULL,
 		DateAggregationType int NOT NULL,
 		IndicatorEntityTypeId uniqueidentifier NOT NULL,
 		EntityEntityTypeId uniqueidentifier NOT NULL,
@@ -575,7 +575,7 @@ BEGIN TRY
 	SELECT		d.Id, 
 				en.Id, 
 				da.Id, 
-				ReportingFrequency, 
+				Frequency, 
 				DateAggregationType, 
 				si.EntityTypeId, 
 				entities.EntityTypeId, 
@@ -614,7 +614,7 @@ BEGIN TRY
 		INNER JOIN	Entities en on d.EntityId = en.EntityId
 		INNER JOIN	Dates da on d.DateId = da.DateId
 		WHERE		f.DateAggregationType = @AggregationType_MOSTRECENT
-		AND			f.ReportingFrequency = @DateType_MONTH
+		AND			f.Frequency = @DateType_MONTH
 		AND			f.DateType = @DateType_QUARTER
 		AND			da.QuarterId = f.DateId
 		AND			f.EntityEntityTypeId = f.IndicatorEntityTypeId
@@ -639,7 +639,7 @@ BEGIN TRY
 			INNER JOIN	Entities en on d.EntityId = en.EntityId
 			WHERE		Aggregated = 1
 			AND			f.DateAggregationType = @AggregationType_MOSTRECENT
-			AND			f.ReportingFrequency = @DateType_MONTH
+			AND			f.Frequency = @DateType_MONTH
 			AND			f.DateType = @DateType_QUARTER
 			AND			f.EntityEntityTypeId = f.IndicatorEntityTypeId
 		)
@@ -687,7 +687,7 @@ BEGIN TRY
 		INNER JOIN	Entities en on d.EntityId = en.EntityId
 		INNER JOIN	Dates da on d.DateId = da.DateId
 		WHERE		f.DateAggregationType = @AggregationType_MOSTRECENT
-		AND			f.ReportingFrequency IN (@DateType_MONTH, @DateType_QUARTER)
+		AND			f.Frequency IN (@DateType_MONTH, @DateType_QUARTER)
 		AND			f.DateType = @DateType_YEAR
 		AND			da.YearId = f.DateId
 		AND			f.EntityEntityTypeId = f.IndicatorEntityTypeId
@@ -712,7 +712,7 @@ BEGIN TRY
 			INNER JOIN	Entities en on d.EntityId = en.EntityId
 			WHERE		Aggregated = 1
 			AND			f.DateAggregationType = @AggregationType_MOSTRECENT
-			AND			f.ReportingFrequency IN (@DateType_MONTH, @DateType_QUARTER)
+			AND			f.Frequency IN (@DateType_MONTH, @DateType_QUARTER)
 			AND			f.DateType = @DateType_YEAR
 			AND			f.EntityEntityTypeId = f.IndicatorEntityTypeId
 		)
@@ -748,7 +748,7 @@ BEGIN TRY
 			INNER JOIN	Entities en on d.EntityId = en.EntityId
 			WHERE		Aggregated = 1
 			AND			f.DateAggregationType = @AggregationType_SUM
-			AND			f.ReportingFrequency = @DateType_MONTH
+			AND			f.Frequency = @DateType_MONTH
 			AND			f.DateType = @DateType_QUARTER
 			AND			f.EntityEntityTypeId = f.IndicatorEntityTypeId
 		)
@@ -761,12 +761,12 @@ BEGIN TRY
 			FROM		Data d
 			INNER JOIN	Dates da ON d.DateId = da.DateId
 			INNER JOIN	@filters f ON d.IndicatorId = f.SourceIndicatorId AND d.EntityId = f.EntityId
-			WHERE		da.DateType = f.ReportingFrequency -- dates that are the collection frequency
+			WHERE		da.DateType = f.Frequency -- dates that are the collection frequency
 			AND			d.Aggregated = 0
 			AND			f.EntityEntityTypeId = f.IndicatorEntityTypeId
 			AND			da.QuarterId = f.DateId
 			AND			f.DateAggregationType = @AggregationType_SUM -- 0: sum, 1: most recent
-			AND			f.ReportingFrequency = @DateType_MONTH
+			AND			f.Frequency = @DateType_MONTH
 			AND			d.Value IS NOT NULL
 			GROUP BY	d.IndicatorId, 
 						d.EntityId, 
@@ -800,7 +800,7 @@ BEGIN TRY
 			-- targeting: Aggregated Year data for indicators that are MostRecentSUMs collected at Month/Quarter at the collection entity type
 			WHERE		Aggregated = 1
 			AND			f.DateAggregationType = @AggregationType_SUM
-			AND			f.ReportingFrequency IN (@DateType_MONTH, @DateType_QUARTER)
+			AND			f.Frequency IN (@DateType_MONTH, @DateType_QUARTER)
 			AND			f.DateType = @DateType_YEAR
 			AND			f.EntityEntityTypeId = f.IndicatorEntityTypeId
 		)
@@ -813,12 +813,12 @@ BEGIN TRY
 			FROM		Data d
 			INNER JOIN	Dates da ON d.DateId = da.DateId
 			INNER JOIN	@filters f ON d.IndicatorId = f.SourceIndicatorId AND d.EntityId = f.EntityId
-			WHERE		da.DateType = f.ReportingFrequency -- dates that are the collection frequency
+			WHERE		da.DateType = f.Frequency -- dates that are the collection frequency
 			AND			d.Aggregated = 0
 			AND			f.EntityEntityTypeId = f.IndicatorEntityTypeId
 			AND			da.YearId = f.DateId
 			AND			f.DateAggregationType = @AggregationType_SUM -- 0: sum, 1: most recent
-			AND			f.ReportingFrequency IN (@DateType_MONTH, @DateType_QUARTER)
+			AND			f.Frequency IN (@DateType_MONTH, @DateType_QUARTER)
 			AND			d.Value IS NOT NULL
 			GROUP BY	d.IndicatorId, 
 						d.EntityId, 

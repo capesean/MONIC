@@ -17,7 +17,7 @@
                             Indicator:
                         </label>
 
-                        <indicator-select id="indicatorId" name="indicatorId" [(indicator)]="indicator" [(ngModel)]="settings.indicatorId" #indicatorId="ngModel" required [reportingFrequency]="date ? dateTypes[date.dateType] : undefined"></indicator-select>
+                        <indicator-select id="indicatorId" name="indicatorId" [(indicator)]="indicator" [(ngModel)]="settings.indicatorId" #indicatorId="ngModel" required [frequency]="date ? dateTypes[date.dateType] : undefined"></indicator-select>
 
                         <div *ngIf="indicatorId.errors?.required" class="invalid-feedback">
                             Indicator is required
@@ -33,7 +33,7 @@
                             Date:
                         </label>
 
-                        <date-select id="dateId" name="dateId" [(date)]="date" [(ngModel)]="settings.dateId" #dateId="ngModel" required [dateType]="indicator ? dateTypes[indicator.reportingFrequency] : undefined"></date-select>
+                        <date-select id="dateId" name="dateId" [(date)]="date" [(ngModel)]="settings.dateId" #dateId="ngModel" required [dateType]="indicator ? dateTypes[indicator.frequency] : undefined"></date-select>
 
                         <div *ngIf="dateId.errors?.required" class="invalid-feedback">
                             Date is required
