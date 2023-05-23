@@ -92,7 +92,7 @@ namespace WEB.Controllers
             if (indicator.IndicatorType != IndicatorType.Collected)
                 return BadRequest($"Indicator {indicator.Code} is not a Collected Indicator Type");
 
-            if ((await db.Dates.SingleAsync(o => o.DateId == datumDTO.DateId)).DateType != (await db.Indicators.SingleAsync(o => o.IndicatorId == datumDTO.IndicatorId)).ReportingFrequency)
+            if ((await db.Dates.SingleAsync(o => o.DateId == datumDTO.DateId)).DateType != (await db.Indicators.SingleAsync(o => o.IndicatorId == datumDTO.IndicatorId)).Frequency)
                 return BadRequest("The Datum date type does not match the Indicator frequency");
 
             if ((await db.Entities.SingleAsync(o => o.EntityId == datumDTO.EntityId)).EntityTypeId != (await db.Indicators.SingleAsync(o => o.IndicatorId == datumDTO.IndicatorId)).EntityTypeId)

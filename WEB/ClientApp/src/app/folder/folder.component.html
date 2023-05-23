@@ -8,6 +8,20 @@
         </ol>
     </nav>
 
+    <ng-container *ngIf="!crumb.folderView.subfolders.length && !crumb.folderView.folderContents.length">
+
+        <div class="card border-0">
+
+            <div class="card-header text-bg-secondary">
+                There are no folders or folder contents to display
+            </div>
+
+            <div class="card-body"></div>
+
+        </div>
+
+    </ng-container>
+
     <div class="card" *ngIf="crumb.folderView.subfolders.length">
 
         <div class="card-body" *ngIf="crumbs.length">

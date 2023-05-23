@@ -43,7 +43,7 @@ namespace WEB.Controllers
             if (searchOptions.IndicatorType.HasValue) results = results.Where(o => o.IndicatorType == searchOptions.IndicatorType);
             if (searchOptions.IndicatorStatus.HasValue) results = results.Where(o => o.IndicatorStatus == searchOptions.IndicatorStatus);
             if (searchOptions.EntityTypeId.HasValue) results = results.Where(o => o.EntityTypeId == searchOptions.EntityTypeId);
-            if (searchOptions.ReportingFrequency.HasValue) results = results.Where(o => o.ReportingFrequency == searchOptions.ReportingFrequency);
+            if (searchOptions.Frequency.HasValue) results = results.Where(o => o.Frequency == searchOptions.Frequency);
             if (searchOptions.CreatedById.HasValue) results = results.Where(o => o.CreatedById == searchOptions.CreatedById);
 
             results = results.OrderBy(o => o.Subcategory.Category.SortOrder).ThenBy(o => o.Subcategory.SortOrder).ThenBy(o => o.SortOrder).ThenBy(o => o.Name);

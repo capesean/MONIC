@@ -52,7 +52,7 @@ namespace WEB.Controllers
 
                            // ensure indicator is applicable to the entity type & date - these are the collected data points
                            && (@in.EntityTypeId == en.EntityTypeId)
-                           && (@in.ReportingFrequency == dt.DateType)
+                           && (@in.Frequency == dt.DateType)
 
                            // search parameters 
                            && (noIndicators || indicatorIds.Contains(@in.IndicatorId))

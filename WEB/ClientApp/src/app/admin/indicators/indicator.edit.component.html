@@ -105,18 +105,18 @@
                     </div>
 
                     <div class="col-sm-6 col-md-4 col-lg-3 col-xl-2">
-                        <div class="form-group" [ngClass]="{ 'is-invalid': reportingFrequency.invalid }">
+                        <div class="form-group" [ngClass]="{ 'is-invalid': frequency.invalid }">
 
-                            <label for="reportingFrequency">
-                                Frequency of Reporting:
+                            <label for="frequency">
+                                Frequency:
                             </label>
 
-                            <select id="reportingFrequency" name="reportingFrequency" [(ngModel)]="indicator.reportingFrequency" #reportingFrequency="ngModel" class="form-select" required [disabled]="!isNew">
+                            <select id="frequency" name="frequency" [(ngModel)]="indicator.frequency" #frequency="ngModel" class="form-select" required [disabled]="!isNew">
                                 <option *ngFor="let dateType of dateTypes" [ngValue]="dateType.value">{{ dateType.label }}</option>
                             </select>
 
-                            <div *ngIf="reportingFrequency.errors?.required" class="invalid-feedback">
-                                Frequency of Reporting is required
+                            <div *ngIf="frequency.errors?.required" class="invalid-feedback">
+                                Frequency is required
                             </div>
 
                         </div>
@@ -355,7 +355,7 @@
                                     <p>{{token.sourceIndicator.name}}</p>
                                 </div>
                                 <div class="card-footer">
-                                    <p class="small text-muted mb-0">{{token.sourceIndicator.entityType.name}}, {{dateTypes[token.sourceIndicator.reportingFrequency].label}}</p>
+                                    <p class="small text-muted mb-0">{{token.sourceIndicator.entityType.name}}, {{dateTypes[token.sourceIndicator.frequency].label}}</p>
                                 </div>
                             </div>
 
@@ -480,4 +480,4 @@
     </div>
 </ng-template>
 
-<indicator-modal #indicatorModal (change)="changeIndicator($event)" [canRemoveFilters]="false" [reportingFrequency]="dateTypes[indicator.reportingFrequency]" [indicatorType]="indicatorTypesCollected"></indicator-modal>
+<indicator-modal #indicatorModal (change)="changeIndicator($event)" [canRemoveFilters]="false" [frequency]="dateTypes[indicator.frequency]" [indicatorType]="indicatorTypesCollected"></indicator-modal>

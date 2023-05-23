@@ -24,7 +24,7 @@ export class Indicator implements IHasFields {
     requiresApprove: boolean;
     disableNote: boolean;
     entityTypeId: string;
-    reportingFrequency: DateTypes;
+    frequency: DateTypes;
     dateAggregationType: AggregationTypes;
     dataType: DataTypes;
     decimalPlaces: number;
@@ -55,7 +55,7 @@ export class IndicatorSearchOptions extends SearchOptions {
     indicatorType: IndicatorTypes;
     indicatorStatus: IndicatorStatuses;
     entityTypeId: string;
-    reportingFrequency: DateTypes;
+    frequency: DateTypes;
     createdById: string;
 }
 

@@ -24,7 +24,7 @@ namespace WEB.Controllers
             var indicators = (await CurrentUser.GetPermittedIndicatorsQuery(permissionType)
                 .Include(o => o.Subcategory.Category)
                 .Where(o =>
-                    o.ReportingFrequency == dateType
+                    o.Frequency == dateType
                     && o.EntityTypeId == entityTypeId
                     && o.IndicatorType == IndicatorType.Collected
                     )
@@ -69,7 +69,7 @@ namespace WEB.Controllers
 
             var dateType = date.DateType;
             var indicators = await db.Indicators
-                .Where(o => o.IndicatorType == IndicatorType.Collected && o.ReportingFrequency == dateType && o.EntityTypeId == entity.EntityTypeId)
+                .Where(o => o.IndicatorType == IndicatorType.Collected && o.Frequency == dateType && o.EntityTypeId == entity.EntityTypeId)
                 .ToDictionaryAsync(o => o.IndicatorId);
             var dbData = await db.Data
                 .Where(o => o.EntityId == entityId && o.DateId == dateId)
@@ -144,7 +144,7 @@ namespace WEB.Controllers
 
             var dateType = date.DateType;
             var indicators = await db.Indicators
-                .Where(o => o.IndicatorType == IndicatorType.Collected && o.ReportingFrequency == dateType && o.EntityTypeId == entity.EntityTypeId)
+                .Where(o => o.IndicatorType == IndicatorType.Collected && o.Frequency == dateType && o.EntityTypeId == entity.EntityTypeId)
                 .ToDictionaryAsync(o => o.IndicatorId);
             var dbData = await db.Data
                 .Where(o => o.EntityId == entityId && o.DateId == dateId)
@@ -251,7 +251,7 @@ namespace WEB.Controllers
 
             var dateType = date.DateType;
             var indicators = await db.Indicators
-                .Where(o => o.IndicatorType == IndicatorType.Collected && o.ReportingFrequency == dateType && o.EntityTypeId == entity.EntityTypeId)
+                .Where(o => o.IndicatorType == IndicatorType.Collected && o.Frequency == dateType && o.EntityTypeId == entity.EntityTypeId)
                 .ToDictionaryAsync(o => o.IndicatorId);
             var dbData = await db.Data
                 .Where(o => o.EntityId == entityId && o.DateId == dateId)
@@ -356,7 +356,7 @@ namespace WEB.Controllers
 
             var dateType = date.DateType;
             var indicators = await db.Indicators
-                .Where(o => o.IndicatorType == IndicatorType.Collected && o.ReportingFrequency == dateType && o.EntityTypeId == entity.EntityTypeId)
+                .Where(o => o.IndicatorType == IndicatorType.Collected && o.Frequency == dateType && o.EntityTypeId == entity.EntityTypeId)
                 .ToDictionaryAsync(o => o.IndicatorId);
             var dbData = await db.Data
                 .Where(o => o.EntityId == entityId && o.DateId == dateId)
@@ -461,7 +461,7 @@ namespace WEB.Controllers
 
             var dateType = date.DateType;
             var indicators = await db.Indicators
-                .Where(o => o.IndicatorType == IndicatorType.Collected && o.ReportingFrequency == dateType && o.EntityTypeId == entity.EntityTypeId)
+                .Where(o => o.IndicatorType == IndicatorType.Collected && o.Frequency == dateType && o.EntityTypeId == entity.EntityTypeId)
                 .ToDictionaryAsync(o => o.IndicatorId);
             var dbData = await db.Data
                 .Where(o => o.EntityId == entityId && o.DateId == dateId)

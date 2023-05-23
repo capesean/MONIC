@@ -116,7 +116,7 @@ CREATE TABLE #keys (
 );
 
 INSERT INTO #keys
--- get the entities at the reporting frequency entityType
+-- get the entities at the frequency entityType
 SELECT	e.EntityId, DateID
 FROM	Indicators i
 CROSS JOIN Entities e
@@ -125,7 +125,7 @@ INNER JOIN @DateIds dateFilter ON d.DateId = dateFilter.Id
 INNER JOIN @EntityIds entityFilter ON e.EntityId = entityFilter.Id
 WHERE	i.IndicatorId = @IndicatorId
 --AND		i.EntityTypeId = e.EntityTypeId
-AND		d.DateType <= i.ReportingFrequency
+AND		d.DateType <= i.Frequency
 /* 2020/10/08: changed: caller of this proc needs to pass in the entityIds of ALL entities
    for which the calc needs to run at. otherwise, removing an entityLink passes in (say) just
    the company that a scheme was removed from, versus the SaveData which passes in the scheme that was edited.
@@ -133,7 +133,7 @@ AND		d.DateType <= i.ReportingFrequency
    because the entity is still potentially linked to those entities and their data therefore doesn't need to change
 */ 
 --UNION 
--- get the entities that are parents of the reporting frequency entityType
+-- get the entities that are parents of the frequency entityType
 --SELECT	el.ParentEntityId, DateID
 --FROM	Indicators i
 --CROSS JOIN Entities e
@@ -394,8 +394,8 @@ BEGIN TRY
 		INNER JOIN	Dates dates 
 		ON			da.Id = dates.DateId
 		WHERE		i.IndicatorId = @IndicatorId
-		-- only run Calculate at the reporting frequency or above (lower value)
-		AND			dates.DateType <= i.ReportingFrequency
+		-- only run Calculate at the frequency or above (lower value)
+		AND			dates.DateType <= i.Frequency
 
 		-- all entities passed in, that are the reporting entity type for this indicator
 		INSERT 

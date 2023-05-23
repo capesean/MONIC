@@ -46,7 +46,7 @@
 
                     <div class="col-sm-6 col-md-4 col-lg-3">
                         <div class="form-group">
-                            <select id="reportingFrequency" name="reportingFrequency" [(ngModel)]="searchOptions.reportingFrequency" #reportingFrequency="ngModel" class="form-select">
+                            <select id="frequency" name="frequency" [(ngModel)]="searchOptions.frequency" #frequency="ngModel" class="form-select">
                                 <option *ngFor="let dateType of dateTypes" [ngValue]="dateType.value">{{ dateType.label }}</option>
                             </select>
                         </div>
@@ -88,6 +88,7 @@
                         <th>Name</th>
                         <th>Code</th>
                         <th>Indicator Type</th>
+                        <th>Frequency</th>
                     </tr>
                 </thead>
                 <tbody class="list cursor-pointer">
@@ -96,6 +97,7 @@
                         <td>{{ indicator.name }}</td>
                         <td>{{ indicator.code }}</td>
                         <td>{{ indicatorTypes[indicator.indicatorType].label }}</td>
+                        <td>{{ dateTypes[indicator.frequency].label }}</td>
                     </tr>
                 </tbody>
             </table>

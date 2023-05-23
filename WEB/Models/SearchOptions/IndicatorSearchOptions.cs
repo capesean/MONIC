@@ -14,7 +14,7 @@ namespace WEB.Models
 
         public Guid? EntityTypeId { get; set; }
 
-        public DateType? ReportingFrequency { get; set; }
+        public DateType? Frequency { get; set; }
 
         public Guid? CreatedById { get; set; }
 

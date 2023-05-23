@@ -39,7 +39,7 @@ export class IndicatorModalComponent implements OnInit {
     @Input() indicatorType: Enum;
     @Input() indicatorStatus: Enum;
     @Input() entityType: EntityType;
-    @Input() reportingFrequency: Enum;
+    @Input() frequency: Enum;
     @Input() createdBy: User;
 
     constructor(
@@ -59,7 +59,7 @@ export class IndicatorModalComponent implements OnInit {
         this.searchOptions.indicatorType = this.indicatorType?.value;
         this.searchOptions.indicatorStatus = this.indicatorStatus?.value;
         this.searchOptions.entityTypeId = this.entityType?.entityTypeId;
-        this.searchOptions.reportingFrequency = this.reportingFrequency?.value;
+        this.searchOptions.frequency = this.frequency?.value;
         this.searchOptions.createdById = this.createdBy?.id;
         this.modal = this.modalService.open(this.content, { size: 'xl', centered: true, scrollable: true });
         this.runSearch();

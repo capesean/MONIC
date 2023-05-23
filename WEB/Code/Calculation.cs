@@ -221,7 +221,7 @@ namespace WEB
             if (dateIds == null)
             {
                 dateIds = await db.Dates
-                    .Where(o => o.DateType <= indicator.ReportingFrequency && o.Data.Any(d => indicatorIds.Contains(d.IndicatorId)))
+                    .Where(o => o.DateType <= indicator.Frequency && o.Data.Any(d => indicatorIds.Contains(d.IndicatorId)))
                     .Select(o => o.DateId)
                     .ToListAsync();
             }

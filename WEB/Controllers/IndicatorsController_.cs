@@ -38,7 +38,7 @@ namespace WEB.Controllers
                 if (token.TokenType == TokenType.Indicator)
                 {
                     var check = await db.Indicators.FirstAsync(o => o.IndicatorId == token.IndicatorId);
-                    if (indicator.ReportingFrequency < check.ReportingFrequency)
+                    if (indicator.Frequency < check.Frequency)
                         throw new Exception($"Indicator {indicator.Code} frequency is incompatible with indicator {check.Code} frequency");
                 }
 

@@ -92,7 +92,7 @@ namespace WEB.Utilities
                             !en.Disabled
                             && dt.DateId == dateId
                             && el.EntityTypeId == en.EntityTypeId
-                            && el.ReportingFrequency == dt.DateType
+                            && el.Frequency == dt.DateType
                             && en.OrganisationId == organisationId
                             && (clusterId == null || en.EntityId == clusterId || en.ParentEntities.Any(o => o.ParentEntityId == clusterId))
                             && (privateOperatorId == null || en.EntityId == privateOperatorId)

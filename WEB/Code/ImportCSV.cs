@@ -73,7 +73,7 @@ namespace WEB.Import
                         if (dateExists && indicatorExists)
                         {
                             // todo: rename reporting frequency? collection frequency?
-                            if (indicator.ReportingFrequency != date.DateType)
+                            if (indicator.Frequency != date.DateType)
                                 errors.Add(new ImportError(row, 3, "Date (type) mismatch with Reporting Frequency", null));
 
                             // todo: if indicators have date applicability:

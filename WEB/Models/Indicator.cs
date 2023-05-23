@@ -44,7 +44,7 @@ namespace WEB.Models
         public Guid EntityTypeId { get; set; }
 
         [Required]
-        public DateType ReportingFrequency { get; set; }
+        public DateType Frequency { get; set; }
 
         [Required]
         public AggregationType DateAggregationType { get; set; }

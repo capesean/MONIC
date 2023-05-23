@@ -42,7 +42,7 @@ namespace WEB.Models
         public Guid EntityTypeId { get; set; }
 
         [Required]
-        public DateType ReportingFrequency { get; set; }
+        public DateType Frequency { get; set; }
 
         [Required]
         public AggregationType DateAggregationType { get; set; }
@@ -92,7 +92,7 @@ namespace WEB.Models
             indicatorDTO.RequiresApprove = indicator.RequiresApprove;
             indicatorDTO.DisableNote = indicator.DisableNote;
             indicatorDTO.EntityTypeId = indicator.EntityTypeId;
-            indicatorDTO.ReportingFrequency = indicator.ReportingFrequency;
+            indicatorDTO.Frequency = indicator.Frequency;
             indicatorDTO.DateAggregationType = indicator.DateAggregationType;
             indicatorDTO.DataType = indicator.DataType;
             indicatorDTO.DecimalPlaces = indicator.DecimalPlaces;
@@ -136,7 +136,7 @@ namespace WEB.Models
             indicator.RequiresApprove = indicatorDTO.RequiresApprove;
             indicator.DisableNote = indicatorDTO.DisableNote;
             indicator.EntityTypeId = indicatorDTO.EntityTypeId;
-            indicator.ReportingFrequency = indicatorDTO.ReportingFrequency;
+            indicator.Frequency = indicatorDTO.Frequency;
             indicator.DateAggregationType = indicatorDTO.DateAggregationType;
             indicator.DataType = indicatorDTO.DataType;
             indicator.DecimalPlaces = indicatorDTO.DecimalPlaces;
