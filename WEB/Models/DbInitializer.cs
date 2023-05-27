@@ -27,7 +27,6 @@ namespace WEB.Models
                 // dev option 1: drop & recreate
                 //db.Database.EnsureDeleted();
                 //db.Database.EnsureCreated();
-                //await SeedAsync();
 
                 // dev option 2: use migrations
                 db.Database.Migrate();
@@ -38,6 +37,8 @@ namespace WEB.Models
             }
 
             await SeedAsync();
+            await CreateRolesAsync();
+
             db.AddComputedColumns();
             db.AddNullableUniqueIndexes();
 
@@ -51,15 +52,18 @@ namespace WEB.Models
 
         private async System.Threading.Tasks.Task SeedAsync()
         {
-            var roles = Enum.GetNames(typeof(Roles));
-            foreach (var role in roles)
-                if (!await rm.RoleExistsAsync(role)) await rm.CreateAsync(new Role { Name = role });
-
             if (!db.Settings.Any())
             {
                 db.Entry(new Settings { Id = Guid.Empty }).State = EntityState.Added;
                 await db.SaveChangesAsync();
             }
+        }
+
+        private async System.Threading.Tasks.Task CreateRolesAsync()
+        {
+            var roles = Enum.GetNames(typeof(Roles));
+            foreach (var role in roles)
+                if (!await rm.RoleExistsAsync(role)) await rm.CreateAsync(new Role { Name = role });
         }
 
         private async System.Threading.Tasks.Task DeleteErrors()

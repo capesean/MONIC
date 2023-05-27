@@ -94,7 +94,7 @@
             <ng-container *ngTemplateOutlet="formButtons"></ng-container>
 
             <div class="alert alert-danger" *ngIf="categoryRows.length === 0">
-                <i class="fas fa-exclamation-triangle me-2"></i>There are no indicators for this combination of entity type and date
+                <i class="fas fa-exclamation-triangle me-2"></i>There are no indicators for this combination of entity type and date, or you do not the permissions to access them
             </div>
 
             <ngb-accordion #accordion="ngbAccordion" *ngFor="let categoryRow of categoryRows">

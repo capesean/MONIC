@@ -47,7 +47,7 @@ export class DataEntryComponent implements OnInit, AfterViewInit {
     public canReject = false;
     public dateIsOpen = false;
     private blockSave = true;
-    public isOpen = true;
+    public isOpen = undefined as boolean;
     public hasOpened = undefined as boolean;
     public permissionTypes = Enums.PermissionTypes;
 

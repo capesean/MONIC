@@ -73,7 +73,7 @@ export class DataReviewSelectComponent implements OnInit, ControlValueAccessor {
     }
 
     getLabel() {
-        return this.multiple ? this.dataReviews.map(dataReview => (dataReview.dateUtc ? moment(dataReview.dateUtc).format("LL") : undefined)).join(", ") : (this.dataReview ? moment(this.dataReview?.dateUtc).format("LL") : undefined);
+        return this.multiple ? this.dataReviews.map(dataReview => (dataReview.dateUtc ? moment(dataReview.dateUtc).format("LL") : undefined)).join(", ") : (this.dataReview?.dateUtc ? moment(this.dataReview?.dateUtc).format("LL") : undefined) ?? "";
     }
 
     click(button = false) {

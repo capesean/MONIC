@@ -356,3 +356,7 @@ fieldset.group .form-check {
 app-file .input-group * {
     cursor: pointer !important;
 }
+
+.app-select .input-group.disabled {
+    cursor: not-allowed !important;
+}

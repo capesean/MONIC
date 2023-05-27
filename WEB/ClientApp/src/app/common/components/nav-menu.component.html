@@ -25,13 +25,13 @@
                     </div>
                 </li>
 
-                <li class="nav-item dropdown" appHasRole="Questionnaires">
+                <li class="nav-item dropdown" [appHasRole]="['Questionnaires', 'DataEntry']">
                     <a class="nav-link" [ngClass]="{ 'active': activeMenu === 'mneTools', 'collapsed': !menuStates['mneTools'] }" (click)="mneToolsMenu.toggle();">
                         <i class="fas fa-fw fa-chart-area"></i>M&amp;E Tools<i class="fas fa-fw fa-chevron-down"></i>
                     </a>
                     <div #mneToolsMenu="ngbCollapse" [(ngbCollapse)]="menuStates['mneTools']">
                         <ul class="nav flex-column">
-                            <li class="nav-item" appHasRole="Administrator"><a class="nav-link" routerLinkActive="active" routerLink="/dataentry"><i class="fas fa-fw me-2 fa-table-list"></i>Data Entry</a></li>
+                            <li class="nav-item" appHasRole="DataEntry"><a class="nav-link" routerLinkActive="active" routerLink="/dataentry"><i class="fas fa-fw me-2 fa-table-list"></i>Data Entry</a></li>
                             <li class="nav-item" appHasRole="Administrator"><a class="nav-link" routerLinkActive="active" routerLink="/theoryofchange"><i class="fas fa-fw me-2 fa-diagram-project"></i>Theories of Change</a></li>
                             <li class="nav-item" appHasRole="Administrator"><a class="nav-link" routerLinkActive="active" routerLink="/logframe"><i class="fas fa-fw me-2 fa-table"></i>Logical Frameworks</a></li>
                             <li class="nav-item" appHasRole="Administrator"><a class="nav-link" routerLinkActive="active" routerLink="/ganttchart"><i class="fas fa-fw me-2 fa-bar-chart"></i>Gantt Charts</a></li>

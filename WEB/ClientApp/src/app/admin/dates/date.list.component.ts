@@ -67,7 +67,7 @@ export class DateListComponent implements OnInit, OnDestroy {
     }
 
     showSort(): void {
-        let modalRef = this.modalService.open(DateSortComponent, { size: 'xl', centered: true, scrollable: false });
+        let modalRef = this.modalService.open(DateSortComponent, { size: 'xl', centered: true, scrollable: true });
         modalRef.result.then(
             () => {
 

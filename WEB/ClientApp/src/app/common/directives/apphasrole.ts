@@ -7,7 +7,7 @@ import { AuthService } from "../services/auth.service";
 export class AppHasRoleDirective {
 
     @Input('appHasRole')
-    public role: string;
+    public role: string | string[];
 
     constructor(
         private authService: AuthService,
@@ -19,7 +19,17 @@ export class AppHasRoleDirective {
     ngOnInit(): void {
         this.authService.getProfile().subscribe(
             profile => {
-                this.elementRef.nativeElement.style.display = this.role && profile && this.authService.isInRole(profile, this.role) ? "block" : "none";
+                if (typeof this.role === 'string')
+                    this.elementRef.nativeElement.style.display = this.role && profile && this.authService.isInRole(profile, this.role) ? "block" : "none";
+                else {
+                    let hasARole = false;
+                    (this.role as string[]).forEach(role => {
+                        if (this.role && profile && this.authService.isInRole(profile, role)) {
+                            hasARole = true;
+                        }
+                    });
+                    this.elementRef.nativeElement.style.display = hasARole ? "block" : "none";
+                }
             }
         );
     }

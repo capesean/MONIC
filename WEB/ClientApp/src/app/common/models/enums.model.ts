@@ -120,7 +120,8 @@ export enum Roles {
     Manager,
     Oversight,
     Questionnaires,
-    Folders
+    Folders,
+    DataEntry
 }
 
 export enum Sizes {
@@ -279,7 +280,8 @@ export class Enums {
         { value: 1, name: 'Manager', label: 'Manager' },
         { value: 2, name: 'Oversight', label: 'Oversight' },
         { value: 3, name: 'Questionnaires', label: 'Questionnaires' },
-        { value: 4, name: 'Folders', label: 'Folders' }
+        { value: 4, name: 'Folders', label: 'Folders' },
+        { value: 5, name: 'DataEntry', label: 'Data Entry' }
      ]
 
      static Sizes: Enum[] = [

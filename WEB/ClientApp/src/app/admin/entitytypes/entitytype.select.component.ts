@@ -74,7 +74,8 @@ export class EntityTypeSelectComponent implements OnInit, ControlValueAccessor {
 
     click(button = false) {
         if (this.disabled) return;
-        if (button && (this.entityType || this.entityTypes)) this.changed(this.multiple ? [] : null);
+        // clearing the selector
+        if (button && (this.entityType || this.entityTypes.length)) this.changed(this.multiple ? [] : null);
         else this.modal.open();
     }
 }

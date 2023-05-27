@@ -307,7 +307,7 @@
                                     <tr *ngFor="let indicatorPermission of indicatorPermissions">
                                         <td>{{ indicatorPermission.indicatorId === null ? 'All indicators' : indicatorPermission.indicator.subcategory.category.name }}</td>
                                         <td>{{ indicatorPermission.indicatorId === null ? 'All indicators' : indicatorPermission.indicator.subcategory.name }}</td>
-                                        <td>{{ indicatorPermission.indicator?.code }}</td>
+                                        <td>{{ indicatorPermission.indicator?.code }}<i class="fa fa-info-circle ms-3 text-muted" *ngIf="indicatorPermission.indicatorId" [ngbTooltip]="indicatorPermission.indicator?.name" container="body"></i></td>
                                         <td>{{ indicatorPermission.edit | booleanPipe }}</td>
                                         <td>{{ indicatorPermission.submit | booleanPipe }}</td>
                                         <td>{{ indicatorPermission.verify | booleanPipe }}</td>
