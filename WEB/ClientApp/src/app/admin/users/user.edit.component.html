@@ -200,7 +200,6 @@
 
                             <div class="mb-3">
                             <button class="btn btn-outline-primary me-2 mb-1" (click)="addEntityPermissions()">Add Entity Permissions<i class="fas fa-plus ms-2"></i></button>
-                                <a [routerLink]="['./entitypermissions', 'add']" class="btn btn-outline-primary me-2 mb-1">Add<i class="fas fa-plus ms-2"></i></a>
                                 <button *ngIf="!showEntityPermissionsSearch" type="button" class="btn btn-outline-secondary me-2 mb-1" (click)="showEntityPermissionsSearch=true">Filter<i class="fas fa-filter ms-2"></i></button>
                                 <button *ngIf="showEntityPermissionsSearch" form="formSearchEntityPermissions" type="submit" class="btn btn-outline-primary me-2 mb-1">Search<i class="fas fa-search ms-2"></i></button>
                             </div>

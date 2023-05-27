@@ -50,18 +50,18 @@
             <table class="table table-hover table-edge table-nowrap mb-0 align-middle">
                 <thead class="thead-light">
                     <tr>
+                        <th class="text-center w-20px" *ngIf="multiple"><i class="fas fa-fw cursor-pointer" [ngClass]="{ 'fa-check-square': allSelected, 'fa-square': !allSelected }" (click)="toggleAll()"></i></th>
                         <th *ngIf="!response">Response</th>
                         <th *ngIf="!question">Question</th>
                         <th>Value</th>
-                        <th class="text-center w-20px" *ngIf="multiple"><i class="fas fa-fw cursor-pointer" [ngClass]="{ 'fa-check-square': allSelected, 'fa-square': !allSelected }" (click)="toggleAll()"></i></th>
                     </tr>
                 </thead>
                 <tbody class="cursor-pointer">
                     <tr *ngFor="let answer of answers" (click)="select(answer)">
+                        <td *ngIf="multiple" class="text-center"><i [ngClass]="{ 'fa-check-square': isSelected(answer), 'fa-square': !isSelected(answer) }" class="fas fa-fw"></i></td>
                         <td *ngIf="!response">{{ answer.response.questionnaireId }}</td>
                         <td *ngIf="!question">{{ answer.question.code }}</td>
                         <td>{{ answer.value }}</td>
-                        <td *ngIf="multiple" class="text-center"><i [ngClass]="{ 'fa-check-square': isSelected(answer), 'fa-square': !isSelected(answer) }" class="fas fa-fw"></i></td>
                     </tr>
                 </tbody>
             </table>

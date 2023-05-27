@@ -50,6 +50,7 @@
             <table class="table table-hover table-edge table-nowrap mb-0 align-middle">
                 <thead class="thead-light">
                     <tr>
+                        <th class="text-center w-20px" *ngIf="multiple"><i class="fas fa-fw cursor-pointer" [ngClass]="{ 'fa-check-square': allSelected, 'fa-square': !allSelected }" (click)="toggleAll()"></i></th>
                         <th>Name</th>
                         <th *ngIf="!fieldType">Field Type</th>
                         <th>Organisation</th>
@@ -61,11 +62,11 @@
                         <th>Required</th>
                         <th>Size</th>
                         <th *ngIf="!group">Group</th>
-                        <th class="text-center w-20px" *ngIf="multiple"><i class="fas fa-fw cursor-pointer" [ngClass]="{ 'fa-check-square': allSelected, 'fa-square': !allSelected }" (click)="toggleAll()"></i></th>
                     </tr>
                 </thead>
                 <tbody class="cursor-pointer">
                     <tr *ngFor="let field of fields" (click)="select(field)">
+                        <td *ngIf="multiple" class="text-center"><i [ngClass]="{ 'fa-check-square': isSelected(field), 'fa-square': !isSelected(field) }" class="fas fa-fw"></i></td>
                         <td>{{ field.name }}</td>
                         <td *ngIf="!fieldType">{{ fieldTypes[field.fieldType].label }}</td>
                         <td>{{ field.organisation | booleanPipe }}</td>
@@ -77,7 +78,6 @@
                         <td>{{ field.required | booleanPipe }}</td>
                         <td>{{ sizes[field.size].label }}</td>
                         <td *ngIf="!group">{{ field.group?.name }}</td>
-                        <td *ngIf="multiple" class="text-center"><i [ngClass]="{ 'fa-check-square': isSelected(field), 'fa-square': !isSelected(field) }" class="fas fa-fw"></i></td>
                     </tr>
                 </tbody>
             </table>
