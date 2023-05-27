@@ -284,12 +284,9 @@
                             </form>
 
                             <div class="mb-3">
+                                <button type="button" class="btn btn-outline-primary me-2 mb-1" (click)="addIndicatorPermissions()">Add Indicator Permission<i class="fa fa-plus ms-2"></i></button>
                                 <button *ngIf="!showIndicatorPermissionsSearch" type="button" class="btn btn-outline-secondary me-2 mb-1" (click)="showIndicatorPermissionsSearch=true">Filter<i class="fas fa-filter ms-2"></i></button>
                                 <button *ngIf="showIndicatorPermissionsSearch" form="formSearchIndicatorPermissions" type="submit" class="btn btn-outline-primary me-2 mb-1">Search<i class="fas fa-search ms-2"></i></button>
-                            </div>
-
-                            <div class="mb-3">
-                                <button type="button" class="btn btn-outline-success me-2 mb-1" (click)="addIndicatorPermissions()">Add Indicator Permission<i class="fa fa-plus ms-2"></i></button>
                             </div>
 
                         </div>
