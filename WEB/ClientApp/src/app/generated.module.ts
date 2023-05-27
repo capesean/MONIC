@@ -14,6 +14,8 @@ import { CategoryListComponent } from './admin/categories/category.list.componen
 import { CategoryEditComponent } from './admin/categories/category.edit.component';
 import { ComponentListComponent } from './admin/components/component.list.component';
 import { ComponentEditComponent } from './admin/components/component.edit.component';
+import { ComponentIndicatorListComponent } from './admin/componentindicators/componentindicator.list.component';
+import { ComponentIndicatorEditComponent } from './admin/componentindicators/componentindicator.edit.component';
 import { DataReviewListComponent } from './admin/datareviews/datareview.list.component';
 import { DataReviewEditComponent } from './admin/datareviews/datareview.edit.component';
 import { DateListComponent } from './admin/dates/date.list.component';
@@ -108,6 +110,8 @@ import { NgxEchartsModule } from 'ngx-echarts';
         CategoryEditComponent,
         ComponentListComponent,
         ComponentEditComponent,
+        ComponentIndicatorListComponent,
+        ComponentIndicatorEditComponent,
         DataReviewListComponent,
         DataReviewEditComponent,
         DateListComponent,

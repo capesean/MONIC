@@ -80,6 +80,8 @@ namespace WEB.Models
 
         public virtual ICollection<LogFrameRowIndicator> LogFrameRowIndicators { get; set; } = new List<LogFrameRowIndicator>();
 
+        public virtual ICollection<ComponentIndicator> ComponentIndicators { get; set; } = new List<ComponentIndicator>();
+
         [ForeignKey("EntityTypeId")]
         public virtual EntityType EntityType { get; set; }
 

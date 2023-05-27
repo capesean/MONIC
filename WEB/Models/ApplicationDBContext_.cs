@@ -8,6 +8,7 @@ namespace WEB.Models
         public DbSet<AnswerOption> AnswerOptions { get; set; }
         public DbSet<Category> Categories { get; set; }
         public DbSet<Component> Components { get; set; }
+        public DbSet<ComponentIndicator> ComponentIndicators { get; set; }
         public DbSet<DataReview> DataReviews { get; set; }
         public DbSet<DataReviewLink> DataReviewLinks { get; set; }
         public DbSet<Date> Dates { get; set; }
@@ -74,6 +75,10 @@ namespace WEB.Models
                 .HasIndex(o => o.Code)
                 .HasDatabaseName("IX_Component_Code")
                 .IsUnique();
+
+            modelBuilder.Entity<ComponentIndicator>()
+                .HasKey(o => new { o.ComponentId, o.IndicatorId })
+                .HasName("PK_ComponentIndicator");
 
             modelBuilder.Entity<DataReviewLink>()
                 .HasKey(o => new { o.IndicatorId, o.EntityId, o.DateId, o.DataReviewId })

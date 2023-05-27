@@ -87,4 +87,8 @@ export class IndicatorService extends SearchQuery {
         return this.http.delete<void>(`${environment.baseApiUrl}indicators/${indicatorId}/logframerowindicators`);
     }
 
+    deleteComponentIndicators(indicatorId: string): Observable<void> {
+        return this.http.delete<void>(`${environment.baseApiUrl}indicators/${indicatorId}/componentindicators`);
+    }
+
 }

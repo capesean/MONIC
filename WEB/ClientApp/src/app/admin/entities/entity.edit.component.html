@@ -265,7 +265,7 @@
                         </form>
 
                         <div class="mb-3">
-                        <button class="btn btn-outline-primary me-2 mb-1" (click)="addParentEntity()">Add Aggregation Parent<i class="fas fa-plus ms-2"></i></button>
+                            <button class="btn btn-outline-primary me-2 mb-1" (click)="addParentEntity()">Add Aggregation Parent<i class="fas fa-plus ms-2"></i></button>
                             <button *ngIf="!showParentEntitiesSearch" type="button" class="btn btn-outline-secondary me-2 mb-1" (click)="showParentEntitiesSearch=true">Filter<i class="fas fa-filter ms-2"></i></button>
                             <button *ngIf="showParentEntitiesSearch" form="formSearchParentEntities" type="submit" class="btn btn-outline-primary me-2 mb-1">Search<i class="fas fa-search ms-2"></i></button>
                         </div>

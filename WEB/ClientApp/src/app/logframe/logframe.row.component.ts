@@ -35,8 +35,7 @@ export class LogFrameRowViewComponent implements OnInit {
         private logFrameRowService: LogFrameRowService,
         private toastr: ToastrService,
         private errorService: ErrorService,
-        private modalService: NgbModal,
-        private logFrameRowIndicatorService: LogFrameRowIndicatorService
+        private modalService: NgbModal
     ) {
     }
 
@@ -110,8 +109,10 @@ export class LogFrameRowViewComponent implements OnInit {
 
     changeIndicators(indicators: Indicator[]): void {
         indicators.forEach(indicator => {
-            if (this.logFrameRow.logFrameRowIndicators.findIndex(o => o.indicatorId === indicator.indicatorId) < 0)
+            if (this.logFrameRow.logFrameRowIndicators.findIndex(o => o.indicatorId === indicator.indicatorId) < 0) {
+
                 this.logFrameRow.logFrameRowIndicators.push({ indicator: indicator, indicatorId: indicator.indicatorId, logFrameRowId: this.logFrameRow.logFrameRowId } as LogFrameRowIndicator)
+            }
         });
     }
 

@@ -1,8 +1,8 @@
-import { Component as NgComponent, OnInit, ViewChild, ChangeDetectorRef } from '@angular/core';
-import { Router, ActivatedRoute } from '@angular/router';
+import { Component as NgComponent, OnInit, OnDestroy, ViewChild, ChangeDetectorRef } from '@angular/core';
+import { Router, ActivatedRoute, NavigationEnd } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { NgForm } from '@angular/forms';
-import { Subject } from 'rxjs';
+import { Subject, Subscription } from 'rxjs';
 import { HttpErrorResponse } from '@angular/common/http';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ConfirmModalComponent, ModalOptions } from '../../common/components/confirm.component';
@@ -12,6 +12,8 @@ import { Enum, Enums, ItemTypes } from '../../common/models/enums.model';
 import { BreadcrumbService } from '../../common/services/breadcrumb.service';
 import { ErrorService } from '../../common/services/error.service';
 import { ComponentService } from '../../common/services/component.service';
+import { ComponentIndicator, ComponentIndicatorSearchOptions, ComponentIndicatorSearchResponse } from '../../common/models/componentindicator.model';
+import { ComponentIndicatorService } from '../../common/services/componentindicator.service';
 import { LogFrameRowComponent, LogFrameRowComponentSearchOptions, LogFrameRowComponentSearchResponse } from '../../common/models/logframerowcomponent.model';
 import { LogFrameRowComponentService } from '../../common/services/logframerowcomponent.service';
 import { Relationship, RelationshipSearchOptions, RelationshipSearchResponse } from '../../common/models/relationship.model';
@@ -20,6 +22,8 @@ import { TheoryOfChangeComponent, TheoryOfChangeComponentSearchOptions, TheoryOf
 import { TheoryOfChangeComponentService } from '../../common/services/theoryofchangecomponent.service';
 import { TheoryOfChangeModalComponent } from '../theoriesofchange/theoryofchange.modal.component';
 import { TheoryOfChange } from '../../common/models/theoryofchange.model';
+import { IndicatorModalComponent } from '../indicators/indicator.modal.component';
+import { Indicator } from '../../common/models/indicator.model';
 import { ItemComponent } from '../../common/components/item.component';
 import { AppService } from '../../common/services/app.service';
 import { DocumentService } from '../../common/services/document.service';
@@ -29,10 +33,11 @@ import { Item } from '../../common/models/item.model';
     selector: 'component-edit',
     templateUrl: './component.edit.component.html'
 })
-export class ComponentEditComponent extends ItemComponent implements OnInit {
+export class ComponentEditComponent extends ItemComponent implements OnInit, OnDestroy {
 
     public component: Component = new Component();
     public isNew = true;
+    private routerSubscription: Subscription;
     public componentTypes: Enum[] = Enums.ComponentTypes;
 
     public relationshipsAsSourceSearchOptions = new RelationshipSearchOptions();
@@ -55,15 +60,22 @@ export class ComponentEditComponent extends ItemComponent implements OnInit {
     public theoryOfChangeComponents: TheoryOfChangeComponent[] = [];
     public showTheoryOfChangeComponentsSearch = false;
 
+    public componentIndicatorsSearchOptions = new ComponentIndicatorSearchOptions();
+    public componentIndicatorsHeaders = new PagingHeaders();
+    public componentIndicators: ComponentIndicator[] = [];
+    public showComponentIndicatorsSearch = false;
+
     @ViewChild('theoryOfChangeModal') theoryOfChangeModal: TheoryOfChangeModalComponent;
+    @ViewChild('indicatorModal') indicatorModal: IndicatorModalComponent;
 
     constructor(
         private router: Router,
-        private route: ActivatedRoute,
+        public route: ActivatedRoute,
         private toastr: ToastrService,
         private breadcrumbService: BreadcrumbService,
         protected modalService: NgbModal,
         private componentService: ComponentService,
+        private componentIndicatorService: ComponentIndicatorService,
         private logFrameRowComponentService: LogFrameRowComponentService,
         private relationshipService: RelationshipService,
         private theoryOfChangeComponentService: TheoryOfChangeComponentService,
@@ -103,12 +115,27 @@ export class ComponentEditComponent extends ItemComponent implements OnInit {
                 this.theoryOfChangeComponentsSearchOptions.includeParents = true;
                 this.searchTheoryOfChangeComponents();
 
+                this.componentIndicatorsSearchOptions.componentId = componentId;
+                this.componentIndicatorsSearchOptions.includeParents = true;
+                this.searchComponentIndicators();
+
             } else {
                 this.setItem(this.component, { itemType: ItemTypes.Component, itemId: this.component.componentId } as Item);
             }
 
+            this.routerSubscription = this.router.events.subscribe(event => {
+                if (event instanceof NavigationEnd && !this.route.firstChild) {
+                    // this will double-load on new save, as params change (above) + nav ends
+                    this.searchComponentIndicators();
+                }
+            });
+
         });
 
+    }
+
+    ngOnDestroy(): void {
+        this.routerSubscription.unsubscribe();
     }
 
     private loadComponent(): void {
@@ -146,6 +173,7 @@ export class ComponentEditComponent extends ItemComponent implements OnInit {
                 next: component => {
                     this.toastr.success("The component has been saved", "Save Component");
                     if (this.isNew) {
+                        this.ngOnDestroy();
                         this.router.navigate(["../", component.componentId], { relativeTo: this.route });
                     } else {
                         this.component = component;
@@ -469,6 +497,93 @@ export class ComponentEditComponent extends ItemComponent implements OnInit {
                         },
                         error: err => {
                             this.errorService.handleError(err, "Components", "Delete");
+                        }
+                    });
+            }, () => { });
+
+    }
+
+    searchComponentIndicators(pageIndex = 0): Subject<ComponentIndicatorSearchResponse> {
+
+        this.componentIndicatorsSearchOptions.pageIndex = pageIndex;
+
+        const subject = new Subject<ComponentIndicatorSearchResponse>()
+
+        this.componentIndicatorService.search(this.componentIndicatorsSearchOptions)
+            .subscribe({
+                next: response => {
+                    subject.next(response);
+                    this.componentIndicators = response.componentIndicators;
+                    this.componentIndicatorsHeaders = response.headers;
+                },
+                error: err => {
+                    this.errorService.handleError(err, "Component Indicators", "Load");
+                }
+            });
+
+        return subject;
+
+    }
+
+    goToComponentIndicator(componentIndicator: ComponentIndicator): void {
+        this.router.navigate(["componentindicators", componentIndicator.indicatorId], { relativeTo: this.route });
+    }
+
+    addComponentIndicators(): void {
+        this.indicatorModal.open();
+    }
+
+    changeIndicator(indicators: Indicator[]): void {
+        if (!indicators.length) return;
+        const indicatorIdList = indicators.map(o => o.indicatorId);
+        this.componentService.saveComponentIndicators(this.component.componentId, indicatorIdList)
+            .subscribe({
+                next: () => {
+                    this.toastr.success("The component indicators have been saved", "Save Component Indicators");
+                    this.searchComponentIndicators(this.componentIndicatorsHeaders.pageIndex);
+                },
+                error: err => {
+                    this.errorService.handleError(err, "Component Indicators", "Save");
+                }
+            });
+    }
+
+    deleteComponentIndicator(componentIndicator: ComponentIndicator, event: MouseEvent): void {
+        event.stopPropagation();
+
+        let modalRef = this.modalService.open(ConfirmModalComponent, { centered: true });
+        (modalRef.componentInstance as ConfirmModalComponent).options = { title: "Delete Component Indicator", text: "Are you sure you want to delete this component indicator?", deleteStyle: true, ok: "Delete" } as ModalOptions;
+        modalRef.result.then(
+            () => {
+
+                this.componentIndicatorService.delete(componentIndicator.componentId, componentIndicator.indicatorId)
+                    .subscribe({
+                        next: () => {
+                            this.toastr.success("The component indicator has been deleted", "Delete Component Indicator");
+                            this.searchComponentIndicators(this.componentIndicatorsHeaders.pageIndex);
+                        },
+                        error: err => {
+                            this.errorService.handleError(err, "Component Indicator", "Delete");
+                        }
+                    });
+
+            }, () => { });
+    }
+
+    deleteComponentIndicators(): void {
+        let modalRef = this.modalService.open(ConfirmModalComponent, { centered: true });
+        (modalRef.componentInstance as ConfirmModalComponent).options = { title: "Delete Component Indicators", text: "Are you sure you want to delete all the component indicators?", deleteStyle: true, ok: "Delete" } as ModalOptions;
+        modalRef.result.then(
+            () => {
+
+                this.componentService.deleteComponentIndicators(this.component.componentId)
+                    .subscribe({
+                        next: () => {
+                            this.toastr.success("The component indicators have been deleted", "Delete Component Indicators");
+                            this.searchComponentIndicators();
+                        },
+                        error: err => {
+                            this.errorService.handleError(err, "Component Indicators", "Delete");
                         }
                     });
             }, () => { });

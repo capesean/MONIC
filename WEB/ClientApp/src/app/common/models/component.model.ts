@@ -1,5 +1,6 @@
 import { SearchOptions, PagingHeaders } from './http.model';
 import { ComponentTypes } from './enums.model';
+import { ComponentIndicator } from './componentindicator.model';
 import { Relationship } from './relationship.model';
 import { LogFrameRowComponent } from './logframerowcomponent.model';
 import { TheoryOfChangeComponent } from './theoryofchangecomponent.model';
@@ -17,6 +18,7 @@ export class Component implements IHasFields {
     textColour: string;
     sortOrder: number;
 
+    componentIndicators: ComponentIndicator[];
     relationshipsAsSource: Relationship[];
     logFrameRowComponents: LogFrameRowComponent[];
     relationshipsAsTarget: Relationship[];

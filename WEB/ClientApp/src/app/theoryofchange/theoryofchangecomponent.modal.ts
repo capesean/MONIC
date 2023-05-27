@@ -1,4 +1,4 @@
-import { Component as NgComponent, ChangeDetectorRef, OnInit } from '@angular/core';
+import { Component as NgComponent, ChangeDetectorRef, OnInit, ViewChild } from '@angular/core';
 import { NgbActiveModal, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ErrorService } from '../common/services/error.service';
 import { NgForm } from '@angular/forms';
@@ -14,6 +14,12 @@ import { TheoryOfChange } from '../common/models/theoryofchange.model';
 import { TheoryOfChangeComponentService } from '../common/services/theoryofchangecomponent.service';
 import { TheoryOfChangeComponent } from '../common/models/theoryofchangecomponent.model';
 import { ConfirmModalComponent, ModalOptions } from '../common/components/confirm.component';
+import { IndicatorModalComponent } from '../admin/indicators/indicator.modal.component';
+import { Indicator } from '../common/models/indicator.model';
+import { ComponentIndicator, ComponentIndicatorSearchOptions, ComponentIndicatorSearchResponse } from '../common/models/componentindicator.model';
+import { ComponentIndicatorService } from '../common/services/componentindicator.service';
+import { forkJoin, Observable, Subject, tap } from 'rxjs';
+import { PagingHeaders } from '../common/models/http.model';
 
 @NgComponent({
     selector: 'theoryofchangecomponent-modal',
@@ -21,11 +27,15 @@ import { ConfirmModalComponent, ModalOptions } from '../common/components/confir
 })
 export class TheoryOfChangeComponentModal extends ItemComponent implements OnInit {
 
+    @ViewChild('indicatorModal') indicatorModal: IndicatorModalComponent;
+
     public theoryOfChange: TheoryOfChange;
     public component: Component;
     public isNew = true;
     public componentTypes: Enum[] = Enums.ComponentTypes;
-
+    private componentIndicatorSearchOptions = new ComponentIndicatorSearchOptions();
+    public componentIndicatorsHeaders = new PagingHeaders();
+ 
     constructor(
         public modal: NgbActiveModal,
         private componentService: ComponentService,
@@ -35,6 +45,7 @@ export class TheoryOfChangeComponentModal extends ItemComponent implements OnIni
         protected cdref: ChangeDetectorRef,
         protected appService: AppService,
         protected documentService: DocumentService,
+        private componentIndicatorService: ComponentIndicatorService,
         private theoryOfChangeComponentService: TheoryOfChangeComponentService
     ) {
         super(appService, errorService, cdref, documentService, modalService);
@@ -55,6 +66,9 @@ export class TheoryOfChangeComponentModal extends ItemComponent implements OnIni
         }
         this.setItem(this.component, { itemType: ItemTypes.Component, itemId: this.component.componentId } as Item);
         this.searchDocuments();
+        this.componentIndicatorSearchOptions.componentId = component.componentId;
+        this.componentIndicatorSearchOptions.includeParents = true;
+        this.searchComponentIndicators();
     }
 
     save(form: NgForm): void {
@@ -137,4 +151,60 @@ export class TheoryOfChangeComponentModal extends ItemComponent implements OnIni
             }, () => { });
 
     }
+
+    addComponentIndicators(): void {
+        this.indicatorModal.open();
+    }
+
+    changeIndicators(indicators: Indicator[]): void {
+        let promises: Observable<ComponentIndicator>[] = [];
+        indicators.forEach(indicator => {
+            if (this.component.componentIndicators.findIndex(o => o.indicatorId === indicator.indicatorId) < 0) {
+                promises.push(
+                    this.componentIndicatorService.save({ indicator: indicator, indicatorId: indicator.indicatorId, componentId: this.component.componentId } as ComponentIndicator)
+                        .pipe(tap(o => this.component.componentIndicators.push(o)))
+                );
+            }
+        });
+        forkJoin(promises).subscribe(() => this.toastr.success("The indicator(s) have been linked to the component"));
+    }
+
+    deleteComponentIndicator(componentIndicator: ComponentIndicator, event: MouseEvent): void {
+        event.stopPropagation();
+        this.componentIndicatorService.delete(componentIndicator.componentId, componentIndicator.indicatorId)
+            .subscribe(() => {
+                this.component.componentIndicators.splice(this.component.componentIndicators.findIndex(o => o.indicatorId === componentIndicator.indicatorId), 1)
+                this.toastr.success("The indicator has been unlinked from the component");
+            });
+    }
+
+    deleteComponentIndicators(): void {
+        this.componentService.deleteComponentIndicators(this.component.componentId)
+            .subscribe(() => {
+                this.component.componentIndicators = [];
+                this.toastr.success("All the indicators have been unlinked from the component");
+            });
+    }
+
+    public searchComponentIndicators(pageIndex = 0): Subject<ComponentIndicatorSearchResponse> {
+
+        this.documentSearchOptions.pageIndex = pageIndex;
+
+        const subject = new Subject<ComponentIndicatorSearchResponse>()
+
+        this.componentIndicatorService.search(this.componentIndicatorSearchOptions)
+            .subscribe({
+                next: response => {
+                    subject.next(response);
+                    this.component.componentIndicators = response.componentIndicators;
+                    this.componentIndicatorsHeaders = response.headers;
+                },
+                error: err => {
+                    this.errorService.handleError(err, "Documents", "Load");
+                }
+            });
+
+        return subject;
+    };
+
 }

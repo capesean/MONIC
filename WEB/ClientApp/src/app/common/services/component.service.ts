@@ -41,6 +41,10 @@ export class ComponentService extends SearchQuery {
         return this.http.post<void>(`${environment.baseApiUrl}components/sort`, ids);
     }
 
+    saveComponentIndicators(componentId: string, indicatorIds: string[]): Observable<void> {
+        return this.http.post<void>(`${environment.baseApiUrl}components/${componentId}/componentindicators`, indicatorIds);
+    }
+
     saveTheoryOfChangeComponents(componentId: string, theoryOfChangeIds: string[]): Observable<void> {
         return this.http.post<void>(`${environment.baseApiUrl}components/${componentId}/theoryofchangecomponents`, theoryOfChangeIds);
     }
@@ -59,6 +63,10 @@ export class ComponentService extends SearchQuery {
 
     deleteTheoryOfChangeComponents(componentId: string): Observable<void> {
         return this.http.delete<void>(`${environment.baseApiUrl}components/${componentId}/theoryofchangecomponents`);
+    }
+
+    deleteComponentIndicators(componentId: string): Observable<void> {
+        return this.http.delete<void>(`${environment.baseApiUrl}components/${componentId}/componentindicators`);
     }
 
 }

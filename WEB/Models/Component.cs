@@ -38,6 +38,8 @@ namespace WEB.Models
 
         public virtual ICollection<TheoryOfChangeComponent> TheoryOfChangeComponents { get; set; } = new List<TheoryOfChangeComponent>();
 
+        public virtual ICollection<ComponentIndicator> ComponentIndicators { get; set; } = new List<ComponentIndicator>();
+
         public Component()
         {
             ComponentId = Guid.NewGuid();

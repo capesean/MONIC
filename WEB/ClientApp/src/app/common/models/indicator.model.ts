@@ -7,6 +7,7 @@ import { Datum } from './datum.model';
 import { IndicatorPermission } from './indicatorpermission.model';
 import { LogFrameRowIndicator } from './logframerowindicator.model';
 import { Token } from './token.model';
+import { ComponentIndicator } from './componentindicator.model';
 import { IHasFields } from './ihasfields.model';
 import { FieldValue } from './fieldvalue.model';
 import { OptionValue } from './optionvalue.model';
@@ -36,6 +37,7 @@ export class Indicator implements IHasFields {
     indicatorPermissions: IndicatorPermission[];
     logFrameRowIndicators: LogFrameRowIndicator[];
     sourceTokens: Token[];
+    componentIndicators: ComponentIndicator[];
     tokens: Token[];
     fieldValues: FieldValue[] = [];
     optionValues: OptionValue[] = [];

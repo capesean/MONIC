@@ -28,6 +28,8 @@ namespace WEB.Models
         [Required]
         public int SortOrder { get; set; }
 
+        public virtual List<ComponentIndicatorDTO> ComponentIndicators { get; set; } = new List<ComponentIndicatorDTO>();
+
         public virtual List<LogFrameRowComponentDTO> LogFrameRowComponents { get; set; } = new List<LogFrameRowComponentDTO>();
 
         public virtual List<RelationshipDTO> RelationshipsAsSource { get; set; } = new List<RelationshipDTO>();
@@ -57,6 +59,8 @@ namespace WEB.Models
 
             if (includeChildren)
             {
+                foreach (var componentIndicator in component.ComponentIndicators)
+                    componentDTO.ComponentIndicators.Add(Create(componentIndicator));
                 foreach (var logFrameRowComponent in component.LogFrameRowComponents)
                     componentDTO.LogFrameRowComponents.Add(Create(logFrameRowComponent));
                 foreach (var relationshipAsSource in component.RelationshipsAsSource)

@@ -21,6 +21,7 @@ namespace WEB.Controllers
 
             if (searchOptions.IncludeChildren)
             {
+                results = results.Include(o => o.ComponentIndicators);
                 results = results.Include(o => o.RelationshipsAsSource);
                 results = results.Include(o => o.LogFrameRowComponents);
                 results = results.Include(o => o.RelationshipsAsTarget);
@@ -118,6 +119,9 @@ namespace WEB.Controllers
             foreach (var theoryOfChangeComponent in db.TheoryOfChangeComponents.Where(o => o.ComponentId == component.ComponentId))
                 db.Entry(theoryOfChangeComponent).State = EntityState.Deleted;
 
+            foreach (var componentIndicator in db.ComponentIndicators.Where(o => o.ComponentId == component.ComponentId))
+                db.Entry(componentIndicator).State = EntityState.Deleted;
+
             ItemFunctions.DeleteFields(db, componentId, true);
 
             db.Entry(component).State = EntityState.Deleted;
@@ -138,6 +142,29 @@ namespace WEB.Controllers
             {
                 db.Entry(component).State = EntityState.Modified;
                 component.SortOrder = Array.IndexOf(sortedIds, component.ComponentId);
+            }
+
+            await db.SaveChangesAsync();
+
+            return Ok();
+        }
+
+        [HttpPost("{componentId:Guid}/componentindicators"), AuthorizeRoles(Roles.Administrator)]
+        public async Task<IActionResult> SaveComponentIndicators(Guid componentId, [FromBody] Guid[] indicatorIds)
+        {
+            if (!ModelState.IsValid) return BadRequest(ModelState);
+
+            var componentIndicators = await db.ComponentIndicators
+                .Where(o => o.ComponentId == componentId)
+                .ToListAsync();
+
+            foreach (var indicatorId in indicatorIds)
+            {
+                if (!componentIndicators.Any(o => o.IndicatorId == indicatorId))
+                {
+                    var componentIndicator = new ComponentIndicator { ComponentId = componentId, IndicatorId = indicatorId };
+                    db.Entry(componentIndicator).State = EntityState.Added;
+                }
             }
 
             await db.SaveChangesAsync();
@@ -206,6 +233,17 @@ namespace WEB.Controllers
         {
             foreach (var theoryOfChangeComponent in db.TheoryOfChangeComponents.Where(o => o.ComponentId == componentId).ToList())
                 db.Entry(theoryOfChangeComponent).State = EntityState.Deleted;
+
+            await db.SaveChangesAsync();
+
+            return Ok();
+        }
+
+        [HttpDelete("{componentId:Guid}/componentindicators"), AuthorizeRoles(Roles.Administrator)]
+        public async Task<IActionResult> DeleteComponentIndicators(Guid componentId)
+        {
+            foreach (var componentIndicator in db.ComponentIndicators.Where(o => o.ComponentId == componentId).ToList())
+                db.Entry(componentIndicator).State = EntityState.Deleted;
 
             await db.SaveChangesAsync();
 

@@ -32,6 +32,7 @@ namespace WEB.Controllers
                 results = results.Include(o => o.IndicatorPermissions);
                 results = results.Include(o => o.LogFrameRowIndicators);
                 results = results.Include(o => o.SourceTokens);
+                results = results.Include(o => o.ComponentIndicators);
                 results = results.Include(o => o.Tokens);
             }
 
@@ -164,6 +165,9 @@ namespace WEB.Controllers
             if (await db.LogFrameRowIndicators.AnyAsync(o => o.IndicatorId == indicator.IndicatorId))
                 return BadRequest("Unable to delete the indicator as it has related log frame row indicators");
 
+            if (await db.ComponentIndicators.AnyAsync(o => o.IndicatorId == indicator.IndicatorId))
+                return BadRequest("Unable to delete the indicator as it has related component indicators");
+
             ItemFunctions.DeleteFields(db, indicatorId, true);
 
             db.Entry(indicator).State = EntityState.Deleted;
@@ -197,6 +201,17 @@ namespace WEB.Controllers
         {
             foreach (var logFrameRowIndicator in db.LogFrameRowIndicators.Where(o => o.IndicatorId == indicatorId).ToList())
                 db.Entry(logFrameRowIndicator).State = EntityState.Deleted;
+
+            await db.SaveChangesAsync();
+
+            return Ok();
+        }
+
+        [HttpDelete("{indicatorId:Guid}/componentindicators"), AuthorizeRoles(Roles.Administrator)]
+        public async Task<IActionResult> DeleteComponentIndicators(Guid indicatorId)
+        {
+            foreach (var componentIndicator in db.ComponentIndicators.Where(o => o.IndicatorId == indicatorId).ToList())
+                db.Entry(componentIndicator).State = EntityState.Deleted;
 
             await db.SaveChangesAsync();
 

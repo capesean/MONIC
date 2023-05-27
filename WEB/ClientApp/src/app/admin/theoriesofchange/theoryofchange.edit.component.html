@@ -86,7 +86,7 @@
                             </form>
 
                             <div class="mb-3">
-                            <button class="btn btn-outline-primary me-2 mb-1" (click)="addTheoryOfChangeComponents()">Add Components<i class="fas fa-plus ms-2"></i></button>
+                                <button class="btn btn-outline-primary me-2 mb-1" (click)="addTheoryOfChangeComponents()">Add Components<i class="fas fa-plus ms-2"></i></button>
                                 <a [routerLink]="['./theoryofchangecomponents', 'add']" class="btn btn-outline-primary me-2 mb-1">Add<i class="fas fa-plus ms-2"></i></a>
                                 <button *ngIf="!showTheoryOfChangeComponentsSearch" type="button" class="btn btn-outline-secondary me-2 mb-1" (click)="showTheoryOfChangeComponentsSearch=true">Filter<i class="fas fa-filter ms-2"></i></button>
                                 <button *ngIf="showTheoryOfChangeComponentsSearch" form="formSearchTheoryOfChangeComponents" type="submit" class="btn btn-outline-primary me-2 mb-1">Search<i class="fas fa-search ms-2"></i></button>

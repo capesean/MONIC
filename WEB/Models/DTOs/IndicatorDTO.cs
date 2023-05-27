@@ -60,6 +60,8 @@ namespace WEB.Models
 
         public SubcategoryDTO Subcategory { get; set; }
 
+        public virtual List<ComponentIndicatorDTO> ComponentIndicators { get; set; } = new List<ComponentIndicatorDTO>();
+
         public virtual List<DatumDTO> Data { get; set; } = new List<DatumDTO>();
 
         public virtual List<IndicatorPermissionDTO> IndicatorPermissions { get; set; } = new List<IndicatorPermissionDTO>();
@@ -106,6 +108,8 @@ namespace WEB.Models
 
             if (includeChildren)
             {
+                foreach (var componentIndicator in indicator.ComponentIndicators)
+                    indicatorDTO.ComponentIndicators.Add(Create(componentIndicator));
                 foreach (var datum in indicator.Data)
                     indicatorDTO.Data.Add(Create(datum));
                 foreach (var indicatorPermission in indicator.IndicatorPermissions)

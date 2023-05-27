@@ -1,137 +1,120 @@
-<app-page-title title="Component"></app-page-title>
+<ng-container *ngIf="route.children.length === 0">
 
-<form id="form" name="form" (submit)="save(form)" novalidate #form="ngForm" [ngClass]="{ 'was-validated': form.submitted }">
+    <app-page-title title="Component"></app-page-title>
 
-    <div class="card border-0">
+    <form id="form" name="form" (submit)="save(form)" novalidate #form="ngForm" [ngClass]="{ 'was-validated': form.submitted }">
 
-        <div class="card-body">
+        <div class="card border-0">
 
-            <fieldset class="group">
-
-                <div class="row g-3">
-
-                    <div class="col-sm-6 col-md-4">
-                        <div class="form-group" [ngClass]="{ 'is-invalid': name.invalid }">
-
-                            <label for="name">
-                                Name:
-                            </label>
-
-                            <input id="name" name="name" class="form-control" type="text" [(ngModel)]="component.name" #name="ngModel" required (ngModelChange)="changeBreadcrumb()" maxlength="250" />
-
-                            <div *ngIf="name.errors?.required" class="invalid-feedback">
-                                Name is required
-                            </div>
-
-                            <div *ngIf="name.errors?.maxlength" class="invalid-feedback">
-                                Name must be at most 250 characters long
-                            </div>
-
-                        </div>
-                    </div>
-
-                    <div class="col-sm-6 col-md-4">
-                        <div class="form-group" [ngClass]="{ 'is-invalid': code.invalid }">
-
-                            <label for="code">
-                                Code:
-                            </label>
-
-                            <input id="code" name="code" class="form-control" type="text" [(ngModel)]="component.code" #code="ngModel" required maxlength="20" />
-
-                            <div *ngIf="code.errors?.required" class="invalid-feedback">
-                                Code is required
-                            </div>
-
-                            <div *ngIf="code.errors?.maxlength" class="invalid-feedback">
-                                Code must be at most 20 characters long
-                            </div>
-
-                        </div>
-                    </div>
-
-                    <div class="col-sm-6 col-md-4">
-                        <div class="form-group" [ngClass]="{ 'is-invalid': componentType.invalid }">
-
-                            <label for="componentType">
-                                Component Type:
-                            </label>
-
-                            <select id="componentType" name="componentType" class="form-select" [(ngModel)]="component.componentType" #componentType="ngModel" required>
-                                <option *ngFor="let componentType of componentTypes" [ngValue]="componentType.value">{{ componentType.label }}</option>
-                            </select>
-
-                            <div *ngIf="componentType.errors?.required" class="invalid-feedback">
-                                Component Type is required
-                            </div>
-
-                        </div>
-                    </div>
-
-                    <div class="col-sm-6 col-md-4">
-                        <div class="form-group" [ngClass]="{ 'is-invalid': description.invalid }">
-
-                            <label for="description">
-                                Description:
-                            </label>
-
-                            <textarea id="description" name="description" class="form-control" rows="5" [(ngModel)]="component.description" #description="ngModel"></textarea>
-
-                        </div>
-                    </div>
-
-                    <div class="col-sm-6 col-md-4">
-                        <div class="form-group" [ngClass]="{ 'is-invalid': backgroundColour.invalid }">
-
-                            <label for="backgroundColour">
-                                Background Colour:
-                            </label>
-
-                            <app-color id="backgroundColour" name="backgroundColour" [(ngModel)]="component.backgroundColour" #backgroundColour="ngModel"></app-color>
-
-                            <div *ngIf="backgroundColour.errors?.maxlength" class="invalid-feedback">
-                                Background Colour must be at most 20 characters long
-                            </div>
-
-                        </div>
-                    </div>
-
-                    <div class="col-sm-6 col-md-4">
-                        <div class="form-group" [ngClass]="{ 'is-invalid': textColour.invalid }">
-
-                            <label for="textColour">
-                                Text Colour:
-                            </label>
-
-                            <app-color id="textColour" name="textColour" [(ngModel)]="component.textColour" #textColour="ngModel"></app-color>
-
-                            <div *ngIf="textColour.errors?.maxlength" class="invalid-feedback">
-                                Text Colour must be at most 20 characters long
-                            </div>
-
-                        </div>
-                    </div>
-
-                    <ng-container *ngFor="let field of fields | groupPipe : null">
-
-                        <!--[(file)]="files[field.fieldId]" (downloadClicked)="download($event)"-->
-                        <field [field]="field" id="{{field.fieldId}}" name="{{field.fieldId}}" [ngModel]="fieldValues.get(field.fieldId)" (ngModelChange)="fieldValues.set(field.fieldId, $event)" [fieldValues]="fieldValues" class="{{field | fieldSizePipe}}"></field>
-
-                    </ng-container>
-
-                </div>
-
-            </fieldset>
-
-            <ng-container *ngFor="let group of groups">
+            <div class="card-body">
 
                 <fieldset class="group">
 
-                    <legend>{{group.name}}</legend>
-
                     <div class="row g-3">
 
-                        <ng-container *ngFor="let field of fields | groupPipe : group.groupId">
+                        <div class="col-sm-6 col-md-4">
+                            <div class="form-group" [ngClass]="{ 'is-invalid': name.invalid }">
+
+                                <label for="name">
+                                    Name:
+                                </label>
+
+                                <input id="name" name="name" class="form-control" type="text" [(ngModel)]="component.name" #name="ngModel" required (ngModelChange)="changeBreadcrumb()" maxlength="250" />
+
+                                <div *ngIf="name.errors?.required" class="invalid-feedback">
+                                    Name is required
+                                </div>
+
+                                <div *ngIf="name.errors?.maxlength" class="invalid-feedback">
+                                    Name must be at most 250 characters long
+                                </div>
+
+                            </div>
+                        </div>
+
+                        <div class="col-sm-6 col-md-4">
+                            <div class="form-group" [ngClass]="{ 'is-invalid': code.invalid }">
+
+                                <label for="code">
+                                    Code:
+                                </label>
+
+                                <input id="code" name="code" class="form-control" type="text" [(ngModel)]="component.code" #code="ngModel" required maxlength="20" />
+
+                                <div *ngIf="code.errors?.required" class="invalid-feedback">
+                                    Code is required
+                                </div>
+
+                                <div *ngIf="code.errors?.maxlength" class="invalid-feedback">
+                                    Code must be at most 20 characters long
+                                </div>
+
+                            </div>
+                        </div>
+
+                        <div class="col-sm-6 col-md-4">
+                            <div class="form-group" [ngClass]="{ 'is-invalid': componentType.invalid }">
+
+                                <label for="componentType">
+                                    Component Type:
+                                </label>
+
+                                <select id="componentType" name="componentType" class="form-select" [(ngModel)]="component.componentType" #componentType="ngModel" required>
+                                    <option *ngFor="let componentType of componentTypes" [ngValue]="componentType.value">{{ componentType.label }}</option>
+                                </select>
+
+                                <div *ngIf="componentType.errors?.required" class="invalid-feedback">
+                                    Component Type is required
+                                </div>
+
+                            </div>
+                        </div>
+
+                        <div class="col-sm-6 col-md-4">
+                            <div class="form-group" [ngClass]="{ 'is-invalid': description.invalid }">
+
+                                <label for="description">
+                                    Description:
+                                </label>
+
+                                <textarea id="description" name="description" class="form-control" rows="5" [(ngModel)]="component.description" #description="ngModel"></textarea>
+
+                            </div>
+                        </div>
+
+                        <div class="col-sm-6 col-md-4">
+                            <div class="form-group" [ngClass]="{ 'is-invalid': backgroundColour.invalid }">
+
+                                <label for="backgroundColour">
+                                    Background Colour:
+                                </label>
+
+                                <app-color id="backgroundColour" name="backgroundColour" [(ngModel)]="component.backgroundColour" #backgroundColour="ngModel"></app-color>
+
+                                <div *ngIf="backgroundColour.errors?.maxlength" class="invalid-feedback">
+                                    Background Colour must be at most 20 characters long
+                                </div>
+
+                            </div>
+                        </div>
+
+                        <div class="col-sm-6 col-md-4">
+                            <div class="form-group" [ngClass]="{ 'is-invalid': textColour.invalid }">
+
+                                <label for="textColour">
+                                    Text Colour:
+                                </label>
+
+                                <app-color id="textColour" name="textColour" [(ngModel)]="component.textColour" #textColour="ngModel"></app-color>
+
+                                <div *ngIf="textColour.errors?.maxlength" class="invalid-feedback">
+                                    Text Colour must be at most 20 characters long
+                                </div>
+
+                            </div>
+                        </div>
+
+                        <ng-container *ngFor="let field of fields | groupPipe : null">
 
                             <!--[(file)]="files[field.fieldId]" (downloadClicked)="download($event)"-->
                             <field [field]="field" id="{{field.fieldId}}" name="{{field.fieldId}}" [ngModel]="fieldValues.get(field.fieldId)" (ngModelChange)="fieldValues.set(field.fieldId, $event)" [fieldValues]="fieldValues" class="{{field | fieldSizePipe}}"></field>
@@ -142,335 +125,430 @@
 
                 </fieldset>
 
-            </ng-container>
+                <ng-container *ngFor="let group of groups">
 
-            <fieldset class="my-3">
-                <button type="submit" class="btn btn-outline-success me-2 mb-1">Save<i class="fas fa-check ms-2"></i></button>
-                <button type="button" *ngIf="!isNew" class="btn btn-outline-danger me-2 mb-1" (click)="delete()">Delete<i class="fas fa-times ms-2"></i></button>
-            </fieldset>
+                    <fieldset class="group">
+
+                        <legend>{{group.name}}</legend>
+
+                        <div class="row g-3">
+
+                            <ng-container *ngFor="let field of fields | groupPipe : group.groupId">
+
+                                <!--[(file)]="files[field.fieldId]" (downloadClicked)="download($event)"-->
+                                <field [field]="field" id="{{field.fieldId}}" name="{{field.fieldId}}" [ngModel]="fieldValues.get(field.fieldId)" (ngModelChange)="fieldValues.set(field.fieldId, $event)" [fieldValues]="fieldValues" class="{{field | fieldSizePipe}}"></field>
+
+                            </ng-container>
+
+                        </div>
+
+                    </fieldset>
+
+                </ng-container>
+
+                <fieldset class="my-3">
+                    <button type="submit" class="btn btn-outline-success me-2 mb-1">Save<i class="fas fa-check ms-2"></i></button>
+                    <button type="button" *ngIf="!isNew" class="btn btn-outline-danger me-2 mb-1" (click)="delete()">Delete<i class="fas fa-times ms-2"></i></button>
+                </fieldset>
+
+            </div>
 
         </div>
 
-    </div>
+    </form>
 
-</form>
+    <ng-container *ngIf="!isNew">
 
-<ng-container *ngIf="!isNew">
+        <hr />
 
-    <hr />
+        <nav ngbNav #nav="ngbNav" class="nav-tabs">
 
-    <nav ngbNav #nav="ngbNav" class="nav-tabs">
+            <ng-container ngbNavItem class="pt-6">
 
-        <ng-container ngbNavItem class="pt-6">
+                <a ngbNavLink>Relationships as Source</a>
 
-            <a ngbNavLink>Relationships as Source</a>
+                <ng-template ngbNavContent>
 
-            <ng-template ngbNavContent>
+                    <div class="card border-0 search-results">
 
-                <div class="card border-0 search-results">
+                        <div class="card-header border-0">
 
-                    <div class="card-header border-0">
+                            <h4 class="card-header-title text-uppercase">
+                                Relationships as Source
+                            </h4>
 
-                        <h4 class="card-header-title text-uppercase">
-                            Relationships as Source
-                        </h4>
+                        </div>
 
-                    </div>
+                        <div class="card-body">
 
-                    <div class="card-body">
+                            <form id="formSearchRelationshipsAsSource" (submit)="searchRelationshipsAsSource(0)" novalidate *ngIf="showRelationshipsAsSourceSearch" class="mb-5">
 
-                        <form id="formSearchRelationshipsAsSource" (submit)="searchRelationshipsAsSource(0)" novalidate *ngIf="showRelationshipsAsSourceSearch" class="mb-5">
+                                <div class="row g-3">
 
-                            <div class="row g-3">
-
-                                <div class="col-sm-6 col-md-4 col-lg-4 col-xl-3">
-                                    <div class="form-group">
-                                        <theory-of-change-select id="theoryOfChangeId" name="theoryOfChangeId" [(ngModel)]="relationshipsAsSourceSearchOptions.theoryOfChangeId"></theory-of-change-select>
+                                    <div class="col-sm-6 col-md-4 col-lg-4 col-xl-3">
+                                        <div class="form-group">
+                                            <theory-of-change-select id="theoryOfChangeId" name="theoryOfChangeId" [(ngModel)]="relationshipsAsSourceSearchOptions.theoryOfChangeId"></theory-of-change-select>
+                                        </div>
                                     </div>
+
+                                    <div class="col-sm-6 col-md-4 col-lg-4 col-xl-3">
+                                        <div class="form-group">
+                                            <component-select id="targetComponentId" name="targetComponentId" [(ngModel)]="relationshipsAsSourceSearchOptions.targetComponentId"></component-select>
+                                        </div>
+                                    </div>
+
                                 </div>
 
-                                <div class="col-sm-6 col-md-4 col-lg-4 col-xl-3">
-                                    <div class="form-group">
-                                        <component-select id="targetComponentId" name="targetComponentId" [(ngModel)]="relationshipsAsSourceSearchOptions.targetComponentId"></component-select>
-                                    </div>
-                                </div>
+                            </form>
 
+                            <div class="mb-3">
+                                <button *ngIf="!showRelationshipsAsSourceSearch" type="button" class="btn btn-outline-secondary me-2 mb-1" (click)="showRelationshipsAsSourceSearch=true">Filter<i class="fas fa-filter ms-2"></i></button>
+                                <button *ngIf="showRelationshipsAsSourceSearch" form="formSearchRelationshipsAsSource" type="submit" class="btn btn-outline-primary me-2 mb-1">Search<i class="fas fa-search ms-2"></i></button>
                             </div>
 
-                        </form>
+                        </div>
 
-                        <div class="mb-3">
-                            <button *ngIf="!showRelationshipsAsSourceSearch" type="button" class="btn btn-outline-secondary me-2 mb-1" (click)="showRelationshipsAsSourceSearch=true">Filter<i class="fas fa-filter ms-2"></i></button>
-                            <button *ngIf="showRelationshipsAsSourceSearch" form="formSearchRelationshipsAsSource" type="submit" class="btn btn-outline-primary me-2 mb-1">Search<i class="fas fa-search ms-2"></i></button>
+                        <div class="table-responsive">
+
+                            <table class="table table-hover table-edge table-nowrap mb-0 align-middle">
+                                <thead class="thead-light">
+                                    <tr>
+                                        <th>Theory of Change</th>
+                                        <th>Target Component</th>
+                                        <th class="w-20px text-center"><i class="fas fa-times text-danger cursor-pointer" (click)="deleteRelationshipsAsSource()" ngbTooltip="Delete all relationships as source" container="body" placement="left"></i></th>
+                                    </tr>
+                                </thead>
+                                <tbody class="list cursor-pointer">
+                                    <tr *ngFor="let relationship of relationshipsAsSource" (click)="goToRelationshipAsSource(relationship)">
+                                        <td>{{ relationship.theoryOfChange.name }}</td>
+                                        <td>{{ relationship.targetComponent.name }}</td>
+                                        <td class="text-center"><i class="fas fa-times cursor-pointer p-1 text-danger" (click)="deleteRelationshipAsSource(relationship, $event)"></i></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+
+                        </div>
+
+                        <div class="card-footer">
+                            <pager [headers]="relationshipsAsSourceHeaders" (pageChanged)="searchRelationshipsAsSource($event)"></pager>
                         </div>
 
                     </div>
 
-                    <div class="table-responsive">
+                </ng-template>
 
-                        <table class="table table-hover table-edge table-nowrap mb-0 align-middle">
-                            <thead class="thead-light">
-                                <tr>
-                                    <th>Theory of Change</th>
-                                    <th>Target Component</th>
-                                    <th class="w-20px text-center"><i class="fas fa-times text-danger cursor-pointer" (click)="deleteRelationshipsAsSource()" ngbTooltip="Delete all relationships as source" container="body" placement="left"></i></th>
-                                </tr>
-                            </thead>
-                            <tbody class="list cursor-pointer">
-                                <tr *ngFor="let relationship of relationshipsAsSource" (click)="goToRelationshipAsSource(relationship)">
-                                    <td>{{ relationship.theoryOfChange.name }}</td>
-                                    <td>{{ relationship.targetComponent.name }}</td>
-                                    <td class="text-center"><i class="fas fa-times cursor-pointer p-1 text-danger" (click)="deleteRelationshipAsSource(relationship, $event)"></i></td>
-                                </tr>
-                            </tbody>
-                        </table>
+            </ng-container>
 
-                    </div>
+            <ng-container ngbNavItem class="pt-6">
 
-                    <div class="card-footer">
-                        <pager [headers]="relationshipsAsSourceHeaders" (pageChanged)="searchRelationshipsAsSource($event)"></pager>
-                    </div>
+                <a ngbNavLink>Relationships as Target</a>
 
-                </div>
+                <ng-template ngbNavContent>
 
-            </ng-template>
+                    <div class="card border-0 search-results">
 
-        </ng-container>
+                        <div class="card-header border-0">
 
-        <ng-container ngbNavItem class="pt-6">
+                            <h4 class="card-header-title text-uppercase">
+                                Relationships as Target
+                            </h4>
 
-            <a ngbNavLink>Relationships as Target</a>
+                        </div>
 
-            <ng-template ngbNavContent>
+                        <div class="card-body">
 
-                <div class="card border-0 search-results">
+                            <form id="formSearchRelationshipsAsTarget" (submit)="searchRelationshipsAsTarget(0)" novalidate *ngIf="showRelationshipsAsTargetSearch" class="mb-5">
 
-                    <div class="card-header border-0">
+                                <div class="row g-3">
 
-                        <h4 class="card-header-title text-uppercase">
-                            Relationships as Target
-                        </h4>
-
-                    </div>
-
-                    <div class="card-body">
-
-                        <form id="formSearchRelationshipsAsTarget" (submit)="searchRelationshipsAsTarget(0)" novalidate *ngIf="showRelationshipsAsTargetSearch" class="mb-5">
-
-                            <div class="row g-3">
-
-                                <div class="col-sm-6 col-md-4 col-lg-4 col-xl-3">
-                                    <div class="form-group">
-                                        <theory-of-change-select id="theoryOfChangeId" name="theoryOfChangeId" [(ngModel)]="relationshipsAsTargetSearchOptions.theoryOfChangeId"></theory-of-change-select>
+                                    <div class="col-sm-6 col-md-4 col-lg-4 col-xl-3">
+                                        <div class="form-group">
+                                            <theory-of-change-select id="theoryOfChangeId" name="theoryOfChangeId" [(ngModel)]="relationshipsAsTargetSearchOptions.theoryOfChangeId"></theory-of-change-select>
+                                        </div>
                                     </div>
+
+                                    <div class="col-sm-6 col-md-4 col-lg-4 col-xl-3">
+                                        <div class="form-group">
+                                            <component-select id="sourceComponentId" name="sourceComponentId" [(ngModel)]="relationshipsAsTargetSearchOptions.sourceComponentId"></component-select>
+                                        </div>
+                                    </div>
+
                                 </div>
 
-                                <div class="col-sm-6 col-md-4 col-lg-4 col-xl-3">
-                                    <div class="form-group">
-                                        <component-select id="sourceComponentId" name="sourceComponentId" [(ngModel)]="relationshipsAsTargetSearchOptions.sourceComponentId"></component-select>
-                                    </div>
-                                </div>
+                            </form>
 
+                            <div class="mb-3">
+                                <button *ngIf="!showRelationshipsAsTargetSearch" type="button" class="btn btn-outline-secondary me-2 mb-1" (click)="showRelationshipsAsTargetSearch=true">Filter<i class="fas fa-filter ms-2"></i></button>
+                                <button *ngIf="showRelationshipsAsTargetSearch" form="formSearchRelationshipsAsTarget" type="submit" class="btn btn-outline-primary me-2 mb-1">Search<i class="fas fa-search ms-2"></i></button>
                             </div>
 
-                        </form>
+                        </div>
 
-                        <div class="mb-3">
-                            <button *ngIf="!showRelationshipsAsTargetSearch" type="button" class="btn btn-outline-secondary me-2 mb-1" (click)="showRelationshipsAsTargetSearch=true">Filter<i class="fas fa-filter ms-2"></i></button>
-                            <button *ngIf="showRelationshipsAsTargetSearch" form="formSearchRelationshipsAsTarget" type="submit" class="btn btn-outline-primary me-2 mb-1">Search<i class="fas fa-search ms-2"></i></button>
+                        <div class="table-responsive">
+
+                            <table class="table table-hover table-edge table-nowrap mb-0 align-middle">
+                                <thead class="thead-light">
+                                    <tr>
+                                        <th>Theory of Change</th>
+                                        <th>Source Component</th>
+                                        <th class="w-20px text-center"><i class="fas fa-times text-danger cursor-pointer" (click)="deleteRelationshipsAsTarget()" ngbTooltip="Delete all relationships as target" container="body" placement="left"></i></th>
+                                    </tr>
+                                </thead>
+                                <tbody class="list cursor-pointer">
+                                    <tr *ngFor="let relationship of relationshipsAsTarget" (click)="goToRelationshipAsTarget(relationship)">
+                                        <td>{{ relationship.theoryOfChange.name }}</td>
+                                        <td>{{ relationship.sourceComponent.name }}</td>
+                                        <td>{{ relationship.theoryOfChange.name }}</td>
+                                        <td class="text-center"><i class="fas fa-times cursor-pointer p-1 text-danger" (click)="deleteRelationshipAsTarget(relationship, $event)"></i></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+
+                        </div>
+
+                        <div class="card-footer">
+                            <pager [headers]="relationshipsAsTargetHeaders" (pageChanged)="searchRelationshipsAsTarget($event)"></pager>
                         </div>
 
                     </div>
 
-                    <div class="table-responsive">
+                </ng-template>
 
-                        <table class="table table-hover table-edge table-nowrap mb-0 align-middle">
-                            <thead class="thead-light">
-                                <tr>
-                                    <th>Theory of Change</th>
-                                    <th>Source Component</th>
-                                    <th class="w-20px text-center"><i class="fas fa-times text-danger cursor-pointer" (click)="deleteRelationshipsAsTarget()" ngbTooltip="Delete all relationships as target" container="body" placement="left"></i></th>
-                                </tr>
-                            </thead>
-                            <tbody class="list cursor-pointer">
-                                <tr *ngFor="let relationship of relationshipsAsTarget" (click)="goToRelationshipAsTarget(relationship)">
-                                    <td>{{ relationship.theoryOfChange.name }}</td>
-                                    <td>{{ relationship.sourceComponent.name }}</td>
-                                    <td>{{ relationship.theoryOfChange.name }}</td>
-                                    <td class="text-center"><i class="fas fa-times cursor-pointer p-1 text-danger" (click)="deleteRelationshipAsTarget(relationship, $event)"></i></td>
-                                </tr>
-                            </tbody>
-                        </table>
+            </ng-container>
 
-                    </div>
+            <ng-container ngbNavItem class="pt-6">
 
-                    <div class="card-footer">
-                        <pager [headers]="relationshipsAsTargetHeaders" (pageChanged)="searchRelationshipsAsTarget($event)"></pager>
-                    </div>
+                <a ngbNavLink>Log Frame Row Components</a>
 
-                </div>
+                <ng-template ngbNavContent>
 
-            </ng-template>
+                    <div class="card border-0 search-results">
 
-        </ng-container>
+                        <div class="card-header border-0">
 
-        <ng-container ngbNavItem class="pt-6">
+                            <h4 class="card-header-title text-uppercase">
+                                Log Frame Row Components
+                            </h4>
 
-            <a ngbNavLink>Log Frame Row Components</a>
+                        </div>
 
-            <ng-template ngbNavContent>
+                        <div class="card-body">
 
-                <div class="card border-0 search-results">
+                            <form id="formSearchLogFrameRowComponents" (submit)="searchLogFrameRowComponents(0)" novalidate *ngIf="showLogFrameRowComponentsSearch" class="mb-5">
 
-                    <div class="card-header border-0">
+                                <div class="row g-3">
 
-                        <h4 class="card-header-title text-uppercase">
-                            Log Frame Row Components
-                        </h4>
-
-                    </div>
-
-                    <div class="card-body">
-
-                        <form id="formSearchLogFrameRowComponents" (submit)="searchLogFrameRowComponents(0)" novalidate *ngIf="showLogFrameRowComponentsSearch" class="mb-5">
-
-                            <div class="row g-3">
-
-                                <div class="col-sm-6 col-md-4 col-lg-4 col-xl-3">
-                                    <div class="form-group">
-                                        <log-frame-row-select id="logFrameRowId" name="logFrameRowId" [(ngModel)]="logFrameRowComponentsSearchOptions.logFrameRowId"></log-frame-row-select>
+                                    <div class="col-sm-6 col-md-4 col-lg-4 col-xl-3">
+                                        <div class="form-group">
+                                            <log-frame-row-select id="logFrameRowId" name="logFrameRowId" [(ngModel)]="logFrameRowComponentsSearchOptions.logFrameRowId"></log-frame-row-select>
+                                        </div>
                                     </div>
+
                                 </div>
 
+                            </form>
+
+                            <div class="mb-3">
+                                <button *ngIf="!showLogFrameRowComponentsSearch" type="button" class="btn btn-outline-secondary me-2 mb-1" (click)="showLogFrameRowComponentsSearch=true">Filter<i class="fas fa-filter ms-2"></i></button>
+                                <button *ngIf="showLogFrameRowComponentsSearch" form="formSearchLogFrameRowComponents" type="submit" class="btn btn-outline-primary me-2 mb-1">Search<i class="fas fa-search ms-2"></i></button>
                             </div>
 
-                        </form>
+                        </div>
 
-                        <div class="mb-3">
-                            <button *ngIf="!showLogFrameRowComponentsSearch" type="button" class="btn btn-outline-secondary me-2 mb-1" (click)="showLogFrameRowComponentsSearch=true">Filter<i class="fas fa-filter ms-2"></i></button>
-                            <button *ngIf="showLogFrameRowComponentsSearch" form="formSearchLogFrameRowComponents" type="submit" class="btn btn-outline-primary me-2 mb-1">Search<i class="fas fa-search ms-2"></i></button>
+                        <div class="table-responsive">
+
+                            <table class="table table-hover table-edge table-nowrap mb-0 align-middle">
+                                <thead class="thead-light">
+                                    <tr>
+                                        <th>LogFrame</th>
+                                        <th>LogFrame Row</th>
+                                        <th class="w-20px text-center"><i class="fas fa-times text-danger cursor-pointer" (click)="deleteLogFrameRowComponents()" ngbTooltip="Delete all log frame row components" container="body" placement="left"></i></th>
+                                    </tr>
+                                </thead>
+                                <tbody class="list cursor-pointer">
+                                    <tr *ngFor="let logFrameRowComponent of logFrameRowComponents" (click)="goToLogFrameRowComponent(logFrameRowComponent)">
+                                        <td>{{ logFrameRowComponent.logFrameRow.rowNumber }}</td>
+                                        <td>{{ logFrameRowComponent.logFrameRow.logFrame.name }}</td>
+                                        <td class="text-center"><i class="fas fa-times cursor-pointer p-1 text-danger" (click)="deleteLogFrameRowComponent(logFrameRowComponent, $event)"></i></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+
+                        </div>
+
+                        <div class="card-footer">
+                            <pager [headers]="logFrameRowComponentsHeaders" (pageChanged)="searchLogFrameRowComponents($event)"></pager>
                         </div>
 
                     </div>
 
+                </ng-template>
+
+            </ng-container>
+
+            <ng-container ngbNavItem class="pt-6">
+
+                <a ngbNavLink>Components</a>
+
+                <ng-template ngbNavContent>
+
+                    <div class="card border-0 search-results">
+
+                        <div class="card-header border-0">
+
+                            <h4 class="card-header-title text-uppercase">
+                                Theories of Change
+                            </h4>
+
+                        </div>
+
+                        <div class="card-body">
+
+                        </div>
+
+                        <div class="table-responsive">
+
+                            <table class="table table-hover table-edge table-nowrap mb-0 align-middle">
+                                <thead class="thead-light">
+                                    <tr>
+                                        <th>Theory of Change</th>
+                                        <th class="w-20px text-center"><i class="fas fa-times text-danger cursor-pointer" (click)="deleteTheoryOfChangeComponents()" ngbTooltip="Delete all components" container="body" placement="left"></i></th>
+                                    </tr>
+                                </thead>
+                                <tbody class="list cursor-pointer">
+                                    <tr *ngFor="let theoryOfChangeComponent of theoryOfChangeComponents" (click)="goToTheoryOfChangeComponent(theoryOfChangeComponent)">
+                                        <td>{{ theoryOfChangeComponent.theoryOfChange.name }}</td>
+                                        <td class="text-center"><i class="fas fa-times cursor-pointer p-1 text-danger" (click)="deleteTheoryOfChangeComponent(theoryOfChangeComponent, $event)"></i></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+
+                        </div>
+
+                        <div class="card-footer">
+                            <pager [headers]="theoryOfChangeComponentsHeaders" (pageChanged)="searchTheoryOfChangeComponents($event)"></pager>
+                        </div>
+
+                    </div>
+
+                </ng-template>
+
+            </ng-container>
+
+            <ng-container ngbNavItem class="pt-6">
+
+                <a ngbNavLink>Component Indicators</a>
+
+                <ng-template ngbNavContent>
+
+                    <div class="card border-0 search-results">
+
+                        <div class="card-header border-0">
+
+                            <h4 class="card-header-title text-uppercase">
+                                Component Indicators
+                            </h4>
+
+                        </div>
+
+                        <div class="card-body">
+
+                            <form id="formSearchComponentIndicators" (submit)="searchComponentIndicators(0)" novalidate *ngIf="showComponentIndicatorsSearch" class="mb-5">
+
+                                <div class="row g-3">
+
+                                    <div class="col-sm-6 col-md-4 col-lg-4 col-xl-3">
+                                        <div class="form-group">
+                                            <indicator-select id="indicatorId" name="indicatorId" [(ngModel)]="componentIndicatorsSearchOptions.indicatorId"></indicator-select>
+                                        </div>
+                                    </div>
+
+                                </div>
+
+                            </form>
+
+                            <div class="mb-3">
+                                <button class="btn btn-outline-primary me-2 mb-1" (click)="addComponentIndicators()">Add Component Indicators<i class="fas fa-plus ms-2"></i></button>
+                                <a [routerLink]="['./componentindicators', 'add']" class="btn btn-outline-primary me-2 mb-1">Add<i class="fas fa-plus ms-2"></i></a>
+                                <button *ngIf="!showComponentIndicatorsSearch" type="button" class="btn btn-outline-secondary me-2 mb-1" (click)="showComponentIndicatorsSearch=true">Filter<i class="fas fa-filter ms-2"></i></button>
+                                <button *ngIf="showComponentIndicatorsSearch" form="formSearchComponentIndicators" type="submit" class="btn btn-outline-primary me-2 mb-1">Search<i class="fas fa-search ms-2"></i></button>
+                            </div>
+
+                        </div>
+
+                        <div class="table-responsive">
+
+                            <table class="table table-hover table-edge table-nowrap mb-0 align-middle">
+                                <thead class="thead-light">
+                                    <tr>
+                                        <th>Indicator</th>
+                                        <th class="w-20px text-center"><i class="fas fa-times text-danger cursor-pointer" (click)="deleteComponentIndicators()" ngbTooltip="Delete all component indicators" container="body" placement="left"></i></th>
+                                    </tr>
+                                </thead>
+                                <tbody class="list cursor-pointer">
+                                    <tr *ngFor="let componentIndicator of componentIndicators" (click)="goToComponentIndicator(componentIndicator)">
+                                        <td>{{ componentIndicator.indicator.name }}</td>
+                                        <td class="text-center"><i class="fas fa-times cursor-pointer p-1 text-danger" (click)="deleteComponentIndicator(componentIndicator, $event)"></i></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+
+                        </div>
+
+                        <div class="card-footer">
+                            <pager [headers]="componentIndicatorsHeaders" (pageChanged)="searchComponentIndicators($event)"></pager>
+                        </div>
+
+                    </div>
+
+                </ng-template>
+
+            </ng-container>
+
+            <ng-container ngbNavItem>
+
+                <a ngbNavLink>Documents</a>
+
+                <ng-template ngbNavContent>
+
+                    <div class="mb-3">
+                        <button class="btn btn-outline-primary me-2 mb-1" (click)="showDocumentManageModal()">Add Document<i class="fas fa-plus ms-2"></i></button>
+                    </div>
+
                     <div class="table-responsive">
 
                         <table class="table table-hover table-edge table-nowrap mb-0 align-middle">
                             <thead class="thead-light">
                                 <tr>
-                                    <th>LogFrame</th>
-                                    <th>LogFrame Row</th>
-                                    <th class="w-20px text-center"><i class="fas fa-times text-danger cursor-pointer" (click)="deleteLogFrameRowComponents()" ngbTooltip="Delete all log frame row components" container="body" placement="left"></i></th>
+                                    <th>Name</th>
                                 </tr>
                             </thead>
                             <tbody class="list cursor-pointer">
-                                <tr *ngFor="let logFrameRowComponent of logFrameRowComponents" (click)="goToLogFrameRowComponent(logFrameRowComponent)">
-                                    <td>{{ logFrameRowComponent.logFrameRow.rowNumber }}</td>
-                                    <td>{{ logFrameRowComponent.logFrameRow.logFrame.name }}</td>
-                                    <td class="text-center"><i class="fas fa-times cursor-pointer p-1 text-danger" (click)="deleteLogFrameRowComponent(logFrameRowComponent, $event)"></i></td>
+                                <tr *ngFor="let document of documents" (click)="goToDocument(document)">
+                                    <td>{{ document.fileName }}</td>
                                 </tr>
                             </tbody>
                         </table>
 
-                    </div>
-
-                    <div class="card-footer">
-                        <pager [headers]="logFrameRowComponentsHeaders" (pageChanged)="searchLogFrameRowComponents($event)"></pager>
-                    </div>
-
-                </div>
-
-            </ng-template>
-
-        </ng-container>
-
-        <ng-container ngbNavItem class="pt-6">
-
-            <a ngbNavLink>Components</a>
-
-            <ng-template ngbNavContent>
-
-                <div class="card border-0 search-results">
-
-                    <div class="card-header border-0">
-
-                        <h4 class="card-header-title text-uppercase">
-                            Theories of Change
-                        </h4>
+                        <pager [headers]="documentHeaders" (pageChanged)="searchDocuments($event)"></pager>
 
                     </div>
 
-                    <div class="card-body">
+                </ng-template>
 
-                    </div>
+            </ng-container>
 
-                    <div class="table-responsive">
+        </nav>
 
-                        <table class="table table-hover table-edge table-nowrap mb-0 align-middle">
-                            <thead class="thead-light">
-                                <tr>
-                                    <th>Theory of Change</th>
-                                    <th class="w-20px text-center"><i class="fas fa-times text-danger cursor-pointer" (click)="deleteTheoryOfChangeComponents()" ngbTooltip="Delete all components" container="body" placement="left"></i></th>
-                                </tr>
-                            </thead>
-                            <tbody class="list cursor-pointer">
-                                <tr *ngFor="let theoryOfChangeComponent of theoryOfChangeComponents" (click)="goToTheoryOfChangeComponent(theoryOfChangeComponent)">
-                                    <td>{{ theoryOfChangeComponent.theoryOfChange.name }}</td>
-                                    <td class="text-center"><i class="fas fa-times cursor-pointer p-1 text-danger" (click)="deleteTheoryOfChangeComponent(theoryOfChangeComponent, $event)"></i></td>
-                                </tr>
-                            </tbody>
-                        </table>
+        <div [ngbNavOutlet]="nav" class="mt-1"></div>
 
-                    </div>
-
-                    <div class="card-footer">
-                        <pager [headers]="theoryOfChangeComponentsHeaders" (pageChanged)="searchTheoryOfChangeComponents($event)"></pager>
-                    </div>
-
-                </div>
-
-            </ng-template>
-
-        </ng-container>
-
-        <ng-container ngbNavItem>
-
-            <a ngbNavLink>Documents</a>
-
-            <ng-template ngbNavContent>
-
-                <div class="mb-3">
-                    <button class="btn btn-outline-primary me-2 mb-1" (click)="showDocumentManageModal()">Add Document<i class="fas fa-plus ms-2"></i></button>
-                </div>
-
-                <div class="table-responsive">
-
-                    <table class="table table-hover table-edge table-nowrap mb-0 align-middle">
-                        <thead class="thead-light">
-                            <tr>
-                                <th>Name</th>
-                            </tr>
-                        </thead>
-                        <tbody class="list cursor-pointer">
-                            <tr *ngFor="let document of documents" (click)="goToDocument(document)">
-                                <td>{{ document.fileName }}</td>
-                            </tr>
-                        </tbody>
-                    </table>
-
-                    <pager [headers]="documentHeaders" (pageChanged)="searchDocuments($event)"></pager>
-
-                </div>
-
-            </ng-template>
-
-        </ng-container>
-
-    </nav>
-
-    <div [ngbNavOutlet]="nav" class="mt-1"></div>
+    </ng-container>
 
 </ng-container>
 
+<indicator-modal #indicatorModal (changes)="changeIndicator($event)" [multiple]="true"></indicator-modal>
+
 <theory-of-change-modal #theoryOfChangeModal (changes)="changeTheoryOfChange($event)" [multiple]="true"></theory-of-change-modal>
+
+<router-outlet></router-outlet>
 
