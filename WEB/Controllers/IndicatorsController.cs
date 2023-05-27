@@ -152,7 +152,7 @@ namespace WEB.Controllers
                 db.Entry(token).State = EntityState.Deleted;
 
             // todo: use a sql statement and a transaction
-            foreach (var datum in await db.Data.Where(o => o.IndicatorId == indicatorId).ToListAsync())
+            foreach (var datum in db.Data.Where(o => o.IndicatorId == indicator.IndicatorId))
                 db.Entry(datum).State = EntityState.Deleted;
 
             if (await db.Tokens.AnyAsync(o => o.SourceIndicatorId == indicator.IndicatorId))
