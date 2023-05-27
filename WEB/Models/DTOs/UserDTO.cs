@@ -111,7 +111,6 @@ namespace WEB.Models
             user.Disabled = userDTO.Disabled;
             user.AffiliatedEntityId = userDTO.AffiliatedEntityId;
             user.OrganisationId = userDTO.OrganisationId;
-            user.LastLoginDate = userDTO.LastLoginDate;
         }
     }
 }

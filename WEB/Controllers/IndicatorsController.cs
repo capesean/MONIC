@@ -151,8 +151,9 @@ namespace WEB.Controllers
             foreach (var token in db.Tokens.Where(o => o.IndicatorId == indicator.IndicatorId))
                 db.Entry(token).State = EntityState.Deleted;
 
-            if (await db.Data.AnyAsync(o => o.IndicatorId == indicator.IndicatorId))
-                return BadRequest("Unable to delete the indicator as it has related data");
+            // todo: use a sql statement and a transaction
+            foreach (var datum in await db.Data.Where(o => o.IndicatorId == indicatorId).ToListAsync())
+                db.Entry(datum).State = EntityState.Deleted;
 
             if (await db.Tokens.AnyAsync(o => o.SourceIndicatorId == indicator.IndicatorId))
                 return BadRequest("Unable to delete the indicator as it has related tokens");

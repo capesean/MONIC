@@ -186,7 +186,7 @@ export class IndicatorEditComponent extends ItemComponent implements OnInit {
     delete(): void {
 
         let modalRef = this.modalService.open(ConfirmModalComponent, { centered: true });
-        (modalRef.componentInstance as ConfirmModalComponent).options = { title: "Delete Indicator", text: "Are you sure you want to delete this indicator?" } as ModalOptions;
+        (modalRef.componentInstance as ConfirmModalComponent).options = { title: "Delete Indicator", text: "Are you sure you want to delete this indicator?", deleteStyle: true, ok: "Delete" } as ModalOptions;
         modalRef.result.then(
             () => {
 
@@ -194,7 +194,7 @@ export class IndicatorEditComponent extends ItemComponent implements OnInit {
                     .subscribe({
                         next: () => {
                             this.toastr.success("The indicator has been deleted", "Delete Indicator");
-                            this.router.navigate(["../../"], { relativeTo: this.route });
+                            this.router.navigate(["../"], { relativeTo: this.route });
                         },
                         error: err => {
                             this.errorService.handleError(err, "Indicator", "Delete");

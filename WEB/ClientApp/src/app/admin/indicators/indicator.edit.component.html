@@ -380,7 +380,7 @@
                 <button type="submit" class="btn btn-outline-success me-2 mb-1">Save<i class="fas fa-check ms-2"></i></button>
                 <button type="button" *ngIf="!isNew" class="btn btn-outline-danger me-2 mb-1" (click)="delete()">Delete<i class="fas fa-times ms-2"></i></button>
                 <button type="button" *ngIf="!isNew && indicator.indicatorType === indicatorTypesCalculated" class="btn btn-outline-primary me-2 mb-1" (click)="calculate()">Calculate<i class="fa fa-cogs ms-1"></i></button>
-                <button type="button" *ngIf="!isNew && indicator.indicatorType === indicatorTypesCalculated" class="btn btn-outline-dark me-2 mb-1" (click)="showHelp()">Help<i class="fa fa-question-circle ms-1"></i></button>
+                <button type="button" *ngIf="indicator.indicatorType === indicatorTypesCalculated" class="btn btn-outline-dark me-2 mb-1" (click)="showHelp()">Help<i class="fa fa-question-circle ms-1"></i></button>
             </fieldset>
 
         </div>

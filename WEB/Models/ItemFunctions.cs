@@ -63,7 +63,10 @@ namespace WEB.Models
                 db.Entry(userOption).State = EntityState.Deleted;
 
             if (deleteItem)
-                db.Entry(db.Items.First(o => o.ItemId == itemId)).State = EntityState.Deleted;
+            {
+                var item = db.Items.FirstOrDefault(o => o.ItemId == itemId);
+                if (item != null) db.Entry(item).State = EntityState.Deleted;
+            }
 
         }
 

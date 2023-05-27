@@ -171,12 +171,12 @@ button#add-widget {
     border-color: #dc3545;
 }
 
-.was-validated /*.form-group*/.is-invalid .app-select .btn {
+.was-validated /*.form-group*/ .is-invalid .app-select .btn {
     background-color: #dc3545;
     border-color: #dc3545;
 }
 
-.was-validated /*.form-group*/.is-invalid input[ngbdatepicker].ng-invalid {
+.was-validated /*.form-group*/ .is-invalid input[ngbdatepicker].ng-invalid {
     border-color: #dc3545;
 }
 
@@ -342,4 +342,13 @@ quill-editor .ql-editor {
     overflow-x: hidden;
     white-space: nowrap;
     text-overflow: ellipsis;
+}
+
+input[type=text]:not(.app-select-input):read-only,
+input[type=date]:not(.app-select-input):read-only {
+    background-color: #EDEEF0 !important;
+}
+
+fieldset.group .form-check {
+    padding-top: 8px;
 }

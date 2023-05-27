@@ -118,16 +118,13 @@
                         </div>
 
                         <div class="col-sm-6 col-md-4">
-                            <div class="form-group" [ngClass]="{ 'is-invalid': lastLoginDate.invalid }">
+                            <div class="form-group">
 
                                 <label for="lastLoginDate">
                                     Last Login:
                                 </label>
 
-                                <div class="input-group">
-                                    <input id="lastLoginDate" name="lastLoginDate" class="form-control" type="text" [(ngModel)]="user.lastLoginDate" #lastLoginDate="ngModel" readonly placeholder="yyyy-mm-dd" ngbDatepicker #dpLastLoginDate="ngbDatepicker" tabindex="-1" (click)="dpLastLoginDate.toggle()" container="body" />
-                                    <button class="btn btn-secondary calendar" (click)="dpLastLoginDate.toggle()" type="button"><i class="fas fa-fw fa-calendar-alt"></i></button>
-                                </div>
+                                <input id="lastLoginDate" name="lastLoginDate" class="form-control" type="text" readonly value="{{user.lastLoginDate | momentPipe: 'DD MMM YYYY HH:mm'}}" />
 
                             </div>
                         </div>
