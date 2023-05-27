@@ -76,7 +76,8 @@ export class OptionSelectComponent implements OnInit, ControlValueAccessor {
 
     click(button = false) {
         if (this.disabled) return;
-        if (button && (this.option || this.options)) this.changed(this.multiple ? [] : null);
+        // clear the selector if there is something there already
+        if (button && (this.option || this.options.length)) this.changed(this.multiple ? [] : null);
         else this.modal.open();
     }
 }

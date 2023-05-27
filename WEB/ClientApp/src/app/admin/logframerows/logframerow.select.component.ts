@@ -77,7 +77,8 @@ export class LogFrameRowSelectComponent implements OnInit, ControlValueAccessor 
 
     click(button = false) {
         if (this.disabled) return;
-        if (button && (this.logFrameRow || this.logFrameRows)) this.changed(this.multiple ? [] : null);
+        // clear the selector if there is something there already
+        if (button && (this.logFrameRow || this.logFrameRows.length)) this.changed(this.multiple ? [] : null);
         else this.modal.open();
     }
 }

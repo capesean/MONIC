@@ -78,7 +78,8 @@ export class AnswerSelectComponent implements OnInit, ControlValueAccessor {
 
     click(button = false) {
         if (this.disabled) return;
-        if (button && (this.answer || this.answers)) this.changed(this.multiple ? [] : null);
+        // clear the selector if there is something there already
+        if (button && (this.answer || this.answers.length)) this.changed(this.multiple ? [] : null);
         else this.modal.open();
     }
 }

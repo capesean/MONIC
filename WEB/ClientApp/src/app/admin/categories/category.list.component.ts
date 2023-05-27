@@ -65,7 +65,7 @@ export class CategoryListComponent implements OnInit, OnDestroy {
     }
 
     showSort(): void {
-        let modalRef = this.modalService.open(CategorySortComponent, { size: 'xl', centered: true, scrollable: false });
+        let modalRef = this.modalService.open(CategorySortComponent, { size: 'xl', centered: true, scrollable: true });
         modalRef.result.then(
             () => {
 

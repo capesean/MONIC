@@ -78,7 +78,8 @@ export class DataReviewSelectComponent implements OnInit, ControlValueAccessor {
 
     click(button = false) {
         if (this.disabled) return;
-        if (button && (this.dataReview || this.dataReviews)) this.changed(this.multiple ? [] : null);
+        // clear the selector if there is something there already
+        if (button && (this.dataReview || this.dataReviews.length)) this.changed(this.multiple ? [] : null);
         else this.modal.open();
     }
 }

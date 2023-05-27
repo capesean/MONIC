@@ -76,7 +76,8 @@ export class TaskSelectComponent implements OnInit, ControlValueAccessor {
 
     click(button = false) {
         if (this.disabled) return;
-        if (button && (this.task || this.tasks)) this.changed(this.multiple ? [] : null);
+        // clear the selector if there is something there already
+        if (button && (this.task || this.tasks.length)) this.changed(this.multiple ? [] : null);
         else this.modal.open();
     }
 }

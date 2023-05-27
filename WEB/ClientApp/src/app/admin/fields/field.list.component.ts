@@ -69,7 +69,7 @@ export class FieldListComponent implements OnInit, OnDestroy {
     }
 
     showSort(): void {
-        let modalRef = this.modalService.open(FieldSortComponent, { size: 'xl', centered: true, scrollable: false });
+        let modalRef = this.modalService.open(FieldSortComponent, { size: 'xl', centered: true, scrollable: true });
         modalRef.result.then(
             () => {
 

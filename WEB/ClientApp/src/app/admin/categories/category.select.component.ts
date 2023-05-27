@@ -74,7 +74,8 @@ export class CategorySelectComponent implements OnInit, ControlValueAccessor {
 
     click(button = false) {
         if (this.disabled) return;
-        if (button && (this.category || this.categories)) this.changed(this.multiple ? [] : null);
+        // clear the selector if there is something there already
+        if (button && (this.category || this.categories.length)) this.changed(this.multiple ? [] : null);
         else this.modal.open();
     }
 }

@@ -74,7 +74,8 @@ export class OrganisationSelectComponent implements OnInit, ControlValueAccessor
 
     click(button = false) {
         if (this.disabled) return;
-        if (button && (this.organisation || this.organisations)) this.changed(this.multiple ? [] : null);
+        // clear the selector if there is something there already
+        if (button && (this.organisation || this.organisations.length)) this.changed(this.multiple ? [] : null);
         else this.modal.open();
     }
 }

@@ -68,7 +68,7 @@ export class QuestionListComponent implements OnInit, OnDestroy {
     }
 
     showSort(): void {
-        let modalRef = this.modalService.open(QuestionSortComponent, { size: 'xl', centered: true, scrollable: false });
+        let modalRef = this.modalService.open(QuestionSortComponent, { size: 'xl', centered: true, scrollable: true });
         modalRef.result.then(
             () => {
 

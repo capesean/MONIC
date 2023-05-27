@@ -80,7 +80,8 @@ export class ResponseSelectComponent implements OnInit, ControlValueAccessor {
 
     click(button = false) {
         if (this.disabled) return;
-        if (button && (this.response || this.responses)) this.changed(this.multiple ? [] : null);
+        // clear the selector if there is something there already
+        if (button && (this.response || this.responses.length)) this.changed(this.multiple ? [] : null);
         else this.modal.open();
     }
 }

@@ -75,7 +75,8 @@ export class ComponentSelectComponent implements OnInit, ControlValueAccessor {
 
     click(button = false) {
         if (this.disabled) return;
-        if (button && (this.component || this.components)) this.changed(this.multiple ? [] : null);
+        // clear the selector if there is something there already
+        if (button && (this.component || this.components.length)) this.changed(this.multiple ? [] : null);
         else this.modal.open();
     }
 }

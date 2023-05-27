@@ -76,7 +76,8 @@ export class DocumentSelectComponent implements OnInit, ControlValueAccessor {
 
     click(button = false) {
         if (this.disabled) return;
-        if (button && (this.document || this.documents)) this.changed(this.multiple ? [] : null);
+        // clear the selector if there is something there already
+        if (button && (this.document || this.documents.length)) this.changed(this.multiple ? [] : null);
         else this.modal.open();
     }
 }

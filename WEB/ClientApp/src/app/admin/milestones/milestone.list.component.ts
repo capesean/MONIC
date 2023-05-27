@@ -66,7 +66,7 @@ export class MilestoneListComponent implements OnInit, OnDestroy {
     }
 
     showSort(): void {
-        let modalRef = this.modalService.open(MilestoneSortComponent, { size: 'xl', centered: true, scrollable: false });
+        let modalRef = this.modalService.open(MilestoneSortComponent, { size: 'xl', centered: true, scrollable: true });
         modalRef.result.then(
             () => {
 
