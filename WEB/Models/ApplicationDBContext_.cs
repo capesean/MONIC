@@ -97,9 +97,13 @@ namespace WEB.Models
                 .HasDatabaseName("IX_Entity_Name")
                 .IsUnique();
             modelBuilder.Entity<Entity>()
-                .HasIndex(o => new { o.OrganisationId, o.Code })
-                .HasDatabaseName("IX_Entity_Code")
-                .IsUnique();
+                .HasIndex(o => o.Code)
+                .HasDatabaseName("IX_Entity_Code");
+// reverted because CSV import needs a unique code
+//            modelBuilder.Entity<Entity>()
+//                .HasIndex(o => new { o.OrganisationId, o.Code })
+//                .HasDatabaseName("IX_Entity_Code")
+//                .IsUnique();
             modelBuilder.Entity<Entity>()
                 .HasIndex(o => new { o.OrganisationId, o.ShortName })
                 .HasDatabaseName("IX_Entity_ShortName")
