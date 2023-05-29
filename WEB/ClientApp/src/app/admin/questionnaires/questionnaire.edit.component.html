@@ -374,6 +374,7 @@
                                     <tr>
                                         <th>Entity</th>
                                         <th>Date</th>
+                                        <th class="text-center">% Completed</th>
                                         <th class="w-20px text-center"><i class="fas fa-times text-danger cursor-pointer" (click)="deleteResponses()" ngbTooltip="Delete all responses" container="body" placement="left"></i></th>
                                     </tr>
                                 </thead>
@@ -381,6 +382,7 @@
                                     <tr *ngFor="let response of responses" (click)="goToResponse(response)">
                                         <td>{{ response.entity.name }}</td>
                                         <td>{{ response.date.name }}</td>
+                                        <td class="text-center">{{ (response.applicableQuestions == 0 ? "" : response.completedQuestions / response.applicableQuestions) | percent }}</td>
                                         <td class="text-center"><i class="fas fa-times cursor-pointer p-1 text-danger" (click)="deleteResponse(response, $event)"></i></td>
                                     </tr>
                                 </tbody>

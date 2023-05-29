@@ -276,7 +276,7 @@ namespace WEB.Reports.Excel
                                             else ws.Cells[row, col].Value = firstSelectedOption.Label;
 
                                             if (useOptionColors && !string.IsNullOrWhiteSpace(firstSelectedOption.Color))
-                                                ws.Cells[row, col - 1].SetBackgroundColor(ColorTranslator.FromHtml($"{firstSelectedOption.Color}"));
+                                                ws.Cells[row, col].SetBackgroundColor(ColorTranslator.FromHtml($"{firstSelectedOption.Color}"));
                                         }
                                     }
                                     col++;
@@ -341,29 +341,38 @@ namespace WEB.Reports.Excel
                         {
                             foreach (var question in questionsBySectionId[section.SectionId])
                             {
-                                if (question.QuestionType == QuestionType.OptionList && question.OptionListType != OptionListType.Checkboxes)
+                                if (question.QuestionType == QuestionType.OptionList)
                                 {
                                     var optionGroup = optionGroups[question.QuestionOptionGroupId.Value];
-                                    // only average if all options have values
-                                    if (optionGroup.QuestionOptions.All(o => o.Value.HasValue))
+
+                                    if (question.OptionListType != OptionListType.Checkboxes)
                                     {
-                                        if (useOptionValues)
-                                            // values will be in cells: can just average them
-                                            ws.Cells[row, col].SetFormula($"=AVERAGE({GetExcelColumnName(col)}5:{GetExcelColumnName(col)}{row - 1})");
-                                        else
+                                        // only average if all options have values
+                                        if (optionGroup.QuestionOptions.All(o => o.Value.HasValue))
                                         {
-                                            var average = answerLookup.Values
-                                                .Where(o => o.ContainsKey(question.QuestionId) && o[question.QuestionId].AnswerOptions.Any())
-                                                .Select(o => optionGroup.QuestionOptions.First(qo => qo.QuestionOptionId == o[question.QuestionId].AnswerOptions.First().QuestionOptionId).Value)
-                                                .Average();
+                                            if (useOptionValues)
+                                                // values will be in cells: can just average them
+                                                ws.Cells[row, col].SetFormula($"=AVERAGE({GetExcelColumnName(col)}5:{GetExcelColumnName(col)}{row - 1})");
+                                            else
+                                            {
+                                                var average = answerLookup.Values
+                                                    .Where(o => o.ContainsKey(question.QuestionId) && o[question.QuestionId].AnswerOptions.Any())
+                                                    .Select(o => optionGroup.QuestionOptions.First(qo => qo.QuestionOptionId == o[question.QuestionId].AnswerOptions.First().QuestionOptionId).Value)
+                                                    .Average();
 
-                                            ws.Cells[row, col].SetValue(average);
+                                                ws.Cells[row, col].SetValue(average);
+                                            }
+
                                         }
-
+                                        // todo: how many decimal places?
+                                        ws.Cells[row, col].SetNumberFormat("#0.0");
+                                        col++;
                                     }
-                                    // todo: how many decimal places?
-                                    ws.Cells[row, col].SetNumberFormat("#0.0");
-                                    col++;
+                                    else
+                                    {
+                                        foreach (var option in optionGroup.QuestionOptions)
+                                            col++;
+                                    }
                                 }
                                 else
                                 {

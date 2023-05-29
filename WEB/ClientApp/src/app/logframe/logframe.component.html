@@ -1,16 +1,16 @@
 <app-page-title title="Logical Framework"></app-page-title>
 
 <div class="card border-0">
-
+    
     <div class="card-body">
-
+        
         <form id="formLogFrame" name="formLogFrame" (submit)="save(form)" novalidate #form="ngForm" [ngClass]="{ 'was-validated': form.submitted }">
 
             <fieldset class="group">
 
                 <div class="row g-3">
 
-                    <div class="col-sm-6 col-md-4">
+                    <div class="col-sm-12">
                         <div class="form-group" [ngClass]="{ 'is-invalid': name.invalid }">
 
                             <label for="name">

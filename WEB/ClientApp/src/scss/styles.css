@@ -342,6 +342,7 @@ quill-editor .ql-editor {
     overflow-x: hidden;
     white-space: nowrap;
     text-overflow: ellipsis;
+    overflow-y: clip;
 }
 
 input[type=text]:not(.app-select-input):read-only,

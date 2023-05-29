@@ -140,7 +140,7 @@
                                 <tbody class="list cursor-pointer">
                                     <tr *ngFor="let question of questions" (click)="goToQuestion(question)">
                                         <td>{{ question.code }}</td>
-                                        <td>{{ question.text }}</td>
+                                        <td class="mw-400px text-overflow-ellipsis">{{ question.text }}</td>
                                         <td>{{ questionTypes[question.questionType].label }}</td>
                                         <td>{{ question.required | booleanPipe }}</td>
                                         <td class="text-center"><i class="fas fa-times cursor-pointer p-1 text-danger" (click)="deleteQuestion(question, $event)"></i></td>

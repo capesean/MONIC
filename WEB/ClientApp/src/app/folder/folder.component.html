@@ -81,7 +81,7 @@
                 </thead>
                 <tbody class="list cursor-pointer">
                     <tr *ngFor="let document of crumb.folderView.documents" (click)="selectDocument(document)">
-                        <td>{{ document.fileName }}</td>
+                        <td class="mw-400px text-overflow-ellipsis">{{ document.fileName }}</td>
                         <td>{{ document.uploadedBy.fullName }}</td>
                         <td>{{ document.uploadedOn | momentPipe: 'DD MMM YYYY HH:mm' }}</td>
                         <td>{{ document.size | fileSizePipe }}</td>

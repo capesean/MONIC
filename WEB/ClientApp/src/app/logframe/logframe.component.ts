@@ -13,6 +13,7 @@ import { ErrorService } from '../common/services/error.service';
 import { LogFrameService } from '../common/services/logframe.service';
 import { LogFrameRowService } from '../common/services/logframerow.service';
 import { LogFrameRowViewComponent } from './logframe.row.component';
+import { tap } from 'rxjs';
 
 @Component({
     selector: 'logframe',
@@ -107,13 +108,30 @@ export class LogFrameComponent implements OnInit {
     }
 
     private loadLogFrame(): void {
-        this.logFrameRowService.search({ logFrameId: this.logFrame.logFrameId, pageSize: 0, includeChildren: true } as LogFrameRowSearchOptions).subscribe({
-            next: logFrameRowResponse => {
-                this.logFrameRows = logFrameRowResponse.logFrameRows;
-                this.loaded = true;
-            },
-            error: err => this.errorService.handleError(err, "LogFrame Data", "Load")
-        });
+
+        forkJoin(
+            {
+                logFrame: this.logFrameService.get(this.logFrame.logFrameId)
+                    .pipe(
+                        tap(logFrame => {
+                            this.logFrame = logFrame;
+                            this.loaded = true;
+                        })
+                    ),
+                logFrameRows: this.logFrameRowService.search({ logFrameId: this.logFrame.logFrameId, pageSize: 0, includeChildren: true } as LogFrameRowSearchOptions)
+                    .pipe(
+                        tap(logFrameRowResponse => {
+                            this.logFrameRows = logFrameRowResponse.logFrameRows;
+                            this.loaded = true;
+                        })
+                    )
+            }
+        ).subscribe(
+            {
+                error: err => this.errorService.handleError(err, "LogFrame Data", "Load")
+            }
+        );
+
     }
 
     private openLogFrameRowModal(rowType: LogFrameRowTypes, logFrameRow?: LogFrameRow): void {

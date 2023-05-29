@@ -359,7 +359,7 @@ namespace WEB.Models
                 case OptionListType.Dropdown:
                     return "Dropdown (single)";
                 case OptionListType.RadioList:
-                    return "Radio List (multiple, vertical, radio)";
+                    return "Radio List (single, vertical, radio)";
                 case OptionListType.Checkboxes:
                     return "Checkboxes (multiple, vertical)";
                 default:

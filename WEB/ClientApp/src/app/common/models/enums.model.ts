@@ -239,7 +239,7 @@ export class Enums {
      static OptionListTypes: Enum[] = [
         { value: 0, name: 'Rating', label: 'Rating (single, horizontal, radio)' },
         { value: 1, name: 'Dropdown', label: 'Dropdown (single)' },
-        { value: 2, name: 'RadioList', label: 'Radio List (multiple, vertical, radio)' },
+        { value: 2, name: 'RadioList', label: 'Radio List (single, vertical, radio)' },
         { value: 3, name: 'Checkboxes', label: 'Checkboxes (multiple, vertical)' }
      ]
 
