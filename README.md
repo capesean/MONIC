@@ -23,6 +23,4 @@ Pre-requisites:
    
 If it runs successfully, you should see a browser window with the following setup screen:
 
-![image](https://github.com/capesean/MONIC/assets/642609/494df0fc-89ce-41a5-a7f8-de3178b1fab6)
-
-
+![Screenshot 2023-05-30 120502](https://github.com/capesean/MONIC/assets/642609/2cab705e-6d79-4ec3-b14c-d9efa70ec83d)
