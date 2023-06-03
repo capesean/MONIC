@@ -48,16 +48,16 @@ export class ResetComponent implements OnInit {
         this.loading = true;
 
         this.authService.reset(this.reset)
-            .subscribe(
-                () => {
+            .subscribe({
+                next: () => {
                     this.toastr.success("Your password has been reset", "Reset Password");
                     this.router.navigate(['/auth/login']);
                 },
-                err => {
+                error: err => {
                     this.errorService.handleError(err, "Password", "Change");
                     this.loading = false;
                 }
-            );
+            });
 
     }
 

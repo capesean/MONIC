@@ -9,7 +9,7 @@ import { BreadcrumbService } from '../services/breadcrumb.service';
 export class BreadcrumbComponent {
     breadcrumbs: Breadcrumb[];
 
-    constructor(private breadcrumbService: BreadcrumbService) {
+    constructor(breadcrumbService: BreadcrumbService) {
         breadcrumbService.breadcrumbChanged.subscribe((crumbs: Breadcrumb[]) => this.breadcrumbs = crumbs);
     }
 }

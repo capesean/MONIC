@@ -45,7 +45,7 @@ export class BreadcrumbService {
 
             url += `/${this.createUrl(route)}`;
 
-            if (!route.data['breadcrumb']) { continue; }
+            if (!(route.data as any)?.breadcrumb) { continue; }
 
             var newCrumb = this.createBreadcrumb(route, url)
 
@@ -66,7 +66,7 @@ export class BreadcrumbService {
 
     private createBreadcrumb(route: ActivatedRouteSnapshot, url: string): Breadcrumb {
         return {
-            displayName: route.data['breadcrumb'],
+            displayName: (route.data as any)?.breadcrumb,
             terminal: this.isTerminal(route),
             url: url,
             route: route.routeConfig

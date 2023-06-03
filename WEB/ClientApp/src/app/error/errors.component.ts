@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute, NavigationEnd } from '@angular/router';
 import { Observable, Subscription } from 'rxjs';
 import { PagingHeaders } from '../common/models/http.model';
@@ -43,17 +43,17 @@ export class ErrorsComponent implements OnInit {
         var observable = this.errorService
             .search(this.searchOptions);
 
-        observable.subscribe(
-            response => {
+        observable.subscribe({
+            next: response => {
                 this.errors = response.errors;
                 this.headers = response.headers;
             },
-            err => {
+            error: err => {
 
                 this.errorService.handleError(err, "Errors", "Load");
 
             }
-        );
+        });
 
         return observable;
 

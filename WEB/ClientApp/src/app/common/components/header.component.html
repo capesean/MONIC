@@ -1,7 +1,3 @@
-<!--<header class="container-fluid py-4">
-    <p-breadcrumb [home]="home" [model]="breadcrumbs"></p-breadcrumb>
-</header>-->
-
 <header class="container-fluid d-flex py-6 py-xl-6 mb-3">
 
     <form class="d-none d-md-inline-block me-auto">
@@ -19,7 +15,7 @@
     <div class="d-flex align-items-center ms-auto me-n1 me-lg-n2">
 
         <!-- Dropdown -->
-        <div class="dropdown" id="themeSwitcher" ngbDropdown [popperOptions]="popperOptions">
+        <!--<div class="dropdown" id="themeSwitcher" ngbDropdown [popperOptions]="popperOptions">
             <a href="javascript: void(0);" ngbDropdownToggle class="dropdown-toggle no-arrow d-flex align-items-center justify-content-center bg-white rounded-circle shadow-sm mx-1 mx-lg-2 w-40px h-40px link-secondary" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" data-bs-offset="0,10">
                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" height="18" width="18"><g><path d="M12,4.64A7.36,7.36,0,1,0,19.36,12,7.37,7.37,0,0,0,12,4.64Zm0,12.72A5.36,5.36,0,1,1,17.36,12,5.37,5.37,0,0,1,12,17.36Z" style="fill: currentColor" /><path d="M12,3.47a1,1,0,0,0,1-1V1a1,1,0,0,0-2,0V2.47A1,1,0,0,0,12,3.47Z" style="fill: currentColor" /><path d="M4.55,6a1,1,0,0,0,.71.29A1,1,0,0,0,6,6,1,1,0,0,0,6,4.55l-1-1A1,1,0,0,0,3.51,4.93Z" style="fill: currentColor" /><path d="M2.47,11H1a1,1,0,0,0,0,2H2.47a1,1,0,1,0,0-2Z" style="fill: currentColor" /><path d="M4.55,18l-1,1a1,1,0,0,0,0,1.42,1,1,0,0,0,.71.29,1,1,0,0,0,.71-.29l1-1A1,1,0,0,0,4.55,18Z" style="fill: currentColor" /><path d="M12,20.53a1,1,0,0,0-1,1V23a1,1,0,0,0,2,0V21.53A1,1,0,0,0,12,20.53Z" style="fill: currentColor" /><path d="M19.45,18A1,1,0,0,0,18,19.45l1,1a1,1,0,0,0,.71.29,1,1,0,0,0,.71-.29,1,1,0,0,0,0-1.42Z" style="fill: currentColor" /><path d="M23,11H21.53a1,1,0,0,0,0,2H23a1,1,0,0,0,0-2Z" style="fill: currentColor" /><path d="M18.74,6.26A1,1,0,0,0,19.45,6l1-1a1,1,0,1,0-1.42-1.42l-1,1A1,1,0,0,0,18,6,1,1,0,0,0,18.74,6.26Z" style="fill: currentColor" /></g></svg>
             </a>
@@ -45,18 +41,18 @@
                 </li>
             </ul>
 
-        </div>
+        </div>-->
 
         <!-- Separator -->
-        <div class="vr bg-gray-700 mx-2 mx-lg-3"></div>
+        <!--<div class="vr bg-gray-700 mx-2 mx-lg-3"></div>-->
 
         <!-- Button -->
-        <a (click)="offCanvas(notifications, 'end')" class="d-flex align-items-center justify-content-center bg-white rounded-circle shadow-sm mx-1 mx-lg-2 w-40px h-40px position-relative link-secondary" data-bs-toggle="offcanvas" href="#offcanvasNotifications" role="button" aria-controls="offcanvasNotifications">
+        <!--<a (click)="offCanvas(notifications, 'end')" class="d-flex align-items-center justify-content-center bg-white rounded-circle shadow-sm mx-1 mx-lg-2 w-40px h-40px position-relative link-secondary" data-bs-toggle="offcanvas" href="javascript:void(0);" role="button" aria-controls="offcanvasNotifications">
             <svg viewBox="0 0 24 24" height="18" width="18" xmlns="http://www.w3.org/2000/svg"><path d="M10,21.75a2.087,2.087,0,0,0,4.005,0" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" /><path d="M12 3L12 0.75" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" /><path d="M12,3a7.5,7.5,0,0,1,7.5,7.5c0,7.046,1.5,8.25,1.5,8.25H3s1.5-1.916,1.5-8.25A7.5,7.5,0,0,1,12,3Z" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" /></svg>
             <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill text-bg-danger">
                 20+<span class="visually-hidden">unread messages</span>
             </span>
-        </a>
+        </a>-->
 
         <ng-template #notifications let-offcanvas>
 
@@ -477,7 +473,7 @@
 
         </ng-template>
 
-        <div class="dropdown" ngbDropdown [popperOptions]="popperOptions">
+        <!--<div class="dropdown" ngbDropdown [popperOptions]="popperOptions">
 
             <a href="javascript: void(0);" ngbDropdownToggle class="dropdown-toggle no-arrow d-flex align-items-center justify-content-center bg-white rounded-circle shadow-sm mx-1 mx-lg-2 w-40px h-40px link-secondary" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" data-bs-offset="0,10">
                 <svg viewBox="0 0 24 24" height="18" width="18" xmlns="http://www.w3.org/2000/svg"><path d="M8.250 12.000 A3.750 3.750 0 1 0 15.750 12.000 A3.750 3.750 0 1 0 8.250 12.000 Z" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" /><path d="M17.119 20.301L12.529 15.711" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" /><path d="M15.711 12.53L20.301 17.119" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" /><path d="M3.699 17.119L8.289 12.529" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" /><path d="M11.471 15.712L6.881 20.301" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" /><path d="M6.881 3.7L11.471 8.289" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" /><path d="M8.289 11.471L3.699 6.881" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" /><path d="M20.301 6.881L15.711 11.471" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" /><path d="M12.529 8.289L17.119 3.7" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" /><path d="M2.250 12.000 A9.750 9.750 0 1 0 21.750 12.000 A9.750 9.750 0 1 0 2.250 12.000 Z" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" /></svg>
@@ -602,33 +598,31 @@
                                 Twitter
                             </a>
                         </div>
-                    </div> <!-- / .row -->
-                </div>
+                    </div>--> <!-- / .row -->
+                <!--</div>
             </div>
+
         </div>
 
-
-
-
-        <div class="vr bg-gray-700 mx-2 mx-lg-3"></div>
+        <div class="vr bg-gray-700 mx-2 mx-lg-3"></div>-->
 
         <!-- Dropdown -->
-        <div class="dropdown" ngbDropdown [popperOptions]="popperOptions">
+        <div class="dropdown" ngbDropdown [popperOptions]="popperOptions" *ngIf="profile">
             <a href="javascript: void(0);" ngbDropdownToggle class="dropdown-toggle no-arrow d-flex align-items-center justify-content-center bg-white rounded-circle shadow-sm mx-1 mx-lg-2 w-40px h-40px" role="button" data-bs-toggle="dropdown" data-bs-auto-close="outside" aria-haspopup="true" aria-expanded="false" data-bs-offset="0,10">
                 <div class="avatar avatar-circle avatar-sm avatar-online">
-                    <img src="{{rootPath}}/assets/images/profiles/profile-06.jpeg" alt="..." class="avatar-img" width="40" height="40">
+                    <span class="avatar-title text-bg-info-soft">{{profile.firstName.substring(0, 1)}}{{profile.lastName.substring(0, 1)}}</span>
                 </div>
             </a>
 
             <div class="dropdown-menu border-dark" ngbDropdownMenu>
                 <div class="dropdown-item-text">
                     <div class="d-flex align-items-center">
-                        <div class="avatar avatar-sm avatar-circle">
-                            <img src="{{rootPath}}/assets/images/profiles/profile-06.jpeg" alt="..." class="avatar-img" width="40" height="40">
+                        <div class="avatar avatar-circle avatar-sm">
+                            <span class="avatar-title text-bg-info-soft">{{profile.firstName.substring(0, 1)}}{{profile.lastName.substring(0, 1)}}</span>
                         </div>
                         <div class="flex-grow-1 ms-3">
-                            <h4 class="mb-0">Ellie Tucker</h4>
-                            <p class="card-text">ellie.tucker@dashly.com</p>
+                            <h4 class="mb-0">{{profile.fullName}}</h4>
+                            <p class="card-text mw-300px overflow-hidden">{{profile.email}}</p>
                         </div>
                     </div>
                 </div>

@@ -17,9 +17,8 @@ export class NavMenuComponent implements OnInit {
     public profile: ProfileModel;
     public isAdmin = false;
     public isCollapsed = true;
-    public menuStates: { [key: string]: boolean; } = { admin: true };
+    public menuStates: { [key: string]: boolean; } = { admin: true, mneTools: true, dashboards: true };
     public activeMenu: string;
-    //public test = false;
 
     constructor(
         private authService: AuthService,
@@ -39,7 +38,7 @@ export class NavMenuComponent implements OnInit {
                     if (child.firstChild) {
                         child = child.firstChild;
                     } else {
-                        return child.snapshot.data?.menu;
+                        return (child.snapshot.data as any)?.menu;
                     }
                 }
                 return null;
@@ -55,13 +54,6 @@ export class NavMenuComponent implements OnInit {
     }
 
     ngOnInit(): void {
-        
-
-        //if (this.router.url === '/') { }
-        //else if (this.router.url.startsWith('/settings')
-        //    || this.router.url.startsWith('/users')
-        //)
-        //    this.adminCollapsed = false;
     }
 
     logout() {

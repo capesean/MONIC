@@ -65,7 +65,7 @@ export class UserTestListComponent implements OnInit {
     }
 
     showSort(): void {
-        let modalRef = this.modalService.open(UserTestSortComponent, { size: 'xl', centered: true, scrollable: false });
+        let modalRef = this.modalService.open(UserTestSortComponent, { size: 'xl', centered: true, scrollable: true });
         modalRef.result.then(
             () => {
 

@@ -30,3 +30,8 @@
     border: 1px solid #ced4da;
     border-radius: .25rem;
 }
+
+app-file .input-group label.input-group-text,
+app-file .input-group input[type=text] {
+    cursor: pointer;
+}

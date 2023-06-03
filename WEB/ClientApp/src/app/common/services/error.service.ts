@@ -33,6 +33,11 @@ export class ErrorService extends SearchQuery {
         return this.http.get<Error>(`${environment.baseApiUrl}errors/${id}`);
     }
 
+    public throw(message: string): never {
+        this.toastr.error(message);
+        throw message;
+    }
+
     public handleError(err: any, item: string, action: string) {
 
         let message = `Failed to ${action.toLowerCase()} the ${item.toLowerCase()}`;
@@ -41,7 +46,10 @@ export class ErrorService extends SearchQuery {
         if (err && err instanceof HttpErrorResponse) {
             const httpError = err as HttpErrorResponse;
             if (httpError.status === 0)
+            {
                 message = "Unable to connect to the web server";
+                title = undefined;
+            }
             else if (httpError.status === 500)
                 message = "An unexpected error was encountered. The error information has been logged and will be attended to.";
             else if (httpError.status === 400) {
@@ -69,6 +77,8 @@ export class ErrorService extends SearchQuery {
                                 message += err.error[key] + "<br/>";
                         }
                     }
+                } else if (typeof err.error === "string" && (err.error.toLowerCase().indexOf("timeout") >= 0 || err.error.toLowerCase().indexOf("deadlock") >= 0)) {
+                    message = "The website is currently very busy. Please try again shortly.";
                 } else {
                     message = err.error;
                 }
@@ -91,7 +101,7 @@ export class ErrorService extends SearchQuery {
                     message = `${httpError.status}: ${this.friendlyHttpStatus[httpError.status]} `;
             }
 
-            if (httpError.status) message += ` <span class="badge rounded-pill bg-light text-danger float-end">${httpError.status}</span>`;
+            if (httpError.status) message += ` <small class="badge rounded-pill bg-light text-danger float-end">${httpError.status}</small>`;
         } else {
             if (err.message) message = err.message;
         }

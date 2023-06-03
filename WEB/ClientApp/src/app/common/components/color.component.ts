@@ -1,5 +1,5 @@
 import { Component, forwardRef, Output, EventEmitter, ViewChild } from '@angular/core';
-import { ControlValueAccessor, NgModel, NG_VALIDATORS, NG_VALUE_ACCESSOR, ValidationErrors, Validator } from '@angular/forms';
+import { ControlValueAccessor, FormControl, NgControl, NgModel, NG_VALIDATORS, NG_VALUE_ACCESSOR, ValidationErrors, Validator } from '@angular/forms';
 
 @Component({
     selector: 'app-color',
@@ -21,25 +21,26 @@ export class ColorComponent implements ControlValueAccessor, Validator {
 
     public bg: string;
     public hex: string;
+    public disabled: boolean;
 
-    @ViewChild("picker") picker: NgModel;
+    @ViewChild("picker") picker: FormControl;
 
     @Output() isValid: EventEmitter<boolean> = new EventEmitter<boolean>();
 
     constructor() { }
 
-    onChanged: any = () => { };
     onTouched: any = () => { };
     onValidationChange: any = () => { };
 
+    propagateChange = (_: any) => { };
+
     writeValue(val: any): void {
         this.hex = val;
-        this.bg = val + " !important";
-        this.onChanged(val);
-        //this.propagateChange(val);
+        this.bg = val ? val + " !important" : undefined;
+        this.propagateChange(val);
     }
     registerOnChange(fn: any): void {
-        this.onChanged = fn;
+        this.propagateChange = fn;
     }
     registerOnTouched(fn: any): void {
         this.onTouched = fn;
@@ -48,7 +49,7 @@ export class ColorComponent implements ControlValueAccessor, Validator {
         this.onValidationChange = fn;
     }
     setDisabledState?(isDisabled: boolean): void {
-        throw new Error('Method not implemented.');
+        this.disabled = isDisabled;
     }
     validate(): ValidationErrors {
         return this.picker?.errors;

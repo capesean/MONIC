@@ -36,8 +36,6 @@ export class AccessGuard implements CanActivateChild, CanActivate {
                     }
                 })
             );
-
-        return true;
     }
 
 }

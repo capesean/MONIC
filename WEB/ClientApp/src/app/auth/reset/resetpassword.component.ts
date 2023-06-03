@@ -38,16 +38,16 @@ export class ResetPasswordComponent implements OnInit {
         this.loading = true;
 
         this.authService.resetPassword(this.resetPassword)
-            .subscribe(
-                () => {
+            .subscribe({
+                next: () => {
                     this.toastr.success("A password reset mail has been sent", "Reset Password");
                     this.router.navigate(['/auth/login']);
                 },
-                err => {
+                error: err => {
                     this.errorService.handleError(err, "Password", "Change");
                     this.loading = false;
                 }
-            );
+            });
 
     }
 

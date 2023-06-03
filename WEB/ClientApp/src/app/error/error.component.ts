@@ -27,8 +27,8 @@ export class ErrorComponent implements OnInit {
 
             let id = params["id"];
             this.errorService.get(id)
-                .subscribe(
-                    error => {
+                .subscribe({
+                    next: error => {
                         this.error = error;
                         this.breadcrumbService.changeBreadcrumb(this.route.snapshot, moment(this.error.dateUtc).format('DD MMM YYYY HH:mm:SS'));
                         this.exceptions = [];
@@ -37,10 +37,10 @@ export class ErrorComponent implements OnInit {
                             this.addInnerExceptions(error.exception);
                         }
                     },
-                    err => {
+                    error: err => {
                         this.errorService.handleError(err, "Error", "Load");
                     }
-                );
+                });
 
         });
 

@@ -4,6 +4,7 @@ import { NgbOffcanvas } from '@ng-bootstrap/ng-bootstrap';
 import { ToastrService } from 'ngx-toastr';
 import { Router } from '@angular/router';
 import { AuthService } from '../services/auth.service';
+import { ProfileModel } from '../models/profile.models';
 
 @Component({
     selector: 'app-header',
@@ -11,9 +12,6 @@ import { AuthService } from '../services/auth.service';
     styleUrls: ['./header.component.css']
 })
 export class HeaderComponent implements OnInit {
-
-    // todo: remove this
-    public rootPath = "https://d33wubrfki0l68.cloudfront.net/053f2dfd0df2f52c41e903a21d177b0b44abc9b1/1282c";
 
     popperOptions = (options: Partial<Options>) => {
         options.modifiers.push({
@@ -25,12 +23,15 @@ export class HeaderComponent implements OnInit {
         return options;
     };
 
+    public profile: ProfileModel;
+
     constructor(
         private offcanvasService: NgbOffcanvas,
         private toastr: ToastrService,
         private router: Router,
         private authService: AuthService
     ) {
+        this.authService.getProfile().subscribe(profile => this.profile = profile);
     }
 
     ngOnInit(): void {        
