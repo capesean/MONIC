@@ -39,15 +39,15 @@ export class SetupComponent implements OnInit {
         }
 
         this.setupService.runSetup(this.setup)
-            .subscribe(
-                () => {
+            .subscribe({
+                next: () => {
                     this.toastr.success("Your account has been created; redirecting to the login page.", "Initialization Successful");
                     this.router.navigate(["/auth/login"]);
                 },
-                (err: HttpErrorResponse) => {
+                error: (err: HttpErrorResponse) => {
                     this.errorService.handleError(err, "App", "Setup");
                 }
-            );
+            });
 
     }
 }

@@ -1,6 +1,6 @@
 form#setup {
     width: 420px;
-    margin: 0 auto;
+    margin: 3rem auto;
     background-color: white;
     border: solid 1px grey;
     padding: 20px 30px;
@@ -15,4 +15,8 @@ form#setup {
     font-weight: normal;
     width: 100%;
     margin-bottom: 0;
+}
+
+form#setup img {
+    max-width: 100%;
 }

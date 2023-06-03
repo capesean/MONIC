@@ -22,8 +22,6 @@ export class AccountComponent implements OnInit, AfterViewInit, OnDestroy {
     public dictionary: string[] = [];
     public showPasswords = false;
 
-    // todo: remove this
-    public rootPath = "https://d33wubrfki0l68.cloudfront.net/053f2dfd0df2f52c41e903a21d177b0b44abc9b1/1282c";
     public activeTarget: string;
 
     @ViewChild('basicInformationSection', { static: true }) basicInformationSection: ElementRef;
@@ -126,6 +124,12 @@ export class AccountComponent implements OnInit, AfterViewInit, OnDestroy {
 
     ngOnDestroy(): void {
         this.spyService.stopSpying();
+    }
+
+    uploadPhoto($event: MouseEvent): void {
+        $event.stopPropagation();
+        $event.preventDefault();
+        this.toastr.warning("Uploading profile photographs has not been enabled");
     }
 }
 

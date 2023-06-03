@@ -22,12 +22,12 @@ namespace WEB
             _appSettings = appSettings;
         }
 
-        public Task SendEmailAsync(string toEmail, string toName, string subject, string bodyText, string bodyHtml = null, bool isErrorEmail = false, List<Attachment> attachments = null, bool textOnly = false)
+        public async Task SendEmailAsync(string toEmail, string toName, string subject, string bodyText, string bodyHtml = null, bool isErrorEmail = false, List<Attachment> attachments = null, bool textOnly = false)
         {
             if (!isErrorEmail && !_appSettings.EmailSettings.SendEmails)
-                return Task.CompletedTask;
+                return;
             if (isErrorEmail && !_appSettings.EmailSettings.SendErrorEmails)
-                return Task.CompletedTask;
+                return;
 
             var html = bodyText;
             if (!textOnly)
@@ -64,11 +64,9 @@ namespace WEB
                         foreach (var attachment in attachments)
                             mailMessage.Attachments.Add(attachment);
 
-                    smtp.Send(mailMessage);
+                    await smtp.SendMailAsync(mailMessage);
                 }
             }
-
-            return Task.CompletedTask;
         }
     }
 

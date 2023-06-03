@@ -1,93 +1,101 @@
 <form id="setup" name="setup" (submit)="submit(form)" class="form-auth pb-5 setup" novalidate #form="ngForm" [ngClass]="{ 'was-validated': form.submitted }">
 
-    <h1 class="mb-4 text-center">Setup</h1>
+    <fieldset>
 
-    <div class="col-12 mb-4">
-        <div class="form-group" [ngClass]="{ 'is-invalid': firstName.invalid }">
-
-            <label for="firstName">
-                First Name:
-            </label>
-
-            <input id="firstName" name="firstName" class="form-control" type="text" [(ngModel)]="setup.firstName" #firstName="ngModel" required maxlength="100" />
-
-            <div *ngIf="firstName.errors?.required" class="invalid-feedback">
-                First Name is required
-            </div>
-
-            <div *ngIf="firstName.errors?.maxlength" class="invalid-feedback">
-                First Name must be at most 100 characters long
-            </div>
-
+        <div class="text-center my-5">
+            <img src="/assets/images/logo.png" alt="LOGIN" />
         </div>
-    </div>
 
-    <div class="col-12 mb-4">
-        <div class="form-group" [ngClass]="{ 'is-invalid': lastName.invalid }">
+        <h1 class="my-2 text-center">Setup</h1>
 
-            <label for="lastName">
-                Last Name:
-            </label>
+        <div class="col-12 mb-4">
+            <div class="form-group" [ngClass]="{ 'is-invalid': firstName.invalid }">
 
-            <input id="lastName" name="lastName" class="form-control" type="text" [(ngModel)]="setup.lastName" #lastName="ngModel" required maxlength="100" />
+                <label for="firstName">
+                    First Name:
+                </label>
 
-            <div *ngIf="lastName.errors?.required" class="invalid-feedback">
-                Last Name is required
+                <input id="firstName" name="firstName" class="form-control" type="text" [(ngModel)]="setup.firstName" #firstName="ngModel" required maxlength="100" />
+
+                <div *ngIf="firstName.errors?.required" class="invalid-feedback">
+                    First Name is required
+                </div>
+
+                <div *ngIf="firstName.errors?.maxlength" class="invalid-feedback">
+                    First Name must be at most 100 characters long
+                </div>
+
             </div>
-
-            <div *ngIf="lastName.errors?.maxlength" class="invalid-feedback">
-                Last Name must be at most 100 characters long
-            </div>
-
         </div>
-    </div>
 
-    <div class="col-12 mb-4">
-        <div class="form-group" [ngClass]="{ 'is-invalid': email.invalid }">
+        <div class="col-12 mb-4">
+            <div class="form-group" [ngClass]="{ 'is-invalid': lastName.invalid }">
 
-            <label for="email">
-                Email:
-            </label>
+                <label for="lastName">
+                    Last Name:
+                </label>
 
-            <input type="email" id="email" name="email" [(ngModel)]="setup.email" #email="ngModel" maxlength="256" class="form-control" pattern="^[^@\s]+@[^@\s]+\.[^@\s]+$" required />
+                <input id="lastName" name="lastName" class="form-control" type="text" [(ngModel)]="setup.lastName" #lastName="ngModel" required maxlength="100" />
 
-            <div *ngIf="email.errors?.required" class="invalid-feedback">
-                Email is required
+                <div *ngIf="lastName.errors?.required" class="invalid-feedback">
+                    Last Name is required
+                </div>
+
+                <div *ngIf="lastName.errors?.maxlength" class="invalid-feedback">
+                    Last Name must be at most 100 characters long
+                </div>
+
             </div>
-
-            <div *ngIf="email.errors?.maxlength" class="invalid-feedback">
-                Last Name must be at most 256 characters long
-            </div>
-
-            <div *ngIf="email.errors?.pattern" class="invalid-feedback">
-                Email must be a valid email address
-            </div>
-
         </div>
-    </div>
 
-    <div class="col-12 mb-4">
-        <div class="form-group" [ngClass]="{ 'is-invalid': password.invalid }">
+        <div class="col-12 mb-4">
+            <div class="form-group" [ngClass]="{ 'is-invalid': email.invalid }">
 
-            <label for="password">
-                Password:
-            </label>
+                <label for="email">
+                    Email:
+                </label>
 
-            <input type="password" id="password" name="password" [(ngModel)]="setup.password" #password="ngModel" maxlength="256" class="form-control" required />
+                <input type="email" id="email" name="email" [(ngModel)]="setup.email" #email="ngModel" maxlength="256" class="form-control" pattern="^[^@\s]+@[^@\s]+\.[^@\s]+$" required />
 
-            <div *ngIf="password.errors?.required" class="invalid-feedback">
-                Email is required
+                <div *ngIf="email.errors?.required" class="invalid-feedback">
+                    Email is required
+                </div>
+
+                <div *ngIf="email.errors?.maxlength" class="invalid-feedback">
+                    Last Name must be at most 256 characters long
+                </div>
+
+                <div *ngIf="email.errors?.pattern" class="invalid-feedback">
+                    Email must be a valid email address
+                </div>
+
             </div>
-
-            <div *ngIf="password.errors?.maxlength" class="invalid-feedback">
-                Password must be at most 256 characters long
-            </div>
-
         </div>
-    </div>
 
-    <div class="d-grid mt-4">
-        <button id="authButton" type="submit" class="btn btn-lg btn-primary" value="init">Run Setup</button>
-    </div>
+        <div class="col-12 mb-4">
+            <div class="form-group" [ngClass]="{ 'is-invalid': password.invalid }">
+
+                <label for="password">
+                    Password:
+                </label>
+
+                <input type="password" id="password" name="password" [(ngModel)]="setup.password" #password="ngModel" maxlength="256" class="form-control" required />
+
+                <div *ngIf="password.errors?.required" class="invalid-feedback">
+                    Email is required
+                </div>
+
+                <div *ngIf="password.errors?.maxlength" class="invalid-feedback">
+                    Password must be at most 256 characters long
+                </div>
+
+            </div>
+        </div>
+
+        <div class="d-grid mt-4">
+            <button id="authButton" type="submit" class="btn btn-lg btn-primary" value="init">Run Setup</button>
+        </div>
+
+    </fieldset>
 
 </form>
