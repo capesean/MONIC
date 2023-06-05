@@ -37,15 +37,20 @@ namespace WEB
                     if (appSettings.IsDevelopment)
                     {
                         // can also use options.AddEphemeralEncryptionKey().AddEphemeralSigningKey();
-                        options.AddDevelopmentEncryptionCertificate()
-                                .AddDevelopmentSigningCertificate();
+                        //options.AddDevelopmentEncryptionCertificate()
+                        //        .AddDevelopmentSigningCertificate();
+
+                        var certificate = X509Certificate.GetCertificate(appSettings);
+                        options.AddEncryptionCertificate(certificate);
+                        options.AddSigningCertificate(certificate);
                     }
                     else
                     {
-                        // todo: fix this...
-                        // not ideal for production
-                        options.AddEphemeralEncryptionKey()
-                            .AddEphemeralSigningKey();
+                        // todo: better / more secure ways of storing certificates: https://documentation.openiddict.com/configuration/encryption-and-signing-credentials.html
+
+                        var certificate = X509Certificate.GetCertificate(appSettings);
+                        options.AddEncryptionCertificate(certificate);
+                        options.AddSigningCertificate(certificate);
                     }
 
                     // Force client applications to use Proof Key for Code Exchange (PKCE).
@@ -108,13 +113,13 @@ namespace WEB
                 config.Events.OnRedirectToAccessDenied = context =>
                 {
                     context.Response.StatusCode = 403;
-                    return System.Threading.Tasks.Task.CompletedTask;
+                    return Task.CompletedTask;
                 };
                 config.Events.OnRedirectToLogin = context =>
                 {
                     // redirect to /auth/login here?
                     context.Response.StatusCode = 401;
-                    return System.Threading.Tasks.Task.CompletedTask;
+                    return Task.CompletedTask;
                 };
 
             });
