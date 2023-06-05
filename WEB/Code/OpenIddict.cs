@@ -40,6 +40,13 @@ namespace WEB
                         options.AddDevelopmentEncryptionCertificate()
                                 .AddDevelopmentSigningCertificate();
                     }
+                    else
+                    {
+                        // todo: fix this...
+                        // not ideal for production
+                        options.AddEphemeralEncryptionKey()
+                            .AddEphemeralSigningKey();
+                    }
 
                     // Force client applications to use Proof Key for Code Exchange (PKCE).
                     options.RequireProofKeyForCodeExchange();
@@ -101,13 +108,13 @@ namespace WEB
                 config.Events.OnRedirectToAccessDenied = context =>
                 {
                     context.Response.StatusCode = 403;
-                    return Task.CompletedTask;
+                    return System.Threading.Tasks.Task.CompletedTask;
                 };
                 config.Events.OnRedirectToLogin = context =>
                 {
                     // redirect to /auth/login here?
                     context.Response.StatusCode = 401;
-                    return Task.CompletedTask;
+                    return System.Threading.Tasks.Task.CompletedTask;
                 };
 
             });

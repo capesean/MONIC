@@ -1,16 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Net;
+﻿using System.Net;
 using System.Net.Mail;
 using System.Net.Mime;
-using System.Threading.Tasks;
 using WEB.Models;
+using Task = System.Threading.Tasks.Task;
+using File = System.IO.File;
 
 namespace WEB
 {
     public interface IEmailSender
     {
-        Task SendEmailAsync(string toEmail, string toName, string subject, string bodyText, string bodyHtml = null, bool isErrorEmail = false, List<Attachment> attachments = null, bool textOnly = false);
+        Task SendEmailAsync(string toEmail, string toName, string subject, string bodyText, string bodyHtml = null, bool isErrorEmail = false, List<Attachment> attachments = null, bool textOnly = false, string template = "email");
     }
 
     public class EmailSender : IEmailSender
@@ -22,7 +21,7 @@ namespace WEB
             _appSettings = appSettings;
         }
 
-        public async Task SendEmailAsync(string toEmail, string toName, string subject, string bodyText, string bodyHtml = null, bool isErrorEmail = false, List<Attachment> attachments = null, bool textOnly = false)
+        public async Task SendEmailAsync(string toEmail, string toName, string subject, string bodyText, string bodyHtml = null, bool isErrorEmail = false, List<Attachment> attachments = null, bool textOnly = false, string template = "email")
         {
             if (!isErrorEmail && !_appSettings.EmailSettings.SendEmails)
                 return;
@@ -32,7 +31,7 @@ namespace WEB
             var html = bodyText;
             if (!textOnly)
             {
-                html = System.IO.File.ReadAllText(System.IO.Path.Join(_appSettings.RootPath, "wwwroot/templates/email.html"));
+                html = File.ReadAllText(Path.Combine(_appSettings.WebRootPath, "assets/templates/email.html"));
                 html = html.Replace("{rootUrl}", _appSettings.RootUrl);
                 html = html.Replace("{title}", subject);
                 if (bodyHtml == null) bodyHtml = bodyText;

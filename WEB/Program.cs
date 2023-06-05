@@ -10,12 +10,38 @@ var builder = WebApplication.CreateBuilder(args);
 var appSettings = builder.Configuration.GetSection("Settings").Get<AppSettings>();
 DbContextOptions dbContextOptions = null;
 
-//settings.RootPath = Environment.ContentRootPath + (Environment.ContentRootPath.EndsWith(@"\") ? "" : @"\");
+// todo: this is not correct - find out a better way to get correct path
+appSettings.WebRootPath = Path.Combine(Directory.GetCurrentDirectory(), appSettings.IsDevelopment ? "ClientApp\\src\\" : "wwwroot\\");
+appSettings.RootPath = Path.Combine(Directory.GetCurrentDirectory());
 
 //builder.Services.AddControllers(options => options.Filters.Add(typeof(ApiExceptionAttribute)))
 builder.Services.AddControllersWithViews(options => options.Filters.Add(typeof(ApiExceptionAttribute)))
     .AddJsonOptions(options => options.JsonSerializerOptions.Converters.Add(new DateTimeConverter()));
 
+/* 
+ * running the SPA separately from the backend:
+ * the `start-angular.bat` file will run `npm start`, which will use the package.json config to run `ng serve` on the specified port
+ * that port will have CORS issues if attempting to interact with the api on the port configured in Properties folder -> launchsettings.json
+ * so configure development CORS policy to allow CORS for this domain/port
+ */
+
+// from: https://medium.com/@saravananganesan/how-to-breaking-asp-net-core-with-angular-project-into-frontend-and-backend-a3b3fd084b25
+var MyAllowedSpecificOrigins = "_allowSpecificOrigins";
+if (appSettings.IsDevelopment)
+{
+    builder.Services.AddCors(options =>
+    {
+        options.AddPolicy(name: MyAllowedSpecificOrigins, builder =>
+        {
+            // must match with the port in package.json -> scripts:start (also: appSettings.RootUrl - i.e. the front-end address)
+            // and SpaProxyServerUrl in WEB.csproj
+            builder.WithOrigins("https://localhost:44404");
+            builder.AllowAnyMethod();
+            builder.AllowAnyHeader();
+            builder.WithExposedHeaders("X-Pagination", "Content-Disposition");
+        });
+    });
+}
 
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
     {
@@ -44,7 +70,8 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
 builder.Services
     .AddIdentity<User, Role>()
     .AddUserManager<UserManager<User>>()
-    .AddEntityFrameworkStores<ApplicationDbContext>();
+    .AddEntityFrameworkStores<ApplicationDbContext>()
+    .AddDefaultTokenProviders();
 
 // configure identity options (includes JWT claims)
 builder.Services.Configure<IdentityOptions>(options =>
@@ -106,6 +133,15 @@ if (!app.Environment.IsDevelopment())
 else
 {
     app.UseDeveloperExceptionPage();
+}
+
+if (appSettings.IsDevelopment)
+{
+    app.UseCors(MyAllowedSpecificOrigins);
+    //app.UseCors(x => x
+    //         .AllowAnyOrigin()
+    //         .AllowAnyMethod()
+    //         .AllowAnyHeader());
 }
 
 app.UseHttpsRedirection();

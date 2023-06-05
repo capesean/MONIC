@@ -1,10 +1,8 @@
 ﻿using iTextSharp.text;
 using iTextSharp.text.pdf;
-using System;
-using System.IO;
 using WEB.Models;
 using Element = iTextSharp.text.Element;
-using System.Threading.Tasks;
+using Document = iTextSharp.text.Document;
 
 namespace WEB.Reports.PDF
 {
@@ -16,6 +14,9 @@ namespace WEB.Reports.PDF
         protected PdfWriter writer;
         protected BaseFont baseFont;
         protected Font defaultFont;
+        protected Font lightFont;
+        protected Font mediumFont;
+        protected Font boldFont;
         protected Font h1Font;
         protected Font h2Font;
         protected Font h3Font;
@@ -24,7 +25,7 @@ namespace WEB.Reports.PDF
         private Font coverTableFont;
         private bool hasCoverPage = false;
         private TwoColumnHeaderFooter pageEvent;
-        private string imagesFolder;
+        protected string imagesFolder;
         protected const string PDFContentType = "application/pdf";
         protected AppSettings appSettings;
 
@@ -32,11 +33,14 @@ namespace WEB.Reports.PDF
         {
             db = dbContext;
             this.appSettings = appSettings;
-            imagesFolder = appSettings.RootPath + "wwwroot/images/";
+            imagesFolder = Path.Combine(appSettings.WebRootPath, "assets", "images");
             //var baseFontPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "fonts", "GOTHIC.TTF");
             //_bf = BaseFont.CreateFont(baseFontPath, BaseFont.CP1252, BaseFont.EMBEDDED);
             baseFont = BaseFont.CreateFont(BaseFont.HELVETICA, BaseFont.CP1252, false);
             defaultFont = new Font(baseFont, 9, Font.NORMAL, iTextColors.BLACK);
+            lightFont = new Font(baseFont, 9, Font.NORMAL, iTextColors.DARK_GRAY);
+            mediumFont = new Font(baseFont, 9, Font.NORMAL, new BaseColor(System.Drawing.Color.FromArgb(60, 60, 60)));
+            boldFont = new Font(baseFont, 9, Font.BOLD, iTextColors.BLACK);
             h1Font = new Font(baseFont, 16, Font.NORMAL, iTextColors.BLACK);
             h2Font = new Font(baseFont, 14, Font.NORMAL, iTextColors.BLACK);
             h3Font = new Font(baseFont, 12, Font.NORMAL, iTextColors.BLACK);
@@ -72,7 +76,7 @@ namespace WEB.Reports.PDF
             var logo = Image.GetInstance(Path.Combine(imagesFolder, "reportlogo.png"));
             logo.ScalePercent(50f);
             logo.Alignment = Element.ALIGN_LEFT;
-            var p = new Paragraph { SpacingBefore = 20f, SpacingAfter = 25f };
+            var p = new Paragraph { SpacingBefore = 50f, SpacingAfter = 25f };
             p.Add(logo);
             doc.Add(p);
 
@@ -315,7 +319,7 @@ namespace WEB.Reports.PDF
         public static BaseColor WHITE = new BaseColor(System.Drawing.Color.White);
         public static BaseColor BLACK = new BaseColor(System.Drawing.Color.Black);
         public static BaseColor LIGHT_GRAY = new BaseColor(System.Drawing.Color.LightGray);
-        public static BaseColor DARK_GRAY = new BaseColor(System.Drawing.Color.Gray);
+        public static BaseColor DARK_GRAY = new BaseColor(90, 90, 90);
         public static BaseColor GRAY = new BaseColor(System.Drawing.Color.Gray);
         public static BaseColor YELLOW = new BaseColor(System.Drawing.Color.Yellow);
         public static BaseColor BLUE = new BaseColor(System.Drawing.Color.Blue);
@@ -358,23 +362,23 @@ namespace WEB.Reports.PDF
             }
             else if (cellStyle == CellStyle.Green)
             {
-                cell.BackgroundColor = iTextSharp.text.BaseColor.Green;
+                cell.BackgroundColor = BaseColor.Green;
             }
             else if (cellStyle == CellStyle.Yellow)
             {
-                cell.BackgroundColor = iTextSharp.text.BaseColor.Yellow;
+                cell.BackgroundColor = BaseColor.Yellow;
             }
             else if (cellStyle == CellStyle.Orange)
             {
-                cell.BackgroundColor = iTextSharp.text.BaseColor.Orange;
+                cell.BackgroundColor = BaseColor.Orange;
             }
             else if (cellStyle == CellStyle.Red)
             {
-                cell.BackgroundColor = iTextSharp.text.BaseColor.Red;
+                cell.BackgroundColor = BaseColor.Red;
             }
             else if (cellStyle == CellStyle.LightGray)
             {
-                cell.BackgroundColor = iTextSharp.text.BaseColor.LightGray;
+                cell.BackgroundColor = BaseColor.LightGray;
             }
 
             return cell;

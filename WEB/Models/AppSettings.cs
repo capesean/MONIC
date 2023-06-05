@@ -4,6 +4,7 @@
     {
         public string RootUrl { get; set; }
         public string RootPath { get; set; }
+        public string WebRootPath { get; set; }
         public string SiteName { get; set; }
         public bool IsDevelopment { get; set; }
         public bool UseApplicationInsights { get; set; }
