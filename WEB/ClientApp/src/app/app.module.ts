@@ -26,7 +26,8 @@ import { JsonDateInterceptor } from './common/interceptors/jsondate.interceptor'
             positionClass: "toast-bottom-right",
             timeOut: 5000,
             extendedTimeOut: 5000,
-            progressBar: true
+            progressBar: true,
+            preventDuplicates: true
         }),
         NgHttpLoaderModule.forRoot(),
         BrowserAnimationsModule,
