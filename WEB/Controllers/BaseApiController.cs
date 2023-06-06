@@ -57,8 +57,8 @@ namespace WEB.Controllers
 
             var paginationHeader = new
             {
-                pagingOptions.PageIndex,
-                pagingOptions.PageSize,
+                pageIndex = pagingOptions.PageIndex,
+                pageSize = pagingOptions.PageSize,
                 records = results.Count,
                 totalRecords,
                 totalPages,
