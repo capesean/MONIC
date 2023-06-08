@@ -357,3 +357,9 @@ nav.nav-tabs.nav ~ .tab-content {
 .was-validated app-file.ng-invalid input[type=text] {
     border: solid 1px #D82C5B !important;
 }
+
+@media (max-width: 992px) {
+    .navbar img.navbar-brand-img {
+        max-height: 50px;
+    }
+}
