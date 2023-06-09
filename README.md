@@ -1,7 +1,13 @@
 # MONIC
 ### An open-source monitoring & evaluation system for impact-driven organisations
 
-[![Demo of Monic during GEI's gLOCAL Evaluation Week](https://img.youtube.com/vi/A5eus7Yhv1k/0.jpg)](https://www.youtube.com/watch?v=A5eus7Yhv1k)
+The video linked below is a demo of Monic given during the Global Evaluation Initiative's gLOCAL week. (If you click through the YouTube, the video description has bookmarks at a number of interesting points, allowing you to skip through the sections that are relevant to you)
+
+[![Demo of Monic during GEI's gLOCAL Evaluation Week](https://github.com/capesean/MONIC/assets/642609/3d1f66ad-efb9-461b-b941-a1a21de7d04a)](https://www.youtube.com/watch?v=A5eus7Yhv1k)
+
+Video link: https://www.youtube.com/watch?v=A5eus7Yhv1k
+
+-----
 
 **Please note:**
 - Monic is currently under development and is likely receive a lot of breaking changes.
