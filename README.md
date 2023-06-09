@@ -3,7 +3,7 @@
 
 The video linked below is a demo of Monic given during the Global Evaluation Initiative's gLOCAL Evaluation Week. (If you click through the YouTube, the video description has bookmarks at a number of interesting points, allowing you to skip through the sections that are relevant to you)
 
-[![Demo of Monic during GEI's gLOCAL Evaluation Week](https://github.com/capesean/MONIC/assets/642609/3d1f66ad-efb9-461b-b941-a1a21de7d04a)](https://www.youtube.com/watch?v=A5eus7Yhv1k)
+![Demo of Monic during GEI's gLOCAL Evaluation Week](https://github.com/capesean/MONIC/assets/642609/3d1f66ad-efb9-461b-b941-a1a21de7d04a)
 
 Video link: https://www.youtube.com/watch?v=A5eus7Yhv1k
 
