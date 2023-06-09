@@ -1,6 +1,8 @@
 # MONIC
 ### An open-source monitoring & evaluation system for impact-driven organisations
 
+[![Demo of Monic during GEI's gLOCAL Evaluation Week](https://img.youtube.com/vi/A5eus7Yhv1k/0.jpg)](https://www.youtube.com/watch?v=A5eus7Yhv1k)
+
 **Please note:**
 - Monic is currently under development and is likely receive a lot of breaking changes.
 - Setting up Monic (either on your computer or on a web server) requires some technical skills. If you would like to test/demo Monic and are not technically minded, please get in touch with me (Sean).
