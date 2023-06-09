@@ -31,6 +31,6 @@ Pre-requisites:
    
 If it runs successfully, you should see a browser window with the following setup screen:
 
-![Screenshot 2023-05-30 120502](https://github.com/capesean/MONIC/assets/642609/2cab705e-6d79-4ec3-b14c-d9efa70ec83d)
+![Setup screen](https://github.com/capesean/MONIC/assets/642609/f389ee36-f5fd-4587-8d26-f9f9b3852c8b)
 
 Note that this software is licensed under the GNU AFFERO GENERAL PUBLIC LICENSE V3.0
