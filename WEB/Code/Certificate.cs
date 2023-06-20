@@ -82,7 +82,8 @@ namespace WEB
                 request.CertificateExtensions.Add(sanBuilder.Build());
 
                 var certificate = request.CreateSelfSigned(new DateTimeOffset(DateTime.UtcNow.AddDays(-1)), new DateTimeOffset(DateTime.UtcNow.AddDays(3650)));
-                certificate.FriendlyName = certificateName;
+                if (OperatingSystem.IsWindows())
+                    certificate.FriendlyName = certificateName;
 
                 var bytes = certificate.Export(X509ContentType.Pfx, password);
 

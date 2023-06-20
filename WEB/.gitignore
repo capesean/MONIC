@@ -355,3 +355,4 @@ appsettings.*.json
 #ClientApp/src/environments/environment.ts
 ClientApp/src/environments/environment.*.ts
 
+deploy/
