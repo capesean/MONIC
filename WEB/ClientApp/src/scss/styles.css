@@ -19,7 +19,8 @@ body#app {
     }
 }
 
-.widget.extra-small [echarts], .widget.extra-small google-map {
+.widget.extra-small [echarts],
+.widget.extra-small google-map {
     height: 150px;
 }
 

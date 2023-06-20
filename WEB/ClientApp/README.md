@@ -1,27 +1,28 @@
-# Website3
+# MONIC
+### An open-source monitoring & evaluation system for impact-driven organisations
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 12.0.2.
+**Please note:**
+- Monic is currently under development and is likely receive a lot of breaking changes.
+- Setting up Monic (either on your computer or on a web server) requires some technical skills. If you would like to test/demo Monic and are not technically minded, please get in touch with me (Sean).
 
-## Development server
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
+## Setup Instructions
+Pre-requisites:
+- Visual Studio - you can download the free version (Community Edition) [here](https://visualstudio.microsoft.com/downloads/).
+- Node.js - you can download Node [here](https://nodejs.org/en/download).
+- SQL Server - you can download a free version (Developer/Express) [here](https://www.microsoft.com/en-us/sql-server/sql-server-downloads).
 
-## Code scaffolding
+1. Download the zip file and extract it into a folder on your computer.
+2. Open the file `Monic.sln` (it should open with Visual Studio).
+3. Edit the file `appSettings.json`. The main setting to change is the `ConnectionStrings` -> `DefaultConnection`. This needs to be a valid connection string to a SQL Server database.
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
+   **Note** the database doesn't need to exist at this point, as it will be created by the application when it runs. However, the connection string needs to connect to a SQL Server and have a valid database name for it to run.
+4. Build/Run the application in Visual Studio using either <kbd>F5</kbd>, <kbd>Ctrl</kbd>-<kbd>F5</kbd>, or via the `Debug` menu in Visual Studio.
 
-## Build
+   **Note** the first time the application runs, it will take a little time to install the required packages. Please be patient!
+   
+If it runs successfully, you should see a browser window with the following setup screen:
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory.
+![Screenshot 2023-05-30 120502](https://github.com/capesean/MONIC/assets/642609/2cab705e-6d79-4ec3-b14c-d9efa70ec83d)
 
-## Running unit tests
-
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
-
-## Running end-to-end tests
-
-Run `ng e2e` to execute the end-to-end tests via a platform of your choice. To use this command, you need to first add a package that implements end-to-end testing capabilities.
-
-## Further help
-
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI README](https://github.com/angular/angular-cli/blob/master/README.md).
+Note that this software is licensed under the GNU AFFERO GENERAL PUBLIC LICENSE V3.0
