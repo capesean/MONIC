@@ -60,16 +60,7 @@ namespace AuthorizationServer.Controllers
             // have a flag for these?
             await CreateQuestionOptionGroups();
 
-            await CreateStoredProcedures();
-
             return Ok();
-        }
-
-        private async Task CreateStoredProcedures()
-        {
-            var file = System.IO.File.ReadAllText(Path.Combine(AppSettings.RootPath, "Code", "SQL", "StoredProcedures.sql"));
-            foreach (var line in file.Split(Environment.NewLine + "GO", StringSplitOptions.RemoveEmptyEntries))
-                await db.Database.ExecuteSqlRawAsync(line);
         }
 
         private async Task CreateQuestionOptionGroups()
