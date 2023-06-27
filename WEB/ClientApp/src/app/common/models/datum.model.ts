@@ -3,11 +3,7 @@ import { DataReview } from './datareview.model';
 import { Date as LocalDate } from './date.model';
 import { Entity } from './entity.model';
 import { Indicator } from './indicator.model';
-import { User } from './user.model';
-import { Category } from './category.model';
-import { Subcategory } from './subcategory.model';
-import { DataReviewLink } from './datareviewlink.model';
-import { DateTypes } from './enums.model';
+import { DateTypes } from './enums.model';import { DataReviewLink } from './datareviewlink.model';
 
 export class Datum {
     indicatorId: string;
