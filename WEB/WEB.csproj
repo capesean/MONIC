@@ -59,6 +59,8 @@
 	</ItemGroup>
 
 	<ItemGroup>
+		<None Remove="ClientApp\src\assets\images\emaillogo.png" />
+		<None Remove="ClientApp\src\assets\images\reportlogo.png" />
 	  <None Remove="ClientApp\src\app\common\models\download.model.ts" />
 	</ItemGroup>
 
@@ -74,6 +76,14 @@
 			<CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
 		</Content>
 		<Content Include="ClientApp\src\assets\fonts\Roboto-Regular.ttf">
+			<ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+			<CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+		</Content>
+		<Content Include="ClientApp\src\assets\images\emaillogo.png">
+		  <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+		  <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+		</Content>
+		<Content Include="ClientApp\src\assets\images\reportlogo.png">
 			<ExcludeFromSingleFile>true</ExcludeFromSingleFile>
 			<CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
 		</Content>

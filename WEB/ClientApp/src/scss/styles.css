@@ -362,3 +362,9 @@ app-file .input-group * {
 .app-select .input-group.disabled {
     cursor: not-allowed !important;
 }
+
+@media (max-width: 992px) {
+    .navbar img.navbar-brand-img {
+        max-height: 50px;
+    }
+}
