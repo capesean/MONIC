@@ -56,7 +56,7 @@
                     </tr>
                 </thead>
                 <tbody class="cursor-pointer">
-                    <tr *ngFor="let folderContent of folderContents" (click)="select(folderContent)">
+                    <tr *ngFor="let folderContent of folderContents" (click)="select(folderContent)" [ngClass]="{ 'table-info': isSelected(folderContent) }">
                         <td *ngIf="multiple" class="text-center"><i [ngClass]="{ 'fa-check-square': isSelected(folderContent), 'fa-square': !isSelected(folderContent) }" class="fas fa-fw"></i></td>
                         <td *ngIf="!folder">{{ folderContent.folder.name }}</td>
                         <td>{{ folderContent.name }}</td>

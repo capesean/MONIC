@@ -1,5 +1,5 @@
 //import { EventEmitter } from "@angular/core";
-import { WidgetSizes, WidgetTypes } from "./enums.model";
+import { DateTypes, WidgetSizes, WidgetTypes } from "./enums.model";
 
 export abstract class Widget {
     //loading: EventEmitter<boolean>;
@@ -35,6 +35,7 @@ export class IndicatorBarChartSettings extends WidgetSettings {
 export class IndicatorLineChartSettings extends WidgetSettings {
     indicatorId: string;
     entityId: string;
+    dateType: DateTypes;
 }
 
 export class IndicatorMapSettings extends WidgetSettings {

@@ -7,6 +7,7 @@ import { User } from './user.model';
 import { Category } from './category.model';
 import { Subcategory } from './subcategory.model';
 import { DataReviewLink } from './datareviewlink.model';
+import { DateTypes } from './enums.model';
 
 export class Datum {
     indicatorId: string;
@@ -46,6 +47,7 @@ export class DatumSearchOptions extends SearchOptions {
     approveDataReviewId: string;
     rejectDataReviewId: string;
     lastSavedById: string;
+    dateType: DateTypes;
 }
 
 export class DatumSearchResponse {

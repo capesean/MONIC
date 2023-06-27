@@ -50,7 +50,7 @@
                     </tr>
                 </thead>
                 <tbody class="cursor-pointer">
-                    <tr *ngFor="let questionOption of questionOptions" (click)="select(questionOption)">
+                    <tr *ngFor="let questionOption of questionOptions" (click)="select(questionOption)" [ngClass]="{ 'table-info': isSelected(questionOption) }">
                         <td *ngIf="multiple" class="text-center"><i [ngClass]="{ 'fa-check-square': isSelected(questionOption), 'fa-square': !isSelected(questionOption) }" class="fas fa-fw"></i></td>
                         <td *ngIf="!questionOptionGroup">{{ questionOption.questionOptionGroup.name }}</td>
                         <td>{{ questionOption.label }}</td>

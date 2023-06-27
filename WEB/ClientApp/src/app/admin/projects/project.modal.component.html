@@ -40,7 +40,7 @@
                     </tr>
                 </thead>
                 <tbody class="cursor-pointer">
-                    <tr *ngFor="let project of projects" (click)="select(project)">
+                    <tr *ngFor="let project of projects" (click)="select(project)" [ngClass]="{ 'table-info': isSelected(project) }">
                         <td *ngIf="multiple" class="text-center"><i [ngClass]="{ 'fa-check-square': isSelected(project), 'fa-square': !isSelected(project) }" class="fas fa-fw"></i></td>
                         <td>{{ project.name }}</td>
                     </tr>

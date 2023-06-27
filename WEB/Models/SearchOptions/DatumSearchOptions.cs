@@ -20,5 +20,7 @@ namespace WEB.Models
 
         public Guid? LastSavedById { get; set; }
 
+        public DateType? DateType { get; set; }
+
     }
 }

@@ -63,7 +63,7 @@
                     </tr>
                 </thead>
                 <tbody class="cursor-pointer">
-                    <tr *ngFor="let date of dates" (click)="select(date)">
+                    <tr *ngFor="let date of dates" (click)="select(date)" [ngClass]="{ 'table-info': isSelected(date) }">
                         <td *ngIf="multiple" class="text-center"><i [ngClass]="{ 'fa-check-square': isSelected(date), 'fa-square': !isSelected(date) }" class="fas fa-fw"></i></td>
                         <td>{{ date.name }}</td>
                             <td *ngIf="!dateType">{{ dateTypes[date.dateType].label }}</td>

@@ -49,7 +49,7 @@
                     </tr>
                 </thead>
                 <tbody class="cursor-pointer">
-                    <tr *ngFor="let section of sections" (click)="select(section)">
+                    <tr *ngFor="let section of sections" (click)="select(section)" [ngClass]="{ 'table-info': isSelected(section) }">
                         <td *ngIf="multiple" class="text-center"><i [ngClass]="{ 'fa-check-square': isSelected(section), 'fa-square': !isSelected(section) }" class="fas fa-fw"></i></td>
                         <td *ngIf="!questionnaire">{{ section.questionnaire.name }}</td>
                         <td>{{ section.name }}</td>

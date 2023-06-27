@@ -40,7 +40,7 @@
                     </tr>
                 </thead>
                 <tbody class="cursor-pointer">
-                    <tr *ngFor="let theoryOfChange of theoriesOfChange" (click)="select(theoryOfChange)">
+                    <tr *ngFor="let theoryOfChange of theoriesOfChange" (click)="select(theoryOfChange)" [ngClass]="{ 'table-info': isSelected(theoryOfChange) }">
                         <td *ngIf="multiple" class="text-center"><i [ngClass]="{ 'fa-check-square': isSelected(theoryOfChange), 'fa-square': !isSelected(theoryOfChange) }" class="fas fa-fw"></i></td>
                         <td>{{ theoryOfChange.name }}</td>
                     </tr>

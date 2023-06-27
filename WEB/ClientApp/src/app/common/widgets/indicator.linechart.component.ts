@@ -58,7 +58,8 @@ export class IndicatorLineChartComponent implements OnInit, Widget {
                 pageSize: 0, // todo: how to handle lots of data?
                 includeParents: true,
                 indicatorId: this._settings.indicatorId,
-                entityId: this._settings.entityId
+                entityId: this._settings.entityId,
+                dateType: this._settings.dateType
             } as DatumSearchOptions),
             indicator: this.indicatorService.get(this._settings.indicatorId),
             entity: this.entityService.get(this._settings.entityId)

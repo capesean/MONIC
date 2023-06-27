@@ -41,7 +41,7 @@
                     </tr>
                 </thead>
                 <tbody class="cursor-pointer">
-                    <tr *ngFor="let organisation of organisations" (click)="select(organisation)">
+                    <tr *ngFor="let organisation of organisations" (click)="select(organisation)" [ngClass]="{ 'table-info': isSelected(organisation) }">
                         <td *ngIf="multiple" class="text-center"><i [ngClass]="{ 'fa-check-square': isSelected(organisation), 'fa-square': !isSelected(organisation) }" class="fas fa-fw"></i></td>
                         <td>{{ organisation.name }}</td>
                         <td>{{ organisation.code }}</td>

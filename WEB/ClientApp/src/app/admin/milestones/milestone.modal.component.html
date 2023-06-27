@@ -49,7 +49,7 @@
                     </tr>
                 </thead>
                 <tbody class="cursor-pointer">
-                    <tr *ngFor="let milestone of milestones" (click)="select(milestone)">
+                    <tr *ngFor="let milestone of milestones" (click)="select(milestone)" [ngClass]="{ 'table-info': isSelected(milestone) }">
                         <td *ngIf="multiple" class="text-center"><i [ngClass]="{ 'fa-check-square': isSelected(milestone), 'fa-square': !isSelected(milestone) }" class="fas fa-fw"></i></td>
                         <td>{{ milestone.name }}</td>
                         <td *ngIf="!project">{{ milestone.project.name }}</td>

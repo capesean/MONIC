@@ -82,7 +82,7 @@
                     </tr>
                 </thead>
                 <tbody class="cursor-pointer">
-                    <tr *ngFor="let indicator of indicators" (click)="select(indicator)">
+                    <tr *ngFor="let indicator of indicators" (click)="select(indicator)" [ngClass]="{ 'table-info': isSelected(indicator) }">
                         <td *ngIf="multiple" class="text-center"><i [ngClass]="{ 'fa-check-square': isSelected(indicator), 'fa-square': !isSelected(indicator) }" class="fas fa-fw"></i></td>
                         <td *ngIf="!category">{{ indicator.subcategory.category.name }}</td>
                         <td *ngIf="!subcategory">{{ indicator.subcategory.name }}</td>

@@ -61,7 +61,7 @@
                     </tr>
                 </thead>
                 <tbody class="cursor-pointer">
-                    <tr *ngFor="let user of users" (click)="select(user)">
+                    <tr *ngFor="let user of users" (click)="select(user)" [ngClass]="{ 'table-info': isSelected(user) }">
                         <td *ngIf="multiple" class="text-center"><i [ngClass]="{ 'fa-check-square': isSelected(user), 'fa-square': !isSelected(user) }" class="fas fa-fw"></i></td>
                         <td>{{ user.firstName }}</td>
                         <td>{{ user.lastName }}</td>

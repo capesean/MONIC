@@ -63,7 +63,7 @@
                     </tr>
                 </thead>
                 <tbody class="cursor-pointer">
-                    <tr *ngFor="let entity of entities" (click)="select(entity)">
+                    <tr *ngFor="let entity of entities" (click)="select(entity)" [ngClass]="{ 'table-info': isSelected(entity) }">
                         <td *ngIf="multiple" class="text-center"><i [ngClass]="{ 'fa-check-square': isSelected(entity), 'fa-square': !isSelected(entity) }" class="fas fa-fw"></i></td>
                         <td>{{ entity.name }}</td>
                         <td>{{ entity.code }}</td>

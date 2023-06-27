@@ -50,7 +50,7 @@
                     </tr>
                 </thead>
                 <tbody class="cursor-pointer">
-                    <tr *ngFor="let component of components" (click)="select(component)">
+                    <tr *ngFor="let component of components" (click)="select(component)" [ngClass]="{ 'table-info': isSelected(component) }">
                         <td *ngIf="multiple" class="text-center"><i [ngClass]="{ 'fa-check-square': isSelected(component), 'fa-square': !isSelected(component) }" class="fas fa-fw"></i></td>
                         <td>{{ component.name }}</td>
                         <td>{{ component.code }}</td>

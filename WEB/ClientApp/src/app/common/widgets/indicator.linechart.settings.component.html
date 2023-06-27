@@ -43,6 +43,24 @@
                 </div>
 
                 <div class="col-sm-12">
+                    <div class="form-group" [ngClass]="{ 'is-invalid': dateType.invalid }">
+
+                        <label for="dateType">
+                            Date Type:
+                        </label>
+
+                        <select id="dateType" name="dateType" class="form-select" [(ngModel)]="settings.dateType" #dateType="ngModel" required>
+                            <option *ngFor="let dateType of dateTypes" [ngValue]="dateType.value">{{ dateType.label }}</option>
+                        </select>
+
+                        <div *ngIf="dateType.errors?.required" class="invalid-feedback">
+                            Date Type is required
+                        </div>
+
+                    </div>
+                </div>
+
+                <div class="col-sm-12">
                     <div class="form-group" [ngClass]="{ 'is-invalid': width.invalid }">
 
                         <label for="width">

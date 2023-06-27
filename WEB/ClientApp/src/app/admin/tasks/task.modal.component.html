@@ -52,7 +52,7 @@
                     </tr>
                 </thead>
                 <tbody class="cursor-pointer">
-                    <tr *ngFor="let task of tasks" (click)="select(task)">
+                    <tr *ngFor="let task of tasks" (click)="select(task)" [ngClass]="{ 'table-info': isSelected(task) }">
                         <td *ngIf="multiple" class="text-center"><i [ngClass]="{ 'fa-check-square': isSelected(task), 'fa-square': !isSelected(task) }" class="fas fa-fw"></i></td>
                         <td>{{ task.name }}</td>
                         <td *ngIf="!milestone">{{ task.milestone.name }}</td>

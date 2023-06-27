@@ -49,7 +49,7 @@
                     </tr>
                 </thead>
                 <tbody class="cursor-pointer">
-                    <tr *ngFor="let folder of folders" (click)="select(folder)">
+                    <tr *ngFor="let folder of folders" (click)="select(folder)" [ngClass]="{ 'table-info': isSelected(folder) }">
                         <td *ngIf="multiple" class="text-center"><i [ngClass]="{ 'fa-check-square': isSelected(folder), 'fa-square': !isSelected(folder) }" class="fas fa-fw"></i></td>
                         <td>{{ folder.name }}</td>
                         <td *ngIf="!parentFolder">{{ folder.parentFolder?.name }}</td>

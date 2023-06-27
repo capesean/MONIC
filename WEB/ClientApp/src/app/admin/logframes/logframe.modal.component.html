@@ -40,7 +40,7 @@
                     </tr>
                 </thead>
                 <tbody class="cursor-pointer">
-                    <tr *ngFor="let logFrame of logFrames" (click)="select(logFrame)">
+                    <tr *ngFor="let logFrame of logFrames" (click)="select(logFrame)" [ngClass]="{ 'table-info': isSelected(logFrame) }">
                         <td *ngIf="multiple" class="text-center"><i [ngClass]="{ 'fa-check-square': isSelected(logFrame), 'fa-square': !isSelected(logFrame) }" class="fas fa-fw"></i></td>
                         <td>{{ logFrame.name }}</td>
                     </tr>

@@ -45,6 +45,7 @@ namespace WEB.Controllers
             if (searchOptions.ApproveDataReviewId.HasValue) results = results.Where(o => o.ApproveDataReviewId == searchOptions.ApproveDataReviewId);
             if (searchOptions.RejectDataReviewId.HasValue) results = results.Where(o => o.RejectDataReviewId == searchOptions.RejectDataReviewId);
             if (searchOptions.LastSavedById.HasValue) results = results.Where(o => o.LastSavedById == searchOptions.LastSavedById);
+            if (searchOptions.DateType.HasValue) results = results.Where(o => o.Date.DateType == searchOptions.DateType);
 
             results = results.OrderByDescending(o => o.Date.SortOrder);
 

@@ -58,7 +58,7 @@
                     </tr>
                 </thead>
                 <tbody class="cursor-pointer">
-                    <tr *ngFor="let relationship of relationships" (click)="select(relationship)">
+                    <tr *ngFor="let relationship of relationships" (click)="select(relationship)" [ngClass]="{ 'table-info': isSelected(relationship) }">
                         <td *ngIf="multiple" class="text-center"><i [ngClass]="{ 'fa-check-square': isSelected(relationship), 'fa-square': !isSelected(relationship) }" class="fas fa-fw"></i></td>
                         <td *ngIf="!theoryOfChange">{{ relationship.theoryOfChange.name }}</td>
                         <td *ngIf="!sourceComponent">{{ relationship.sourceComponent.name }}</td>

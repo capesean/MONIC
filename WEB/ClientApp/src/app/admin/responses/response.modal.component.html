@@ -58,7 +58,7 @@
                     </tr>
                 </thead>
                 <tbody class="cursor-pointer">
-                    <tr *ngFor="let response of responses" (click)="select(response)">
+                    <tr *ngFor="let response of responses" (click)="select(response)" [ngClass]="{ 'table-info': isSelected(response) }">
                         <td *ngIf="multiple" class="text-center"><i [ngClass]="{ 'fa-check-square': isSelected(response), 'fa-square': !isSelected(response) }" class="fas fa-fw"></i></td>
                         <td *ngIf="!questionnaire">{{ response.questionnaire.name }}</td>
                         <td *ngIf="!entity">{{ response.entity.name }}</td>

@@ -65,7 +65,7 @@
                     </tr>
                 </thead>
                 <tbody class="cursor-pointer">
-                    <tr *ngFor="let field of fields" (click)="select(field)">
+                    <tr *ngFor="let field of fields" (click)="select(field)" [ngClass]="{ 'table-info': isSelected(field) }">
                         <td *ngIf="multiple" class="text-center"><i [ngClass]="{ 'fa-check-square': isSelected(field), 'fa-square': !isSelected(field) }" class="fas fa-fw"></i></td>
                         <td>{{ field.name }}</td>
                         <td *ngIf="!fieldType">{{ fieldTypes[field.fieldType].label }}</td>

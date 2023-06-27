@@ -40,7 +40,7 @@
                     </tr>
                 </thead>
                 <tbody class="cursor-pointer">
-                    <tr *ngFor="let group of groups" (click)="select(group)">
+                    <tr *ngFor="let group of groups" (click)="select(group)" [ngClass]="{ 'table-info': isSelected(group) }">
                         <td *ngIf="multiple" class="text-center"><i [ngClass]="{ 'fa-check-square': isSelected(group), 'fa-square': !isSelected(group) }" class="fas fa-fw"></i></td>
                         <td>{{ group.name }}</td>
                     </tr>

@@ -50,7 +50,7 @@
                     </tr>
                 </thead>
                 <tbody class="cursor-pointer">
-                    <tr *ngFor="let subcategory of subcategories" (click)="select(subcategory)">
+                    <tr *ngFor="let subcategory of subcategories" (click)="select(subcategory)" [ngClass]="{ 'table-info': isSelected(subcategory) }">
                         <td *ngIf="multiple" class="text-center"><i [ngClass]="{ 'fa-check-square': isSelected(subcategory), 'fa-square': !isSelected(subcategory) }" class="fas fa-fw"></i></td>
                         <td *ngIf="!category">{{ subcategory.category.name }}</td>
                         <td>{{ subcategory.name }}</td>

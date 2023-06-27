@@ -19,6 +19,7 @@ export class IndicatorLineChartSettingsComponent implements OnInit {
 
     public settings: IndicatorLineChartSettings;
     public widgetSizes = Enums.WidgetSizes;
+    public dateTypes = Enums.DateTypes;
 
     public indicator: Indicator;
     public entity: Entity;

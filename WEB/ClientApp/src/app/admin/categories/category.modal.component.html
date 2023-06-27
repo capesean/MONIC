@@ -41,7 +41,7 @@
                     </tr>
                 </thead>
                 <tbody class="cursor-pointer">
-                    <tr *ngFor="let category of categories" (click)="select(category)">
+                    <tr *ngFor="let category of categories" (click)="select(category)" [ngClass]="{ 'table-info': isSelected(category) }">
                         <td *ngIf="multiple" class="text-center"><i [ngClass]="{ 'fa-check-square': isSelected(category), 'fa-square': !isSelected(category) }" class="fas fa-fw"></i></td>
                         <td>{{ category.name }}</td>
                         <td>{{ category.code }}</td>

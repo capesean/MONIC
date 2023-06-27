@@ -40,7 +40,7 @@
                     </tr>
                 </thead>
                 <tbody class="cursor-pointer">
-                    <tr *ngFor="let entityType of entityTypes" (click)="select(entityType)">
+                    <tr *ngFor="let entityType of entityTypes" (click)="select(entityType)" [ngClass]="{ 'table-info': isSelected(entityType) }">
                         <td *ngIf="multiple" class="text-center"><i [ngClass]="{ 'fa-check-square': isSelected(entityType), 'fa-square': !isSelected(entityType) }" class="fas fa-fw"></i></td>
                         <td>{{ entityType.name }}</td>
                     </tr>

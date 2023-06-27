@@ -58,7 +58,7 @@
                     </tr>
                 </thead>
                 <tbody class="cursor-pointer">
-                    <tr *ngFor="let dataReview of dataReviews" (click)="select(dataReview)">
+                    <tr *ngFor="let dataReview of dataReviews" (click)="select(dataReview)" [ngClass]="{ 'table-info': isSelected(dataReview) }">
                         <td *ngIf="multiple" class="text-center"><i [ngClass]="{ 'fa-check-square': isSelected(dataReview), 'fa-square': !isSelected(dataReview) }" class="fas fa-fw"></i></td>
                         <td>{{ dataReview.dateUtc | momentPipe: 'DD MMM YYYY' }}</td>
                         <td *ngIf="!user">{{ dataReview.user.fullName }}</td>

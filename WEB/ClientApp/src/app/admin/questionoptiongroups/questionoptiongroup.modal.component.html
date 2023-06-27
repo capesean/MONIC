@@ -41,7 +41,7 @@
                     </tr>
                 </thead>
                 <tbody class="cursor-pointer">
-                    <tr *ngFor="let questionOptionGroup of questionOptionGroups" (click)="select(questionOptionGroup)">
+                    <tr *ngFor="let questionOptionGroup of questionOptionGroups" (click)="select(questionOptionGroup)" [ngClass]="{ 'table-info': isSelected(questionOptionGroup) }">
                         <td *ngIf="multiple" class="text-center"><i [ngClass]="{ 'fa-check-square': isSelected(questionOptionGroup), 'fa-square': !isSelected(questionOptionGroup) }" class="fas fa-fw"></i></td>
                         <td>{{ questionOptionGroup.name }}</td>
                         <td>{{ questionOptionGroup.shared | booleanPipe }}</td>

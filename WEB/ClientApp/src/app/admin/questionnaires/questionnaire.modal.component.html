@@ -57,7 +57,7 @@
                     </tr>
                 </thead>
                 <tbody class="cursor-pointer">
-                    <tr *ngFor="let questionnaire of questionnaires" (click)="select(questionnaire)">
+                    <tr *ngFor="let questionnaire of questionnaires" (click)="select(questionnaire)" [ngClass]="{ 'table-info': isSelected(questionnaire) }">
                         <td *ngIf="multiple" class="text-center"><i [ngClass]="{ 'fa-check-square': isSelected(questionnaire), 'fa-square': !isSelected(questionnaire) }" class="fas fa-fw"></i></td>
                         <td>{{ questionnaire.name }}</td>
                         <td *ngIf="!entityType">{{ questionnaire.entityType.name }}</td>
