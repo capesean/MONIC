@@ -1,4 +1,4 @@
-@charset "UTF-8";
+﻿@charset "UTF-8";
 /*
 
 Theme: Dashly
@@ -24440,4 +24440,10 @@ table.table tbody tr:nth-child(2n) {
 .bg-light-monic {
   --bs-bg-opacity: 1;
   background-color: rgba(0, 186, 199, 0.3803921569) !important;
+}
+
+.modal-selected-info {
+  padding-top: 6px;
+  padding-bottom: 6px;
+  font-size: 16px !important;
 }

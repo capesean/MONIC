@@ -282,3 +282,9 @@ table.table tbody tr:nth-child(2n) {
     --bs-bg-opacity: 1;
     background-color: #00bac761 !important;
 }
+
+.modal-selected-info {
+    padding-top: 6px;
+    padding-bottom: 6px;
+    font-size: 16px !important;
+}
