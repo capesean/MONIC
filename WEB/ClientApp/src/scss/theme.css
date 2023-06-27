@@ -24401,3 +24401,9 @@ html:not([data-sidebar-behaviour=condensed]) .navbar.navbar-dark {
 nav#breadcrumbs li.breadcrumb-item a:hover {
   color: rgb(0, 186, 199);
 }
+
+.modal-selected-info {
+  padding-top: 6px;
+  padding-bottom: 6px;
+  font-size: 16px !important;
+}
