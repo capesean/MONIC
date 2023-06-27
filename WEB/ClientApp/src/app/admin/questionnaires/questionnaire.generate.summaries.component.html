@@ -9,8 +9,8 @@
 
         <div class="row g-3">
 
-            <div class="col-sm-12 col-md-6 col-lg-8 col-xl-9" [ngClass]="{ 'is-invalid': questionnaireId.invalid }">
-                <div class="form-group">
+            <div class="col-sm-12 col-md-6 col-lg-8 col-xl-9">
+                <div class="form-group" [ngClass]="{ 'is-invalid': questionnaireId.invalid }">
 
                     <questionnaire-select id="questionnaireId" name="questionnaireId" [(questionnaire)]="generateSummariesModel.questionnaire" [(ngModel)]="generateSummariesModel.questionnaireId" #questionnaireId="ngModel" required></questionnaire-select>
 
@@ -21,8 +21,8 @@
                 </div>
             </div>
 
-            <div class="col-sm-12 col-md-6 col-lg-4 col-xl-3" [ngClass]="{ 'is-invalid': dateId.invalid }">
-                <div class="form-group">
+            <div class="col-sm-12 col-md-6 col-lg-4 col-xl-3">
+                <div class="form-group" [ngClass]="{ 'is-invalid': dateId.invalid }">
 
                     <date-select id="dateId" name="dateId" [(date)]="generateSummariesModel.date" [(ngModel)]="generateSummariesModel.dateId" #dateId="ngModel" required [dateType]="dateTypes[questionnaire.dateType]"></date-select>
 
@@ -33,73 +33,181 @@
                 </div>
             </div>
 
-            <div class="col-sm-6 col-md-4 col-lg-3 col-xl-2" [ngClass]="{ 'is-invalid': maxTokens.invalid }">
-                <div class="form-group">
-
-                    <input type="number" id="maxTokens" name="maxTokens" [(ngModel)]="generateSummariesModel.maxTokens" #maxTokens="ngModel" class="form-control" required min="0" max="4096" maxlength="4" step="1" ngbTooltip="Max Tokens" placeholder="Max Tokens" />
-
-                    <div *ngIf="maxTokens.errors?.required" class="invalid-feedback">
-                        Max Tokens is required
-                    </div>
-
-                    <div *ngIf="maxTokens.errors?.max" class="invalid-feedback">
-                        Max Tokens is too large
-                    </div>
-
-                </div>
-            </div>
-
-            <div class="col-sm-6 col-md-4 col-lg-3 col-xl-2" [ngClass]="{ 'is-invalid': temperature.invalid }">
-                <div class="form-group">
-
-                    <input type="number" id="temperature" name="temperature" [(ngModel)]="generateSummariesModel.temperature" #temperature="ngModel" class="form-control" required min="0" max="1" step="0.01" ngbTooltip="Temperature" placeholder="Temperature" />
-
-                    <div *ngIf="temperature.errors?.required" class="invalid-feedback">
-                        Temperature is required
-                    </div>
-
-                    <div *ngIf="temperature.errors?.max" class="invalid-feedback">
-                        Temperature is too large
-                    </div>
-
-                </div>
-            </div>
-
         </div>
 
     </form>
 
-    <div class="table-responsive mt-4">
+    <nav ngbNav #nav="ngbNav" class="nav-tabs">
 
-        <table class="table table-hover table-edge table-nowrap mb-0 align-middle">
-            <thead class="thead-light">
-                <tr>
-                    <th>Status</th>
-                    <th>Code</th>
-                    <th class="d-none d-lg-table-cell">Text</th>
-                    <th>Question Type</th>
-                </tr>
-            </thead>
-            <tbody class="list">
-                <tr *ngFor="let questionSummary of questionSummaries" [ngClass]="{ 'table-info': getStatus(questionSummary) === 1, 'table-success': getStatus(questionSummary) === 2, 'table-danger': getStatus(questionSummary) === 3 }">
-                    <td>{{ getStatusName(questionSummary) }}</td>
-                    <td>{{ questionSummary.question.code }}</td>
-                    <td class="d-none d-lg-table-cell mw-200px text-truncate">{{ questionSummary.question.text }}</td>
-                    <td>{{ questionTypes[questionSummary.question.questionType].label }}</td>
-                </tr>
-                <tr *ngIf="!questionSummaries.length" class="cursor-pointer table-warning" (click)="btnAddQuestions.click()">
-                    <td colspan="4" class="text-muted">No questions have been selected</td>
-                </tr>
-            </tbody>
-        </table>
+        <ng-container ngbNavItem class="pt-6">
 
-    </div>
+            <a ngbNavLink>Questions</a>
+
+            <ng-template ngbNavContent>
+
+                <div class="table-responsive mt-4">
+
+                    <table class="table table-hover table-edge table-nowrap mb-0 align-middle">
+                        <thead class="thead-light">
+                            <tr>
+                                <th>Status</th>
+                                <th>Code</th>
+                                <th class="d-none d-lg-table-cell">Text</th>
+                                <th>Question Type</th>
+                            </tr>
+                        </thead>
+                        <tbody class="list">
+                            <tr *ngFor="let questionSummary of questionSummaries" [ngClass]="{ 'table-info': getStatus(questionSummary) === 1, 'table-success': getStatus(questionSummary) === 2, 'table-danger': getStatus(questionSummary) === 3 }">
+                                <td>{{ getStatusName(questionSummary) }}</td>
+                                <td>{{ questionSummary.question.code }}</td>
+                                <td class="d-none d-lg-table-cell mw-200px text-truncate">{{ questionSummary.question.text }}</td>
+                                <td>{{ questionTypes[questionSummary.question.questionType].label }}</td>
+                            </tr>
+                            <tr *ngIf="!questionSummaries.length" class="cursor-pointer table-warning" (click)="btnAddQuestions.click()">
+                                <td colspan="4" class="text-muted">No questions have been selected</td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+                </div>
+
+            </ng-template>
+
+        </ng-container>
+
+        <ng-container ngbNavItem class="pt-6">
+
+            <a ngbNavLink>Configuration</a>
+
+            <ng-template ngbNavContent>
+
+                <form id="formConfiguration" name="formConfiguration" novalidate #formConfiguration="ngForm" class="was-validated">
+
+                    <div class="row g-3">
+
+                        <div class="col-sm-6 col-md-4 col-lg-3 col-xl-2">
+                            <div class="form-group" [ngClass]="{ 'is-invalid': maxTokens.invalid }">
+
+                                <label for="maxTokens">
+                                    Maximum Tokens:
+                                </label>
+
+                                <input type="number" id="maxTokens" name="maxTokens" [(ngModel)]="generateSummariesModel.maxTokens" #maxTokens="ngModel" class="form-control" required min="0" max="4096" maxlength="4" step="1" ngbTooltip="Max Tokens" placeholder="Max Tokens" />
+
+                                <div *ngIf="maxTokens.errors?.required" class="invalid-feedback">
+                                    Max Tokens is required
+                                </div>
+
+                                <div *ngIf="maxTokens.errors?.max" class="invalid-feedback">
+                                    Max Tokens is too large
+                                </div>
+
+                            </div>
+                        </div>
+
+                        <div class="col-sm-6 col-md-4 col-lg-3 col-xl-2">
+                            <div class="form-group" [ngClass]="{ 'is-invalid': temperature.invalid }">
+
+                                <label for="temperature">
+                                    Temperature:
+                                </label>
+
+                                <input type="number" id="temperature" name="temperature" [(ngModel)]="generateSummariesModel.temperature" #temperature="ngModel" class="form-control" required min="0" max="1" step="0.01" ngbTooltip="Temperature" placeholder="Temperature" />
+
+                                <div *ngIf="temperature.errors?.required" class="invalid-feedback">
+                                    Temperature is required
+                                </div>
+
+                                <div *ngIf="temperature.errors?.max" class="invalid-feedback">
+                                    Temperature is too large
+                                </div>
+
+                            </div>
+                        </div>
+
+                        <div class="col-sm-12">
+                            <div class="form-group" [ngClass]="{ 'is-invalid': systemMessage.invalid }">
+
+                                <label for="systemMessage">
+                                    System Message:
+                                </label>
+
+                                <textarea id="systemMessage" name="systemMessage" class="form-control" rows="5" [(ngModel)]="generateSummariesModel.systemMessage" #systemMessage="ngModel"></textarea>
+
+                                <div *ngIf="systemMessage.errors?.required" class="invalid-feedback">
+                                    System Message is required
+                                </div>
+
+                            </div>
+                        </div>
+
+                        <div class="col-sm-12">
+                            <div class="form-group" [ngClass]="{ 'is-invalid': textPrompt.invalid }">
+
+                                <label for="textPrompt">
+                                    User Prompt (for Text and Multi-line Text questions):
+                                </label>
+
+                                <textarea id="textPrompt" name="textPrompt" class="form-control cursor-help" rows="5" [(ngModel)]="generateSummariesModel.textPrompt" #textPrompt="ngModel"
+                                          popoverTitle="User Prompt Help"
+                                          [ngbPopover]="popTextPrompt"></textarea>
+
+                                <ng-template #popTextPrompt>
+                                    <p class="my-0">Use <code>&#123;questionText&#125;</code> as a placeholder for the question text.</p>
+                                    <p class="my-3">Use <code>&#123;answerCount&#125;</code> as a placeholder for the total number of answers.</p>
+                                    <p class="my-3">Use <code>&#123;entityTypePlural&#125;</code> as a placeholder for the plural entity type name.</p>
+                                    <p class="my-3">Use <code>[&#123;answer&#125;]</code> as a placeholder for the list of answers.</p>
+                                </ng-template>
+
+                                <div *ngIf="textPrompt.errors?.required" class="invalid-feedback">
+                                    User Prompt (for Text and Multi-line Text questions) is required
+                                </div>
+
+                            </div>
+                        </div>
+
+                        <div class="col-sm-12">
+                            <div class="form-group" [ngClass]="{ 'is-invalid': optionListPrompt.invalid }">
+
+                                <label for="optionListPrompt">
+                                    User Prompt (for Option List questions):
+                                </label>
+
+                                <textarea id="optionListPrompt" name="optionListPrompt" class="form-control cursor-help" rows="5" [(ngModel)]="generateSummariesModel.optionListPrompt" #optionListPrompt="ngModel"
+                                          popoverTitle="User Prompt Help"
+                                          [ngbPopover]="popOptionListPrompt"></textarea>
+
+                                <ng-template #popOptionListPrompt>
+                                    <p class="my-0">Use <code>&#123;questionText&#125;</code> as a placeholder for the question text.</p>
+                                    <p class="my-3">Use <code>&#123;answerCount&#125;</code> as a placeholder for the total number of answers.</p>
+                                    <p class="my-3">Use <code>&#123;entityTypePlural&#125;</code> as a placeholder for the plural entity type name.</p>
+                                    <p class="my-3">Use <code>[&#123;optionsAndCounts&#125;]</code> as a placeholder for the list of available options and the count of answers.</p>
+                                </ng-template>
+
+                                <div *ngIf="optionListPrompt.errors?.required" class="invalid-feedback">
+                                    User Prompt (for Option List questions) is required
+                                </div>
+
+                            </div>
+                        </div>
+
+                    </div>
+
+                </form>
+
+            </ng-template>
+
+        </ng-container>
+
+    </nav>
+
+    <div [ngbNavOutlet]="nav" class="mt-1"></div>
 
 </div>
 
 <div class="modal-footer">
     <button type="button" #btnAddQuestions class="btn btn-outline-primary" (click)="openQuestionModal()">Add Questions</button>
-    <button type="submit" form="formGenerateSummaries" class="btn btn-outline-primary">Generate</button>
+    <button type="submit" form="formGenerateSummaries" class="btn btn-outline-success">Generate</button>
     <button type="button" class="btn btn-outline-secondary" (click)="reset()" *ngIf="hasNonQueued()">Reset</button>
     <button type="button" class="btn btn-outline-secondary" (click)="modal.dismiss()">Close</button>
 </div>

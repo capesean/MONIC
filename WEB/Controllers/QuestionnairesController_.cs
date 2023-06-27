@@ -47,14 +47,6 @@ namespace WEB.Controllers
                 Entity = ModelFactory.Create(o.Entity)
             }).ToList();
 
-            //var results = responses.Select(o => new SurveyProgress()
-            //{
-            //    TotalQuestions = 30,//o.TotalQuestions,
-            //    ApplicableQuestions = 30,//o.ApplicableQuestions,
-            //    CompletedQuestions = new Random().Next(0, 30),//o.ApplicableQuestions),
-            //    Entity = ModelFactory.Create(o.Entity)
-            //}).ToList();
-
             return Ok(results);
         }
 
@@ -109,8 +101,6 @@ namespace WEB.Controllers
                 db.Entry(questionSummary).State = EntityState.Modified;
             }
 
-            var systemMessage = $"You are a helpful assistant that analyzes and summarizes responses to questions from a questionnaire that was distributed to {questionnaire.EntityType.Plural}. Respond without any thanks.";
-
             var responseCount = await db.Responses.CountAsync(o => o.QuestionnaireId == questionnaire.QuestionnaireId);
 
             var question = await db.Questions
@@ -127,13 +117,13 @@ namespace WEB.Controllers
 
             if (responseCount == 0) return BadRequest("There are no responses for this questionnaire");
 
-            var apiKey = AppSettings.GetDbSettings(db).ChatGPTAPIKey;
-            if (string.IsNullOrWhiteSpace(apiKey)) return BadRequest("ChatGPT API Key is not set (in Settings)");
+            var dbSettings = AppSettings.GetDbSettings(db);
+
+            if (string.IsNullOrWhiteSpace(dbSettings.ChatGPTAPIKey)) return BadRequest("The ChatGPT API Key is missing");
 
             var gpt = new OpenAIService(new OpenAiOptions()
             {
-                // todo: move to config
-                ApiKey = apiKey
+                ApiKey = dbSettings.ChatGPTAPIKey
             });
 
             var answers = await db.Answers
@@ -153,30 +143,51 @@ namespace WEB.Controllers
                 Temperature = generateSummariesModel.Temperature
             };
 
-            var messages = new List<ChatMessage> { ChatMessage.FromSystem(systemMessage) };
+            var messages = new List<ChatMessage>();
+            foreach (var message in generateSummariesModel.SystemMessage.Replace(Environment.NewLine, "\n").Split("\n"))
+                if (!string.IsNullOrWhiteSpace(message)) messages.Add(ChatMessage.FromSystem(message));
+
 
             if (question.QuestionType == QuestionType.Multiline || question.QuestionType == QuestionType.Text)
             {
-                messages.Add(ChatMessage.FromUser($"Please analyse/summarize the answers to the question: {question.Text}"));
-
+                var answerList = string.Empty;
                 foreach (var answer in answers)
-                    messages.Add(ChatMessage.FromUser($"{questionnaire.EntityType.Name} {answer.Response.Entity.Code}: {answer.Value}"));
+                    answerList += $"{questionnaire.EntityType.Name} {answer.Response.Entity.Code}: {answer.Value}\n";
+
+                generateSummariesModel.TextPrompt = generateSummariesModel.TextPrompt
+                    .Replace(Environment.NewLine, "\n")
+                    .Replace("{questionText}", question.Text)
+                    .Replace("{answerCount}", answers.Count.ToString())
+                    .Replace("{entityTypePlural}", questionnaire.EntityType.Plural)
+                    .Replace("[{answers}]", answerList);
+                // todo: multiline text answers could be on multiple lines, meaning the answer splits across chatmessages.
+                foreach (var message in generateSummariesModel.TextPrompt.Split("\n"))
+                    if (!string.IsNullOrWhiteSpace(message)) messages.Add(ChatMessage.FromUser(message));
             }
             else if (question.QuestionType == QuestionType.OptionList)
             {
+                var answerList = string.Empty;
+
                 var options = await db.QuestionOptions
                     .Where(o => o.QuestionOptionGroupId == question.QuestionOptionGroupId)
                     .ToDictionaryAsync(o => o.QuestionOptionId);
-
-                messages.Add(ChatMessage.FromUser($"Please analyse and summarize the answers to the following {(question.OptionListType == OptionListType.Checkboxes ? "multiple" : "single")}-choice question: {question.Text}"));
-                messages.Add(ChatMessage.FromUser($"{answers.Count} {questionnaire.EntityType.Plural} provided responses. The available options were:"));
 
                 var counter = 1;
                 foreach (var option in options.Values.OrderBy(o => o.SortOrder))
                 {
                     var optionCount = answers.Count(o => o.AnswerOptions.Any(ao => ao.QuestionOptionId == option.QuestionOptionId));
-                    messages.Add(ChatMessage.FromUser($"Option {counter++}: {option.Label} - {optionCount} {questionnaire.EntityType.Plural} selected this option."));
+                    answerList += $"Option {counter++}: {option.Label} - {optionCount} {questionnaire.EntityType.Plural.ToLowerInvariant()} selected this option.\n";
                 }
+
+                generateSummariesModel.OptionListPrompt = generateSummariesModel.OptionListPrompt
+                    .Replace(Environment.NewLine, "\n")
+                    .Replace("{questionText}", question.Text)
+                    .Replace("{answerCount}", answers.Count.ToString())
+                    .Replace("{entityTypePlural}", questionnaire.EntityType.Plural)
+                    .Replace("[{optionsAndCounts}]", answerList);
+
+                foreach (var message in generateSummariesModel.OptionListPrompt.Split("\n"))
+                    if (!string.IsNullOrWhiteSpace(message)) messages.Add(ChatMessage.FromUser(message));
             }
             else
                 throw new Exception("Invalid question type");
@@ -206,6 +217,9 @@ namespace WEB.Controllers
             public Guid QuestionnaireId { get; set; }
             public Guid QuestionId { get; set; }
             public Guid DateId { get; set; }
+            public string SystemMessage { get; set; }
+            public string TextPrompt { get; set; }
+            public string OptionListPrompt { get; set; }
             public int MaxTokens { get; set; }
             public float Temperature { get; set; }
         }

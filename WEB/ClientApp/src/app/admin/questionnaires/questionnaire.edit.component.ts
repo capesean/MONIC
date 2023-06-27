@@ -22,14 +22,13 @@ import { Clipboard } from '@angular/cdk/clipboard';
 import { environment } from '../../../environments/environment';
 import { QuestionnaireDownloadComponent } from './questionnaire.download.component';
 import { QuestionnaireGenerateSummariesComponent } from './questionnaire.generate.summaries.component';
-import { Question, QuestionSearchOptions } from '../../common/models/question.model';
+import { Question } from '../../common/models/question.model';
 import { Date } from '../../common/models/date.model';
 import { AnswerService } from '../../common/services/answer.service';
 import { QuestionOptionService } from '../../common/services/questionoption.service';
 import { AnswerSearchOptions, AnswerSearchResponse } from '../../common/models/answer.model';
 import { QuestionOptionSearchOptions, QuestionOptionSearchResponse } from '../../common/models/questionoption.model';
 import { EChartsOption } from 'echarts';
-import { QuestionService } from '../../common/services/question.service';
 import { Observable } from 'rxjs';
 import { of } from 'rxjs';
 import { QuestionSummaryService } from '../../common/services/questionsummary.service';
@@ -94,7 +93,6 @@ export class QuestionnaireEditComponent implements OnInit, OnDestroy {
         private clipboard: Clipboard,
         private answerService: AnswerService,
         private questionOptionService: QuestionOptionService,
-        private questionService: QuestionService,
         private questionSummaryService: QuestionSummaryService,
         private optionValueService: OptionValueService
     ) {

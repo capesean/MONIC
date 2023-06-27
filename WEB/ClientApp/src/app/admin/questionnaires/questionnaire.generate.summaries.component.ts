@@ -10,7 +10,6 @@ import { Question } from '../../common/models/question.model';
 import { Enum, Enums } from '../../common/models/enums.model';
 import { ViewChild } from '@angular/core';
 import { QuestionSummary } from '../../common/models/questionsummary.model';
-import { Date } from '../../common/models/date.model';
 
 enum QuestionStatus { Queued, Processing, Success, Error }
 
@@ -21,6 +20,7 @@ enum QuestionStatus { Queued, Processing, Success, Error }
 export class QuestionnaireGenerateSummariesComponent implements OnInit {
 
     @ViewChild('questionModal') questionModal: QuestionModalComponent;
+    @ViewChild('formConfiguration') formConfiguration: NgForm;
 
     public questionnaire: Questionnaire;
     public questionSummaries: QuestionSummary[] = [];
@@ -44,6 +44,13 @@ export class QuestionnaireGenerateSummariesComponent implements OnInit {
         this.generateSummariesModel.questionnaireId = this.questionnaire.questionnaireId;
         this.generateSummariesModel.maxTokens = 250;
         this.generateSummariesModel.temperature = 0.7;
+        this.generateSummariesModel.systemMessage = `You are a helpful assistant that analyzes and summarizes responses to questions from a questionnaire that was distributed to ${this.questionnaire.entityType.plural.toLowerCase()}. Respond without any thanks.`;
+        this.generateSummariesModel.textPrompt = "Please analyse/summarize the answers to the question: {questionText}\n";
+        this.generateSummariesModel.textPrompt += "[{answers}]";
+        this.generateSummariesModel.optionListPrompt = "Please analyse and summarize the answers to the question: {questionText}\n";
+        this.generateSummariesModel.optionListPrompt += "{answerCount} {entityTypePlural} provided responses.\n"
+        this.generateSummariesModel.optionListPrompt += "The available options and answer counts were:\n";
+        this.generateSummariesModel.optionListPrompt += "[{optionsAndCounts}]";
     }
 
     submit(form: NgForm) {
@@ -51,6 +58,20 @@ export class QuestionnaireGenerateSummariesComponent implements OnInit {
         if (form.invalid) {
 
             this.toastr.error("The form has not been completed correctly.", "Form Error");
+            return;
+
+        }
+
+        // the tab might not be displayed in which case the form will be undefined
+        if (!this.generateSummariesModel.systemMessage
+            || !this.generateSummariesModel.textPrompt
+            || !this.generateSummariesModel.optionListPrompt
+            || !this.generateSummariesModel.maxTokens
+            || this.generateSummariesModel.temperature == null
+            || this.generateSummariesModel.temperature < 0
+            || this.generateSummariesModel.temperature > 1) {
+
+            this.toastr.error("The configuration form has not been completed correctly.", "Form Error");
             return;
 
         }

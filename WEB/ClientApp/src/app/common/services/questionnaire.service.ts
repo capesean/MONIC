@@ -94,4 +94,7 @@ export class GenerateSummariesModel {
     public date: Date;
     public maxTokens: number;
     public temperature: number;
+    public systemMessage: string;
+    public textPrompt: string;
+    public optionListPrompt: string;
 }
