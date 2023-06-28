@@ -11,10 +11,6 @@ export class SetupService {
     ) {
     }
 
-    checkSetup() {
-        return this.http.get<{ runSetup: boolean }>(`${environment.baseApiUrl}setup`);
-    }
-
     runSetup(setupModel: SetupModel) {
         return this.http.post<Response>(`${environment.baseApiUrl}setup`, setupModel);
     }
