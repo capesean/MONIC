@@ -1,8 +1,9 @@
 import { environment } from '../../../environments/environment';
 import { Injectable } from '@angular/core';
 import { HttpClient, } from '@angular/common/http';
-import { Observable, of, share, tap } from 'rxjs';
+import { catchError, Observable, of, share, tap } from 'rxjs';
 import { AppSettings } from '../models/appsettings.model';
+import { ErrorService } from './error.service';
 
 @Injectable({ providedIn: 'root' })
 export class AppService {
@@ -11,7 +12,8 @@ export class AppService {
     private _getAppSettings: Observable<AppSettings>;
 
     constructor(
-        private http: HttpClient
+        private http: HttpClient,
+        private errorService: ErrorService
     ) {
     }
 
@@ -29,6 +31,10 @@ export class AppService {
         if (!this._getAppSettings) {
             this._getAppSettings = this.http
                 .get<AppSettings>(`${environment.baseApiUrl}app/settings`)
+                .pipe(catchError(err => {
+                    this.errorService.handleError(err, "Settings", "Load");
+                    throw 'error in source. Details:';
+                }))
                 .pipe(share())
                 .pipe(tap(appSettings => {
                     this._appSettings = appSettings;
