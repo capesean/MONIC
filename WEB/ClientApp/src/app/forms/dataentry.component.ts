@@ -23,6 +23,8 @@ import { NgbAccordion, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { DatumStatusModalComponent } from './datumstatus.modal.component';
 import { DataReviewModalComponent } from './datareview.modal';
 import { environment } from '../../environments/environment';
+import { AppSettings } from '../common/models/appsettings.model';
+import { AppService } from '../common/services/app.service';
 
 @Component({
     selector: 'dataentry',
@@ -50,20 +52,21 @@ export class DataEntryComponent implements OnInit, AfterViewInit {
     public isOpen = undefined as boolean;
     public hasOpened = undefined as boolean;
     public permissionTypes = Enums.PermissionTypes;
+    private appSettings: AppSettings;
 
     @ViewChild("optionsForm") form: NgForm;
     @ViewChild("accordion") accordion: NgbAccordion;
 
     constructor(
         private authService: AuthService,
+        private appService: AppService,
         private toastr: ToastrService,
-        private router: Router,
         private errorService: ErrorService,
         private formsService: FormsService,
         private dateService: DateService,
         private entityService: EntityService,
         private route: ActivatedRoute,
-        private pendingRequestsInterceptor: PendingRequestsInterceptor,
+        pendingRequestsInterceptor: PendingRequestsInterceptor,
         private modalService: NgbModal
     ) {
         // disabled this otherwise the route is nuked each time and (eg) the nav controller initialises again
@@ -78,6 +81,15 @@ export class DataEntryComponent implements OnInit, AfterViewInit {
     }
 
     ngOnInit(): void {
+
+        // permissions independent of indicators
+        this.authService.canEdit().subscribe(canEdit => this.canEdit = canEdit);
+        this.authService.canSubmit().subscribe(canSubmit => this.canSubmit = canSubmit);
+        this.authService.canVerify().subscribe(canVerify => this.canVerify = canVerify);
+        this.authService.canApprove().subscribe(canApprove => this.canApprove = canApprove);
+
+        this.appService.getAppSettings().subscribe(appSettings => this.appSettings = appSettings);
+
         this.authService.getProfile()
             .subscribe(
                 profile => {
@@ -93,11 +105,6 @@ export class DataEntryComponent implements OnInit, AfterViewInit {
                         this.isOpen = null;
                         this.hasOpened = true;
                     }
-
-                    this.canEdit = this.authService.canEdit();
-                    this.canSubmit = this.authService.canSubmit();
-                    this.canVerify = this.authService.canVerify();
-                    this.canApprove = this.authService.canApprove();
 
                     // the form defaults to edit, if the user doesn't have the ability, switch to view
                     if (!this.canEdit) this.options.permissionType = PermissionTypes.View;
@@ -336,9 +343,9 @@ export class DataEntryComponent implements OnInit, AfterViewInit {
     private setForm(response: DataEntryFormResponse) {
 
         // todo: view should show all cols?
-        this.showSubmitCol = environment.useSubmit && this.options.permissionType >= 2; // todo: use enums?
-        this.showVerifyCol = environment.useVerify && this.options.permissionType >= 3; // todo: use enums?
-        this.showApproveCol = environment.useApprove && this.options.permissionType === PermissionTypes.Approve;
+        this.showSubmitCol = this.appSettings.useSubmit && this.options.permissionType >= 2; // todo: use enums?
+        this.showVerifyCol = this.appSettings.useVerify && this.options.permissionType >= 3; // todo: use enums?
+        this.showApproveCol = this.appSettings.useApprove && this.options.permissionType === PermissionTypes.Approve;
 
         // recreate the form from scratch
         this.categoryRows = [];
@@ -472,7 +479,7 @@ export class DataEntryComponent implements OnInit, AfterViewInit {
         if (this.options.permissionType === PermissionTypes.Verify) {
             if (indicatorRow.datum.verified) return "fa-square-check text-muted";
             else if (indicatorRow.checked) return "fa-square-check cursor-pointer";
-            else if (environment.useSubmit && indicatorRow.indicator.requiresSubmit && !indicatorRow.datum.submitted) return "fa-square text-muted";
+            else if (this.appSettings.useSubmit && indicatorRow.indicator.requiresSubmit && !indicatorRow.datum.submitted) return "fa-square text-muted";
             return "fa-square cursor-pointer";
         } else {
             if (indicatorRow.datum.verified) return "fa-square-check text-muted";
@@ -485,8 +492,8 @@ export class DataEntryComponent implements OnInit, AfterViewInit {
         if (this.options.permissionType === PermissionTypes.Approve) {
             if (indicatorRow.datum.approved) return "fa-square-check text-muted";
             else if (indicatorRow.checked) return "fa-square-check cursor-pointer";
-            else if (environment.useSubmit && indicatorRow.indicator.requiresSubmit && !indicatorRow.datum.submitted) return "fa-square text-muted";
-            else if (environment.useVerify && indicatorRow.indicator.requiresVerify && !indicatorRow.datum.verified) return "fa-square text-muted";
+            else if (this.appSettings.useSubmit && indicatorRow.indicator.requiresSubmit && !indicatorRow.datum.submitted) return "fa-square text-muted";
+            else if (this.appSettings.useVerify && indicatorRow.indicator.requiresVerify && !indicatorRow.datum.verified) return "fa-square text-muted";
             return "fa-square cursor-pointer";
         } else {
             if (indicatorRow.datum.approved) return "fa-square-check text-muted";

@@ -6,9 +6,4 @@ export const environment = {
     baseAuthUrl: `https://localhost:44501/`,
     siteName: 'MONIC',
     runSetupCheck: true,
-    useSubmit: true,
-    useVerify: true,
-    useApprove: true,
-    useReject: false,
-    //simplePermissionsMode: false
 };

@@ -12,6 +12,24 @@ namespace WEB.Controllers
         public AppController(ApplicationDbContext db, UserManager<User> um, AppSettings appSettings)
             : base(db, um, appSettings) { }
 
+        [HttpGet, Route("settings")]
+        [HttpGet, AuthorizeRoles(Roles.Administrator)]
+        public IActionResult Get()
+        {
+            var dbSettings = AppSettings.GetDbSettings(db);
+
+            // return the settings for all logged in users
+            return Ok(
+                new
+                {
+                    dbSettings.UseSubmit,
+                    dbSettings.UseVerify,
+                    dbSettings.UseApprove,
+                    dbSettings.UseReject
+                }
+            );
+        }
+
         [HttpGet, Route("fielddata")]
         public async Task<IActionResult> GetFieldData()
         {

@@ -10,6 +10,74 @@
 
                 <div class="row g-3">
 
+                    <div class="col-sm-6 col-md-4">
+                        <div class="form-group" [ngClass]="{ 'is-invalid': useSubmit.invalid }">
+
+                            <label for="useSubmit">
+                                Use Submit:
+                            </label>
+
+                            <div class="form-check">
+                                <input id="useSubmit" name="useSubmit" class="form-check-input" type="checkbox" [(ngModel)]="settings.useSubmit" #useSubmit="ngModel" />
+                                <label class="form-check-label" for="useSubmit">
+                                    Use Submit
+                                </label>
+                            </div>
+
+                        </div>
+                    </div>
+
+                    <div class="col-sm-6 col-md-4">
+                        <div class="form-group" [ngClass]="{ 'is-invalid': useVerify.invalid }">
+
+                            <label for="useVerify">
+                                Use Verify:
+                            </label>
+
+                            <div class="form-check">
+                                <input id="useVerify" name="useVerify" class="form-check-input" type="checkbox" [(ngModel)]="settings.useVerify" #useVerify="ngModel" />
+                                <label class="form-check-label" for="useVerify">
+                                    Use Verify
+                                </label>
+                            </div>
+
+                        </div>
+                    </div>
+
+                    <div class="col-sm-6 col-md-4">
+                        <div class="form-group" [ngClass]="{ 'is-invalid': useApprove.invalid }">
+
+                            <label for="useApprove">
+                                Use Approve:
+                            </label>
+
+                            <div class="form-check">
+                                <input id="useApprove" name="useApprove" class="form-check-input" type="checkbox" [(ngModel)]="settings.useApprove" #useApprove="ngModel" />
+                                <label class="form-check-label" for="useApprove">
+                                    Use Approve
+                                </label>
+                            </div>
+
+                        </div>
+                    </div>
+
+                    <div class="col-sm-6 col-md-4">
+                        <div class="form-group" [ngClass]="{ 'is-invalid': useReject.invalid }">
+
+                            <label for="useReject">
+                                Use Reject:
+                            </label>
+
+                            <div class="form-check">
+                                <input id="useReject" name="useReject" class="form-check-input" type="checkbox" [(ngModel)]="settings.useReject" #useReject="ngModel" />
+                                <label class="form-check-label" for="useReject">
+                                    Use Reject
+                                </label>
+                            </div>
+
+                        </div>
+                    </div>
+
                     <div class="col-sm-12 col-md-10 col-lg-8 col-xl-6">
                         <div class="form-group" [ngClass]="{ 'is-invalid': chatGPTAPIKey.invalid }">
 

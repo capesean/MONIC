@@ -118,7 +118,7 @@ namespace WEB
                 };
                 config.Events.OnRedirectToLogin = context =>
                 {
-                    // redirect to /auth/login here?
+                    // todo: redirect to /auth/login here?
                     context.Response.StatusCode = 401;
                     return Task.CompletedTask;
                 };

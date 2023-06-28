@@ -2,6 +2,10 @@ import { SearchOptions, PagingHeaders } from './http.model';
 
 export class Settings {
     id: string;
+    useSubmit: boolean;
+    useVerify: boolean;
+    useApprove: boolean;
+    useReject: boolean;
     chatGPTAPIKey: string;
 
     constructor() {

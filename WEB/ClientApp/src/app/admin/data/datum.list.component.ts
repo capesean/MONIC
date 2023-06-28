@@ -5,7 +5,8 @@ import { PagingHeaders } from '../../common/models/http.model';
 import { DatumSearchOptions, DatumSearchResponse, Datum } from '../../common/models/datum.model';
 import { ErrorService } from '../../common/services/error.service';
 import { DatumService } from '../../common/services/datum.service';
-import { environment } from '../../../environments/environment';
+import { AppService } from '../../common/services/app.service';
+import { AppSettings } from '../../common/models/appsettings.model';
 
 @NgComponent({
     selector: 'datum-list',
@@ -17,13 +18,14 @@ export class DatumListComponent implements OnInit, OnDestroy {
     public searchOptions = new DatumSearchOptions();
     public headers = new PagingHeaders();
     private routerSubscription: Subscription;
-    protected environment = environment;
+    public appSettings: AppSettings;
 
     constructor(
         public route: ActivatedRoute,
         private router: Router,
         private errorService: ErrorService,
-        private datumService: DatumService
+        private datumService: DatumService,
+        private appService: AppService
     ) {
     }
 
@@ -34,6 +36,7 @@ export class DatumListComponent implements OnInit, OnDestroy {
                 this.runSearch();
             }
         });
+        this.appService.getAppSettings().subscribe(appSettings => this.appSettings = appSettings);
         this.runSearch();
     }
 

@@ -160,9 +160,9 @@
 
                 </div>
 
-                <div class="row g-3">
+                <div class="row g-3" *ngIf="appSettings?.useSubmit || appSettings?.useVerify || appSettings?.useApprove">
 
-                    <div class="col-sm-6 col-md-4 col-lg-3 col-xl-2" *ngIf="env.useSubmit">
+                    <div class="col-sm-6 col-md-4 col-lg-3 col-xl-2" *ngIf="appSettings?.useSubmit">
                         <div class="form-group" [ngClass]="{ 'is-invalid': requiresSubmit.invalid }">
 
                             <label for="requiresSubmit">
@@ -179,7 +179,7 @@
                         </div>
                     </div>
 
-                    <div class="col-sm-6 col-md-4 col-lg-3 col-xl-2" *ngIf="env.useVerify">
+                    <div class="col-sm-6 col-md-4 col-lg-3 col-xl-2" *ngIf="appSettings?.useVerify">
                         <div class="form-group" [ngClass]="{ 'is-invalid': requiresVerify.invalid }">
 
                             <label for="requiresVerify">
@@ -196,7 +196,7 @@
                         </div>
                     </div>
 
-                    <div class="col-sm-6 col-md-4 col-lg-3 col-xl-2" *ngIf="env.useApprove">
+                    <div class="col-sm-6 col-md-4 col-lg-3 col-xl-2" *ngIf="appSettings?.useApprove">
                         <div class="form-group" [ngClass]="{ 'is-invalid': requiresApprove.invalid }">
 
                             <label for="requiresApprove">

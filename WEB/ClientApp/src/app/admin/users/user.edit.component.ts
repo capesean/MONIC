@@ -20,8 +20,9 @@ import { IndicatorPermission, IndicatorPermissionSearchOptions, IndicatorPermiss
 import { IndicatorPermissionService } from '../../common/services/indicatorpermission.service';
 import { EntityModalComponent } from '../entities/entity.modal.component';
 import { Entity } from '../../common/models/entity.model';
-import { environment } from '../../../environments/environment';
 import { AddIndicatorsPermissionModal } from './addindicatorpermissions.modal';
+import { AppSettings } from '../../common/models/appsettings.model';
+import { AppService } from '../../common/services/app.service';
 
 @NgComponent({
     selector: 'user-edit',
@@ -29,12 +30,12 @@ import { AddIndicatorsPermissionModal } from './addindicatorpermissions.modal';
 })
 export class UserEditComponent implements OnInit, OnDestroy {
 
-    public environment = environment;
     public user: User = new User();
     public isNew = true;
     private routerSubscription: Subscription;
     public roles: Enum[] = Enums.Roles;
     private profile: ProfileModel;
+    public appSettings: AppSettings;
 
     public entityPermissionsSearchOptions = new EntityPermissionSearchOptions();
     public entityPermissionsHeaders = new PagingHeaders();
@@ -58,7 +59,8 @@ export class UserEditComponent implements OnInit, OnDestroy {
         private entityPermissionService: EntityPermissionService,
         private indicatorPermissionService: IndicatorPermissionService,
         private authService: AuthService,
-        private errorService: ErrorService
+        private errorService: ErrorService,
+        private appService: AppService
     ) {
     }
 
@@ -67,6 +69,8 @@ export class UserEditComponent implements OnInit, OnDestroy {
         this.authService.getProfile().subscribe(profile => {
             this.profile = profile;
         });
+
+        this.appService.getAppSettings().subscribe(appSettings => this.appSettings = appSettings);
 
         this.route.params.subscribe(params => {
 

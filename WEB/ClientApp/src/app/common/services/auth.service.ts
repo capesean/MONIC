@@ -1,13 +1,14 @@
 import { HttpClient, HttpHeaders } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { Router } from "@angular/router";
-import { BehaviorSubject, interval, Observable, of, Subscription, throwError } from "rxjs";
+import { BehaviorSubject, forkJoin, interval, Observable, of, Subscription, throwError } from "rxjs";
 import { catchError, filter, first, map, mergeMap, share, tap } from "rxjs/operators";
 import { environment } from "../../../environments/environment";
 import { AuthStateModel, AuthTokenModel, ChangePasswordModel, JwtTokenModel, LoginModel, PasswordRequirements, RefreshGrantModel, RegisterModel, ResetModel, ResetPasswordModel } from "../models/auth.models";
 import { ProfileModel } from "../models/profile.models";
 import { Enums, Roles } from "../models/enums.model";
 import { FolderShortcutSettings, IndicatorBarChartSettings, IndicatorLineChartSettings, IndicatorMapSettings, IndicatorPieChartSettings, WidgetSettings } from "../models/widget.model";
+import { AppService } from "./app.service";
 
 @Injectable({ providedIn: 'root' })
 export class AuthService {
@@ -23,7 +24,8 @@ export class AuthService {
 
     constructor(
         private http: HttpClient,
-        private router: Router
+        private router: Router,
+        private appService: AppService
     ) {
         this.state = new BehaviorSubject<AuthStateModel>(this.initalState);
         this.state$ = this.state.asObservable();
@@ -223,31 +225,62 @@ export class AuthService {
         return this.profileGet;
     }
 
-    canEdit(indicatorId?: string): boolean {
-        if (!this._profile) throw "No profile in canSubmit!";
-        if (this.isInRole(this._profile, Roles.Administrator)) return true;
-        return !!this._profile.indicatorPermissions.find(o => o.edit && (indicatorId === undefined || o.indicatorId === indicatorId));
+    canEdit(indicatorId?: string): Observable<boolean> {
+        return this.getProfile()
+            .pipe(
+                map(
+                    profile => {
+                        if (this.isInRole(profile, Roles.Administrator)) return true;
+                        return !!profile.indicatorPermissions.find(o => o.edit && (indicatorId === undefined || o.indicatorId === indicatorId));
+                    }
+                )
+            );
+
     }
 
-    canSubmit(indicatorId?: string): boolean {
-        if (!environment.useSubmit) return false;
-        if (!this._profile) throw "No profile in canSubmit!";
-        if (this.isInRole(this._profile, Roles.Administrator)) return true;
-        return !!this._profile.indicatorPermissions.find(o => o.submit && (indicatorId === undefined || o.indicatorId === indicatorId));
+    canSubmit(indicatorId?: string): Observable<boolean> {
+        return forkJoin({
+            appSettings: this.appService.getAppSettings(),
+            profile: this.getProfile(),
+        }).pipe(
+            map(
+                data => {
+                    if (!data.appSettings.useSubmit) return false;
+                    if (this.isInRole(data.profile, Roles.Administrator)) return true;
+                    return !!data.profile.indicatorPermissions.find(o => o.submit && (indicatorId === undefined || o.indicatorId === indicatorId));
+                }
+            )
+        );
     }
 
-    canVerify(indicatorId?: string): boolean {
-        if (!environment.useVerify) return false;
-        if (!this._profile) throw "No profile in canVerify!";
-        if (this.isInRole(this._profile, Roles.Administrator)) return true;
-        return !!this._profile.indicatorPermissions.find(o => o.verify && (indicatorId === undefined || o.indicatorId === indicatorId));
+    canVerify(indicatorId?: string): Observable<boolean> {
+        return forkJoin({
+            appSettings: this.appService.getAppSettings(),
+            profile: this.getProfile(),
+        }).pipe(
+            map(
+                data => {
+                    if (!data.appSettings.useVerify) return false;
+                    if (this.isInRole(data.profile, Roles.Administrator)) return true;
+                    return !!data.profile.indicatorPermissions.find(o => o.verify && (indicatorId === undefined || o.indicatorId === indicatorId));
+                }
+            )
+        );
     }
 
-    canApprove(indicatorId?: string): boolean {
-        if (!environment.useApprove) return false;
-        if (!this._profile) throw "No profile in canApprove!";
-        if (this.isInRole(this._profile, Roles.Administrator)) return true;
-        return !!this._profile.indicatorPermissions.find(o => o.approve && (indicatorId === undefined || o.indicatorId === indicatorId));
+    canApprove(indicatorId?: string): Observable<boolean> {
+        return forkJoin({
+            appSettings: this.appService.getAppSettings(),
+            profile: this.getProfile(),
+        }).pipe(
+                map(
+                    data => {
+                        if (!data.appSettings.useApprove) return false;
+                        if (this.isInRole(data.profile, Roles.Administrator)) return true;
+                        return !!data.profile.indicatorPermissions.find(o => o.approve && (indicatorId === undefined || o.indicatorId === indicatorId));
+                    }
+                )
+            );
     }
 
     saveDashboardSettings(settings?: WidgetSettings | IndicatorMapSettings | IndicatorLineChartSettings | IndicatorBarChartSettings | IndicatorPieChartSettings | FolderShortcutSettings, remove?: boolean): Observable<void> {

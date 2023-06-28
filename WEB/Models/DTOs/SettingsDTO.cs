@@ -8,6 +8,18 @@ namespace WEB.Models
         [Required]
         public Guid Id { get; set; }
 
+        [Required]
+        public bool UseSubmit { get; set; }
+
+        [Required]
+        public bool UseVerify { get; set; }
+
+        [Required]
+        public bool UseApprove { get; set; }
+
+        [Required]
+        public bool UseReject { get; set; }
+
         [MaxLength(100)]
         public string ChatGPTAPIKey { get; set; }
 
@@ -22,6 +34,10 @@ namespace WEB.Models
             var settingsDTO = new SettingsDTO();
 
             settingsDTO.Id = settings.Id;
+            settingsDTO.UseSubmit = settings.UseSubmit;
+            settingsDTO.UseVerify = settings.UseVerify;
+            settingsDTO.UseApprove = settings.UseApprove;
+            settingsDTO.UseReject = settings.UseReject;
             settingsDTO.ChatGPTAPIKey = settings.ChatGPTAPIKey;
 
             return settingsDTO;
@@ -29,6 +45,10 @@ namespace WEB.Models
 
         public static void Hydrate(Settings settings, SettingsDTO settingsDTO)
         {
+            settings.UseSubmit = settingsDTO.UseSubmit;
+            settings.UseVerify = settingsDTO.UseVerify;
+            settings.UseApprove = settingsDTO.UseApprove;
+            settings.UseReject = settingsDTO.UseReject;
             settings.ChatGPTAPIKey = settingsDTO.ChatGPTAPIKey;
         }
     }

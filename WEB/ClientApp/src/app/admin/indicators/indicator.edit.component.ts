@@ -17,7 +17,7 @@ import { ItemComponent } from '../../common/components/item.component';
 import { AppService } from '../../common/services/app.service';
 import { DocumentService } from '../../common/services/document.service';
 import { Item } from '../../common/models/item.model';
-import { environment } from '../../../environments/environment';
+import { AppSettings } from '../../common/models/appsettings.model';
 
 @Component({
     selector: 'indicator-edit',
@@ -51,7 +51,7 @@ export class IndicatorEditComponent extends ItemComponent implements OnInit {
     public activeToken: number;
     public tokens: LocalToken[] = [];
     private helpModal: NgbModalRef;
-    public env = environment;
+    public appSettings: AppSettings;
 
     @ViewChild('helpModal') helpContent: TemplateRef<any>;
     @ViewChild('indicatorModal') indicatorModal: IndicatorModalComponent;
@@ -92,6 +92,8 @@ export class IndicatorEditComponent extends ItemComponent implements OnInit {
             }
 
         });
+
+        this.appService.getAppSettings().subscribe(appSettings => this.appSettings = appSettings);
 
     }
 

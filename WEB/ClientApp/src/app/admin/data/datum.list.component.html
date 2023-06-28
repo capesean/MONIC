@@ -98,10 +98,10 @@
                         <th>Entity</th>
                         <th>Date</th>
                         <th>Value</th>
-                        <th *ngIf="environment.useSubmit" class="text-center w-20px" ngbTooltip="Submitted" container="body"><i class="fa fa-floppy-disk"></i></th>
-                        <th *ngIf="environment.useVerify" class="text-center w-20px" ngbTooltip="Verified" container="body"><i class="fa fa-clipboard-check"></i></th>
-                        <th *ngIf="environment.useApprove" class="text-center w-20px" ngbTooltip="Approved" container="body"><i class="fa fa-lock"></i></th>
-                        <th *ngIf="environment.useReject" class="text-center w-20px" ngbTooltip="Rejected" container="body"><i class="fa fa-ban"></i></th>
+                        <th *ngIf="appSettings?.useSubmit" class="text-center w-20px" ngbTooltip="Submitted" container="body"><i class="fa fa-floppy-disk"></i></th>
+                        <th *ngIf="appSettings?.useVerify" class="text-center w-20px" ngbTooltip="Verified" container="body"><i class="fa fa-clipboard-check"></i></th>
+                        <th *ngIf="appSettings?.useApprove" class="text-center w-20px" ngbTooltip="Approved" container="body"><i class="fa fa-lock"></i></th>
+                        <th *ngIf="appSettings?.useReject" class="text-center w-20px" ngbTooltip="Rejected" container="body"><i class="fa fa-ban"></i></th>
                     </tr>
                 </thead>
                 <tbody class="list cursor-pointer">
@@ -110,10 +110,10 @@
                         <td>{{ datum.entity.shortName }}</td>
                         <td>{{ datum.date.name }}</td>
                         <td>{{ datum.value }}</td>
-                        <td *ngIf="environment.useSubmit" class="text-center"><i class="fa" [ngClass]="{ 'fa-check-circle text-success': datum.submitted, 'fa-times-circle text-danger': !datum.submitted }"></i></td>
-                        <td *ngIf="environment.useVerify" class="text-center"><i class="fa" [ngClass]="{ 'fa-check-circle text-success': datum.verified, 'fa-times-circle text-danger': !datum.verified }"></i></td>
-                        <td *ngIf="environment.useApprove" class="text-center"><i class="fa" [ngClass]="{ 'fa-check-circle text-success': datum.approved, 'fa-times-circle text-danger': !datum.approved }"></i></td>
-                        <td *ngIf="environment.useReject" class="text-center"><i class="fa" [ngClass]="{ 'fa-check-circle text-success': datum.rejected, 'fa-times-circle text-danger': !datum.rejected }"></i></td>
+                        <td *ngIf="appSettings?.useSubmit" class="text-center"><i class="fa" [ngClass]="{ 'fa-check-circle text-success': datum.submitted, 'fa-times-circle text-danger': !datum.submitted }"></i></td>
+                        <td *ngIf="appSettings?.useVerify" class="text-center"><i class="fa" [ngClass]="{ 'fa-check-circle text-success': datum.verified, 'fa-times-circle text-danger': !datum.verified }"></i></td>
+                        <td *ngIf="appSettings?.useApprove" class="text-center"><i class="fa" [ngClass]="{ 'fa-check-circle text-success': datum.approved, 'fa-times-circle text-danger': !datum.approved }"></i></td>
+                        <td *ngIf="appSettings?.useReject" class="text-center"><i class="fa" [ngClass]="{ 'fa-check-circle text-success': datum.rejected, 'fa-times-circle text-danger': !datum.rejected }"></i></td>
                     </tr>
                 </tbody>
             </table>
