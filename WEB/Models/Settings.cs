@@ -27,6 +27,9 @@ namespace WEB.Models
         [MaxLength(100)]
         public string ChatGPTAPIKey { get; set; }
 
+        [Required]
+        public bool SetupCompleted { get; set; }
+
         public Settings()
         {
             Id = Guid.Empty;
