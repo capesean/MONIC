@@ -308,9 +308,9 @@
                                         <td>{{ indicatorPermission.indicatorId === null ? 'All indicators' : indicatorPermission.indicator.subcategory.name }}</td>
                                         <td>{{ indicatorPermission.indicator?.code }}</td>
                                         <td>{{ indicatorPermission.edit | booleanPipe }}</td>
-                                        <td *ngIf="appSettings?.useSubmit">{{ indicatorPermission.submit | booleanPipe }}</td>
-                                        <td *ngIf="appSettings?.useVerify">{{ indicatorPermission.verify | booleanPipe }}</td>
-                                        <td *ngIf="appSettings?.useApprove">{{ indicatorPermission.approve | booleanPipe }}</td>
+                                        <td>{{ indicatorPermission.submit | booleanPipe }}</td>
+                                        <td>{{ indicatorPermission.verify | booleanPipe }}</td>
+                                        <td>{{ indicatorPermission.approve | booleanPipe }}</td>
                                         <td class="text-center"><i class="fas fa-times cursor-pointer p-1 text-danger" (click)="deleteIndicatorPermission(indicatorPermission, $event)"></i></td>
                                     </tr>
                                 </tbody>

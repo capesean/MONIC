@@ -30,12 +30,12 @@ import { AppService } from '../../common/services/app.service';
 })
 export class UserEditComponent implements OnInit, OnDestroy {
 
+    public appSettings: AppSettings;
     public user: User = new User();
     public isNew = true;
     private routerSubscription: Subscription;
     public roles: Enum[] = Enums.Roles;
     private profile: ProfileModel;
-    public appSettings: AppSettings;
 
     public entityPermissionsSearchOptions = new EntityPermissionSearchOptions();
     public entityPermissionsHeaders = new PagingHeaders();
