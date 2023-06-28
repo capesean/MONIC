@@ -10,6 +10,9 @@ namespace WEB.Models
         public Guid Id { get; set; }
 
         [Required]
+        public bool SetupCompleted { get; set; }
+
+        [Required]
         public bool UseSubmit { get; set; }
 
         [Required]

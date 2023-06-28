@@ -18,6 +18,11 @@ export class AppService {
     ) {
     }
 
+    setupCheck(): Observable<{ setupCompleted: boolean }> {
+        return this.http
+            .get<{ setupCompleted: boolean }>(`${environment.baseApiUrl}app/setupcheck`)
+    }
+
     getAppSettings(): Observable<AppSettings> {
         // if the settings have already been retrieved, return them
         if (this._appSettings) {

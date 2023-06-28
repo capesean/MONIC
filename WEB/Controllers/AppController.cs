@@ -13,7 +13,6 @@ namespace WEB.Controllers
             : base(db, um, appSettings) { }
 
         [HttpGet, Route("settings")]
-        [HttpGet, AuthorizeRoles(Roles.Administrator)]
         public IActionResult Get()
         {
             var dbSettings = AppSettings.GetDbSettings(db);
@@ -22,10 +21,25 @@ namespace WEB.Controllers
             return Ok(
                 new
                 {
+                    dbSettings.SetupCompleted,
                     dbSettings.UseSubmit,
                     dbSettings.UseVerify,
                     dbSettings.UseApprove,
                     dbSettings.UseReject
+                }
+            );
+        }
+
+        // needs to be run on login page (anonymous)
+        [HttpGet, Route("setupcheck"), AllowAnonymous]
+        public IActionResult SetupCheck()
+        {
+            var dbSettings = AppSettings.GetDbSettings(db);
+
+            return Ok(
+                new
+                {
+                    dbSettings.SetupCompleted
                 }
             );
         }
