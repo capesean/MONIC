@@ -186,7 +186,8 @@ namespace WEB.Controllers
             }
 
             // simple permissions mode
-            if (AppSettings.SimplePermissionsMode)
+            var dbSettings = AppSettings.GetDbSettings(db);
+            if (dbSettings.SimplePermissionsMode)
             {
                 // new user -> add global indicator permission
                 if (isNew)
@@ -194,8 +195,8 @@ namespace WEB.Controllers
                     var indicatorPermission = new IndicatorPermission();
                     indicatorPermission.UserId = user.Id;
                     indicatorPermission.Edit = !userDTO.Roles.Any(o => o == Roles.Oversight.ToString());
-                    indicatorPermission.Submit = AppSettings.UseSubmit;
-                    indicatorPermission.Approve = AppSettings.UseApprove;
+                    indicatorPermission.Submit = dbSettings.UseSubmit;
+                    indicatorPermission.Approve = dbSettings.UseApprove;
                     db.Entry(indicatorPermission).State = EntityState.Added;
                 }
 

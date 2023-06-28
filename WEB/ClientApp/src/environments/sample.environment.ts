@@ -4,5 +4,4 @@ export const environment = {
     baseApiUrl: `${window.location.origin}/api/`,
     baseAuthUrl: `${window.location.origin}/`,
     siteName: 'MONIC'
-    //simplePermissionsMode: false
 };

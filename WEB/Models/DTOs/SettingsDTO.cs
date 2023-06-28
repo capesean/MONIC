@@ -20,6 +20,9 @@ namespace WEB.Models
         [Required]
         public bool UseReject { get; set; }
 
+        [Required]
+        public bool SimplePermissionsMode { get; set; }
+
         [MaxLength(100)]
         public string ChatGPTAPIKey { get; set; }
 
@@ -38,6 +41,7 @@ namespace WEB.Models
             settingsDTO.UseVerify = settings.UseVerify;
             settingsDTO.UseApprove = settings.UseApprove;
             settingsDTO.UseReject = settings.UseReject;
+            settingsDTO.SimplePermissionsMode = settings.SimplePermissionsMode;
             settingsDTO.ChatGPTAPIKey = settings.ChatGPTAPIKey;
 
             return settingsDTO;
@@ -49,6 +53,7 @@ namespace WEB.Models
             settings.UseVerify = settingsDTO.UseVerify;
             settings.UseApprove = settingsDTO.UseApprove;
             settings.UseReject = settingsDTO.UseReject;
+            settings.SimplePermissionsMode = settingsDTO.SimplePermissionsMode;
             settings.ChatGPTAPIKey = settingsDTO.ChatGPTAPIKey;
         }
     }

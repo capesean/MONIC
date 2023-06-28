@@ -24,6 +24,9 @@ namespace WEB.Models
         [Required]
         public bool UseReject { get; set; }
 
+        [Required]
+        public bool SimplePermissionsMode { get; set; }
+
         [MaxLength(100)]
         public string ChatGPTAPIKey { get; set; }
 

@@ -10,7 +10,7 @@ namespace WEB
             // if not simple permissions, don't change
             // also: if not in an org, there's nothing to do (need the entityLink/s to be able to set any oversight permissions based on affiliated entity)
             // this method is called for entity changes; any entityLink changes will call the oversight entity permissions methods, and those permissions are set therein
-            if (!appSettings.SimplePermissionsMode) return;
+            if (!appSettings.GetDbSettings(db).SimplePermissionsMode) return;
 
             if (organisationId.HasValue)
             {
@@ -41,9 +41,9 @@ namespace WEB
             }
         }
 
-        public static async System.Threading.Tasks.Task RemoveOversightEntityPermissionsAsync(ApplicationDbContext db, AppSettings settings, EntityLink entityLink)
+        public static async System.Threading.Tasks.Task RemoveOversightEntityPermissionsAsync(ApplicationDbContext db, AppSettings appSettings, EntityLink entityLink)
         {
-            if (!settings.SimplePermissionsMode) return;
+            if (!appSettings.GetDbSettings(db).SimplePermissionsMode) return;
 
             var oversightRole = await db.Roles.Where(o => o.Name == Roles.Oversight.ToString()).FirstAsync();
 
@@ -61,7 +61,7 @@ namespace WEB
 
         public static async System.Threading.Tasks.Task AddOversightEntityPermissionsAsync(ApplicationDbContext db, AppSettings appSettings, EntityLink entityLink)
         {
-            if (!appSettings.SimplePermissionsMode) return;
+            if (!appSettings.GetDbSettings(db).SimplePermissionsMode) return;
 
             var oversightRole = await db.Roles.Where(o => o.Name == Roles.Oversight.ToString()).FirstAsync();
 

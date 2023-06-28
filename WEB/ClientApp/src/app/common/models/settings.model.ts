@@ -6,6 +6,7 @@ export class Settings {
     useVerify: boolean;
     useApprove: boolean;
     useReject: boolean;
+    simplePermissionsMode: boolean;
     chatGPTAPIKey: string;
 
     constructor() {

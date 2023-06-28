@@ -250,6 +250,8 @@ namespace WEB
         {
             if (tokenStacks.Count == 0) throw new Exception("No token stacks were passed to CalculateAsync");
 
+            var dbSettings = appSettings.GetDbSettings(db);
+
             using (var cmd = db.Database.GetDbConnection().CreateCommand())
             {
                 cmd.CommandText = "RunCalculations";
@@ -307,7 +309,7 @@ namespace WEB
                         foreach (var token in tokenStack.Value)
                         {
                             tokenNumber++;
-                            dataTable.Rows.Add(tokenStack.Key, tokenNumber, token.TokenType, token.Number, token.OperatorType, token.ConvertNullToZero, token.IndicatorId, token.RequiresSubmit && appSettings.UseSubmit);
+                            dataTable.Rows.Add(tokenStack.Key, tokenNumber, token.TokenType, token.Number, token.OperatorType, token.ConvertNullToZero, token.IndicatorId, token.RequiresSubmit && dbSettings.UseSubmit);
                         }
                     }
 

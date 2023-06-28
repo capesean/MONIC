@@ -17,9 +17,6 @@
         public bool AggregateOnApprove { get; set; }
         public bool CalculateOnSave { get; set; }
         public bool CalculateOnApprove { get; set; }
-        public bool UseSubmit { get; set; }
-        public bool UseApprove { get; set; }
-        public bool SimplePermissionsMode { get; set; }
 
         private Settings _settings;
 
