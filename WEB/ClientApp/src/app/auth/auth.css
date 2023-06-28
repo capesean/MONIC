@@ -1,7 +1,7 @@
 .form-auth {
-    width: 100%;
-    max-width: 420px;
-    margin: 0 auto;
+    width: 420px;
+    max-width: 95%;
+    margin: auto;
     background-color: white;
     border: solid 1px grey;
     padding: 20px 30px;

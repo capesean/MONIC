@@ -1,5 +1,6 @@
 form#setup {
     width: 420px;
+    max-width: 95%;
     margin: 3rem auto;
     background-color: white;
     border: solid 1px grey;
