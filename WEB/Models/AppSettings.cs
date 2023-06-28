@@ -13,11 +13,6 @@
         public int AccessTokenExpiryMinutes { get; set; }
         public int RefreshTokenExpiryMinutes { get; set; }
 
-        public bool AggregateOnSave { get; set; }
-        public bool AggregateOnApprove { get; set; }
-        public bool CalculateOnSave { get; set; }
-        public bool CalculateOnApprove { get; set; }
-
         private Settings _settings;
 
         public Settings GetDbSettings(ApplicationDbContext db)

@@ -131,8 +131,6 @@ namespace WEB.Controllers
 
             ModelFactory.Hydrate(datum, datumDTO);
 
-            if (!AppSettings.AggregateOnSave) throw new NotImplementedException("AggregateOnSave=false");
-            if (!AppSettings.CalculateOnSave) throw new NotImplementedException("CalculateOnSave=false");
             var calculation = new Calculation(db, AppSettings, CurrentUser.Id);
             await calculation.SaveAsync(datum);
 
@@ -169,8 +167,6 @@ namespace WEB.Controllers
             datum.Value = null;
             datum.Note = null;
 
-            if (!AppSettings.AggregateOnSave) throw new NotImplementedException("AggregateOnSave=false");
-            if (!AppSettings.CalculateOnSave) throw new NotImplementedException("CalculateOnSave=false");
             var calculation = new Calculation(db, AppSettings, CurrentUser.Id);
             await calculation.SaveAsync(datum);
 
