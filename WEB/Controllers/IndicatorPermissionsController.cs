@@ -96,6 +96,38 @@ namespace WEB.Controllers
             return await Get(indicatorPermission.IndicatorPermissionId);
         }
 
+        [HttpPost("savemany"), AuthorizeRoles(Roles.Administrator, Roles.Manager)]
+        public async Task<IActionResult> SaveMany([FromBody] IndicatorPermissionDTO[] indicatorPermissionDTOs)
+        {
+            if (!ModelState.IsValid) return BadRequest(ModelState);
+
+            // todo: could looping queries be optimised
+            foreach (var indicatorPermissionDTO in indicatorPermissionDTOs)
+            {
+                // required for default permission when manager creates a new user
+                if (!CurrentUser.IsInRole(Roles.Administrator) && !(CurrentUser.IsInRole(Roles.Manager) && (await db.Users.FirstOrDefaultAsync(o => o.Id == indicatorPermissionDTO.UserId)).OrganisationId == CurrentUser.OrganisationId))
+                    return Forbid();
+
+                var indicatorPermission = await db.IndicatorPermissions.FirstOrDefaultAsync(o => o.UserId == indicatorPermissionDTO.UserId && o.IndicatorId == indicatorPermissionDTO.IndicatorId);
+                if (indicatorPermission == null)
+                {
+                    indicatorPermission = new IndicatorPermission();
+
+                    db.Entry(indicatorPermission).State = EntityState.Added;
+                }
+                else
+                {
+                    db.Entry(indicatorPermission).State = EntityState.Modified;
+                }
+
+                ModelFactory.Hydrate(indicatorPermission, indicatorPermissionDTO);
+            }
+
+            await db.SaveChangesAsync();
+
+            return Ok();
+        }
+
         [HttpDelete("{indicatorPermissionId:Guid}"), AuthorizeRoles(Roles.Administrator)]
         public async Task<IActionResult> Delete(Guid indicatorPermissionId)
         {

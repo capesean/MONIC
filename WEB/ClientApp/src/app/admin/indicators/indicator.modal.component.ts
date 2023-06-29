@@ -41,6 +41,7 @@ export class IndicatorModalComponent implements OnInit {
     @Input() entityType: EntityType;
     @Input() frequency: Enum;
     @Input() createdBy: User;
+    @Input() showClear = true;
 
     constructor(
         private modalService: NgbModal,

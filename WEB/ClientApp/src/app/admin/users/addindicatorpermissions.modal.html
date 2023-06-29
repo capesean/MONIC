@@ -4,47 +4,13 @@
 </div>
 <div class="modal-body">
 
-    <form (submit)="runSearch()" novalidate>
+    <div class="alert alert-info" *ngIf="!indicators.length">
+        <i class="fa fa-info-circle me-2"></i>This will create an <strong>All Indicators</strong> permission
+    </div>
+
+    <form id="indicatorPermissionsOptions" name="indicatorPermissionsOptions" (submit)="close()" novalidate #indicatorPermissionsOptions="ngForm" [ngClass]="{ 'was-validated': indicatorPermissionsOptions.submitted }">
 
         <fieldset>
-
-            <div class="row g-3">
-
-                <div class="col-sm-12">
-                    <div class="form-group" [ngClass]="{ 'is-invalid': allOrSelected.invalid }">
-
-                        <label for="allOrSelected" class="me-4">
-                            Apply to:
-                        </label>
-
-                        <div class="form-check form-check-inline">
-                            <input type="radio"
-                                   id="selected"
-                                   name="allOrSelected"
-                                   class="form-check-input"
-                                   [(ngModel)]="useAll"
-                                   required
-                                   #allOrSelected="ngModel"
-                                   [value]="false" />
-                            <label class="form-check-label" for="selected">Selected Indicators</label>
-                        </div>
-
-                        <div class="form-check form-check-inline">
-                            <input type="radio"
-                                   id="all"
-                                   name="allOrSelected"
-                                   class="form-check-input"
-                                   [(ngModel)]="useAll"
-                                   required
-                                   #allOrSelected="ngModel"
-                                   [value]="true" />
-                            <label class="form-check-label" for="all">All Indicators</label>
-                        </div>
-
-                    </div>
-                </div>
-
-            </div>
 
             <div class="row g-3">
 
@@ -56,7 +22,7 @@
                         </label>
 
                         <div class="form-check">
-                            <input id="edit" name="edit" class="form-check-input" type="checkbox" [(ngModel)]="indicatorPermission.edit" #edit="ngModel" />
+                            <input id="edit" name="edit" class="form-check-input" type="checkbox" [(ngModel)]="options.edit" #edit="ngModel" />
                             <label class="form-check-label" for="edit">
                                 Edit
                             </label>
@@ -65,7 +31,7 @@
                     </div>
                 </div>
 
-                <div class="col-sm-6 col-md-6 col-lg-4 col-xl-3">
+                <div class="col-sm-6 col-md-6 col-lg-4 col-xl-3" *ngIf="appSettings?.useSubmit">
                     <div class="form-group" [ngClass]="{ 'is-invalid': submit.invalid }">
 
                         <label for="submit">
@@ -73,7 +39,7 @@
                         </label>
 
                         <div class="form-check">
-                            <input id="submit" name="submit" class="form-check-input" type="checkbox" [(ngModel)]="indicatorPermission.submit" #submit="ngModel" />
+                            <input id="submit" name="submit" class="form-check-input" type="checkbox" [(ngModel)]="options.submit" #submit="ngModel" />
                             <label class="form-check-label" for="submit">
                                 Submit
                             </label>
@@ -82,7 +48,7 @@
                     </div>
                 </div>
 
-                <div class="col-sm-6 col-md-6 col-lg-4 col-xl-3">
+                <div class="col-sm-6 col-md-6 col-lg-4 col-xl-3" *ngIf="appSettings?.useVerify">
                     <div class="form-group" [ngClass]="{ 'is-invalid': verify.invalid }">
 
                         <label for="verify">
@@ -90,7 +56,7 @@
                         </label>
 
                         <div class="form-check">
-                            <input id="verify" name="verify" class="form-check-input" type="checkbox" [(ngModel)]="indicatorPermission.verify" #verify="ngModel" />
+                            <input id="verify" name="verify" class="form-check-input" type="checkbox" [(ngModel)]="options.verify" #verify="ngModel" />
                             <label class="form-check-label" for="verify">
                                 Verify
                             </label>
@@ -99,7 +65,7 @@
                     </div>
                 </div>
 
-                <div class="col-sm-6 col-md-6 col-lg-4 col-xl-3">
+                <div class="col-sm-6 col-md-6 col-lg-4 col-xl-3" *ngIf="appSettings?.useApprove">
                     <div class="form-group" [ngClass]="{ 'is-invalid': approve.invalid }">
 
                         <label for="approve">
@@ -107,7 +73,7 @@
                         </label>
 
                         <div class="form-check">
-                            <input id="approve" name="approve" class="form-check-input" type="checkbox" [(ngModel)]="indicatorPermission.approve" #approve="ngModel" />
+                            <input id="approve" name="approve" class="form-check-input" type="checkbox" [(ngModel)]="options.approve" #approve="ngModel" />
                             <label class="form-check-label" for="approve">
                                 Approve
                             </label>
@@ -120,79 +86,22 @@
 
         </fieldset>
 
-        <ng-container *ngIf="!useAll">
+        <ng-container *ngIf="indicators.length">
 
-            <hr />
+            <h4 class="mt-4 mb-0">{{indicators.length}} Indicator<span *ngIf="indicators.length>1">s</span> selected</h4>
 
-            <fieldset>
+            <div class="table-responsive mt-4 mb-5">
 
-                <div class="row g-3">
-
-                    <div class="col-sm-6 col-md-6 col-lg-4 col-xl-3">
-                        <div class="form-group">
-                            <input type="search" ngbAutofocus name="q" id="q" [(ngModel)]="searchOptions.q" max="100" class="form-control" placeholder="Search indicators" />
-                        </div>
-                    </div>
-
-                    <div class="col-sm-6 col-md-6 col-lg-4 col-xl-3">
-                        <div class="form-group">
-                            <category-select id="categoryId" name="categoryId" [(ngModel)]="searchOptions.categoryId" [(category)]="category"></category-select>
-                        </div>
-                    </div>
-
-                    <div class="col-sm-6 col-md-6 col-lg-4 col-xl-3">
-                        <div class="form-group">
-                            <subcategory-select id="subcategoryId" name="subcategoryId" [(ngModel)]="searchOptions.subcategoryId" [category]="category"></subcategory-select>
-                        </div>
-                    </div>
-
-                    <div class="col-sm-6 col-md-6 col-lg-4 col-xl-3">
-                        <select id="indicatorType" name="indicatorType" [(ngModel)]="searchOptions.indicatorType" #indicatorType="ngModel" class="form-select">
-                            <option *ngFor="let indicatorType of indicatorTypes" [ngValue]="indicatorType.value">{{ indicatorType.label }}</option>
-                        </select>
-                    </div>
-
-                    <div class="col-sm-6 col-md-6 col-lg-4 col-xl-3">
-                        <select id="indicatorStatus" name="indicatorStatus" [(ngModel)]="searchOptions.indicatorStatus" #indicatorStatus="ngModel" class="form-select">
-                            <option *ngFor="let indicatorStatus of indicatorStatuses" [ngValue]="indicatorStatus.value">{{ indicatorStatus.label }}</option>
-                        </select>
-                    </div>
-
-                    <div class="col-sm-6 col-md-6 col-lg-4 col-xl-3">
-                        <div class="form-group">
-                            <entity-type-select id="entityTypeId" name="entityTypeId" [(ngModel)]="searchOptions.entityTypeId"></entity-type-select>
-                        </div>
-                    </div>
-
-                    <div class="col-sm-6 col-md-6 col-lg-4 col-xl-3">
-                        <select id="frequency" name="frequency" [(ngModel)]="searchOptions.frequency" #frequency="ngModel" class="form-select">
-                            <option *ngFor="let dateType of dateTypes" [ngValue]="dateType.value">{{ dateType.label }}</option>
-                        </select>
-                    </div>
-
-                    <div class="col-sm-6 col-md-6 col-lg-4 col-xl-3">
-                        <div class="form-group">
-                            <button type="submit" class="btn btn-outline-primary">Search<i class="fas fa-search ms-2"></i></button>
-                        </div>
-                    </div>
-                </div>
-
-            </fieldset>
-
-            <div class="table-responsive mt-6 mb-5">
-
-                <table class="table table-hover table-edge table-nowrap mb-0 align-middle">
+                <table class="table table-edge table-nowrap mb-0 align-middle">
                     <thead class="thead-light">
                         <tr>
-                            <th class="text-center w-20px"><i class="fas fa-fw cursor-pointer" [ngClass]="{ 'fa-check-square': allSelected, 'fa-square': !allSelected }" (click)="toggleAll()"></i></th>
                             <th>Category</th>
                             <th>Subcategory</th>
                             <th>Name</th>
                         </tr>
                     </thead>
-                    <tbody class="list cursor-pointer">
-                        <tr *ngFor="let indicator of indicators" (click)="select(indicator)">
-                            <td class="text-center"><i [ngClass]="{ 'fa-check-square': isSelected(indicator), 'fa-square': !isSelected(indicator) }" class="fas fa-fw"></i></td>
+                    <tbody class="list">
+                        <tr *ngFor="let indicator of indicators">
                             <td>{{ indicator.subcategory.category.name }}</td>
                             <td>{{ indicator.subcategory.name }}</td>
                             <td>{{ indicator.name }} <small class="text-muted">({{indicator.code}})</small></td>
@@ -202,17 +111,14 @@
 
             </div>
 
-            <pager [headers]="headers" (pageChanged)="runSearch($event)"></pager>
-
         </ng-container>
 
     </form>
 
 </div>
-<div class="modal-footer justify-content-between">
-    <button type="button" class="btn btn-info me-2">{{selectedItems.length}} selected</button>
+<div class="modal-footer">
     <div>
-        <button type="button" class="btn btn-outline-success float-right me-2" (click)="addIndicatorPermissions()">Save</button>
+        <button type="submit" form="indicatorPermissionsOptions" class="btn btn-outline-success float-right me-2">Add Permissions</button>
         <button type="button" class="btn btn-outline-dark float-right" (click)="modal.dismiss()">Cancel</button>
     </div>
 </div>

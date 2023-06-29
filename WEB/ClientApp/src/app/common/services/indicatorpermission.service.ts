@@ -32,6 +32,10 @@ export class IndicatorPermissionService extends SearchQuery {
         return this.http.post<IndicatorPermission>(`${environment.baseApiUrl}indicatorpermissions/${indicatorPermission.indicatorPermissionId}`, indicatorPermission);
     }
 
+    saveMany(indicatorPermissions: IndicatorPermission[]): Observable<void> {
+        return this.http.post<void>(`${environment.baseApiUrl}indicatorpermissions/savemany`, indicatorPermissions);
+    }
+
     delete(indicatorPermissionId: string): Observable<void> {
         return this.http.delete<void>(`${environment.baseApiUrl}indicatorpermissions/${indicatorPermissionId}`);
     }

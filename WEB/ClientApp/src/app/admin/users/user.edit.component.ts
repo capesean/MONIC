@@ -20,9 +20,11 @@ import { IndicatorPermission, IndicatorPermissionSearchOptions, IndicatorPermiss
 import { IndicatorPermissionService } from '../../common/services/indicatorpermission.service';
 import { EntityModalComponent } from '../entities/entity.modal.component';
 import { Entity } from '../../common/models/entity.model';
-import { AddIndicatorsPermissionModal } from './addindicatorpermissions.modal';
 import { AppSettings } from '../../common/models/appsettings.model';
 import { AppService } from '../../common/services/app.service';
+import { IndicatorModalComponent } from '../indicators/indicator.modal.component';
+import { Indicator } from '../../common/models/indicator.model';
+import { AddIndicatorsPermissionModal, AddIndicatorsPermissionOptions } from './addindicatorpermissions.modal';
 
 @NgComponent({
     selector: 'user-edit',
@@ -48,6 +50,7 @@ export class UserEditComponent implements OnInit, OnDestroy {
     public showIndicatorPermissionsSearch = false;
 
     @ViewChild('entityModal') entityModal: EntityModalComponent;
+    @ViewChild('indicatorModal') indicatorModal: IndicatorModalComponent;
 
     constructor(
         private router: Router,
@@ -295,23 +298,62 @@ export class UserEditComponent implements OnInit, OnDestroy {
         this.router.navigate(['indicatorpermissions', indicatorPermission.indicatorPermissionId], { relativeTo: this.route });
     }
 
-    addIndicatorPermissions(): void {
-        let modalRef = this.modalService.open(AddIndicatorsPermissionModal, { size: 'xl', centered: true });
-        (modalRef.componentInstance as AddIndicatorsPermissionModal).setUser(this.user);
-        modalRef.result.then(
-            () => {
-
-                this.searchIndicatorPermissions();
-
-            },
-            () => { }
-        );
+    openIndicatorModal(): void {
+        this.indicatorModal.selectedItems = [];
+        this.indicatorModal.open();
     }
 
-    saveIndicatorPermission(indicatorPermission: IndicatorPermission): void {
-        this.indicatorPermissionService.save(indicatorPermission)
+    addIndicators(indicators: Indicator[]): void {
+
+        let modalRef = this.modalService.open(AddIndicatorsPermissionModal, { centered: true, size: 'xl' });
+        (modalRef.componentInstance as AddIndicatorsPermissionModal).indicators = indicators;
+        (modalRef.componentInstance as AddIndicatorsPermissionModal).appSettings = this.appSettings;
+        modalRef.result.then(
+            (options: AddIndicatorsPermissionOptions) => {
+                
+                // adding 'global' indicator permissions
+                if (!indicators.length) {
+                    indicators.push({} as Indicator);
+                }
+
+                let indicatorPermissions = indicators.map(o => { return { indicatorId: o.indicatorId, userId: this.user.id, edit: options.edit, submit: options.submit, verify: options.verify, approve: options.approve } as IndicatorPermission; })
+
+                this.indicatorPermissionService.saveMany(indicatorPermissions)
+                    .subscribe({
+                        next: () => {
+                            this.searchIndicatorPermissions();
+                        },
+                        error: err => this.errorService.handleError(err, "Indicator Permissions", "Save")
+                    })
+
+            }, () => { });
+
+    }
+
+    togglePermissions(option: "edit" | "submit" | "verify" | "approve", indicatorPermission?: IndicatorPermission) {
+
+        let indicatorPermissions = this.indicatorPermissions;
+        if (indicatorPermission) indicatorPermissions = [indicatorPermission];
+
+        if (!indicatorPermissions.length) {
+            this.toastr.error("No permissions to toggle!")
+            return;
+        }
+
+        const newValue = !(option === "edit" ? indicatorPermissions[0].edit : option === "submit" ? indicatorPermissions[0].submit : option === "verify" ? indicatorPermissions[0].verify : indicatorPermissions[0].approve);
+
+        indicatorPermissions.forEach(indicatorPermission => {
+            if (option === "edit") indicatorPermission.edit = newValue;
+            else if (option === "submit") indicatorPermission.submit = newValue;
+            else if (option === "verify") indicatorPermission.verify = newValue;
+            else if (option === "approve") indicatorPermission.approve = newValue;
+        })
+
+        this.indicatorPermissionService.saveMany(indicatorPermissions)
             .subscribe({
-                next: () => this.toastr.success("The permission has been updated"),
+                next: () => {
+                    this.toastr.success("The indicator permissions have been updated");
+                },
                 error: err => {
                     this.errorService.handleError(err, "Indicator Permission", "Save");
                     this.searchIndicatorPermissions(this.indicatorPermissionsHeaders.pageIndex);
@@ -374,5 +416,6 @@ export class UserEditComponent implements OnInit, OnDestroy {
             }, () => { });
 
     }
+
 
 }

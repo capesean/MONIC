@@ -280,7 +280,8 @@
                             </form>
 
                             <div class="mb-3">
-                                <button type="button" class="btn btn-outline-primary me-2 mb-1" (click)="addIndicatorPermissions()">Add Indicator Permission<i class="fa fa-plus ms-2"></i></button>
+                                <button type="button" class="btn btn-outline-primary me-2 mb-1" (click)="openIndicatorModal()">Add Indicators<i class="fa fa-plus ms-2"></i></button>
+                                <button type="button" class="btn btn-outline-primary me-2 mb-1" (click)="addIndicators([])">All Indicators<i class="fa fa-plus ms-2"></i></button>
                                 <button *ngIf="!showIndicatorPermissionsSearch" type="button" class="btn btn-outline-secondary me-2 mb-1" (click)="showIndicatorPermissionsSearch=true">Filter<i class="fas fa-filter ms-2"></i></button>
                                 <button *ngIf="showIndicatorPermissionsSearch" form="formSearchIndicatorPermissions" type="submit" class="btn btn-outline-primary me-2 mb-1">Search<i class="fas fa-search ms-2"></i></button>
                             </div>
@@ -295,23 +296,25 @@
                                         <th>Category</th>
                                         <th>Subcategory</th>
                                         <th>Indicator</th>
-                                        <th class="text-center w-20px" ngbTooltip="Edit permission" container="body"><i class="fa fa-pencil"></i></th>
-                                        <th *ngIf="appSettings?.useSubmit" class="text-center w-20px" ngbTooltip="Submit permission" container="body"><i class="fa fa-floppy-disk"></i></th>
-                                        <th *ngIf="appSettings?.useVerify" class="text-center w-20px" ngbTooltip="Verify permission" container="body"><i class="fa fa-clipboard-check"></i></th>
-                                        <th *ngIf="appSettings?.useApprove" class="text-center w-20px" ngbTooltip="Approve permission" container="body"><i class="fa fa-lock"></i></th>
-                                        <th class="w-20px text-center"><i class="fas fa-times text-danger cursor-pointer p-1 text-danger" (click)="deleteIndicatorPermissions()" ngbTooltip="Remove all permissions" container="body"></i></th>
+                                        <th class="text-center w-20px" ngbTooltip="View permission" container="body"><i class="fa fa-binoculars"></i></th>
+                                        <th class="text-center w-20px cursor-pointer" ngbTooltip="Toggle all edit permissions" container="body"><i class="fa fa-pencil" (click)="togglePermissions('edit')"></i></th>
+                                        <th *ngIf="appSettings?.useSubmit" class="text-center w-20px cursor-pointer" ngbTooltip="Toggle all submit permissions" container="body"><i class="fa fa-floppy-disk" (click)="togglePermissions('submit')"></i></th>
+                                        <th *ngIf="appSettings?.useVerify" class="text-center w-20px cursor-pointer" ngbTooltip="Toggle all verify permissions" container="body"><i class="fa fa-clipboard-check" (click)="togglePermissions('verify')"></i></th>
+                                        <th *ngIf="appSettings?.useApprove" class="text-center w-20px cursor-pointer" ngbTooltip="Toggle all approve permissions" container="body"><i class="fa fa-lock" (click)="togglePermissions('approve')"></i></th>
+                                        <th class="w-20px text-center"><i class="fas fa-trash cursor-pointer p-1" (click)="deleteIndicatorPermissions()" ngbTooltip="Delete all permissions" container="body"></i></th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     <tr *ngFor="let indicatorPermission of indicatorPermissions">
                                         <td>{{ indicatorPermission.indicatorId === null ? 'All indicators' : indicatorPermission.indicator.subcategory.category.name }}</td>
                                         <td>{{ indicatorPermission.indicatorId === null ? 'All indicators' : indicatorPermission.indicator.subcategory.name }}</td>
-                                        <td>{{ indicatorPermission.indicator?.code }}</td>
-                                        <td>{{ indicatorPermission.edit | booleanPipe }}</td>
-                                        <td>{{ indicatorPermission.submit | booleanPipe }}</td>
-                                        <td>{{ indicatorPermission.verify | booleanPipe }}</td>
-                                        <td>{{ indicatorPermission.approve | booleanPipe }}</td>
-                                        <td class="text-center"><i class="fas fa-times cursor-pointer p-1 text-danger" (click)="deleteIndicatorPermission(indicatorPermission, $event)"></i></td>
+                                        <td class="cursor-help" [ngbTooltip]="indicatorPermission.indicator?.name" container="body">{{ indicatorPermission.indicator?.code }}</td>
+                                        <td><i class="fa fa-fw fa-circle-check text-muted" ngbTooltip="Delete this permission to remove it"></i></td>
+                                        <td><i class="fa fa-fw cursor-pointer" [ngClass]="{ 'fa-circle-check text-success': indicatorPermission.edit, 'fa-circle-xmark': !indicatorPermission.edit }" ngbTooltip="Toggle this permission" (click)="togglePermissions('edit', indicatorPermission)"></i></td>
+                                        <td *ngIf="appSettings?.useSubmit"><i class="fa fa-fw cursor-pointer" [ngClass]="{ 'fa-circle-check text-success': indicatorPermission.submit, 'fa-circle-xmark': !indicatorPermission.submit }" ngbTooltip="Toggle this permission" (click)="togglePermissions('submit', indicatorPermission)"></i></td>
+                                        <td *ngIf="appSettings?.useVerify"><i class="fa fa-fw cursor-pointer" [ngClass]="{ 'fa-circle-check text-success': indicatorPermission.verify, 'fa-circle-xmark': !indicatorPermission.verify }" ngbTooltip="Toggle this permission" (click)="togglePermissions('verify', indicatorPermission)"></i></td>
+                                        <td *ngIf="appSettings?.useApprove"><i class="fa fa-fw cursor-pointer" [ngClass]="{ 'fa-circle-check text-success': indicatorPermission.approve, 'fa-circle-xmark': !indicatorPermission.approve }" ngbTooltip="Toggle this permission" (click)="togglePermissions('approve', indicatorPermission)"></i></td>
+                                        <td class="text-center"><i class="fas fa-trash cursor-pointer p-1 text-danger" ngbTooltip="Delete this permission" (click)="deleteIndicatorPermission(indicatorPermission, $event)"></i></td>
                                     </tr>
                                 </tbody>
                             </table>
@@ -337,6 +340,8 @@
 </ng-container>
 
 <entity-modal #entityModal (changes)="changeEntity($event)" [multiple]="true" [organisation]="user.organisation" [canRemoveFilters]="false" [role]="0"></entity-modal>
+
+<indicator-modal #indicatorModal (changes)="addIndicators($event)" [multiple]="true" [showClear]="false"></indicator-modal>
 
 <router-outlet></router-outlet>
 
