@@ -1,6 +1,8 @@
 import { Component as NgComponent, OnInit, OnDestroy } from '@angular/core';
 import { Router, ActivatedRoute, NavigationEnd } from '@angular/router';
 import { Subject, Subscription } from 'rxjs';
+import { ToastrService } from 'ngx-toastr';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { PagingHeaders } from '../../common/models/http.model';
 import { IndicatorSearchOptions, IndicatorSearchResponse, Indicator } from '../../common/models/indicator.model';
 import { Enum, Enums } from '../../common/models/enums.model';
@@ -27,6 +29,7 @@ export class IndicatorListComponent implements OnInit, OnDestroy {
         public route: ActivatedRoute,
         private router: Router,
         private errorService: ErrorService,
+        private modalService: NgbModal,
         private indicatorService: IndicatorService
     ) {
     }
