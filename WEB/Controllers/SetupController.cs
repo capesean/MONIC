@@ -40,6 +40,10 @@ namespace AuthorizationServer.Controllers
 
             if (await db.Users.AnyAsync()) throw new HandledException("The database already has a user account.");
 
+            var dbSettings = AppSettings.GetDbSettings(db);
+
+            if (dbSettings.SetupCompleted) throw new HandledException("The setup process has already completed.");
+
             var user = new User();
             user.FirstName = setupDTO.FirstName;
             user.LastName = setupDTO.LastName;
@@ -59,6 +63,10 @@ namespace AuthorizationServer.Controllers
 
             // have a flag for these?
             await CreateQuestionOptionGroups();
+
+            dbSettings.SetupCompleted = true;
+            db.Entry(dbSettings).State = EntityState.Modified;
+            await db.SaveChangesAsync();
 
             return Ok();
         }
