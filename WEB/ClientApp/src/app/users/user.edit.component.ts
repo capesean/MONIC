@@ -6,7 +6,6 @@ import { Subject, Subscription } from 'rxjs';
 import { HttpErrorResponse } from '@angular/common/http';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ConfirmModalComponent, ModalOptions } from '../common/components/confirm.component';
-import { PagingHeaders } from '../common/models/http.model';
 import { User } from '../common/models/user.model';
 import { Enum, Enums, Roles } from '../common/models/enums.model';
 import { ProfileModel } from '../common/models/profile.models';
@@ -14,9 +13,6 @@ import { AuthService } from '../common/services/auth.service';
 import { BreadcrumbService } from '../common/services/breadcrumb.service';
 import { ErrorService } from '../common/services/error.service';
 import { UserService } from '../common/services/user.service';
-import { UserTest, UserTestSearchOptions, UserTestSearchResponse } from '../common/models/usertest.model';
-import { UserTestService } from '../common/services/usertest.service';
-import { UserTestSortComponent } from '../usertests/usertest.sort.component';
 
 @Component({
     selector: 'user-edit',
@@ -30,11 +26,6 @@ export class UserEditComponent implements OnInit, OnDestroy {
     public roles: Enum[] = Enums.Roles;
     private profile: ProfileModel;
 
-    public userTestsSearchOptions = new UserTestSearchOptions();
-    public userTestsHeaders = new PagingHeaders();
-    public userTests: UserTest[] = [];
-    public showUserTestsSearch = false;
-
     constructor(
         private router: Router,
         public route: ActivatedRoute,
@@ -42,7 +33,6 @@ export class UserEditComponent implements OnInit, OnDestroy {
         private breadcrumbService: BreadcrumbService,
         private modalService: NgbModal,
         private userService: UserService,
-        private userTestService: UserTestService,
         private authService: AuthService,
         private errorService: ErrorService
     ) {
@@ -64,18 +54,7 @@ export class UserEditComponent implements OnInit, OnDestroy {
                 this.user.id = id;
                 this.loadUser();
 
-                this.userTestsSearchOptions.userId = id;
-                this.userTestsSearchOptions.includeParents = true;
-                this.searchUserTests();
-
             }
-
-            this.routerSubscription = this.router.events.subscribe(event => {
-                if (event instanceof NavigationEnd && !this.route.firstChild) {
-                    // this will double-load on new save, as params change (above) + nav ends
-                    this.searchUserTests();
-                }
-            });
 
         });
 
@@ -155,83 +134,6 @@ export class UserEditComponent implements OnInit, OnDestroy {
 
     changeBreadcrumb(): void {
         this.breadcrumbService.changeBreadcrumb(this.route.snapshot, this.user.fullName !== undefined ? this.user.fullName.substring(0, 25) : "(new user)");
-    }
-
-    searchUserTests(pageIndex = 0): Subject<UserTestSearchResponse> {
-
-        this.userTestsSearchOptions.pageIndex = pageIndex;
-
-        const subject = new Subject<UserTestSearchResponse>()
-
-        this.userTestService.search(this.userTestsSearchOptions)
-            .subscribe({
-                next: response => {
-                    subject.next(response);
-                    this.userTests = response.userTests;
-                    this.userTestsHeaders = response.headers;
-                },
-                error: err => {
-                    this.errorService.handleError(err, "User Tests", "Load");
-                }
-            });
-
-        return subject;
-
-    }
-
-    goToUserTest(userTest: UserTest): void {
-        this.router.navigate(["usertests", userTest.userTestId], { relativeTo: this.route });
-    }
-
-    deleteUserTest(userTest: UserTest, event: MouseEvent): void {
-        event.stopPropagation();
-
-        let modalRef = this.modalService.open(ConfirmModalComponent, { centered: true });
-        (modalRef.componentInstance as ConfirmModalComponent).options = { title: "Delete User Test", text: "Are you sure you want to delete this user test?", deleteStyle: true, ok: "Delete" } as ModalOptions;
-        modalRef.result.then(
-            () => {
-
-                this.userTestService.delete(userTest.userTestId)
-                    .subscribe({
-                        next: () => {
-                            this.toastr.success("The user test has been deleted", "Delete User Test");
-                            this.searchUserTests(this.userTestsHeaders.pageIndex);
-                        },
-                        error: err => {
-                            this.errorService.handleError(err, "User Test", "Delete");
-                        }
-                    });
-
-            }, () => { });
-    }
-
-    deleteUserTests(): void {
-        let modalRef = this.modalService.open(ConfirmModalComponent, { centered: true });
-        (modalRef.componentInstance as ConfirmModalComponent).options = { title: "Delete User Tests", text: "Are you sure you want to delete all the user tests?", deleteStyle: true, ok: "Delete" } as ModalOptions;
-        modalRef.result.then(
-            () => {
-
-                this.userService.deleteUserTests(this.user.id)
-                    .subscribe({
-                        next: () => {
-                            this.toastr.success("The user tests have been deleted", "Delete User Tests");
-                            this.searchUserTests();
-                        },
-                        error: err => {
-                            this.errorService.handleError(err, "User Tests", "Delete");
-                        }
-                    });
-            }, () => { });
-
-    }
-
-    showUserTestSort(): void {
-        let modalRef = this.modalService.open(UserTestSortComponent, { size: 'xl', centered: true, scrollable: false });
-        (modalRef.componentInstance as UserTestSortComponent).userId = this.user.id;
-        modalRef.result.then(
-            () => this.searchUserTests(this.userTestsHeaders.pageIndex),
-            () => { }
-        );
     }
 
 }

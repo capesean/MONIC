@@ -9,16 +9,12 @@ import { GeneratedRoutes } from './generated.routes';
 import { SettingsEditComponent } from './settings/settings.edit.component';
 import { UserListComponent } from './users/user.list.component';
 import { UserEditComponent } from './users/user.edit.component';
-import { UserTestListComponent } from './usertests/usertest.list.component';
-import { UserTestEditComponent } from './usertests/usertest.edit.component';
 
 @NgModule({
     declarations: [
         SettingsEditComponent,
         UserListComponent,
-        UserEditComponent,
-        UserTestListComponent,
-        UserTestEditComponent
+        UserEditComponent
     ],
     imports: [
         CommonModule,

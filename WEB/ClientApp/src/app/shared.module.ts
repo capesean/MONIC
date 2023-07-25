@@ -21,9 +21,6 @@ import { BooleanPipe } from './common/pipes/booleanpipe';
 import { MomentPipe } from './common/pipes/momentpipe';
 import { UserSelectComponent } from './users/user.select.component';
 import { UserModalComponent } from './users/user.modal.component';
-import { UserTestSelectComponent } from './usertests/usertest.select.component';
-import { UserTestModalComponent } from './usertests/usertest.modal.component';
-import { UserTestSortComponent } from './usertests/usertest.sort.component';
 
 @NgModule({
     imports: [
@@ -50,10 +47,7 @@ import { UserTestSortComponent } from './usertests/usertest.sort.component';
         AppHasRoleDirective,
         SpyOnDirective,
         UserSelectComponent,
-        UserModalComponent,
-        UserTestSelectComponent,
-        UserTestModalComponent,
-        UserTestSortComponent
+        UserModalComponent
     ],
     exports: [
         MainComponent,
@@ -72,10 +66,7 @@ import { UserTestSortComponent } from './usertests/usertest.sort.component';
         AppHasRoleDirective,
         SpyOnDirective,
         UserSelectComponent,
-        UserModalComponent,
-        UserTestSelectComponent,
-        UserTestModalComponent,
-        UserTestSortComponent
+        UserModalComponent
     ]
 })
 export class SharedModule { }
