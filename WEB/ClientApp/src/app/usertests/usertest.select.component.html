@@ -1,8 +1,0 @@
-<div class="input-group" [ngClass]="{ 'disabled': disabled }">
-    <input placeholder="{{placeholder}}" (click)="click()" type="text" tabindex="-1" class="form-control cursor-pointer app-select-input" readonly value="{{getLabel()}}" [disabled]="disabled" />
-    <button type="button" class="btn btn-secondary" (click)="click(true)" [ngClass]="{ 'disabled': disabled}">
-        <i class="fas fa-fw" [ngClass]="{ 'fa-search': !userTest && !userTests?.length, 'fa-times': !!userTest || !!userTests?.length }"></i>
-    </button>
-</div>
-
-<user-test-modal #modal (change)="changed($event)" (changes)="changed($event)" [multiple]="multiple" [canRemoveFilters]="canRemoveFilters" [user]="user" [showAddNew]="showAddNew" [title]="placeholder"></user-test-modal>

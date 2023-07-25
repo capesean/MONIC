@@ -24,8 +24,6 @@ namespace WEB.Models
         [Required]
         public bool Disabled { get; set; }
 
-        public virtual List<UserTestDTO> UserTests { get; set; } = new List<UserTestDTO>();
-
         public IList<string> Roles { get; set; }
 
     }
@@ -49,12 +47,6 @@ namespace WEB.Models
             userDTO.Email = user.Email;
             userDTO.Disabled = user.Disabled;
             userDTO.Roles = userRoles;
-
-            if (includeChildren)
-            {
-                foreach (var userTest in user.UserTests)
-                    userDTO.UserTests.Add(Create(userTest));
-            }
 
             return userDTO;
         }

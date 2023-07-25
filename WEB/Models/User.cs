@@ -19,8 +19,6 @@ namespace WEB.Models
         [Required]
         public bool Disabled { get; set; }
 
-        public virtual ICollection<UserTest> UserTests { get; set; } = new List<UserTest>();
-
         public User()
         {
             Id = Guid.NewGuid();
