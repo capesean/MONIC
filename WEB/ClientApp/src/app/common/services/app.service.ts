@@ -22,9 +22,9 @@ export class AppService {
             .get<{ setupCompleted: boolean }>(`${environment.baseApiUrl}app/setupcheck`)
     }
 
-    getAppSettings(): Observable<AppSettings> {
+    getAppSettings(refresh = false): Observable<AppSettings> {
         // if the settings have already been retrieved, return them
-        if (this._appSettings) {
+        if (this._appSettings && !refresh) {
             return of(this._appSettings);
         }
         // if a request is currently outstanding, return that request
