@@ -84,6 +84,7 @@
 
 	<ItemGroup>
 		<Folder Include="ClientApp\src\app\common\scroll-spy\" />
+		<Folder Include="Migrations\" />
 	</ItemGroup>
 
 	<Target Name="DebugEnsureNodeEnv" BeforeTargets="Build" Condition=" '$(Configuration)' == 'Debug' And !Exists('$(SpaRoot)node_modules') ">

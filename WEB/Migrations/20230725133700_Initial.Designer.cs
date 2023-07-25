@@ -9,11 +9,11 @@ using WEB.Models;
 
 #nullable disable
 
-namespace Website3.Migrations
+namespace WEB.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20230628111006_SetupCompleted")]
-    partial class SetupCompleted
+    [Migration("20230725133700_Initial")]
+    partial class Initial
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -425,8 +425,9 @@ namespace Website3.Migrations
                         .HasColumnType("bit");
 
                     b.Property<string>("TestSetting")
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
 
                     b.HasKey("Id");
 
@@ -514,30 +515,6 @@ namespace Website3.Migrations
                         .HasFilter("[NormalizedUserName] IS NOT NULL");
 
                     b.ToTable("AspNetUsers", (string)null);
-                });
-
-            modelBuilder.Entity("WEB.Models.UserTest", b =>
-                {
-                    b.Property<Guid>("UserTestId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
-
-                    b.Property<int>("SortOrder")
-                        .HasColumnType("int");
-
-                    b.Property<Guid>("UserId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.HasKey("UserTestId");
-
-                    b.HasIndex("UserId");
-
-                    b.ToTable("UserTests");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<System.Guid>", b =>
@@ -639,17 +616,6 @@ namespace Website3.Migrations
                     b.Navigation("InnerException");
                 });
 
-            modelBuilder.Entity("WEB.Models.UserTest", b =>
-                {
-                    b.HasOne("WEB.Models.User", "User")
-                        .WithMany("UserTests")
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.Navigation("User");
-                });
-
             modelBuilder.Entity("OpenIddict.EntityFrameworkCore.Models.OpenIddictEntityFrameworkCoreApplication", b =>
                 {
                     b.Navigation("Authorizations");
@@ -665,8 +631,6 @@ namespace Website3.Migrations
             modelBuilder.Entity("WEB.Models.User", b =>
                 {
                     b.Navigation("Roles");
-
-                    b.Navigation("UserTests");
                 });
 #pragma warning restore 612, 618
         }
