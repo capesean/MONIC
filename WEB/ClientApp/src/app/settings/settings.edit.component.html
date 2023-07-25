@@ -17,10 +17,14 @@
                                 Test Setting:
                             </label>
 
-                            <input id="testSetting" name="testSetting" class="form-control" type="text" [(ngModel)]="settings.testSetting" #testSetting="ngModel" maxlength="50" />
+                            <input id="testSetting" name="testSetting" class="form-control" type="text" [(ngModel)]="settings.testSetting" #testSetting="ngModel" required maxlength="100" />
+
+                            <div *ngIf="testSetting.errors?.required" class="invalid-feedback">
+                                Test Setting is required
+                            </div>
 
                             <div *ngIf="testSetting.errors?.maxlength" class="invalid-feedback">
-                                Test Setting must be at most 50 characters long
+                                Test Setting must be at most 100 characters long
                             </div>
 
                         </div>
