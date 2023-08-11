@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.EntityFrameworkCore;
 using WEB.Models;
+using System.Transactions;
 
 namespace WEB.Controllers
 {
@@ -129,10 +130,13 @@ namespace WEB.Controllers
         [HttpDelete("{questionnaireId:Guid}/responses"), AuthorizeRoles(Roles.Administrator)]
         public async Task<IActionResult> DeleteResponses(Guid questionnaireId)
         {
-            foreach (var response in db.Responses.Where(o => o.QuestionnaireId == questionnaireId).ToList())
-                db.Entry(response).State = EntityState.Deleted;
+            using var transactionScope = Utilities.General.CreateTransactionScope();
 
-            await db.SaveChangesAsync();
+            await db.Answers.Where(o => o.Response.QuestionnaireId == questionnaireId).ExecuteDeleteAsync();
+
+            await db.Responses.Where(o => o.QuestionnaireId == questionnaireId).ExecuteDeleteAsync();
+
+            transactionScope.Complete();
 
             return Ok();
         }
