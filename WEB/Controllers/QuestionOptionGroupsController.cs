@@ -112,10 +112,7 @@ namespace WEB.Controllers
         [HttpDelete("{questionOptionGroupId:Guid}/questionoptions"), AuthorizeRoles(Roles.Administrator)]
         public async Task<IActionResult> DeleteQuestionOptions(Guid questionOptionGroupId)
         {
-            foreach (var questionOption in db.QuestionOptions.Where(o => o.QuestionOptionGroupId == questionOptionGroupId).ToList())
-                db.Entry(questionOption).State = EntityState.Deleted;
-
-            await db.SaveChangesAsync();
+            await db.QuestionOptions.Where(o => o.QuestionOptionGroupId == questionOptionGroupId).ExecuteDeleteAsync();
 
             return Ok();
         }
@@ -123,10 +120,7 @@ namespace WEB.Controllers
         [HttpDelete("{questionOptionGroupId:Guid}/questions"), AuthorizeRoles(Roles.Administrator)]
         public async Task<IActionResult> DeleteQuestions(Guid questionOptionGroupId)
         {
-            foreach (var question in db.Questions.Where(o => o.QuestionOptionGroupId == questionOptionGroupId).ToList())
-                db.Entry(question).State = EntityState.Deleted;
-
-            await db.SaveChangesAsync();
+            await db.Questions.Where(o => o.QuestionOptionGroupId == questionOptionGroupId).ExecuteDeleteAsync();
 
             return Ok();
         }

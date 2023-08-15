@@ -222,10 +222,7 @@ namespace WEB.Controllers
         [HttpDelete("{entityId:Guid}/entitypermissions")]
         public async Task<IActionResult> DeleteEntityPermissions(Guid entityId)
         {
-            foreach (var entityPermission in db.EntityPermissions.Where(o => o.EntityId == entityId).ToList())
-                db.Entry(entityPermission).State = EntityState.Deleted;
-
-            await db.SaveChangesAsync();
+            await db.EntityPermissions.Where(o => o.EntityId == entityId).ExecuteDeleteAsync();
 
             return Ok();
         }
@@ -233,10 +230,7 @@ namespace WEB.Controllers
         [HttpDelete("{entityId:Guid}/responses")]
         public async Task<IActionResult> DeleteResponses(Guid entityId)
         {
-            foreach (var response in db.Responses.Where(o => o.EntityId == entityId).ToList())
-                db.Entry(response).State = EntityState.Deleted;
-
-            await db.SaveChangesAsync();
+            await db.Responses.Where(o => o.EntityId == entityId).ExecuteDeleteAsync();
 
             return Ok();
         }

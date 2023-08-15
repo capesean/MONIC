@@ -138,10 +138,7 @@ namespace WEB.Controllers
         [HttpDelete("{sectionId:Guid}/questions"), AuthorizeRoles(Roles.Administrator)]
         public async Task<IActionResult> DeleteQuestions(Guid sectionId)
         {
-            foreach (var question in db.Questions.Where(o => o.SectionId == sectionId).ToList())
-                db.Entry(question).State = EntityState.Deleted;
-
-            await db.SaveChangesAsync();
+            await db.Questions.Where(o => o.SectionId == sectionId).ExecuteDeleteAsync();
 
             return Ok();
         }

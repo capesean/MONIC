@@ -103,10 +103,7 @@ namespace WEB.Controllers
         [HttpDelete("{logFrameId:Guid}/logframerows"), AuthorizeRoles(Roles.Administrator)]
         public async Task<IActionResult> DeleteLogFrameRows(Guid logFrameId)
         {
-            foreach (var logFrameRow in db.LogFrameRows.Where(o => o.LogFrameId == logFrameId).ToList())
-                db.Entry(logFrameRow).State = EntityState.Deleted;
-
-            await db.SaveChangesAsync();
+            await db.LogFrameRows.Where(o => o.LogFrameId == logFrameId).ExecuteDeleteAsync();
 
             return Ok();
         }

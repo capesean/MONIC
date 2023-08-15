@@ -199,10 +199,7 @@ namespace WEB.Controllers
         [HttpDelete("{indicatorId:Guid}/logframerowindicators"), AuthorizeRoles(Roles.Administrator)]
         public async Task<IActionResult> DeleteLogFrameRowIndicators(Guid indicatorId)
         {
-            foreach (var logFrameRowIndicator in db.LogFrameRowIndicators.Where(o => o.IndicatorId == indicatorId).ToList())
-                db.Entry(logFrameRowIndicator).State = EntityState.Deleted;
-
-            await db.SaveChangesAsync();
+            await db.LogFrameRowIndicators.Where(o => o.IndicatorId == indicatorId).ExecuteDeleteAsync();
 
             return Ok();
         }
@@ -210,10 +207,7 @@ namespace WEB.Controllers
         [HttpDelete("{indicatorId:Guid}/componentindicators"), AuthorizeRoles(Roles.Administrator)]
         public async Task<IActionResult> DeleteComponentIndicators(Guid indicatorId)
         {
-            foreach (var componentIndicator in db.ComponentIndicators.Where(o => o.IndicatorId == indicatorId).ToList())
-                db.Entry(componentIndicator).State = EntityState.Deleted;
-
-            await db.SaveChangesAsync();
+            await db.ComponentIndicators.Where(o => o.IndicatorId == indicatorId).ExecuteDeleteAsync();
 
             return Ok();
         }

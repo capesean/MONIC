@@ -108,10 +108,7 @@ namespace WEB.Controllers
         [HttpDelete("{projectId:Guid}/milestones"), AuthorizeRoles(Roles.Administrator)]
         public async Task<IActionResult> DeleteMilestones(Guid projectId)
         {
-            foreach (var milestone in db.Milestones.Where(o => o.ProjectId == projectId).ToList())
-                db.Entry(milestone).State = EntityState.Deleted;
-
-            await db.SaveChangesAsync();
+            await db.Milestones.Where(o => o.ProjectId == projectId).ExecuteDeleteAsync();
 
             return Ok();
         }

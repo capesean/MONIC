@@ -143,24 +143,18 @@ namespace WEB.Controllers
         [HttpDelete("{responseId:Guid}/answers"), AuthorizeRoles(Roles.Administrator)]
         public async Task<IActionResult> DeleteAnswers(Guid responseId)
         {
+            using var transactionScope = Utilities.General.CreateTransactionScope();
+
             foreach (var answer in db.Answers.Where(o => o.ResponseId == responseId).ToList())
             {
-                foreach (var item in db.Items.Where(o => o.ItemId == answer.AnswerId).ToList())
-                {
-                    foreach (var documentId in db.Documents.Where(o => o.ItemId == item.ItemId).Select(o => o.DocumentId).ToList())
-                        db.Entry(new Document { DocumentId = documentId }).State = EntityState.Deleted;
-                    db.Entry(item).State = EntityState.Deleted;
-                }
-
-                foreach (var answerOption in db.AnswerOptions.Where(o => o.AnswerId == answer.AnswerId).ToList())
-                {
-                    db.Entry(answerOption).State = EntityState.Deleted;
-                }
-
-                db.Entry(answer).State = EntityState.Deleted;
+                await db.Documents.Where(o => o.ItemId == answer.AnswerId).ExecuteDeleteAsync();
+                await db.Items.Where(o => o.ItemId == answer.AnswerId).ExecuteDeleteAsync();
+                await db.AnswerOptions.Where(o => o.AnswerId == answer.AnswerId).ExecuteDeleteAsync();
             }
 
-            await db.SaveChangesAsync();
+            await db.Answers.Where(o => o.ResponseId == responseId).ExecuteDeleteAsync();
+
+            transactionScope.Complete();
 
             return Ok();
         }

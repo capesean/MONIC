@@ -121,10 +121,7 @@ namespace WEB.Controllers
         [HttpDelete("{questionnaireId:Guid}/sections"), AuthorizeRoles(Roles.Administrator)]
         public async Task<IActionResult> DeleteSections(Guid questionnaireId)
         {
-            foreach (var section in db.Sections.Where(o => o.QuestionnaireId == questionnaireId).ToList())
-                db.Entry(section).State = EntityState.Deleted;
-
-            await db.SaveChangesAsync();
+            await db.Sections.Where(o => o.QuestionnaireId == questionnaireId).ExecuteDeleteAsync();
 
             return Ok();
         }
@@ -132,10 +129,7 @@ namespace WEB.Controllers
         [HttpDelete("{questionnaireId:Guid}/responses"), AuthorizeRoles(Roles.Administrator)]
         public async Task<IActionResult> DeleteResponses(Guid questionnaireId)
         {
-            foreach (var response in db.Responses.Where(o => o.QuestionnaireId == questionnaireId).ToList())
-                db.Entry(response).State = EntityState.Deleted;
-
-            await db.SaveChangesAsync();
+            await db.Responses.Where(o => o.QuestionnaireId == questionnaireId).ExecuteDeleteAsync();
 
             return Ok();
         }

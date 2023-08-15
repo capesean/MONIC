@@ -141,10 +141,7 @@ namespace WEB.Controllers
         [HttpDelete("{fieldId:Guid}/options"), AuthorizeRoles(Roles.Administrator)]
         public async Task<IActionResult> DeleteOptions(Guid fieldId)
         {
-            foreach (var option in db.Options.Where(o => o.FieldId == fieldId).ToList())
-                db.Entry(option).State = EntityState.Deleted;
-
-            await db.SaveChangesAsync();
+            await db.Options.Where(o => o.FieldId == fieldId).ExecuteDeleteAsync();
 
             return Ok();
         }

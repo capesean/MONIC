@@ -126,10 +126,7 @@ namespace WEB.Controllers
         [HttpDelete("{categoryId:Guid}/subcategories"), AuthorizeRoles(Roles.Administrator)]
         public async Task<IActionResult> DeleteSubcategories(Guid categoryId)
         {
-            foreach (var subcategory in db.Subcategories.Where(o => o.CategoryId == categoryId).ToList())
-                db.Entry(subcategory).State = EntityState.Deleted;
-
-            await db.SaveChangesAsync();
+            await db.Subcategories.Where(o => o.CategoryId == categoryId).ExecuteDeleteAsync();
 
             return Ok();
         }

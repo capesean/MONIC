@@ -135,13 +135,18 @@ namespace WEB.Controllers
         [HttpDelete("{subcategoryId:Guid}/indicators"), AuthorizeRoles(Roles.Administrator)]
         public async Task<IActionResult> DeleteIndicators(Guid subcategoryId)
         {
+            using var transactionScope = Utilities.General.CreateTransactionScope();
+
             foreach (var indicator in db.Indicators.Where(o => o.SubcategoryId == subcategoryId).ToList())
             {
                 ItemFunctions.DeleteFields(db, indicator.IndicatorId, true);
-                db.Entry(indicator).State = EntityState.Deleted;
             }
 
+            await db.Indicators.Where(o => o.SubcategoryId == subcategoryId).ExecuteDeleteAsync();
+
             await db.SaveChangesAsync();
+
+            transactionScope.Complete();
 
             return Ok();
         }

@@ -212,10 +212,7 @@ namespace WEB.Controllers
         [HttpDelete("{questionId:Guid}/answers")]
         public async Task<IActionResult> DeleteAnswers(Guid questionId)
         {
-            foreach (var answer in db.Answers.Where(o => o.QuestionId == questionId).ToList())
-                db.Entry(answer).State = EntityState.Deleted;
-
-            await db.SaveChangesAsync();
+            await db.Answers.Where(o => o.QuestionId == questionId).ExecuteDeleteAsync();
 
             return Ok();
         }
@@ -223,10 +220,7 @@ namespace WEB.Controllers
         [HttpDelete("{questionId:Guid}/questionsummaries")]
         public async Task<IActionResult> DeleteQuestionSummaries(Guid questionId)
         {
-            foreach (var questionSummary in db.QuestionSummaries.Where(o => o.QuestionId == questionId).ToList())
-                db.Entry(questionSummary).State = EntityState.Deleted;
-
-            await db.SaveChangesAsync();
+            await db.QuestionSummaries.Where(o => o.QuestionId == questionId).ExecuteDeleteAsync();
 
             return Ok();
         }

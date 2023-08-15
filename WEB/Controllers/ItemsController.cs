@@ -110,10 +110,7 @@ namespace WEB.Controllers
         [HttpDelete("{itemId:Guid}/optionvalues"), AuthorizeRoles(Roles.Administrator)]
         public async Task<IActionResult> DeleteOptionValues(Guid itemId)
         {
-            foreach (var optionValue in db.OptionValues.Where(o => o.ItemId == itemId).ToList())
-                db.Entry(optionValue).State = EntityState.Deleted;
-
-            await db.SaveChangesAsync();
+            await db.OptionValues.Where(o => o.ItemId == itemId).ExecuteDeleteAsync();
 
             return Ok();
         }
@@ -121,10 +118,7 @@ namespace WEB.Controllers
         [HttpDelete("{itemId:Guid}/documents"), AuthorizeRoles(Roles.Administrator)]
         public async Task<IActionResult> DeleteDocuments(Guid itemId)
         {
-            foreach (var document in db.Documents.Where(o => o.ItemId == itemId).ToList())
-                db.Entry(document).State = EntityState.Deleted;
-
-            await db.SaveChangesAsync();
+            await db.Documents.Where(o => o.ItemId == itemId).ExecuteDeleteAsync();
 
             return Ok();
         }

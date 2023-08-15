@@ -173,10 +173,7 @@ namespace WEB.Controllers
         [HttpDelete("{dateId:Guid}/datesinquarter"), AuthorizeRoles(Roles.Administrator)]
         public async Task<IActionResult> DeleteDatesInQuarter(Guid dateId)
         {
-            foreach (var date in db.Dates.Where(o => o.QuarterId == dateId).ToList())
-                db.Entry(date).State = EntityState.Deleted;
-
-            await db.SaveChangesAsync();
+            await db.Dates.Where(o => o.QuarterId == dateId).ExecuteDeleteAsync();
 
             return Ok();
         }
@@ -184,10 +181,7 @@ namespace WEB.Controllers
         [HttpDelete("{dateId:Guid}/datesinyear"), AuthorizeRoles(Roles.Administrator)]
         public async Task<IActionResult> DeleteDatesInYear(Guid dateId)
         {
-            foreach (var date in db.Dates.Where(o => o.YearId == dateId).ToList())
-                db.Entry(date).State = EntityState.Deleted;
-
-            await db.SaveChangesAsync();
+            await db.Dates.Where(o => o.YearId == dateId).ExecuteDeleteAsync();
 
             return Ok();
         }
@@ -195,10 +189,7 @@ namespace WEB.Controllers
         [HttpDelete("{dateId:Guid}/responses"), AuthorizeRoles(Roles.Administrator)]
         public async Task<IActionResult> DeleteResponses(Guid dateId)
         {
-            foreach (var response in db.Responses.Where(o => o.DateId == dateId).ToList())
-                db.Entry(response).State = EntityState.Deleted;
-
-            await db.SaveChangesAsync();
+            await db.Responses.Where(o => o.DateId == dateId).ExecuteDeleteAsync();
 
             return Ok();
         }

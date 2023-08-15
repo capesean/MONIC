@@ -337,10 +337,7 @@ namespace WEB.Controllers
         [HttpDelete("{id:Guid}/entitypermissions"), AuthorizeRoles(Roles.Administrator)]
         public async Task<IActionResult> DeleteEntityPermissions(Guid id)
         {
-            foreach (var entityPermission in db.EntityPermissions.Where(o => o.UserId == id).ToList())
-                db.Entry(entityPermission).State = EntityState.Deleted;
-
-            await db.SaveChangesAsync();
+            await db.EntityPermissions.Where(o => o.UserId == id).ExecuteDeleteAsync();
 
             return Ok();
         }
@@ -348,10 +345,7 @@ namespace WEB.Controllers
         [HttpDelete("{id:Guid}/indicatorpermissions"), AuthorizeRoles(Roles.Administrator)]
         public async Task<IActionResult> DeleteIndicatorPermissions(Guid id)
         {
-            foreach (var indicatorPermission in db.IndicatorPermissions.Where(o => o.UserId == id).ToList())
-                db.Entry(indicatorPermission).State = EntityState.Deleted;
-
-            await db.SaveChangesAsync();
+            await db.IndicatorPermissions.Where(o => o.UserId == id).ExecuteDeleteAsync();
 
             return Ok();
         }

@@ -145,10 +145,7 @@ namespace WEB.Controllers
         [HttpDelete("{theoryOfChangeId:Guid}/theoryofchangecomponents"), AuthorizeRoles(Roles.Administrator)]
         public async Task<IActionResult> DeleteTheoryOfChangeComponents(Guid theoryOfChangeId)
         {
-            foreach (var theoryOfChangeComponent in db.TheoryOfChangeComponents.Where(o => o.TheoryOfChangeId == theoryOfChangeId).ToList())
-                db.Entry(theoryOfChangeComponent).State = EntityState.Deleted;
-
-            await db.SaveChangesAsync();
+            await db.TheoryOfChangeComponents.Where(o => o.TheoryOfChangeId == theoryOfChangeId).ExecuteDeleteAsync();
 
             return Ok();
         }
@@ -156,10 +153,7 @@ namespace WEB.Controllers
         [HttpDelete("{theoryOfChangeId:Guid}/relationships"), AuthorizeRoles(Roles.Administrator)]
         public async Task<IActionResult> DeleteRelationships(Guid theoryOfChangeId)
         {
-            foreach (var relationship in db.Relationships.Where(o => o.TheoryOfChangeId == theoryOfChangeId).ToList())
-                db.Entry(relationship).State = EntityState.Deleted;
-
-            await db.SaveChangesAsync();
+            await db.Relationships.Where(o => o.TheoryOfChangeId == theoryOfChangeId).ExecuteDeleteAsync();
 
             return Ok();
         }

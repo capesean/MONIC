@@ -129,14 +129,19 @@ namespace WEB.Controllers
         [HttpDelete("{folderId:Guid}/subfolders"), AuthorizeRoles(Roles.Administrator)]
         public async Task<IActionResult> DeleteSubfolders(Guid folderId)
         {
+            using var transactionScope = Utilities.General.CreateTransactionScope();
+
             foreach (var folder in db.Folders.Where(o => o.ParentFolderId == folderId).ToList())
             {
                 ItemFunctions.DeleteDocuments(db, folder.FolderId);
                 ItemFunctions.DeleteFields(db, folder.FolderId, true);
-                db.Entry(folder).State = EntityState.Deleted;
             }
 
+            await db.Folders.Where(o => o.ParentFolderId == folderId).ExecuteDeleteAsync();
+
             await db.SaveChangesAsync();
+
+            transactionScope.Complete();
 
             return Ok();
         }
@@ -144,10 +149,7 @@ namespace WEB.Controllers
         [HttpDelete("{folderId:Guid}/foldercontents"), AuthorizeRoles(Roles.Administrator)]
         public async Task<IActionResult> DeleteFolderContents(Guid folderId)
         {
-            foreach (var folderContent in db.FolderContents.Where(o => o.FolderId == folderId).ToList())
-                db.Entry(folderContent).State = EntityState.Deleted;
-
-            await db.SaveChangesAsync();
+            await db.FolderContents.Where(o => o.FolderId == folderId).ExecuteDeleteAsync();
 
             return Ok();
         }

@@ -198,10 +198,7 @@ namespace WEB.Controllers
         [HttpDelete("{componentId:Guid}/relationshipsassource"), AuthorizeRoles(Roles.Administrator)]
         public async Task<IActionResult> DeleteRelationshipsAsSource(Guid componentId)
         {
-            foreach (var relationship in db.Relationships.Where(o => o.SourceComponentId == componentId).ToList())
-                db.Entry(relationship).State = EntityState.Deleted;
-
-            await db.SaveChangesAsync();
+            await db.Relationships.Where(o => o.SourceComponentId == componentId).ExecuteDeleteAsync();
 
             return Ok();
         }
@@ -209,10 +206,7 @@ namespace WEB.Controllers
         [HttpDelete("{componentId:Guid}/relationshipsastarget"), AuthorizeRoles(Roles.Administrator)]
         public async Task<IActionResult> DeleteRelationshipsAsTarget(Guid componentId)
         {
-            foreach (var relationship in db.Relationships.Where(o => o.TargetComponentId == componentId).ToList())
-                db.Entry(relationship).State = EntityState.Deleted;
-
-            await db.SaveChangesAsync();
+            await db.Relationships.Where(o => o.TargetComponentId == componentId).ExecuteDeleteAsync();
 
             return Ok();
         }
@@ -220,10 +214,7 @@ namespace WEB.Controllers
         [HttpDelete("{componentId:Guid}/logframerowcomponents"), AuthorizeRoles(Roles.Administrator)]
         public async Task<IActionResult> DeleteLogFrameRowComponents(Guid componentId)
         {
-            foreach (var logFrameRowComponent in db.LogFrameRowComponents.Where(o => o.ComponentId == componentId).ToList())
-                db.Entry(logFrameRowComponent).State = EntityState.Deleted;
-
-            await db.SaveChangesAsync();
+            await db.LogFrameRowComponents.Where(o => o.ComponentId == componentId).ExecuteDeleteAsync();
 
             return Ok();
         }
@@ -231,10 +222,7 @@ namespace WEB.Controllers
         [HttpDelete("{componentId:Guid}/theoryofchangecomponents"), AuthorizeRoles(Roles.Administrator)]
         public async Task<IActionResult> DeleteTheoryOfChangeComponents(Guid componentId)
         {
-            foreach (var theoryOfChangeComponent in db.TheoryOfChangeComponents.Where(o => o.ComponentId == componentId).ToList())
-                db.Entry(theoryOfChangeComponent).State = EntityState.Deleted;
-
-            await db.SaveChangesAsync();
+            await db.TheoryOfChangeComponents.Where(o => o.ComponentId == componentId).ExecuteDeleteAsync();
 
             return Ok();
         }
@@ -242,10 +230,7 @@ namespace WEB.Controllers
         [HttpDelete("{componentId:Guid}/componentindicators"), AuthorizeRoles(Roles.Administrator)]
         public async Task<IActionResult> DeleteComponentIndicators(Guid componentId)
         {
-            foreach (var componentIndicator in db.ComponentIndicators.Where(o => o.ComponentId == componentId).ToList())
-                db.Entry(componentIndicator).State = EntityState.Deleted;
-
-            await db.SaveChangesAsync();
+            await db.ComponentIndicators.Where(o => o.ComponentId == componentId).ExecuteDeleteAsync();
 
             return Ok();
         }

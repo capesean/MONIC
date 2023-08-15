@@ -134,13 +134,18 @@ namespace WEB.Controllers
         [HttpDelete("{organisationId:Guid}/entities"), AuthorizeRoles(Roles.Administrator)]
         public async Task<IActionResult> DeleteEntities(Guid organisationId)
         {
+            using var transactionScope = Utilities.General.CreateTransactionScope();
+
             foreach (var entity in db.Entities.Where(o => o.OrganisationId == organisationId).ToList())
             {
                 ItemFunctions.DeleteFields(db, entity.EntityId, true);
-                db.Entry(entity).State = EntityState.Deleted;
             }
 
+            await db.Entities.Where(o => o.OrganisationId == organisationId).ExecuteDeleteAsync();
+
             await db.SaveChangesAsync();
+
+            transactionScope.Complete();
 
             return Ok();
         }
@@ -148,10 +153,7 @@ namespace WEB.Controllers
         [HttpDelete("{organisationId:Guid}/users"), AuthorizeRoles(Roles.Administrator)]
         public async Task<IActionResult> DeleteUsers(Guid organisationId)
         {
-            foreach (var user in db.Users.Where(o => o.OrganisationId == organisationId).ToList())
-                db.Entry(user).State = EntityState.Deleted;
-
-            await db.SaveChangesAsync();
+            await db.Users.Where(o => o.OrganisationId == organisationId).ExecuteDeleteAsync();
 
             return Ok();
         }
