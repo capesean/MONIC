@@ -19,6 +19,7 @@ import { AppFileInputDirective } from './common/directives/appfileinput';
 import { SpyOnDirective } from './common/scroll-spy/spy-on.directive';
 import { BooleanPipe } from './common/pipes/booleanpipe';
 import { MomentPipe } from './common/pipes/momentpipe';
+import { FileSizePipe } from './common/pipes/filesizepipe';
 import { UserSelectComponent } from './users/user.select.component';
 import { UserModalComponent } from './users/user.modal.component';
 
@@ -43,6 +44,7 @@ import { UserModalComponent } from './users/user.modal.component';
         PageTitleComponent,
         MomentPipe,
         BooleanPipe,
+        FileSizePipe,
         AppFileInputDirective,
         AppHasRoleDirective,
         SpyOnDirective,
@@ -62,6 +64,7 @@ import { UserModalComponent } from './users/user.modal.component';
         PageTitleComponent,
         MomentPipe,
         BooleanPipe,
+        FileSizePipe,
         AppFileInputDirective,
         AppHasRoleDirective,
         SpyOnDirective,

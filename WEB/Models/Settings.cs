@@ -9,11 +9,11 @@ namespace WEB.Models
         [Key, Required]
         public Guid Id { get; set; }
 
+        [MaxLength(50)]
+        public string TestSetting { get; set; }
+
         [Required]
         public bool SetupCompleted { get; set; }
-
-        [Required(AllowEmptyStrings = true), MaxLength(100)]
-        public string TestSetting { get; set; }
 
         public Settings()
         {
@@ -22,7 +22,7 @@ namespace WEB.Models
 
         public override string ToString()
         {
-            return Convert.ToString(SetupCompleted);
+            return Convert.ToString(Id);
         }
     }
 }

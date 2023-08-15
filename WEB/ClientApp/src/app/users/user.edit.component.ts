@@ -1,8 +1,7 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
-import { Router, ActivatedRoute, NavigationEnd } from '@angular/router';
+import { Component, OnInit } from '@angular/core';
+import { Router, ActivatedRoute } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { NgForm } from '@angular/forms';
-import { Subject, Subscription } from 'rxjs';
 import { HttpErrorResponse } from '@angular/common/http';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ConfirmModalComponent, ModalOptions } from '../common/components/confirm.component';
@@ -18,17 +17,16 @@ import { UserService } from '../common/services/user.service';
     selector: 'user-edit',
     templateUrl: './user.edit.component.html'
 })
-export class UserEditComponent implements OnInit, OnDestroy {
+export class UserEditComponent implements OnInit {
 
     public user: User = new User();
     public isNew = true;
-    private routerSubscription: Subscription;
     public roles: Enum[] = Enums.Roles;
     private profile: ProfileModel;
 
     constructor(
         private router: Router,
-        public route: ActivatedRoute,
+        private route: ActivatedRoute,
         private toastr: ToastrService,
         private breadcrumbService: BreadcrumbService,
         private modalService: NgbModal,
@@ -58,10 +56,6 @@ export class UserEditComponent implements OnInit, OnDestroy {
 
         });
 
-    }
-
-    ngOnDestroy(): void {
-        this.routerSubscription.unsubscribe();
     }
 
     private loadUser(): void {
@@ -94,10 +88,7 @@ export class UserEditComponent implements OnInit, OnDestroy {
             .subscribe({
                 next: user => {
                     this.toastr.success("The user has been saved", "Save User");
-                    if (this.isNew) {
-                        this.ngOnDestroy();
-                        this.router.navigate(["../", user.id], { relativeTo: this.route });
-                    }
+                    if (this.isNew) this.router.navigate(["../", user.id], { relativeTo: this.route });
                     else {
                         // reload profile if editing self
                         if (this.user.id === this.profile.userId)

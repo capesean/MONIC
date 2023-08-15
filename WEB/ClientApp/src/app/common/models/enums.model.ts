@@ -10,9 +10,8 @@ export enum Roles {
 
 export class Enums {
 
-    static Roles: Enum[] = [
+     static Roles: Enum[] = [
         { value: 0, name: 'Administrator', label: 'Administrator' }
-    ]
+     ]
 
 }
-

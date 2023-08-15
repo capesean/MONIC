@@ -56,6 +56,7 @@ export class UserModalComponent implements OnInit {
     public runSearch(pageIndex = 0): Observable<UserSearchResponse> {
 
         this.searchOptions.pageIndex = pageIndex;
+        this.allSelected = false;
 
         const observable = this.userService
             .search(this.searchOptions);
