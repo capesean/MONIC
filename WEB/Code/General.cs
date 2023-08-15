@@ -119,9 +119,12 @@ namespace WEB.Utilities
 
         public static TransactionScope CreateTransactionScope()
         {
-            var transactionOptions = new TransactionOptions();
-            transactionOptions.IsolationLevel = IsolationLevel.ReadCommitted;
-            transactionOptions.Timeout = TransactionManager.MaximumTimeout;
+            var transactionOptions = new TransactionOptions
+            {
+                IsolationLevel = IsolationLevel.ReadCommitted,
+                Timeout = TransactionManager.MaximumTimeout
+            };
+
             return new TransactionScope(TransactionScopeOption.Required, transactionOptions, TransactionScopeAsyncFlowOption.Enabled);
         }
     }
