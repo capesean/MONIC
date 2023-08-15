@@ -61,6 +61,7 @@ export class FieldModalComponent implements OnInit {
     public runSearch(pageIndex = 0): Observable<FieldSearchResponse> {
 
         this.searchOptions.pageIndex = pageIndex;
+        this.allSelected = false;
 
         const observable = this.fieldService
             .search(this.searchOptions);

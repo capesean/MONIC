@@ -53,6 +53,7 @@ export class EntityTypeModalComponent implements OnInit {
     public runSearch(pageIndex = 0): Observable<EntityTypeSearchResponse> {
 
         this.searchOptions.pageIndex = pageIndex;
+        this.allSelected = false;
 
         const observable = this.entityTypeService
             .search(this.searchOptions);

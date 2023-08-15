@@ -11,12 +11,21 @@
 
             <fieldset>
 
+
                 <div class="row g-3">
 
                     <div class="col-sm-6 col-md-6 col-lg-4">
                         <div class="form-group">
                             <input type="search" ngbAutofocus name="q" id="q" [(ngModel)]="searchOptions.q" max="100" class="form-control" placeholder="Search question option groups" autocomplete="off" />
                         </div>
+                    </div>
+
+                    <div class="col-sm-6 col-md-4 col-lg-4 col-xl-3">
+                        <select id="shared" name="shared" [(ngModel)]="searchOptions.shared" #shared="ngModel" class="form-select">
+                            <option [ngValue]="undefined">Shared: Any</option>
+                            <option [ngValue]="true">Shared: Yes</option>
+                            <option [ngValue]="false">Shared: No</option>
+                        </select>
                     </div>
 
                     <div class="col-sm-6 col-md-6 col-lg-4">

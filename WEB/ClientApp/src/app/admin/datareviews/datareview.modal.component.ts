@@ -61,6 +61,7 @@ export class DataReviewModalComponent implements OnInit {
     public runSearch(pageIndex = 0): Observable<DataReviewSearchResponse> {
 
         this.searchOptions.pageIndex = pageIndex;
+        this.allSelected = false;
 
         const observable = this.dataReviewService
             .search(this.searchOptions);

@@ -56,6 +56,7 @@ export class TaskModalComponent implements OnInit {
     public runSearch(pageIndex = 0): Observable<TaskSearchResponse> {
 
         this.searchOptions.pageIndex = pageIndex;
+        this.allSelected = false;
 
         const observable = this.taskService
             .search(this.searchOptions);

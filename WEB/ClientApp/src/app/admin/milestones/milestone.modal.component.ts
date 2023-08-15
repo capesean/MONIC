@@ -56,6 +56,7 @@ export class MilestoneModalComponent implements OnInit {
     public runSearch(pageIndex = 0): Observable<MilestoneSearchResponse> {
 
         this.searchOptions.pageIndex = pageIndex;
+        this.allSelected = false;
 
         const observable = this.milestoneService
             .search(this.searchOptions);

@@ -53,6 +53,7 @@ export class ProjectModalComponent implements OnInit {
     public runSearch(pageIndex = 0): Observable<ProjectSearchResponse> {
 
         this.searchOptions.pageIndex = pageIndex;
+        this.allSelected = false;
 
         const observable = this.projectService
             .search(this.searchOptions);

@@ -57,6 +57,7 @@ export class ItemModalComponent implements OnInit {
     public runSearch(pageIndex = 0): Observable<ItemSearchResponse> {
 
         this.searchOptions.pageIndex = pageIndex;
+        this.allSelected = false;
 
         const observable = this.itemService
             .search(this.searchOptions);

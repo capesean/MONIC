@@ -18,7 +18,7 @@
                             </label>
 
                             <div class="input-group">
-                                <input id="dateUtc" name="dateUtc" class="form-control" type="text" [(ngModel)]="dataReview.dateUtc" #dateUtc="ngModel" required (ngModelChange)="changeBreadcrumb()" readonly placeholder="yyyy-mm-dd" ngbDatepicker #dpDateUtc="ngbDatepicker" tabindex="-1" (click)="dpDateUtc.toggle()" container="body" />
+                                <input id="dateUtc" name="dateUtc" class="form-control" type="text" [(ngModel)]="dataReview.dateUtc" #dateUtc="ngModel" required (ngModelChange)="changeBreadcrumb()" placeholder="yyyy-mm-dd" ngbDatepicker #dpDateUtc="ngbDatepicker" tabindex="-1" (click)="dpDateUtc.toggle()" container="body" />
                                 <button class="btn btn-secondary calendar" (click)="dpDateUtc.toggle()" type="button"><i class="fas fa-fw fa-calendar-alt"></i></button>
                             </div>
 

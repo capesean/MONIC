@@ -23,6 +23,14 @@
                         </div>
                     </div>
 
+                    <div class="col-sm-6 col-md-4 col-lg-4 col-xl-3">
+                        <select id="disabled" name="disabled" [(ngModel)]="searchOptions.disabled" #disabled="ngModel" class="form-select">
+                            <option [ngValue]="undefined">Disabled: Any</option>
+                            <option [ngValue]="true">Disabled: Yes</option>
+                            <option [ngValue]="false">Disabled: No</option>
+                        </select>
+                    </div>
+
                     <div class="col-sm-6 col-md-6 col-lg-4" *ngIf="!entity">
                         <div class="form-group">
                             <entity-select id="affiliatedEntityId" name="affiliatedEntityId" [(ngModel)]="searchOptions.affiliatedEntityId"></entity-select>

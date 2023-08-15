@@ -56,6 +56,7 @@ export class DocumentModalComponent implements OnInit {
     public runSearch(pageIndex = 0): Observable<DocumentSearchResponse> {
 
         this.searchOptions.pageIndex = pageIndex;
+        this.allSelected = false;
 
         const observable = this.documentService
             .search(this.searchOptions);

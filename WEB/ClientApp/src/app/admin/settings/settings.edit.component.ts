@@ -4,6 +4,7 @@ import { ToastrService } from 'ngx-toastr';
 import { NgForm } from '@angular/forms';
 import { HttpErrorResponse } from '@angular/common/http';
 import { Settings } from '../../common/models/settings.model';
+import { AppService } from '../../common/services/app.service';
 import { ErrorService } from '../../common/services/error.service';
 import { SettingsService } from '../../common/services/settings.service';
 
@@ -19,6 +20,7 @@ export class SettingsEditComponent implements OnInit {
         private router: Router,
         private route: ActivatedRoute,
         private toastr: ToastrService,
+        private appService: AppService,
         private settingsService: SettingsService,
         private errorService: ErrorService
     ) {
@@ -59,6 +61,7 @@ export class SettingsEditComponent implements OnInit {
             .subscribe({
                 next: settings => {
                     this.toastr.success("The settings has been saved", "Save Settings");
+                    this.appService.getAppSettings(true).subscribe(); // refresh the appSettings
                 },
                 error: err => {
                     this.errorService.handleError(err, "Settings", "Save");

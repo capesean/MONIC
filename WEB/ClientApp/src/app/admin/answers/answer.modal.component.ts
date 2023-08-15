@@ -59,6 +59,7 @@ export class AnswerModalComponent implements OnInit {
     public runSearch(pageIndex = 0): Observable<AnswerSearchResponse> {
 
         this.searchOptions.pageIndex = pageIndex;
+        this.allSelected = false;
 
         const observable = this.answerService
             .search(this.searchOptions);

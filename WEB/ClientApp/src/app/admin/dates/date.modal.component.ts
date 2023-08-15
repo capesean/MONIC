@@ -65,6 +65,7 @@ export class DateModalComponent implements OnInit {
     public runSearch(pageIndex = 0): Observable<DateSearchResponse> {
 
         this.searchOptions.pageIndex = pageIndex;
+        this.allSelected = false;
 
         const observable = this.dateService
             .search(this.searchOptions);

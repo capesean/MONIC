@@ -53,6 +53,7 @@ export class TheoryOfChangeModalComponent implements OnInit {
     public runSearch(pageIndex = 0): Observable<TheoryOfChangeSearchResponse> {
 
         this.searchOptions.pageIndex = pageIndex;
+        this.allSelected = false;
 
         const observable = this.theoryOfChangeService
             .search(this.searchOptions);

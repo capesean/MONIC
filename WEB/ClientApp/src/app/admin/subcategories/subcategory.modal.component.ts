@@ -56,6 +56,7 @@ export class SubcategoryModalComponent implements OnInit {
     public runSearch(pageIndex = 0): Observable<SubcategorySearchResponse> {
 
         this.searchOptions.pageIndex = pageIndex;
+        this.allSelected = false;
 
         const observable = this.subcategoryService
             .search(this.searchOptions);

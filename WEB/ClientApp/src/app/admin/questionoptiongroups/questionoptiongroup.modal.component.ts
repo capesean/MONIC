@@ -55,6 +55,7 @@ export class QuestionOptionGroupModalComponent implements OnInit {
 
         this.searchOptions.pageIndex = pageIndex;
         this.searchOptions.shared = this.shared;
+        this.allSelected = false;
 
         const observable = this.questionOptionGroupService
             .search(this.searchOptions);

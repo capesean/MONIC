@@ -38,7 +38,7 @@
                             </label>
 
                             <div class="input-group">
-                                <input id="startDate" name="startDate" class="form-control" type="text" [(ngModel)]="task.startDate" #startDate="ngModel" required readonly placeholder="yyyy-mm-dd" ngbDatepicker #dpStartDate="ngbDatepicker" tabindex="-1" (click)="dpStartDate.toggle()" container="body" />
+                                <input id="startDate" name="startDate" class="form-control" type="text" [(ngModel)]="task.startDate" #startDate="ngModel" required placeholder="yyyy-mm-dd" ngbDatepicker #dpStartDate="ngbDatepicker" tabindex="-1" (click)="dpStartDate.toggle()" container="body" />
                                 <button class="btn btn-secondary calendar" (click)="dpStartDate.toggle()" type="button"><i class="fas fa-fw fa-calendar-alt"></i></button>
                             </div>
 
@@ -57,7 +57,7 @@
                             </label>
 
                             <div class="input-group">
-                                <input id="endDate" name="endDate" class="form-control" type="text" [(ngModel)]="task.endDate" #endDate="ngModel" required readonly placeholder="yyyy-mm-dd" ngbDatepicker #dpEndDate="ngbDatepicker" tabindex="-1" (click)="dpEndDate.toggle()" container="body" />
+                                <input id="endDate" name="endDate" class="form-control" type="text" [(ngModel)]="task.endDate" #endDate="ngModel" required placeholder="yyyy-mm-dd" ngbDatepicker #dpEndDate="ngbDatepicker" tabindex="-1" (click)="dpEndDate.toggle()" container="body" />
                                 <button class="btn btn-secondary calendar" (click)="dpEndDate.toggle()" type="button"><i class="fas fa-fw fa-calendar-alt"></i></button>
                             </div>
 
@@ -92,7 +92,7 @@
                             </label>
 
                             <div class="input-group">
-                                <input id="completionDate" name="completionDate" class="form-control" type="text" [(ngModel)]="task.completionDate" #completionDate="ngModel" readonly placeholder="yyyy-mm-dd" ngbDatepicker #dpCompletionDate="ngbDatepicker" tabindex="-1" (click)="dpCompletionDate.toggle()" container="body" />
+                                <input id="completionDate" name="completionDate" class="form-control" type="text" [(ngModel)]="task.completionDate" #completionDate="ngModel" placeholder="yyyy-mm-dd" ngbDatepicker #dpCompletionDate="ngbDatepicker" tabindex="-1" (click)="dpCompletionDate.toggle()" container="body" />
                                 <button class="btn btn-secondary calendar" (click)="dpCompletionDate.toggle()" type="button"><i class="fas fa-fw fa-calendar-alt"></i></button>
                             </div>
 

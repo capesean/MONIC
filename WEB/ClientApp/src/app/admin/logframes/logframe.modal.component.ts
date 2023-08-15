@@ -53,6 +53,7 @@ export class LogFrameModalComponent implements OnInit {
     public runSearch(pageIndex = 0): Observable<LogFrameSearchResponse> {
 
         this.searchOptions.pageIndex = pageIndex;
+        this.allSelected = false;
 
         const observable = this.logFrameService
             .search(this.searchOptions);

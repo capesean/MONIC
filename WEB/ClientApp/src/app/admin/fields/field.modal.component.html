@@ -28,6 +28,30 @@
                         </select>
                     </div>
 
+                    <div class="col-sm-6 col-md-4 col-lg-4 col-xl-3">
+                        <select id="organisation" name="organisation" [(ngModel)]="searchOptions.organisation" #organisation="ngModel" class="form-select">
+                            <option [ngValue]="undefined">Organisation: Any</option>
+                            <option [ngValue]="true">Organisation: Yes</option>
+                            <option [ngValue]="false">Organisation: No</option>
+                        </select>
+                    </div>
+
+                    <div class="col-sm-6 col-md-4 col-lg-4 col-xl-3">
+                        <select id="entity" name="entity" [(ngModel)]="searchOptions.entity" #entity="ngModel" class="form-select">
+                            <option [ngValue]="undefined">Entity: Any</option>
+                            <option [ngValue]="true">Entity: Yes</option>
+                            <option [ngValue]="false">Entity: No</option>
+                        </select>
+                    </div>
+
+                    <div class="col-sm-6 col-md-4 col-lg-4 col-xl-3">
+                        <select id="indicator" name="indicator" [(ngModel)]="searchOptions.indicator" #indicator="ngModel" class="form-select">
+                            <option [ngValue]="undefined">Indicator: Any</option>
+                            <option [ngValue]="true">Indicator: Yes</option>
+                            <option [ngValue]="false">Indicator: No</option>
+                        </select>
+                    </div>
+
                     <div class="col-sm-6 col-md-6 col-lg-4" *ngIf="!group">
                         <div class="form-group">
                             <group-select id="groupId" name="groupId" [(ngModel)]="searchOptions.groupId"></group-select>

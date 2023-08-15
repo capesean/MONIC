@@ -53,6 +53,7 @@ export class GroupModalComponent implements OnInit {
     public runSearch(pageIndex = 0): Observable<GroupSearchResponse> {
 
         this.searchOptions.pageIndex = pageIndex;
+        this.allSelected = false;
 
         const observable = this.groupService
             .search(this.searchOptions);

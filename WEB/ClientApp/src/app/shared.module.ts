@@ -19,6 +19,7 @@ import { AppFileInputDirective } from './common/directives/appfileinput';
 import { SpyOnDirective } from './common/scroll-spy/spy-on.directive';
 import { BooleanPipe } from './common/pipes/booleanpipe';
 import { MomentPipe } from './common/pipes/momentpipe';
+import { FileSizePipe } from './common/pipes/filesizepipe';
 import { AnswerSelectComponent } from './admin/answers/answer.select.component';
 import { AnswerModalComponent } from './admin/answers/answer.modal.component';
 import { CategorySelectComponent } from './admin/categories/category.select.component';
@@ -104,7 +105,6 @@ import { SurveyComponent } from './common/components/survey/survey.component';
 import { ParagraphsPipe } from './common/pipes/paragraphspipe';
 import { QuestionnaireExportComponent } from './admin/questionnaires/questionnaire.export.component';
 import { QuestionnaireDownloadComponent } from './admin/questionnaires/questionnaire.download.component';
-import { FileSizePipe } from './common/pipes/filesizepipe';
 import { QuillModule } from 'ngx-quill';
 import { QuestionnaireGenerateSummariesComponent } from './admin/questionnaires/questionnaire.generate.summaries.component';
 import { FrequencyAdverb } from './common/pipes/frequencyadverbpipe';
@@ -131,6 +131,7 @@ import { FrequencyAdverb } from './common/pipes/frequencyadverbpipe';
         PageTitleComponent,
         MomentPipe,
         BooleanPipe,
+        FileSizePipe,
         AppFileInputDirective,
         AppHasRoleDirective,
         GroupPipe,
@@ -237,6 +238,7 @@ import { FrequencyAdverb } from './common/pipes/frequencyadverbpipe';
         PageTitleComponent,
         MomentPipe,
         BooleanPipe,
+        FileSizePipe,
         AppFileInputDirective,
         AppHasRoleDirective,
         GroupPipe,

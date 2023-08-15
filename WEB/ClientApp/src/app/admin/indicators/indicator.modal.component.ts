@@ -76,6 +76,7 @@ export class IndicatorModalComponent implements OnInit {
     public runSearch(pageIndex = 0): Observable<IndicatorSearchResponse> {
 
         this.searchOptions.pageIndex = pageIndex;
+        this.allSelected = false;
 
         const observable = this.indicatorService
             .search(this.searchOptions);

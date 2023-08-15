@@ -59,6 +59,7 @@ export class FolderContentModalComponent implements OnInit {
     public runSearch(pageIndex = 0): Observable<FolderContentSearchResponse> {
 
         this.searchOptions.pageIndex = pageIndex;
+        this.allSelected = false;
 
         const observable = this.folderContentService
             .search(this.searchOptions);

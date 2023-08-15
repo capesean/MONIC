@@ -60,6 +60,7 @@ export class LogFrameRowModalComponent implements OnInit {
     public runSearch(pageIndex = 0): Observable<LogFrameRowSearchResponse> {
 
         this.searchOptions.pageIndex = pageIndex;
+        this.allSelected = false;
 
         const observable = this.logFrameRowService
             .search(this.searchOptions);

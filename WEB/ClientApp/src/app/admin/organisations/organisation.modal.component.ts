@@ -53,6 +53,7 @@ export class OrganisationModalComponent implements OnInit {
     public runSearch(pageIndex = 0): Observable<OrganisationSearchResponse> {
 
         this.searchOptions.pageIndex = pageIndex;
+        this.allSelected = false;
 
         const observable = this.organisationService
             .search(this.searchOptions);

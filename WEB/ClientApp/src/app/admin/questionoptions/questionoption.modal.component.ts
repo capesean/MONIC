@@ -56,6 +56,7 @@ export class QuestionOptionModalComponent implements OnInit {
     public runSearch(pageIndex = 0): Observable<QuestionOptionSearchResponse> {
 
         this.searchOptions.pageIndex = pageIndex;
+        this.allSelected = false;
 
         const observable = this.questionOptionService
             .search(this.searchOptions);
