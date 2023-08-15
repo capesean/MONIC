@@ -105,15 +105,17 @@ namespace WEB.Controllers
             if (field == null)
                 return NotFound();
 
-            foreach (var option in db.Options.Where(o => o.FieldId == field.FieldId))
-                db.Entry(option).State = EntityState.Deleted;
+            using var transactionScope = Utilities.General.CreateTransactionScope();
 
-            foreach (var fieldValue in db.FieldValues.Where(o => o.FieldId == field.FieldId))
-                db.Entry(fieldValue).State = EntityState.Deleted;
+            await db.Options.Where(o => o.FieldId == field.FieldId).ExecuteDeleteAsync();
+
+            await db.FieldValues.Where(o => o.FieldId == field.FieldId).ExecuteDeleteAsync();
 
             db.Entry(field).State = EntityState.Deleted;
 
             await db.SaveChangesAsync();
+
+            transactionScope.Complete();
 
             return Ok();
         }

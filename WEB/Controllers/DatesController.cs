@@ -139,12 +139,15 @@ namespace WEB.Controllers
             if (await db.Questionnaires.AnyAsync(o => o.DefaultDateId == date.DateId))
                 return BadRequest("Unable to delete the date as it has related questionnaires");
 
-            foreach (var questionSummary in db.QuestionSummaries.Where(o => o.DateId == date.DateId))
-                db.Entry(questionSummary).State = EntityState.Deleted;
+            using var transactionScope = Utilities.General.CreateTransactionScope();
+
+            await db.QuestionSummaries.Where(o => o.DateId == date.DateId).ExecuteDeleteAsync();
 
             db.Entry(date).State = EntityState.Deleted;
 
             await db.SaveChangesAsync();
+
+            transactionScope.Complete();
 
             return Ok();
         }

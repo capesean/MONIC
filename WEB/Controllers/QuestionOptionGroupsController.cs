@@ -93,15 +93,18 @@ namespace WEB.Controllers
             if (questionOptionGroup == null)
                 return NotFound();
 
-            foreach (var questionOption in db.QuestionOptions.Where(o => o.QuestionOptionGroupId == questionOptionGroup.QuestionOptionGroupId))
-                db.Entry(questionOption).State = EntityState.Deleted;
-
             if (await db.Questions.AnyAsync(o => o.QuestionOptionGroupId == questionOptionGroup.QuestionOptionGroupId))
                 return BadRequest("Unable to delete the question option group as it has related questions");
+
+            using var transactionScope = Utilities.General.CreateTransactionScope();
+
+            await db.QuestionOptions.Where(o => o.QuestionOptionGroupId == questionOptionGroup.QuestionOptionGroupId).ExecuteDeleteAsync();
 
             db.Entry(questionOptionGroup).State = EntityState.Deleted;
 
             await db.SaveChangesAsync();
+
+            transactionScope.Complete();
 
             return Ok();
         }

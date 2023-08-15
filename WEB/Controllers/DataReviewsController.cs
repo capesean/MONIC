@@ -100,9 +100,6 @@ namespace WEB.Controllers
             if (dataReview == null)
                 return NotFound();
 
-            foreach (var dataReviewLink in db.DataReviewLinks.Where(o => o.DataReviewId == dataReview.DataReviewId))
-                db.Entry(dataReviewLink).State = EntityState.Deleted;
-
             if (await db.Data.AnyAsync(o => o.SubmitDataReviewId == dataReview.DataReviewId))
                 return BadRequest("Unable to delete the data review as it has related data");
 
@@ -115,9 +112,15 @@ namespace WEB.Controllers
             if (await db.Data.AnyAsync(o => o.RejectDataReviewId == dataReview.DataReviewId))
                 return BadRequest("Unable to delete the data review as it has related data");
 
+            using var transactionScope = Utilities.General.CreateTransactionScope();
+
+            await db.DataReviewLinks.Where(o => o.DataReviewId == dataReview.DataReviewId).ExecuteDeleteAsync();
+
             db.Entry(dataReview).State = EntityState.Deleted;
 
             await db.SaveChangesAsync();
+
+            transactionScope.Complete();
 
             return Ok();
         }

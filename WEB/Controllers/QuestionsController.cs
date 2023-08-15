@@ -163,38 +163,29 @@ namespace WEB.Controllers
             if (question == null)
                 return NotFound();
 
-            foreach (var answer in db.Answers.Where(o => o.QuestionId == question.QuestionId))
-            {
-                db.Entry(answer).State = EntityState.Deleted;
-                foreach (var documentId in await db.Documents.Where(o => o.ItemId == answer.AnswerId).Select(o => o.DocumentId).ToListAsync())
-                    db.Entry(new Document { DocumentId = documentId }).State = EntityState.Deleted;
-                if (await db.Items.AnyAsync(o => o.ItemId == answer.AnswerId))
-                    db.Entry(new Item { ItemId = answer.AnswerId }).State = EntityState.Deleted;
-            }
-
-            foreach (var answerOption in db.AnswerOptions.Where(o => o.Answer.QuestionId == question.QuestionId))
-                db.Entry(answerOption).State = EntityState.Deleted;
-
-            var qog = await db.QuestionOptionGroups.Include(o => o.QuestionOptions).FirstOrDefaultAsync(o => o.QuestionOptionGroupId == questionId);
-            if (qog == null)
-            {
-                foreach (var option in qog.QuestionOptions.ToList())
-                    db.Entry(option).State = EntityState.Deleted;
-                db.Entry(qog).State = EntityState.Deleted;
-            }
-
             if (await db.Questions.AnyAsync(o => o.CheckQuestionId == question.QuestionId))
                 return BadRequest("Unable to delete the question as it has related questions");
 
             if (await db.SkipLogicOptions.AnyAsync(o => o.QuestionId == question.QuestionId))
                 return BadRequest("Unable to delete the question as it has related skip logic options");
 
-            foreach (var questionSummary in db.QuestionSummaries.Where(o => o.QuestionId == question.QuestionId))
-                db.Entry(questionSummary).State = EntityState.Deleted;
+            using var transactionScope = Utilities.General.CreateTransactionScope();
+
+            await db.Documents.Where(o => o.ItemId == question.QuestionId).ExecuteDeleteAsync();
+
+            await db.Items.Where(o => o.ItemId == question.QuestionId).ExecuteDeleteAsync();
+
+            await db.AnswerOptions.Where(o => o.Answer.QuestionId == question.QuestionId).ExecuteDeleteAsync();
+
+            await db.Answers.Where(o => o.QuestionId == question.QuestionId).ExecuteDeleteAsync();
+
+            await db.QuestionSummaries.Where(o => o.QuestionId == question.QuestionId).ExecuteDeleteAsync();
 
             db.Entry(question).State = EntityState.Deleted;
 
             await db.SaveChangesAsync();
+
+            transactionScope.Complete();
 
             return Ok();
         }

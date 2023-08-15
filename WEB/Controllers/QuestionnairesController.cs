@@ -6,7 +6,6 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.EntityFrameworkCore;
 using WEB.Models;
-using System.Transactions;
 
 namespace WEB.Controllers
 {
@@ -103,15 +102,18 @@ namespace WEB.Controllers
             if (questionnaire == null)
                 return NotFound();
 
-            foreach (var section in db.Sections.Where(o => o.QuestionnaireId == questionnaire.QuestionnaireId))
-                db.Entry(section).State = EntityState.Deleted;
-
             if (await db.Responses.AnyAsync(o => o.QuestionnaireId == questionnaire.QuestionnaireId))
                 return BadRequest("Unable to delete the questionnaire as it has related responses");
+
+            using var transactionScope = Utilities.General.CreateTransactionScope();
+
+            await db.Sections.Where(o => o.QuestionnaireId == questionnaire.QuestionnaireId).ExecuteDeleteAsync();
 
             db.Entry(questionnaire).State = EntityState.Deleted;
 
             await db.SaveChangesAsync();
+
+            transactionScope.Complete();
 
             return Ok();
         }
@@ -130,13 +132,10 @@ namespace WEB.Controllers
         [HttpDelete("{questionnaireId:Guid}/responses"), AuthorizeRoles(Roles.Administrator)]
         public async Task<IActionResult> DeleteResponses(Guid questionnaireId)
         {
-            using var transactionScope = Utilities.General.CreateTransactionScope();
+            foreach (var response in db.Responses.Where(o => o.QuestionnaireId == questionnaireId).ToList())
+                db.Entry(response).State = EntityState.Deleted;
 
-            await db.Answers.Where(o => o.Response.QuestionnaireId == questionnaireId).ExecuteDeleteAsync();
-
-            await db.Responses.Where(o => o.QuestionnaireId == questionnaireId).ExecuteDeleteAsync();
-
-            transactionScope.Complete();
+            await db.SaveChangesAsync();
 
             return Ok();
         }

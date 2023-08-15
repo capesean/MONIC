@@ -165,9 +165,6 @@ namespace WEB.Controllers
             if (await db.Data.AnyAsync(o => o.EntityId == entity.EntityId))
                 return BadRequest("Unable to delete the entity as it has related data");
 
-            foreach (var entityPermission in db.EntityPermissions.Where(o => o.EntityId == entity.EntityId))
-                db.Entry(entityPermission).State = EntityState.Deleted;
-
             if (await db.EntityLinks.AnyAsync(o => o.ChildEntityId == entity.EntityId))
                 return BadRequest("Unable to delete the entity as it has related entity links");
 
@@ -180,11 +177,17 @@ namespace WEB.Controllers
             if (await db.Responses.AnyAsync(o => o.EntityId == entity.EntityId))
                 return BadRequest("Unable to delete the entity as it has related responses");
 
+            using var transactionScope = Utilities.General.CreateTransactionScope();
+
+            await db.EntityPermissions.Where(o => o.EntityId == entity.EntityId).ExecuteDeleteAsync();
+
             ItemFunctions.DeleteFields(db, entityId, true);
 
             db.Entry(entity).State = EntityState.Deleted;
 
             await db.SaveChangesAsync();
+
+            transactionScope.Complete();
 
             return Ok();
         }

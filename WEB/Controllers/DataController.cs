@@ -160,8 +160,9 @@ namespace WEB.Controllers
             if (datum.Submitted) return BadRequest("Datum has already been submitted and cannot be deleted");
             if (datum.Approved) return BadRequest("Datum has already been approved and cannot be deleted");
 
-            foreach (var dataReviewLink in db.DataReviewLinks.Where(o => o.IndicatorId == datum.IndicatorId && o.DateId == datum.DateId && o.EntityId == datum.EntityId))
-                db.Entry(dataReviewLink).State = EntityState.Deleted;
+            using var transactionScope = Utilities.General.CreateTransactionScope();
+
+            await db.DataReviewLinks.Where(o => o.IndicatorId == datum.IndicatorId && o.DateId == datum.DateId && o.EntityId == datum.EntityId).ExecuteDeleteAsync();
 
             // deleted data requires value & note set to null:
             datum.Value = null;
@@ -169,6 +170,8 @@ namespace WEB.Controllers
 
             var calculation = new Calculation(db, AppSettings, CurrentUser.Id);
             await calculation.SaveAsync(datum);
+
+            transactionScope.Complete();
 
             return Ok();
         }

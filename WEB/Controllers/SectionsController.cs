@@ -103,12 +103,15 @@ namespace WEB.Controllers
             if (section == null)
                 return NotFound();
 
-            foreach (var question in db.Questions.Where(o => o.SectionId == section.SectionId))
-                db.Entry(question).State = EntityState.Deleted;
+            using var transactionScope = Utilities.General.CreateTransactionScope();
+
+            await db.Questions.Where(o => o.SectionId == section.SectionId).ExecuteDeleteAsync();
 
             db.Entry(section).State = EntityState.Deleted;
 
             await db.SaveChangesAsync();
+
+            transactionScope.Complete();
 
             return Ok();
         }

@@ -118,26 +118,24 @@ namespace WEB.Controllers
             if (response == null)
                 return NotFound();
 
+            using var transactionScope = Utilities.General.CreateTransactionScope();
+
             foreach (var answer in db.Answers.Where(o => o.ResponseId == response.ResponseId))
             {
-                foreach (var item in db.Items.Where(o => o.ItemId == answer.AnswerId).ToList())
-                {
-                    foreach (var documentId in db.Documents.Where(o => o.ItemId == item.ItemId).Select(o => o.DocumentId).ToList())
-                        db.Entry(new Document { DocumentId = documentId }).State = EntityState.Deleted;
-                    db.Entry(item).State = EntityState.Deleted;
-                }
+                await db.Documents.Where(o => o.ItemId == answer.QuestionId).ExecuteDeleteAsync();
 
-                foreach (var answerOption in db.AnswerOptions.Where(o => o.AnswerId == answer.AnswerId).ToList())
-                {
-                    db.Entry(answerOption).State = EntityState.Deleted;
-                }
+                await db.Items.Where(o => o.ItemId == answer.QuestionId).ExecuteDeleteAsync();
 
-                db.Entry(answer).State = EntityState.Deleted;
+                await db.AnswerOptions.Where(o => o.Answer.QuestionId == answer.QuestionId).ExecuteDeleteAsync();
             }
+
+            await db.Answers.Where(o => o.ResponseId == response.ResponseId).ExecuteDeleteAsync();
 
             db.Entry(response).State = EntityState.Deleted;
 
             await db.SaveChangesAsync();
+
+            transactionScope.Complete();
 
             return Ok();
         }

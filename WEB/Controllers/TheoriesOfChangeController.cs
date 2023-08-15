@@ -104,15 +104,17 @@ namespace WEB.Controllers
             if (theoryOfChange == null)
                 return NotFound();
 
-            foreach (var theoryOfChangeComponent in db.TheoryOfChangeComponents.Where(o => o.TheoryOfChangeId == theoryOfChange.TheoryOfChangeId))
-                db.Entry(theoryOfChangeComponent).State = EntityState.Deleted;
+            using var transactionScope = Utilities.General.CreateTransactionScope();
 
-            foreach (var relationship in db.Relationships.Where(o => o.TheoryOfChangeId == theoryOfChange.TheoryOfChangeId))
-                db.Entry(relationship).State = EntityState.Deleted;
+            await db.TheoryOfChangeComponents.Where(o => o.TheoryOfChangeId == theoryOfChange.TheoryOfChangeId).ExecuteDeleteAsync();
+
+            await db.Relationships.Where(o => o.TheoryOfChangeId == theoryOfChange.TheoryOfChangeId).ExecuteDeleteAsync();
 
             db.Entry(theoryOfChange).State = EntityState.Deleted;
 
             await db.SaveChangesAsync();
+
+            transactionScope.Complete();
 
             return Ok();
         }

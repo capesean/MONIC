@@ -107,26 +107,26 @@ namespace WEB.Controllers
             if (component == null)
                 return NotFound();
 
-            foreach (var relationship in db.Relationships.Where(o => o.SourceComponentId == component.ComponentId))
-                db.Entry(relationship).State = EntityState.Deleted;
-
-            foreach (var relationship in db.Relationships.Where(o => o.TargetComponentId == component.ComponentId))
-                db.Entry(relationship).State = EntityState.Deleted;
-
             if (await db.LogFrameRowComponents.AnyAsync(o => o.ComponentId == component.ComponentId))
                 return BadRequest("Unable to delete the component as it has related log frame row components");
 
-            foreach (var theoryOfChangeComponent in db.TheoryOfChangeComponents.Where(o => o.ComponentId == component.ComponentId))
-                db.Entry(theoryOfChangeComponent).State = EntityState.Deleted;
+            using var transactionScope = Utilities.General.CreateTransactionScope();
 
-            foreach (var componentIndicator in db.ComponentIndicators.Where(o => o.ComponentId == component.ComponentId))
-                db.Entry(componentIndicator).State = EntityState.Deleted;
+            await db.Relationships.Where(o => o.SourceComponentId == component.ComponentId).ExecuteDeleteAsync();
+
+            await db.Relationships.Where(o => o.TargetComponentId == component.ComponentId).ExecuteDeleteAsync();
+
+            await db.TheoryOfChangeComponents.Where(o => o.ComponentId == component.ComponentId).ExecuteDeleteAsync();
+
+            await db.ComponentIndicators.Where(o => o.ComponentId == component.ComponentId).ExecuteDeleteAsync();
 
             ItemFunctions.DeleteFields(db, componentId, true);
 
             db.Entry(component).State = EntityState.Deleted;
 
             await db.SaveChangesAsync();
+
+            transactionScope.Complete();
 
             return Ok();
         }

@@ -110,8 +110,9 @@ namespace WEB.Controllers
             if (await db.Folders.AnyAsync(o => o.ParentFolderId == folder.FolderId))
                 return BadRequest("Unable to delete the folder as it has related folders");
 
-            foreach (var folderContent in db.FolderContents.Where(o => o.FolderId == folder.FolderId))
-                db.Entry(folderContent).State = EntityState.Deleted;
+            using var transactionScope = Utilities.General.CreateTransactionScope();
+
+            await db.FolderContents.Where(o => o.FolderId == folder.FolderId).ExecuteDeleteAsync();
 
             ItemFunctions.DeleteDocuments(db, folder.FolderId);
             ItemFunctions.DeleteFields(db, folderId, true);
@@ -119,6 +120,8 @@ namespace WEB.Controllers
             db.Entry(folder).State = EntityState.Deleted;
 
             await db.SaveChangesAsync();
+
+            transactionScope.Complete();
 
             return Ok();
         }

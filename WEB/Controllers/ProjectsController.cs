@@ -90,15 +90,17 @@ namespace WEB.Controllers
             if (project == null)
                 return NotFound();
 
-            foreach (var task in db.Tasks.Where(o => o.Milestone.ProjectId == project.ProjectId))
-                db.Entry(task).State = EntityState.Deleted;
+            using var transactionScope = Utilities.General.CreateTransactionScope();
 
-            foreach (var milestone in db.Milestones.Where(o => o.ProjectId == project.ProjectId))
-                db.Entry(milestone).State = EntityState.Deleted;
+            await db.Tasks.Where(o => o.Milestone.ProjectId == project.ProjectId).ExecuteDeleteAsync();
+
+            await db.Milestones.Where(o => o.ProjectId == project.ProjectId).ExecuteDeleteAsync();
 
             db.Entry(project).State = EntityState.Deleted;
 
             await db.SaveChangesAsync();
+
+            transactionScope.Complete();
 
             return Ok();
         }

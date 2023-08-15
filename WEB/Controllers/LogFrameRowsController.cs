@@ -142,15 +142,17 @@ namespace WEB.Controllers
             if (logFrameRow == null)
                 return NotFound();
 
-            foreach (var logFrameRowIndicator in db.LogFrameRowIndicators.Where(o => o.LogFrameRowId == logFrameRow.LogFrameRowId))
-                db.Entry(logFrameRowIndicator).State = EntityState.Deleted;
+            using var transactionScope = Utilities.General.CreateTransactionScope();
 
-            foreach (var logFrameRowComponent in db.LogFrameRowComponents.Where(o => o.LogFrameRowId == logFrameRow.LogFrameRowId))
-                db.Entry(logFrameRowComponent).State = EntityState.Deleted;
+            await db.LogFrameRowIndicators.Where(o => o.LogFrameRowId == logFrameRow.LogFrameRowId).ExecuteDeleteAsync();
+
+            await db.LogFrameRowComponents.Where(o => o.LogFrameRowId == logFrameRow.LogFrameRowId).ExecuteDeleteAsync();
 
             db.Entry(logFrameRow).State = EntityState.Deleted;
 
             await db.SaveChangesAsync();
+
+            transactionScope.Complete();
 
             return Ok();
         }

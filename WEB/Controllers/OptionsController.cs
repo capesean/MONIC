@@ -100,12 +100,15 @@ namespace WEB.Controllers
             if (option == null)
                 return NotFound();
 
-            foreach (var optionValue in db.OptionValues.Where(o => o.OptionId == option.OptionId))
-                db.Entry(optionValue).State = EntityState.Deleted;
+            using var transactionScope = Utilities.General.CreateTransactionScope();
+
+            await db.OptionValues.Where(o => o.OptionId == option.OptionId).ExecuteDeleteAsync();
 
             db.Entry(option).State = EntityState.Deleted;
 
             await db.SaveChangesAsync();
+
+            transactionScope.Complete();
 
             return Ok();
         }

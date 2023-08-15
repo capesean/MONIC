@@ -269,12 +269,6 @@ namespace WEB.Controllers
                     return Forbid();
             }
 
-            foreach (var entityPermission in db.EntityPermissions.Where(o => o.UserId == user.Id))
-                db.Entry(entityPermission).State = EntityState.Deleted;
-
-            foreach (var indicatorPermission in db.IndicatorPermissions.Where(o => o.UserId == user.Id))
-                db.Entry(indicatorPermission).State = EntityState.Deleted;
-
             if (await db.Data.AnyAsync(o => o.LastSavedById == user.Id))
                 return BadRequest("Unable to delete the user as it has related data");
 
@@ -293,10 +287,18 @@ namespace WEB.Controllers
             if (await db.FolderContents.AnyAsync(o => o.AddedById == user.Id))
                 return BadRequest("Unable to delete the user as it has related folder contents");
 
+            using var transactionScope = Utilities.General.CreateTransactionScope();
+
+            await db.EntityPermissions.Where(o => o.UserId == user.Id).ExecuteDeleteAsync();
+
+            await db.IndicatorPermissions.Where(o => o.UserId == user.Id).ExecuteDeleteAsync();
+
             foreach (var role in await userManager.GetRolesAsync(user))
                 await userManager.RemoveFromRoleAsync(user, role);
 
             await userManager.DeleteAsync(user);
+
+            transactionScope.Complete();
 
             return Ok();
         }

@@ -149,18 +149,8 @@ namespace WEB.Controllers
             if (indicator == null)
                 return NotFound();
 
-            foreach (var token in db.Tokens.Where(o => o.IndicatorId == indicator.IndicatorId))
-                db.Entry(token).State = EntityState.Deleted;
-
-            // todo: use a sql statement and a transaction
-            foreach (var datum in db.Data.Where(o => o.IndicatorId == indicator.IndicatorId))
-                db.Entry(datum).State = EntityState.Deleted;
-
             if (await db.Tokens.AnyAsync(o => o.SourceIndicatorId == indicator.IndicatorId))
                 return BadRequest("Unable to delete the indicator as it has related tokens");
-
-            foreach (var indicatorPermission in db.IndicatorPermissions.Where(o => o.IndicatorId == indicator.IndicatorId))
-                db.Entry(indicatorPermission).State = EntityState.Deleted;
 
             if (await db.LogFrameRowIndicators.AnyAsync(o => o.IndicatorId == indicator.IndicatorId))
                 return BadRequest("Unable to delete the indicator as it has related log frame row indicators");
@@ -168,11 +158,21 @@ namespace WEB.Controllers
             if (await db.ComponentIndicators.AnyAsync(o => o.IndicatorId == indicator.IndicatorId))
                 return BadRequest("Unable to delete the indicator as it has related component indicators");
 
+            using var transactionScope = Utilities.General.CreateTransactionScope();
+
+            await db.Tokens.Where(o => o.IndicatorId == indicator.IndicatorId).ExecuteDeleteAsync();
+
+            await db.Data.Where(o => o.IndicatorId == indicator.IndicatorId).ExecuteDeleteAsync();
+
+            await db.IndicatorPermissions.Where(o => o.IndicatorId == indicator.IndicatorId).ExecuteDeleteAsync();
+
             ItemFunctions.DeleteFields(db, indicatorId, true);
 
             db.Entry(indicator).State = EntityState.Deleted;
 
             await db.SaveChangesAsync();
+
+            transactionScope.Complete();
 
             return Ok();
         }
