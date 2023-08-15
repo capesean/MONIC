@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using System.Transactions;
 using WEB.Models;
 
 namespace WEB.Utilities
@@ -75,6 +76,17 @@ namespace WEB.Utilities
             }
 
             return new string(chars.ToArray());
+        }
+
+        public static TransactionScope CreateTransactionScope()
+        {
+            var transactionOptions = new TransactionOptions
+            {
+                IsolationLevel = IsolationLevel.ReadCommitted,
+                Timeout = TransactionManager.MaximumTimeout
+            };
+
+            return new TransactionScope(TransactionScopeOption.Required, transactionOptions, TransactionScopeAsyncFlowOption.Enabled);
         }
     }
 }
