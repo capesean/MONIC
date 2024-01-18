@@ -57,7 +57,7 @@ namespace WEB.Models
 
             if (!db.Settings.Any())
             {
-                db.Entry(new Settings { Id = Guid.Empty, TestSetting = "Test Value" }).State = EntityState.Added;
+                db.Entry(new Settings { Id = Guid.Empty }).State = EntityState.Added;
                 await db.SaveChangesAsync();
             }
         }

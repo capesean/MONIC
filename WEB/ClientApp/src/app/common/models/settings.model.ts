@@ -2,7 +2,6 @@ import { SearchOptions, PagingHeaders } from './http.model';
 
 export class Settings {
     id: string;
-    testSetting: string;
 
     constructor() {
         this.id = "00000000-0000-0000-0000-000000000000";

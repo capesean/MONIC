@@ -8,9 +8,6 @@ namespace WEB.Models
         [Required]
         public Guid Id { get; set; }
 
-        [MaxLength(50)]
-        public string TestSetting { get; set; }
-
     }
 
     public static partial class ModelFactory
@@ -22,14 +19,12 @@ namespace WEB.Models
             var settingsDTO = new SettingsDTO();
 
             settingsDTO.Id = settings.Id;
-            settingsDTO.TestSetting = settings.TestSetting;
 
             return settingsDTO;
         }
 
         public static void Hydrate(Settings settings, SettingsDTO settingsDTO)
         {
-            settings.TestSetting = settingsDTO.TestSetting;
         }
     }
 }

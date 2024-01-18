@@ -421,11 +421,6 @@ namespace WEB.Migrations
                     b.Property<bool>("SetupCompleted")
                         .HasColumnType("bit");
 
-                    b.Property<string>("TestSetting")
-                        .IsRequired()
-                        .HasMaxLength(100)
-                        .HasColumnType("nvarchar(100)");
-
                     b.HasKey("Id");
 
                     b.ToTable("Settings");

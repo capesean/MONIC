@@ -121,8 +121,7 @@ namespace WEB.Migrations
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    SetupCompleted = table.Column<bool>(type: "bit", nullable: false),
-                    TestSetting = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false)
+                    SetupCompleted = table.Column<bool>(type: "bit", nullable: false)
                 },
                 constraints: table =>
                 {

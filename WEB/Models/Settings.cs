@@ -9,9 +9,6 @@ namespace WEB.Models
         [Key, Required]
         public Guid Id { get; set; }
 
-        [MaxLength(50)]
-        public string TestSetting { get; set; }
-
         [Required]
         public bool SetupCompleted { get; set; }
 

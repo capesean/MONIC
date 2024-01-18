@@ -10,22 +10,6 @@
 
                 <div class="row g-3">
 
-                    <div class="col-sm-6 col-md-4">
-                        <div class="form-group" [ngClass]="{ 'is-invalid': testSetting.invalid }">
-
-                            <label for="testSetting">
-                                Test Setting:
-                            </label>
-
-                            <input id="testSetting" name="testSetting" class="form-control" type="text" [(ngModel)]="settings.testSetting" #testSetting="ngModel" maxlength="50" />
-
-                            <div *ngIf="testSetting.errors?.maxlength" class="invalid-feedback">
-                                Test Setting must be at most 50 characters long
-                            </div>
-
-                        </div>
-                    </div>
-
                 </div>
 
             </fieldset>
