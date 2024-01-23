@@ -97,6 +97,7 @@ import { TheoryOfChangeModalComponent } from './admin/theoriesofchange/theoryofc
 import { UserSelectComponent } from './admin/users/user.select.component';
 import { UserModalComponent } from './admin/users/user.modal.component';
 import { GroupPipe } from './common/pipes/grouppipe';
+import { FieldSizePipe } from './common/pipes/fieldsizepipe';
 import { FieldComponent } from './common/components/field.component';
 import { DocumentManageComponent } from './admin/documents/document.manage.component';
 import { QuestionLogicModalComponent } from './admin/questions/questionlogic.component';
@@ -104,7 +105,6 @@ import { SurveyComponent } from './common/components/survey/survey.component';
 import { ParagraphsPipe } from './common/pipes/paragraphspipe';
 import { QuestionnaireExportComponent } from './admin/questionnaires/questionnaire.export.component';
 import { QuestionnaireDownloadComponent } from './admin/questionnaires/questionnaire.download.component';
-import { FileSizePipe } from './common/pipes/filesizepipe';
 import { QuillModule } from 'ngx-quill';
 import { QuestionnaireGenerateSummariesComponent } from './admin/questionnaires/questionnaire.generate.summaries.component';
 import { FrequencyAdverb } from './common/pipes/frequencyadverbpipe';
@@ -145,7 +145,6 @@ import { FrequencyAdverb } from './common/pipes/frequencyadverbpipe';
         QuestionnaireDownloadComponent,
         QuestionnaireGenerateSummariesComponent,
         SurveyComponent,
-        FileSizePipe,
         FrequencyAdverb,
         SpyOnDirective,
         AnswerSelectComponent,
@@ -252,7 +251,6 @@ import { FrequencyAdverb } from './common/pipes/frequencyadverbpipe';
         QuestionnaireDownloadComponent,
         QuestionnaireGenerateSummariesComponent,
         SurveyComponent,
-        FileSizePipe,
         FrequencyAdverb,
         SpyOnDirective,
         AnswerSelectComponent,
