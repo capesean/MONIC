@@ -16,6 +16,7 @@ export class Category {
 
 export class CategorySearchOptions extends SearchOptions {
     q: string;
+    disabled: boolean;
 }
 
 export class CategorySearchResponse {
