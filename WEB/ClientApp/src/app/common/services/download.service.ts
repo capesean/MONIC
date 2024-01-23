@@ -20,13 +20,6 @@ export class DownloadService extends SearchQuery {
             );
     }
 
-    exportCSV(indicatorIds: string[], entityIds: string[], dateIds: string[]): Observable<void> {
-        return this.http.post<void>(`${environment.baseApiUrl}downloads/export/csv`, { indicatorIds, entityIds, dateIds }, { responseType: 'blob' as 'json', observe: 'response' } )
-            .pipe(
-                map(response => this.downloadFile(this.convertResponse(response)))
-            );
-    }
-
     public convertResponse(response: HttpResponse<unknown>): DownloadModel {
         const contentType = response.headers.get('Content-Type');
         const contentDispositionHeader = response.headers.get('Content-Disposition');
