@@ -402,7 +402,6 @@
 
                         </div>
 
-
                         <div class="table-responsive">
 
                             <table class="table table-hover table-edge table-nowrap mb-0 align-middle">
@@ -507,26 +506,42 @@
 
                 <ng-template ngbNavContent>
 
-                    <div class="mb-3">
-                        <button class="btn btn-outline-primary me-2 mb-1" (click)="showDocumentManageModal()">Add Document<i class="fas fa-plus ms-2"></i></button>
-                    </div>
+                    <div class="card border-0 search-results">
 
-                    <div class="table-responsive">
+                        <div class="card-header border-0">
 
-                        <table class="table table-hover table-edge table-nowrap mb-0 align-middle">
-                            <thead class="thead-light">
-                                <tr>
-                                    <th>Name</th>
-                                </tr>
-                            </thead>
-                            <tbody class="list cursor-pointer">
-                                <tr *ngFor="let document of documents" (click)="goToDocument(document)">
-                                    <td>{{ document.fileName }}</td>
-                                </tr>
-                            </tbody>
-                        </table>
+                            <h4 class="card-header-title text-uppercase">
+                                Theories of Change
+                            </h4>
 
-                        <pager [headers]="documentHeaders" (pageChanged)="searchDocuments($event)"></pager>
+                        </div>
+
+                        <div class="card-body">
+                            <div class="mb-3">
+                                <button class="btn btn-outline-primary me-2 mb-1" (click)="showDocumentManageModal()">Add Document<i class="fas fa-plus ms-2"></i></button>
+                            </div>
+                        </div>
+
+                        <div class="table-responsive">
+
+                            <table class="table table-hover table-edge table-nowrap mb-0 align-middle">
+                                <thead class="thead-light">
+                                    <tr>
+                                        <th>Name</th>
+                                    </tr>
+                                </thead>
+                                <tbody class="list cursor-pointer">
+                                    <tr *ngFor="let document of documents" (click)="goToDocument(document)">
+                                        <td>{{ document.fileName }}</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+
+                        </div>
+
+                        <div class="card-footer">
+                            <pager [headers]="documentHeaders" (pageChanged)="searchDocuments($event)"></pager>
+                        </div>
 
                     </div>
 
