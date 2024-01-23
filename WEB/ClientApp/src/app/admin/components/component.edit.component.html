@@ -397,12 +397,31 @@
                         <div class="card-header border-0">
 
                             <h4 class="card-header-title text-uppercase">
-                                Theories of Change
+                                Components
                             </h4>
 
                         </div>
 
                         <div class="card-body">
+
+                            <form id="formSearchTheoryOfChangeComponents" (submit)="searchTheoryOfChangeComponents(0)" novalidate *ngIf="showTheoryOfChangeComponentsSearch" class="mb-5">
+
+                                <div class="row g-3">
+
+                                    <div class="col-sm-6 col-md-4 col-lg-4 col-xl-3">
+                                        <div class="form-group">
+                                            <theory-of-change-select id="theoryOfChangeId" name="theoryOfChangeId" [(ngModel)]="theoryOfChangeComponentsSearchOptions.theoryOfChangeId"></theory-of-change-select>
+                                        </div>
+                                    </div>
+
+                                </div>
+
+                            </form>
+
+                            <div class="mb-3">
+                                <button *ngIf="!showTheoryOfChangeComponentsSearch" type="button" class="btn btn-outline-secondary me-2 mb-1" (click)="showTheoryOfChangeComponentsSearch=true">Filter<i class="fas fa-filter ms-2"></i></button>
+                                <button *ngIf="showTheoryOfChangeComponentsSearch" form="formSearchTheoryOfChangeComponents" type="submit" class="btn btn-outline-primary me-2 mb-1">Search<i class="fas fa-search ms-2"></i></button>
+                            </div>
 
                         </div>
 
@@ -469,7 +488,6 @@
 
                             <div class="mb-3">
                                 <button class="btn btn-outline-primary me-2 mb-1" (click)="addComponentIndicators()">Add Component Indicators<i class="fas fa-plus ms-2"></i></button>
-                                <a [routerLink]="['./componentindicators', 'add']" class="btn btn-outline-primary me-2 mb-1">Add<i class="fas fa-plus ms-2"></i></a>
                                 <button *ngIf="!showComponentIndicatorsSearch" type="button" class="btn btn-outline-secondary me-2 mb-1" (click)="showComponentIndicatorsSearch=true">Filter<i class="fas fa-filter ms-2"></i></button>
                                 <button *ngIf="showComponentIndicatorsSearch" form="formSearchComponentIndicators" type="submit" class="btn btn-outline-primary me-2 mb-1">Search<i class="fas fa-search ms-2"></i></button>
                             </div>

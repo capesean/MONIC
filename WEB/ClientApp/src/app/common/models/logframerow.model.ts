@@ -20,6 +20,8 @@ export class LogFrameRow {
 
     constructor() {
         this.logFrameRowId = "00000000-0000-0000-0000-000000000000";
+        this.logFrameRowComponents = [];
+        this.logFrameRowIndicators = [];
     }
 }
 

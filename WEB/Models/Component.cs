@@ -49,5 +49,19 @@ namespace WEB.Models
         {
             return Name;
         }
+
+        public override bool Equals(object obj)
+        {
+            if (obj == null || GetType() != obj.GetType()) return false;
+
+            Component other = (Component)obj;
+
+            return ComponentId == other.ComponentId;
+        }
+
+        public override int GetHashCode()
+        {
+            return ComponentId.GetHashCode();
+        }
     }
 }

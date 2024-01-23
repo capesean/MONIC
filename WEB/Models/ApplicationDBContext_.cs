@@ -14,6 +14,7 @@ namespace WEB.Models
         public DbSet<Date> Dates { get; set; }
         public DbSet<Datum> Data { get; set; }
         public DbSet<Document> Documents { get; set; }
+        public DbSet<DocumentContent> DocumentContents { get; set; }
         public DbSet<Entity> Entities { get; set; }
         public DbSet<EntityLink> EntityLinks { get; set; }
         public DbSet<EntityPermission> EntityPermissions { get; set; }
@@ -96,6 +97,15 @@ namespace WEB.Models
             modelBuilder.Entity<Datum>()
                 .HasKey(o => new { o.IndicatorId, o.EntityId, o.DateId })
                 .HasName("PK_Datum");
+
+
+            modelBuilder.Entity<DocumentContent>(o => o.ToTable("Documents"));
+
+            modelBuilder.Entity<Document>(document =>
+            {
+                document.HasOne(o => o.DocumentContent).WithOne().HasForeignKey<Document>(o => o.DocumentId);
+                document.Navigation(o => o.DocumentContent).IsRequired();
+            });
 
             modelBuilder.Entity<Entity>()
                 .HasIndex(o => new { o.OrganisationId, o.Name })

@@ -11,12 +11,12 @@ export class Category {
 
     constructor() {
         this.categoryId = "00000000-0000-0000-0000-000000000000";
+        this.subcategories = [];
     }
 }
 
 export class CategorySearchOptions extends SearchOptions {
     q: string;
-    disabled: boolean;
 }
 
 export class CategorySearchResponse {

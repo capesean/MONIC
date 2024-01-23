@@ -28,5 +28,19 @@ namespace WEB.Models
         {
             return Convert.ToString(ItemId);
         }
+
+        public override bool Equals(object obj)
+        {
+            if (obj == null || GetType() != obj.GetType()) return false;
+
+            Item other = (Item)obj;
+
+            return ItemId == other.ItemId;
+        }
+
+        public override int GetHashCode()
+        {
+            return ItemId.GetHashCode();
+        }
     }
 }

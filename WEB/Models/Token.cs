@@ -36,5 +36,22 @@ namespace WEB.Models
         {
         }
 
+
+        public override bool Equals(object obj)
+        {
+            if (obj == null || GetType() != obj.GetType()) return false;
+
+            Token other = (Token)obj;
+
+            return IndicatorId == other.IndicatorId && TokenNumber == other.TokenNumber;
+        }
+
+        public override int GetHashCode()
+        {
+            int hash = 17;
+            hash = hash * 23 + IndicatorId.GetHashCode();
+            hash = hash * 23 + TokenNumber.GetHashCode();
+            return hash;
+        }
     }
 }

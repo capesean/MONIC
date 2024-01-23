@@ -35,5 +35,19 @@ namespace WEB.Models
         {
             return Convert.ToString(QuestionId);
         }
+
+        public override bool Equals(object obj)
+        {
+            if (obj == null || GetType() != obj.GetType()) return false;
+
+            Answer other = (Answer)obj;
+
+            return AnswerId == other.AnswerId;
+        }
+
+        public override int GetHashCode()
+        {
+            return AnswerId.GetHashCode();
+        }
     }
 }

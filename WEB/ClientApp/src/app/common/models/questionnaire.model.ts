@@ -31,6 +31,8 @@ export class Questionnaire {
         this.calculateProgress = true;
         this.displayQuestionCode = true;
         this.showSections = true;
+        this.responses = [];
+        this.sections = [];
     }
 }
 

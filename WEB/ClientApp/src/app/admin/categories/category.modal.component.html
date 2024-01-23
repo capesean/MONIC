@@ -5,7 +5,7 @@
         <button type="button" class="btn-close" (click)="modal.dismiss()" aria-label="Close"></button>
     </div>
     
-    <div class="modal-body">
+    <div class="modal-body" [ngClass]="{ 'mb-6': !showFooter }">
 
         <form (submit)="runSearch()" novalidate>
 
@@ -17,14 +17,6 @@
                         <div class="form-group">
                             <input type="search" ngbAutofocus name="q" id="q" [(ngModel)]="searchOptions.q" max="100" class="form-control" placeholder="Search categories" autocomplete="off" />
                         </div>
-                    </div>
-
-                    <div class="col-sm-6 col-md-4 col-lg-4 col-xl-3">
-                        <select id="disabled" name="disabled" [(ngModel)]="searchOptions.disabled" #disabled="ngModel" class="form-select">
-                            <option [ngValue]="undefined">Disabled: Any</option>
-                            <option [ngValue]="true">Disabled: Yes</option>
-                            <option [ngValue]="false">Disabled: No</option>
-                        </select>
                     </div>
 
                     <div class="col-sm-6 col-md-6 col-lg-4">
@@ -63,7 +55,7 @@
 
     </div>
     
-    <div class="modal-footer" [ngClass]="{ 'justify-content-between': multiple }">
+    <div class="modal-footer" [ngClass]="{ 'justify-content-between': multiple }" *ngIf="showFooter">
         <div class="alert alert-info modal-selected-info" *ngIf="multiple">{{selectedItems.length}} selected</div>
         <div>
             <button type="button" class="btn btn-outline-primary ms-2" (click)="addNew()" target="_blank" *ngIf="showAddNew">Add</button>

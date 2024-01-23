@@ -41,5 +41,19 @@ namespace WEB.Models
         {
             return Convert.ToString(IndicatorPermissionId);
         }
+
+        public override bool Equals(object obj)
+        {
+            if (obj == null || GetType() != obj.GetType()) return false;
+
+            IndicatorPermission other = (IndicatorPermission)obj;
+
+            return IndicatorPermissionId == other.IndicatorPermissionId;
+        }
+
+        public override int GetHashCode()
+        {
+            return IndicatorPermissionId.GetHashCode();
+        }
     }
 }

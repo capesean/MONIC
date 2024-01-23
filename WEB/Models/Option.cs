@@ -33,5 +33,19 @@ namespace WEB.Models
         {
             return Name;
         }
+
+        public override bool Equals(object obj)
+        {
+            if (obj == null || GetType() != obj.GetType()) return false;
+
+            Option other = (Option)obj;
+
+            return OptionId == other.OptionId;
+        }
+
+        public override int GetHashCode()
+        {
+            return OptionId.GetHashCode();
+        }
     }
 }

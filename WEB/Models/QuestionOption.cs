@@ -40,5 +40,19 @@ namespace WEB.Models
         {
             return Label;
         }
+
+        public override bool Equals(object obj)
+        {
+            if (obj == null || GetType() != obj.GetType()) return false;
+
+            QuestionOption other = (QuestionOption)obj;
+
+            return QuestionOptionId == other.QuestionOptionId;
+        }
+
+        public override int GetHashCode()
+        {
+            return QuestionOptionId.GetHashCode();
+        }
     }
 }

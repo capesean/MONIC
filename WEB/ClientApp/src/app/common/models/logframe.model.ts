@@ -9,6 +9,7 @@ export class LogFrame {
 
     constructor() {
         this.logFrameId = "00000000-0000-0000-0000-000000000000";
+        this.logFrameRows = [];
     }
 }
 

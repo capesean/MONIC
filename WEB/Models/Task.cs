@@ -44,5 +44,19 @@ namespace WEB.Models
         {
             return Name;
         }
+
+        public override bool Equals(object obj)
+        {
+            if (obj == null || GetType() != obj.GetType()) return false;
+
+            Task other = (Task)obj;
+
+            return TaskId == other.TaskId;
+        }
+
+        public override int GetHashCode()
+        {
+            return TaskId.GetHashCode();
+        }
     }
 }

@@ -28,6 +28,8 @@ export class ResponseModalComponent implements OnInit {
     @Input() canRemoveFilters = false;
     @Input() multiple = false;
     @Input() showAddNew = false;
+    @Input() showFooter = true;
+    @Input() resetOnOpen = false;
     @Input() title = this.multiple ? "Select responses" : "Select a response";
     @Input() questionnaire: Questionnaire;
     @Input() entity: Entity;
@@ -45,6 +47,7 @@ export class ResponseModalComponent implements OnInit {
     }
 
     open(): NgbModalRef {
+        if (this.resetOnOpen) this.selectedItems = [];
         this.searchOptions.questionnaireId = this.questionnaire?.questionnaireId;
         this.searchOptions.entityId = this.entity?.entityId;
         this.searchOptions.dateId = this.date?.dateId;

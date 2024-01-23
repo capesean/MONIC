@@ -14,6 +14,7 @@ export class Section {
 
     constructor() {
         this.sectionId = "00000000-0000-0000-0000-000000000000";
+        this.questions = [];
     }
 }
 

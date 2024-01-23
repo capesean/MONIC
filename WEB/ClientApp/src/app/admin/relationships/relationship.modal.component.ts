@@ -27,6 +27,8 @@ export class RelationshipModalComponent implements OnInit {
     @Input() canRemoveFilters = false;
     @Input() multiple = false;
     @Input() showAddNew = false;
+    @Input() showFooter = true;
+    @Input() resetOnOpen = false;
     @Input() title = this.multiple ? "Select relationships" : "Select a relationship";
     @Input() theoryOfChange: TheoryOfChange;
     @Input() sourceComponent: Component;
@@ -44,6 +46,7 @@ export class RelationshipModalComponent implements OnInit {
     }
 
     open(): NgbModalRef {
+        if (this.resetOnOpen) this.selectedItems = [];
         this.searchOptions.theoryOfChangeId = this.theoryOfChange?.theoryOfChangeId;
         this.searchOptions.sourceComponentId = this.sourceComponent?.componentId;
         this.searchOptions.targetComponentId = this.targetComponent?.componentId;

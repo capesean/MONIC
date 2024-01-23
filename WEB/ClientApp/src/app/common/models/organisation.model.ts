@@ -17,6 +17,8 @@ export class Organisation implements IHasFields {
 
     constructor() {
         this.organisationId = "00000000-0000-0000-0000-000000000000";
+        this.entities = [];
+        this.users = [];
     }
 }
 

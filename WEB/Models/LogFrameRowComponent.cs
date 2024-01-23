@@ -26,5 +26,22 @@ namespace WEB.Models
         {
             return Convert.ToString(ComponentId);
         }
+
+        public override bool Equals(object obj)
+        {
+            if (obj == null || GetType() != obj.GetType()) return false;
+
+            LogFrameRowComponent other = (LogFrameRowComponent)obj;
+
+            return LogFrameRowId == other.LogFrameRowId && ComponentId == other.ComponentId;
+        }
+
+        public override int GetHashCode()
+        {
+            int hash = 17;
+            hash = hash * 23 + LogFrameRowId.GetHashCode();
+            hash = hash * 23 + ComponentId.GetHashCode();
+            return hash;
+        }
     }
 }

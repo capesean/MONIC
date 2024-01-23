@@ -30,6 +30,8 @@ export class QuestionModalComponent implements OnInit {
     @Input() canRemoveFilters = false;
     @Input() multiple = false;
     @Input() showAddNew = false;
+    @Input() showFooter = true;
+    @Input() resetOnOpen = false;
     @Input() title = this.multiple ? "Select questions" : "Select a question";
     @Input() questionnaire: Questionnaire;
     @Input() section: Section;
@@ -49,6 +51,7 @@ export class QuestionModalComponent implements OnInit {
 
     open(): NgbModalRef {
         this.searchOptions.questionnaireId = this.questionnaire?.questionnaireId;
+        if (this.resetOnOpen) this.selectedItems = [];
         this.searchOptions.sectionId = this.section?.sectionId;
         this.searchOptions.questionType = this.questionType?.value;
         this.searchOptions.questionOptionGroupId = this.questionOptionGroup?.questionOptionGroupId;

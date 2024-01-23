@@ -85,5 +85,23 @@ namespace WEB.Models
         {
             return Convert.ToString(Value);
         }
+
+        public override bool Equals(object obj)
+        {
+            if (obj == null || GetType() != obj.GetType()) return false;
+
+            Datum other = (Datum)obj;
+
+            return IndicatorId == other.IndicatorId && EntityId == other.EntityId && DateId == other.DateId;
+        }
+
+        public override int GetHashCode()
+        {
+            int hash = 17;
+            hash = hash * 23 + IndicatorId.GetHashCode();
+            hash = hash * 23 + EntityId.GetHashCode();
+            hash = hash * 23 + DateId.GetHashCode();
+            return hash;
+        }
     }
 }

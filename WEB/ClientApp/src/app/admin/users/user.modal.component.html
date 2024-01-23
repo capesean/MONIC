@@ -5,7 +5,7 @@
         <button type="button" class="btn-close" (click)="modal.dismiss()" aria-label="Close"></button>
     </div>
     
-    <div class="modal-body">
+    <div class="modal-body" [ngClass]="{ 'mb-6': !showFooter }">
 
         <form (submit)="runSearch()" novalidate>
 
@@ -87,7 +87,7 @@
 
     </div>
     
-    <div class="modal-footer" [ngClass]="{ 'justify-content-between': multiple }">
+    <div class="modal-footer" [ngClass]="{ 'justify-content-between': multiple }" *ngIf="showFooter">
         <div class="alert alert-info modal-selected-info" *ngIf="multiple">{{selectedItems.length}} selected</div>
         <div>
             <button type="button" class="btn btn-outline-primary ms-2" (click)="addNew()" target="_blank" *ngIf="showAddNew">Add</button>

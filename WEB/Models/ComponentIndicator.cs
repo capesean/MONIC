@@ -26,5 +26,22 @@ namespace WEB.Models
         {
             return Convert.ToString(IndicatorId);
         }
+
+        public override bool Equals(object obj)
+        {
+            if (obj == null || GetType() != obj.GetType()) return false;
+
+            ComponentIndicator other = (ComponentIndicator)obj;
+
+            return ComponentId == other.ComponentId && IndicatorId == other.IndicatorId;
+        }
+
+        public override int GetHashCode()
+        {
+            int hash = 17;
+            hash = hash * 23 + ComponentId.GetHashCode();
+            hash = hash * 23 + IndicatorId.GetHashCode();
+            return hash;
+        }
     }
 }

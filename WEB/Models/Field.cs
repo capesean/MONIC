@@ -83,5 +83,19 @@ namespace WEB.Models
         {
             return Name;
         }
+
+        public override bool Equals(object obj)
+        {
+            if (obj == null || GetType() != obj.GetType()) return false;
+
+            Field other = (Field)obj;
+
+            return FieldId == other.FieldId;
+        }
+
+        public override int GetHashCode()
+        {
+            return FieldId.GetHashCode();
+        }
     }
 }

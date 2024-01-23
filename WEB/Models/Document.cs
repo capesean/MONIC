@@ -15,7 +15,7 @@ namespace WEB.Models
         [Required(AllowEmptyStrings = true), MaxLength(250)]
         public string FileName { get; set; }
 
-        public byte[] FileContents { get; set; }
+        public DocumentContent DocumentContent { get; set; }
 
         public string Notes { get; set; }
 
@@ -42,5 +42,28 @@ namespace WEB.Models
         {
             return FileName;
         }
+
+        public override bool Equals(object obj)
+        {
+            if (obj == null || GetType() != obj.GetType()) return false;
+
+            Document other = (Document)obj;
+
+            return DocumentId == other.DocumentId;
+        }
+
+        public override int GetHashCode()
+        {
+            return DocumentId.GetHashCode();
+        }
     }
+
+    public class DocumentContent
+    {
+        [Key, Required]
+        public Guid DocumentId { get; set; }
+
+        public byte[] FileContents { get; set; }
+    }
+
 }

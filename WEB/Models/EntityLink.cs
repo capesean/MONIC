@@ -26,5 +26,22 @@ namespace WEB.Models
         {
             return Convert.ToString(ChildEntityId);
         }
+
+        public override bool Equals(object obj)
+        {
+            if (obj == null || GetType() != obj.GetType()) return false;
+
+            EntityLink other = (EntityLink)obj;
+
+            return ChildEntityId == other.ChildEntityId && ParentEntityId == other.ParentEntityId;
+        }
+
+        public override int GetHashCode()
+        {
+            int hash = 17;
+            hash = hash * 23 + ChildEntityId.GetHashCode();
+            hash = hash * 23 + ParentEntityId.GetHashCode();
+            return hash;
+        }
     }
 }

@@ -29,6 +29,8 @@ export class FieldModalComponent implements OnInit {
     @Input() canRemoveFilters = false;
     @Input() multiple = false;
     @Input() showAddNew = false;
+    @Input() showFooter = true;
+    @Input() resetOnOpen = false;
     @Input() title = this.multiple ? "Select fields" : "Select a field";
     @Input() fieldType: Enum;
     @Input() group: Group;
@@ -45,6 +47,7 @@ export class FieldModalComponent implements OnInit {
     }
 
     open(): NgbModalRef {
+        if (this.resetOnOpen) this.selectedItems = [];
         this.searchOptions.fieldType = this.fieldType?.value;
         this.searchOptions.groupId = this.group?.groupId;
         this.modal = this.modalService.open(this.content, { size: 'xl', centered: true, scrollable: true });

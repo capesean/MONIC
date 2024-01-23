@@ -38,6 +38,8 @@ export class Field {
         this.indicator = true;
         this.size = 1;
         this.rows = 5;
+        this.fieldValues = [];
+        this.options = [];
     }
 }
 

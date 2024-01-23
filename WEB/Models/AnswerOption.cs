@@ -26,5 +26,22 @@ namespace WEB.Models
         {
             return Convert.ToString(QuestionOptionId);
         }
+
+        public override bool Equals(object obj)
+        {
+            if (obj == null || GetType() != obj.GetType()) return false;
+
+            AnswerOption other = (AnswerOption)obj;
+
+            return AnswerId == other.AnswerId && QuestionOptionId == other.QuestionOptionId;
+        }
+
+        public override int GetHashCode()
+        {
+            int hash = 17;
+            hash = hash * 23 + AnswerId.GetHashCode();
+            hash = hash * 23 + QuestionOptionId.GetHashCode();
+            return hash;
+        }
     }
 }

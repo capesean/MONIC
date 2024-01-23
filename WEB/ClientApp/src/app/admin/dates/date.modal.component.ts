@@ -27,6 +27,8 @@ export class DateModalComponent implements OnInit {
     @Input() canRemoveFilters = false;
     @Input() multiple = false;
     @Input() showAddNew = false;
+    @Input() showFooter = true;
+    @Input() resetOnOpen = false;
     @Input() title = this.multiple ? "Select dates" : "Select a date";
     @Input() dateType: Enum;
     @Input() quarter: Date;
@@ -46,6 +48,7 @@ export class DateModalComponent implements OnInit {
     }
 
     open(): NgbModalRef {
+        if (this.resetOnOpen) this.selectedItems = [];
         this.searchOptions.dateType = this.dateType?.value;
         this.searchOptions.quarterId = this.quarter?.dateId;
         this.searchOptions.yearId = this.year?.dateId;

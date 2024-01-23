@@ -26,6 +26,8 @@ export class QuestionOptionModalComponent implements OnInit {
     @Input() canRemoveFilters = false;
     @Input() multiple = false;
     @Input() showAddNew = false;
+    @Input() showFooter = true;
+    @Input() resetOnOpen = false;
     @Input() title = this.multiple ? "Select options" : "Select a option";
     @Input() questionOptionGroup: QuestionOptionGroup;
 
@@ -41,6 +43,7 @@ export class QuestionOptionModalComponent implements OnInit {
     }
 
     open(): NgbModalRef {
+        if (this.resetOnOpen) this.selectedItems = [];
         this.searchOptions.questionOptionGroupId = this.questionOptionGroup?.questionOptionGroupId;
         this.modal = this.modalService.open(this.content, { size: 'xl', centered: true, scrollable: true });
         this.runSearch();

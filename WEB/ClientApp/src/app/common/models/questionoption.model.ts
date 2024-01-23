@@ -17,6 +17,8 @@ export class QuestionOption {
 
     constructor() {
         this.questionOptionId = "00000000-0000-0000-0000-000000000000";
+        this.skipLogicOptions = [];
+        this.answerOptions = [];
     }
 }
 

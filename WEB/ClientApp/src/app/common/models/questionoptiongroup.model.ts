@@ -12,6 +12,8 @@ export class QuestionOptionGroup {
 
     constructor() {
         this.questionOptionGroupId = "00000000-0000-0000-0000-000000000000";
+        this.questionOptions = [];
+        this.questions = [];
     }
 }
 

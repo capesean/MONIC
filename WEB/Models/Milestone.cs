@@ -38,5 +38,19 @@ namespace WEB.Models
         {
             return Name;
         }
+
+        public override bool Equals(object obj)
+        {
+            if (obj == null || GetType() != obj.GetType()) return false;
+
+            Milestone other = (Milestone)obj;
+
+            return MilestoneId == other.MilestoneId;
+        }
+
+        public override int GetHashCode()
+        {
+            return MilestoneId.GetHashCode();
+        }
     }
 }

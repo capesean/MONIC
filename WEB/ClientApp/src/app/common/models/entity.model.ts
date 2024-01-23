@@ -33,6 +33,12 @@ export class Entity implements IHasFields {
 
     constructor() {
         this.entityId = "00000000-0000-0000-0000-000000000000";
+        this.parentEntities = [];
+        this.childEntities = [];
+        this.data = [];
+        this.entityPermissions = [];
+        this.responses = [];
+        this.affiliatedUsers = [];
     }
 }
 

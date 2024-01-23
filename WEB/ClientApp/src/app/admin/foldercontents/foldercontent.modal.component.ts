@@ -27,6 +27,8 @@ export class FolderContentModalComponent implements OnInit {
     @Input() canRemoveFilters = false;
     @Input() multiple = false;
     @Input() showAddNew = false;
+    @Input() showFooter = true;
+    @Input() resetOnOpen = false;
     @Input() title = this.multiple ? "Select folder contents" : "Select a folder content";
     @Input() folder: Folder;
     @Input() addedBy: User;
@@ -43,6 +45,7 @@ export class FolderContentModalComponent implements OnInit {
     }
 
     open(): NgbModalRef {
+        if (this.resetOnOpen) this.selectedItems = [];
         this.searchOptions.folderId = this.folder?.folderId;
         this.searchOptions.addedById = this.addedBy?.id;
         this.modal = this.modalService.open(this.content, { size: 'xl', centered: true, scrollable: true });

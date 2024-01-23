@@ -25,6 +25,8 @@ export class LogFrameModalComponent implements OnInit {
     @Input() canRemoveFilters = false;
     @Input() multiple = false;
     @Input() showAddNew = false;
+    @Input() showFooter = true;
+    @Input() resetOnOpen = false;
     @Input() title = this.multiple ? "Select logical frameworks" : "Select a logical framework";
 
     constructor(
@@ -39,6 +41,7 @@ export class LogFrameModalComponent implements OnInit {
     }
 
     open(): NgbModalRef {
+        if (this.resetOnOpen) this.selectedItems = [];
         this.modal = this.modalService.open(this.content, { size: 'xl', centered: true, scrollable: true });
         this.runSearch();
         this.modal.result.then((logFrame: LogFrame | LogFrame[]) => {

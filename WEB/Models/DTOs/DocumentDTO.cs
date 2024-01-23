@@ -59,7 +59,13 @@ namespace WEB.Models
         {
             document.ItemId = documentDTO.ItemId;
             document.FileName = documentDTO.FileName;
-            if (documentDTO.FileContents != null) document.FileContents = Convert.FromBase64String(documentDTO.FileContents);
+            if (documentDTO.FileContents != null)
+            {
+                var documentContent = new DocumentContent();
+                documentContent.DocumentId = document.DocumentId;
+                documentContent.FileContents = Convert.FromBase64String(documentDTO.FileContents);
+                document.DocumentContent = documentContent;
+            }
             document.Notes = documentDTO.Notes;
         }
     }

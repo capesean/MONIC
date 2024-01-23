@@ -39,5 +39,19 @@ namespace WEB.Models
         {
             return Name;
         }
+
+        public override bool Equals(object obj)
+        {
+            if (obj == null || GetType() != obj.GetType()) return false;
+
+            FolderContent other = (FolderContent)obj;
+
+            return FolderContentId == other.FolderContentId;
+        }
+
+        public override int GetHashCode()
+        {
+            return FolderContentId.GetHashCode();
+        }
     }
 }

@@ -72,9 +72,15 @@ namespace WEB.Controllers
             }
             else
             {
-                document = await db.Documents
+                if (documentDTO.FileContents != null)
+                    document = await db.Documents
                     .SelectExcludingContent()
-                    .FirstOrDefaultAsync(o => o.DocumentId == documentDTO.DocumentId);
+                        .Include(o => o.DocumentContent)
+                        .FirstOrDefaultAsync(o => o.DocumentId == documentDTO.DocumentId);
+                else
+                    document = await db.Documents
+                    .SelectExcludingContent()
+                        .FirstOrDefaultAsync(o => o.DocumentId == documentDTO.DocumentId);
 
                 if (document == null)
                     return NotFound();
@@ -84,7 +90,15 @@ namespace WEB.Controllers
 
             ModelFactory.Hydrate(document, documentDTO);
 
-            document.Size = document.FileContents.Length;
+            document.Size = document.DocumentContent.FileContents.Length;
+
+            if (documentDTO.FileContents != null)
+            {
+                if (isNew)
+                    db.Entry(document.DocumentContent).State = EntityState.Added;
+                else
+                    db.Entry(document.DocumentContent).State = EntityState.Modified;
+            }
 
             await db.SaveChangesAsync();
 
@@ -95,6 +109,7 @@ namespace WEB.Controllers
         public async Task<IActionResult> Delete(Guid documentId)
         {
             var document = await db.Documents
+                .Include(o => o.DocumentContent)
                 .SelectExcludingContent()
                 .FirstOrDefaultAsync(o => o.DocumentId == documentId);
 
@@ -102,6 +117,7 @@ namespace WEB.Controllers
                 return NotFound();
 
             db.Entry(document).State = EntityState.Deleted;
+            db.Entry(document.DocumentContent).State = EntityState.Deleted;
 
             await db.SaveChangesAsync();
 

@@ -47,6 +47,12 @@ export class Indicator implements IHasFields {
         this.requiresSubmit = true;
         this.requiresVerify = true;
         this.requiresApprove = true;
+        this.data = [];
+        this.indicatorPermissions = [];
+        this.logFrameRowIndicators = [];
+        this.sourceTokens = [];
+        this.componentIndicators = [];
+        this.tokens = [];
     }
 }
 

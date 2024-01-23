@@ -33,6 +33,10 @@ export class Question {
     constructor() {
         this.questionId = "00000000-0000-0000-0000-000000000000";
         this.required = true;
+        this.answers = [];
+        this.questionSummaries = [];
+        this.skipLogicOptions = [];
+        this.skipLogicQuestions = [];
     }
 }
 

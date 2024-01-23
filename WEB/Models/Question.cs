@@ -71,5 +71,19 @@ namespace WEB.Models
         {
             return Code;
         }
+
+        public override bool Equals(object obj)
+        {
+            if (obj == null || GetType() != obj.GetType()) return false;
+
+            Question other = (Question)obj;
+
+            return QuestionId == other.QuestionId;
+        }
+
+        public override int GetHashCode()
+        {
+            return QuestionId.GetHashCode();
+        }
     }
 }

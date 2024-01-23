@@ -26,5 +26,19 @@ namespace WEB.Models
         {
             return Name;
         }
+
+        public override bool Equals(object obj)
+        {
+            if (obj == null || GetType() != obj.GetType()) return false;
+
+            TheoryOfChange other = (TheoryOfChange)obj;
+
+            return TheoryOfChangeId == other.TheoryOfChangeId;
+        }
+
+        public override int GetHashCode()
+        {
+            return TheoryOfChangeId.GetHashCode();
+        }
     }
 }

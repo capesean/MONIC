@@ -46,5 +46,19 @@ namespace WEB.Models
         {
             return Convert.ToString(DateUtc);
         }
+
+        public override bool Equals(object obj)
+        {
+            if (obj == null || GetType() != obj.GetType()) return false;
+
+            DataReview other = (DataReview)obj;
+
+            return DataReviewId == other.DataReviewId;
+        }
+
+        public override int GetHashCode()
+        {
+            return DataReviewId.GetHashCode();
+        }
     }
 }

@@ -33,6 +33,8 @@ export class IndicatorModalComponent implements OnInit {
     @Input() canRemoveFilters = false;
     @Input() multiple = false;
     @Input() showAddNew = false;
+    @Input() showFooter = true;
+    @Input() resetOnOpen = false;
     @Input() title = this.multiple ? "Select indicators" : "Select an indicator";
     @Input() category: Category;
     @Input() subcategory: Subcategory;
@@ -56,6 +58,7 @@ export class IndicatorModalComponent implements OnInit {
 
     open(): NgbModalRef {
         this.searchOptions.categoryId = this.category ? this.category.categoryId : undefined;
+        if (this.resetOnOpen) this.selectedItems = [];
         this.searchOptions.subcategoryId = this.subcategory?.subcategoryId;
         this.searchOptions.indicatorType = this.indicatorType?.value;
         this.searchOptions.indicatorStatus = this.indicatorStatus?.value;

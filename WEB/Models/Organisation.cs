@@ -29,5 +29,19 @@ namespace WEB.Models
         {
             return Name;
         }
+
+        public override bool Equals(object obj)
+        {
+            if (obj == null || GetType() != obj.GetType()) return false;
+
+            Organisation other = (Organisation)obj;
+
+            return OrganisationId == other.OrganisationId;
+        }
+
+        public override int GetHashCode()
+        {
+            return OrganisationId.GetHashCode();
+        }
     }
 }

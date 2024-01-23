@@ -24,5 +24,19 @@ namespace WEB.Models
         {
             return Name;
         }
+
+        public override bool Equals(object obj)
+        {
+            if (obj == null || GetType() != obj.GetType()) return false;
+
+            LogFrame other = (LogFrame)obj;
+
+            return LogFrameId == other.LogFrameId;
+        }
+
+        public override int GetHashCode()
+        {
+            return LogFrameId.GetHashCode();
+        }
     }
 }

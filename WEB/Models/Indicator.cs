@@ -100,5 +100,19 @@ namespace WEB.Models
         {
             return Name;
         }
+
+        public override bool Equals(object obj)
+        {
+            if (obj == null || GetType() != obj.GetType()) return false;
+
+            Indicator other = (Indicator)obj;
+
+            return IndicatorId == other.IndicatorId;
+        }
+
+        public override int GetHashCode()
+        {
+            return IndicatorId.GetHashCode();
+        }
     }
 }

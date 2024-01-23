@@ -25,6 +25,8 @@ export class TheoryOfChangeModalComponent implements OnInit {
     @Input() canRemoveFilters = false;
     @Input() multiple = false;
     @Input() showAddNew = false;
+    @Input() showFooter = true;
+    @Input() resetOnOpen = false;
     @Input() title = this.multiple ? "Select theories of change" : "Select a theory of change";
 
     constructor(
@@ -39,6 +41,7 @@ export class TheoryOfChangeModalComponent implements OnInit {
     }
 
     open(): NgbModalRef {
+        if (this.resetOnOpen) this.selectedItems = [];
         this.modal = this.modalService.open(this.content, { size: 'xl', centered: true, scrollable: true });
         this.runSearch();
         this.modal.result.then((theoryOfChange: TheoryOfChange | TheoryOfChange[]) => {

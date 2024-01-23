@@ -33,7 +33,7 @@ namespace WEB.Controllers
                 if (!CurrentUser.IsInRole(Roles.Administrator)) return Forbid();
             }
 
-            return Download.GetFileContentResult(Response, document.FileName, document.FileContents);
+            return Download.GetFileContentResult(Response, document.FileName, document.DocumentContent.FileContents);
         }
 
         [HttpPost("export/csv"), AuthorizeRoles(Roles.Administrator)]

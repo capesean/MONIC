@@ -21,6 +21,11 @@ export class DataReview {
 
     constructor() {
         this.dataReviewId = "00000000-0000-0000-0000-000000000000";
+        this.dataReviewLinks = [];
+        this.submittedData = [];
+        this.verifiedData = [];
+        this.approvedData = [];
+        this.rejectedData = [];
     }
 }
 

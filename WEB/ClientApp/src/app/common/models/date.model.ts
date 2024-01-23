@@ -27,6 +27,12 @@ export class Date {
 
     constructor() {
         this.dateId = "00000000-0000-0000-0000-000000000000";
+        this.datesInQuarter = [];
+        this.datesInYear = [];
+        this.defaultDateQuestionnaires = [];
+        this.questionSummaries = [];
+        this.responses = [];
+        this.data = [];
     }
 }
 

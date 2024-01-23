@@ -30,6 +30,7 @@ export class Datum {
     dataReviewLinks: DataReviewLink[];
 
     constructor() {
+        this.dataReviewLinks = [];
     }
 }
 

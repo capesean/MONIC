@@ -28,6 +28,8 @@ export class LogFrameRowModalComponent implements OnInit {
     @Input() canRemoveFilters = false;
     @Input() multiple = false;
     @Input() showAddNew = false;
+    @Input() showFooter = true;
+    @Input() resetOnOpen = false;
     @Input() title = this.multiple ? "Select logframe rows" : "Select a logframe row";
     @Input() logFrame: LogFrame;
     @Input() rowType: Enum;
@@ -44,6 +46,7 @@ export class LogFrameRowModalComponent implements OnInit {
     }
 
     open(): NgbModalRef {
+        if (this.resetOnOpen) this.selectedItems = [];
         this.searchOptions.logFrameId = this.logFrame?.logFrameId;
         this.searchOptions.rowType = this.rowType?.value;
         this.modal = this.modalService.open(this.content, { size: 'xl', centered: true, scrollable: true });

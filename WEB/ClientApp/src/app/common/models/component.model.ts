@@ -28,6 +28,11 @@ export class Component implements IHasFields {
 
     constructor() {
         this.componentId = "00000000-0000-0000-0000-000000000000";
+        this.componentIndicators = [];
+        this.relationshipsAsSource = [];
+        this.logFrameRowComponents = [];
+        this.relationshipsAsTarget = [];
+        this.theoryOfChangeComponents = [];
     }
 }
 

@@ -39,5 +39,19 @@ namespace WEB.Models
         {
             return Convert.ToString(TargetComponentId);
         }
+
+        public override bool Equals(object obj)
+        {
+            if (obj == null || GetType() != obj.GetType()) return false;
+
+            Relationship other = (Relationship)obj;
+
+            return RelationshipId == other.RelationshipId;
+        }
+
+        public override int GetHashCode()
+        {
+            return RelationshipId.GetHashCode();
+        }
     }
 }

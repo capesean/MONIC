@@ -59,5 +59,19 @@ namespace WEB.Models
         {
             return Name;
         }
+
+        public override bool Equals(object obj)
+        {
+            if (obj == null || GetType() != obj.GetType()) return false;
+
+            Date other = (Date)obj;
+
+            return DateId == other.DateId;
+        }
+
+        public override int GetHashCode()
+        {
+            return DateId.GetHashCode();
+        }
     }
 }

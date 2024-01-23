@@ -15,6 +15,9 @@ export class EntityType {
 
     constructor() {
         this.entityTypeId = "00000000-0000-0000-0000-000000000000";
+        this.entities = [];
+        this.questionnaires = [];
+        this.indicators = [];
     }
 }
 

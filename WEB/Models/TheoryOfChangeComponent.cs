@@ -26,5 +26,22 @@ namespace WEB.Models
         {
             return Convert.ToString(ComponentId);
         }
+
+        public override bool Equals(object obj)
+        {
+            if (obj == null || GetType() != obj.GetType()) return false;
+
+            TheoryOfChangeComponent other = (TheoryOfChangeComponent)obj;
+
+            return TheoryOfChangeId == other.TheoryOfChangeId && ComponentId == other.ComponentId;
+        }
+
+        public override int GetHashCode()
+        {
+            int hash = 17;
+            hash = hash * 23 + TheoryOfChangeId.GetHashCode();
+            hash = hash * 23 + ComponentId.GetHashCode();
+            return hash;
+        }
     }
 }

@@ -314,7 +314,7 @@ namespace WEB.Controllers
                     documentDTO.ItemId = item.ItemId;
                     if (CurrentUser.IsLoggedIn) document.UploadedById = CurrentUser.Id;
                     document.UploadedOn = DateTime.UtcNow;
-                    document.Size = document.FileContents.Length;
+                    document.Size = document.DocumentContent.FileContents.Length;
                     db.Entry(document).State = EntityState.Added;
                 }
 
@@ -421,7 +421,7 @@ namespace WEB.Controllers
 
             if (answer.ResponseId != response.ResponseId) return BadRequest("Mismatched Response Id");
 
-            return Download.GetFileContentResult(Response, document.FileName, document.FileContents);
+            return Download.GetFileContentResult(Response, document.FileName, document.DocumentContent.FileContents);
         }
 
         [HttpGet("questions/{questionId}/logic")]

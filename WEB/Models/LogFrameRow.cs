@@ -47,5 +47,19 @@ namespace WEB.Models
         {
             return Convert.ToString(RowNumber);
         }
+
+        public override bool Equals(object obj)
+        {
+            if (obj == null || GetType() != obj.GetType()) return false;
+
+            LogFrameRow other = (LogFrameRow)obj;
+
+            return LogFrameRowId == other.LogFrameRowId;
+        }
+
+        public override int GetHashCode()
+        {
+            return LogFrameRowId.GetHashCode();
+        }
     }
 }

@@ -30,5 +30,19 @@ namespace WEB.Models
         {
             return Convert.ToString(EntityId);
         }
+
+        public override bool Equals(object obj)
+        {
+            if (obj == null || GetType() != obj.GetType()) return false;
+
+            EntityPermission other = (EntityPermission)obj;
+
+            return EntityPermissionId == other.EntityPermissionId;
+        }
+
+        public override int GetHashCode()
+        {
+            return EntityPermissionId.GetHashCode();
+        }
     }
 }
