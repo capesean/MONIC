@@ -103,9 +103,19 @@ namespace WEB.Models
 
             modelBuilder.Entity<Document>(document =>
             {
-                document.HasOne(o => o.DocumentContent).WithOne().HasForeignKey<Document>(o => o.DocumentId);
+                document.HasOne(o => o.DocumentContent).WithOne(o => o.Document).HasForeignKey<Document>(o => o.DocumentId);
                 document.Navigation(o => o.DocumentContent).IsRequired();
             });
+
+            //modelBuilder.Entity<Document>().OwnsOne(p => p.DocumentContent,
+            //    b =>
+            //    {
+            //        b.Property(e => e.Line1).IsRequired();
+            //        b.Property(e => e.City).IsRequired();
+            //        b.Property(e => e.Region).IsRequired();
+            //        b.Property(e => e.Postcode).IsRequired();
+            //    });
+            //);
 
             modelBuilder.Entity<Entity>()
                 .HasIndex(o => new { o.OrganisationId, o.Name })

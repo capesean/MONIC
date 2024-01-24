@@ -15,6 +15,7 @@ namespace WEB.Models
         [Required(AllowEmptyStrings = true), MaxLength(250)]
         public string FileName { get; set; }
 
+        [Required]
         public DocumentContent DocumentContent { get; set; }
 
         public string Notes { get; set; }
@@ -64,6 +65,9 @@ namespace WEB.Models
         public Guid DocumentId { get; set; }
 
         public byte[] FileContents { get; set; }
+
+        [Required]
+        public Document Document { get; set; }
     }
 
 }
