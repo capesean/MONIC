@@ -37,6 +37,7 @@ export class Question {
         this.questionSummaries = [];
         this.skipLogicOptions = [];
         this.skipLogicQuestions = [];
+        this.skipLogicAction = SkipLogicActions.Show;
     }
 }
 

@@ -12,7 +12,7 @@ export class Logic {
     public checkQuestionId: string;
     public checkQuestion: Question;
     public checkOptions: QuestionOption[] = [];
-    public skipLogicAction: SkipLogicActions = SkipLogicActions.Hide;
+    public skipLogicAction: SkipLogicActions = SkipLogicActions.Show;
 }
 
 export class LocalSection extends Section {
