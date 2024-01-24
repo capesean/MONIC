@@ -16,7 +16,7 @@ namespace WEB.Models
         public string FileName { get; set; }
 
         [Required]
-        public DocumentContent DocumentContent { get; set; }
+        public virtual DocumentContent DocumentContent { get; set; }
 
         public string Notes { get; set; }
 
@@ -67,7 +67,7 @@ namespace WEB.Models
         public byte[] FileContents { get; set; }
 
         [Required]
-        public Document Document { get; set; }
+        public virtual Document Document { get; set; }
     }
 
 }

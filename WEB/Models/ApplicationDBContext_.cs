@@ -107,16 +107,6 @@ namespace WEB.Models
                 document.Navigation(o => o.DocumentContent).IsRequired();
             });
 
-            //modelBuilder.Entity<Document>().OwnsOne(p => p.DocumentContent,
-            //    b =>
-            //    {
-            //        b.Property(e => e.Line1).IsRequired();
-            //        b.Property(e => e.City).IsRequired();
-            //        b.Property(e => e.Region).IsRequired();
-            //        b.Property(e => e.Postcode).IsRequired();
-            //    });
-            //);
-
             modelBuilder.Entity<Entity>()
                 .HasIndex(o => new { o.OrganisationId, o.Name })
                 .HasDatabaseName("IX_Entity_Name")
