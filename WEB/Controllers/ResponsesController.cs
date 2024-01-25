@@ -122,7 +122,7 @@ namespace WEB.Controllers
 
             foreach (var answer in db.Answers.Where(o => o.ResponseId == response.ResponseId))
             {
-                await db.Documents.Where(o => o.ItemId == answer.QuestionId).ExecuteDeleteAsync();
+                //await db.Documents.Where(o => o.ItemId == answer.QuestionId).ExecuteDeleteAsync();
 
                 await db.Items.Where(o => o.ItemId == answer.QuestionId).ExecuteDeleteAsync();
 
