@@ -16,12 +16,12 @@ namespace AuthorizationServer.Controllers
         private readonly RoleManager<Role> roleManager;
 
         public SetupController(
-            ApplicationDbContext _db,
+            IDbContextFactory<ApplicationDbContext> dbFactory,
             UserManager<User> _um,
             RoleManager<Role> _rm,
             AppSettings _appSettings
             )
-            : base(_db, _um, _appSettings)
+            : base(dbFactory, _um, _appSettings)
         {
             roleManager = _rm;
         }

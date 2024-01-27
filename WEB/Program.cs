@@ -43,31 +43,30 @@ if (appSettings.IsDevelopment)
     });
 }
 
-builder.Services.AddDbContext<ApplicationDbContext>(options =>
-    {
-        // Configure the context to use Microsoft SQL Server.
-        options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"),
-            sqlOptions =>
-            {
-                sqlOptions.CommandTimeout(300);
-                sqlOptions.UseQuerySplittingBehavior(QuerySplittingBehavior.SplitQuery);
-            }
-        );
+builder.Services.AddDbContextFactory<ApplicationDbContext>(options =>
+{
+    // Configure the context to use Microsoft SQL Server.
+    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"),
+        sqlOptions =>
+        {
+            sqlOptions.CommandTimeout(300);
+            sqlOptions.UseQuerySplittingBehavior(QuerySplittingBehavior.SplitQuery);
+        }
+    );
 
-        options.UseQueryTrackingBehavior(QueryTrackingBehavior.NoTracking);
+    options.UseQueryTrackingBehavior(QueryTrackingBehavior.NoTracking);
 
-        // Register the entity sets needed by OpenIddict.
-        // Note: use the generic overload if you need
-        // to replace the default OpenIddict entities.
-        options.UseOpenIddict();
+    // Register the entity sets needed by OpenIddict.
+    // Note: use the generic overload if you need
+    // to replace the default OpenIddict entities.
+    options.UseOpenIddict();
 
-        //builder.Services.AddSingleton(options.Options);
+    // store for init
+    dbContextOptions = options.Options;
 
-        // store for init
-        dbContextOptions = options.Options;
-    });
+});
 
-    builder.Services.AddIdentity<User, Role>(options =>
+builder.Services.AddIdentity<User, Role>(options =>
     {
         options.User.AllowedUserNameCharacters += "'";
     })

@@ -11,7 +11,7 @@ namespace WEB.Controllers
     [Route("api/[Controller]"), AuthorizeRoles(Roles.Administrator)]
     public class ErrorsController : BaseApiController
     {
-        public ErrorsController(ApplicationDbContext db, UserManager<User> um, AppSettings appSettings) : base(db, um, appSettings) { }
+        public ErrorsController(IDbContextFactory<ApplicationDbContext> dbFactory, UserManager<User> um, AppSettings appSettings) : base(dbFactory, um, appSettings) { }
 
         [HttpGet]
         public async Task<IActionResult> Search([FromQuery]SearchOptions pagingOptions)
