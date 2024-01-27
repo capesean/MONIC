@@ -12,7 +12,7 @@ namespace WEB.Models
         [Required(AllowEmptyStrings = true), MaxLength(50)]
         public string LastName { get; set; }
 
-        [DatabaseGenerated(DatabaseGeneratedOption.Computed)]
+        [DatabaseGenerated(DatabaseGeneratedOption.Computed), Required(AllowEmptyStrings = true), MaxLength(250)]
         public string FullName { get; private set; }
 
         [Required]
@@ -26,6 +26,20 @@ namespace WEB.Models
         public override string ToString()
         {
             return FullName;
+        }
+
+        public override bool Equals(object obj)
+        {
+            if (obj == null || GetType() != obj.GetType()) return false;
+
+            User other = (User)obj;
+
+            return Id == other.Id;
+        }
+
+        public override int GetHashCode()
+        {
+            return Id.GetHashCode();
         }
     }
 }

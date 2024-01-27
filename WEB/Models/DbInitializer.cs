@@ -38,7 +38,6 @@ namespace WEB.Models
             }
 
             await SeedAsync();
-            db.AddComputedColumns();
             db.AddNullableUniqueIndexes();
 
             // remove old errors so they don't bloat the database

@@ -50,29 +50,6 @@ namespace WEB.Models
             }
         }
 
-        private void CreateComputedColumn(string tableName, string fieldName, string calculation)
-        {
-            // drop default
-            var sql = $@"declare @Command  nvarchar(1000)
-                    select @Command = 'ALTER TABLE dbo.{tableName} drop constraint ' + d.name
-                     from sys.tables t
-                      join    sys.default_constraints d
-                       on d.parent_object_id = t.object_id
-                      join    sys.columns c
-                       on c.object_id = t.object_id
-                        and c.column_id = d.parent_column_id
-                     where t.name = '{tableName}'
-                      and t.schema_id = schema_id('dbo')
-                      and c.name = '{fieldName}'
-
-                    execute (@Command);";
-            Database.ExecuteSqlRaw(sql);
-            // drop column
-            Database.ExecuteSqlRaw($"IF EXISTS(SELECT * FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = '{tableName}' AND COLUMN_NAME = '{fieldName}') ALTER TABLE {tableName} DROP COLUMN {fieldName};");
-            // add column
-            Database.ExecuteSqlRaw($"ALTER TABLE {tableName} ADD {fieldName} AS {calculation};");
-        }
-
         private void CreateNullableUniqueIndex(string tableName, string fieldName)
         {
             Database.ExecuteSqlRaw($"DROP INDEX IF EXISTS IX_{tableName}_{fieldName} ON {tableName};");

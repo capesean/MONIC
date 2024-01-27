@@ -8,11 +8,10 @@ namespace WEB.Models
 
         public void ConfigureModelBuilder(ModelBuilder modelBuilder)
         {
-        }
+            modelBuilder.Entity<User>()
+                .Property(o => o.FullName)
+                .HasComputedColumnSql("FirstName + ' ' + LastName");
 
-        public void AddComputedColumns()
-        {
-            CreateComputedColumn("AspNetUsers", "FullName", "FirstName + ' ' + LastName");
         }
 
         public void AddNullableUniqueIndexes()

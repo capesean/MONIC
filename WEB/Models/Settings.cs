@@ -21,5 +21,19 @@ namespace WEB.Models
         {
             return Convert.ToString(Id);
         }
+
+        public override bool Equals(object obj)
+        {
+            if (obj == null || GetType() != obj.GetType()) return false;
+
+            Settings other = (Settings)obj;
+
+            return Id == other.Id;
+        }
+
+        public override int GetHashCode()
+        {
+            return Id.GetHashCode();
+        }
     }
 }
