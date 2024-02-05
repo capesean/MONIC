@@ -107,11 +107,16 @@ export class AuthService {
 
                     // token has been retrieved from local storage, refresh from the endpoint
                     return this.getTokens({ refresh_token: tokens.refresh_token }, 'refresh_token')
-                        .pipe(catchError(() => {
+                        .pipe(catchError(err => {
                             // error attempting to refresh tokens: redirect to login
-                            if (window.location.pathname !== "/auth/login") this.router.navigate(["/auth/login"]);
+                            if (err.status === 0) {
+                                return null;
+                                // do nothing: might not have an internet connection
+                            } else if (window.location.pathname !== "/auth/login")
+                                this.router.navigate(["/auth/login"]);
 
                             return throwError(() => 'Session Expired');
+
                         }));
                 }
                 ));
