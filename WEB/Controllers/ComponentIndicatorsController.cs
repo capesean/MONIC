@@ -12,7 +12,7 @@ namespace WEB.Controllers
     [Route("api/[Controller]"), Authorize]
     public class ComponentIndicatorsController : BaseApiController
     {
-        public ComponentIndicatorsController(ApplicationDbContext db, UserManager<User> um, AppSettings appSettings) : base(db, um, appSettings) { }
+        public ComponentIndicatorsController(IDbContextFactory<ApplicationDbContext> dbFactory, UserManager<User> um, AppSettings appSettings) : base(dbFactory, um, appSettings) { }
 
         [HttpGet, AuthorizeRoles(Roles.Administrator)]
         public async Task<IActionResult> Search([FromQuery] ComponentIndicatorSearchOptions searchOptions)

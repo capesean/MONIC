@@ -12,7 +12,7 @@ namespace WEB.Controllers
     [Route("api/[Controller]"), Authorize]
     public class OptionsController : BaseApiController
     {
-        public OptionsController(ApplicationDbContext db, UserManager<User> um, AppSettings appSettings) : base(db, um, appSettings) { }
+        public OptionsController(IDbContextFactory<ApplicationDbContext> dbFactory, UserManager<User> um, AppSettings appSettings) : base(dbFactory, um, appSettings) { }
 
         [HttpGet, AuthorizeRoles(Roles.Administrator)]
         public async Task<IActionResult> Search([FromQuery] OptionSearchOptions searchOptions)

@@ -12,7 +12,7 @@ namespace WEB.Controllers
     [Route("api/[Controller]"), Authorize]
     public class SettingsController : BaseApiController
     {
-        public SettingsController(ApplicationDbContext db, UserManager<User> um, AppSettings appSettings) : base(db, um, appSettings) { }
+        public SettingsController(IDbContextFactory<ApplicationDbContext> dbFactory, UserManager<User> um, AppSettings appSettings) : base(dbFactory, um, appSettings) { }
 
         [HttpGet, AuthorizeRoles(Roles.Administrator)]
         public async Task<IActionResult> Get()

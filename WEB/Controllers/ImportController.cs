@@ -3,13 +3,14 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using WEB.Import;
+using Microsoft.EntityFrameworkCore;
 
 namespace WEB.Controllers
 {
     [Route("api/[Controller]"), Authorize]
     public class ImportController : BaseApiController
     {
-        public ImportController(ApplicationDbContext db, UserManager<User> um, AppSettings appSettings) : base(db, um, appSettings) { }
+        public ImportController(IDbContextFactory<ApplicationDbContext> dbFactory, UserManager<User> um, AppSettings appSettings) : base(dbFactory, um, appSettings) { }
 
         [HttpPost, Route("csv"), AuthorizeRoles(Roles.Administrator)]
         public async Task<IActionResult> CSV([FromBody] FileContentsDTO fileContentsDTO)

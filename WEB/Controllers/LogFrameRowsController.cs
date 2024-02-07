@@ -12,7 +12,7 @@ namespace WEB.Controllers
     [Route("api/[Controller]"), Authorize]
     public class LogFrameRowsController : BaseApiController
     {
-        public LogFrameRowsController(ApplicationDbContext db, UserManager<User> um, AppSettings appSettings) : base(db, um, appSettings) { }
+        public LogFrameRowsController(IDbContextFactory<ApplicationDbContext> dbFactory, UserManager<User> um, AppSettings appSettings) : base(dbFactory, um, appSettings) { }
 
         [HttpGet, AuthorizeRoles(Roles.Administrator)]
         public async Task<IActionResult> Search([FromQuery] LogFrameRowSearchOptions searchOptions)

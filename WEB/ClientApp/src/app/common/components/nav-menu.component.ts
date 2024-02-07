@@ -17,7 +17,7 @@ export class NavMenuComponent implements OnInit {
     public profile: ProfileModel;
     public isAdmin = false;
     public isCollapsed = true;
-    public menuStates: { [key: string]: boolean; } = { admin: true, mneTools: true, dashboards: true };
+    public menuStates: { [key: string]: boolean; } = { admin: true, home: true };
     public activeMenu: string;
 
     constructor(

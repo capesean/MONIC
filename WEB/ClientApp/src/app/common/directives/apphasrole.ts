@@ -20,7 +20,7 @@ export class AppHasRoleDirective {
         this.authService.getProfile().subscribe(
             profile => {
                 if (typeof this.role === 'string')
-                    this.elementRef.nativeElement.style.display = this.role && profile && this.authService.isInRole(profile, this.role) ? "block" : "none";
+                    this.elementRef.nativeElement.style.display = this.role && profile && this.authService.isInRole(profile, this.role) ? undefined : "none";
                 else {
                     let hasARole = false;
                     (this.role as string[]).forEach(role => {
@@ -28,7 +28,7 @@ export class AppHasRoleDirective {
                             hasARole = true;
                         }
                     });
-                    this.elementRef.nativeElement.style.display = hasARole ? "block" : "none";
+                    this.elementRef.nativeElement.style.display = hasARole ? undefined : "none";
                 }
             }
         );

@@ -12,7 +12,7 @@ namespace WEB.Controllers
     [Route("api/[Controller]"), Authorize]
     public class DatesController : BaseApiController
     {
-        public DatesController(ApplicationDbContext db, UserManager<User> um, AppSettings appSettings) : base(db, um, appSettings) { }
+        public DatesController(IDbContextFactory<ApplicationDbContext> dbFactory, UserManager<User> um, AppSettings appSettings) : base(dbFactory, um, appSettings) { }
 
         [HttpGet]
         public async Task<IActionResult> Search([FromQuery] DateSearchOptions searchOptions)

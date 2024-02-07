@@ -13,7 +13,7 @@ namespace WEB.Controllers
     [Route("api/[Controller]"), Authorize]
     public class DownloadsController : BaseApiController
     {
-        public DownloadsController(ApplicationDbContext _db, UserManager<User> um, AppSettings appSettings) : base(_db, um, appSettings) { }
+        public DownloadsController(IDbContextFactory<ApplicationDbContext> dbFactory, UserManager<User> um, AppSettings appSettings) : base(dbFactory, um, appSettings) { }
 
         [HttpGet("documents/{documentId:Guid}")]
         public async Task<IActionResult> DownloadDocument(Guid documentId)

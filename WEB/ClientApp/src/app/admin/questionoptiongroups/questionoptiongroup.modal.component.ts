@@ -43,6 +43,7 @@ export class QuestionOptionGroupModalComponent implements OnInit {
 
     open(): NgbModalRef {
         if (this.resetOnOpen) this.selectedItems = [];
+        this.searchOptions.shared = this.shared;
         this.modal = this.modalService.open(this.content, { size: 'xl', centered: true, scrollable: true });
         this.runSearch();
         this.modal.result.then((questionOptionGroup: QuestionOptionGroup | QuestionOptionGroup[]) => {

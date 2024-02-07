@@ -12,7 +12,7 @@ namespace WEB.Controllers
     [Route("api/[Controller]"), Authorize]
     public partial class QuestionnairesController : BaseApiController
     {
-        public QuestionnairesController(ApplicationDbContext db, UserManager<User> um, AppSettings appSettings) : base(db, um, appSettings) { }
+        public QuestionnairesController(IDbContextFactory<ApplicationDbContext> dbFactory, UserManager<User> um, AppSettings appSettings) : base(dbFactory, um, appSettings) { }
 
         [HttpGet, AuthorizeRoles(Roles.Questionnaires)]
         public async Task<IActionResult> Search([FromQuery] QuestionnaireSearchOptions searchOptions)

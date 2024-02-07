@@ -9,7 +9,7 @@ namespace WEB.Controllers
     [Route("api/[Controller]"), Authorize]
     public class FormsController : BaseApiController
     {
-        public FormsController(ApplicationDbContext db, UserManager<User> um, AppSettings appSettings) : base(db, um, appSettings) { }
+        public FormsController(IDbContextFactory<ApplicationDbContext> dbFactory, UserManager<User> um, AppSettings appSettings) : base(dbFactory, um, appSettings) { }
 
         [HttpGet, Route("dataentry/{entityId:Guid}/{dateId:Guid}/{permissionType}")]
         public async Task<IActionResult> LoadDataEntry([FromRoute] Guid dateId, [FromRoute] Guid entityId, [FromRoute] PermissionType permissionType)

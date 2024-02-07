@@ -17,7 +17,7 @@ namespace WEB.Models
 
         public Guid? ParentFolderId { get; set; }
 
-        [DatabaseGenerated(DatabaseGeneratedOption.Computed)]
+        [DatabaseGenerated(DatabaseGeneratedOption.Computed), Required]
         public bool RootFolder { get; private set; }
 
         public virtual ICollection<Folder> Subfolders { get; set; } = new List<Folder>();

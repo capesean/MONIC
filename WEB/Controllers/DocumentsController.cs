@@ -12,13 +12,12 @@ namespace WEB.Controllers
     [Route("api/[Controller]"), Authorize]
     public class DocumentsController : BaseApiController
     {
-        public DocumentsController(ApplicationDbContext db, UserManager<User> um, AppSettings appSettings) : base(db, um, appSettings) { }
+        public DocumentsController(IDbContextFactory<ApplicationDbContext> dbFactory, UserManager<User> um, AppSettings appSettings) : base(dbFactory, um, appSettings) { }
 
         [HttpGet, AuthorizeRoles(Roles.Administrator)]
         public async Task<IActionResult> Search([FromQuery] DocumentSearchOptions searchOptions)
         {
-            IQueryable<Document> results = db.Documents
-                .SelectExcludingContent();
+            IQueryable<Document> results = db.Documents;
 
             if (searchOptions.IncludeParents)
             {
@@ -42,7 +41,6 @@ namespace WEB.Controllers
             var document = await db.Documents
                 .Include(o => o.Item)
                 .Include(o => o.UploadedBy)
-                .SelectExcludingContent()
                 .FirstOrDefaultAsync(o => o.DocumentId == documentId);
 
             if (document == null)
@@ -74,12 +72,10 @@ namespace WEB.Controllers
             {
                 if (documentDTO.FileContents != null)
                     document = await db.Documents
-                    .SelectExcludingContent()
                         .Include(o => o.DocumentContent)
                         .FirstOrDefaultAsync(o => o.DocumentId == documentDTO.DocumentId);
                 else
                     document = await db.Documents
-                    .SelectExcludingContent()
                         .FirstOrDefaultAsync(o => o.DocumentId == documentDTO.DocumentId);
 
                 if (document == null)
@@ -110,7 +106,6 @@ namespace WEB.Controllers
         {
             var document = await db.Documents
                 .Include(o => o.DocumentContent)
-                .SelectExcludingContent()
                 .FirstOrDefaultAsync(o => o.DocumentId == documentId);
 
             if (document == null)

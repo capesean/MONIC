@@ -11,16 +11,6 @@ namespace WEB.Models
             return Regex.Replace(Convert.ToBase64String(value.ToByteArray()), "[/+=]", "");
         }
 
-        public static IQueryable<Document> SelectExcludingContent(this IQueryable<Document> query)
-        {
-            return query.Select(o => new Document { DocumentId = o.DocumentId, FileName = o.FileName, ItemId = o.ItemId, Notes = o.Notes, UploadedById = o.UploadedById, UploadedOn = o.UploadedOn, Size = o.Size, UploadedBy = o.UploadedBy });
-        }
-
-        public static IQueryable<FolderContent> SelectExcludingContent(this IQueryable<FolderContent> query)
-        {
-            return query.Select(o => new FolderContent { AddedBy = o.AddedBy, AddedById = o.AddedById, AddedOn = o.AddedOn, Folder = o.Folder, FolderId = o.FolderId, FolderContentId = o.FolderContentId, Name = o.Name, Html = null });
-        }
-
         //public static string Text(this Datum datum, Element element)
         //{
         //    if (datum == null || datum.Value == null) return string.Empty;

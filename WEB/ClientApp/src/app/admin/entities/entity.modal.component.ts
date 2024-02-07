@@ -33,9 +33,9 @@ export class EntityModalComponent implements OnInit {
     @Input() title = this.multiple ? "Select entities" : "Select an entity";
     @Input() entityType: EntityType;
     @Input() organisation: Organisation;
+    @Input() disabled: boolean;
     @Input() permission: string;
     @Input() role: Roles;
-    @Input() disabled: boolean;
 
     constructor(
         private modalService: NgbModal,
@@ -56,6 +56,7 @@ export class EntityModalComponent implements OnInit {
         this.searchOptions.role = this.role;
         this.searchOptions.disabled = this.disabled;
         if (this.title === "Select a parent entity") this.searchOptions.isParent = true;
+        this.searchOptions.disabled = this.disabled;
         this.modal = this.modalService.open(this.content, { size: 'xl', centered: true, scrollable: true });
         this.runSearch();
         this.modal.result.then((entity: Entity | Entity[]) => {

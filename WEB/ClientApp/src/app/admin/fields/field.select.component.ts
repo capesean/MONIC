@@ -25,6 +25,9 @@ export class FieldSelectComponent implements OnInit, ControlValueAccessor {
     @Input() multiple = false;
     @Input() showAddNew = false;
     @Input() fieldType: Enum;
+    @Input() organisation: boolean;
+    @Input() entity: boolean;
+    @Input() indicator: boolean;
     @Input() group: Group;
 
     disabled = false;

@@ -13,11 +13,11 @@ namespace AuthorizationServer.Controllers
     public class ProfileController : BaseApiController
     {
         public ProfileController(
-            ApplicationDbContext _db,
+            IDbContextFactory<ApplicationDbContext> dbFactory,
             UserManager<User> _um,
             AppSettings _appSettings
             )
-            : base(_db, _um, _appSettings)
+            : base(dbFactory, _um, _appSettings)
         {
         }
 

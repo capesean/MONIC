@@ -16,8 +16,8 @@ namespace WEB.Controllers
         private RoleManager<Role> rm;
         private IOptions<IdentityOptions> opts;
 
-        public UsersController(ApplicationDbContext db, UserManager<User> um, AppSettings appSettings, RoleManager<Role> rm, IOptions<IdentityOptions> opts)
-            : base(db, um, appSettings) { this.rm = rm; this.opts = opts; }
+        public UsersController(IDbContextFactory<ApplicationDbContext> dbFactory, UserManager<User> um, AppSettings appSettings, RoleManager<Role> rm, IOptions<IdentityOptions> opts)
+            : base(dbFactory, um, appSettings) { this.rm = rm; this.opts = opts; }
 
         [HttpGet]
         public async Task<IActionResult> Search([FromQuery] UserSearchOptions searchOptions, [FromQuery] string roleName = null)

@@ -10,7 +10,7 @@ namespace WEB.Controllers
     [Route("api/[Controller]"), AllowAnonymous]
     public class SurveysController : BaseApiController
     {
-        public SurveysController(ApplicationDbContext db, UserManager<User> um, AppSettings appSettings) : base(db, um, appSettings) { }
+        public SurveysController(IDbContextFactory<ApplicationDbContext> dbFactory, UserManager<User> um, AppSettings appSettings) : base(dbFactory, um, appSettings) { }
 
         private void Load(SurveyParams surveyParams, out Response response, out ActionResult result)
         {
@@ -190,7 +190,6 @@ namespace WEB.Controllers
                 {
                     // load the documents without the file contents
                     documents = await db.Documents.Where(o => o.ItemId == answer.AnswerId)
-                        .SelectExcludingContent()
                         .OrderBy(o => o.FileName)
                         .ToListAsync();
                 }

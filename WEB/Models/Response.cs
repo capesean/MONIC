@@ -46,7 +46,7 @@ namespace WEB.Models
 
         public Guid? SubmittedById { get; set; }
 
-        [DatabaseGenerated(DatabaseGeneratedOption.Computed)]
+        [DatabaseGenerated(DatabaseGeneratedOption.Computed), Required]
         public bool Submitted { get; private set; }
 
         public virtual ICollection<Answer> Answers { get; set; } = new List<Answer>();

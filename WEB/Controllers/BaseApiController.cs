@@ -10,8 +10,10 @@ namespace WEB.Controllers
     [ApiController, Authorize(AuthenticationSchemes = OpenIddictValidationAspNetCoreDefaults.AuthenticationScheme)]
     public class BaseApiController : ControllerBase
     {
-        internal ApplicationDbContext db;
-        internal UserManager<User> userManager;
+        internal readonly ApplicationDbContext db;
+        internal readonly UserManager<User> userManager;
+        internal readonly IDbContextFactory<ApplicationDbContext> _dbFactory;
+
         private AppUser _user;
         internal AppUser CurrentUser
         {
@@ -37,9 +39,10 @@ namespace WEB.Controllers
         }
         internal AppSettings AppSettings;
 
-        internal BaseApiController(ApplicationDbContext applicationDbContext, UserManager<User> userManager, AppSettings appSettings)
+        internal BaseApiController(IDbContextFactory<ApplicationDbContext> dbFactory, UserManager<User> userManager, AppSettings appSettings)
         {
-            db = applicationDbContext;
+            _dbFactory = dbFactory;
+            db = _dbFactory.CreateDbContext();
             this.userManager = userManager;
             AppSettings = appSettings;
         }

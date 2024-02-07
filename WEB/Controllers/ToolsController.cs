@@ -8,7 +8,7 @@ namespace WEB.Controllers
     [Route("api/[Controller]"), AuthorizeRoles(Roles.Administrator)]
     public class ToolsController : BaseApiController
     {
-        public ToolsController(ApplicationDbContext db, UserManager<User> um, AppSettings appSettings) : base(db, um, appSettings) { }
+        public ToolsController(IDbContextFactory<ApplicationDbContext> dbFactory, UserManager<User> um, AppSettings appSettings) : base(dbFactory, um, appSettings) { }
 
         [HttpPost("geojson/{entityTypeId:Guid}")]
         public async Task<IActionResult> UploadGeoJSON(Guid entityTypeId, [FromBody] FileContentsDTO fileContentsDTO)

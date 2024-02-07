@@ -32,6 +32,7 @@ export class UserModalComponent implements OnInit {
     @Input() resetOnOpen = false;
     @Input() title = this.multiple ? "Select users" : "Select a user";
     @Input() role: Enum;
+    @Input() disabled: boolean;
     @Input() entity: Entity;
     @Input() organisation: Organisation;
 
@@ -49,6 +50,7 @@ export class UserModalComponent implements OnInit {
     open(): NgbModalRef {
         if (this.resetOnOpen) this.selectedItems = [];
         this.searchOptions.roleName = this.role ? this.role.name : undefined;
+        this.searchOptions.disabled = this.disabled;
         this.searchOptions.affiliatedEntityId = this.entity?.entityId;
         this.searchOptions.organisationId = this.organisation?.organisationId;
         this.modal = this.modalService.open(this.content, { size: 'xl', centered: true, scrollable: true });

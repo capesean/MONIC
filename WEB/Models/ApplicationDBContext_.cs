@@ -327,25 +327,51 @@ namespace WEB.Models
                 .HasForeignKey(o => o.SourceIndicatorId);
 
             modelBuilder.Entity<Datum>().Property(o => o.LastSavedDateUtc).HasColumnType("smalldatetime");
-            modelBuilder.Entity<Document>().Property(o => o.UploadedOn).HasColumnType("smalldatetime");
-            modelBuilder.Entity<FolderContent>().Property(o => o.AddedOn).HasColumnType("smalldatetime");
-            modelBuilder.Entity<Indicator>().Property(o => o.CreatedDateUtc).HasColumnType("smalldatetime");
-            modelBuilder.Entity<Indicator>().Property(o => o.LastSavedDateUtc).HasColumnType("smalldatetime");
-            modelBuilder.Entity<Response>().Property(o => o.CreatedOnUtc).HasColumnType("smalldatetime");
-            modelBuilder.Entity<Response>().Property(o => o.LastAnsweredOnUtc).HasColumnType("smalldatetime");
-            modelBuilder.Entity<Response>().Property(o => o.SubmittedOnUtc).HasColumnType("smalldatetime");
-            modelBuilder.Entity<User>().Property(o => o.LastLoginDate).HasColumnType("smalldatetime");
-        }
 
-        public void AddComputedColumns()
-        {
-            CreateComputedColumn("Data", "Rejected", "CONVERT(bit, ISNULL(CASE WHEN RejectDataReviewId IS NULL THEN 0 ELSE 1 END, 0))");
-            CreateComputedColumn("Data", "Submitted", "CONVERT(bit, ISNULL(CASE WHEN SubmitDataReviewId IS NULL THEN 0 ELSE 1 END, 0))");
-            CreateComputedColumn("Data", "Verified", "CONVERT(bit, ISNULL(CASE WHEN VerifyDataReviewId IS NULL THEN 0 ELSE 1 END, 0))");
-            CreateComputedColumn("Data", "Approved", "CONVERT(bit, ISNULL(CASE WHEN ApproveDataReviewId IS NULL THEN 0 ELSE 1 END, 0))");
-            CreateComputedColumn("Folders", "RootFolder", "CONVERT(bit, CASE WHEN ParentFolderId IS NULL THEN 1 ELSE 0 END)");
-            CreateComputedColumn("Responses", "Submitted", "CONVERT(bit, CASE WHEN SubmittedById IS NOT NULL OR SubmittedOnUtc IS NOT NULL THEN 1 ELSE 0 END)");
-            CreateComputedColumn("AspNetUsers", "FullName", "FirstName + ' ' + LastName");
+            modelBuilder.Entity<Document>().Property(o => o.UploadedOn).HasColumnType("smalldatetime");
+
+            modelBuilder.Entity<FolderContent>().Property(o => o.AddedOn).HasColumnType("smalldatetime");
+
+            modelBuilder.Entity<Indicator>().Property(o => o.CreatedDateUtc).HasColumnType("smalldatetime");
+
+            modelBuilder.Entity<Indicator>().Property(o => o.LastSavedDateUtc).HasColumnType("smalldatetime");
+
+            modelBuilder.Entity<Response>().Property(o => o.CreatedOnUtc).HasColumnType("smalldatetime");
+
+            modelBuilder.Entity<Response>().Property(o => o.LastAnsweredOnUtc).HasColumnType("smalldatetime");
+
+            modelBuilder.Entity<Response>().Property(o => o.SubmittedOnUtc).HasColumnType("smalldatetime");
+
+            modelBuilder.Entity<User>().Property(o => o.LastLoginDate).HasColumnType("smalldatetime");
+
+            modelBuilder.Entity<Datum>()
+                .Property(o => o.Approved)
+                .HasComputedColumnSql("CONVERT(bit, ISNULL(CASE WHEN ApproveDataReviewId IS NULL THEN 0 ELSE 1 END, 0))");
+
+            modelBuilder.Entity<Datum>()
+                .Property(o => o.Rejected)
+                .HasComputedColumnSql("CONVERT(bit, ISNULL(CASE WHEN RejectDataReviewId IS NULL THEN 0 ELSE 1 END, 0))");
+
+            modelBuilder.Entity<Datum>()
+                .Property(o => o.Submitted)
+                .HasComputedColumnSql("CONVERT(bit, ISNULL(CASE WHEN SubmitDataReviewId IS NULL THEN 0 ELSE 1 END, 0))");
+
+            modelBuilder.Entity<Datum>()
+                .Property(o => o.Verified)
+                .HasComputedColumnSql("CONVERT(bit, ISNULL(CASE WHEN VerifyDataReviewId IS NULL THEN 0 ELSE 1 END, 0))");
+
+            modelBuilder.Entity<Folder>()
+                .Property(o => o.RootFolder)
+                .HasComputedColumnSql("CONVERT(bit, CASE WHEN ParentFolderId IS NULL THEN 1 ELSE 0 END)");
+
+            modelBuilder.Entity<Response>()
+                .Property(o => o.Submitted)
+                .HasComputedColumnSql("CONVERT(bit, CASE WHEN SubmittedById IS NOT NULL OR SubmittedOnUtc IS NOT NULL THEN 1 ELSE 0 END)");
+
+            modelBuilder.Entity<User>()
+                .Property(o => o.FullName)
+                .HasComputedColumnSql("FirstName + ' ' + LastName");
+
         }
 
         public void AddNullableUniqueIndexes()

@@ -26,13 +26,13 @@ namespace AuthorizationServer.Controllers
         private IEmailSender emailSender;
 
         public AuthorizationController(
-            ApplicationDbContext _db,
+            IDbContextFactory<ApplicationDbContext> dbFactory,
             UserManager<User> _um,
             AppSettings _appSettings,
             SignInManager<User> _sm,
             IEmailSender _es,
             IOptions<IdentityOptions> _opts)
-            : base(_db, _um, _appSettings)
+            : base(dbFactory, _um, _appSettings)
         {
             signInManager = _sm;
             emailSender = _es;

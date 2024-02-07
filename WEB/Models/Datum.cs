@@ -25,24 +25,24 @@ namespace WEB.Models
         [Required]
         public bool Aggregated { get; set; }
 
-        [DatabaseGenerated(DatabaseGeneratedOption.Computed)]
+        [DatabaseGenerated(DatabaseGeneratedOption.Computed), Required]
         public bool Submitted { get; private set; }
 
         public Guid? SubmitDataReviewId { get; set; }
 
-        [DatabaseGenerated(DatabaseGeneratedOption.Computed)]
+        [DatabaseGenerated(DatabaseGeneratedOption.Computed), Required]
         public bool Verified { get; private set; }
 
         public Guid? VerifyDataReviewId { get; set; }
 
-        [DatabaseGenerated(DatabaseGeneratedOption.Computed)]
+        [DatabaseGenerated(DatabaseGeneratedOption.Computed), Required]
         public bool Approved { get; private set; }
 
         public Guid? ApproveDataReviewId { get; set; }
 
         public Guid? RejectDataReviewId { get; set; }
 
-        [DatabaseGenerated(DatabaseGeneratedOption.Computed)]
+        [DatabaseGenerated(DatabaseGeneratedOption.Computed), Required]
         public bool Rejected { get; private set; }
 
         [Required]

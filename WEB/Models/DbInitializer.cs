@@ -39,7 +39,6 @@ namespace WEB.Models
             await SeedAsync();
             await CreateRolesAsync();
 
-            db.AddComputedColumns();
             db.AddNullableUniqueIndexes();
 
             // remove old errors so they don't bloat the database

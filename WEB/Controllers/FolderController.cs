@@ -12,7 +12,7 @@ namespace WEB.Controllers
     [Route("api/[Controller]"), Authorize]
     public class FolderController : BaseApiController
     {
-        public FolderController(ApplicationDbContext db, UserManager<User> um, AppSettings appSettings) : base(db, um, appSettings) { }
+        public FolderController(IDbContextFactory<ApplicationDbContext> dbFactory, UserManager<User> um, AppSettings appSettings) : base(dbFactory, um, appSettings) { }
 
         [HttpGet("view"), AuthorizeRoles(Roles.Folders)]
         public async Task<IActionResult> View([FromQuery] Guid? folderId)
@@ -34,13 +34,11 @@ namespace WEB.Controllers
                 documents = await db.Documents.Where(o => o.ItemId == folderId.Value)
                     .OrderBy(o => o.FileName)
                     .Include(o => o.UploadedBy)
-                    .SelectExcludingContent()
                     .ToListAsync();
 
                 folderContents = await db.FolderContents.Where(o => o.FolderId == folderId.Value)
                     .OrderBy(o => o.Name)
                     .Include(o => o.AddedBy)
-                    .SelectExcludingContent()
                     .ToListAsync();
             }
 
