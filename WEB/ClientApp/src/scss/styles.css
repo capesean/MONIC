@@ -363,3 +363,8 @@ nav.nav-tabs.nav ~ .tab-content {
         max-height: 50px;
     }
 }
+
+input[type=checkbox].form-check-input,
+input[type=radio].form-check-input {
+    border-color: #d6dae2;
+}
