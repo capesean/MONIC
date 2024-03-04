@@ -6,6 +6,8 @@
 :: Step 1) run this script
 :: Step 2) start the aspnet (F5)
 
+:: note: to decouple the webserver from visual studio launch (eg. F5), edit the project file and comment out: <SpaProxyLaunchCommand>npm start</SpaProxyLaunchCommand>
+
 ng serve --port 44401 --ssl --ssl-cert %APPDATA%\\ASP.NET\\https\\website3.pem --ssl-key %APPDATA%\\ASP.NET\\https\\website3.key
 ::npm start
 

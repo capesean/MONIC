@@ -12,6 +12,10 @@
     color: #dc3545;
 }
 
+.input-group-text {
+    margin-bottom: 0;
+}
+
 .was-validated .form-group.is-invalid app-file .input-group-text {
     background-color: #dc3545;
     border: solid 1px #dc3545;
