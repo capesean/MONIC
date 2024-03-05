@@ -364,7 +364,52 @@ nav.nav-tabs.nav ~ .tab-content {
     }
 }
 
-input[type=checkbox].form-check-input,
-input[type=radio].form-check-input {
+input[type=checkbox].form-check-input {
     border-color: #d6dae2;
+}
+
+.form-control[readonly] {
+    background-color: rgb(237, 238, 240) !important;
+}
+
+    .app-select .input-group:not(.disabled) .form-control[readonly],
+    .form-control[readonly][ngbdatepicker] {
+        background-color: #f6fdff !important;
+    }
+
+fieldset.group .form-check {
+    line-height: 35px;
+    margin-bottom: 0;
+}
+
+    fieldset.group .form-check input[type=checkbox] {
+        margin-top: 10px;
+    }
+
+.card-header.form-section {
+    padding-top: 0.624999375rem !important;
+    padding-bottom: 0.624999375rem !important;
+    background-color: rgba(0, 186, 199) !important;
+}
+
+    .card-header.form-section h5 {
+        color: rgba(246, 247, 248) !important;
+        margin: 0 !important;
+    }
+
+.popover {
+    --bs-popover-border-color: #999;
+}
+
+#breadcrumbs {
+    line-height: 1.5rem;
+}
+
+.breadcrumb-item {
+    padding-left: 0 !important;
+    padding-right: 0.5rem;
+}
+
+abbr {
+    border-bottom: dashed 1px #ccc;
 }
