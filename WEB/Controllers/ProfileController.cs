@@ -23,13 +23,6 @@ namespace AuthorizationServer.Controllers
         [HttpGet]
         public async Task<IActionResult> Profile()
         {
-            // add properties to profile as needed
-            var roleIds = CurrentUser.Roles.Select(o => o.RoleId).ToArray();
-
-            var roleNames = await db.Roles
-                .Where(o => roleIds.Contains(o.Id))
-                .Select(o => o.Name)
-                .ToListAsync();
 
             var profile = new ProfileModel
             {
@@ -38,7 +31,6 @@ namespace AuthorizationServer.Controllers
                 LastName = CurrentUser.LastName,
                 FullName = CurrentUser.FullName,
                 UserId = CurrentUser.Id,
-                Roles = roleNames,
                 UserName = CurrentUser.UserName
             };
 

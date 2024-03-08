@@ -181,7 +181,6 @@ namespace AuthorizationServer.Controllers
                 LastName = CurrentUser.LastName,
                 FullName = CurrentUser.FullName,
                 UserId = CurrentUser.Id,
-                Roles = roleNames,
                 UserName = CurrentUser.UserName
             };
 

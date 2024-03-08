@@ -22,7 +22,6 @@ namespace WEB.Controllers
                 if (_user == null)
                 {
                     _user = db.Users
-                        .Include(o => o.Roles)
                         .FirstOrDefault(o => o.UserName == User.Identity.Name);
                 }
                 return _user;
@@ -35,13 +34,16 @@ namespace WEB.Controllers
         {
             _dbFactory = dbFactory;
             db = _dbFactory.CreateDbContext();
+            // todo: could remove usermanager?
             this.userManager = userManager;
             AppSettings = appSettings;
         }
 
-        internal async Task<bool> CurrentUserIsInRoleAsync(Roles role)
+        internal bool CurrentUserIsInRole(Roles role)
         {
-            return await userManager.IsInRoleAsync(CurrentUser, role.ToString());
+            if (HttpContext?.User?.Identity?.IsAuthenticated ?? false)
+                return HttpContext.User.IsInRole(role.ToString());
+            return false;
         }
 
         protected async Task<List<T>> GetPaginatedResponse<T>(IQueryable<T> query, SearchOptions pagingOptions)

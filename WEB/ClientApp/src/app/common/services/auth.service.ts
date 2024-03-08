@@ -19,6 +19,7 @@ export class AuthService {
     public loggedIn$: Observable<boolean>;
     private _profile: ProfileModel;
     private profileGet: Observable<ProfileModel>;
+    private roles: string | string[];
 
     constructor(
         private http: HttpClient,
@@ -78,13 +79,16 @@ export class AuthService {
         return this.http.post<void>(`${environment.baseApiUrl}authorization/changepassword`, changePassword);
     }
 
-    isInRole(profile: ProfileModel, role: string | Roles): boolean {
-        if (!profile || !profile.roles) return false;
-        if (typeof (profile.roles) === "string" && profile.roles === "Administrator") return true;
-        if (typeof (profile.roles) !== "string" && profile.roles.indexOf("Administrator") > -1) return true;
+    isInRole(role: string | Roles): boolean {
+        if (!this.roles || !this.roles.length) return false;
+
+        // if user is admin, they have all/any roles
+        if (typeof (this.roles) === "string" && this.roles === "Administrator") return true;
+        if (typeof (this.roles) !== "string" && this.roles.indexOf("Administrator") > -1) return true;
+
         if (typeof (role) === "number") role = Enums.Roles[role].name;
-        if (typeof (profile.roles) === "string") return role === profile.roles;
-        return profile.roles.indexOf(role) > -1;
+        if (typeof (this.roles) === "string") return role === this.roles;
+        return this.roles.indexOf(role) > -1;
     }
 
     refreshTokens(): Observable<AuthTokenModel> {
@@ -162,7 +166,7 @@ export class AuthService {
                 tokens.expiration_date = new Date(now.getTime() + tokens.expires_in * 1000).getTime().toString();
 
                 const jwtToken: JwtTokenModel = this.decodeToken(tokens.id_token);
-
+                this.roles = jwtToken.role;
                 this.storeToken(tokens);
                 this.updateState({ authReady: true, tokens, jwtToken });
             }));
@@ -235,6 +239,7 @@ export class AuthService {
         if (!decoded) {
             throw new Error("Cannot decode the token.");
         }
+
         return JSON.parse(decoded);
     }
 
