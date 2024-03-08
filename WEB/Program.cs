@@ -8,11 +8,12 @@ using static OpenIddict.Abstractions.OpenIddictConstants;
 var builder = WebApplication.CreateBuilder(args);
 
 var appSettings = builder.Configuration.GetSection("Settings").Get<AppSettings>();
-DbContextOptions dbContextOptions = null;
 
 // todo: this is not correct - find out a better way to get correct path
 appSettings.WebRootPath = Path.Combine(Directory.GetCurrentDirectory(), appSettings.IsDevelopment ? "ClientApp\\src\\" : "wwwroot\\");
 appSettings.RootPath = Path.Combine(Directory.GetCurrentDirectory());
+
+builder.Services.AddScoped<ApiExceptionAttribute>();
 
 //builder.Services.AddControllers(options => options.Filters.Add(typeof(ApiExceptionAttribute)))
 builder.Services.AddControllersWithViews(options => options.Filters.Add(typeof(ApiExceptionAttribute)))
@@ -60,9 +61,6 @@ builder.Services.AddDbContextFactory<ApplicationDbContext>(options =>
     // Note: use the generic overload if you need
     // to replace the default OpenIddict entities.
     options.UseOpenIddict();
-
-    // store for init
-    dbContextOptions = options.Options;
 
 });
 

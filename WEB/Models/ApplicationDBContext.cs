@@ -8,13 +8,13 @@ namespace WEB.Models
         public DbSet<Error> Errors { get; set; }
         public DbSet<ErrorException> Exceptions { get; set; }
 
-        public ApplicationDbContext()
-        {
-            // disabling tracking entirely messes up openiddict's sign-in behaviour: https://github.com/openiddict/openiddict-core/issues/565
-            // could this be handled by having two types of dbcontext initialized? one with tracking, the other without?
-            // ChangeTracker.QueryTrackingBehavior = QueryTrackingBehavior.NoTracking;
-            ChangeTracker.AutoDetectChangesEnabled = false;
-        }
+        //public ApplicationDbContext()
+        //{
+        //    // disabling tracking entirely messes up openiddict's sign-in behaviour: https://github.com/openiddict/openiddict-core/issues/565
+        //    // could this be handled by having two types of dbcontext initialized? one with tracking, the other without?
+        //    // ChangeTracker.QueryTrackingBehavior = QueryTrackingBehavior.NoTracking;
+        //    ChangeTracker.AutoDetectChangesEnabled = false;
+        //}
 
         public ApplicationDbContext(DbContextOptions options) : base(options)
         {
@@ -22,12 +22,10 @@ namespace WEB.Models
             ChangeTracker.AutoDetectChangesEnabled = false;
         }
 
-        public static ApplicationDbContext Create()
-        {
-            return new ApplicationDbContext();
-        }
-
-
+        //public static ApplicationDbContext Create()
+        //{
+        //    return new ApplicationDbContext();
+        //}
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {

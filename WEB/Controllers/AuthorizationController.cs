@@ -85,6 +85,16 @@ namespace AuthorizationServer.Controllers
 
                 var principal = await signInManager.CreateUserPrincipalAsync(user);
 
+                // set any custom claims here
+                //((ClaimsIdentity)principal.Identity).AddClaim(
+                //    new Claim(
+                //        "xxx",
+                //        user.xxx.ToString(),
+                //        ClaimValueTypes.String,
+                //        OpenIddictServerAspNetCoreDefaults.AuthenticationScheme
+                //        )
+                //    );
+
                 principal.SetScopes(new[]
                 {
                     Scopes.OpenId,
