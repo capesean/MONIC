@@ -16,15 +16,4 @@ namespace WEB.Models
 
     public class Role : IdentityRole<Guid> { }
 
-    public class ClaimsPrincipal : System.Security.Claims.ClaimsPrincipal
-    {
-        public ClaimsPrincipal(System.Security.Claims.ClaimsPrincipal principal) : base(principal)
-        { }
-
-        public Guid UserId
-        {
-            get { return Guid.Parse(this.FindFirst(ClaimTypes.Sid).Value); }
-        }
-    }
-
 }

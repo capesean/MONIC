@@ -22,7 +22,7 @@ export class AppHasRoleDirective {
         this.authService.getProfile().subscribe(
             profile => {
                 if (typeof this.role === 'string')
-                    this.elementRef.nativeElement.style.display = this.role && profile && this.authService.isInRole(this.role) ? "block" : "none";
+                    this.elementRef.nativeElement.style.display = this.role && profile && this.authService.isInRole(this.role) ? undefined : "none";
                 else {
                     let hasARole = false;
                     (this.role as string[]).forEach(role => {
