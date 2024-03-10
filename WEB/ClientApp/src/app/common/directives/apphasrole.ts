@@ -1,13 +1,15 @@
-import { Input, Directive, ElementRef } from "@angular/core";
+import { Input, Directive, ElementRef, OnDestroy, OnInit } from "@angular/core";
 import { AuthService } from "../services/auth.service";
+import { Subscription } from "rxjs";
 
 @Directive({
     selector: '[appHasRole]'
 })
-export class AppHasRoleDirective {
+export class AppHasRoleDirective implements OnInit, OnDestroy {
 
-    @Input('appHasRole')
-    public role: string | string[];
+    @Input('appHasRole') roleName: string;
+
+    private subscription: Subscription = new Subscription();
 
     constructor(
         private authService: AuthService,
@@ -15,24 +17,22 @@ export class AppHasRoleDirective {
     ) {
     }
 
+    ngOnInit() {
+        this.elementRef.nativeElement.style.display = 'none';
+        this.checkRole();
+    }
 
-    ngOnInit(): void {
+    private checkRole() {
+        this.subscription = this.authService.isInRole$(this.roleName).subscribe(isAllowed => {
+            this.updateElementVisibility(isAllowed);
+        });
+    }
 
-        // todo: isinrole should be an observable - so caller (eg appHasRole) doesn't need to subscribe to getprofile
-        this.authService.getProfile().subscribe(
-            profile => {
-                if (typeof this.role === 'string')
-                    this.elementRef.nativeElement.style.display = this.role && profile && this.authService.isInRole(this.role) ? undefined : "none";
-                else {
-                    let hasARole = false;
-                    (this.role as string[]).forEach(role => {
-                        if (this.role && profile && this.authService.isInRole(role)) {
-                            hasARole = true;
-                        }
-                    });
-                    this.elementRef.nativeElement.style.display = hasARole ? "block" : "none";
-                }
-            }
-        );
+    private updateElementVisibility(isVisible: boolean) {
+        this.elementRef.nativeElement.style.display = isVisible ? '' : 'none';
+    }
+
+    ngOnDestroy() {
+        if (this.subscription) this.subscription.unsubscribe();
     }
 }

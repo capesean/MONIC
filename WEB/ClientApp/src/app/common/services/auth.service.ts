@@ -2,7 +2,7 @@ import { HttpClient, HttpHeaders } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { Router } from "@angular/router";
 import { BehaviorSubject, interval, Observable, of, Subscription, throwError } from "rxjs";
-import { catchError, filter, first, map, mergeMap, share, tap } from "rxjs/operators";
+import { catchError, filter, first, map, mergeMap, share, switchMap, tap } from "rxjs/operators";
 import { environment } from "../../../environments/environment";
 import { AuthStateModel, AuthTokenModel, ChangePasswordModel, JwtTokenModel, LoginModel, PasswordRequirements, RefreshGrantModel, RegisterModel, ResetModel, ResetPasswordModel } from "../models/auth.models";
 import { ProfileModel } from "../models/profile.models";
@@ -17,9 +17,11 @@ export class AuthService {
     public state$: Observable<AuthStateModel>;
     public tokens$: Observable<AuthTokenModel>;
     public loggedIn$: Observable<boolean>;
+    private profileGet$: Observable<ProfileModel>;
+
     private _profile: ProfileModel;
-    private profileGet: Observable<ProfileModel>;
-    private roles: string | string[];
+    public roles$ = new BehaviorSubject<string[]>([]);
+    private consultantId$ = new BehaviorSubject<string | undefined>(undefined);
 
     constructor(
         private http: HttpClient,
@@ -79,16 +81,28 @@ export class AuthService {
         return this.http.post<void>(`${environment.baseApiUrl}authorization/changepassword`, changePassword);
     }
 
-    isInRole(role: string | Roles): boolean {
-        if (!this.roles || !this.roles.length) return false;
+    private isInRole(profileRoles: string[], rolesToCheck: string | Roles | Roles[]): boolean {
+        if (!profileRoles || !profileRoles.length) return false;
 
         // if user is admin, they have all/any roles
-        if (typeof (this.roles) === "string" && this.roles === "Administrator") return true;
-        if (typeof (this.roles) !== "string" && this.roles.indexOf("Administrator") > -1) return true;
+        if (profileRoles.indexOf("Administrator") >= 0) return true;
 
-        if (typeof (role) === "number") role = Enums.Roles[role].name;
-        if (typeof (this.roles) === "string") return role === this.roles;
-        return this.roles.indexOf(role) > -1;
+        if (typeof (rolesToCheck) === "number") rolesToCheck = Enums.Roles[rolesToCheck].name;
+
+        if (Array.isArray(rolesToCheck)) {
+            for (let roleToCheck of rolesToCheck) {
+                if (profileRoles.indexOf(Enums.Roles[roleToCheck].name) >= 0) return true;
+            }
+            return false;
+        } else {
+            return profileRoles.indexOf(rolesToCheck) >= 0;
+        }
+    }
+
+    isInRole$(role: string | Roles | Roles[]): Observable<boolean> {
+        return this.roles$.pipe(
+            map(roles => this.isInRole(roles, role))
+        );
     }
 
     refreshTokens(): Observable<AuthTokenModel> {
@@ -101,8 +115,8 @@ export class AuthService {
             */
             //.pipe(map(state => state.tokens))
             .pipe(map(() => this.retrieveTokens()))
-            .pipe(
-                mergeMap(tokens => {
+            .pipe(mergeMap(
+                tokens => {
 
                     // if there is no token in local storage, redirect to login
                     if (!tokens) {
@@ -121,9 +135,10 @@ export class AuthService {
 
                             return throwError(() => 'Session Expired');
 
-                        }));
+                        })
+                        );
                 }
-                ));
+            ));
     }
 
     private storeToken(tokens: AuthTokenModel): void {
@@ -148,6 +163,13 @@ export class AuthService {
     private updateState(newState: AuthStateModel): void {
         const previousState = this.state.getValue();
         this.state.next(Object.assign({}, previousState, newState));
+        if (newState?.jwtToken) {
+            this.roles$.next(Array.isArray(newState.jwtToken.role) ? newState.jwtToken.role : [newState.jwtToken.role]);
+            this.consultantId$.next((newState.jwtToken as any).consultantid as string);
+        } else {
+            this.roles$.next([]);
+            this.consultantId$.next(undefined);
+        }
     }
 
     private getTokens(data: RefreshGrantModel | LoginModel, grantType: string): Observable<AuthTokenModel> {
@@ -166,13 +188,14 @@ export class AuthService {
                 tokens.expiration_date = new Date(now.getTime() + tokens.expires_in * 1000).getTime().toString();
 
                 const jwtToken: JwtTokenModel = this.decodeToken(tokens.id_token);
-                this.roles = jwtToken.role;
+
                 this.storeToken(tokens);
                 this.updateState({ authReady: true, tokens, jwtToken });
             }));
     }
 
     private startupTokenRefresh(): Observable<AuthTokenModel> {
+
         return of(this.retrieveTokens())
             .pipe(mergeMap((tokens: AuthTokenModel) => {
                 if (!tokens) {
@@ -214,17 +237,17 @@ export class AuthService {
             return of(this._profile);
         }
         // if a request is currently outstanding, return that request
-        if (!this.profileGet) {
-            this.profileGet = this.http
+        if (!this.profileGet$) {
+            this.profileGet$ = this.http
                 .get<ProfileModel>(`${environment.baseApiUrl}profile`)
                 .pipe(share())
                 .pipe(tap(profile => {
                     this._profile = profile;
                     // clear the outstanding request
-                    this.profileGet = undefined;
+                    this.profileGet$ = undefined;
                 }));
         }
-        return this.profileGet;
+        return this.profileGet$;
     }
 
     private decodeToken(token: string): JwtTokenModel {
