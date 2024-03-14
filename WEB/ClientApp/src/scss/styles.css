@@ -6,6 +6,15 @@ main {
     main {
         margin-left: 18rem;
     }
+
+    .navbar img.navbar-brand-img {
+        width: 100%;
+        height: initial;
+    }
+
+    #mainNavbar .navbar-brand {
+        margin-bottom: 1.5rem;
+    }
 }
 
 @media(min-width: 1200px) {
