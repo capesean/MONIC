@@ -12,7 +12,7 @@ import { Enums, Roles } from "../models/enums.model";
 export class AuthService {
 
     private initalState: AuthStateModel = { jwtToken: null, tokens: null, authReady: false };
-    private state: BehaviorSubject<AuthStateModel>;
+    private _state$: BehaviorSubject<AuthStateModel>;
     private refreshSubscription$: Subscription;
     public state$: Observable<AuthStateModel>;
     public tokens$: Observable<AuthTokenModel>;
@@ -27,10 +27,10 @@ export class AuthService {
         private http: HttpClient,
         private router: Router
     ) {
-        this.state = new BehaviorSubject<AuthStateModel>(this.initalState);
-        this.state$ = this.state.asObservable();
+        this._state$ = new BehaviorSubject<AuthStateModel>(this.initalState);
+        this.state$ = this._state$.asObservable();
 
-        this.tokens$ = this.state
+        this.tokens$ = this._state$
             .pipe(filter(state => state.authReady))
             .pipe(map(state => state.tokens));
 
@@ -106,7 +106,7 @@ export class AuthService {
     }
 
     refreshTokens(): Observable<AuthTokenModel> {
-        return this.state
+        return this._state$
             .pipe(first())
             /*
              * OpenIddict 3 invalidates refresh tokens after being used, so the latest token might have been retrieved by another tab
@@ -161,8 +161,8 @@ export class AuthService {
     }
 
     private updateState(newState: AuthStateModel): void {
-        const previousState = this.state.getValue();
-        this.state.next(Object.assign({}, previousState, newState));
+        const previousState = this._state$.getValue();
+        this._state$.next(Object.assign({}, previousState, newState));
         if (newState?.jwtToken) {
             this.roles$.next(Array.isArray(newState.jwtToken.role) ? newState.jwtToken.role : [newState.jwtToken.role]);
             this.consultantId$.next((newState.jwtToken as any).consultantid as string);
