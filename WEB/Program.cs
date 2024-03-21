@@ -1,3 +1,5 @@
+using Azure.Identity;
+using Microsoft.AspNetCore.DataProtection;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using WEB;
@@ -8,6 +10,28 @@ using static OpenIddict.Abstractions.OpenIddictConstants;
 var builder = WebApplication.CreateBuilder(args);
 
 var appSettings = builder.Configuration.GetSection("Settings").Get<AppSettings>();
+
+if (!appSettings.IsDevelopment
+    && !string.IsNullOrEmpty(appSettings.AzureBlobStorage?.TenantId)
+    && !string.IsNullOrEmpty(appSettings.AzureBlobStorage?.ClientId)
+    && !string.IsNullOrEmpty(appSettings.AzureBlobStorage?.ClientSecret)
+    && !string.IsNullOrEmpty(appSettings.AzureBlobStorage?.AzureBlobStorageUrl)
+    )
+{
+    // use azure blob storage to persist the data protection keys, so the decryption of JWTs works after restarting the app (e.g. publishing)
+
+    /*
+     * The requires a storage account, container & blob created on Azure - for the blob storage url
+     * -> The URL is in the format: https://[storage-account].blob.core.windows.net/[container]/[filename].xml 
+     * -> filename can be something like "dataprotectionkeys" - it will be created on first run
+     * It also requires an app registration on Entra Id (formerly Azure Active Directory) for the tenantId, clientId and secret
+     * The app registration also needs to be added to the container's access Control (IAM) with role: Storage Blob Data Contributor
+     */
+    var tokenCredential = new ClientSecretCredential(appSettings.AzureBlobStorage.TenantId, appSettings.AzureBlobStorage.ClientId, appSettings.AzureBlobStorage.ClientSecret);
+
+    builder.Services.AddDataProtection()
+                .PersistKeysToAzureBlobStorage(new Uri(appSettings.AzureBlobStorage.AzureBlobStorageUrl), tokenCredential);
+}
 
 // todo: this is not correct - find out a better way to get correct path
 appSettings.WebRootPath = Path.Combine(Directory.GetCurrentDirectory(), appSettings.IsDevelopment ? "ClientApp\\src\\" : "wwwroot\\");

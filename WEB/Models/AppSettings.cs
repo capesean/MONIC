@@ -10,6 +10,7 @@
         public bool IsDevelopment { get; set; }
         public bool UseApplicationInsights { get; set; }
         public EmailSettings EmailSettings { get; set; }
+        public AzureBlobStorage AzureBlobStorage { get; set; }
         public int AccessTokenExpiryMinutes { get; set; }
         public int RefreshTokenExpiryMinutes { get; set; }
 
@@ -35,4 +36,11 @@
 
     }
 
+    public class AzureBlobStorage
+    {
+        public string TenantId { get; set; }
+        public string ClientId { get; set; }
+        public string ClientSecret { get; set; }
+        public string AzureBlobStorageUrl { get; set; }
+    }
 }
