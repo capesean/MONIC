@@ -14,6 +14,18 @@
         public int AccessTokenExpiryMinutes { get; set; }
         public int RefreshTokenExpiryMinutes { get; set; }
 
+        internal bool UseAzureDataProtection
+        {
+            get
+            {
+                return !IsDevelopment
+                    && !string.IsNullOrEmpty(AzureBlobStorage?.TenantId)
+                    && !string.IsNullOrEmpty(AzureBlobStorage?.ClientId)
+                    && !string.IsNullOrEmpty(AzureBlobStorage?.ClientSecret)
+                    && !string.IsNullOrEmpty(AzureBlobStorage?.AzureBlobStorageUrl);
+            }
+        }
+
         public Settings GetDbSettings(ApplicationDbContext db)
         {
             return db.Settings.Single();

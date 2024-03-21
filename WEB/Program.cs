@@ -11,12 +11,7 @@ var builder = WebApplication.CreateBuilder(args);
 
 var appSettings = builder.Configuration.GetSection("Settings").Get<AppSettings>();
 
-if (!appSettings.IsDevelopment
-    && !string.IsNullOrEmpty(appSettings.AzureBlobStorage?.TenantId)
-    && !string.IsNullOrEmpty(appSettings.AzureBlobStorage?.ClientId)
-    && !string.IsNullOrEmpty(appSettings.AzureBlobStorage?.ClientSecret)
-    && !string.IsNullOrEmpty(appSettings.AzureBlobStorage?.AzureBlobStorageUrl)
-    )
+if (appSettings.UseAzureDataProtection)
 {
     // use azure blob storage to persist the data protection keys, so the decryption of JWTs works after restarting the app (e.g. publishing)
 
