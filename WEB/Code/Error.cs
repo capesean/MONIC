@@ -17,12 +17,14 @@ namespace WEB.Error
         private readonly AppSettings appSettings;
         private readonly IEmailSender emailSender;
         private readonly DbContextOptions options;
+        private readonly IHttpContextAccessor httpContextAccessor;
 
-        public ApiExceptionAttribute(AppSettings appSettings, IEmailSender emailSender, DbContextOptions options)
+        public ApiExceptionAttribute(AppSettings appSettings, IEmailSender emailSender, DbContextOptions options, IHttpContextAccessor httpContextAccessor)
         {
             this.appSettings = appSettings;
             this.emailSender = emailSender;
             this.options = options;
+            this.httpContextAccessor = httpContextAccessor;
         }
 
         public override void OnException(ExceptionContext context)
@@ -86,7 +88,7 @@ namespace WEB.Error
             try
             {
                 // use a new context to avoid SaveChanges saving pending commits on another context
-                using var db = new ApplicationDbContext(options);
+                using var db = new ApplicationDbContext(options, httpContextAccessor);
 
                 db.Entry(error).State = EntityState.Added;
                 var exception = error.Exception;
@@ -103,9 +105,10 @@ namespace WEB.Error
             if (!string.IsNullOrWhiteSpace(appSettings.EmailSettings.EmailToErrors))
             {
                 var body = string.Empty;
-                body += "URL: " + url + Environment.NewLine;
                 body += "DATE: " + DateTime.UtcNow.ToString("dd MMMM yyyy, HH:mm:ss") + Environment.NewLine;
                 body += "USER: " + userName + Environment.NewLine;
+                body += "URL: " + url + Environment.NewLine;
+                body += "METHOD: " + method + Environment.NewLine;
                 body += "MESSAGE: " + errorMessage + Environment.NewLine;
                 body += "LINK: " + appSettings.RootUrl + "errors/" + error.Id.ToString().ToLower() + Environment.NewLine;
                 body += Environment.NewLine;
@@ -117,8 +120,6 @@ namespace WEB.Error
                     body += Environment.NewLine;
                     exception = exception.InnerException;
                 }
-
-                body += appSettings.RootUrl + "api/errors/" + error.Id + Environment.NewLine;
 
                 try
                 {

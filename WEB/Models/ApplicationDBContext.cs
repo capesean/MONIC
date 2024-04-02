@@ -8,6 +8,8 @@ namespace WEB.Models
         public DbSet<Error> Errors { get; set; }
         public DbSet<ErrorException> Exceptions { get; set; }
 
+        private readonly IHttpContextAccessor httpContextAccessor;
+
         //public ApplicationDbContext()
         //{
         //    // disabling tracking entirely messes up openiddict's sign-in behaviour: https://github.com/openiddict/openiddict-core/issues/565
@@ -16,10 +18,12 @@ namespace WEB.Models
         //    ChangeTracker.AutoDetectChangesEnabled = false;
         //}
 
-        public ApplicationDbContext(DbContextOptions options) : base(options)
+        public ApplicationDbContext(DbContextOptions options, IHttpContextAccessor httpContextAccessor) : base(options)
         {
             //ChangeTracker.QueryTrackingBehavior = QueryTrackingBehavior.NoTracking;
             ChangeTracker.AutoDetectChangesEnabled = false;
+
+            this.httpContextAccessor = httpContextAccessor;
         }
 
         //public static ApplicationDbContext Create()
@@ -46,6 +50,15 @@ namespace WEB.Models
             {
                 relationship.DeleteBehavior = DeleteBehavior.Restrict;
             }
+
+            // set all global query filters here - use IsInRole if needed, roles retrieved using httpContextAccessor...
+        }
+
+        public bool IsInRole(Roles role)
+        {
+            if (httpContextAccessor.HttpContext?.User?.Identity?.IsAuthenticated ?? false)
+                return httpContextAccessor.HttpContext.User.IsInRole(role.ToString());
+            return false;
         }
 
         private void CreateNullableUniqueIndex(string tableName, string fieldName)
