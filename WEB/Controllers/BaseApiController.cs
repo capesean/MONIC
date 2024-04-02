@@ -41,8 +41,9 @@ namespace WEB.Controllers
 
         internal bool CurrentUserIsInRole(Roles role)
         {
-            if (HttpContext?.User?.Identity?.IsAuthenticated ?? false)
-                return HttpContext.User.IsInRole(role.ToString());
+            if ((HttpContext?.User?.Identity?.IsAuthenticated) != true) return false;
+            if (HttpContext.User.IsInRole(role.ToString())) return true;
+            if (role != Roles.Administrator && HttpContext.User.IsInRole(Roles.Administrator.ToString())) return true;
             return false;
         }
 
