@@ -8,6 +8,7 @@ import { MainComponent } from './main.component';
 import { BreadcrumbComponent } from './common/components/breadcrumb.component';
 import { ColorComponent } from './common/components/color.component';
 import { ConfirmModalComponent } from './common/components/confirm.component';
+import { PromptModalComponent } from './common/components/prompt.component';
 import { FileComponent } from './common/components/file.component';
 import { HeaderComponent } from './common/components/header.component';
 import { NavMenuComponent } from './common/components/nav-menu.component';
@@ -36,6 +37,7 @@ import { UserModalComponent } from './users/user.modal.component';
         NavMenuComponent,
         HeaderComponent,
         ConfirmModalComponent,
+        PromptModalComponent,
         PagerComponent,
         SortIconComponent,
         FileComponent,

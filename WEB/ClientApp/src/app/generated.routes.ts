@@ -11,6 +11,7 @@ export const GeneratedRoutes: Route[] = [
         canActivateChild: [AccessGuard],
         component: SettingsEditComponent,
         data: {
+            submenu: 'settings',
             breadcrumb: 'Settings'
         },
     },
@@ -21,6 +22,7 @@ export const GeneratedRoutes: Route[] = [
         component: UserListComponent,
         data: {
             menu: 'admin',
+            submenu: 'users',
             breadcrumb: 'Users'
         },
         children: [
@@ -31,6 +33,7 @@ export const GeneratedRoutes: Route[] = [
                 canActivateChild: [AccessGuard],
                 data: {
                     menu: 'admin',
+                    submenu: 'users',
                     breadcrumb: 'Add User'
                 }
             }

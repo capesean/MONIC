@@ -79,4 +79,9 @@ export class UserSelectComponent implements OnInit, ControlValueAccessor {
         if (button && (this.user || this.users.length)) this.changed(this.multiple ? [] : null);
         else this.modal.open();
     }
+
+    clear() {
+        this.changed(this.multiple ? [] : null);
+    }
 }
+

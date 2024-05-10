@@ -11,7 +11,7 @@
 
             <fieldset>
 
-                <div class="alert alert-info alert-dismissible" *ngIf="role!=undefined">Filtered by role: {{role.label}}<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close" (click)="searchOptions.roleName=undefined;role=undefined;runSearch();" *ngIf="canRemoveFilters"></button></div>
+                <div class="alert alert-info alert-dismissible" *ngIf="role!=undefined">Filtered by role: {{role.label}}<button type="button" class="btn-close" data-bs-dismiss="alert" (click)="searchOptions.roleName=undefined;role=undefined;runSearch();" *ngIf="canRemoveFilters"></button></div>
 
                 <div class="row g-3">
 
