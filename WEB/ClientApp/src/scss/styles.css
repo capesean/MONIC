@@ -421,3 +421,11 @@ fieldset.group .form-check {
 abbr {
     border-bottom: dashed 1px #ccc;
 }
+
+.table.table-sm > :not(caption) > * > * {
+    padding: 0.5rem 1rem;
+}
+
+pager.pager-sm .pager-info, pager.pager-sm ul.pagination {
+    margin-bottom: 0;
+}
