@@ -17,14 +17,13 @@ namespace WEB.Error
         private readonly AppSettings appSettings;
         private readonly IEmailSender emailSender;
         private readonly DbContextOptions options;
-        private readonly IHttpContextAccessor httpContextAccessor;
+        private readonly IDbContextFactory<ApplicationDbContext> dbFactory;
 
-        public ApiExceptionAttribute(AppSettings appSettings, IEmailSender emailSender, DbContextOptions options, IHttpContextAccessor httpContextAccessor)
+        public ApiExceptionAttribute(AppSettings appSettings, IEmailSender emailSender, IDbContextFactory<ApplicationDbContext>dbFactory)
         {
             this.appSettings = appSettings;
             this.emailSender = emailSender;
-            this.options = options;
-            this.httpContextAccessor = httpContextAccessor;
+            this.dbFactory = dbFactory;
         }
 
         public override void OnException(ExceptionContext context)
@@ -88,7 +87,7 @@ namespace WEB.Error
             try
             {
                 // use a new context to avoid SaveChanges saving pending commits on another context
-                using var db = new ApplicationDbContext(options, httpContextAccessor);
+                using var db = dbFactory.CreateDbContext();
 
                 db.Entry(error).State = EntityState.Added;
                 var exception = error.Exception;

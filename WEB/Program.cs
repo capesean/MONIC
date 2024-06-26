@@ -63,9 +63,24 @@ if (appSettings.IsDevelopment)
     });
 }
 
+builder.Services.AddHttpContextAccessor();
+builder.Services.AddScoped<IIdentityService, IdentityService>();
+
+builder.Services.AddDbContext<ApplicationDbContext>((serviceProvider, options) =>
+{
+    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"),
+        sqlOptions =>
+        {
+            sqlOptions.CommandTimeout(300);
+            sqlOptions.UseQuerySplittingBehavior(QuerySplittingBehavior.SplitQuery);
+        });
+
+    options.UseQueryTrackingBehavior(QueryTrackingBehavior.NoTracking);
+    options.UseOpenIddict();
+});
+
 builder.Services.AddDbContextFactory<ApplicationDbContext>(options =>
 {
-    // Configure the context to use Microsoft SQL Server.
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"),
         sqlOptions =>
         {
@@ -76,12 +91,9 @@ builder.Services.AddDbContextFactory<ApplicationDbContext>(options =>
 
     options.UseQueryTrackingBehavior(QueryTrackingBehavior.NoTracking);
 
-    // Register the entity sets needed by OpenIddict.
-    // Note: use the generic overload if you need
-    // to replace the default OpenIddict entities.
     options.UseOpenIddict();
 
-});
+}, ServiceLifetime.Scoped);
 
 builder.Services.AddIdentity<User, Role>(options =>
     {

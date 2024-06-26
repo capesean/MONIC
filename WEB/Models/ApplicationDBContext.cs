@@ -8,6 +8,9 @@ namespace WEB.Models
         public DbSet<Error> Errors { get; set; }
         public DbSet<ErrorException> Exceptions { get; set; }
 
+        private readonly IIdentityService identityService;
+        public bool UserIsInAnyRole(params Roles[] roles) => identityService.UserIsInAnyRole(roles);
+
         private readonly IHttpContextAccessor httpContextAccessor;
 
         //public ApplicationDbContext()
@@ -18,12 +21,15 @@ namespace WEB.Models
         //    ChangeTracker.AutoDetectChangesEnabled = false;
         //}
 
-        public ApplicationDbContext(DbContextOptions options, IHttpContextAccessor httpContextAccessor) : base(options)
+        public ApplicationDbContext(
+            DbContextOptions options,
+            IIdentityService identityService
+            ) : base(options)
         {
+            this.identityService = identityService;
+
             //ChangeTracker.QueryTrackingBehavior = QueryTrackingBehavior.NoTracking;
             ChangeTracker.AutoDetectChangesEnabled = false;
-
-            this.httpContextAccessor = httpContextAccessor;
         }
 
         //public static ApplicationDbContext Create()
@@ -52,6 +58,10 @@ namespace WEB.Models
             }
 
             // set all global query filters here - use IsInRole if needed, roles retrieved using httpContextAccessor...
+            //if (!identityService.UserIsInAnyRole(Models.Roles.Administrator))
+            //{
+            //    modelBuilder.Entity<xxx>(partner => partner.HasQueryFilter(p => p.PartnerId == identityService.GetXXXId()));
+            //}
         }
 
         public bool IsInRole(Roles role)
