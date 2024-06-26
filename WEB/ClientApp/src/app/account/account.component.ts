@@ -25,7 +25,6 @@ export class AccountComponent implements OnInit, AfterViewInit, OnDestroy {
     public activeTarget: string;
 
     @ViewChild('basicInformationSection', { static: true }) basicInformationSection: ElementRef;
-    @ViewChild('usernameSection', { static: true }) usernameSection: ElementRef;
     @ViewChild('passwordSection', { static: true }) passwordSection: ElementRef;
 
     constructor(
@@ -43,7 +42,6 @@ export class AccountComponent implements OnInit, AfterViewInit, OnDestroy {
         this.authService.getPasswordRequirements().subscribe(o => this.passwordRequirements = o);
 
         this.spyService.addTarget({ name: 'basicInformationSection', element: this.basicInformationSection });
-        this.spyService.addTarget({ name: 'usernameSection', element: this.usernameSection });
         this.spyService.addTarget({ name: 'passwordSection', element: this.passwordSection });
     }
 
