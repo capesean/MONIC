@@ -16,7 +16,7 @@
                             <input type="file" name="avatar" class="d-none" (click)="uploadPhoto($event)">
                         </label>
 
-                        <span class="avatar-title text-bg-info-soft">{{profile.firstName.substring(0, 1)}}{{profile.lastName.substring(0, 1)}}</span>
+                        <span *ngIf="profile?.firstName" class="avatar-title text-bg-info-soft">{{profile.firstName.substring(0, 1)}}{{profile.lastName.substring(0, 1)}}</span>
 
                     </div>
 

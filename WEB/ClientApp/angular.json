@@ -75,10 +75,10 @@
                     "builder": "@angular-devkit/build-angular:dev-server",
                     "configurations": {
                         "production": {
-                            "browserTarget": "JobsBoost:build:production"
+                            "browserTarget": "Website3:build:production"
                         },
                         "development": {
-                            "browserTarget": "JobsBoost:build:development",
+                            "browserTarget": "Website3:build:development",
                             "proxyConfig": "proxy.conf.js"
                         }
                     },

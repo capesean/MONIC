@@ -80,9 +80,7 @@ namespace WEB.Controllers
             }
             else
             {
-                user = await userManager.Users
-                    .Include(o => o.Roles)
-                    .FirstOrDefaultAsync(o => o.Id == userDTO.Id);
+                user = await userManager.FindByIdAsync(userDTO.Id.ToString());
 
                 if (user == null)
                     return NotFound();
