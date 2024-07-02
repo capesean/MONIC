@@ -390,7 +390,8 @@ fieldset.group .form-check {
     margin-bottom: 0;
 }
 
-    fieldset.group .form-check input[type=checkbox] {
+    fieldset.group .form-check input[type=checkbox],
+    fieldset.group .form-check input[type=radio] {
         margin-top: 10px;
     }
 

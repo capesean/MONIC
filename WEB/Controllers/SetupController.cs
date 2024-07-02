@@ -6,7 +6,6 @@ using Microsoft.EntityFrameworkCore;
 using WEB.Controllers;
 using WEB.Models;
 using WEB.Error;
-using WEB.Models.DTOs;
 
 namespace AuthorizationServer.Controllers
 {
