@@ -71,7 +71,7 @@ namespace WEB.Controllers
                 first = pagingOptions.PageIndex * pagingOptions.PageSize
             };
 
-            HttpContext.Response.Headers.Add("X-Pagination", Newtonsoft.Json.JsonConvert.SerializeObject(paginationHeader));
+            HttpContext.Response.Headers.Append("X-Pagination", Newtonsoft.Json.JsonConvert.SerializeObject(paginationHeader));
 
             return results;
         }
