@@ -430,3 +430,16 @@ abbr {
 pager.pager-sm .pager-info, pager.pager-sm ul.pagination {
     margin-bottom: 0;
 }
+
+body#auth {
+    background-color: rgb(14, 34, 56);
+    padding-top: 50px;
+}
+
+    body#auth .form-auth {
+        box-shadow: 0px 0px 20px black;
+    }
+
+input[type=radio].form-check-input {
+    border: solid 1px rgb(206,212,218);
+}
