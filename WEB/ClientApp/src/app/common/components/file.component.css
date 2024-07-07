@@ -2,9 +2,8 @@
     display: none;
 }
 
-/*todo: when control is actually disabled, this should be overridden*/
-#label[readonly] {
-    background-color: white;
+.input-group:not(.disabled) .form-control {
+    background-color: white !important;
 }
 
 .was-validated .form-group.is-invalid app-file #label {

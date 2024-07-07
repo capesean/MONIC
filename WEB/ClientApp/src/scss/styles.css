@@ -374,6 +374,7 @@ nav.nav-tabs.nav ~ .tab-content {
 
 input[type=checkbox].form-check-input {
     border-color: #d6dae2;
+    cursor: pointer;
 }
 
 .form-control[readonly] {
