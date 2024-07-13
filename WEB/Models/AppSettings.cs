@@ -54,5 +54,7 @@
         public string ClientId { get; set; }
         public string ClientSecret { get; set; }
         public string AzureBlobStorageUrl { get; set; }
+        public string ConnectionString { get; set; }
+        public string ContainerName { get; set; }
     }
 }

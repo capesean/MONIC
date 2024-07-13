@@ -386,6 +386,10 @@ input[type=checkbox].form-check-input {
         background-color: #f6fdff !important;
     }
 
+fieldset[disabled] .app-select .input-group:not(.disabled) .form-control[readonly] {
+    background-color: rgb(237, 238, 240) !important;
+}
+
 fieldset.group .form-check {
     line-height: 35px;
     margin-bottom: 0;
@@ -443,4 +447,25 @@ body#auth {
 
 input[type=radio].form-check-input {
     border: solid 1px rgb(206,212,218);
+}
+
+
+.form-switch .form-check-input.is-valid:checked, .was-validated .form-switch .form-check-input:valid:checked {
+    background-color: #00BAC7;
+}
+
+.form-switch .form-check-label {
+    margin-top: 3px !important;
+}
+
+.form-check-input:disabled {
+    opacity: 0.8;
+}
+
+.feedback-suggestion {
+    color: #D82C5B !important;
+}
+
+.bg-info {
+    background-color: rgba(36, 193, 235) !important;
 }

@@ -81,7 +81,7 @@ export class AuthService {
         return this.http.post<void>(`${environment.baseApiUrl}authorization/changepassword`, changePassword);
     }
 
-    private isInRole(profileRoles: string[], rolesToCheck: string | Roles | Roles[]): boolean {
+    private isInRole(profileRoles: string[], rolesToCheck: string | string[] | Roles | Roles[]): boolean {
         if (!profileRoles || !profileRoles.length) return false;
 
         // if user is admin, they have all/any roles
@@ -91,7 +91,8 @@ export class AuthService {
 
         if (Array.isArray(rolesToCheck)) {
             for (let roleToCheck of rolesToCheck) {
-                if (profileRoles.indexOf(Enums.Roles[roleToCheck].name) >= 0) return true;
+                if (typeof (roleToCheck) === "number") roleToCheck = Enums.Roles[roleToCheck].name;
+                if (profileRoles.indexOf(roleToCheck) >= 0) return true;
             }
             return false;
         } else {
@@ -99,7 +100,7 @@ export class AuthService {
         }
     }
 
-    isInRole$(role: string | Roles | Roles[]): Observable<boolean> {
+    isInRole$(role: string | Roles | Roles[] | string[]): Observable<boolean> {
         return this.roles$.pipe(
             map(roles => this.isInRole(roles, role))
         );

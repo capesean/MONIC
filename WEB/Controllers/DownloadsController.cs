@@ -21,5 +21,20 @@ namespace WEB.Controllers
 
             return Download.GetFileContentResult(Response, report.GetReportName(), bytes);
         }
+
+        //// if using Azure Blob Storage, use something like this to download the document:
+        //[HttpGet("documents/{documentId:Guid}")]
+        //public async Task<IActionResult> DownloadDocument([FromRoute] Guid documentId)
+        //{
+        //    var document = await db.Documents.FirstOrDefaultAsync(o => o.DocumentId == documentId);
+
+        //    if (document == null) return NotFound();
+
+        //    var blobStorageService = new BlobStorageService(AppSettings.AzureBlobStorage.ConnectionString, AppSettings.AzureBlobStorage.ConnectionString);
+        //    var bytes = await blobStorageService.GetDocumentAsync(documentId);
+
+        //    return Download.GetFileContentResult(Response, document.FileName, bytes);
+        //}
+
     }
 }

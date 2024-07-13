@@ -7,7 +7,7 @@ import { Subscription } from "rxjs";
 })
 export class AppHasRoleDirective implements OnInit, OnDestroy {
 
-    @Input('appHasRole') roleName: string;
+    @Input('appHasRole') roleName: string | string[];
 
     private subscription: Subscription = new Subscription();
 

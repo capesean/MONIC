@@ -16,10 +16,9 @@ namespace WEB.Error
     {
         private readonly AppSettings appSettings;
         private readonly IEmailSender emailSender;
-        private readonly DbContextOptions options;
         private readonly IDbContextFactory<ApplicationDbContext> dbFactory;
 
-        public ApiExceptionAttribute(AppSettings appSettings, IEmailSender emailSender, IDbContextFactory<ApplicationDbContext>dbFactory)
+        public ApiExceptionAttribute(AppSettings appSettings, IEmailSender emailSender, IDbContextFactory<ApplicationDbContext> dbFactory)
         {
             this.appSettings = appSettings;
             this.emailSender = emailSender;
