@@ -1,5 +1,7 @@
-﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Design;
 
 namespace WEB.Models
 {
@@ -11,15 +13,6 @@ namespace WEB.Models
         private readonly IIdentityService identityService;
         public bool UserIsInAnyRole(params Roles[] roles) => identityService.UserIsInAnyRole(roles);
 
-        private readonly IHttpContextAccessor httpContextAccessor;
-
-        //public ApplicationDbContext()
-        //{
-        //    // disabling tracking entirely messes up openiddict's sign-in behaviour: https://github.com/openiddict/openiddict-core/issues/565
-        //    // could this be handled by having two types of dbcontext initialized? one with tracking, the other without?
-        //    // ChangeTracker.QueryTrackingBehavior = QueryTrackingBehavior.NoTracking;
-        //    ChangeTracker.AutoDetectChangesEnabled = false;
-        //}
 
         public ApplicationDbContext(
             DbContextOptions options,
@@ -58,24 +51,37 @@ namespace WEB.Models
             }
 
             // set all global query filters here - use IsInRole if needed, roles retrieved using httpContextAccessor...
-            //if (!identityService.UserIsInAnyRole(Models.Roles.Administrator))
-            //{
-            //    modelBuilder.Entity<xxx>(partner => partner.HasQueryFilter(p => p.PartnerId == identityService.GetXXXId()));
-            //}
-        }
-
-        public bool IsInRole(Roles role)
-        {
-            if (httpContextAccessor.HttpContext?.User?.Identity?.IsAuthenticated ?? false)
-                return httpContextAccessor.HttpContext.User.IsInRole(role.ToString());
-            return false;
+            //modelBuilder.Entity<XXX>(xxx => xxx.HasQueryFilter(o => identityService.GetXXX() == null || o.Xxx == identityService.GetXXX()));
         }
 
         private void CreateNullableUniqueIndex(string tableName, string fieldName)
         {
+#pragma warning disable EF1002 // Risk of vulnerability to SQL injection.
             Database.ExecuteSqlRaw($"DROP INDEX IF EXISTS IX_{tableName}_{fieldName} ON {tableName};");
             Database.ExecuteSqlRaw($"CREATE UNIQUE NONCLUSTERED INDEX IX_{tableName}_{fieldName} ON {tableName}({fieldName}) WHERE {fieldName} IS NOT NULL;");
+#pragma warning restore EF1002 // Risk of vulnerability to SQL injection.
         }
 
+    }
+
+    public class DesignTimeDbContextFactory : IDesignTimeDbContextFactory<ApplicationDbContext>
+    {
+        public ApplicationDbContext CreateDbContext(string[] args)
+        {
+            var configuration = new ConfigurationBuilder()
+                .SetBasePath(Directory.GetCurrentDirectory())
+                .AddJsonFile("appsettings.development.json")
+                .Build();
+
+            var connectionString = configuration.GetConnectionString("DefaultConnection");
+
+            var httpContextAccessor = new HttpContextAccessor();
+            var identityService = new IdentityService(httpContextAccessor);
+
+            var optionsBuilder = new DbContextOptionsBuilder<ApplicationDbContext>();
+            optionsBuilder.UseSqlServer(connectionString, opts => opts.CommandTimeout((int)TimeSpan.FromMinutes(10).TotalSeconds));
+            optionsBuilder.UseOpenIddict();
+            return new ApplicationDbContext(optionsBuilder.Options, identityService);
+        }
     }
 }
