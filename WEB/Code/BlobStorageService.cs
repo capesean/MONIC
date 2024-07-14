@@ -13,26 +13,26 @@ namespace WEB
             _containerClient.CreateIfNotExists();
         }
 
-        public async Task UploadDocumentAsync(Guid documentId, byte[] fileContents)
+        public async Task UploadBlobAsync(string id, byte[] bytes)
         {
-            var blobClient = _containerClient.GetBlobClient(documentId.ToString().ToLowerInvariant());
+            var blobClient = _containerClient.GetBlobClient(id);
 
-            await using (var memoryStream = new MemoryStream(fileContents))
+            await using (var memoryStream = new MemoryStream(bytes))
             {
                 await blobClient.UploadAsync(memoryStream, true);
             }
         }
 
-        public async Task DeleteDocumentAsync(Guid documentId)
+        public async Task DeleteBlobAsync(string id)
         {
-            var blobClient = _containerClient.GetBlobClient(documentId.ToString().ToLowerInvariant());
+            var blobClient = _containerClient.GetBlobClient(id);
 
-            await blobClient.DeleteAsync();
+            await blobClient.DeleteIfExistsAsync();
         }
 
-        public async Task<byte[]> GetDocumentAsync(Guid documentId)
+        public async Task<byte[]> GetBlobAsync(string id)
         {
-            var blobClient = _containerClient.GetBlobClient(documentId.ToString().ToLowerInvariant());
+            var blobClient = _containerClient.GetBlobClient(id);
 
             using (var memoryStream = new MemoryStream())
             {
