@@ -31,7 +31,7 @@ namespace WEB.Controllers
         //    if (document == null) return NotFound();
 
         //    var blobStorageService = new BlobStorageService(AppSettings.AzureBlobStorage.ConnectionString, AppSettings.AzureBlobStorage.ConnectionString);
-        //    var bytes = await blobStorageService.GetDocumentAsync(documentId);
+        //    var bytes = await blobStorageService.GetBlobAsync(documentId.ToString().ToLowerInvariant());
 
         //    return Download.GetFileContentResult(Response, document.FileName, bytes);
         //}
