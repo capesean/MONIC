@@ -21,7 +21,6 @@ export class AuthService {
 
     private _profile: ProfileModel;
     public roles$ = new BehaviorSubject<string[]>([]);
-    private consultantId$ = new BehaviorSubject<string | undefined>(undefined);
 
     constructor(
         private http: HttpClient,
@@ -129,7 +128,7 @@ export class AuthService {
                         .pipe(catchError(err => {
                             // error attempting to refresh tokens: redirect to login
                             if (err.status === 0) {
-                                return null;
+                                return of(undefined);
                                 // do nothing: might not have an internet connection
                             } else if (window.location.pathname !== "/auth/login")
                                 this.router.navigate(["/auth/login"]);
@@ -166,10 +165,8 @@ export class AuthService {
         this._state$.next(Object.assign({}, previousState, newState));
         if (newState?.jwtToken) {
             this.roles$.next(Array.isArray(newState.jwtToken.role) ? newState.jwtToken.role : [newState.jwtToken.role]);
-            this.consultantId$.next((newState.jwtToken as any).consultantid as string);
         } else {
             this.roles$.next([]);
-            this.consultantId$.next(undefined);
         }
     }
 
