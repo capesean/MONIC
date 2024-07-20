@@ -20,9 +20,12 @@ export class AuthComponent implements OnInit {
     ngOnInit(): void {
         this.document.body.id = "auth";
         this.appService.setupCheck().subscribe({
-            next: response => { if (!response.setupCompleted) this.router.navigate(["/setup"]) },
-            error: err => this.errorService.handleError(err, "Settings", "Load")
-
+            next: response => {
+                if (!response.setupCompleted) this.router.navigate(["/setup"]);
+            },
+            error: err => {
+                if (err.status !== 0) this.errorService.handleError(err, "Settings", "Load");
+            }
         });
     }
 
