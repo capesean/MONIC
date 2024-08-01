@@ -9,7 +9,7 @@
 :: note: to decouple the webserver from visual studio launch (eg. F5), ensure that the ASPNETCORE_HOSTINGSTARTUPASSEMBLIES
 :: line in launchSettings.json is commented out, otherwise the SPA proxy server on start/debug, which this is doing here:
 
-ng serve --port 44410 --ssl --ssl-cert %APPDATA%\\ASP.NET\\https\\website3.pem --ssl-key %APPDATA%\\ASP.NET\\https\\website3.key
+ng serve --port 44410 --ssl --ssl-cert %APPDATA%\\ASP.NET\\https\\monic.pem --ssl-key %APPDATA%\\ASP.NET\\https\\monic.key
 ::npm start
 
 pause

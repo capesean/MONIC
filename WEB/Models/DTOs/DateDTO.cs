@@ -8,10 +8,10 @@ namespace WEB.Models
         [Required]
         public Guid DateId { get; set; }
 
-        [DisplayFormat(ConvertEmptyStringToNull = false), MaxLength(15)]
+        [DisplayFormat(ConvertEmptyStringToNull = false), MaxLength(25)]
         public string Name { get; set; }
 
-        [DisplayFormat(ConvertEmptyStringToNull = false), MaxLength(8)]
+        [DisplayFormat(ConvertEmptyStringToNull = false), MaxLength(10)]
         public string Code { get; set; }
 
         [Required]
