@@ -9,6 +9,7 @@ import { IndicatorLineChartSettings, Widget } from '../models/widget.model';
 import { DatumService } from '../services/datum.service';
 import { EntityService } from '../services/entity.service';
 import { IndicatorService } from '../services/indicator.service';
+import { UtilitiesService } from '../services/utilities.service';
 
 @NgComponent({
     selector: 'app-indicator-line-chart',
@@ -38,7 +39,8 @@ export class IndicatorLineChartComponent implements OnInit, Widget {
     constructor(
         private datumService: DatumService,
         private indicatorService: IndicatorService,
-        private entityService: EntityService
+        private entityService: EntityService,
+        private utilitiesService: UtilitiesService
     ) {
     }
 
@@ -77,9 +79,7 @@ export class IndicatorLineChartComponent implements OnInit, Widget {
 
                 const xCategories: string[] = [];
                 const values: number[] = [];
-                const formatter = (value: any): string => {
-                    return d3.format(`.${response.indicator.decimalPlaces}f`)(value)
-                };
+                const formatter = this.utilitiesService.getFormatter(response.indicator);
 
                 response.data.data.forEach(datum => {
                     xCategories.push(datum.date.code);

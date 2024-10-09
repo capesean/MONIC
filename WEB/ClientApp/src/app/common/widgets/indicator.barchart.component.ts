@@ -9,6 +9,7 @@ import { Date } from '../models/date.model';
 import { DatumService } from '../services/datum.service';
 import { IndicatorService } from '../services/indicator.service';
 import { IndicatorBarChartSettings, Widget } from '../models/widget.model';
+import { UtilitiesService } from '../services/utilities.service';
 
 @NgComponent({
     selector: 'app-indicator-bar-chart',
@@ -38,6 +39,7 @@ export class IndicatorBarChartComponent implements OnInit, Widget {
         private datumService: DatumService,
         private indicatorService: IndicatorService,
         private dateService: DateService,
+        private utilitiesService: UtilitiesService
     ) {
     }
 
@@ -74,9 +76,7 @@ export class IndicatorBarChartComponent implements OnInit, Widget {
 
                 const xCategories: string[] = [];
                 const values: number[] = [];
-                const formatter = (value: any): string => {
-                    return d3.format(`.${response.indicator.decimalPlaces}f`)(value)
-                };
+                const formatter = this.utilitiesService.getFormatter(response.indicator);
 
                 response.data.data.forEach(datum => {
                     xCategories.push(datum.entity.code);
