@@ -69,7 +69,7 @@ namespace AuthorizationServer.Controllers
             return Ok();
         }
 
-        private async Task CreateQuestionOptionGroups()
+        private async System.Threading.Tasks.Task CreateQuestionOptionGroups()
         {
             var qogFrequency = new QuestionOptionGroup { Name = "Frequency", Shared = true };
             db.Entry(new QuestionOption { QuestionOptionGroupId = qogFrequency.QuestionOptionGroupId, Label = "Never", Value = 1, Color = "#f8696b", SortOrder = 0 }).State = EntityState.Added;

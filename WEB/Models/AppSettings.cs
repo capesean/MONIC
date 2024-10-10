@@ -14,6 +14,8 @@
         public int AccessTokenExpiryMinutes { get; set; }
         public int RefreshTokenExpiryMinutes { get; set; }
 
+        private Settings _settings;
+
         internal bool UseAzureDataProtection
         {
             get

@@ -2,15 +2,11 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using OpenAI;
 using OpenAI.Managers;
-using OpenAI.ObjectModels;
 using OpenAI.ObjectModels.RequestModels;
 using WEB.Models;
 using WEB.Reports.Excel;
 using WEB.Reports.PDF;
 
-using OpenAI.Interfaces;
-using OpenAI.ObjectModels;
-using OpenAI.ObjectModels.RequestModels;
 
 namespace WEB.Controllers
 {
@@ -30,7 +26,7 @@ namespace WEB.Controllers
 
             byte[] bytes = await questionnaireExport.GenerateAsync();
 
-            Response.Headers.Add("Content-Disposition", questionnaireExport.GetContentDisposition().ToString());
+            Response.Headers.Append("Content-Disposition", questionnaireExport.GetContentDisposition().ToString());
 
             return File(bytes, questionnaireExport.GetContentType());
         }

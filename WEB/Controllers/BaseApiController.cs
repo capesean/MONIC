@@ -21,9 +21,17 @@ namespace WEB.Controllers
             {
                 if (_user == null)
                 {
-                    _user = db.Users
+                    _user = new AppUser(
+                        db,
+                        db.Users
+                        .Include(o => o.Roles)
+                        // todo: this will load all permissions on every request. should only load them when needed
+                        //.Include(o => o.EntityPermissions)
+                        //.Include(o => o.IndicatorPermissions)
                         .Include(o => o.Organisation)
-                        .FirstOrDefault(o => o.UserName == User.Identity.Name);
+                        .FirstOrDefault(o => o.UserName == User.Identity.Name),
+                        userManager
+                    );
                 }
                 return _user;
             }
