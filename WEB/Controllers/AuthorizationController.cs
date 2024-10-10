@@ -85,6 +85,30 @@ namespace AuthorizationServer.Controllers
 
                 var principal = await signInManager.CreateUserPrincipalAsync(user);
 
+                // if during login the roles scope is requested, it needs to be added as a claim using OpenIddict's name (oi_scp) so that 
+                // GetDestinations will know to add the roles to the identity token so the app (website) has these available in the JWT token
+                if (request.Scope.Contains("roles"))
+                {
+                    var identity = ((ClaimsIdentity)principal.Identity);
+                    identity.AddClaim(new Claim("oi_scp", "roles", ClaimValueTypes.String));
+
+                    var roles = await userManager.GetRolesAsync(user);
+                    foreach (var role in roles)
+                        identity.AddClaim(new Claim(ClaimTypes.Role, role));
+                }
+
+                foreach (var claim in principal.Claims)
+                    claim.SetDestinations(GetDestinations(claim, principal));
+
+                // set any custom claims here
+                //AddCustomClaims(
+                //    principal, 
+                //    "consultantid", 
+                //    user.ConsultantId.ToString(), 
+                //    ClaimValueTypes.String, 
+                //    new[] { Destinations.AccessToken, Destinations.IdentityToken }
+                //    );
+
                 principal.SetScopes(new[]
                 {
                     Scopes.OpenId,
@@ -97,11 +121,6 @@ namespace AuthorizationServer.Controllers
                 // any custom fields...
                 user.LastLoginDate = DateTime.UtcNow;
                 await userManager.UpdateAsync(user);
-
-                foreach (var claim in principal.Claims)
-                {
-                    claim.SetDestinations(GetDestinations(claim, principal));
-                }
 
                 // Returning a SignInResult will ask OpenIddict to issue the appropriate access/identity tokens.
                 return SignIn(principal, OpenIddictServerAspNetCoreDefaults.AuthenticationScheme);
@@ -156,6 +175,24 @@ namespace AuthorizationServer.Controllers
                     claim.SetDestinations(GetDestinations(claim, principal));
                 }
 
+                // set any custom claims here
+                //AddCustomClaims(
+                //    principal, 
+                //    "consultantid", 
+                //    user.ConsultantId.ToString(), 
+                //    ClaimValueTypes.String, 
+                //    new[] { Destinations.AccessToken, Destinations.IdentityToken }
+                //    );
+
+                principal.SetScopes(new[]
+                {
+                    Scopes.OpenId,
+                    Scopes.Email,
+                    Scopes.Profile,
+                    Scopes.OfflineAccess,
+                    Scopes.Roles
+                }.Intersect(request.GetScopes()));
+
                 // Returning a SignInResult will ask OpenIddict to issue the appropriate access/identity tokens.
                 return SignIn(principal, OpenIddictServerAspNetCoreDefaults.AuthenticationScheme);
             }
@@ -163,7 +200,22 @@ namespace AuthorizationServer.Controllers
             throw new InvalidOperationException("The specified grant type is not supported.");
         }
 
-        private IEnumerable<string> GetDestinations(Claim claim, System.Security.Claims.ClaimsPrincipal principal)
+        private void AddCustomClaims(ClaimsPrincipal principal, string type, string value, string valueType, IEnumerable<string> destinations)
+        {
+            var identity = (ClaimsIdentity)principal.Identity;
+            var existingClaim = identity.FindFirst(type);
+
+            // If the claim already exists, remove it and add a new one with the correct destinations.
+            if (existingClaim != null)
+                identity.RemoveClaim(existingClaim);
+
+            var newClaim = new Claim(type, value, valueType, OpenIddictServerAspNetCoreDefaults.AuthenticationScheme);
+            newClaim.SetDestinations(destinations);
+
+            identity.AddClaim(newClaim);
+        }
+
+        private IEnumerable<string> GetDestinations(Claim claim, ClaimsPrincipal principal)
         {
             // Note: by default, claims are NOT automatically included in the access and identity tokens.
             // To allow OpenIddict to serialize them, you must attach them a destination, that specifies

@@ -8,7 +8,7 @@ namespace WEB.Models
     {
         public static FileContentResult GetFileContentResult(HttpResponse response, string fileName, byte[] fileContents)
         {
-            response.Headers.Add("Content-Disposition", GetContentDisposition(fileName).ToString());
+            response.Headers.Append("Content-Disposition", GetContentDisposition(fileName).ToString());
 
             return new FileContentResult(fileContents, GetContentType(fileName))
             {

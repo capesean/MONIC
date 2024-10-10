@@ -1,7 +1,7 @@
 <div class="input-group flex-nowrap" [ngClass]="{ 'disabled': disabled }">
     <label class="input-group-text bg-light" *ngIf="!disabled">
         Browse
-        <input type="file" id="input" name="input" class="form-control" (ngModel)="fileContents" #fileInput [disabled]="disabled" [required]="required">
+        <input type="file" id="input" name="input" (ngModel)="fileContents" #fileInput [disabled]="disabled" [required]="required">
     </label>
     <input type="text" class="form-control" (click)="click()" [ngbTooltip]="fileName" container="body" readonly value="{{fileName || 'No file'}}" [ngClass]="{ 'text-muted': !fileName }" />
     <button type="button" class="btn btn-outline-primary" (click)="download()" ngbTooltip="Download file" container="body" *ngIf="enableDownload"><i class="fa fa fa-fw fa-cloud-download-alt"></i></button>

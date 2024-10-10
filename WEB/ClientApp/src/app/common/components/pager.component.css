@@ -11,6 +11,7 @@ ul.pagination {
         border: none !important;
         border-radius: 3px;
         margin-left: 1px;
+        cursor: pointer;
     }
 
         ul.pagination .page-link.page-number {
@@ -25,7 +26,7 @@ ul.pagination {
 }
 
 .pager-info {
-    padding: 2px 0 2px;
+    padding: 3px 0 2px;
     font-size: .75rem;
     line-height: 21px;
     margin-bottom: 1rem;

@@ -1,6 +1,7 @@
-﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
+using Microsoft.EntityFrameworkCore.Design;
 
 namespace WEB.Models
 {
@@ -9,26 +10,25 @@ namespace WEB.Models
         public DbSet<Error> Errors { get; set; }
         public DbSet<ErrorException> Exceptions { get; set; }
 
-        public ApplicationDbContext()
-        {
-            // disabling tracking entirely messes up openiddict's sign-in behaviour: https://github.com/openiddict/openiddict-core/issues/565
-            // could this be handled by having two types of dbcontext initialized? one with tracking, the other without?
-            // ChangeTracker.QueryTrackingBehavior = QueryTrackingBehavior.NoTracking;
-            ChangeTracker.AutoDetectChangesEnabled = false;
-        }
+        private readonly IIdentityService identityService;
+        public bool UserIsInAnyRole(params Roles[] roles) => identityService.UserIsInAnyRole(roles);
 
-        public ApplicationDbContext(DbContextOptions options) : base(options)
+
+        public ApplicationDbContext(
+            DbContextOptions options,
+            IIdentityService identityService
+            ) : base(options)
         {
+            this.identityService = identityService;
+
             //ChangeTracker.QueryTrackingBehavior = QueryTrackingBehavior.NoTracking;
             ChangeTracker.AutoDetectChangesEnabled = false;
         }
 
-        public static ApplicationDbContext Create()
-        {
-            return new ApplicationDbContext();
-        }
-
-
+        //public static ApplicationDbContext Create()
+        //{
+        //    return new ApplicationDbContext();
+        //}
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
@@ -70,13 +70,39 @@ namespace WEB.Models
                     .Entity<Item>()
                     .Property(o => o.ItemType)
                     .HasConversion(new EnumToStringConverter<ItemType>());
+
+            // set all global query filters here - use IsInRole if needed, roles retrieved using httpContextAccessor...
+            //modelBuilder.Entity<XXX>(xxx => xxx.HasQueryFilter(o => identityService.GetXXX() == null || o.Xxx == identityService.GetXXX()));
         }
 
         private void CreateNullableUniqueIndex(string tableName, string fieldName)
         {
+#pragma warning disable EF1002 // Risk of vulnerability to SQL injection.
             Database.ExecuteSqlRaw($"DROP INDEX IF EXISTS IX_{tableName}_{fieldName} ON {tableName};");
             Database.ExecuteSqlRaw($"CREATE UNIQUE NONCLUSTERED INDEX IX_{tableName}_{fieldName} ON {tableName}({fieldName}) WHERE {fieldName} IS NOT NULL;");
+#pragma warning restore EF1002 // Risk of vulnerability to SQL injection.
         }
 
+    }
+
+    public class DesignTimeDbContextFactory : IDesignTimeDbContextFactory<ApplicationDbContext>
+    {
+        public ApplicationDbContext CreateDbContext(string[] args)
+        {
+            var configuration = new ConfigurationBuilder()
+                .SetBasePath(Directory.GetCurrentDirectory())
+                .AddJsonFile("appsettings.development.json")
+                .Build();
+
+            var connectionString = configuration.GetConnectionString("DefaultConnection");
+
+            var httpContextAccessor = new HttpContextAccessor();
+            var identityService = new IdentityService(httpContextAccessor);
+
+            var optionsBuilder = new DbContextOptionsBuilder<ApplicationDbContext>();
+            optionsBuilder.UseSqlServer(connectionString, opts => opts.CommandTimeout((int)TimeSpan.FromMinutes(10).TotalSeconds));
+            optionsBuilder.UseOpenIddict();
+            return new ApplicationDbContext(optionsBuilder.Options, identityService);
+        }
     }
 }

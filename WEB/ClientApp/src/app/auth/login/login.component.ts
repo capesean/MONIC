@@ -47,16 +47,30 @@ export class LoginComponent implements OnInit {
         this.loading = true;
 
         this.authService.login(this.login)
-            .subscribe(
-                () => {
-                    this.router.navigate([this.params.path ? decodeURIComponent(this.params.path) : "/"]);
+            .subscribe({
+                next: () => {
+                    if (this.params.path) {
+                        let [navigatePath, queryParamsString] = decodeURIComponent(this.params.path).split('?');
+                        let queryParams = queryParamsString ? this.parseQueryParams(queryParamsString) : {};
+                        this.router.navigate([navigatePath], { queryParams });
+                    } else {
+                        this.router.navigate(["/"]);
+                    }
                 },
-                (err: HttpErrorResponse) => {
+                error: (err: HttpErrorResponse) => {
                     this.errorService.handleError(err, "User", "Login");
                     this.loading = false;
                 }
-            );
+            });
 
+    }
+
+    private parseQueryParams(queryParamsString: string): { [key: string]: string } {
+        return queryParamsString.split('&').reduce((acc, current) => {
+            const [key, value] = current.split('=');
+            acc[key] = decodeURIComponent(value);
+            return acc;
+        }, {} as { [key: string]: string });
     }
 
 }

@@ -6,8 +6,6 @@ using Microsoft.EntityFrameworkCore;
 using WEB.Controllers;
 using WEB.Models;
 using WEB.Error;
-using WEB.Models.DTOs;
-using Task = System.Threading.Tasks.Task;
 
 namespace AuthorizationServer.Controllers
 {

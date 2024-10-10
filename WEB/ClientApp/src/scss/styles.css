@@ -10,6 +10,14 @@ body#app {
     main {
         margin-left: 18rem;
     }
+
+    .navbar img.navbar-brand-img {
+        height: initial;
+    }
+
+    #mainNavbar .navbar-brand {
+        margin-bottom: 1.5rem;
+    }
 }
 
 @media(min-width: 1200px) {
@@ -367,6 +375,104 @@ app-file .input-group * {
     .navbar img.navbar-brand-img {
         max-height: 50px;
     }
+}
+
+input[type=checkbox].form-check-input {
+    border-color: #d6dae2;
+    cursor: pointer;
+}
+
+.form-control[readonly] {
+    background-color: rgb(237, 238, 240) !important;
+}
+
+    .app-select .input-group:not(.disabled) .form-control[readonly],
+    .form-control[readonly][ngbdatepicker] {
+        background-color: #f6fdff !important;
+    }
+
+fieldset[disabled] .app-select .input-group:not(.disabled) .form-control[readonly] {
+    background-color: rgb(237, 238, 240) !important;
+}
+
+fieldset.group .form-check {
+    line-height: 35px;
+    margin-bottom: 0;
+}
+
+    fieldset.group .form-check input[type=checkbox],
+    fieldset.group .form-check input[type=radio] {
+        margin-top: 10px;
+    }
+
+.card-header.form-section {
+    padding-top: 0.624999375rem !important;
+    padding-bottom: 0.624999375rem !important;
+    background-color: rgba(0, 186, 199) !important;
+}
+
+    .card-header.form-section h5 {
+        color: rgba(246, 247, 248) !important;
+        margin: 0 !important;
+    }
+
+.popover {
+    --bs-popover-border-color: #999;
+}
+
+#breadcrumbs {
+    line-height: 1.5rem;
+}
+
+.breadcrumb-item {
+    padding-left: 0 !important;
+    padding-right: 0.5rem;
+}
+
+abbr {
+    border-bottom: dashed 1px #ccc;
+}
+
+.table.table-sm > :not(caption) > * > * {
+    padding: 0.5rem 1rem;
+}
+
+pager.pager-sm .pager-info, pager.pager-sm ul.pagination {
+    margin-bottom: 0;
+}
+
+body#auth {
+    background-color: rgb(14, 34, 56);
+    padding-top: 50px;
+}
+
+    body#auth .form-auth {
+        box-shadow: 0px 0px 20px black;
+    }
+
+input[type=radio].form-check-input {
+    border: solid 1px rgb(206,212,218);
+}
+
+
+.form-switch .form-check-input.is-valid:checked, .was-validated .form-switch .form-check-input:valid:checked {
+    background-color: #00BAC7;
+}
+
+.form-switch .form-check-label {
+    margin-top: 3px !important;
+}
+
+.form-check-input:disabled {
+    opacity: 0.8;
+}
+
+.feedback-suggestion {
+    color: #D82C5B !important;
+}
+
+.bg-info {
+    background-color: rgba(36, 193, 235) !important;
 }
 
 .bs-tooltip-top > * {

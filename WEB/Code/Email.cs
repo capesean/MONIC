@@ -10,6 +10,7 @@ namespace WEB
     public interface IEmailSender
     {
         Task SendEmailAsync(string toEmail, string toName, string subject, string bodyText, string bodyHtml = null, bool isErrorEmail = false, List<Attachment> attachments = null, bool textOnly = false, string template = "email");
+        Task SendEmailAsync(List<MailAddress> to, string subject, string bodyText, string bodyHtml = null, bool isErrorEmail = false, List<Attachment> attachments = null, bool textOnly = false, string template = "email");
     }
 
     public class EmailSender : IEmailSender
@@ -22,6 +23,11 @@ namespace WEB
         }
 
         public async Task SendEmailAsync(string toEmail, string toName, string subject, string bodyText, string bodyHtml = null, bool isErrorEmail = false, List<Attachment> attachments = null, bool textOnly = false, string template = "email")
+        {
+            await SendEmailAsync(new List<MailAddress> { new MailAddress(toEmail, toName) }, subject, bodyText, bodyHtml, isErrorEmail, attachments, textOnly, template);
+        }
+
+        public async Task SendEmailAsync(List<MailAddress> to, string subject, string bodyText, string bodyHtml = null, bool isErrorEmail = false, List<Attachment> attachments = null, bool textOnly = false, string template = "email")
         {
             if (!isErrorEmail && !_appSettings.EmailSettings.SendEmails)
                 return;
@@ -51,8 +57,13 @@ namespace WEB
                 using (var mailMessage = new MailMessage())
                 {
                     mailMessage.From = new MailAddress(_appSettings.EmailSettings.Sender, _appSettings.EmailSettings.SenderName);
-                    var to = new MailAddress(string.IsNullOrWhiteSpace(_appSettings.EmailSettings.SubstitutionEmailAddress) ? toEmail : _appSettings.EmailSettings.SubstitutionEmailAddress, toName);
-                    mailMessage.To.Add(to);
+                    foreach (var address in to)
+                    {
+                        if (string.IsNullOrWhiteSpace(_appSettings.EmailSettings.SubstitutionEmailAddress))
+                            mailMessage.To.Add(address);
+                        else
+                            mailMessage.To.Add(new MailAddress(_appSettings.EmailSettings.SubstitutionEmailAddress, address.DisplayName));
+                    }
                     mailMessage.Subject = subject;
                     mailMessage.Body = bodyText;
 
