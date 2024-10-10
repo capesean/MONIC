@@ -41,3 +41,12 @@ ul.pagination {
 .pagination .page-item.disabled {
     pointer-events: none;
 }
+
+.pagination .page-item.disabled {
+    opacity: 0.5;
+}
+
+.pagination .page-item:not(.disabled):hover a {
+    background-color: #e5faff !important;
+    cursor: pointer;
+}

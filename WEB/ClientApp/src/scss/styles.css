@@ -368,3 +368,7 @@ app-file .input-group * {
         max-height: 50px;
     }
 }
+
+.bs-tooltip-top > * {
+    margin-bottom: 10px;
+}

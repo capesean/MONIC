@@ -100,13 +100,18 @@
 
                         <div class="card-header border-0">
 
-                            <h4 class="card-header-title text-uppercase">
-                                Indicators
-                            </h4>
+                            <div class="card-header-title card-header-space-between">
+                                <h4 class="text-uppercase m-0">Indicators</h4>
+                                <div>
+                                    <a href="#"><i class="fa fa-fw ms-1 fa-plus" ngbTooltip="Add Indicator"></i></a>
+                                    <i class="fa fa-fw ms-1 fa-search hover-primary text-primary hover-dark cursor-pointer" ngbTooltip="Show/Hide search options"></i>
+                                    <i class="fa fa-fw ms-1 fa-sort text-primary cursor-pointer" ngbTooltip="Sort Indicators"></i>
+                                </div>
+                            </div>
 
                         </div>
 
-                        <div class="card-body">
+                        <div class="card-body" *ngIf="false">
 
                             <form id="formSearchIndicators" (submit)="loadIndicators(0)" novalidate *ngIf="showIndicatorsSearch" class="mb-5">
 
@@ -122,12 +127,12 @@
 
                             </form>
 
-                            <div class="mb-3">
+                            <!--<div class="mb-3">
                                 <a [routerLink]="['/indicators', 'add']" class="btn btn-outline-primary me-2 mb-1">Add<i class="fas fa-plus ms-2"></i></a>
                                 <button *ngIf="!showIndicatorsSearch" type="button" class="btn btn-outline-secondary me-2 mb-1" (click)="showIndicatorsSearch=true">Filter<i class="fas fa-filter ms-2"></i></button>
                                 <button *ngIf="showIndicatorsSearch" form="formSearchIndicators" type="submit" class="btn btn-outline-primary me-2 mb-1">Search<i class="fas fa-search ms-2"></i></button>
                                 <button type="button" class="btn btn-outline-secondary me-2 mb-1" (click)="showIndicatorSort()" *ngIf="indicatorsHeaders.totalRecords > 1 && !showIndicatorsSearch">Sort<i class="fas fa-sort ms-2"></i></button>
-                            </div>
+                            </div>-->
 
                         </div>
 
