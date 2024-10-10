@@ -19,12 +19,13 @@
                     <div class="col-sm-6 col-md-4 col-lg-3">
                         <div class="form-group">
                             <select id="fieldType" name="fieldType" [(ngModel)]="searchOptions.fieldType" #fieldType="ngModel" class="form-select">
+                                <option [ngValue]="undefined" disabled>Field Type</option>
                                 <option *ngFor="let fieldType of fieldTypes" [ngValue]="fieldType.value">{{ fieldType.label }}</option>
                             </select>
                         </div>
                     </div>
 
-                    <div class="col-sm-6 col-md-4 col-lg-4 col-xl-3">
+                    <div class="col-sm-6 col-md-4 col-xl-3">
                         <div class="form-group">
                             <select id="organisation" name="organisation" [(ngModel)]="searchOptions.organisation" #organisation="ngModel" class="form-select">
                                 <option [ngValue]="undefined">Organisation: Any</option>
@@ -34,7 +35,7 @@
                         </div>
                     </div>
 
-                    <div class="col-sm-6 col-md-4 col-lg-4 col-xl-3">
+                    <div class="col-sm-6 col-md-4 col-xl-3">
                         <div class="form-group">
                             <select id="entity" name="entity" [(ngModel)]="searchOptions.entity" #entity="ngModel" class="form-select">
                                 <option [ngValue]="undefined">Entity: Any</option>
@@ -44,7 +45,7 @@
                         </div>
                     </div>
 
-                    <div class="col-sm-6 col-md-4 col-lg-4 col-xl-3">
+                    <div class="col-sm-6 col-md-4 col-xl-3">
                         <div class="form-group">
                             <select id="indicator" name="indicator" [(ngModel)]="searchOptions.indicator" #indicator="ngModel" class="form-select">
                                 <option [ngValue]="undefined">Indicator: Any</option>
@@ -54,7 +55,7 @@
                         </div>
                     </div>
 
-                    <div class="col-sm-6 col-md-4 col-lg-3">
+                    <div class="col-sm-6 col-md-5 col-xl-4">
                         <div class="form-group">
                             <group-select id="groupId" name="groupId" [(ngModel)]="searchOptions.groupId"></group-select>
                         </div>

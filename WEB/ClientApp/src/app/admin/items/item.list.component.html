@@ -19,6 +19,7 @@
                     <div class="col-sm-6 col-md-4 col-lg-3">
                         <div class="form-group">
                             <select id="itemType" name="itemType" [(ngModel)]="searchOptions.itemType" #itemType="ngModel" class="form-select">
+                                <option [ngValue]="undefined" disabled>Item Type</option>
                                 <option *ngFor="let itemType of itemTypes" [ngValue]="itemType.value">{{ itemType.label }}</option>
                             </select>
                         </div>

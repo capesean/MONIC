@@ -131,7 +131,7 @@ namespace WEB.Controllers
                 db.Entry(indicator).State = EntityState.Modified;
             }
 
-            ModelFactory.Hydrate(indicator, indicatorDTO);
+            ModelFactory.Hydrate(indicator, indicatorDTO, isNew);
 
             await ItemFunctions.HydrateFieldsAsync(db, indicator.IndicatorId, indicatorDTO.FieldValues, indicatorDTO.OptionValues);
 
@@ -150,7 +150,7 @@ namespace WEB.Controllers
                 return NotFound();
 
             if (await db.Tokens.AnyAsync(o => o.SourceIndicatorId == indicator.IndicatorId))
-                return BadRequest("Unable to delete the indicator as it has related tokens");
+                return BadRequest("Unable to delete the indicator as it has related source tokens");
 
             if (await db.LogFrameRowIndicators.AnyAsync(o => o.IndicatorId == indicator.IndicatorId))
                 return BadRequest("Unable to delete the indicator as it has related log frame row indicators");

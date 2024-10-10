@@ -27,6 +27,7 @@ export class ItemModalComponent implements OnInit {
     @Input() canRemoveFilters = false;
     @Input() multiple = false;
     @Input() showAddNew = false;
+    @Input() showFilters = true;
     @Input() showFooter = true;
     @Input() resetOnOpen = false;
     @Input() title = this.multiple ? "Select items" : "Select an item";

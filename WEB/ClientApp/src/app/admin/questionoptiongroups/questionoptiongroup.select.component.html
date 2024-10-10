@@ -1,6 +1,6 @@
 <div class="input-group" [ngClass]="{ 'disabled': disabled }">
     <input name="questionOptionGroup" placeholder="{{placeholder}}" (click)="click()" type="text" tabindex="-1" class="form-control cursor-pointer app-select-input" readonly value="{{getLabel()}}" [disabled]="disabled" />
-    <button type="button" class="btn btn-secondary" (click)="click(true)" [ngClass]="{ 'disabled': disabled}">
+    <button type="button" class="btn btn-secondary" (click)="click(true)" *ngIf="!disabled">
         <i class="fas fa-fw" [ngClass]="{ 'fa-search': !questionOptionGroup && !questionOptionGroups?.length, 'fa-times': !!questionOptionGroup || !!questionOptionGroups?.length }"></i>
     </button>
 </div>

@@ -89,7 +89,7 @@ namespace WEB.Controllers
                 db.Entry(field).State = EntityState.Modified;
             }
 
-            ModelFactory.Hydrate(field, fieldDTO);
+            ModelFactory.Hydrate(field, fieldDTO, isNew);
 
             await db.SaveChangesAsync();
 
@@ -141,7 +141,13 @@ namespace WEB.Controllers
         [HttpDelete("{fieldId:Guid}/options"), AuthorizeRoles(Roles.Administrator)]
         public async Task<IActionResult> DeleteOptions(Guid fieldId)
         {
+            using var transactionScope = Utilities.General.CreateTransactionScope();
+
+            await db.OptionValues.Where(o => o.Option.FieldId == fieldId).ExecuteDeleteAsync();
+
             await db.Options.Where(o => o.FieldId == fieldId).ExecuteDeleteAsync();
+
+            transactionScope.Complete();
 
             return Ok();
         }

@@ -31,6 +31,7 @@
                     <div class="col-sm-6 col-md-4 col-lg-3">
                         <div class="form-group">
                             <select id="indicatorType" name="indicatorType" [(ngModel)]="searchOptions.indicatorType" #indicatorType="ngModel" class="form-select">
+                                <option [ngValue]="undefined" disabled>Indicator Type</option>
                                 <option *ngFor="let indicatorType of indicatorTypes" [ngValue]="indicatorType.value">{{ indicatorType.label }}</option>
                             </select>
                         </div>
@@ -39,12 +40,13 @@
                     <div class="col-sm-6 col-md-4 col-lg-3">
                         <div class="form-group">
                             <select id="indicatorStatus" name="indicatorStatus" [(ngModel)]="searchOptions.indicatorStatus" #indicatorStatus="ngModel" class="form-select">
+                                <option [ngValue]="undefined" disabled>Status</option>
                                 <option *ngFor="let indicatorStatus of indicatorStatuses" [ngValue]="indicatorStatus.value">{{ indicatorStatus.label }}</option>
                             </select>
                         </div>
                     </div>
 
-                    <div class="col-sm-6 col-md-4 col-lg-3">
+                    <div class="col-sm-6 col-md-5 col-xl-4">
                         <div class="form-group">
                             <entity-type-select id="entityTypeId" name="entityTypeId" [(ngModel)]="searchOptions.entityTypeId"></entity-type-select>
                         </div>
@@ -53,12 +55,13 @@
                     <div class="col-sm-6 col-md-4 col-lg-3">
                         <div class="form-group">
                             <select id="frequency" name="frequency" [(ngModel)]="searchOptions.frequency" #frequency="ngModel" class="form-select">
+                                <option [ngValue]="undefined" disabled>Frequency</option>
                                 <option *ngFor="let dateType of dateTypes" [ngValue]="dateType.value">{{ dateType.label }}</option>
                             </select>
                         </div>
                     </div>
 
-                    <div class="col-sm-6 col-md-4 col-lg-3">
+                    <div class="col-sm-6 col-md-5 col-xl-4">
                         <div class="form-group">
                             <user-select id="createdById" name="createdById" [(ngModel)]="searchOptions.createdById"></user-select>
                         </div>
@@ -83,12 +86,6 @@
 
         <div class="card-header border-0 card-header-space-between">
             <h4 class="card-header-title text-uppercase">Indicators</h4>
-            <div>
-                <a href="#"><i class="fa fa-fw fa-plus"></i></a>
-                <i class="fa fa-fw fa-search hover-primary text-primary hover-dark cursor-pointer"></i>
-                <i class="fa fa-fw fa-sort text-primary cursor-pointer"></i>
-            </div>
-
         </div>
 
         <div class="table-responsive">

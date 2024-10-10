@@ -19,18 +19,19 @@
                     <div class="col-sm-6 col-md-4 col-lg-3">
                         <div class="form-group">
                             <select id="dateType" name="dateType" [(ngModel)]="searchOptions.dateType" #dateType="ngModel" class="form-select">
+                                <option [ngValue]="undefined" disabled>Date Type</option>
                                 <option *ngFor="let dateType of dateTypes" [ngValue]="dateType.value">{{ dateType.label }}</option>
                             </select>
                         </div>
                     </div>
 
-                    <div class="col-sm-6 col-md-4 col-lg-3">
+                    <div class="col-sm-6 col-md-5 col-xl-4">
                         <div class="form-group">
                             <date-select id="quarterId" name="quarterId" [(ngModel)]="searchOptions.quarterId"></date-select>
                         </div>
                     </div>
 
-                    <div class="col-sm-6 col-md-4 col-lg-3">
+                    <div class="col-sm-6 col-md-5 col-xl-4">
                         <div class="form-group">
                             <date-select id="yearId" name="yearId" [(ngModel)]="searchOptions.yearId"></date-select>
                         </div>

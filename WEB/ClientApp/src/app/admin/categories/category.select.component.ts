@@ -78,4 +78,9 @@ export class CategorySelectComponent implements OnInit, ControlValueAccessor {
         if (button && (this.category || this.categories.length)) this.changed(this.multiple ? [] : null);
         else this.modal.open();
     }
+
+    clear() {
+        this.changed(this.multiple ? [] : null);
+    }
 }
+

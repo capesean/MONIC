@@ -223,7 +223,7 @@ export class FolderEditComponent extends ItemComponent implements OnInit, OnDest
 
     deleteSubfolders(): void {
         let modalRef = this.modalService.open(ConfirmModalComponent, { centered: true });
-        (modalRef.componentInstance as ConfirmModalComponent).options = { title: "Delete Folders", text: "Are you sure you want to delete all the subfolders?", deleteStyle: true, ok: "Delete" } as ConfirmModalOptions;
+        (modalRef.componentInstance as ConfirmModalComponent).options = { title: "Delete Subfolders", text: "Are you sure you want to delete all the subfolders?", deleteStyle: true, ok: "Delete" } as ConfirmModalOptions;
         modalRef.result.then(
             () => {
 

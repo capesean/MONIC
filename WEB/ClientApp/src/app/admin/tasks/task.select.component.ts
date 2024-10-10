@@ -80,4 +80,9 @@ export class TaskSelectComponent implements OnInit, ControlValueAccessor {
         if (button && (this.task || this.tasks.length)) this.changed(this.multiple ? [] : null);
         else this.modal.open();
     }
+
+    clear() {
+        this.changed(this.multiple ? [] : null);
+    }
 }
+

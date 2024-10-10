@@ -25,6 +25,7 @@ export class EntityTypeModalComponent implements OnInit {
     @Input() canRemoveFilters = false;
     @Input() multiple = false;
     @Input() showAddNew = false;
+    @Input() showFilters = true;
     @Input() showFooter = true;
     @Input() resetOnOpen = false;
     @Input() title = this.multiple ? "Select entity types" : "Select an entity type";

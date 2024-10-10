@@ -80,4 +80,9 @@ export class SectionSelectComponent implements OnInit, ControlValueAccessor {
         if (button && (this.section || this.sections.length)) this.changed(this.multiple ? [] : null);
         else this.modal.open();
     }
+
+    clear() {
+        this.changed(this.multiple ? [] : null);
+    }
 }
+

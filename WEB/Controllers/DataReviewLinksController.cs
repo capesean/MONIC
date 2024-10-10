@@ -58,6 +58,7 @@ namespace WEB.Controllers
 
             var dataReviewLink = await db.DataReviewLinks
                 .FirstOrDefaultAsync(o => o.IndicatorId == dataReviewLinkDTO.IndicatorId && o.EntityId == dataReviewLinkDTO.EntityId && o.DateId == dataReviewLinkDTO.DateId && o.DataReviewId == dataReviewLinkDTO.DataReviewId);
+
             var isNew = dataReviewLink == null;
 
             if (isNew)

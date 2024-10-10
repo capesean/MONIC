@@ -127,21 +127,21 @@ namespace WEB.Models
             return indicatorDTO;
         }
 
-        public static void Hydrate(Indicator indicator, IndicatorDTO indicatorDTO)
+        public static void Hydrate(Indicator indicator, IndicatorDTO indicatorDTO, bool isNew)
         {
             indicator.SubcategoryId = indicatorDTO.SubcategoryId;
             indicator.Name = indicatorDTO.Name;
             indicator.Code = indicatorDTO.Code;
             indicator.Units = indicatorDTO.Units;
-            indicator.IndicatorType = indicatorDTO.IndicatorType;
+            if (isNew) indicator.IndicatorType = indicatorDTO.IndicatorType;
             indicator.IndicatorStatus = indicatorDTO.IndicatorStatus;
             indicator.RequiresSubmit = indicatorDTO.RequiresSubmit;
             indicator.RequiresVerify = indicatorDTO.RequiresVerify;
             indicator.RequiresApprove = indicatorDTO.RequiresApprove;
             indicator.DisableNote = indicatorDTO.DisableNote;
-            indicator.EntityTypeId = indicatorDTO.EntityTypeId;
-            indicator.Frequency = indicatorDTO.Frequency;
-            indicator.DateAggregationType = indicatorDTO.DateAggregationType;
+            if (isNew) indicator.EntityTypeId = indicatorDTO.EntityTypeId;
+            if (isNew) indicator.Frequency = indicatorDTO.Frequency;
+            if (isNew) indicator.DateAggregationType = indicatorDTO.DateAggregationType;
             indicator.DataType = indicatorDTO.DataType;
             indicator.DecimalPlaces = indicatorDTO.DecimalPlaces;
             indicator.SortOrder = indicatorDTO.SortOrder;

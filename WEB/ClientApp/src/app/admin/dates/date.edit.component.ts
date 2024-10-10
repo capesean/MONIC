@@ -199,7 +199,7 @@ export class DateEditComponent implements OnInit {
 
     deleteDatesInQuarter(): void {
         let modalRef = this.modalService.open(ConfirmModalComponent, { centered: true });
-        (modalRef.componentInstance as ConfirmModalComponent).options = { title: "Delete Dates", text: "Are you sure you want to delete all the dates in quarter?", deleteStyle: true, ok: "Delete" } as ConfirmModalOptions;
+        (modalRef.componentInstance as ConfirmModalComponent).options = { title: "Delete Dates in Quarter", text: "Are you sure you want to delete all the dates in quarter?", deleteStyle: true, ok: "Delete" } as ConfirmModalOptions;
         modalRef.result.then(
             () => {
 
@@ -267,7 +267,7 @@ export class DateEditComponent implements OnInit {
 
     deleteDatesInYear(): void {
         let modalRef = this.modalService.open(ConfirmModalComponent, { centered: true });
-        (modalRef.componentInstance as ConfirmModalComponent).options = { title: "Delete Dates", text: "Are you sure you want to delete all the dates in year?", deleteStyle: true, ok: "Delete" } as ConfirmModalOptions;
+        (modalRef.componentInstance as ConfirmModalComponent).options = { title: "Delete Dates in Year", text: "Are you sure you want to delete all the dates in year?", deleteStyle: true, ok: "Delete" } as ConfirmModalOptions;
         modalRef.result.then(
             () => {
 

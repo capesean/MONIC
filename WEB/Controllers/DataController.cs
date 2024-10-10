@@ -103,6 +103,7 @@ namespace WEB.Controllers
 
             var datum = await db.Data
                 .FirstOrDefaultAsync(o => o.IndicatorId == datumDTO.IndicatorId && o.EntityId == datumDTO.EntityId && o.DateId == datumDTO.DateId);
+
             var isNew = datum == null;
 
             if (isNew)

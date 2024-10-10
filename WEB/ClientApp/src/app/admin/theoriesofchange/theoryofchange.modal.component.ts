@@ -25,6 +25,7 @@ export class TheoryOfChangeModalComponent implements OnInit {
     @Input() canRemoveFilters = false;
     @Input() multiple = false;
     @Input() showAddNew = false;
+    @Input() showFilters = true;
     @Input() showFooter = true;
     @Input() resetOnOpen = false;
     @Input() title = this.multiple ? "Select theories of change" : "Select a theory of change";

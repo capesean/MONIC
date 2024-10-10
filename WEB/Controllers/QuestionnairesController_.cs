@@ -74,7 +74,7 @@ namespace WEB.Controllers
 
             byte[] bytes = await pdf.GenerateAsync();
 
-            Response.Headers.Add("Content-Disposition", pdf.GetContentDisposition().ToString());
+            Response.Headers.Append("Content-Disposition", pdf.GetContentDisposition().ToString());
 
             return File(bytes, pdf.GetContentType());
         }

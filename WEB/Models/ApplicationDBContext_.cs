@@ -99,13 +99,13 @@ namespace WEB.Models
                 .HasName("PK_Datum");
 
 
-            modelBuilder.Entity<DocumentContent>(o => o.ToTable("Documents"));
+            modelBuilder.Entity<Document>()
+                .HasOne(o => o.DocumentContent)
+                .WithOne(o => o.Document)
+                .HasForeignKey<DocumentContent>(o => o.DocumentId);
 
-            modelBuilder.Entity<Document>(document =>
-            {
-                document.HasOne(o => o.DocumentContent).WithOne(o => o.Document).HasForeignKey<Document>(o => o.DocumentId);
-                document.Navigation(o => o.DocumentContent).IsRequired();
-            });
+            modelBuilder.Entity<DocumentContent>()
+                .ToTable("DocumentContents");
 
             modelBuilder.Entity<Entity>()
                 .HasIndex(o => new { o.OrganisationId, o.Name })

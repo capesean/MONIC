@@ -99,6 +99,7 @@ export const GeneratedRoutes: Route[] = [
         canActivateChild: [AccessGuard],
         component: AnswerListComponent,
         data: {
+            submenu: 'answers',
             breadcrumb: 'Answers'
         }
     },
@@ -108,6 +109,7 @@ export const GeneratedRoutes: Route[] = [
         canActivateChild: [AccessGuard],
         component: AnswerOptionListComponent,
         data: {
+            submenu: 'answerOptions',
             breadcrumb: 'Answer Options'
         }
     },
@@ -118,6 +120,7 @@ export const GeneratedRoutes: Route[] = [
         component: CategoryListComponent,
         data: {
             menu: 'admin',
+            submenu: 'categories',
             breadcrumb: 'Categories'
         },
         children: [
@@ -128,6 +131,7 @@ export const GeneratedRoutes: Route[] = [
                 canActivateChild: [AccessGuard],
                 data: {
                     menu: 'admin',
+                    submenu: 'categories',
                     breadcrumb: 'Add Category'
                 },
                 children: [
@@ -138,6 +142,7 @@ export const GeneratedRoutes: Route[] = [
                         canActivateChild: [AccessGuard],
                         data: {
                             menu: 'admin',
+                            submenu: 'subcategories',
                             breadcrumb: 'Add Subcategory'
                         }
                     }
@@ -152,6 +157,7 @@ export const GeneratedRoutes: Route[] = [
         component: ComponentListComponent,
         data: {
             menu: 'admin',
+            submenu: 'components',
             breadcrumb: 'Components'
         },
         children: [
@@ -162,6 +168,7 @@ export const GeneratedRoutes: Route[] = [
                 canActivateChild: [AccessGuard],
                 data: {
                     menu: 'admin',
+                    submenu: 'components',
                     breadcrumb: 'Add Component'
                 },
                 children: [
@@ -172,6 +179,7 @@ export const GeneratedRoutes: Route[] = [
                         canActivateChild: [AccessGuard],
                         data: {
                             menu: 'admin',
+                            submenu: 'componentIndicators',
                             breadcrumb: 'Add Component Indicator'
                         }
                     }
@@ -185,6 +193,7 @@ export const GeneratedRoutes: Route[] = [
         canActivateChild: [AccessGuard],
         component: ComponentIndicatorListComponent,
         data: {
+            submenu: 'componentIndicators',
             breadcrumb: 'Component Indicators'
         }
     },
@@ -195,6 +204,7 @@ export const GeneratedRoutes: Route[] = [
         component: DataReviewListComponent,
         data: {
             menu: 'admin',
+            submenu: 'dataReviews',
             breadcrumb: 'Data Reviews'
         },
         children: [
@@ -205,6 +215,7 @@ export const GeneratedRoutes: Route[] = [
                 canActivateChild: [AccessGuard],
                 data: {
                     menu: 'admin',
+                    submenu: 'dataReviews',
                     breadcrumb: 'Add Data Review'
                 }
             }
@@ -217,6 +228,7 @@ export const GeneratedRoutes: Route[] = [
         component: DateListComponent,
         data: {
             menu: 'admin',
+            submenu: 'dates',
             breadcrumb: 'Dates'
         },
         children: [
@@ -227,6 +239,7 @@ export const GeneratedRoutes: Route[] = [
                 canActivateChild: [AccessGuard],
                 data: {
                     menu: 'admin',
+                    submenu: 'dates',
                     breadcrumb: 'Add Date'
                 }
             }
@@ -239,6 +252,7 @@ export const GeneratedRoutes: Route[] = [
         component: DatumListComponent,
         data: {
             menu: 'admin',
+            submenu: 'data',
             breadcrumb: 'Data'
         },
         children: [
@@ -249,6 +263,7 @@ export const GeneratedRoutes: Route[] = [
                 canActivateChild: [AccessGuard],
                 data: {
                     menu: 'admin',
+                    submenu: 'data',
                     breadcrumb: 'Add Datum'
                 }
             }
@@ -261,6 +276,7 @@ export const GeneratedRoutes: Route[] = [
         component: DocumentListComponent,
         data: {
             menu: 'admin',
+            submenu: 'documents',
             breadcrumb: 'Documents'
         }
     },
@@ -271,6 +287,7 @@ export const GeneratedRoutes: Route[] = [
         component: EntityListComponent,
         data: {
             menu: 'admin',
+            submenu: 'entities',
             breadcrumb: 'Entities'
         },
         children: [
@@ -281,6 +298,7 @@ export const GeneratedRoutes: Route[] = [
                 canActivateChild: [AccessGuard],
                 data: {
                     menu: 'admin',
+                    submenu: 'entities',
                     breadcrumb: 'Add Entity'
                 }
             }
@@ -293,6 +311,7 @@ export const GeneratedRoutes: Route[] = [
         component: EntityLinkListComponent,
         data: {
             menu: 'admin',
+            submenu: 'entityLinks',
             breadcrumb: 'Entity Links'
         },
         children: [
@@ -303,6 +322,7 @@ export const GeneratedRoutes: Route[] = [
                 canActivateChild: [AccessGuard],
                 data: {
                     menu: 'admin',
+                    submenu: 'entityLinks',
                     breadcrumb: 'Add Entity Link'
                 }
             }
@@ -315,6 +335,7 @@ export const GeneratedRoutes: Route[] = [
         component: EntityPermissionListComponent,
         data: {
             menu: 'admin',
+            submenu: 'entityPermissions',
             breadcrumb: 'Entity Permissions'
         }
     },
@@ -325,6 +346,7 @@ export const GeneratedRoutes: Route[] = [
         component: EntityTypeListComponent,
         data: {
             menu: 'admin',
+            submenu: 'entityTypes',
             breadcrumb: 'Entity Types'
         },
         children: [
@@ -335,6 +357,7 @@ export const GeneratedRoutes: Route[] = [
                 canActivateChild: [AccessGuard],
                 data: {
                     menu: 'admin',
+                    submenu: 'entityTypes',
                     breadcrumb: 'Add Entity Type'
                 }
             }
@@ -347,6 +370,7 @@ export const GeneratedRoutes: Route[] = [
         component: FieldListComponent,
         data: {
             menu: 'admin',
+            submenu: 'fields',
             breadcrumb: 'Fields'
         },
         children: [
@@ -357,6 +381,7 @@ export const GeneratedRoutes: Route[] = [
                 canActivateChild: [AccessGuard],
                 data: {
                     menu: 'admin',
+                    submenu: 'fields',
                     breadcrumb: 'Add Field'
                 },
                 children: [
@@ -367,6 +392,7 @@ export const GeneratedRoutes: Route[] = [
                         canActivateChild: [AccessGuard],
                         data: {
                             menu: 'admin',
+                            submenu: 'options',
                             breadcrumb: 'Add Option'
                         }
                     }
@@ -381,6 +407,7 @@ export const GeneratedRoutes: Route[] = [
         component: FieldValueListComponent,
         data: {
             menu: 'admin',
+            submenu: 'fieldValues',
             breadcrumb: 'Field Values'
         },
         children: [
@@ -391,6 +418,7 @@ export const GeneratedRoutes: Route[] = [
                 canActivateChild: [AccessGuard],
                 data: {
                     menu: 'admin',
+                    submenu: 'fieldValues',
                     breadcrumb: 'Add Field Value'
                 }
             }
@@ -402,6 +430,7 @@ export const GeneratedRoutes: Route[] = [
         canActivateChild: [AccessGuard],
         component: FolderListComponent,
         data: {
+            submenu: 'folders',
             breadcrumb: 'Folders'
         },
         children: [
@@ -412,6 +441,7 @@ export const GeneratedRoutes: Route[] = [
                 canActivateChild: [AccessGuard],
                 data: {
                     menu: '',
+                    submenu: 'folders',
                     breadcrumb: 'Add Folder'
                 },
                 children: [
@@ -421,6 +451,7 @@ export const GeneratedRoutes: Route[] = [
                         canActivate: [AccessGuard],
                         canActivateChild: [AccessGuard],
                         data: {
+                            submenu: 'folderContents',
                             breadcrumb: 'Add Folder Content'
                         }
                     }
@@ -434,6 +465,7 @@ export const GeneratedRoutes: Route[] = [
         canActivateChild: [AccessGuard],
         component: FolderContentListComponent,
         data: {
+            submenu: 'folderContents',
             breadcrumb: 'Folder Contents'
         }
     },
@@ -444,6 +476,7 @@ export const GeneratedRoutes: Route[] = [
         component: GroupListComponent,
         data: {
             menu: 'admin',
+            submenu: 'groups',
             breadcrumb: 'Groups'
         },
         children: [
@@ -454,6 +487,7 @@ export const GeneratedRoutes: Route[] = [
                 canActivateChild: [AccessGuard],
                 data: {
                     menu: 'admin',
+                    submenu: 'groups',
                     breadcrumb: 'Add Group'
                 }
             }
@@ -466,6 +500,7 @@ export const GeneratedRoutes: Route[] = [
         component: IndicatorListComponent,
         data: {
             menu: 'admin',
+            submenu: 'indicators',
             breadcrumb: 'Indicators'
         },
         children: [
@@ -476,6 +511,7 @@ export const GeneratedRoutes: Route[] = [
                 canActivateChild: [AccessGuard],
                 data: {
                     menu: 'admin',
+                    submenu: 'indicators',
                     breadcrumb: 'Add Indicator'
                 }
             }
@@ -488,6 +524,7 @@ export const GeneratedRoutes: Route[] = [
         component: IndicatorPermissionListComponent,
         data: {
             menu: 'admin',
+            submenu: 'indicatorPermissions',
             breadcrumb: 'Indicator Permissions'
         },
         children: [
@@ -498,6 +535,7 @@ export const GeneratedRoutes: Route[] = [
                 canActivateChild: [AccessGuard],
                 data: {
                     menu: 'admin',
+                    submenu: 'indicatorPermissions',
                     breadcrumb: 'Add Indicator Permission'
                 }
             }
@@ -510,6 +548,7 @@ export const GeneratedRoutes: Route[] = [
         component: ItemListComponent,
         data: {
             menu: 'admin',
+            submenu: 'items',
             breadcrumb: 'Items'
         },
         children: [
@@ -520,6 +559,7 @@ export const GeneratedRoutes: Route[] = [
                 canActivateChild: [AccessGuard],
                 data: {
                     menu: 'admin',
+                    submenu: 'items',
                     breadcrumb: 'Add Item'
                 },
                 children: [
@@ -530,6 +570,7 @@ export const GeneratedRoutes: Route[] = [
                         canActivateChild: [AccessGuard],
                         data: {
                             menu: 'admin',
+                            submenu: 'documents',
                             breadcrumb: 'Add Document'
                         }
                     }
@@ -544,6 +585,7 @@ export const GeneratedRoutes: Route[] = [
         component: LogFrameListComponent,
         data: {
             menu: 'admin',
+            submenu: 'logFrames',
             breadcrumb: 'Logical Frameworks'
         },
         children: [
@@ -554,6 +596,7 @@ export const GeneratedRoutes: Route[] = [
                 canActivateChild: [AccessGuard],
                 data: {
                     menu: 'admin',
+                    submenu: 'logFrames',
                     breadcrumb: 'Add Logical Framework'
                 },
                 children: [
@@ -564,6 +607,7 @@ export const GeneratedRoutes: Route[] = [
                         canActivateChild: [AccessGuard],
                         data: {
                             menu: 'admin',
+                            submenu: 'logFrameRows',
                             breadcrumb: 'Add LogFrame Row'
                         },
                         children: [
@@ -573,7 +617,8 @@ export const GeneratedRoutes: Route[] = [
                                 canActivate: [AccessGuard],
                                 canActivateChild: [AccessGuard],
                                 data: {
-                            menu: 'admin',
+                                    menu: 'admin',
+                                    submenu: 'logFrameRowComponents',
                                     breadcrumb: 'Add Log Frame Row Component'
                                 }
                             },
@@ -583,7 +628,8 @@ export const GeneratedRoutes: Route[] = [
                                 canActivate: [AccessGuard],
                                 canActivateChild: [AccessGuard],
                                 data: {
-                            menu: 'admin',
+                                    menu: 'admin',
+                                    submenu: 'logFrameRowIndicators',
                                     breadcrumb: 'Add Log Frame Row Indicator'
                                 }
                             }
@@ -600,6 +646,7 @@ export const GeneratedRoutes: Route[] = [
         component: LogFrameRowListComponent,
         data: {
             menu: 'admin',
+            submenu: 'logFrameRows',
             breadcrumb: 'LogFrame Rows'
         }
     },
@@ -610,6 +657,7 @@ export const GeneratedRoutes: Route[] = [
         component: LogFrameRowComponentListComponent,
         data: {
             menu: 'admin',
+            submenu: 'logFrameRowComponents',
             breadcrumb: 'Log Frame Row Components'
         }
     },
@@ -620,6 +668,7 @@ export const GeneratedRoutes: Route[] = [
         component: LogFrameRowIndicatorListComponent,
         data: {
             menu: 'admin',
+            submenu: 'logFrameRowIndicators',
             breadcrumb: 'Log Frame Row Indicators'
         }
     },
@@ -630,6 +679,7 @@ export const GeneratedRoutes: Route[] = [
         component: MilestoneListComponent,
         data: {
             menu: 'admin',
+            submenu: 'milestones',
             breadcrumb: 'Milestones'
         }
     },
@@ -640,6 +690,7 @@ export const GeneratedRoutes: Route[] = [
         component: OptionListComponent,
         data: {
             menu: 'admin',
+            submenu: 'options',
             breadcrumb: 'Options'
         }
     },
@@ -650,6 +701,7 @@ export const GeneratedRoutes: Route[] = [
         component: OptionValueListComponent,
         data: {
             menu: 'admin',
+            submenu: 'optionValues',
             breadcrumb: 'Option Values'
         },
         children: [
@@ -660,6 +712,7 @@ export const GeneratedRoutes: Route[] = [
                 canActivateChild: [AccessGuard],
                 data: {
                     menu: 'admin',
+                    submenu: 'optionValues',
                     breadcrumb: 'Add Option Value'
                 }
             }
@@ -672,6 +725,7 @@ export const GeneratedRoutes: Route[] = [
         component: OrganisationListComponent,
         data: {
             menu: 'admin',
+            submenu: 'organisations',
             breadcrumb: 'Organisations'
         },
         children: [
@@ -682,6 +736,7 @@ export const GeneratedRoutes: Route[] = [
                 canActivateChild: [AccessGuard],
                 data: {
                     menu: 'admin',
+                    submenu: 'organisations',
                     breadcrumb: 'Add Organisation'
                 }
             }
@@ -694,6 +749,7 @@ export const GeneratedRoutes: Route[] = [
         component: ProjectListComponent,
         data: {
             menu: 'admin',
+            submenu: 'projects',
             breadcrumb: 'Projects'
         },
         children: [
@@ -704,6 +760,7 @@ export const GeneratedRoutes: Route[] = [
                 canActivateChild: [AccessGuard],
                 data: {
                     menu: 'admin',
+                    submenu: 'projects',
                     breadcrumb: 'Add Project'
                 },
                 children: [
@@ -714,6 +771,7 @@ export const GeneratedRoutes: Route[] = [
                         canActivateChild: [AccessGuard],
                         data: {
                             menu: 'admin',
+                            submenu: 'milestones',
                             breadcrumb: 'Add Milestone'
                         },
                         children: [
@@ -723,7 +781,8 @@ export const GeneratedRoutes: Route[] = [
                                 canActivate: [AccessGuard],
                                 canActivateChild: [AccessGuard],
                                 data: {
-                            menu: 'admin',
+                                    menu: 'admin',
+                                    submenu: 'tasks',
                                     breadcrumb: 'Add Task'
                                 }
                             }
@@ -739,6 +798,7 @@ export const GeneratedRoutes: Route[] = [
         canActivateChild: [AccessGuard],
         component: QuestionListComponent,
         data: {
+            submenu: 'questions',
             breadcrumb: 'Questions'
         }
     },
@@ -748,6 +808,7 @@ export const GeneratedRoutes: Route[] = [
         canActivateChild: [AccessGuard],
         component: QuestionnaireListComponent,
         data: {
+            submenu: 'questionnaires',
             breadcrumb: 'Questionnaires'
         },
         children: [
@@ -758,6 +819,7 @@ export const GeneratedRoutes: Route[] = [
                 canActivateChild: [AccessGuard],
                 data: {
                     menu: '',
+                    submenu: 'questionnaires',
                     breadcrumb: 'Add Questionnaire'
                 },
                 children: [
@@ -767,6 +829,7 @@ export const GeneratedRoutes: Route[] = [
                         canActivate: [AccessGuard],
                         canActivateChild: [AccessGuard],
                         data: {
+                            submenu: 'responses',
                             breadcrumb: 'Add Response'
                         },
                         children: [
@@ -776,6 +839,7 @@ export const GeneratedRoutes: Route[] = [
                                 canActivate: [AccessGuard],
                                 canActivateChild: [AccessGuard],
                                 data: {
+                                    submenu: 'answers',
                                     breadcrumb: 'Add Answer'
                                 },
                                 children: [
@@ -785,6 +849,7 @@ export const GeneratedRoutes: Route[] = [
                                         canActivate: [AccessGuard],
                                         canActivateChild: [AccessGuard],
                                         data: {
+                                            submenu: 'answerOptions',
                                             breadcrumb: 'Add Answer Option'
                                         }
                                     }
@@ -798,6 +863,7 @@ export const GeneratedRoutes: Route[] = [
                         canActivate: [AccessGuard],
                         canActivateChild: [AccessGuard],
                         data: {
+                            submenu: 'sections',
                             breadcrumb: 'Add Section'
                         },
                         children: [
@@ -807,6 +873,7 @@ export const GeneratedRoutes: Route[] = [
                                 canActivate: [AccessGuard],
                                 canActivateChild: [AccessGuard],
                                 data: {
+                                    submenu: 'questions',
                                     breadcrumb: 'Add Question'
                                 },
                                 children: [
@@ -816,6 +883,7 @@ export const GeneratedRoutes: Route[] = [
                                         canActivate: [AccessGuard],
                                         canActivateChild: [AccessGuard],
                                         data: {
+                                            submenu: 'questionSummaries',
                                             breadcrumb: 'Add Question Summary'
                                         }
                                     }
@@ -833,6 +901,7 @@ export const GeneratedRoutes: Route[] = [
         canActivateChild: [AccessGuard],
         component: QuestionOptionListComponent,
         data: {
+            submenu: 'questionOptions',
             breadcrumb: 'Options'
         }
     },
@@ -842,6 +911,7 @@ export const GeneratedRoutes: Route[] = [
         canActivateChild: [AccessGuard],
         component: QuestionOptionGroupListComponent,
         data: {
+            submenu: 'questionOptionGroups',
             breadcrumb: 'Question Option Groups'
         },
         children: [
@@ -852,6 +922,7 @@ export const GeneratedRoutes: Route[] = [
                 canActivateChild: [AccessGuard],
                 data: {
                     menu: '',
+                    submenu: 'questionOptionGroups',
                     breadcrumb: 'Add Question Option Group'
                 },
                 children: [
@@ -861,6 +932,7 @@ export const GeneratedRoutes: Route[] = [
                         canActivate: [AccessGuard],
                         canActivateChild: [AccessGuard],
                         data: {
+                            submenu: 'questionOptions',
                             breadcrumb: 'Add Option'
                         }
                     }
@@ -874,6 +946,7 @@ export const GeneratedRoutes: Route[] = [
         canActivateChild: [AccessGuard],
         component: QuestionSummaryListComponent,
         data: {
+            submenu: 'questionSummaries',
             breadcrumb: 'Question Summaries'
         }
     },
@@ -884,6 +957,7 @@ export const GeneratedRoutes: Route[] = [
         component: RelationshipListComponent,
         data: {
             menu: 'admin',
+            submenu: 'relationships',
             breadcrumb: 'Relationships'
         }
     },
@@ -893,6 +967,7 @@ export const GeneratedRoutes: Route[] = [
         canActivateChild: [AccessGuard],
         component: ResponseListComponent,
         data: {
+            submenu: 'responses',
             breadcrumb: 'Responses'
         }
     },
@@ -902,6 +977,7 @@ export const GeneratedRoutes: Route[] = [
         canActivateChild: [AccessGuard],
         component: SectionListComponent,
         data: {
+            submenu: 'sections',
             breadcrumb: 'Sections'
         }
     },
@@ -921,6 +997,7 @@ export const GeneratedRoutes: Route[] = [
         canActivateChild: [AccessGuard],
         component: SkipLogicOptionListComponent,
         data: {
+            submenu: 'skipLogicOptions',
             breadcrumb: 'Skip Logic Options'
         },
         children: [
@@ -931,6 +1008,7 @@ export const GeneratedRoutes: Route[] = [
                 canActivateChild: [AccessGuard],
                 data: {
                     menu: '',
+                    submenu: 'skipLogicOptions',
                     breadcrumb: 'Add Skip Logic Option'
                 }
             }
@@ -943,6 +1021,7 @@ export const GeneratedRoutes: Route[] = [
         component: SubcategoryListComponent,
         data: {
             menu: 'admin',
+            submenu: 'subcategories',
             breadcrumb: 'Subcategories'
         }
     },
@@ -953,6 +1032,7 @@ export const GeneratedRoutes: Route[] = [
         component: TaskListComponent,
         data: {
             menu: 'admin',
+            submenu: 'tasks',
             breadcrumb: 'Tasks'
         }
     },
@@ -963,6 +1043,7 @@ export const GeneratedRoutes: Route[] = [
         component: TheoryOfChangeListComponent,
         data: {
             menu: 'admin',
+            submenu: 'theoriesOfChange',
             breadcrumb: 'Theories of Change'
         },
         children: [
@@ -973,6 +1054,7 @@ export const GeneratedRoutes: Route[] = [
                 canActivateChild: [AccessGuard],
                 data: {
                     menu: 'admin',
+                    submenu: 'theoriesOfChange',
                     breadcrumb: 'Add Theory of Change'
                 },
                 children: [
@@ -983,6 +1065,7 @@ export const GeneratedRoutes: Route[] = [
                         canActivateChild: [AccessGuard],
                         data: {
                             menu: 'admin',
+                            submenu: 'relationships',
                             breadcrumb: 'Add Relationship'
                         }
                     },
@@ -993,6 +1076,7 @@ export const GeneratedRoutes: Route[] = [
                         canActivateChild: [AccessGuard],
                         data: {
                             menu: 'admin',
+                            submenu: 'theoryOfChangeComponents',
                             breadcrumb: 'Add Theory of Change Component'
                         }
                     }
@@ -1007,6 +1091,7 @@ export const GeneratedRoutes: Route[] = [
         component: TheoryOfChangeComponentListComponent,
         data: {
             menu: 'admin',
+            submenu: 'theoryOfChangeComponents',
             breadcrumb: 'Theory of Change Components'
         }
     },
@@ -1017,6 +1102,7 @@ export const GeneratedRoutes: Route[] = [
         component: TokenListComponent,
         data: {
             menu: 'admin',
+            submenu: 'tokens',
             breadcrumb: 'Tokens'
         },
         children: [
@@ -1027,6 +1113,7 @@ export const GeneratedRoutes: Route[] = [
                 canActivateChild: [AccessGuard],
                 data: {
                     menu: 'admin',
+                    submenu: 'tokens',
                     breadcrumb: 'Add Token'
                 }
             }
@@ -1061,6 +1148,7 @@ export const GeneratedRoutes: Route[] = [
                         canActivateChild: [AccessGuard],
                         data: {
                             menu: 'admin',
+                            submenu: 'entityPermissions',
                             breadcrumb: 'Add Entity Permission'
                         }
                     }

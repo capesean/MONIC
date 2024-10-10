@@ -14,13 +14,13 @@
                     </div>
                 </div>
 
-                <div class="col-sm-6 col-md-4 col-lg-3">
+                <div class="col-sm-6 col-md-5 col-xl-4">
                     <div class="form-group">
                         <folder-select id="folderId" name="folderId" [(ngModel)]="searchOptions.folderId"></folder-select>
                     </div>
                 </div>
 
-                <div class="col-sm-6 col-md-4 col-lg-3">
+                <div class="col-sm-6 col-md-5 col-xl-4">
                     <div class="form-group">
                         <user-select id="addedById" name="addedById" [(ngModel)]="searchOptions.addedById"></user-select>
                     </div>
@@ -63,11 +63,11 @@
             </tbody>
         </table>
 
-        </div>
-
-        <div class="card-footer">
-            <pager [headers]="headers" (pageChanged)="runSearch($event)"></pager>
-        </div>
-
     </div>
+
+    <div class="card-footer">
+        <pager [headers]="headers" (pageChanged)="runSearch($event)"></pager>
+    </div>
+
+</div>
 

@@ -145,6 +145,8 @@ namespace WEB.Controllers
         {
             using var transactionScope = Utilities.General.CreateTransactionScope();
 
+            await db.AnswerOptions.Where(o => o.Answer.ResponseId == responseId).ExecuteDeleteAsync();
+
             foreach (var answer in db.Answers.Where(o => o.ResponseId == responseId).ToList())
             {
                 await db.Documents.Where(o => o.ItemId == answer.AnswerId).ExecuteDeleteAsync();
@@ -153,6 +155,8 @@ namespace WEB.Controllers
             }
 
             await db.Answers.Where(o => o.ResponseId == responseId).ExecuteDeleteAsync();
+
+            transactionScope.Complete();
 
             transactionScope.Complete();
 

@@ -56,6 +56,7 @@ namespace WEB.Controllers
 
             var answerOption = await db.AnswerOptions
                 .FirstOrDefaultAsync(o => o.AnswerId == answerOptionDTO.AnswerId && o.QuestionOptionId == answerOptionDTO.QuestionOptionId);
+
             var isNew = answerOption == null;
 
             if (isNew)

@@ -84,6 +84,7 @@
                                     <div class="col-sm-6 col-md-4 col-lg-4 col-xl-3">
                                         <div class="form-group">
                                             <select id="rowType" name="rowType" [(ngModel)]="logFrameRowsSearchOptions.rowType" #rowType="ngModel" class="form-select">
+                                                <option [ngValue]="undefined" disabled>Row Type</option>
                                                 <option *ngFor="let logFrameRowType of logFrameRowTypes" [ngValue]="logFrameRowType.value">{{ logFrameRowType.label }}</option>
                                             </select>
                                         </div>

@@ -101,16 +101,16 @@ namespace WEB.Controllers
                 return NotFound();
 
             if (await db.Data.AnyAsync(o => o.SubmitDataReviewId == dataReview.DataReviewId))
-                return BadRequest("Unable to delete the data review as it has related data");
+                return BadRequest("Unable to delete the data review as it has related submitted data");
 
             if (await db.Data.AnyAsync(o => o.VerifyDataReviewId == dataReview.DataReviewId))
-                return BadRequest("Unable to delete the data review as it has related data");
+                return BadRequest("Unable to delete the data review as it has related verified data");
 
             if (await db.Data.AnyAsync(o => o.ApproveDataReviewId == dataReview.DataReviewId))
-                return BadRequest("Unable to delete the data review as it has related data");
+                return BadRequest("Unable to delete the data review as it has related approved data");
 
             if (await db.Data.AnyAsync(o => o.RejectDataReviewId == dataReview.DataReviewId))
-                return BadRequest("Unable to delete the data review as it has related data");
+                return BadRequest("Unable to delete the data review as it has related rejected data");
 
             using var transactionScope = Utilities.General.CreateTransactionScope();
 

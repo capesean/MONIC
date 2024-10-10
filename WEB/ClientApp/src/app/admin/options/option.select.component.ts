@@ -80,4 +80,9 @@ export class OptionSelectComponent implements OnInit, ControlValueAccessor {
         if (button && (this.option || this.options.length)) this.changed(this.multiple ? [] : null);
         else this.modal.open();
     }
+
+    clear() {
+        this.changed(this.multiple ? [] : null);
+    }
 }
+

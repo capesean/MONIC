@@ -56,6 +56,7 @@ namespace WEB.Controllers
 
             var componentIndicator = await db.ComponentIndicators
                 .FirstOrDefaultAsync(o => o.ComponentId == componentIndicatorDTO.ComponentId && o.IndicatorId == componentIndicatorDTO.IndicatorId);
+
             var isNew = componentIndicator == null;
 
             if (isNew)

@@ -14,7 +14,7 @@
                     </div>
                 </div>
 
-                <div class="col-sm-6 col-md-4 col-lg-3">
+                <div class="col-sm-6 col-md-5 col-xl-4">
                     <div class="form-group">
                         <item-select id="itemId" name="itemId" [(ngModel)]="searchOptions.itemId"></item-select>
                     </div>
@@ -47,21 +47,23 @@
                 <tr>
                     <th>Item</th>
                     <th>File Name</th>
+                    <th class="w-20px text-center"><i class="fas fa-cloud-download text-secondary"></i></th>
                 </tr>
             </thead>
             <tbody class="list cursor-pointer">
                 <tr *ngFor="let document of documents" (click)="goToDocument(document)">
                     <td>{{ document.item.itemId }}</td>
                     <td>{{ document.fileName }}</td>
+                    <td class="text-center"><i class="fas fa-cloud-download cursor-pointer p-1 text-primary" (click)="downloadDocument(document, $event)"></i></td>
                 </tr>
             </tbody>
         </table>
 
-        </div>
-
-        <div class="card-footer">
-            <pager [headers]="headers" (pageChanged)="runSearch($event)"></pager>
-        </div>
-
     </div>
+
+    <div class="card-footer">
+        <pager [headers]="headers" (pageChanged)="runSearch($event)"></pager>
+    </div>
+
+</div>
 

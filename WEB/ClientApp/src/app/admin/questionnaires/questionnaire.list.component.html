@@ -16,7 +16,7 @@
                         </div>
                     </div>
 
-                    <div class="col-sm-6 col-md-4 col-lg-3">
+                    <div class="col-sm-6 col-md-5 col-xl-4">
                         <div class="form-group">
                             <entity-type-select id="entityTypeId" name="entityTypeId" [(ngModel)]="searchOptions.entityTypeId"></entity-type-select>
                         </div>
@@ -25,6 +25,7 @@
                     <div class="col-sm-6 col-md-4 col-lg-3">
                         <div class="form-group">
                             <select id="dateType" name="dateType" [(ngModel)]="searchOptions.dateType" #dateType="ngModel" class="form-select">
+                                <option [ngValue]="undefined" disabled>Date Type</option>
                                 <option *ngFor="let dateType of dateTypes" [ngValue]="dateType.value">{{ dateType.label }}</option>
                             </select>
                         </div>

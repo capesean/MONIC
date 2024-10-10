@@ -135,7 +135,22 @@ namespace WEB.Controllers
         [HttpDelete("{subcategoryId:Guid}/indicators"), AuthorizeRoles(Roles.Administrator)]
         public async Task<IActionResult> DeleteIndicators(Guid subcategoryId)
         {
+            if (await db.Tokens.AnyAsync(o => o.SourceIndicator.SubcategoryId == subcategoryId))
+                return BadRequest("Unable to delete the indicators as there are related tokens");
+
+            if (await db.LogFrameRowIndicators.AnyAsync(o => o.Indicator.SubcategoryId == subcategoryId))
+                return BadRequest("Unable to delete the indicators as there are related log frame row indicators");
+
+            if (await db.ComponentIndicators.AnyAsync(o => o.Indicator.SubcategoryId == subcategoryId))
+                return BadRequest("Unable to delete the indicators as there are related component indicators");
+
             using var transactionScope = Utilities.General.CreateTransactionScope();
+
+            await db.Tokens.Where(o => o.Indicator.SubcategoryId == subcategoryId).ExecuteDeleteAsync();
+
+            await db.Data.Where(o => o.Indicator.SubcategoryId == subcategoryId).ExecuteDeleteAsync();
+
+            await db.IndicatorPermissions.Where(o => o.Indicator.SubcategoryId == subcategoryId).ExecuteDeleteAsync();
 
             foreach (var indicator in db.Indicators.Where(o => o.SubcategoryId == subcategoryId).ToList())
             {
@@ -145,6 +160,8 @@ namespace WEB.Controllers
             await db.Indicators.Where(o => o.SubcategoryId == subcategoryId).ExecuteDeleteAsync();
 
             await db.SaveChangesAsync();
+
+            transactionScope.Complete();
 
             transactionScope.Complete();
 

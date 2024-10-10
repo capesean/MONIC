@@ -16,7 +16,7 @@
                         </div>
                     </div>
 
-                    <div class="col-sm-6 col-md-4 col-lg-3">
+                    <div class="col-sm-6 col-md-5 col-xl-4">
                         <div class="form-group">
                             <user-select id="userId" name="userId" [(ngModel)]="searchOptions.userId"></user-select>
                         </div>
@@ -25,6 +25,7 @@
                     <div class="col-sm-6 col-md-4 col-lg-3">
                         <div class="form-group">
                             <select id="reviewStatus" name="reviewStatus" [(ngModel)]="searchOptions.reviewStatus" #reviewStatus="ngModel" class="form-select">
+                                <option [ngValue]="undefined" disabled>Review Status</option>
                                 <option *ngFor="let reviewStatus of reviewStatuses" [ngValue]="reviewStatus.value">{{ reviewStatus.label }}</option>
                             </select>
                         </div>

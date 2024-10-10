@@ -56,6 +56,7 @@ namespace WEB.Controllers
 
             var token = await db.Tokens
                 .FirstOrDefaultAsync(o => o.IndicatorId == tokenDTO.IndicatorId && o.TokenNumber == tokenDTO.TokenNumber);
+
             var isNew = token == null;
 
             if (isNew)

@@ -153,6 +153,7 @@ namespace WEB.Controllers
                     foreach (var entityPermission in await db.EntityPermissions.Where(o => o.UserId == user.Id && o.Entity.OrganisationId == userDTO.OrganisationId).ToListAsync())
                         db.Entry(entityPermission).State = EntityState.Deleted;
 
+
             }
 
             var organisationChanged = user.OrganisationId != userDTO.OrganisationId;
@@ -168,10 +169,9 @@ namespace WEB.Controllers
             var currentUserIsAdmin = CurrentUser.IsInRole(Roles.Administrator);
             if (!isNew && currentUserIsAdmin)
             {
-                foreach (var roleId in user.Roles.ToList())
+                foreach (var role in await userManager.GetRolesAsync(user))
                 {
-                    var role = rm.Roles.Single(o => o.Id == roleId.RoleId);
-                    await userManager.RemoveFromRoleAsync(user, role.Name);
+                    await userManager.RemoveFromRoleAsync(user, role);
                 }
             }
 
@@ -245,6 +245,7 @@ namespace WEB.Controllers
                 await db.SaveChangesAsync();
             }
 
+
             if (isNew) await Utilities.General.SendWelcomeMailAsync(user, password, AppSettings);
 
             return await Get(user.Id);
@@ -268,22 +269,22 @@ namespace WEB.Controllers
             }
 
             if (await db.Data.AnyAsync(o => o.LastSavedById == user.Id))
-                return BadRequest("Unable to delete the user as it has related data");
+                return BadRequest("Unable to delete the user as it has related last saved data");
 
             if (await db.Indicators.AnyAsync(o => o.CreatedById == user.Id))
-                return BadRequest("Unable to delete the user as it has related indicators");
+                return BadRequest("Unable to delete the user as it has related created indicators");
 
             if (await db.DataReviews.AnyAsync(o => o.UserId == user.Id))
                 return BadRequest("Unable to delete the user as it has related data reviews");
 
             if (await db.Responses.AnyAsync(o => o.SubmittedById == user.Id))
-                return BadRequest("Unable to delete the user as it has related responses");
+                return BadRequest("Unable to delete the user as it has related submitted responses");
 
             if (await db.Documents.AnyAsync(o => o.UploadedById == user.Id))
-                return BadRequest("Unable to delete the user as it has related documents");
+                return BadRequest("Unable to delete the user as it has related uploaded documents");
 
             if (await db.FolderContents.AnyAsync(o => o.AddedById == user.Id))
-                return BadRequest("Unable to delete the user as it has related folder contents");
+                return BadRequest("Unable to delete the user as it has related added folder content");
 
             using var transactionScope = Utilities.General.CreateTransactionScope();
 

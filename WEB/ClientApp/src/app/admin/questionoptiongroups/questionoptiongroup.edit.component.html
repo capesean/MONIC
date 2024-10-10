@@ -179,6 +179,7 @@
                                     <div class="col-sm-6 col-md-4 col-lg-4 col-xl-3">
                                         <div class="form-group">
                                             <select id="questionType" name="questionType" [(ngModel)]="questionsSearchOptions.questionType" #questionType="ngModel" class="form-select">
+                                                <option [ngValue]="undefined" disabled>Question Type</option>
                                                 <option *ngFor="let questionType of questionTypes" [ngValue]="questionType.value">{{ questionType.label }}</option>
                                             </select>
                                         </div>

@@ -19,6 +19,7 @@
                     <div class="col-sm-6 col-md-4 col-lg-3">
                         <div class="form-group">
                             <select id="componentType" name="componentType" [(ngModel)]="searchOptions.componentType" #componentType="ngModel" class="form-select">
+                                <option [ngValue]="undefined" disabled>Component Type</option>
                                 <option *ngFor="let componentType of componentTypes" [ngValue]="componentType.value">{{ componentType.label }}</option>
                             </select>
                         </div>

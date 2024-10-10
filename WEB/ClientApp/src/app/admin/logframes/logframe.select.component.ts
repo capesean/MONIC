@@ -78,4 +78,9 @@ export class LogFrameSelectComponent implements OnInit, ControlValueAccessor {
         if (button && (this.logFrame || this.logFrames.length)) this.changed(this.multiple ? [] : null);
         else this.modal.open();
     }
+
+    clear() {
+        this.changed(this.multiple ? [] : null);
+    }
 }
+

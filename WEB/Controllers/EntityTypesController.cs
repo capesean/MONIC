@@ -134,7 +134,24 @@ namespace WEB.Controllers
         [HttpDelete("{entityTypeId:Guid}/entities"), AuthorizeRoles(Roles.Administrator)]
         public async Task<IActionResult> DeleteEntities(Guid entityTypeId)
         {
+            if (await db.Data.AnyAsync(o => o.Entity.EntityTypeId == entityTypeId))
+                return BadRequest("Unable to delete the entities as there are related data");
+
+            if (await db.EntityLinks.AnyAsync(o => o.ChildEntity.EntityTypeId == entityTypeId))
+                return BadRequest("Unable to delete the entities as there are related entity links");
+
+            if (await db.EntityLinks.AnyAsync(o => o.ParentEntity.EntityTypeId == entityTypeId))
+                return BadRequest("Unable to delete the entities as there are related entity links");
+
+            if (await db.Users.AnyAsync(o => o.Entity.EntityTypeId == entityTypeId))
+                return BadRequest("Unable to delete the entities as there are related users");
+
+            if (await db.Responses.AnyAsync(o => o.Entity.EntityTypeId == entityTypeId))
+                return BadRequest("Unable to delete the entities as there are related responses");
+
             using var transactionScope = Utilities.General.CreateTransactionScope();
+
+            await db.EntityPermissions.Where(o => o.Entity.EntityTypeId == entityTypeId).ExecuteDeleteAsync();
 
             foreach (var entity in db.Entities.Where(o => o.EntityTypeId == entityTypeId).ToList())
             {
@@ -147,13 +164,24 @@ namespace WEB.Controllers
 
             transactionScope.Complete();
 
+            transactionScope.Complete();
+
             return Ok();
         }
 
         [HttpDelete("{entityTypeId:Guid}/questionnaires"), AuthorizeRoles(Roles.Administrator)]
         public async Task<IActionResult> DeleteQuestionnaires(Guid entityTypeId)
         {
+            if (await db.Responses.AnyAsync(o => o.Questionnaire.EntityTypeId == entityTypeId))
+                return BadRequest("Unable to delete the questionnaires as there are related responses");
+
+            using var transactionScope = Utilities.General.CreateTransactionScope();
+
+            await db.Sections.Where(o => o.Questionnaire.EntityTypeId == entityTypeId).ExecuteDeleteAsync();
+
             await db.Questionnaires.Where(o => o.EntityTypeId == entityTypeId).ExecuteDeleteAsync();
+
+            transactionScope.Complete();
 
             return Ok();
         }

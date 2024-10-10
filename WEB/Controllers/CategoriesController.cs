@@ -126,6 +126,9 @@ namespace WEB.Controllers
         [HttpDelete("{categoryId:Guid}/subcategories"), AuthorizeRoles(Roles.Administrator)]
         public async Task<IActionResult> DeleteSubcategories(Guid categoryId)
         {
+            if (await db.Indicators.AnyAsync(o => o.Subcategory.CategoryId == categoryId))
+                return BadRequest("Unable to delete the subcategories as there are related indicators");
+
             await db.Subcategories.Where(o => o.CategoryId == categoryId).ExecuteDeleteAsync();
 
             return Ok();

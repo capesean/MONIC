@@ -123,10 +123,10 @@ namespace WEB.Models
             return fieldDTO;
         }
 
-        public static void Hydrate(Field field, FieldDTO fieldDTO)
+        public static void Hydrate(Field field, FieldDTO fieldDTO, bool isNew)
         {
             field.Name = fieldDTO.Name;
-            field.FieldType = fieldDTO.FieldType;
+            if (isNew) field.FieldType = fieldDTO.FieldType;
             field.Organisation = fieldDTO.Organisation;
             field.Entity = fieldDTO.Entity;
             field.Indicator = fieldDTO.Indicator;

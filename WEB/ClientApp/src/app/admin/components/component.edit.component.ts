@@ -262,7 +262,7 @@ export class ComponentEditComponent extends ItemComponent implements OnInit, OnD
 
     deleteRelationshipsAsSource(): void {
         let modalRef = this.modalService.open(ConfirmModalComponent, { centered: true });
-        (modalRef.componentInstance as ConfirmModalComponent).options = { title: "Delete Relationships", text: "Are you sure you want to delete all the relationships as source?", deleteStyle: true, ok: "Delete" } as ConfirmModalOptions;
+        (modalRef.componentInstance as ConfirmModalComponent).options = { title: "Delete Relationships as Source", text: "Are you sure you want to delete all the relationships as source?", deleteStyle: true, ok: "Delete" } as ConfirmModalOptions;
         modalRef.result.then(
             () => {
 
@@ -330,7 +330,7 @@ export class ComponentEditComponent extends ItemComponent implements OnInit, OnD
 
     deleteRelationshipsAsTarget(): void {
         let modalRef = this.modalService.open(ConfirmModalComponent, { centered: true });
-        (modalRef.componentInstance as ConfirmModalComponent).options = { title: "Delete Relationships", text: "Are you sure you want to delete all the relationships as target?", deleteStyle: true, ok: "Delete" } as ConfirmModalOptions;
+        (modalRef.componentInstance as ConfirmModalComponent).options = { title: "Delete Relationships as Target", text: "Are you sure you want to delete all the relationships as target?", deleteStyle: true, ok: "Delete" } as ConfirmModalOptions;
         modalRef.result.then(
             () => {
 
@@ -485,7 +485,7 @@ export class ComponentEditComponent extends ItemComponent implements OnInit, OnD
 
     deleteTheoryOfChangeComponents(): void {
         let modalRef = this.modalService.open(ConfirmModalComponent, { centered: true });
-        (modalRef.componentInstance as ConfirmModalComponent).options = { title: "Delete Theory of Change Components", text: "Are you sure you want to delete all the components?", deleteStyle: true, ok: "Delete" } as ConfirmModalOptions;
+        (modalRef.componentInstance as ConfirmModalComponent).options = { title: "Delete Components", text: "Are you sure you want to delete all the components?", deleteStyle: true, ok: "Delete" } as ConfirmModalOptions;
         modalRef.result.then(
             () => {
 

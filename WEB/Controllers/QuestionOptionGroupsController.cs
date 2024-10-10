@@ -112,6 +112,12 @@ namespace WEB.Controllers
         [HttpDelete("{questionOptionGroupId:Guid}/questionoptions"), AuthorizeRoles(Roles.Administrator)]
         public async Task<IActionResult> DeleteQuestionOptions(Guid questionOptionGroupId)
         {
+            if (await db.AnswerOptions.AnyAsync(o => o.QuestionOption.QuestionOptionGroupId == questionOptionGroupId))
+                return BadRequest("Unable to delete the options as there are related answer options");
+
+            if (await db.SkipLogicOptions.AnyAsync(o => o.QuestionOption.QuestionOptionGroupId == questionOptionGroupId))
+                return BadRequest("Unable to delete the options as there are related skip logic options");
+
             await db.QuestionOptions.Where(o => o.QuestionOptionGroupId == questionOptionGroupId).ExecuteDeleteAsync();
 
             return Ok();
@@ -120,7 +126,21 @@ namespace WEB.Controllers
         [HttpDelete("{questionOptionGroupId:Guid}/questions"), AuthorizeRoles(Roles.Administrator)]
         public async Task<IActionResult> DeleteQuestions(Guid questionOptionGroupId)
         {
+            if (await db.Questions.AnyAsync(o => o.CheckQuestion.QuestionOptionGroupId == questionOptionGroupId))
+                return BadRequest("Unable to delete the questions as there are related questions");
+
+            if (await db.SkipLogicOptions.AnyAsync(o => o.Question.QuestionOptionGroupId == questionOptionGroupId))
+                return BadRequest("Unable to delete the questions as there are related skip logic options");
+
+            using var transactionScope = Utilities.General.CreateTransactionScope();
+
+            await db.Answers.Where(o => o.Question.QuestionOptionGroupId == questionOptionGroupId).ExecuteDeleteAsync();
+
+            await db.QuestionSummaries.Where(o => o.Question.QuestionOptionGroupId == questionOptionGroupId).ExecuteDeleteAsync();
+
             await db.Questions.Where(o => o.QuestionOptionGroupId == questionOptionGroupId).ExecuteDeleteAsync();
+
+            transactionScope.Complete();
 
             return Ok();
         }

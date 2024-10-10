@@ -86,11 +86,11 @@ namespace WEB.Models
             return entityDTO;
         }
 
-        public static void Hydrate(Entity entity, EntityDTO entityDTO)
+        public static void Hydrate(Entity entity, EntityDTO entityDTO, bool isNew)
         {
             entity.Name = entityDTO.Name;
             entity.Code = entityDTO.Code;
-            entity.EntityTypeId = entityDTO.EntityTypeId;
+            if (isNew) entity.EntityTypeId = entityDTO.EntityTypeId;
             entity.OrganisationId = entityDTO.OrganisationId;
             entity.ShortName = entityDTO.ShortName;
             entity.Disabled = entityDTO.Disabled;

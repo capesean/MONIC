@@ -1,8 +1,8 @@
 <div class="input-group" [ngClass]="{ 'disabled': disabled }">
     <input name="indicator" placeholder="{{placeholder}}" (click)="click()" type="text" tabindex="-1" class="form-control cursor-pointer app-select-input" readonly value="{{getLabel()}}" [disabled]="disabled" />
-    <button type="button" class="btn btn-secondary" (click)="click(true)" [ngClass]="{ 'disabled': disabled}">
+    <button type="button" class="btn btn-secondary" (click)="click(true)" *ngIf="!disabled">
         <i class="fas fa-fw" [ngClass]="{ 'fa-search': !indicator && !indicators?.length, 'fa-times': !!indicator || !!indicators?.length }"></i>
     </button>
 </div>
 
-<indicator-modal #modal (change)="changed($event)" (changes)="changed($event)" [multiple]="multiple" [canRemoveFilters]="canRemoveFilters" [subcategory]="subcategory" [indicatorType]="indicatorType" [indicatorStatus]="indicatorStatus" [entityType]="entityType" [frequency]="frequency" [showAddNew]="showAddNew" [title]="placeholder"></indicator-modal>
+<indicator-modal #modal (change)="changed($event)" (changes)="changed($event)" [multiple]="multiple" [canRemoveFilters]="canRemoveFilters" [subcategory]="subcategory" [indicatorType]="indicatorType" [indicatorStatus]="indicatorStatus" [entityType]="entityType" [frequency]="frequency" [createdBy]="createdBy" [showAddNew]="showAddNew" [title]="placeholder"></indicator-modal>

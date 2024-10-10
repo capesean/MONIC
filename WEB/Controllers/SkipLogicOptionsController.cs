@@ -56,6 +56,7 @@ namespace WEB.Controllers
 
             var skipLogicOption = await db.SkipLogicOptions
                 .FirstOrDefaultAsync(o => o.QuestionId == skipLogicOptionDTO.QuestionId && o.CheckQuestionOptionId == skipLogicOptionDTO.CheckQuestionOptionId);
+
             var isNew = skipLogicOption == null;
 
             if (isNew)

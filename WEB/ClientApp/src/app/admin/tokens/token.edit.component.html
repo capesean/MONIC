@@ -17,6 +17,38 @@
                                 Indicator:
                             </label>
 
+                            <indicator-select id="indicatorId" name="indicatorId" [(indicator)]="token.indicator" [(ngModel)]="token.indicatorId" #indicatorId="ngModel" required (ngModelChange)="changeBreadcrumb()"></indicator-select>
+
+                            <div *ngIf="indicatorId.errors?.required" class="invalid-feedback">
+                                Indicator is required
+                            </div>
+
+                        </div>
+                    </div>
+
+                    <div class="col-sm-6 col-md-4">
+                        <div class="form-group" [ngClass]="{ 'is-invalid': tokenNumber.invalid }">
+
+                            <label for="tokenNumber">
+                                Token Number:
+                            </label>
+
+                            <input id="tokenNumber" name="tokenNumber" class="form-control" type="number" [(ngModel)]="token.tokenNumber" #tokenNumber="ngModel" required />
+
+                            <div *ngIf="tokenNumber.errors?.required" class="invalid-feedback">
+                                Token Number is required
+                            </div>
+
+                        </div>
+                    </div>
+
+                    <div class="col-sm-6 col-md-4">
+                        <div class="form-group" [ngClass]="{ 'is-invalid': indicatorId.invalid }">
+
+                            <label for="indicatorId">
+                                Indicator:
+                            </label>
+
                             <indicator-select id="indicatorId" name="indicatorId" [(ngModel)]="token.indicatorId" #indicatorId="ngModel" [indicator]="token.indicator" required (ngModelChange)="changeBreadcrumb()"></indicator-select>
 
                             <div *ngIf="indicatorId.errors?.required" class="invalid-feedback">

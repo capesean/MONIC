@@ -164,7 +164,7 @@ namespace WEB.Controllers
                 return NotFound();
 
             if (await db.Questions.AnyAsync(o => o.CheckQuestionId == question.QuestionId))
-                return BadRequest("Unable to delete the question as it has related questions");
+                return BadRequest("Unable to delete the question as it has related skip logic questions");
 
             if (await db.SkipLogicOptions.AnyAsync(o => o.QuestionId == question.QuestionId))
                 return BadRequest("Unable to delete the question as it has related skip logic options");
@@ -212,7 +212,13 @@ namespace WEB.Controllers
         [HttpDelete("{questionId:Guid}/answers")]
         public async Task<IActionResult> DeleteAnswers(Guid questionId)
         {
+            using var transactionScope = Utilities.General.CreateTransactionScope();
+
+            await db.AnswerOptions.Where(o => o.Answer.QuestionId == questionId).ExecuteDeleteAsync();
+
             await db.Answers.Where(o => o.QuestionId == questionId).ExecuteDeleteAsync();
+
+            transactionScope.Complete();
 
             return Ok();
         }

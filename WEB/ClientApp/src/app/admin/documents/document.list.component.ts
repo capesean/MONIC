@@ -5,6 +5,7 @@ import { PagingHeaders } from '../../common/models/http.model';
 import { DocumentSearchOptions, DocumentSearchResponse, Document } from '../../common/models/document.model';
 import { ErrorService } from '../../common/services/error.service';
 import { DocumentService } from '../../common/services/document.service';
+import { DownloadService } from '../../common/services/download.service';
 
 @NgComponent({
     selector: 'document-list',
@@ -20,6 +21,7 @@ export class DocumentListComponent implements OnInit {
         public route: ActivatedRoute,
         private router: Router,
         private errorService: ErrorService,
+        private downloadService: DownloadService,
         private documentService: DocumentService
     ) {
     }
@@ -49,6 +51,12 @@ export class DocumentListComponent implements OnInit {
 
         return subject;
 
+    }
+
+    downloadDocument(document: Document, event: MouseEvent) {
+        event.stopPropagation();
+
+        this.downloadService.downloadDocument(document.documentId).subscribe();
     }
 
     goToDocument(document: Document): void {

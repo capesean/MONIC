@@ -78,4 +78,9 @@ export class TheoryOfChangeSelectComponent implements OnInit, ControlValueAccess
         if (button && (this.theoryOfChange || this.theoriesOfChange.length)) this.changed(this.multiple ? [] : null);
         else this.modal.open();
     }
+
+    clear() {
+        this.changed(this.multiple ? [] : null);
+    }
 }
+

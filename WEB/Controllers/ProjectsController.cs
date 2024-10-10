@@ -108,7 +108,13 @@ namespace WEB.Controllers
         [HttpDelete("{projectId:Guid}/milestones"), AuthorizeRoles(Roles.Administrator)]
         public async Task<IActionResult> DeleteMilestones(Guid projectId)
         {
+            using var transactionScope = Utilities.General.CreateTransactionScope();
+
+            await db.Tasks.Where(o => o.Milestone.ProjectId == projectId).ExecuteDeleteAsync();
+
             await db.Milestones.Where(o => o.ProjectId == projectId).ExecuteDeleteAsync();
+
+            transactionScope.Complete();
 
             return Ok();
         }

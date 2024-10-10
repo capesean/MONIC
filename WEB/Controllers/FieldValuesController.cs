@@ -59,6 +59,7 @@ namespace WEB.Controllers
 
             var fieldValue = await db.FieldValues
                 .FirstOrDefaultAsync(o => o.ItemId == fieldValueDTO.ItemId && o.FieldId == fieldValueDTO.FieldId);
+
             var isNew = fieldValue == null;
 
             if (isNew)

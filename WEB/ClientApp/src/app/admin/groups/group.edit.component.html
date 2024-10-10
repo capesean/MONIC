@@ -82,6 +82,7 @@
                                 <div class="col-sm-6 col-md-4 col-lg-4 col-xl-3">
                                     <div class="form-group">
                                         <select id="fieldType" name="fieldType" [(ngModel)]="fieldsSearchOptions.fieldType" #fieldType="ngModel" class="form-select">
+                                            <option [ngValue]="undefined" disabled>Field Type</option>
                                             <option *ngFor="let fieldType of fieldTypes" [ngValue]="fieldType.value">{{ fieldType.label }}</option>
                                         </select>
                                     </div>

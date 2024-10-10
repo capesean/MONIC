@@ -29,6 +29,7 @@ export class FieldModalComponent implements OnInit {
     @Input() canRemoveFilters = false;
     @Input() multiple = false;
     @Input() showAddNew = false;
+    @Input() showFilters = true;
     @Input() showFooter = true;
     @Input() resetOnOpen = false;
     @Input() title = this.multiple ? "Select fields" : "Select a field";

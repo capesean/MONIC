@@ -123,7 +123,15 @@ namespace WEB.Controllers
         [HttpDelete("{groupId:Guid}/fields"), AuthorizeRoles(Roles.Administrator)]
         public async Task<IActionResult> DeleteFields(Guid groupId)
         {
+            using var transactionScope = Utilities.General.CreateTransactionScope();
+
+            await db.Options.Where(o => o.Field.GroupId == groupId).ExecuteDeleteAsync();
+
+            await db.FieldValues.Where(o => o.Field.GroupId == groupId).ExecuteDeleteAsync();
+
             await db.Fields.Where(o => o.GroupId == groupId).ExecuteDeleteAsync();
+
+            transactionScope.Complete();
 
             return Ok();
         }

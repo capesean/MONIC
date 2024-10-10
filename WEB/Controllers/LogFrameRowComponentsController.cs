@@ -56,6 +56,7 @@ namespace WEB.Controllers
 
             var logFrameRowComponent = await db.LogFrameRowComponents
                 .FirstOrDefaultAsync(o => o.LogFrameRowId == logFrameRowComponentDTO.LogFrameRowId && o.ComponentId == logFrameRowComponentDTO.ComponentId);
+
             var isNew = logFrameRowComponent == null;
 
             if (isNew)

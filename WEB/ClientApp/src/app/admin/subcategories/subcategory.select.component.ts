@@ -80,4 +80,9 @@ export class SubcategorySelectComponent implements OnInit, ControlValueAccessor 
         if (button && (this.subcategory || this.subcategories.length)) this.changed(this.multiple ? [] : null);
         else this.modal.open();
     }
+
+    clear() {
+        this.changed(this.multiple ? [] : null);
+    }
 }
+

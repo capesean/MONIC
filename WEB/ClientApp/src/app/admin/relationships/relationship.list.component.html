@@ -8,19 +8,19 @@
 
             <div class="row g-3">
 
-                <div class="col-sm-6 col-md-4 col-lg-3">
+                <div class="col-sm-6 col-md-5 col-xl-4">
                     <div class="form-group">
                         <theory-of-change-select id="theoryOfChangeId" name="theoryOfChangeId" [(ngModel)]="searchOptions.theoryOfChangeId"></theory-of-change-select>
                     </div>
                 </div>
 
-                <div class="col-sm-6 col-md-4 col-lg-3">
+                <div class="col-sm-6 col-md-5 col-xl-4">
                     <div class="form-group">
                         <component-select id="sourceComponentId" name="sourceComponentId" [(ngModel)]="searchOptions.sourceComponentId"></component-select>
                     </div>
                 </div>
 
-                <div class="col-sm-6 col-md-4 col-lg-3">
+                <div class="col-sm-6 col-md-5 col-xl-4">
                     <div class="form-group">
                         <component-select id="targetComponentId" name="targetComponentId" [(ngModel)]="searchOptions.targetComponentId"></component-select>
                     </div>
@@ -65,11 +65,11 @@
             </tbody>
         </table>
 
-        </div>
-
-        <div class="card-footer">
-            <pager [headers]="headers" (pageChanged)="runSearch($event)"></pager>
-        </div>
-
     </div>
+
+    <div class="card-footer">
+        <pager [headers]="headers" (pageChanged)="runSearch($event)"></pager>
+    </div>
+
+</div>
 

@@ -79,4 +79,9 @@ export class QuestionOptionGroupSelectComponent implements OnInit, ControlValueA
         if (button && (this.questionOptionGroup || this.questionOptionGroups.length)) this.changed(this.multiple ? [] : null);
         else this.modal.open();
     }
+
+    clear() {
+        this.changed(this.multiple ? [] : null);
+    }
 }
+
