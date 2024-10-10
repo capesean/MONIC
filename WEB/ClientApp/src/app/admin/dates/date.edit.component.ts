@@ -5,7 +5,7 @@ import { NgForm } from '@angular/forms';
 import { Subject } from 'rxjs';
 import { HttpErrorResponse } from '@angular/common/http';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { ConfirmModalComponent, ModalOptions } from '../../common/components/confirm.component';
+import { ConfirmModalComponent, ConfirmModalOptions } from '../../common/components/confirm.component';
 import { PagingHeaders } from '../../common/models/http.model';
 import { Date } from '../../common/models/date.model';
 import { Enum, Enums, DateTypes } from '../../common/models/enums.model';
@@ -127,7 +127,7 @@ export class DateEditComponent implements OnInit {
     delete(): void {
 
         let modalRef = this.modalService.open(ConfirmModalComponent, { centered: true });
-        (modalRef.componentInstance as ConfirmModalComponent).options = { title: "Delete Date", text: "Are you sure you want to delete this date?", deleteStyle: true, ok: "Delete" } as ModalOptions;
+        (modalRef.componentInstance as ConfirmModalComponent).options = { title: "Delete Date", text: "Are you sure you want to delete this date?", deleteStyle: true, ok: "Delete" } as ConfirmModalOptions;
         modalRef.result.then(
             () => {
 
@@ -179,7 +179,7 @@ export class DateEditComponent implements OnInit {
         event.stopPropagation();
 
         let modalRef = this.modalService.open(ConfirmModalComponent, { centered: true });
-        (modalRef.componentInstance as ConfirmModalComponent).options = { title: "Delete Date", text: "Are you sure you want to delete this date?", deleteStyle: true, ok: "Delete" } as ModalOptions;
+        (modalRef.componentInstance as ConfirmModalComponent).options = { title: "Delete Date", text: "Are you sure you want to delete this date?", deleteStyle: true, ok: "Delete" } as ConfirmModalOptions;
         modalRef.result.then(
             () => {
 
@@ -199,7 +199,7 @@ export class DateEditComponent implements OnInit {
 
     deleteDatesInQuarter(): void {
         let modalRef = this.modalService.open(ConfirmModalComponent, { centered: true });
-        (modalRef.componentInstance as ConfirmModalComponent).options = { title: "Delete Dates", text: "Are you sure you want to delete all the dates in quarter?", deleteStyle: true, ok: "Delete" } as ModalOptions;
+        (modalRef.componentInstance as ConfirmModalComponent).options = { title: "Delete Dates", text: "Are you sure you want to delete all the dates in quarter?", deleteStyle: true, ok: "Delete" } as ConfirmModalOptions;
         modalRef.result.then(
             () => {
 
@@ -247,7 +247,7 @@ export class DateEditComponent implements OnInit {
         event.stopPropagation();
 
         let modalRef = this.modalService.open(ConfirmModalComponent, { centered: true });
-        (modalRef.componentInstance as ConfirmModalComponent).options = { title: "Delete Date", text: "Are you sure you want to delete this date?", deleteStyle: true, ok: "Delete" } as ModalOptions;
+        (modalRef.componentInstance as ConfirmModalComponent).options = { title: "Delete Date", text: "Are you sure you want to delete this date?", deleteStyle: true, ok: "Delete" } as ConfirmModalOptions;
         modalRef.result.then(
             () => {
 
@@ -267,7 +267,7 @@ export class DateEditComponent implements OnInit {
 
     deleteDatesInYear(): void {
         let modalRef = this.modalService.open(ConfirmModalComponent, { centered: true });
-        (modalRef.componentInstance as ConfirmModalComponent).options = { title: "Delete Dates", text: "Are you sure you want to delete all the dates in year?", deleteStyle: true, ok: "Delete" } as ModalOptions;
+        (modalRef.componentInstance as ConfirmModalComponent).options = { title: "Delete Dates", text: "Are you sure you want to delete all the dates in year?", deleteStyle: true, ok: "Delete" } as ConfirmModalOptions;
         modalRef.result.then(
             () => {
 
@@ -315,7 +315,7 @@ export class DateEditComponent implements OnInit {
         event.stopPropagation();
 
         let modalRef = this.modalService.open(ConfirmModalComponent, { centered: true });
-        (modalRef.componentInstance as ConfirmModalComponent).options = { title: "Delete Response", text: "Are you sure you want to delete this response?", deleteStyle: true, ok: "Delete" } as ModalOptions;
+        (modalRef.componentInstance as ConfirmModalComponent).options = { title: "Delete Response", text: "Are you sure you want to delete this response?", deleteStyle: true, ok: "Delete" } as ConfirmModalOptions;
         modalRef.result.then(
             () => {
 
@@ -335,7 +335,7 @@ export class DateEditComponent implements OnInit {
 
     deleteResponses(): void {
         let modalRef = this.modalService.open(ConfirmModalComponent, { centered: true });
-        (modalRef.componentInstance as ConfirmModalComponent).options = { title: "Delete Responses", text: "Are you sure you want to delete all the responses?", deleteStyle: true, ok: "Delete" } as ModalOptions;
+        (modalRef.componentInstance as ConfirmModalComponent).options = { title: "Delete Responses", text: "Are you sure you want to delete all the responses?", deleteStyle: true, ok: "Delete" } as ConfirmModalOptions;
         modalRef.result.then(
             () => {
 

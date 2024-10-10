@@ -5,7 +5,7 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { BreadcrumbService } from '../common/services/breadcrumb.service';
 import { ToastrService } from 'ngx-toastr';
 import { forkJoin } from 'rxjs';
-import { ConfirmModalComponent, ModalOptions } from '../common/components/confirm.component';
+import { ConfirmModalComponent, ConfirmModalOptions } from '../common/components/confirm.component';
 import { Enums, LogFrameRowTypes } from '../common/models/enums.model';
 import { LogFrame } from '../common/models/logframe.model';
 import { LogFrameRow, LogFrameRowSearchOptions } from '../common/models/logframerow.model';
@@ -89,7 +89,7 @@ export class LogFrameComponent implements OnInit {
 
     public delete(): void {
         let modalRef = this.modalService.open(ConfirmModalComponent, { centered: true });
-        (modalRef.componentInstance as ConfirmModalComponent).options = { title: "Delete Logical Framework", text: "Are you sure you want to delete this logical framework?", deleteStyle: true, ok: "Delete" } as ModalOptions;
+        (modalRef.componentInstance as ConfirmModalComponent).options = { title: "Delete Logical Framework", text: "Are you sure you want to delete this logical framework?", deleteStyle: true, ok: "Delete" } as ConfirmModalOptions;
         modalRef.result.then(
             () => {
 

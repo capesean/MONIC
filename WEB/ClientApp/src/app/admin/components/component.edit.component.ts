@@ -5,7 +5,7 @@ import { NgForm } from '@angular/forms';
 import { Subject, Subscription } from 'rxjs';
 import { HttpErrorResponse } from '@angular/common/http';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { ConfirmModalComponent, ModalOptions } from '../../common/components/confirm.component';
+import { ConfirmModalComponent, ConfirmModalOptions } from '../../common/components/confirm.component';
 import { PagingHeaders } from '../../common/models/http.model';
 import { Component } from '../../common/models/component.model';
 import { Enum, Enums, ItemTypes } from '../../common/models/enums.model';
@@ -190,7 +190,7 @@ export class ComponentEditComponent extends ItemComponent implements OnInit, OnD
     delete(): void {
 
         let modalRef = this.modalService.open(ConfirmModalComponent, { centered: true });
-        (modalRef.componentInstance as ConfirmModalComponent).options = { title: "Delete Component", text: "Are you sure you want to delete this component?", deleteStyle: true, ok: "Delete" } as ModalOptions;
+        (modalRef.componentInstance as ConfirmModalComponent).options = { title: "Delete Component", text: "Are you sure you want to delete this component?", deleteStyle: true, ok: "Delete" } as ConfirmModalOptions;
         modalRef.result.then(
             () => {
 
@@ -242,7 +242,7 @@ export class ComponentEditComponent extends ItemComponent implements OnInit, OnD
         event.stopPropagation();
 
         let modalRef = this.modalService.open(ConfirmModalComponent, { centered: true });
-        (modalRef.componentInstance as ConfirmModalComponent).options = { title: "Delete Relationship", text: "Are you sure you want to delete this relationship?", deleteStyle: true, ok: "Delete" } as ModalOptions;
+        (modalRef.componentInstance as ConfirmModalComponent).options = { title: "Delete Relationship", text: "Are you sure you want to delete this relationship?", deleteStyle: true, ok: "Delete" } as ConfirmModalOptions;
         modalRef.result.then(
             () => {
 
@@ -262,7 +262,7 @@ export class ComponentEditComponent extends ItemComponent implements OnInit, OnD
 
     deleteRelationshipsAsSource(): void {
         let modalRef = this.modalService.open(ConfirmModalComponent, { centered: true });
-        (modalRef.componentInstance as ConfirmModalComponent).options = { title: "Delete Relationships", text: "Are you sure you want to delete all the relationships as source?", deleteStyle: true, ok: "Delete" } as ModalOptions;
+        (modalRef.componentInstance as ConfirmModalComponent).options = { title: "Delete Relationships", text: "Are you sure you want to delete all the relationships as source?", deleteStyle: true, ok: "Delete" } as ConfirmModalOptions;
         modalRef.result.then(
             () => {
 
@@ -310,7 +310,7 @@ export class ComponentEditComponent extends ItemComponent implements OnInit, OnD
         event.stopPropagation();
 
         let modalRef = this.modalService.open(ConfirmModalComponent, { centered: true });
-        (modalRef.componentInstance as ConfirmModalComponent).options = { title: "Delete Relationship", text: "Are you sure you want to delete this relationship?", deleteStyle: true, ok: "Delete" } as ModalOptions;
+        (modalRef.componentInstance as ConfirmModalComponent).options = { title: "Delete Relationship", text: "Are you sure you want to delete this relationship?", deleteStyle: true, ok: "Delete" } as ConfirmModalOptions;
         modalRef.result.then(
             () => {
 
@@ -330,7 +330,7 @@ export class ComponentEditComponent extends ItemComponent implements OnInit, OnD
 
     deleteRelationshipsAsTarget(): void {
         let modalRef = this.modalService.open(ConfirmModalComponent, { centered: true });
-        (modalRef.componentInstance as ConfirmModalComponent).options = { title: "Delete Relationships", text: "Are you sure you want to delete all the relationships as target?", deleteStyle: true, ok: "Delete" } as ModalOptions;
+        (modalRef.componentInstance as ConfirmModalComponent).options = { title: "Delete Relationships", text: "Are you sure you want to delete all the relationships as target?", deleteStyle: true, ok: "Delete" } as ConfirmModalOptions;
         modalRef.result.then(
             () => {
 
@@ -378,7 +378,7 @@ export class ComponentEditComponent extends ItemComponent implements OnInit, OnD
         event.stopPropagation();
 
         let modalRef = this.modalService.open(ConfirmModalComponent, { centered: true });
-        (modalRef.componentInstance as ConfirmModalComponent).options = { title: "Delete Log Frame Row Component", text: "Are you sure you want to delete this log frame row component?", deleteStyle: true, ok: "Delete" } as ModalOptions;
+        (modalRef.componentInstance as ConfirmModalComponent).options = { title: "Delete Log Frame Row Component", text: "Are you sure you want to delete this log frame row component?", deleteStyle: true, ok: "Delete" } as ConfirmModalOptions;
         modalRef.result.then(
             () => {
 
@@ -398,7 +398,7 @@ export class ComponentEditComponent extends ItemComponent implements OnInit, OnD
 
     deleteLogFrameRowComponents(): void {
         let modalRef = this.modalService.open(ConfirmModalComponent, { centered: true });
-        (modalRef.componentInstance as ConfirmModalComponent).options = { title: "Delete Log Frame Row Components", text: "Are you sure you want to delete all the log frame row components?", deleteStyle: true, ok: "Delete" } as ModalOptions;
+        (modalRef.componentInstance as ConfirmModalComponent).options = { title: "Delete Log Frame Row Components", text: "Are you sure you want to delete all the log frame row components?", deleteStyle: true, ok: "Delete" } as ConfirmModalOptions;
         modalRef.result.then(
             () => {
 
@@ -465,7 +465,7 @@ export class ComponentEditComponent extends ItemComponent implements OnInit, OnD
         event.stopPropagation();
 
         let modalRef = this.modalService.open(ConfirmModalComponent, { centered: true });
-        (modalRef.componentInstance as ConfirmModalComponent).options = { title: "Delete Theory of Change Component", text: "Are you sure you want to delete this theory of change component?", deleteStyle: true, ok: "Delete" } as ModalOptions;
+        (modalRef.componentInstance as ConfirmModalComponent).options = { title: "Delete Theory of Change Component", text: "Are you sure you want to delete this theory of change component?", deleteStyle: true, ok: "Delete" } as ConfirmModalOptions;
         modalRef.result.then(
             () => {
 
@@ -485,7 +485,7 @@ export class ComponentEditComponent extends ItemComponent implements OnInit, OnD
 
     deleteTheoryOfChangeComponents(): void {
         let modalRef = this.modalService.open(ConfirmModalComponent, { centered: true });
-        (modalRef.componentInstance as ConfirmModalComponent).options = { title: "Delete Theory of Change Components", text: "Are you sure you want to delete all the components?", deleteStyle: true, ok: "Delete" } as ModalOptions;
+        (modalRef.componentInstance as ConfirmModalComponent).options = { title: "Delete Theory of Change Components", text: "Are you sure you want to delete all the components?", deleteStyle: true, ok: "Delete" } as ConfirmModalOptions;
         modalRef.result.then(
             () => {
 
@@ -552,7 +552,7 @@ export class ComponentEditComponent extends ItemComponent implements OnInit, OnD
         event.stopPropagation();
 
         let modalRef = this.modalService.open(ConfirmModalComponent, { centered: true });
-        (modalRef.componentInstance as ConfirmModalComponent).options = { title: "Delete Component Indicator", text: "Are you sure you want to delete this component indicator?", deleteStyle: true, ok: "Delete" } as ModalOptions;
+        (modalRef.componentInstance as ConfirmModalComponent).options = { title: "Delete Component Indicator", text: "Are you sure you want to delete this component indicator?", deleteStyle: true, ok: "Delete" } as ConfirmModalOptions;
         modalRef.result.then(
             () => {
 
@@ -572,7 +572,7 @@ export class ComponentEditComponent extends ItemComponent implements OnInit, OnD
 
     deleteComponentIndicators(): void {
         let modalRef = this.modalService.open(ConfirmModalComponent, { centered: true });
-        (modalRef.componentInstance as ConfirmModalComponent).options = { title: "Delete Component Indicators", text: "Are you sure you want to delete all the component indicators?", deleteStyle: true, ok: "Delete" } as ModalOptions;
+        (modalRef.componentInstance as ConfirmModalComponent).options = { title: "Delete Component Indicators", text: "Are you sure you want to delete all the component indicators?", deleteStyle: true, ok: "Delete" } as ConfirmModalOptions;
         modalRef.result.then(
             () => {
 

@@ -5,7 +5,7 @@ import { NgForm } from '@angular/forms';
 import { Subject, Subscription } from 'rxjs';
 import { HttpErrorResponse } from '@angular/common/http';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { ConfirmModalComponent, ModalOptions } from '../../common/components/confirm.component';
+import { ConfirmModalComponent, ConfirmModalOptions } from '../../common/components/confirm.component';
 import { PagingHeaders } from '../../common/models/http.model';
 import { Item } from '../../common/models/item.model';
 import { Enum, Enums } from '../../common/models/enums.model';
@@ -133,7 +133,7 @@ export class ItemEditComponent implements OnInit, OnDestroy {
     delete(): void {
 
         let modalRef = this.modalService.open(ConfirmModalComponent, { centered: true });
-        (modalRef.componentInstance as ConfirmModalComponent).options = { title: "Delete Item", text: "Are you sure you want to delete this item?", deleteStyle: true, ok: "Delete" } as ModalOptions;
+        (modalRef.componentInstance as ConfirmModalComponent).options = { title: "Delete Item", text: "Are you sure you want to delete this item?", deleteStyle: true, ok: "Delete" } as ConfirmModalOptions;
         modalRef.result.then(
             () => {
 
@@ -185,7 +185,7 @@ export class ItemEditComponent implements OnInit, OnDestroy {
         event.stopPropagation();
 
         let modalRef = this.modalService.open(ConfirmModalComponent, { centered: true });
-        (modalRef.componentInstance as ConfirmModalComponent).options = { title: "Delete Option Value", text: "Are you sure you want to delete this option value?", deleteStyle: true, ok: "Delete" } as ModalOptions;
+        (modalRef.componentInstance as ConfirmModalComponent).options = { title: "Delete Option Value", text: "Are you sure you want to delete this option value?", deleteStyle: true, ok: "Delete" } as ConfirmModalOptions;
         modalRef.result.then(
             () => {
 
@@ -205,7 +205,7 @@ export class ItemEditComponent implements OnInit, OnDestroy {
 
     deleteOptionValues(): void {
         let modalRef = this.modalService.open(ConfirmModalComponent, { centered: true });
-        (modalRef.componentInstance as ConfirmModalComponent).options = { title: "Delete Option Values", text: "Are you sure you want to delete all the option values?", deleteStyle: true, ok: "Delete" } as ModalOptions;
+        (modalRef.componentInstance as ConfirmModalComponent).options = { title: "Delete Option Values", text: "Are you sure you want to delete all the option values?", deleteStyle: true, ok: "Delete" } as ConfirmModalOptions;
         modalRef.result.then(
             () => {
 
@@ -253,7 +253,7 @@ export class ItemEditComponent implements OnInit, OnDestroy {
         event.stopPropagation();
 
         let modalRef = this.modalService.open(ConfirmModalComponent, { centered: true });
-        (modalRef.componentInstance as ConfirmModalComponent).options = { title: "Delete Document", text: "Are you sure you want to delete this document?", deleteStyle: true, ok: "Delete" } as ModalOptions;
+        (modalRef.componentInstance as ConfirmModalComponent).options = { title: "Delete Document", text: "Are you sure you want to delete this document?", deleteStyle: true, ok: "Delete" } as ConfirmModalOptions;
         modalRef.result.then(
             () => {
 
@@ -273,7 +273,7 @@ export class ItemEditComponent implements OnInit, OnDestroy {
 
     deleteDocuments(): void {
         let modalRef = this.modalService.open(ConfirmModalComponent, { centered: true });
-        (modalRef.componentInstance as ConfirmModalComponent).options = { title: "Delete Documents", text: "Are you sure you want to delete all the documents?", deleteStyle: true, ok: "Delete" } as ModalOptions;
+        (modalRef.componentInstance as ConfirmModalComponent).options = { title: "Delete Documents", text: "Are you sure you want to delete all the documents?", deleteStyle: true, ok: "Delete" } as ConfirmModalOptions;
         modalRef.result.then(
             () => {
 

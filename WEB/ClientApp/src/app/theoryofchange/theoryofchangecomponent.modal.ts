@@ -13,7 +13,7 @@ import { Item } from '../common/models/item.model';
 import { TheoryOfChange } from '../common/models/theoryofchange.model';
 import { TheoryOfChangeComponentService } from '../common/services/theoryofchangecomponent.service';
 import { TheoryOfChangeComponent } from '../common/models/theoryofchangecomponent.model';
-import { ConfirmModalComponent, ModalOptions } from '../common/components/confirm.component';
+import { ConfirmModalComponent, ConfirmModalOptions } from '../common/components/confirm.component';
 import { IndicatorModalComponent } from '../admin/indicators/indicator.modal.component';
 import { Indicator } from '../common/models/indicator.model';
 import { ComponentIndicator, ComponentIndicatorSearchOptions, ComponentIndicatorSearchResponse } from '../common/models/componentindicator.model';
@@ -111,7 +111,7 @@ export class TheoryOfChangeComponentModal extends ItemComponent implements OnIni
     remove(): void {
 
         let modalRef = this.modalService.open(ConfirmModalComponent, { centered: true });
-        (modalRef.componentInstance as ConfirmModalComponent).options = { title: "Remove Component", text: "Are you sure you want to remove this Component from the Theory of Change model?", deleteStyle: true, ok: "Remove" } as ModalOptions;
+        (modalRef.componentInstance as ConfirmModalComponent).options = { title: "Remove Component", text: "Are you sure you want to remove this Component from the Theory of Change model?", deleteStyle: true, ok: "Remove" } as ConfirmModalOptions;
         modalRef.result.then(
             () => {
 
@@ -133,7 +133,7 @@ export class TheoryOfChangeComponentModal extends ItemComponent implements OnIni
     delete(): void {
 
         let modalRef = this.modalService.open(ConfirmModalComponent, { centered: true });
-        (modalRef.componentInstance as ConfirmModalComponent).options = { title: "Delete Component", text: "<p>Are you sure you want to delete this Component?</p><p>Deleting the component will remove it from the Theory of Change model <strong class='text-danger'>as well as deleting it from the database</strong>.</p>", deleteStyle: true, ok: "Delete" } as ModalOptions;
+        (modalRef.componentInstance as ConfirmModalComponent).options = { title: "Delete Component", text: "<p>Are you sure you want to delete this Component?</p><p>Deleting the component will remove it from the Theory of Change model <strong class='text-danger'>as well as deleting it from the database</strong>.</p>", deleteStyle: true, ok: "Delete" } as ConfirmModalOptions;
         modalRef.result.then(
             () => {
 

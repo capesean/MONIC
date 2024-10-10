@@ -5,7 +5,7 @@ import { NgForm } from '@angular/forms';
 import { Subject, Subscription } from 'rxjs';
 import { HttpErrorResponse } from '@angular/common/http';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { ConfirmModalComponent, ModalOptions } from '../../common/components/confirm.component';
+import { ConfirmModalComponent, ConfirmModalOptions } from '../../common/components/confirm.component';
 import { PagingHeaders } from '../../common/models/http.model';
 import { User } from '../../common/models/user.model';
 import { Enum, Enums, Roles } from '../../common/models/enums.model';
@@ -163,7 +163,7 @@ export class UserEditComponent implements OnInit, OnDestroy {
     delete(): void {
 
         let modalRef = this.modalService.open(ConfirmModalComponent, { centered: true });
-        (modalRef.componentInstance as ConfirmModalComponent).options = { title: "Delete User", text: "Are you sure you want to delete this user?", deleteStyle: true, ok: "Delete" } as ModalOptions;
+        (modalRef.componentInstance as ConfirmModalComponent).options = { title: "Delete User", text: "Are you sure you want to delete this user?", deleteStyle: true, ok: "Delete" } as ConfirmModalOptions;
         modalRef.result.then(
             () => {
 
@@ -234,7 +234,7 @@ export class UserEditComponent implements OnInit, OnDestroy {
         event.stopPropagation();
 
         let modalRef = this.modalService.open(ConfirmModalComponent, { centered: true });
-        (modalRef.componentInstance as ConfirmModalComponent).options = { title: "Delete Entity Permission", text: "Are you sure you want to delete this entity permission?", deleteStyle: true, ok: "Delete" } as ModalOptions;
+        (modalRef.componentInstance as ConfirmModalComponent).options = { title: "Delete Entity Permission", text: "Are you sure you want to delete this entity permission?", deleteStyle: true, ok: "Delete" } as ConfirmModalOptions;
         modalRef.result.then(
             () => {
 
@@ -254,7 +254,7 @@ export class UserEditComponent implements OnInit, OnDestroy {
 
     deleteEntityPermissions(): void {
         let modalRef = this.modalService.open(ConfirmModalComponent, { centered: true });
-        (modalRef.componentInstance as ConfirmModalComponent).options = { title: "Delete Entity Permissions", text: "Are you sure you want to delete all the entity permissions?", deleteStyle: true, ok: "Delete" } as ModalOptions;
+        (modalRef.componentInstance as ConfirmModalComponent).options = { title: "Delete Entity Permissions", text: "Are you sure you want to delete all the entity permissions?", deleteStyle: true, ok: "Delete" } as ConfirmModalOptions;
         modalRef.result.then(
             () => {
 
@@ -379,7 +379,7 @@ export class UserEditComponent implements OnInit, OnDestroy {
         event.stopPropagation();
 
         let modalRef = this.modalService.open(ConfirmModalComponent, { centered: true });
-        (modalRef.componentInstance as ConfirmModalComponent).options = { title: "Delete Indicator Permission", text: "Are you sure you want to delete this indicator permission?", deleteStyle: true, ok: "Delete" } as ModalOptions;
+        (modalRef.componentInstance as ConfirmModalComponent).options = { title: "Delete Indicator Permission", text: "Are you sure you want to delete this indicator permission?", deleteStyle: true, ok: "Delete" } as ConfirmModalOptions;
         modalRef.result.then(
             () => {
 
@@ -399,7 +399,7 @@ export class UserEditComponent implements OnInit, OnDestroy {
 
     deleteIndicatorPermissions(): void {
         let modalRef = this.modalService.open(ConfirmModalComponent, { centered: true });
-        (modalRef.componentInstance as ConfirmModalComponent).options = { title: "Delete Indicator Permissions", text: "Are you sure you want to delete all the indicator permissions?", deleteStyle: true, ok: "Delete" } as ModalOptions;
+        (modalRef.componentInstance as ConfirmModalComponent).options = { title: "Delete Indicator Permissions", text: "Are you sure you want to delete all the indicator permissions?", deleteStyle: true, ok: "Delete" } as ConfirmModalOptions;
         modalRef.result.then(
             () => {
 

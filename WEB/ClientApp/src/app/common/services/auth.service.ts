@@ -9,6 +9,7 @@ import { ProfileModel } from "../models/profile.models";
 import { Enums, Roles } from "../models/enums.model";
 import { FolderShortcutSettings, IndicatorBarChartSettings, IndicatorLineChartSettings, IndicatorMapSettings, IndicatorPieChartSettings, WidgetSettings } from "../models/widget.model";
 import { AppService } from "./app.service";
+import { switchMap } from "rxjs";
 
 @Injectable({ providedIn: 'root' })
 export class AuthService {
@@ -256,61 +257,72 @@ export class AuthService {
     }
 
     canEdit(indicatorId?: string): Observable<boolean> {
-        return this.getProfile()
-            .pipe(
-                map(
-                    profile => {
-                        if (this.isInRole(profile, Roles.Administrator)) return true;
-                        return !!profile.indicatorPermissions.find(o => o.edit && (indicatorId === undefined || o.indicatorId === indicatorId));
-                    }
-                )
-            );
-
+        return this.isInRole$(Roles.Administrator).pipe(
+            map(result => {
+                if (result) return true;
+                return !!this._profile.indicatorPermissions.find(o => o.edit && (indicatorId === undefined || o.indicatorId === indicatorId));
+            })
+        );
     }
 
     canSubmit(indicatorId?: string): Observable<boolean> {
-        return forkJoin({
-            appSettings: this.appService.getAppSettings(),
-            profile: this.getProfile(),
-        }).pipe(
-            map(
-                data => {
-                    if (!data.appSettings.useSubmit) return false;
-                    if (this.isInRole(data.profile, Roles.Administrator)) return true;
-                    return !!data.profile.indicatorPermissions.find(o => o.submit && (indicatorId === undefined || o.indicatorId === indicatorId));
+        return this.appService.getAppSettings().pipe(
+            switchMap(appSettings => {
+                if (!appSettings.useSubmit) {
+                    return of(false);
                 }
-            )
+                return this.isInRole$(Roles.Administrator).pipe(
+                    map(result => {
+                        if (result) {
+                            return true;
+                        }
+                        return !!this._profile.indicatorPermissions.find(
+                            o => o.submit && (indicatorId === undefined || o.indicatorId === indicatorId)
+                        );
+                    })
+                );
+            })
         );
     }
 
     canVerify(indicatorId?: string): Observable<boolean> {
-        return forkJoin({
-            appSettings: this.appService.getAppSettings(),
-            profile: this.getProfile(),
-        }).pipe(
-            map(
-                data => {
-                    if (!data.appSettings.useVerify) return false;
-                    if (this.isInRole(data.profile, Roles.Administrator)) return true;
-                    return !!data.profile.indicatorPermissions.find(o => o.verify && (indicatorId === undefined || o.indicatorId === indicatorId));
+        return this.appService.getAppSettings().pipe(
+            switchMap(appSettings => {
+                if (!appSettings.useVerify) {
+                    return of(false);
                 }
-            )
+                return this.isInRole$(Roles.Administrator).pipe(
+                    map(result => {
+                        if (result) {
+                            return true;
+                        }
+                        return !!this._profile.indicatorPermissions.find(
+                            o => o.verify && (indicatorId === undefined || o.indicatorId === indicatorId)
+                        );
+                    })
+                );
+            })
         );
     }
 
     canApprove(indicatorId?: string): Observable<boolean> {
-        return forkJoin({
-            appSettings: this.appService.getAppSettings(),
-            profile: this.getProfile(),
-        }).pipe(
-                map(
-                    data => {
-                        if (!data.appSettings.useApprove) return false;
-                        if (this.isInRole(data.profile, Roles.Administrator)) return true;
-                        return !!data.profile.indicatorPermissions.find(o => o.approve && (indicatorId === undefined || o.indicatorId === indicatorId));
-                    }
-                )
-            );
+        return this.appService.getAppSettings().pipe(
+            switchMap(appSettings => {
+                if (!appSettings.useApprove) {
+                    return of(false);
+                }
+                return this.isInRole$(Roles.Administrator).pipe(
+                    map(result => {
+                        if (result) {
+                            return true;
+                        }
+                        return !!this._profile.indicatorPermissions.find(
+                            o => o.approve && (indicatorId === undefined || o.indicatorId === indicatorId)
+                        );
+                    })
+                );
+            })
+        );
     }
 
     saveDashboardSettings(settings?: WidgetSettings | IndicatorMapSettings | IndicatorLineChartSettings | IndicatorBarChartSettings | IndicatorPieChartSettings | FolderShortcutSettings, remove?: boolean): Observable<void> {

@@ -4,7 +4,7 @@ import { ToastrService } from 'ngx-toastr';
 import { NgForm } from '@angular/forms';
 import { HttpErrorResponse } from '@angular/common/http';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { ConfirmModalComponent, ModalOptions } from '../../common/components/confirm.component';
+import { ConfirmModalComponent, ConfirmModalOptions } from '../../common/components/confirm.component';
 import { EntityLink } from '../../common/models/entitylink.model';
 import { BreadcrumbService } from '../../common/services/breadcrumb.service';
 import { ErrorService } from '../../common/services/error.service';
@@ -92,7 +92,7 @@ export class EntityLinkEditComponent implements OnInit {
     delete(): void {
 
         let modalRef = this.modalService.open(ConfirmModalComponent, { centered: true });
-        (modalRef.componentInstance as ConfirmModalComponent).options = { title: "Delete Entity Link", text: "Are you sure you want to delete this entity link?", deleteStyle: true, ok: "Delete" } as ModalOptions;
+        (modalRef.componentInstance as ConfirmModalComponent).options = { title: "Delete Entity Link", text: "Are you sure you want to delete this entity link?", deleteStyle: true, ok: "Delete" } as ConfirmModalOptions;
         modalRef.result.then(
             () => {
 

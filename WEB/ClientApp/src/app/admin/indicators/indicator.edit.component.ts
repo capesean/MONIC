@@ -12,7 +12,7 @@ import { Enum, Enums, OperatorTypes, TokenTypes, ParenthesisTypes, IndicatorStat
 import { TokenService } from '../../common/services/token.service';
 import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { IndicatorModalComponent } from './indicator.modal.component';
-import { ConfirmModalComponent, ModalOptions } from '../../common/components/confirm.component';
+import { ConfirmModalComponent, ConfirmModalOptions } from '../../common/components/confirm.component';
 import { ItemComponent } from '../../common/components/item.component';
 import { AppService } from '../../common/services/app.service';
 import { DocumentService } from '../../common/services/document.service';
@@ -188,7 +188,7 @@ export class IndicatorEditComponent extends ItemComponent implements OnInit {
     delete(): void {
 
         let modalRef = this.modalService.open(ConfirmModalComponent, { centered: true });
-        (modalRef.componentInstance as ConfirmModalComponent).options = { title: "Delete Indicator", text: "Are you sure you want to delete this indicator?", deleteStyle: true, ok: "Delete" } as ModalOptions;
+        (modalRef.componentInstance as ConfirmModalComponent).options = { title: "Delete Indicator", text: "Are you sure you want to delete this indicator?", deleteStyle: true, ok: "Delete" } as ConfirmModalOptions;
         modalRef.result.then(
             () => {
 

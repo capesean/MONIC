@@ -12,7 +12,7 @@ import { environment } from '../../../environments/environment';
 import { Indicator } from '../models/indicator.model';
 import { DateService } from '../services/date.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { ConfirmModalComponent, ModalOptions } from '../components/confirm.component';
+import { ConfirmModalComponent, ConfirmModalOptions } from '../components/confirm.component';
 import { IndicatorMapSettings, Widget } from '../models/widget.model';
 import { Observable } from 'rxjs';
 import { GoogleMapsApiService } from '../services/googlemapsapi.service';
@@ -204,7 +204,7 @@ export class IndicatorMapComponent implements OnInit, Widget {
 
         if (!this.datum) {
             const modalRef = this.modalService.open(ConfirmModalComponent, { centered: true });
-            (modalRef.componentInstance as ConfirmModalComponent).options = { title: "Map Click", text: `<p class="mb-5">There is no data for the ${this.indicator.entityType.name.toLowerCase()} that was clicked (${id})</p>`, ok: "Close", cancel: undefined } as ModalOptions;
+            (modalRef.componentInstance as ConfirmModalComponent).options = { title: "Map Click", text: `<p class="mb-5">There is no data for the ${this.indicator.entityType.name.toLowerCase()} that was clicked (${id})</p>`, ok: "Close", cancel: undefined } as ConfirmModalOptions;
             return;
         }
 

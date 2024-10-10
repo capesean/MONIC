@@ -7,7 +7,7 @@ import { Item } from '../../common/models/item.model';
 import { NgForm } from '@angular/forms';
 import { DownloadService } from '../../common/services/download.service';
 import { ToastrService } from 'ngx-toastr';
-import { ConfirmModalComponent, ModalOptions } from '../../common/components/confirm.component';
+import { ConfirmModalComponent, ConfirmModalOptions } from '../../common/components/confirm.component';
 
 @Component({
     selector: 'document-manage',
@@ -70,7 +70,7 @@ export class DocumentManageComponent implements OnInit {
 
     public deleteDocument(): void {
         let modalRef = this.modalService.open(ConfirmModalComponent, { centered: true });
-        (modalRef.componentInstance as ConfirmModalComponent).options = { title: "Delete Document", text: "Are you sure you want to delete this document?", deleteStyle: true, ok: "Delete" } as ModalOptions;
+        (modalRef.componentInstance as ConfirmModalComponent).options = { title: "Delete Document", text: "Are you sure you want to delete this document?", deleteStyle: true, ok: "Delete" } as ConfirmModalOptions;
         modalRef.result.then(
             () => {
 

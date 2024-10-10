@@ -5,7 +5,7 @@ import { ErrorService } from '../common/services/error.service';
 import { Milestone } from '../common/models/milestone.model';
 import { NgForm } from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
-import { ConfirmModalComponent, ModalOptions } from '../common/components/confirm.component';
+import { ConfirmModalComponent, ConfirmModalOptions } from '../common/components/confirm.component';
 import { Project } from '../common/models/project.model';
 
 @Component({
@@ -69,7 +69,7 @@ export class GanttMilestoneComponent implements OnInit {
     delete(): void {
 
         let modalRef = this.modalService.open(ConfirmModalComponent, { centered: true });
-        (modalRef.componentInstance as ConfirmModalComponent).options = { title: "Delete Milestone", text: "Are you sure you want to delete this milestone?", deleteStyle: true, ok: "Delete" } as ModalOptions;
+        (modalRef.componentInstance as ConfirmModalComponent).options = { title: "Delete Milestone", text: "Are you sure you want to delete this milestone?", deleteStyle: true, ok: "Delete" } as ConfirmModalOptions;
         modalRef.result.then(
             () => {
 
