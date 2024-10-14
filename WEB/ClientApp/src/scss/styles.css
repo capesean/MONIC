@@ -478,3 +478,35 @@ input[type=radio].form-check-input {
 .bs-tooltip-top > * {
     margin-bottom: 10px;
 }
+
+.bs-tooltip-bottom > * {
+    margin-bottom: 10px;
+}
+
+.bs-tooltip-start > * {
+    margin-right: 7px;
+}
+
+.bs-tooltip-end > * {
+    margin-left: 7px;
+}
+
+table.table-hover > tbody > tr:hover > td {
+    background-color: #cff2f4;
+}
+
+.card {
+    box-shadow: none !important;
+}
+
+@media (min-width: 992px) {
+    #mainNavbar {
+        max-width: 17rem;
+    }
+    main {
+        margin-left: 17rem;
+    }
+    .navbar-expand-lg .navbar-nav .nav-link {
+        padding-right: 20px;
+    }
+}

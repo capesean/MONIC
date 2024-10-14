@@ -30,6 +30,7 @@ export class AppComponent implements OnInit {
         modalConfig.scrollable = false;
         tooltipConfig.placement = 'top';
         tooltipConfig.openDelay = 750;
+        //tooltipConfig.closeDelay = 75000;
     }
 
     ngOnInit(): void {

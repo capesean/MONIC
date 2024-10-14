@@ -15,10 +15,13 @@ import { Enum, Enums } from '../../common/models/enums.model';
 import { Indicator, IndicatorSearchOptions, IndicatorSearchResponse } from '../../common/models/indicator.model';
 import { IndicatorService } from '../../common/services/indicator.service';
 import { IndicatorSortComponent } from '../indicators/indicator.sort.component';
+import { trigger, transition, style, animate } from '@angular/animations';
+import { fadeThenShrink } from '../../common/animations/fadeThenShrink';
 
 @NgComponent({
     selector: 'subcategory-edit',
-    templateUrl: './subcategory.edit.component.html'
+    templateUrl: './subcategory.edit.component.html',
+    animations: [fadeThenShrink]
 })
 export class SubcategoryEditComponent implements OnInit, OnDestroy {
 
