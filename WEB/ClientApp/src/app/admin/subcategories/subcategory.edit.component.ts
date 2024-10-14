@@ -29,6 +29,8 @@ export class SubcategoryEditComponent implements OnInit, OnDestroy {
     public isNew = true;
     private routerSubscription: Subscription;
     public indicatorTypes: Enum[] = Enums.IndicatorTypes;
+    public indicatorStatuses: Enum[] = Enums.IndicatorStatuses;
+    public dateTypes: Enum[] = Enums.DateTypes;
 
     public indicatorsSearchOptions = new IndicatorSearchOptions();
     public indicatorsHeaders = new PagingHeaders();
@@ -62,14 +64,14 @@ export class SubcategoryEditComponent implements OnInit, OnDestroy {
 
                 this.indicatorsSearchOptions.subcategoryId = subcategoryId;
                 this.indicatorsSearchOptions.includeParents = true;
-                this.loadIndicators();
+                this.searchIndicators();
 
             }
 
             this.routerSubscription = this.router.events.subscribe(event => {
                 if (event instanceof NavigationEnd && !this.route.firstChild) {
                     // this will double-load on new save, as params change (above) + nav ends
-                    this.loadIndicators();
+                    this.searchIndicators();
                 }
             });
 
@@ -148,7 +150,7 @@ export class SubcategoryEditComponent implements OnInit, OnDestroy {
         this.breadcrumbService.changeBreadcrumb(this.route.snapshot, this.subcategory.name !== undefined ? this.subcategory.name.substring(0, 25) : "(new subcategory)");
     }
 
-    loadIndicators(pageIndex = 0): Subject<IndicatorSearchResponse> {
+    searchIndicators(pageIndex = 0): Subject<IndicatorSearchResponse> {
 
         this.indicatorsSearchOptions.pageIndex = pageIndex;
 
@@ -186,7 +188,7 @@ export class SubcategoryEditComponent implements OnInit, OnDestroy {
                     .subscribe({
                         next: () => {
                             this.toastr.success("The indicator has been deleted", "Delete Indicator");
-                            this.loadIndicators(this.indicatorsHeaders.pageIndex);
+                            this.searchIndicators(this.indicatorsHeaders.pageIndex);
                         },
                         error: err => {
                             this.errorService.handleError(err, "Indicator", "Delete");
@@ -206,7 +208,7 @@ export class SubcategoryEditComponent implements OnInit, OnDestroy {
                     .subscribe({
                         next: () => {
                             this.toastr.success("The indicators have been deleted", "Delete Indicators");
-                            this.loadIndicators();
+                            this.searchIndicators();
                         },
                         error: err => {
                             this.errorService.handleError(err, "Indicators", "Delete");
@@ -220,7 +222,7 @@ export class SubcategoryEditComponent implements OnInit, OnDestroy {
         let modalRef = this.modalService.open(IndicatorSortComponent, { size: 'xl', centered: true, scrollable: true });
         (modalRef.componentInstance as IndicatorSortComponent).subcategoryId = this.subcategory.subcategoryId;
         modalRef.result.then(
-            () => this.loadIndicators(this.indicatorsHeaders.pageIndex),
+            () => this.searchIndicators(this.indicatorsHeaders.pageIndex),
             () => { }
         );
     }

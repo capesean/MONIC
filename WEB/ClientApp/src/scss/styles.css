@@ -503,10 +503,59 @@ table.table-hover > tbody > tr:hover > td {
     #mainNavbar {
         max-width: 17rem;
     }
+
     main {
         margin-left: 17rem;
     }
+
     .navbar-expand-lg .navbar-nav .nav-link {
         padding-right: 20px;
     }
 }
+
+
+.card.card-edit {
+    border: solid 1px rgba(var(--bs-secondary-rgb));
+    box-shadow: none !important;
+}
+
+    .card.card-edit .card-header {
+        padding-top: 0.624999375rem !important;
+        padding-bottom: 0.624999375rem !important;
+        background-color: rgba(var(--bs-primary-rgb), 1) !important;
+        border: solid 1px rgba(var(--bs-primary-rgb), 1);
+    }
+
+        .card.card-edit .card-header .card-header-title {
+            color: white;
+        }
+
+            .card.card-edit .card-header .card-header-title h4 {
+                text-transform: uppercase;
+                margin: 0 !important;
+            }
+
+.card.card-list {
+    border: solid 1px rgba(var(--bs-secondary-rgb), 1) !important;
+    box-shadow: none !important;
+}
+
+    .card.card-list .card-header {
+        padding-top: 0.624999375rem !important;
+        padding-bottom: 0.624999375rem !important;
+        background-color: rgba(var(--bs-primary-rgb), 1) !important;
+        border: solid 1px rgba(var(--bs-primary-rgb), 1);
+    }
+
+        .card.card-list .card-header .card-header-title {
+            color: white;
+            display: flex;
+            flex-direction: row;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+            .card.card-list .card-header .card-header-title h4 {
+                text-transform: uppercase;
+                margin: 0 !important;
+            }
