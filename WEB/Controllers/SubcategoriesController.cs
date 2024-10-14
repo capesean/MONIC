@@ -30,7 +30,7 @@ namespace WEB.Controllers
             }
 
             if (!string.IsNullOrWhiteSpace(searchOptions.q))
-                results = results.Where(o => o.Name.Contains(searchOptions.q) || o.Code.Contains(searchOptions.q));
+                results = results.Where(o => o.Code.Contains(searchOptions.q) || o.Name.Contains(searchOptions.q));
 
             if (searchOptions.CategoryId.HasValue) results = results.Where(o => o.CategoryId == searchOptions.CategoryId);
 
@@ -59,11 +59,11 @@ namespace WEB.Controllers
 
             if (subcategoryDTO.SubcategoryId != subcategoryId) return BadRequest("Id mismatch");
 
-            if (await db.Subcategories.AnyAsync(o => o.CategoryId == subcategoryDTO.CategoryId && o.Name == subcategoryDTO.Name && o.SubcategoryId != subcategoryDTO.SubcategoryId))
-                return BadRequest("Subcategory already exists on this Category.");
-
             if (await db.Subcategories.AnyAsync(o => o.Code == subcategoryDTO.Code && o.SubcategoryId != subcategoryDTO.SubcategoryId))
                 return BadRequest("Code already exists.");
+
+            if (await db.Subcategories.AnyAsync(o => o.CategoryId == subcategoryDTO.CategoryId && o.Name == subcategoryDTO.Name && o.SubcategoryId != subcategoryDTO.SubcategoryId))
+                return BadRequest("Subcategory already exists on this Category.");
 
             var isNew = subcategoryDTO.SubcategoryId == Guid.Empty;
 
