@@ -8,6 +8,7 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ConfirmModalComponent, ConfirmModalOptions } from '../../common/components/confirm.component';
 import { PagingHeaders } from '../../common/models/http.model';
 import { TheoryOfChange } from '../../common/models/theoryofchange.model';
+import { FadeThenShrink } from '../../common/animations/fadethenshrink';
 import { BreadcrumbService } from '../../common/services/breadcrumb.service';
 import { ErrorService } from '../../common/services/error.service';
 import { TheoryOfChangeService } from '../../common/services/theoryofchange.service';
@@ -20,7 +21,8 @@ import { Component } from '../../common/models/component.model';
 
 @NgComponent({
     selector: 'theoryofchange-edit',
-    templateUrl: './theoryofchange.edit.component.html'
+    templateUrl: './theoryofchange.edit.component.html',
+    animations: [FadeThenShrink]
 })
 export class TheoryOfChangeEditComponent implements OnInit, OnDestroy {
 

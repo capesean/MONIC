@@ -6,18 +6,21 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { PagingHeaders } from '../../common/models/http.model';
 import { LogFrameRowSearchOptions, LogFrameRowSearchResponse, LogFrameRow } from '../../common/models/logframerow.model';
 import { Enum, Enums } from '../../common/models/enums.model';
+import { FadeThenShrink } from '../../common/animations/fadethenshrink';
 import { ErrorService } from '../../common/services/error.service';
 import { LogFrameRowService } from '../../common/services/logframerow.service';
 import { LogFrameRowSortComponent } from './logframerow.sort.component';
 
 @NgComponent({
     selector: 'logframerow-list',
-    templateUrl: './logframerow.list.component.html'
+    templateUrl: './logframerow.list.component.html',
+    animations: [FadeThenShrink]
 })
 export class LogFrameRowListComponent implements OnInit, OnDestroy {
 
     public logFrameRows: LogFrameRow[] = [];
     public searchOptions = new LogFrameRowSearchOptions();
+    public showSearchOptions = false;
     public headers = new PagingHeaders();
     private routerSubscription: Subscription;
     public logFrameRowTypes: Enum[] = Enums.LogFrameRowTypes;
@@ -68,7 +71,7 @@ export class LogFrameRowListComponent implements OnInit, OnDestroy {
     }
 
     showSort(): void {
-        let modalRef = this.modalService.open(LogFrameRowSortComponent, { size: 'xl', centered: true, scrollable: true });
+        let modalRef = this.modalService.open(LogFrameRowSortComponent, { size: 'xl', centered: true, scrollable: false });
         modalRef.result.then(
             () => {
 

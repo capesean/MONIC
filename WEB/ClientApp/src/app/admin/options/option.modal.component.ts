@@ -46,7 +46,7 @@ export class OptionModalComponent implements OnInit {
     open(): NgbModalRef {
         if (this.resetOnOpen) this.selectedItems = [];
         this.searchOptions.fieldId = this.field?.fieldId;
-        this.modal = this.modalService.open(this.content, { size: 'xl', centered: true, scrollable: true });
+        this.modal = this.modalService.open(this.content, { size: 'xl', centered: true, scrollable: false });
         this.runSearch();
         this.modal.result.then((option: Option | Option[]) => {
             if (this.multiple) this.changes.emit(option as Option[]);

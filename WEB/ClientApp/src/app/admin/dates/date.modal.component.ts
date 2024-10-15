@@ -55,7 +55,7 @@ export class DateModalComponent implements OnInit {
         this.searchOptions.yearId = this.year?.dateId;
         if (this.isOpen != null) this.searchOptions.isOpen = this.isOpen;
         if (this.hasOpened != null) this.searchOptions.hasOpened = this.hasOpened;
-        this.modal = this.modalService.open(this.content, { size: 'xl', centered: true, scrollable: true });
+        this.modal = this.modalService.open(this.content, { size: 'xl', centered: true, scrollable: false });
         this.runSearch();
         this.modal.result.then((date: Date | Date[]) => {
             if (this.multiple) this.changes.emit(date as Date[]);

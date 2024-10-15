@@ -52,7 +52,7 @@ export class ResponseModalComponent implements OnInit {
         this.searchOptions.questionnaireId = this.questionnaire?.questionnaireId;
         this.searchOptions.entityId = this.entity?.entityId;
         this.searchOptions.dateId = this.date?.dateId;
-        this.modal = this.modalService.open(this.content, { size: 'xl', centered: true, scrollable: true });
+        this.modal = this.modalService.open(this.content, { size: 'xl', centered: true, scrollable: false });
         this.runSearch();
         this.modal.result.then((response: Response | Response[]) => {
             if (this.multiple) this.changes.emit(response as Response[]);

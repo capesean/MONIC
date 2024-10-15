@@ -43,7 +43,7 @@ export class GroupModalComponent implements OnInit {
 
     open(): NgbModalRef {
         if (this.resetOnOpen) this.selectedItems = [];
-        this.modal = this.modalService.open(this.content, { size: 'xl', centered: true, scrollable: true });
+        this.modal = this.modalService.open(this.content, { size: 'xl', centered: true, scrollable: false });
         this.runSearch();
         this.modal.result.then((group: Group | Group[]) => {
             if (this.multiple) this.changes.emit(group as Group[]);

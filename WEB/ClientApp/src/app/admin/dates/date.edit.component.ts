@@ -9,6 +9,7 @@ import { ConfirmModalComponent, ConfirmModalOptions } from '../../common/compone
 import { PagingHeaders } from '../../common/models/http.model';
 import { Date } from '../../common/models/date.model';
 import { Enum, Enums, DateTypes } from '../../common/models/enums.model';
+import { FadeThenShrink } from '../../common/animations/fadethenshrink';
 import { BreadcrumbService } from '../../common/services/breadcrumb.service';
 import { ErrorService } from '../../common/services/error.service';
 import { DateService } from '../../common/services/date.service';
@@ -18,7 +19,8 @@ import { ResponseService } from '../../common/services/response.service';
 
 @NgComponent({
     selector: 'date-edit',
-    templateUrl: './date.edit.component.html'
+    templateUrl: './date.edit.component.html',
+    animations: [FadeThenShrink]
 })
 export class DateEditComponent implements OnInit {
 

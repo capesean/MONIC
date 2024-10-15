@@ -1,4 +1,4 @@
-﻿@charset "UTF-8";
+@charset "UTF-8";
 /*
 
 Theme: Dashly
@@ -24421,7 +24421,7 @@ hr {
 
 /*todo: make this .striped*/
 table.table tbody tr:nth-child(2n) {
-  background-color: #F6F7F8;
+  background-color: #FaFbFc;
 }
 
 .flex-even {

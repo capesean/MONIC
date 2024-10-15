@@ -5,18 +5,21 @@ import { ToastrService } from 'ngx-toastr';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { PagingHeaders } from '../../common/models/http.model';
 import { OptionSearchOptions, OptionSearchResponse, Option } from '../../common/models/option.model';
+import { FadeThenShrink } from '../../common/animations/fadethenshrink';
 import { ErrorService } from '../../common/services/error.service';
 import { OptionService } from '../../common/services/option.service';
 import { OptionSortComponent } from './option.sort.component';
 
 @NgComponent({
     selector: 'option-list',
-    templateUrl: './option.list.component.html'
+    templateUrl: './option.list.component.html',
+    animations: [FadeThenShrink]
 })
 export class OptionListComponent implements OnInit {
 
     public options: Option[] = [];
     public searchOptions = new OptionSearchOptions();
+    public showSearchOptions = false;
     public headers = new PagingHeaders();
 
     constructor(
@@ -56,7 +59,7 @@ export class OptionListComponent implements OnInit {
     }
 
     showSort(): void {
-        let modalRef = this.modalService.open(OptionSortComponent, { size: 'xl', centered: true, scrollable: true });
+        let modalRef = this.modalService.open(OptionSortComponent, { size: 'xl', centered: true, scrollable: false });
         modalRef.result.then(
             () => {
 

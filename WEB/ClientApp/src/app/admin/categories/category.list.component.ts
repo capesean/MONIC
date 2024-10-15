@@ -5,18 +5,21 @@ import { ToastrService } from 'ngx-toastr';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { PagingHeaders } from '../../common/models/http.model';
 import { CategorySearchOptions, CategorySearchResponse, Category } from '../../common/models/category.model';
+import { FadeThenShrink } from '../../common/animations/fadethenshrink';
 import { ErrorService } from '../../common/services/error.service';
 import { CategoryService } from '../../common/services/category.service';
 import { CategorySortComponent } from './category.sort.component';
 
 @NgComponent({
     selector: 'category-list',
-    templateUrl: './category.list.component.html'
+    templateUrl: './category.list.component.html',
+    animations: [FadeThenShrink]
 })
 export class CategoryListComponent implements OnInit, OnDestroy {
 
     public categories: Category[] = [];
     public searchOptions = new CategorySearchOptions();
+    public showSearchOptions = false;
     public headers = new PagingHeaders();
     private routerSubscription: Subscription;
 
@@ -65,7 +68,7 @@ export class CategoryListComponent implements OnInit, OnDestroy {
     }
 
     showSort(): void {
-        let modalRef = this.modalService.open(CategorySortComponent, { size: 'xl', centered: true, scrollable: true });
+        let modalRef = this.modalService.open(CategorySortComponent, { size: 'xl', centered: true, scrollable: false });
         modalRef.result.then(
             () => {
 

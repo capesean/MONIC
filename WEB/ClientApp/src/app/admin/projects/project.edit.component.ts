@@ -8,6 +8,7 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ConfirmModalComponent, ConfirmModalOptions } from '../../common/components/confirm.component';
 import { PagingHeaders } from '../../common/models/http.model';
 import { Project } from '../../common/models/project.model';
+import { FadeThenShrink } from '../../common/animations/fadethenshrink';
 import { BreadcrumbService } from '../../common/services/breadcrumb.service';
 import { ErrorService } from '../../common/services/error.service';
 import { ProjectService } from '../../common/services/project.service';
@@ -17,7 +18,8 @@ import { MilestoneSortComponent } from '../milestones/milestone.sort.component';
 
 @NgComponent({
     selector: 'project-edit',
-    templateUrl: './project.edit.component.html'
+    templateUrl: './project.edit.component.html',
+    animations: [FadeThenShrink]
 })
 export class ProjectEditComponent implements OnInit, OnDestroy {
 

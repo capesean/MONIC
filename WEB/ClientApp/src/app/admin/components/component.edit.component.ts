@@ -9,6 +9,7 @@ import { ConfirmModalComponent, ConfirmModalOptions } from '../../common/compone
 import { PagingHeaders } from '../../common/models/http.model';
 import { Component } from '../../common/models/component.model';
 import { Enum, Enums, ItemTypes } from '../../common/models/enums.model';
+import { FadeThenShrink } from '../../common/animations/fadethenshrink';
 import { BreadcrumbService } from '../../common/services/breadcrumb.service';
 import { ErrorService } from '../../common/services/error.service';
 import { ComponentService } from '../../common/services/component.service';
@@ -31,7 +32,8 @@ import { Item } from '../../common/models/item.model';
 
 @NgComponent({
     selector: 'component-edit',
-    templateUrl: './component.edit.component.html'
+    templateUrl: './component.edit.component.html',
+    animations: [FadeThenShrink]
 })
 export class ComponentEditComponent extends ItemComponent implements OnInit, OnDestroy {
 

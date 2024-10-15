@@ -3,17 +3,20 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { Subject } from 'rxjs';
 import { PagingHeaders } from '../../common/models/http.model';
 import { RelationshipSearchOptions, RelationshipSearchResponse, Relationship } from '../../common/models/relationship.model';
+import { FadeThenShrink } from '../../common/animations/fadethenshrink';
 import { ErrorService } from '../../common/services/error.service';
 import { RelationshipService } from '../../common/services/relationship.service';
 
 @NgComponent({
     selector: 'relationship-list',
-    templateUrl: './relationship.list.component.html'
+    templateUrl: './relationship.list.component.html',
+    animations: [FadeThenShrink]
 })
 export class RelationshipListComponent implements OnInit {
 
     public relationships: Relationship[] = [];
     public searchOptions = new RelationshipSearchOptions();
+    public showSearchOptions = false;
     public headers = new PagingHeaders();
 
     constructor(

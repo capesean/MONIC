@@ -8,6 +8,7 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ConfirmModalComponent, ConfirmModalOptions } from '../../common/components/confirm.component';
 import { PagingHeaders } from '../../common/models/http.model';
 import { Entity } from '../../common/models/entity.model';
+import { FadeThenShrink } from '../../common/animations/fadethenshrink';
 import { BreadcrumbService } from '../../common/services/breadcrumb.service';
 import { ErrorService } from '../../common/services/error.service';
 import { EntityService } from '../../common/services/entity.service';
@@ -26,7 +27,8 @@ import { Item } from '../../common/models/item.model';
 
 @NgComponent({
     selector: 'entity-edit',
-    templateUrl: './entity.edit.component.html'
+    templateUrl: './entity.edit.component.html',
+    animations: [FadeThenShrink]
 })
 export class EntityEditComponent extends ItemComponent implements OnInit {
 

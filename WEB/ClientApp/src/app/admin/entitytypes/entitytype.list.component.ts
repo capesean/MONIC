@@ -5,18 +5,21 @@ import { ToastrService } from 'ngx-toastr';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { PagingHeaders } from '../../common/models/http.model';
 import { EntityTypeSearchOptions, EntityTypeSearchResponse, EntityType } from '../../common/models/entitytype.model';
+import { FadeThenShrink } from '../../common/animations/fadethenshrink';
 import { ErrorService } from '../../common/services/error.service';
 import { EntityTypeService } from '../../common/services/entitytype.service';
 import { EntityTypeSortComponent } from './entitytype.sort.component';
 
 @NgComponent({
     selector: 'entitytype-list',
-    templateUrl: './entitytype.list.component.html'
+    templateUrl: './entitytype.list.component.html',
+    animations: [FadeThenShrink]
 })
 export class EntityTypeListComponent implements OnInit, OnDestroy {
 
     public entityTypes: EntityType[] = [];
     public searchOptions = new EntityTypeSearchOptions();
+    public showSearchOptions = false;
     public headers = new PagingHeaders();
     private routerSubscription: Subscription;
 
@@ -65,7 +68,7 @@ export class EntityTypeListComponent implements OnInit, OnDestroy {
     }
 
     showSort(): void {
-        let modalRef = this.modalService.open(EntityTypeSortComponent, { size: 'xl', centered: true, scrollable: true });
+        let modalRef = this.modalService.open(EntityTypeSortComponent, { size: 'xl', centered: true, scrollable: false });
         modalRef.result.then(
             () => {
 

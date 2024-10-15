@@ -3,17 +3,20 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { Subject } from 'rxjs';
 import { PagingHeaders } from '../../common/models/http.model';
 import { TheoryOfChangeComponentSearchOptions, TheoryOfChangeComponentSearchResponse, TheoryOfChangeComponent } from '../../common/models/theoryofchangecomponent.model';
+import { FadeThenShrink } from '../../common/animations/fadethenshrink';
 import { ErrorService } from '../../common/services/error.service';
 import { TheoryOfChangeComponentService } from '../../common/services/theoryofchangecomponent.service';
 
 @NgComponent({
     selector: 'theoryofchangecomponent-list',
-    templateUrl: './theoryofchangecomponent.list.component.html'
+    templateUrl: './theoryofchangecomponent.list.component.html',
+    animations: [FadeThenShrink]
 })
 export class TheoryOfChangeComponentListComponent implements OnInit {
 
     public theoryOfChangeComponents: TheoryOfChangeComponent[] = [];
     public searchOptions = new TheoryOfChangeComponentSearchOptions();
+    public showSearchOptions = false;
     public headers = new PagingHeaders();
 
     constructor(

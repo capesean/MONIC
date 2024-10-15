@@ -56,7 +56,7 @@ export class QuestionModalComponent implements OnInit {
         this.searchOptions.sectionId = this.section?.sectionId;
         this.searchOptions.questionType = this.questionType?.value;
         this.searchOptions.questionOptionGroupId = this.questionOptionGroup?.questionOptionGroupId;
-        this.modal = this.modalService.open(this.content, { size: 'xl', centered: true, scrollable: true });
+        this.modal = this.modalService.open(this.content, { size: 'xl', centered: true, scrollable: false });
         this.runSearch();
         this.modal.result.then((question: Question | Question[]) => {
             if (this.multiple) this.changes.emit(question as Question[]);

@@ -9,6 +9,7 @@ import { ConfirmModalComponent, ConfirmModalOptions } from '../../common/compone
 import { PagingHeaders } from '../../common/models/http.model';
 import { EntityType } from '../../common/models/entitytype.model';
 import { Enum, Enums } from '../../common/models/enums.model';
+import { FadeThenShrink } from '../../common/animations/fadethenshrink';
 import { BreadcrumbService } from '../../common/services/breadcrumb.service';
 import { ErrorService } from '../../common/services/error.service';
 import { EntityTypeService } from '../../common/services/entitytype.service';
@@ -19,7 +20,8 @@ import { QuestionnaireService } from '../../common/services/questionnaire.servic
 
 @NgComponent({
     selector: 'entitytype-edit',
-    templateUrl: './entitytype.edit.component.html'
+    templateUrl: './entitytype.edit.component.html',
+    animations: [FadeThenShrink]
 })
 export class EntityTypeEditComponent implements OnInit {
 

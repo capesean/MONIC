@@ -8,6 +8,7 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ConfirmModalComponent, ConfirmModalOptions } from '../../common/components/confirm.component';
 import { PagingHeaders } from '../../common/models/http.model';
 import { Answer } from '../../common/models/answer.model';
+import { FadeThenShrink } from '../../common/animations/fadethenshrink';
 import { BreadcrumbService } from '../../common/services/breadcrumb.service';
 import { ErrorService } from '../../common/services/error.service';
 import { AnswerService } from '../../common/services/answer.service';
@@ -16,7 +17,8 @@ import { AnswerOptionService } from '../../common/services/answeroption.service'
 
 @NgComponent({
     selector: 'answer-edit',
-    templateUrl: './answer.edit.component.html'
+    templateUrl: './answer.edit.component.html',
+    animations: [FadeThenShrink]
 })
 export class AnswerEditComponent implements OnInit, OnDestroy {
 

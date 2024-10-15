@@ -3,17 +3,20 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { Subject } from 'rxjs';
 import { PagingHeaders } from '../../common/models/http.model';
 import { QuestionSummarySearchOptions, QuestionSummarySearchResponse, QuestionSummary } from '../../common/models/questionsummary.model';
+import { FadeThenShrink } from '../../common/animations/fadethenshrink';
 import { ErrorService } from '../../common/services/error.service';
 import { QuestionSummaryService } from '../../common/services/questionsummary.service';
 
 @NgComponent({
     selector: 'questionsummary-list',
-    templateUrl: './questionsummary.list.component.html'
+    templateUrl: './questionsummary.list.component.html',
+    animations: [FadeThenShrink]
 })
 export class QuestionSummaryListComponent implements OnInit {
 
     public questionSummaries: QuestionSummary[] = [];
     public searchOptions = new QuestionSummarySearchOptions();
+    public showSearchOptions = false;
     public headers = new PagingHeaders();
 
     constructor(

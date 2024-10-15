@@ -6,18 +6,21 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { PagingHeaders } from '../../common/models/http.model';
 import { IndicatorSearchOptions, IndicatorSearchResponse, Indicator } from '../../common/models/indicator.model';
 import { Enum, Enums } from '../../common/models/enums.model';
+import { FadeThenShrink } from '../../common/animations/fadethenshrink';
 import { ErrorService } from '../../common/services/error.service';
 import { IndicatorService } from '../../common/services/indicator.service';
 import { Category } from '../../common/models/category.model';
 
 @NgComponent({
     selector: 'indicator-list',
-    templateUrl: './indicator.list.component.html'
+    templateUrl: './indicator.list.component.html',
+    animations: [FadeThenShrink]
 })
 export class IndicatorListComponent implements OnInit, OnDestroy {
 
     public indicators: Indicator[] = [];
     public searchOptions = new IndicatorSearchOptions();
+    public showSearchOptions = false;
     public headers = new PagingHeaders();
     private routerSubscription: Subscription;
     public indicatorStatuses: Enum[] = Enums.IndicatorStatuses;

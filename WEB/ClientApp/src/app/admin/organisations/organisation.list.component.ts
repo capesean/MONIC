@@ -3,17 +3,20 @@ import { Router, ActivatedRoute, NavigationEnd } from '@angular/router';
 import { Subject, Subscription } from 'rxjs';
 import { PagingHeaders } from '../../common/models/http.model';
 import { OrganisationSearchOptions, OrganisationSearchResponse, Organisation } from '../../common/models/organisation.model';
+import { FadeThenShrink } from '../../common/animations/fadethenshrink';
 import { ErrorService } from '../../common/services/error.service';
 import { OrganisationService } from '../../common/services/organisation.service';
 
 @NgComponent({
     selector: 'organisation-list',
-    templateUrl: './organisation.list.component.html'
+    templateUrl: './organisation.list.component.html',
+    animations: [FadeThenShrink]
 })
 export class OrganisationListComponent implements OnInit, OnDestroy {
 
     public organisations: Organisation[] = [];
     public searchOptions = new OrganisationSearchOptions();
+    public showSearchOptions = false;
     public headers = new PagingHeaders();
     private routerSubscription: Subscription;
 

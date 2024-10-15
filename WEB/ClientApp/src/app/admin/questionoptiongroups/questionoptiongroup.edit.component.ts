@@ -9,6 +9,7 @@ import { ConfirmModalComponent, ConfirmModalOptions } from '../../common/compone
 import { PagingHeaders } from '../../common/models/http.model';
 import { QuestionOptionGroup } from '../../common/models/questionoptiongroup.model';
 import { Enum, Enums } from '../../common/models/enums.model';
+import { FadeThenShrink } from '../../common/animations/fadethenshrink';
 import { BreadcrumbService } from '../../common/services/breadcrumb.service';
 import { ErrorService } from '../../common/services/error.service';
 import { QuestionOptionGroupService } from '../../common/services/questionoptiongroup.service';
@@ -20,7 +21,8 @@ import { QuestionOptionSortComponent } from '../questionoptions/questionoption.s
 
 @NgComponent({
     selector: 'questionoptiongroup-edit',
-    templateUrl: './questionoptiongroup.edit.component.html'
+    templateUrl: './questionoptiongroup.edit.component.html',
+    animations: [FadeThenShrink]
 })
 export class QuestionOptionGroupEditComponent implements OnInit, OnDestroy {
 

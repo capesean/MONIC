@@ -3,17 +3,20 @@ import { Router, ActivatedRoute, NavigationEnd } from '@angular/router';
 import { Subject, Subscription } from 'rxjs';
 import { PagingHeaders } from '../../common/models/http.model';
 import { ProjectSearchOptions, ProjectSearchResponse, Project } from '../../common/models/project.model';
+import { FadeThenShrink } from '../../common/animations/fadethenshrink';
 import { ErrorService } from '../../common/services/error.service';
 import { ProjectService } from '../../common/services/project.service';
 
 @NgComponent({
     selector: 'project-list',
-    templateUrl: './project.list.component.html'
+    templateUrl: './project.list.component.html',
+    animations: [FadeThenShrink]
 })
 export class ProjectListComponent implements OnInit, OnDestroy {
 
     public projects: Project[] = [];
     public searchOptions = new ProjectSearchOptions();
+    public showSearchOptions = false;
     public headers = new PagingHeaders();
     private routerSubscription: Subscription;
 

@@ -58,7 +58,7 @@ export class EntityModalComponent implements OnInit {
         this.searchOptions.disabled = this.disabled;
         if (this.title === "Select a parent entity") this.searchOptions.isParent = true;
         this.searchOptions.disabled = this.disabled;
-        this.modal = this.modalService.open(this.content, { size: 'xl', centered: true, scrollable: true });
+        this.modal = this.modalService.open(this.content, { size: 'xl', centered: true, scrollable: false });
         this.runSearch();
         this.modal.result.then((entity: Entity | Entity[]) => {
             if (this.multiple) this.changes.emit(entity as Entity[]);

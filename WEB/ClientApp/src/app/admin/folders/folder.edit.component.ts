@@ -8,6 +8,7 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ConfirmModalComponent, ConfirmModalOptions } from '../../common/components/confirm.component';
 import { PagingHeaders } from '../../common/models/http.model';
 import { Folder } from '../../common/models/folder.model';
+import { FadeThenShrink } from '../../common/animations/fadethenshrink';
 import { BreadcrumbService } from '../../common/services/breadcrumb.service';
 import { ErrorService } from '../../common/services/error.service';
 import { FolderService } from '../../common/services/folder.service';
@@ -22,7 +23,8 @@ import { Item } from '../../common/models/item.model';
 
 @NgComponent({
     selector: 'folder-edit',
-    templateUrl: './folder.edit.component.html'
+    templateUrl: './folder.edit.component.html',
+    animations: [FadeThenShrink]
 })
 export class FolderEditComponent extends ItemComponent implements OnInit, OnDestroy {
 

@@ -3,17 +3,20 @@ import { Router, ActivatedRoute, NavigationEnd } from '@angular/router';
 import { Subject, Subscription } from 'rxjs';
 import { PagingHeaders } from '../../common/models/http.model';
 import { FolderSearchOptions, FolderSearchResponse, Folder } from '../../common/models/folder.model';
+import { FadeThenShrink } from '../../common/animations/fadethenshrink';
 import { ErrorService } from '../../common/services/error.service';
 import { FolderService } from '../../common/services/folder.service';
 
 @NgComponent({
     selector: 'folder-list',
-    templateUrl: './folder.list.component.html'
+    templateUrl: './folder.list.component.html',
+    animations: [FadeThenShrink]
 })
 export class FolderListComponent implements OnInit, OnDestroy {
 
     public folders: Folder[] = [];
     public searchOptions = new FolderSearchOptions();
+    public showSearchOptions = false;
     public headers = new PagingHeaders();
     private routerSubscription: Subscription;
 

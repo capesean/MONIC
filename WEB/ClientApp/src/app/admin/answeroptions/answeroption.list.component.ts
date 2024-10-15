@@ -3,17 +3,20 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { Subject } from 'rxjs';
 import { PagingHeaders } from '../../common/models/http.model';
 import { AnswerOptionSearchOptions, AnswerOptionSearchResponse, AnswerOption } from '../../common/models/answeroption.model';
+import { FadeThenShrink } from '../../common/animations/fadethenshrink';
 import { ErrorService } from '../../common/services/error.service';
 import { AnswerOptionService } from '../../common/services/answeroption.service';
 
 @NgComponent({
     selector: 'answeroption-list',
-    templateUrl: './answeroption.list.component.html'
+    templateUrl: './answeroption.list.component.html',
+    animations: [FadeThenShrink]
 })
 export class AnswerOptionListComponent implements OnInit {
 
     public answerOptions: AnswerOption[] = [];
     public searchOptions = new AnswerOptionSearchOptions();
+    public showSearchOptions = false;
     public headers = new PagingHeaders();
 
     constructor(

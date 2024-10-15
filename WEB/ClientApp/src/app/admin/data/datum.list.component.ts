@@ -3,6 +3,7 @@ import { Router, ActivatedRoute, NavigationEnd } from '@angular/router';
 import { Subject, Subscription } from 'rxjs';
 import { PagingHeaders } from '../../common/models/http.model';
 import { DatumSearchOptions, DatumSearchResponse, Datum } from '../../common/models/datum.model';
+import { FadeThenShrink } from '../../common/animations/fadethenshrink';
 import { ErrorService } from '../../common/services/error.service';
 import { DatumService } from '../../common/services/datum.service';
 import { AppService } from '../../common/services/app.service';
@@ -10,12 +11,14 @@ import { AppSettings } from '../../common/models/appsettings.model';
 
 @NgComponent({
     selector: 'datum-list',
-    templateUrl: './datum.list.component.html'
+    templateUrl: './datum.list.component.html',
+    animations: [FadeThenShrink]
 })
 export class DatumListComponent implements OnInit, OnDestroy {
 
     public data: Datum[] = [];
     public searchOptions = new DatumSearchOptions();
+    public showSearchOptions = false;
     public headers = new PagingHeaders();
     private routerSubscription: Subscription;
     public appSettings: AppSettings;

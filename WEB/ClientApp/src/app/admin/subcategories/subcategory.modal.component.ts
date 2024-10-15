@@ -46,7 +46,7 @@ export class SubcategoryModalComponent implements OnInit {
     open(): NgbModalRef {
         if (this.resetOnOpen) this.selectedItems = [];
         this.searchOptions.categoryId = this.category?.categoryId;
-        this.modal = this.modalService.open(this.content, { size: 'xl', centered: true, scrollable: true });
+        this.modal = this.modalService.open(this.content, { size: 'xl', centered: true, scrollable: false });
         this.runSearch();
         this.modal.result.then((subcategory: Subcategory | Subcategory[]) => {
             if (this.multiple) this.changes.emit(subcategory as Subcategory[]);

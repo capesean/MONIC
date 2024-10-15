@@ -3,18 +3,21 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { Subject } from 'rxjs';
 import { PagingHeaders } from '../../common/models/http.model';
 import { DocumentSearchOptions, DocumentSearchResponse, Document } from '../../common/models/document.model';
+import { FadeThenShrink } from '../../common/animations/fadethenshrink';
 import { ErrorService } from '../../common/services/error.service';
 import { DocumentService } from '../../common/services/document.service';
 import { DownloadService } from '../../common/services/download.service';
 
 @NgComponent({
     selector: 'document-list',
-    templateUrl: './document.list.component.html'
+    templateUrl: './document.list.component.html',
+    animations: [FadeThenShrink]
 })
 export class DocumentListComponent implements OnInit {
 
     public documents: Document[] = [];
     public searchOptions = new DocumentSearchOptions();
+    public showSearchOptions = false;
     public headers = new PagingHeaders();
 
     constructor(

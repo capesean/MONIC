@@ -50,7 +50,7 @@ export class LogFrameRowModalComponent implements OnInit {
         if (this.resetOnOpen) this.selectedItems = [];
         this.searchOptions.logFrameId = this.logFrame?.logFrameId;
         this.searchOptions.rowType = this.rowType?.value;
-        this.modal = this.modalService.open(this.content, { size: 'xl', centered: true, scrollable: true });
+        this.modal = this.modalService.open(this.content, { size: 'xl', centered: true, scrollable: false });
         this.runSearch();
         this.modal.result.then((logFrameRow: LogFrameRow | LogFrameRow[]) => {
             if (this.multiple) this.changes.emit(logFrameRow as LogFrameRow[]);

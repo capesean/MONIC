@@ -9,7 +9,7 @@
             <div class="card-header">
 
                 <div class="card-header-title">
-                    <h4 class="text-uppercase m-0">Theory of Change</h4>
+                    <h4>Theory of Change</h4>
                 </div>
 
             </div>
@@ -79,11 +79,11 @@
 
                         </div>
 
-                        <div class="card-body" *ngIf="showTheoryOfChangeComponentsSearch" @fadeThenShrink>
+                        <div class="card-body" *ngIf="showTheoryOfChangeComponentsSearch" @FadeThenShrink>
 
                             <form id="formSearchTheoryOfChangeComponents" (submit)="searchTheoryOfChangeComponents(0)" novalidate>
 
-                                <div class="row g-3">
+                                <div class="row g-2">
 
                                     <div class="col-sm-6 col-md-4 col-lg-4 col-xl-3">
                                         <div class="form-group">
@@ -152,11 +152,11 @@
 
                         </div>
 
-                        <div class="card-body" *ngIf="showRelationshipsSearch" @fadeThenShrink>
+                        <div class="card-body" *ngIf="showRelationshipsSearch" @FadeThenShrink>
 
                             <form id="formSearchRelationships" (submit)="searchRelationships(0)" novalidate>
 
-                                <div class="row g-3">
+                                <div class="row g-2">
 
                                     <div class="col-sm-6 col-md-4 col-lg-4 col-xl-3">
                                         <div class="form-group">

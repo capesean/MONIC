@@ -49,7 +49,7 @@ export class FolderContentModalComponent implements OnInit {
         if (this.resetOnOpen) this.selectedItems = [];
         this.searchOptions.folderId = this.folder?.folderId;
         this.searchOptions.addedById = this.addedBy?.id;
-        this.modal = this.modalService.open(this.content, { size: 'xl', centered: true, scrollable: true });
+        this.modal = this.modalService.open(this.content, { size: 'xl', centered: true, scrollable: false });
         this.runSearch();
         this.modal.result.then((folderContent: FolderContent | FolderContent[]) => {
             if (this.multiple) this.changes.emit(folderContent as FolderContent[]);

@@ -12,16 +12,16 @@ import { PagingHeaders } from '../../common/models/http.model';
 import { Subcategory } from '../../common/models/subcategory.model';
 import { SubcategoryService } from '../../common/services/subcategory.service';
 import { Enum, Enums } from '../../common/models/enums.model';
+import { FadeThenShrink } from '../../common/animations/fadethenshrink';
 import { Indicator, IndicatorSearchOptions, IndicatorSearchResponse } from '../../common/models/indicator.model';
 import { IndicatorService } from '../../common/services/indicator.service';
 import { IndicatorSortComponent } from '../indicators/indicator.sort.component';
 import { trigger, transition, style, animate } from '@angular/animations';
-import { fadeThenShrink } from '../../common/animations/fadeThenShrink';
 
 @NgComponent({
     selector: 'subcategory-edit',
     templateUrl: './subcategory.edit.component.html',
-    animations: [fadeThenShrink]
+    animations: [FadeThenShrink]
 })
 export class SubcategoryEditComponent implements OnInit, OnDestroy {
 

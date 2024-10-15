@@ -8,6 +8,7 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ConfirmModalComponent, ConfirmModalOptions } from '../../common/components/confirm.component';
 import { PagingHeaders } from '../../common/models/http.model';
 import { Category } from '../../common/models/category.model';
+import { FadeThenShrink } from '../../common/animations/fadethenshrink';
 import { BreadcrumbService } from '../../common/services/breadcrumb.service';
 import { ErrorService } from '../../common/services/error.service';
 import { CategoryService } from '../../common/services/category.service';
@@ -17,7 +18,8 @@ import { SubcategorySortComponent } from '../subcategories/subcategory.sort.comp
 
 @NgComponent({
     selector: 'category-edit',
-    templateUrl: './category.edit.component.html'
+    templateUrl: './category.edit.component.html',
+    animations: [FadeThenShrink]
 })
 export class CategoryEditComponent implements OnInit, OnDestroy {
 

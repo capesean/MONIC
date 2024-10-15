@@ -8,6 +8,7 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ConfirmModalComponent, ConfirmModalOptions } from '../../common/components/confirm.component';
 import { PagingHeaders } from '../../common/models/http.model';
 import { Milestone } from '../../common/models/milestone.model';
+import { FadeThenShrink } from '../../common/animations/fadethenshrink';
 import { BreadcrumbService } from '../../common/services/breadcrumb.service';
 import { ErrorService } from '../../common/services/error.service';
 import { MilestoneService } from '../../common/services/milestone.service';
@@ -16,7 +17,8 @@ import { TaskService } from '../../common/services/task.service';
 
 @NgComponent({
     selector: 'milestone-edit',
-    templateUrl: './milestone.edit.component.html'
+    templateUrl: './milestone.edit.component.html',
+    animations: [FadeThenShrink]
 })
 export class MilestoneEditComponent implements OnInit, OnDestroy {
 

@@ -7,7 +7,7 @@
         <div class="card-header">
 
             <div class="card-header-title">
-                <h4 class="text-uppercase m-0">Organisation</h4>
+                <h4>Organisation</h4>
             </div>
 
         </div>
@@ -124,11 +124,11 @@
 
                     </div>
 
-                    <div class="card-body" *ngIf="showEntitiesSearch" @fadeThenShrink>
+                    <div class="card-body" *ngIf="showEntitiesSearch" @FadeThenShrink>
 
                         <form id="formSearchEntities" (submit)="searchEntities(0)" novalidate>
 
-                            <div class="row g-3">
+                            <div class="row g-2">
 
                                 <div class="col-sm-6 col-md-5 col-lg-4 col-xl-3">
                                     <div class="form-group">
@@ -216,11 +216,11 @@
 
                     </div>
 
-                    <div class="card-body" *ngIf="showUsersSearch" @fadeThenShrink>
+                    <div class="card-body" *ngIf="showUsersSearch" @FadeThenShrink>
 
                         <form id="formSearchUsers" (submit)="searchUsers(0)" novalidate>
 
-                            <div class="row g-3">
+                            <div class="row g-2">
 
                                 <div class="col-sm-6 col-md-5 col-lg-4 col-xl-3">
                                     <div class="form-group">

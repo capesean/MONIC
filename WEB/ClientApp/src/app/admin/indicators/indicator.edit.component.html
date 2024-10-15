@@ -328,11 +328,26 @@
 
             </ng-container>
 
-            <fieldset id="formulaBox" class="group px-0 pb-0" *ngIf="indicator.indicatorType === indicatorTypesCalculated">
 
-                <legend class="ms-4">Formula</legend>
+        </div>
 
-                <div id="formula" class="px-3 mt-1 pb-3" tabindex="0" (keydown)="keyDown($event)" (keyup)="key($event)" (click)="formulaClick();">
+    </div>
+
+    <div class="card card-edit" *ngIf="indicator.indicatorType === indicatorTypesCalculated">
+
+        <div class="card-header">
+
+            <div class="card-header-title">
+                <h4>Formula</h4>
+            </div>
+
+        </div>
+
+        <div class="card-body px-1 pb-0">
+
+            <fieldset id="formulaBox" class="group px-0 pb-0">
+
+                <div id="formula" tabindex="0" (keydown)="keyDown($event)" (keyup)="key($event)" (click)="formulaClick();">
 
                     <div id="cursor">
                         <span [ngClass]="{'blink': -1 === activeToken}">|</span>
@@ -353,7 +368,7 @@
                                 {{token.numberAsText}}
                             </div>
 
-                            <div *ngIf="token.tokenType === tokenTypesIndicator" class="indicator card">
+                            <div *ngIf="token.tokenType === tokenTypesIndicator" class="indicator card mb-4">
                                 <div class="card-header bg-info text-white">
                                     <i *ngIf="token.convertNullToZero" ngbTooltip="Treat blanks as a zero (0)" class="fa fa-toggle-on float-right mt-1 cursor-pointer" (click)="token.convertNullToZero = !token.convertNullToZero"></i>
                                     <i *ngIf="!token.convertNullToZero" ngbTooltip="Do not treat blanks as a zero (0)" class="fa fa-toggle-off float-right mt-1 cursor-pointer" (click)="token.convertNullToZero = !token.convertNullToZero"></i>
@@ -362,7 +377,7 @@
                                 <div class="card-body">
                                     <p>{{token.sourceIndicator.name}}</p>
                                 </div>
-                                <div class="card-footer">
+                                <div class="card-footer bg-light">
                                     <p class="small text-muted mb-0">{{token.sourceIndicator.entityType.name}}, {{dateTypes[token.sourceIndicator.frequency].label}}</p>
                                 </div>
                             </div>

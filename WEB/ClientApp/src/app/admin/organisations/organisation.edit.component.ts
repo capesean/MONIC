@@ -18,12 +18,14 @@ import { UserService } from '../../common/services/user.service';
 import { ItemComponent } from '../../common/components/item.component';
 import { AppService } from '../../common/services/app.service';
 import { Enum, Enums, ItemTypes, Roles } from '../../common/models/enums.model';
+import { FadeThenShrink } from '../../common/animations/fadethenshrink';
 import { DocumentService } from '../../common/services/document.service';
 import { Item } from '../../common/models/item.model';
 
 @Component({
     selector: 'organisation-edit',
-    templateUrl: './organisation.edit.component.html'
+    templateUrl: './organisation.edit.component.html',
+    animations: [FadeThenShrink]
 })
 export class OrganisationEditComponent extends ItemComponent implements OnInit {
 

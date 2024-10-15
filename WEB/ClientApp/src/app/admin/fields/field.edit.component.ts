@@ -9,6 +9,7 @@ import { ConfirmModalComponent, ConfirmModalOptions } from '../../common/compone
 import { PagingHeaders } from '../../common/models/http.model';
 import { Field } from '../../common/models/field.model';
 import { Enum, Enums, FieldTypes } from '../../common/models/enums.model';
+import { FadeThenShrink } from '../../common/animations/fadethenshrink';
 import { BreadcrumbService } from '../../common/services/breadcrumb.service';
 import { ErrorService } from '../../common/services/error.service';
 import { FieldService } from '../../common/services/field.service';
@@ -18,7 +19,8 @@ import { OptionSortComponent } from '../options/option.sort.component';
 
 @NgComponent({
     selector: 'field-edit',
-    templateUrl: './field.edit.component.html'
+    templateUrl: './field.edit.component.html',
+    animations: [FadeThenShrink]
 })
 export class FieldEditComponent implements OnInit, OnDestroy {
 

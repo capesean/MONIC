@@ -57,7 +57,7 @@ export class FieldModalComponent implements OnInit {
         this.searchOptions.entity = this.entity;
         this.searchOptions.indicator = this.indicator;
         this.searchOptions.groupId = this.group?.groupId;
-        this.modal = this.modalService.open(this.content, { size: 'xl', centered: true, scrollable: true });
+        this.modal = this.modalService.open(this.content, { size: 'xl', centered: true, scrollable: false });
         this.runSearch();
         this.modal.result.then((field: Field | Field[]) => {
             if (this.multiple) this.changes.emit(field as Field[]);

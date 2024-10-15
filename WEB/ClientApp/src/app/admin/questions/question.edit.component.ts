@@ -9,6 +9,7 @@ import { ConfirmModalComponent, ConfirmModalOptions } from '../../common/compone
 import { PagingHeaders } from '../../common/models/http.model';
 import { Question } from '../../common/models/question.model';
 import { Enum, Enums, QuestionTypes, SkipLogicActions } from '../../common/models/enums.model';
+import { FadeThenShrink } from '../../common/animations/fadethenshrink';
 import { BreadcrumbService } from '../../common/services/breadcrumb.service';
 import { ErrorService } from '../../common/services/error.service';
 import { QuestionService } from '../../common/services/question.service';
@@ -28,7 +29,8 @@ import { SurveyService } from '../../common/services/survey.service';
 
 @NgComponent({
     selector: 'question-edit',
-    templateUrl: './question.edit.component.html'
+    templateUrl: './question.edit.component.html',
+    animations: [FadeThenShrink]
 })
 export class QuestionEditComponent implements OnInit {
 

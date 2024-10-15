@@ -9,6 +9,7 @@ import { ConfirmModalComponent, ConfirmModalOptions } from '../../common/compone
 import { PagingHeaders } from '../../common/models/http.model';
 import { Group } from '../../common/models/group.model';
 import { Enum, Enums } from '../../common/models/enums.model';
+import { FadeThenShrink } from '../../common/animations/fadethenshrink';
 import { BreadcrumbService } from '../../common/services/breadcrumb.service';
 import { ErrorService } from '../../common/services/error.service';
 import { GroupService } from '../../common/services/group.service';
@@ -17,7 +18,8 @@ import { FieldService } from '../../common/services/field.service';
 
 @NgComponent({
     selector: 'group-edit',
-    templateUrl: './group.edit.component.html'
+    templateUrl: './group.edit.component.html',
+    animations: [FadeThenShrink]
 })
 export class GroupEditComponent implements OnInit {
 

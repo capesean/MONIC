@@ -8,6 +8,7 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ConfirmModalComponent, ConfirmModalOptions } from '../../common/components/confirm.component';
 import { PagingHeaders } from '../../common/models/http.model';
 import { User } from '../../common/models/user.model';
+import { FadeThenShrink } from '../../common/animations/fadethenshrink';
 import { Enum, Enums, Roles } from '../../common/models/enums.model';
 import { ProfileModel } from '../../common/models/profile.models';
 import { AuthService } from '../../common/services/auth.service';
@@ -28,7 +29,8 @@ import { AddIndicatorsPermissionModal, AddIndicatorsPermissionOptions } from './
 
 @NgComponent({
     selector: 'user-edit',
-    templateUrl: './user.edit.component.html'
+    templateUrl: './user.edit.component.html',
+    animations: [FadeThenShrink]
 })
 export class UserEditComponent implements OnInit, OnDestroy {
 

@@ -9,6 +9,7 @@ import { ConfirmModalComponent, ConfirmModalOptions } from '../../common/compone
 import { PagingHeaders } from '../../common/models/http.model';
 import { Questionnaire } from '../../common/models/questionnaire.model';
 import { Enum, Enums, QuestionTypes } from '../../common/models/enums.model';
+import { FadeThenShrink } from '../../common/animations/fadethenshrink';
 import { BreadcrumbService } from '../../common/services/breadcrumb.service';
 import { ErrorService } from '../../common/services/error.service';
 import { QuestionnaireService } from '../../common/services/questionnaire.service';
@@ -51,7 +52,8 @@ class AnalysisAnswer {
 
 @NgComponent({
     selector: 'questionnaire-edit',
-    templateUrl: './questionnaire.edit.component.html'
+    templateUrl: './questionnaire.edit.component.html',
+    animations: [FadeThenShrink]
 })
 export class QuestionnaireEditComponent implements OnInit, OnDestroy {
 

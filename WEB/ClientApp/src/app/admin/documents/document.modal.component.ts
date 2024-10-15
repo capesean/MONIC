@@ -46,7 +46,7 @@ export class DocumentModalComponent implements OnInit {
     open(): NgbModalRef {
         if (this.resetOnOpen) this.selectedItems = [];
         this.searchOptions.itemId = this.item?.itemId;
-        this.modal = this.modalService.open(this.content, { size: 'xl', centered: true, scrollable: true });
+        this.modal = this.modalService.open(this.content, { size: 'xl', centered: true, scrollable: false });
         this.runSearch();
         this.modal.result.then((document: Document | Document[]) => {
             if (this.multiple) this.changes.emit(document as Document[]);

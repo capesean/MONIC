@@ -4,17 +4,20 @@ import { Subject, Subscription } from 'rxjs';
 import { PagingHeaders } from '../../common/models/http.model';
 import { QuestionnaireSearchOptions, QuestionnaireSearchResponse, Questionnaire } from '../../common/models/questionnaire.model';
 import { Enum, Enums } from '../../common/models/enums.model';
+import { FadeThenShrink } from '../../common/animations/fadethenshrink';
 import { ErrorService } from '../../common/services/error.service';
 import { QuestionnaireService } from '../../common/services/questionnaire.service';
 
 @NgComponent({
     selector: 'questionnaire-list',
-    templateUrl: './questionnaire.list.component.html'
+    templateUrl: './questionnaire.list.component.html',
+    animations: [FadeThenShrink]
 })
 export class QuestionnaireListComponent implements OnInit, OnDestroy {
 
     public questionnaires: Questionnaire[] = [];
     public searchOptions = new QuestionnaireSearchOptions();
+    public showSearchOptions = false;
     public headers = new PagingHeaders();
     private routerSubscription: Subscription;
     public dateTypes: Enum[] = Enums.DateTypes;

@@ -3,17 +3,20 @@ import { Router, ActivatedRoute, NavigationEnd } from '@angular/router';
 import { Subject, Subscription } from 'rxjs';
 import { PagingHeaders } from '../../common/models/http.model';
 import { FieldValueSearchOptions, FieldValueSearchResponse, FieldValue } from '../../common/models/fieldvalue.model';
+import { FadeThenShrink } from '../../common/animations/fadethenshrink';
 import { ErrorService } from '../../common/services/error.service';
 import { FieldValueService } from '../../common/services/fieldvalue.service';
 
 @NgComponent({
     selector: 'fieldvalue-list',
-    templateUrl: './fieldvalue.list.component.html'
+    templateUrl: './fieldvalue.list.component.html',
+    animations: [FadeThenShrink]
 })
 export class FieldValueListComponent implements OnInit, OnDestroy {
 
     public fieldValues: FieldValue[] = [];
     public searchOptions = new FieldValueSearchOptions();
+    public showSearchOptions = false;
     public headers = new PagingHeaders();
     private routerSubscription: Subscription;
 

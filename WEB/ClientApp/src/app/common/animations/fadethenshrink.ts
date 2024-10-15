@@ -1,6 +1,6 @@
-import { trigger, transition, style, animate, sequence } from '@angular/animations';
+import { trigger, transition, style, animate } from '@angular/animations';
 
-export const fadeThenShrink = trigger('fadeThenShrink', [
+export const FadeThenShrink = trigger('fadeThenShrink', [
     transition(':enter', [
         style({ height: '0px', opacity: 0 }),
         animate('150ms ease-out', style({ height: '*' })),

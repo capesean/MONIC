@@ -9,6 +9,7 @@ import { ConfirmModalComponent, ConfirmModalOptions } from '../../common/compone
 import { PagingHeaders } from '../../common/models/http.model';
 import { LogFrameRow } from '../../common/models/logframerow.model';
 import { Enum, Enums } from '../../common/models/enums.model';
+import { FadeThenShrink } from '../../common/animations/fadethenshrink';
 import { BreadcrumbService } from '../../common/services/breadcrumb.service';
 import { ErrorService } from '../../common/services/error.service';
 import { LogFrameRowService } from '../../common/services/logframerow.service';
@@ -23,7 +24,8 @@ import { Component } from '../../common/models/component.model';
 
 @NgComponent({
     selector: 'logframerow-edit',
-    templateUrl: './logframerow.edit.component.html'
+    templateUrl: './logframerow.edit.component.html',
+    animations: [FadeThenShrink]
 })
 export class LogFrameRowEditComponent implements OnInit, OnDestroy {
 
