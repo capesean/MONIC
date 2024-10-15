@@ -1,13 +1,21 @@
-<app-page-title title="Theory of Changes"></app-page-title>
+<app-page-title></app-page-title>
 
 <!--todo: check this out:-->
 <!--<ngx-graph-org-tree></ngx-graph-org-tree>-->
 
-<div class="card border-0">
+<form id="formToC" name="formToC" (submit)="save(form)" novalidate #form="ngForm" [ngClass]="{ 'was-validated': form.submitted }">
 
-    <div class="card-body">
+    <div class="card card-primary">
 
-        <form id="formToC" name="formToC" (submit)="save(form)" novalidate #form="ngForm" [ngClass]="{ 'was-validated': form.submitted }">
+        <div class="card-header">
+
+            <div class="card-header-title">
+                <h4>Theory of Change</h4>
+            </div>
+
+        </div>
+
+        <div class="card-body">
 
             <fieldset class="group">
 
@@ -37,22 +45,35 @@
 
             </fieldset>
 
-            <fieldset class="my-3">
-                <button type="submit" class="btn btn-outline-success me-2 mb-1">Save<i class="fas fa-check ms-2"></i></button>
-                <button type="button" *ngIf="!isNew" class="btn btn-outline-danger me-2 mb-1" (click)="delete()">Delete<i class="fas fa-times ms-2"></i></button>
-            </fieldset>
+        </div>
 
-        </form>
+    </div>
 
-        <ng-container *ngIf="!isNew">
+    <div class="my-4">
+        <button type="submit" class="btn btn-outline-success me-2 mb-1">Save<i class="fas fa-check ms-2"></i></button>
+        <button type="button" *ngIf="!isNew" class="btn btn-outline-danger me-2 mb-1" (click)="delete()">Delete<i class="fas fa-times ms-2"></i></button>
+    </div>
 
-            <hr />
+</form>
 
-            <fieldset class="my-3 text-center">
-                <button (click)="addComponent()" class="btn btn-outline-primary me-2 mb-1">New component<i class="fas fa-plus ms-2"></i></button>
-                <button (click)="selectComponents()" class="btn btn-outline-primary me-2 mb-1">Select component<i class="fas fa-plus ms-2"></i></button>
-                <button (click)="openSettings(settingsContent)" class="btn btn-outline-secondary me-2 mb-1">Settings<i class="fas fa-cog ms-2"></i></button>
-            </fieldset>
+<ng-container *ngIf="!isNew">
+
+    <div class="card card-primary mt-6">
+
+        <div class="card-header">
+
+            <div class="card-header-title">
+                <h4>{{theoryOfChange.name || "Theory of Change"}}</h4>
+                <div>
+                    <i class="fa fa-fw ms-1 fa-plus cursor-pointer" ngbTooltip="New component" (click)="addComponent()"></i>
+                    <i class="fa fa-fw ms-1 fa-list cursor-pointer" ngbTooltip="Select existing component" (click)="selectComponents()"></i>
+                    <i class="fa fa-fw ms-1 fa-gear cursor-pointer" ngbTooltip="Settings" (click)="openSettings(settingsContent)"></i>
+                </div>
+            </div>
+
+        </div>
+
+        <div class="card-body">
 
             <div id="toc" *ngIf="loaded">
 
@@ -99,11 +120,11 @@
 
             </div>
 
-        </ng-container>
+        </div>
 
     </div>
 
-</div>
+</ng-container>
 
 <component-modal #componentModal (changes)="changeComponent($event)" [multiple]="true"></component-modal>
 

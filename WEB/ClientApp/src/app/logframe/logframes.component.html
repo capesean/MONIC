@@ -1,15 +1,18 @@
 <ng-container *ngIf="route.children.length === 0">
 
-    <app-page-title title="Logical Frameworks"></app-page-title>
+    <app-page-title></app-page-title>
 
-    <div class="mb-3">
-        <a [routerLink]="['./', 'add']" class="btn btn-outline-primary me-2 mb-1">Add<i class="fas fa-plus ms-2"></i></a>
-    </div>
+    <div class="card card-primary">
 
-    <div class="card border-0">
+        <div class="card-header">
 
-        <div class="card-header border-0 card-header-space-between">
-            <h4 class="card-header-title text-uppercase">Logical Frameworks</h4>
+            <div class="card-header-title">
+                <h4>Logical Frameworks</h4>
+                <div>
+                    <i class="fa fa-fw ms-1 fa-plus cursor-pointer" ngbTooltip="Add Theory of Change" [routerLink]="['./', 'add']"></i>
+                </div>
+            </div>
+
         </div>
 
         <div class="table-responsive">

@@ -562,6 +562,32 @@ table.table-hover > tbody > tr:hover > td {
                 padding: 2px 0 !important;
             }
 
+.card.card-primary {
+    border: solid 1px rgba(var(--bs-secondary-rgb), 1) !important;
+    box-shadow: none !important;
+}
+
+    .card.card-primary > .card-header {
+        padding-top: 0.624999375rem !important;
+        padding-bottom: 0.624999375rem !important;
+        background-color: rgba(var(--bs-primary-rgb), 1) !important;
+        border: solid 1px rgba(var(--bs-primary-rgb), 1);
+    }
+
+        .card.card-primary > .card-header .card-header-title {
+            color: white;
+            display: flex;
+            flex-direction: row;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+            .card.card-primary > .card-header .card-header-title h4 {
+                text-transform: uppercase;
+                margin: 0 !important;
+                padding: 2px 0 !important;
+            }
+
 .table tbody tr td::before,
 .table tbody tr td::before,
 .table tbody tr th::before,
