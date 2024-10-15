@@ -1,8 +1,16 @@
-<app-page-title title="Skip Logic Option"></app-page-title>
+<app-page-title></app-page-title>
 
 <form id="form" name="form" (submit)="save(form)" novalidate #form="ngForm" [ngClass]="{ 'was-validated': form.submitted }">
 
-    <div class="card border-0">
+    <div class="card card-edit">
+
+        <div class="card-header">
+
+            <div class="card-header-title">
+                <h4 class="text-uppercase m-0">Skip Logic Option</h4>
+            </div>
+
+        </div>
 
         <div class="card-body">
 
@@ -46,13 +54,13 @@
 
             </fieldset>
 
-            <fieldset class="my-3">
-                <button type="submit" class="btn btn-outline-success me-2 mb-1">Save<i class="fas fa-check ms-2"></i></button>
-                <button type="button" *ngIf="!isNew" class="btn btn-outline-danger me-2 mb-1" (click)="delete()">Delete<i class="fas fa-times ms-2"></i></button>
-            </fieldset>
-
         </div>
 
+    </div>
+
+    <div class="mb-4">
+        <button type="submit" class="btn btn-outline-success me-2 mb-1">Save<i class="fas fa-check ms-2"></i></button>
+        <button type="button" *ngIf="!isNew" class="btn btn-outline-danger me-2 mb-1" (click)="delete()">Delete<i class="fas fa-times ms-2"></i></button>
     </div>
 
 </form>

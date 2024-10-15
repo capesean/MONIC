@@ -163,8 +163,6 @@ namespace WEB.Controllers
 
             transactionScope.Complete();
 
-            transactionScope.Complete();
-
             return Ok();
         }
 

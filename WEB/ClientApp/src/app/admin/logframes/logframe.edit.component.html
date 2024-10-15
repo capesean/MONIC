@@ -1,10 +1,18 @@
 <ng-container *ngIf="route.children.length === 0">
 
-    <app-page-title title="Logical Framework"></app-page-title>
+    <app-page-title></app-page-title>
 
     <form id="form" name="form" (submit)="save(form)" novalidate #form="ngForm" [ngClass]="{ 'was-validated': form.submitted }">
 
-        <div class="card border-0">
+        <div class="card card-edit">
+
+            <div class="card-header">
+
+                <div class="card-header-title">
+                    <h4 class="text-uppercase m-0">Logical Framework</h4>
+                </div>
+
+            </div>
 
             <div class="card-body">
 
@@ -36,42 +44,45 @@
 
                 </fieldset>
 
-                <fieldset class="my-3">
-                    <button type="submit" class="btn btn-outline-success me-2 mb-1">Save<i class="fas fa-check ms-2"></i></button>
-                    <button type="button" *ngIf="!isNew" class="btn btn-outline-danger me-2 mb-1" (click)="delete()">Delete<i class="fas fa-times ms-2"></i></button>
-                </fieldset>
-
             </div>
 
+        </div>
+
+        <div class="mb-4">
+            <button type="submit" class="btn btn-outline-success me-2 mb-1">Save<i class="fas fa-check ms-2"></i></button>
+            <button type="button" *ngIf="!isNew" class="btn btn-outline-danger me-2 mb-1" (click)="delete()">Delete<i class="fas fa-times ms-2"></i></button>
         </div>
 
     </form>
 
     <ng-container *ngIf="!isNew">
 
-        <hr />
-
         <nav ngbNav #nav="ngbNav" class="nav-tabs">
 
-            <ng-container ngbNavItem class="pt-6">
+            <ng-container ngbNavItem>
 
                 <a ngbNavLink>LogFrame Rows</a>
 
                 <ng-template ngbNavContent>
 
-                    <div class="card border-0 search-results">
+                    <div class="card card-list">
 
-                        <div class="card-header border-0">
+                        <div class="card-header">
 
-                            <h4 class="card-header-title text-uppercase">
-                                LogFrame Rows
-                            </h4>
+                            <div class="card-header-title">
+                                <h4>LogFrame Rows</h4>
+                                <div>
+                                    <i class="fa fa-fw ms-1 fa-plus cursor-pointer" ngbTooltip="Add LogFrame Rows" [routerLink]="['./logframerows', 'add']"></i>
+                                    <i class="fa fa-fw ms-1 fa-search cursor-pointer" (click)="showLogFrameRowsSearch=!showLogFrameRowsSearch" ngbTooltip="Toggle search options"></i>
+                                    <i class="fa fa-fw ms-1 fa-sort cursor-pointer" (click)="showLogFrameRowSort()" *ngIf="logFrameRowsHeaders.totalRecords > 1" ngbTooltip="Sort LogFrame Rows"></i>
+                                </div>
+                            </div>
 
                         </div>
 
-                        <div class="card-body">
+                        <div class="card-body" *ngIf="showLogFrameRowsSearch" @fadeThenShrink>
 
-                            <form id="formSearchLogFrameRows" (submit)="searchLogFrameRows(0)" novalidate *ngIf="showLogFrameRowsSearch" class="mb-5">
+                            <form id="formSearchLogFrameRows" (submit)="searchLogFrameRows(0)" novalidate>
 
                                 <div class="row g-3">
 
@@ -90,16 +101,15 @@
                                         </div>
                                     </div>
 
+                                    <div class="col-sm-3 col-md-3 col-lg-3 col-xl-2">
+                                        <div class="form-group">
+                                            <button form="formSearchLogFrameRows" type="submit" class="btn btn-outline-primary me-2 mb-1">Search<i class="fas fa-search ms-2"></i></button>
+                                        </div>
+                                    </div>
+
                                 </div>
 
                             </form>
-
-                            <div class="mb-3">
-                                <a [routerLink]="['./logframerows', 'add']" class="btn btn-outline-primary me-2 mb-1">Add<i class="fas fa-plus ms-2"></i></a>
-                                <button *ngIf="!showLogFrameRowsSearch" type="button" class="btn btn-outline-secondary me-2 mb-1" (click)="showLogFrameRowsSearch=true">Filter<i class="fas fa-filter ms-2"></i></button>
-                                <button *ngIf="showLogFrameRowsSearch" form="formSearchLogFrameRows" type="submit" class="btn btn-outline-primary me-2 mb-1">Search<i class="fas fa-search ms-2"></i></button>
-                                <button type="button" class="btn btn-outline-secondary me-2 mb-1" (click)="showLogFrameRowSort()" *ngIf="logFrameRowsHeaders.totalRecords > 1 && !showLogFrameRowsSearch">Sort<i class="fas fa-sort ms-2"></i></button>
-                            </div>
 
                         </div>
 

@@ -1,10 +1,18 @@
 <ng-container *ngIf="route.children.length === 0">
 
-    <app-page-title title="Questionnaire"></app-page-title>
+    <app-page-title></app-page-title>
 
     <form id="form" name="form" (submit)="save(form)" novalidate #form="ngForm" [ngClass]="{ 'was-validated': form.submitted }">
 
-        <div class="card border-0">
+        <div class="card card-edit">
+
+            <div class="card-header">
+
+                <div class="card-header-title">
+                    <h4>Questionnaire</h4>
+                </div>
+
+            </div>
 
             <div class="card-body">
 
@@ -231,23 +239,21 @@
 
                 </fieldset>
 
-                <fieldset class="my-3">
-                    <button type="submit" class="btn btn-outline-success me-2 mb-1">Save<i class="fas fa-check ms-2"></i></button>
-                    <button type="button" *ngIf="!isNew" class="btn btn-outline-danger me-2 mb-1" (click)="delete()">Delete<i class="fas fa-times ms-2"></i></button>
-                    <button type="button" *ngIf="!isNew" class="btn btn-outline-secondary me-2 mb-1" (click)="export()">Export<i class="fas fa-cloud-download ms-2"></i></button>
-                    <button type="button" *ngIf="!isNew" class="btn btn-outline-secondary me-2 mb-1" (click)="download()">Download PDF<i class="fas fa-cloud-download ms-2"></i></button>
-                    <button type="button" *ngIf="!isNew" class="btn btn-outline-secondary me-2 mb-1" (click)="generateSummaries()">Generate Summaries<i class="fas fa-robot ms-2"></i></button>
-                </fieldset>
-
             </div>
 
+        </div>
+
+        <div class="mb-4">
+            <button type="submit" class="btn btn-outline-success me-2 mb-1">Save<i class="fas fa-check ms-2"></i></button>
+            <button type="button" *ngIf="!isNew" class="btn btn-outline-danger me-2 mb-1" (click)="delete()">Delete<i class="fas fa-times ms-2"></i></button>
+            <button type="button" *ngIf="!isNew" class="btn btn-outline-secondary me-2 mb-1" (click)="export()">Export<i class="fas fa-cloud-download ms-2"></i></button>
+            <button type="button" *ngIf="!isNew" class="btn btn-outline-secondary me-2 mb-1" (click)="download()">Download PDF<i class="fas fa-cloud-download ms-2"></i></button>
+            <button type="button" *ngIf="!isNew" class="btn btn-outline-secondary me-2 mb-1" (click)="generateSummaries()">Generate Summaries<i class="fas fa-robot ms-2"></i></button>
         </div>
 
     </form>
 
     <ng-container *ngIf="!isNew">
-
-        <hr />
 
         <nav ngbNav #nav="ngbNav" class="nav-tabs">
 
@@ -257,19 +263,24 @@
 
                 <ng-template ngbNavContent>
 
-                    <div class="card border-0 search-results">
+                    <div class="card card-list">
 
-                        <div class="card-header border-0">
+                        <div class="card-header">
 
-                            <h4 class="card-header-title text-uppercase">
-                                Sections
-                            </h4>
+                            <div class="card-header-title">
+                                <h4>Sections</h4>
+                                <div>
+                                    <i class="fa fa-fw ms-1 fa-plus cursor-pointer" ngbTooltip="Add Sections" [routerLink]="['./sections', 'add']"></i>
+                                    <i class="fa fa-fw ms-1 fa-search cursor-pointer" (click)="showSectionsSearch=!showSectionsSearch" ngbTooltip="Toggle search options"></i>
+                                    <i class="fa fa-fw ms-1 fa-sort cursor-pointer" (click)="showSectionSort()" *ngIf="sectionsHeaders.totalRecords > 1" ngbTooltip="Sort Sections"></i>
+                                </div>
+                            </div>
 
                         </div>
 
-                        <div class="card-body">
+                        <div class="card-body" *ngIf="showSectionsSearch" @fadeThenShrink>
 
-                            <form id="formSearchSections" (submit)="searchSections(0)" novalidate *ngIf="showSectionsSearch" class="mb-5">
+                            <form id="formSearchSections" (submit)="searchSections(0)" novalidate>
 
                                 <div class="row g-3">
 
@@ -282,13 +293,6 @@
                                 </div>
 
                             </form>
-
-                            <div class="mb-3">
-                                <a [routerLink]="['./sections', 'add']" class="btn btn-outline-primary me-2 mb-1">Add<i class="fas fa-plus ms-2"></i></a>
-                                <button *ngIf="!showSectionsSearch" type="button" class="btn btn-outline-secondary me-2 mb-1" (click)="showSectionsSearch=true">Filter<i class="fas fa-filter ms-2"></i></button>
-                                <button *ngIf="showSectionsSearch" form="formSearchSections" type="submit" class="btn btn-outline-primary me-2 mb-1">Search<i class="fas fa-search ms-2"></i></button>
-                                <button type="button" class="btn btn-outline-secondary me-2 mb-1" (click)="showSectionSort()" *ngIf="sectionsHeaders.totalRecords > 1 && !showSectionsSearch">Sort<i class="fas fa-sort ms-2"></i></button>
-                            </div>
 
                         </div>
 
@@ -321,25 +325,29 @@
 
             </ng-container>
 
-            <ng-container ngbNavItem class="pt-6">
+            <ng-container ngbNavItem>
 
                 <a ngbNavLink>Responses</a>
 
                 <ng-template ngbNavContent>
 
-                    <div class="card border-0 search-results">
+                    <div class="card card-list">
 
-                        <div class="card-header border-0">
+                        <div class="card-header">
 
-                            <h4 class="card-header-title text-uppercase">
-                                Responses
-                            </h4>
+                            <div class="card-header-title">
+                                <h4>Responses</h4>
+                                <div>
+                                    <i class="fa fa-fw ms-1 fa-plus cursor-pointer" ngbTooltip="Add Responses" [routerLink]="['./responses', 'add']"></i>
+                                    <i class="fa fa-fw ms-1 fa-search cursor-pointer" (click)="showResponsesSearch=!showResponsesSearch" ngbTooltip="Toggle search options"></i>
+                                </div>
+                            </div>
 
                         </div>
 
-                        <div class="card-body">
+                        <div class="card-body" *ngIf="showResponsesSearch" @fadeThenShrink>
 
-                            <form id="formSearchResponses" (submit)="searchResponses(0)" novalidate *ngIf="showResponsesSearch" class="mb-5">
+                            <form id="formSearchResponses" (submit)="searchResponses(0)" novalidate>
 
                                 <div class="row g-3">
 
@@ -400,20 +408,19 @@
 
             </ng-container>
 
-            <ng-container ngbNavItem class="pt-6">
+            <ng-container ngbNavItem>
 
                 <a ngbNavLink>Analysis</a>
 
                 <ng-template ngbNavContent>
 
-                    <div class="card border-0 search-results">
+                    <div class="card card-list">
 
-                        <div class="card-header border-0">
+                        <div class="card-header">
 
-                            <h4 class="card-header-title text-uppercase">
-                                Analysis
-                            </h4>
-
+                            <div class="card-header-title">
+                                <h4>Analysis</h4>
+                            </div>
                         </div>
 
                         <div class="card-body">

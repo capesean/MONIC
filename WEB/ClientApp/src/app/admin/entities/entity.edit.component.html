@@ -1,8 +1,16 @@
-<app-page-title title="Entity"></app-page-title>
+<app-page-title></app-page-title>
 
 <form id="form" name="form" (submit)="save(form)" novalidate #form="ngForm" [ngClass]="{ 'was-validated': form.submitted }">
 
-    <div class="card border-0">
+    <div class="card card-edit">
+
+        <div class="card-header">
+
+            <div class="card-header-title">
+                <h4 class="text-uppercase m-0">Entity</h4>
+            </div>
+
+        </div>
 
         <div class="card-body">
 
@@ -147,42 +155,43 @@
 
             </ng-container>
 
-            <fieldset class="my-3">
-                <button type="submit" class="btn btn-outline-success me-2 mb-1">Save<i class="fas fa-check ms-2"></i></button>
-                <button type="button" *ngIf="!isNew" class="btn btn-outline-danger me-2 mb-1" (click)="delete()">Delete<i class="fas fa-times ms-2"></i></button>
-            </fieldset>
-
         </div>
 
+    </div>
+
+    <div class="mb-4">
+        <button type="submit" class="btn btn-outline-success me-2 mb-1">Save<i class="fas fa-check ms-2"></i></button>
+        <button type="button" *ngIf="!isNew" class="btn btn-outline-danger me-2 mb-1" (click)="delete()">Delete<i class="fas fa-times ms-2"></i></button>
     </div>
 
 </form>
 
 <ng-container *ngIf="!isNew">
 
-    <hr />
-
     <nav ngbNav #nav="ngbNav" class="nav-tabs">
 
-        <ng-container ngbNavItem class="pt-6">
+        <ng-container ngbNavItem>
 
             <a ngbNavLink>Entity Permissions</a>
 
             <ng-template ngbNavContent>
 
-                <div class="card border-0 search-results">
+                <div class="card card-list">
 
-                    <div class="card-header border-0">
+                    <div class="card-header">
 
-                        <h4 class="card-header-title text-uppercase">
-                            Entity Permissions
-                        </h4>
+                        <div class="card-header-title">
+                            <h4>Entity Permissions</h4>
+                            <div>
+                                <i class="fa fa-fw ms-1 fa-search cursor-pointer" (click)="showEntityPermissionsSearch=!showEntityPermissionsSearch" ngbTooltip="Toggle search options"></i>
+                            </div>
+                        </div>
 
                     </div>
 
-                    <div class="card-body">
+                    <div class="card-body" *ngIf="showEntityPermissionsSearch" @fadeThenShrink>
 
-                        <form id="formSearchEntityPermissions" (submit)="searchEntityPermissions(0)" novalidate *ngIf="showEntityPermissionsSearch" class="mb-5">
+                        <form id="formSearchEntityPermissions" (submit)="searchEntityPermissions(0)" novalidate>
 
                             <div class="row g-3">
 
@@ -192,14 +201,15 @@
                                     </div>
                                 </div>
 
+                                <div class="col-sm-3 col-md-3 col-lg-3 col-xl-2">
+                                    <div class="form-group">
+                                        <button form="formSearchEntityPermissions" type="submit" class="btn btn-outline-primary me-2 mb-1">Search<i class="fas fa-search ms-2"></i></button>
+                                    </div>
+                                </div>
+
                             </div>
 
                         </form>
-
-                        <div class="mb-3">
-                            <button *ngIf="!showEntityPermissionsSearch" type="button" class="btn btn-outline-secondary me-2 mb-1" (click)="showEntityPermissionsSearch=true">Filter<i class="fas fa-filter ms-2"></i></button>
-                            <button *ngIf="showEntityPermissionsSearch" form="formSearchEntityPermissions" type="submit" class="btn btn-outline-primary me-2 mb-1">Search<i class="fas fa-search ms-2"></i></button>
-                        </div>
 
                     </div>
 
@@ -232,25 +242,28 @@
 
         </ng-container>
 
-        <ng-container ngbNavItem class="pt-6">
+        <ng-container ngbNavItem>
 
             <a ngbNavLink>Aggregation Parents</a>
 
             <ng-template ngbNavContent>
 
-                <div class="card border-0 search-results">
+                <div class="card card-list">
 
-                    <div class="card-header border-0">
+                    <div class="card-header">
 
-                        <h4 class="card-header-title text-uppercase">
-                            Aggregation Parents
-                        </h4>
+                        <div class="card-header-title">
+                            <h4>Aggregation Parents</h4>
+                            <div>
+                                <i class="fa fa-fw ms-1 fa-search cursor-pointer" (click)="showParentEntitiesSearch=!showParentEntitiesSearch" ngbTooltip="Toggle search options"></i>
+                            </div>
+                        </div>
 
                     </div>
 
-                    <div class="card-body">
+                    <div class="card-body" *ngIf="showParentEntitiesSearch" @fadeThenShrink>
 
-                        <form id="formSearchParentEntities" (submit)="searchParentEntities(0)" novalidate *ngIf="showParentEntitiesSearch" class="mb-5">
+                        <form id="formSearchParentEntities" (submit)="searchParentEntities(0)" novalidate>
 
                             <div class="row g-3">
 
@@ -260,14 +273,15 @@
                                     </div>
                                 </div>
 
+                                <div class="col-sm-3 col-md-3 col-lg-3 col-xl-2">
+                                    <div class="form-group">
+                                        <button form="formSearchParentEntities" type="submit" class="btn btn-outline-primary me-2 mb-1">Search<i class="fas fa-search ms-2"></i></button>
+                                    </div>
+                                </div>
+
                             </div>
 
                         </form>
-
-                        <div class="mb-3">
-                            <button *ngIf="!showParentEntitiesSearch" type="button" class="btn btn-outline-secondary me-2 mb-1" (click)="showParentEntitiesSearch=true">Filter<i class="fas fa-filter ms-2"></i></button>
-                            <button *ngIf="showParentEntitiesSearch" form="formSearchParentEntities" type="submit" class="btn btn-outline-primary me-2 mb-1">Search<i class="fas fa-search ms-2"></i></button>
-                        </div>
 
                     </div>
 
@@ -302,25 +316,28 @@
 
         </ng-container>
 
-        <ng-container ngbNavItem class="pt-6">
+        <ng-container ngbNavItem>
 
             <a ngbNavLink>Responses</a>
 
             <ng-template ngbNavContent>
 
-                <div class="card border-0 search-results">
+                <div class="card card-list">
 
-                    <div class="card-header border-0">
+                    <div class="card-header">
 
-                        <h4 class="card-header-title text-uppercase">
-                            Responses
-                        </h4>
+                        <div class="card-header-title">
+                            <h4>Responses</h4>
+                            <div>
+                                <i class="fa fa-fw ms-1 fa-search cursor-pointer" (click)="showResponsesSearch=!showResponsesSearch" ngbTooltip="Toggle search options"></i>
+                            </div>
+                        </div>
 
                     </div>
 
-                    <div class="card-body">
+                    <div class="card-body" *ngIf="showResponsesSearch" @fadeThenShrink>
 
-                        <form id="formSearchResponses" (submit)="searchResponses(0)" novalidate *ngIf="showResponsesSearch" class="mb-5">
+                        <form id="formSearchResponses" (submit)="searchResponses(0)" novalidate>
 
                             <div class="row g-3">
 
@@ -336,14 +353,15 @@
                                     </div>
                                 </div>
 
+                                <div class="col-sm-3 col-md-3 col-lg-3 col-xl-2">
+                                    <div class="form-group">
+                                        <button form="formSearchResponses" type="submit" class="btn btn-outline-primary me-2 mb-1">Search<i class="fas fa-search ms-2"></i></button>
+                                    </div>
+                                </div>
+
                             </div>
 
                         </form>
-
-                        <div class="mb-3">
-                            <button *ngIf="!showResponsesSearch" type="button" class="btn btn-outline-secondary me-2 mb-1" (click)="showResponsesSearch=true">Filter<i class="fas fa-filter ms-2"></i></button>
-                            <button *ngIf="showResponsesSearch" form="formSearchResponses" type="submit" class="btn btn-outline-primary me-2 mb-1">Search<i class="fas fa-search ms-2"></i></button>
-                        </div>
 
                     </div>
 

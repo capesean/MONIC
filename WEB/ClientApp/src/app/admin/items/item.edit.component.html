@@ -1,10 +1,18 @@
 <ng-container *ngIf="route.children.length === 0">
 
-    <app-page-title title="Item"></app-page-title>
+    <app-page-title></app-page-title>
 
     <form id="form" name="form" (submit)="save(form)" novalidate #form="ngForm" [ngClass]="{ 'was-validated': form.submitted }">
 
-        <div class="card border-0">
+        <div class="card card-edit">
+
+            <div class="card-header">
+
+                <div class="card-header-title">
+                    <h4 class="text-uppercase m-0">Item</h4>
+                </div>
+
+            </div>
 
             <div class="card-body">
 
@@ -34,42 +42,43 @@
 
                 </fieldset>
 
-                <fieldset class="my-3">
-                    <button type="submit" class="btn btn-outline-success me-2 mb-1">Save<i class="fas fa-check ms-2"></i></button>
-                    <button type="button" *ngIf="!isNew" class="btn btn-outline-danger me-2 mb-1" (click)="delete()">Delete<i class="fas fa-times ms-2"></i></button>
-                </fieldset>
-
             </div>
 
+        </div>
+
+        <div class="mb-4">
+            <button type="submit" class="btn btn-outline-success me-2 mb-1">Save<i class="fas fa-check ms-2"></i></button>
+            <button type="button" *ngIf="!isNew" class="btn btn-outline-danger me-2 mb-1" (click)="delete()">Delete<i class="fas fa-times ms-2"></i></button>
         </div>
 
     </form>
 
     <ng-container *ngIf="!isNew">
 
-        <hr />
-
         <nav ngbNav #nav="ngbNav" class="nav-tabs">
 
-            <ng-container ngbNavItem class="pt-6">
+            <ng-container ngbNavItem>
 
                 <a ngbNavLink>Option Values</a>
 
                 <ng-template ngbNavContent>
 
-                    <div class="card border-0 search-results">
+                    <div class="card card-list">
 
-                        <div class="card-header border-0">
+                        <div class="card-header">
 
-                            <h4 class="card-header-title text-uppercase">
-                                Option Values
-                            </h4>
+                            <div class="card-header-title">
+                                <h4>Option Values</h4>
+                                <div>
+                                    <i class="fa fa-fw ms-1 fa-search cursor-pointer" (click)="showOptionValuesSearch=!showOptionValuesSearch" ngbTooltip="Toggle search options"></i>
+                                </div>
+                            </div>
 
                         </div>
 
-                        <div class="card-body">
+                        <div class="card-body" *ngIf="showOptionValuesSearch" @fadeThenShrink>
 
-                            <form id="formSearchOptionValues" (submit)="searchOptionValues(0)" novalidate *ngIf="showOptionValuesSearch" class="mb-5">
+                            <form id="formSearchOptionValues" (submit)="searchOptionValues(0)" novalidate>
 
                                 <div class="row g-3">
 
@@ -79,14 +88,15 @@
                                         </div>
                                     </div>
 
+                                    <div class="col-sm-3 col-md-3 col-lg-3 col-xl-2">
+                                        <div class="form-group">
+                                            <button form="formSearchOptionValues" type="submit" class="btn btn-outline-primary me-2 mb-1">Search<i class="fas fa-search ms-2"></i></button>
+                                        </div>
+                                    </div>
+
                                 </div>
 
                             </form>
-
-                            <div class="mb-3">
-                                <button *ngIf="!showOptionValuesSearch" type="button" class="btn btn-outline-secondary me-2 mb-1" (click)="showOptionValuesSearch=true">Filter<i class="fas fa-filter ms-2"></i></button>
-                                <button *ngIf="showOptionValuesSearch" form="formSearchOptionValues" type="submit" class="btn btn-outline-primary me-2 mb-1">Search<i class="fas fa-search ms-2"></i></button>
-                            </div>
 
                         </div>
 
@@ -119,25 +129,29 @@
 
             </ng-container>
 
-            <ng-container ngbNavItem class="pt-6">
+            <ng-container ngbNavItem>
 
                 <a ngbNavLink>Documents</a>
 
                 <ng-template ngbNavContent>
 
-                    <div class="card border-0 search-results">
+                    <div class="card card-list">
 
-                        <div class="card-header border-0">
+                        <div class="card-header">
 
-                            <h4 class="card-header-title text-uppercase">
-                                Documents
-                            </h4>
+                            <div class="card-header-title">
+                                <h4>Documents</h4>
+                                <div>
+                                    <i class="fa fa-fw ms-1 fa-plus cursor-pointer" ngbTooltip="Add Documents" [routerLink]="['./documents', 'add']"></i>
+                                    <i class="fa fa-fw ms-1 fa-search cursor-pointer" (click)="showDocumentsSearch=!showDocumentsSearch" ngbTooltip="Toggle search options"></i>
+                                </div>
+                            </div>
 
                         </div>
 
-                        <div class="card-body">
+                        <div class="card-body" *ngIf="showDocumentsSearch" @fadeThenShrink>
 
-                            <form id="formSearchDocuments" (submit)="searchDocuments(0)" novalidate *ngIf="showDocumentsSearch" class="mb-5">
+                            <form id="formSearchDocuments" (submit)="searchDocuments(0)" novalidate>
 
                                 <div class="row g-3">
 
@@ -147,15 +161,15 @@
                                         </div>
                                     </div>
 
+                                    <div class="col-sm-3 col-md-3 col-lg-3 col-xl-2">
+                                        <div class="form-group">
+                                            <button form="formSearchDocuments" type="submit" class="btn btn-outline-primary me-2 mb-1">Search<i class="fas fa-search ms-2"></i></button>
+                                        </div>
+                                    </div>
+
                                 </div>
 
                             </form>
-
-                            <div class="mb-3">
-                                <a [routerLink]="['./documents', 'add']" class="btn btn-outline-primary me-2 mb-1">Add<i class="fas fa-plus ms-2"></i></a>
-                                <button *ngIf="!showDocumentsSearch" type="button" class="btn btn-outline-secondary me-2 mb-1" (click)="showDocumentsSearch=true">Filter<i class="fas fa-filter ms-2"></i></button>
-                                <button *ngIf="showDocumentsSearch" form="formSearchDocuments" type="submit" class="btn btn-outline-primary me-2 mb-1">Search<i class="fas fa-search ms-2"></i></button>
-                            </div>
 
                         </div>
 

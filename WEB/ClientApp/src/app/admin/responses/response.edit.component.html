@@ -1,10 +1,18 @@
 <ng-container *ngIf="route.children.length === 0">
 
-    <app-page-title title="Response"></app-page-title>
+    <app-page-title></app-page-title>
 
     <form id="form" name="form" (submit)="save(form)" novalidate #form="ngForm" [ngClass]="{ 'was-validated': form.submitted }">
 
-        <div class="card border-0">
+        <div class="card card-edit">
+
+            <div class="card-header">
+
+                <div class="card-header-title">
+                    <h4 class="text-uppercase m-0">Response</h4>
+                </div>
+
+            </div>
 
             <div class="card-body">
 
@@ -181,45 +189,47 @@
 
                 </fieldset>
 
-                <fieldset class="my-3">
-                    <button type="submit" class="btn btn-outline-success me-2 mb-1">Save<i class="fas fa-check ms-2"></i></button>
-                    <button type="button" *ngIf="!isNew" class="btn btn-outline-danger me-2 mb-1" (click)="delete()">Delete<i class="fas fa-times ms-2"></i></button>
-                    <button type="button" *ngIf="!isNew" class="btn btn-outline-secondary me-2 mb-1" (click)="download()">Download<i class="fas fa-cloud-download ms-2"></i></button>
-                    <button type="button" *ngIf="!isNew && response.questionnaire?.calculateProgress" class="btn btn-outline-secondary me-2 mb-1" (click)="recalculate()">Recalculate<i class="fas fa-calculator ms-2"></i></button>
-                    <button type="button" *ngIf="!isNew && response.submitted" class="btn btn-outline-secondary me-2 mb-1" (click)="unsubmit()">Unsubmit<i class="fas fa-undo ms-2"></i></button>
-                </fieldset>
-
             </div>
 
+        </div>
+
+        <div class="mb-4">
+            <button type="submit" class="btn btn-outline-success me-2 mb-1">Save<i class="fas fa-check ms-2"></i></button>
+            <button type="button" *ngIf="!isNew" class="btn btn-outline-danger me-2 mb-1" (click)="delete()">Delete<i class="fas fa-times ms-2"></i></button>
+            <button type="button" *ngIf="!isNew" class="btn btn-outline-secondary me-2 mb-1" (click)="download()">Download<i class="fas fa-cloud-download ms-2"></i></button>
+            <button type="button" *ngIf="!isNew && response.questionnaire?.calculateProgress" class="btn btn-outline-secondary me-2 mb-1" (click)="recalculate()">Recalculate<i class="fas fa-calculator ms-2"></i></button>
+            <button type="button" *ngIf="!isNew && response.submitted" class="btn btn-outline-secondary me-2 mb-1" (click)="unsubmit()">Unsubmit<i class="fas fa-undo ms-2"></i></button>
         </div>
 
     </form>
 
     <ng-container *ngIf="!isNew">
 
-        <hr />
-
         <nav ngbNav #nav="ngbNav" class="nav-tabs">
 
-            <ng-container ngbNavItem class="pt-6">
+            <ng-container ngbNavItem>
 
                 <a ngbNavLink>Answers</a>
 
                 <ng-template ngbNavContent>
 
-                    <div class="card border-0 search-results">
+                    <div class="card card-list">
 
-                        <div class="card-header border-0">
+                        <div class="card-header">
 
-                            <h4 class="card-header-title text-uppercase">
-                                Answers
-                            </h4>
+                            <div class="card-header-title">
+                                <h4>Answers</h4>
+                                <div>
+                                    <i class="fa fa-fw ms-1 fa-plus cursor-pointer" ngbTooltip="Add Answers" [routerLink]="['./answers', 'add']"></i>
+                                    <i class="fa fa-fw ms-1 fa-search cursor-pointer" (click)="showAnswersSearch=!showAnswersSearch" ngbTooltip="Toggle search options"></i>
+                                </div>
+                            </div>
 
                         </div>
 
-                        <div class="card-body">
+                        <div class="card-body" *ngIf="showAnswersSearch" @fadeThenShrink>
 
-                            <form id="formSearchAnswers" (submit)="searchAnswers(0)" novalidate *ngIf="showAnswersSearch" class="mb-5">
+                            <form id="formSearchAnswers" (submit)="searchAnswers(0)" novalidate>
 
                                 <div class="row g-3">
 
@@ -235,15 +245,15 @@
                                         </div>
                                     </div>
 
+                                    <div class="col-sm-3 col-md-3 col-lg-3 col-xl-2">
+                                        <div class="form-group">
+                                            <button form="formSearchAnswers" type="submit" class="btn btn-outline-primary me-2 mb-1">Search<i class="fas fa-search ms-2"></i></button>
+                                        </div>
+                                    </div>
+
                                 </div>
 
                             </form>
-
-                            <div class="mb-3">
-                                <a [routerLink]="['./answers', 'add']" class="btn btn-outline-primary me-2 mb-1">Add<i class="fas fa-plus ms-2"></i></a>
-                                <button *ngIf="!showAnswersSearch" type="button" class="btn btn-outline-secondary me-2 mb-1" (click)="showAnswersSearch=true">Filter<i class="fas fa-filter ms-2"></i></button>
-                                <button *ngIf="showAnswersSearch" form="formSearchAnswers" type="submit" class="btn btn-outline-primary me-2 mb-1">Search<i class="fas fa-search ms-2"></i></button>
-                            </div>
 
                         </div>
 
