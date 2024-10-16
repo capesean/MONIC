@@ -41,6 +41,7 @@ export class FolderShortcutComponent implements OnInit, Widget {
             .subscribe({
                 next: folderView => {
                     this.folderView = folderView;
+                    this.title.emit(folderView.folder.name);
                     this.loading.emit(false);
                     this.error.emit(false);
                 },

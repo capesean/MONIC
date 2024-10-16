@@ -1,14 +1,14 @@
-<div class="card border-0 flex-fill">
-    <div class="card-body">
+<div class="card card-primary flex-fill">
 
-        <div class="col d-flex justify-content-between mb-2">
+    <div class="card-header">
+
+        <div class="card-header-title">
             <div class="mw-100">
-                <h5 *ngIf="title" class="text-muted text-uppercase fw-semibold mb-0 me-2 text-truncate">{{title}}</h5>
-                <div *ngIf="subtitle" class="lh-1"><small class="text-muted fs-6">{{subtitle}}</small></div>
+                <h4>{{title}}<span *ngIf="subtitle"> - {{subtitle}}</span></h4>
             </div>
             <div class="text-nowrap user-select-none">
                 <div ngbDropdown>
-                    <button class="btn text-secondary align-top" ngbDropdownToggle><i class="fa fa-ellipsis-v cursor-pointer theme"></i></button>
+                    <i class="fa fa-ellipsis-v cursor-pointer fs-4 px-1" ngbDropdownToggle></i>
                     <div class="dropdown-menu dropdown-menu-end border-dark" ngbDropdownMenu>
                         <button class="dropdown-item" (click)="openSettings()"><i class="fa fa-fw fa-cog cursor-pointer me-2"></i>Configure</button>
                         <button class="dropdown-item" (click)="remove()"><i class="fa fa-fw fa-trash-can cursor-pointer me-2"></i>Remove</button>
@@ -16,6 +16,10 @@
                 </div>
             </div>
         </div>
+
+    </div>
+
+    <div class="card-body">
 
         <ng-container *ngIf="settings?.widgetType===widgetTypes.IndicatorMap">
             <app-indicator-map #indicatorMap [settings]="$any(settings)" (loading)="loading=$event" (title)="title=$event" (subtitle)="subtitle=$event" (error)="error=$event"></app-indicator-map>
