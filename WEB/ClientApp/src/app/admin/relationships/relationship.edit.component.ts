@@ -14,10 +14,12 @@ import { AppService } from '../../common/services/app.service';
 import { DocumentService } from '../../common/services/document.service';
 import { ItemTypes } from '../../common/models/enums.model';
 import { Item } from '../../common/models/item.model';
+import { FadeThenShrink } from '../../common/animations/fadethenshrink';
 
 @NgComponent({
     selector: 'relationship-edit',
-    templateUrl: './relationship.edit.component.html'
+    templateUrl: './relationship.edit.component.html',
+    animations: [FadeThenShrink]
 })
 export class RelationshipEditComponent extends ItemComponent implements OnInit {
 

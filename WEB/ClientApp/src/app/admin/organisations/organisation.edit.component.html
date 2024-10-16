@@ -299,21 +299,25 @@
 
             <ng-template ngbNavContent>
 
-                <div class="card border-0 search-results">
+                <div class="card card-primary">
 
-                    <div class="card-header border-0">
+                    <div class="card-header">
 
-                        <h4 class="card-header-title text-uppercase">
-                            Documents
-                        </h4>
+                        <div class="card-header-title">
+                            <h4>Documents</h4>
+                            <div>
+                                <i class="fa fa-fw ms-1 fa-plus cursor-pointer" ngbTooltip="Add Document" (click)="showDocumentManageModal()"></i>
+                                <i class="fa fa-fw ms-1 fa-search cursor-pointer" (click)="showDocumentsSearch=!showDocumentsSearch" ngbTooltip="Toggle search options"></i>
+                            </div>
+                        </div>
 
                     </div>
 
-                    <div class="card-body">
+                    <div class="card-body" *ngIf="showDocumentsSearch" @FadeThenShrink>
 
-                        <form id="formSearchDocuments" (submit)="searchDocuments(0)" novalidate *ngIf="showDocumentsSearch" class="mb-5">
+                        <form id="formSearchDocuments" (submit)="searchDocuments(0)" novalidate>
 
-                            <div class="row g-3">
+                            <div class="row g-2">
 
                                 <div class="col-sm-6 col-md-4 col-lg-3">
                                     <div class="form-group">
@@ -321,15 +325,15 @@
                                     </div>
                                 </div>
 
+                                <div class="col-sm-3 col-md-3 col-lg-3 col-xl-2">
+                                    <div class="form-group">
+                                        <button type="submit" class="btn btn-outline-primary me-2 mb-1">Search<i class="fas fa-search ms-2"></i></button>
+                                    </div>
+                                </div>
+
                             </div>
 
                         </form>
-
-                        <div class="mb-3">
-                            <button class="btn btn-outline-primary me-2 mb-1" (click)="showDocumentManageModal()">Add Document<i class="fas fa-plus ms-2"></i></button>
-                            <button *ngIf="!showDocumentsSearch" type="button" class="btn btn-outline-secondary me-2 mb-1" (click)="showDocumentsSearch=true">Filter<i class="fas fa-filter ms-2"></i></button>
-                            <button *ngIf="showDocumentsSearch" form="formSearchDocuments" type="submit" class="btn btn-outline-primary me-2 mb-1">Search<i class="fas fa-search ms-2"></i></button>
-                        </div>
 
                     </div>
 
