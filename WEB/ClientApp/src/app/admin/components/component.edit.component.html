@@ -208,7 +208,7 @@
 
                                     <div class="col-sm-3 col-md-3 col-lg-3 col-xl-2">
                                         <div class="form-group">
-                                            <button form="formSearchRelationshipsAsSource" type="submit" class="btn btn-outline-primary me-2 mb-1">Search<i class="fas fa-search ms-2"></i></button>
+                                            <button type="submit" class="btn btn-outline-primary me-2 mb-1">Search<i class="fas fa-search ms-2"></i></button>
                                         </div>
                                     </div>
 
@@ -288,7 +288,7 @@
 
                                     <div class="col-sm-3 col-md-3 col-lg-3 col-xl-2">
                                         <div class="form-group">
-                                            <button form="formSearchRelationshipsAsTarget" type="submit" class="btn btn-outline-primary me-2 mb-1">Search<i class="fas fa-search ms-2"></i></button>
+                                            <button type="submit" class="btn btn-outline-primary me-2 mb-1">Search<i class="fas fa-search ms-2"></i></button>
                                         </div>
                                     </div>
 
@@ -363,7 +363,7 @@
 
                                     <div class="col-sm-3 col-md-3 col-lg-3 col-xl-2">
                                         <div class="form-group">
-                                            <button form="formSearchLogFrameRowComponents" type="submit" class="btn btn-outline-primary me-2 mb-1">Search<i class="fas fa-search ms-2"></i></button>
+                                            <button type="submit" class="btn btn-outline-primary me-2 mb-1">Search<i class="fas fa-search ms-2"></i></button>
                                         </div>
                                     </div>
 
@@ -483,7 +483,7 @@
 
                                     <div class="col-sm-3 col-md-3 col-lg-3 col-xl-2">
                                         <div class="form-group">
-                                            <button form="formSearchComponentIndicators" type="submit" class="btn btn-outline-primary me-2 mb-1">Search<i class="fas fa-search ms-2"></i></button>
+                                            <button type="submit" class="btn btn-outline-primary me-2 mb-1">Search<i class="fas fa-search ms-2"></i></button>
                                         </div>
                                     </div>
 
@@ -535,9 +535,34 @@
                             <div class="card-header-title">
                                 <h4>Documents</h4>
                                 <div>
-                                    <i class="fa fa-fw ms-1 fa-plus cursor-pointer" ngbTooltip="Add Component Indicators" (click)="showDocumentManageModal()"></i>
+                                    <i class="fa fa-fw ms-1 fa-plus cursor-pointer" ngbTooltip="Add Document" (click)="showDocumentManageModal()"></i>
+                                    <i class="fa fa-fw ms-1 fa-search cursor-pointer" (click)="showDocumentsSearch=!showDocumentsSearch" ngbTooltip="Toggle search options"></i>
                                 </div>
                             </div>
+
+                        </div>
+
+                        <div class="card-body" *ngIf="showDocumentsSearch" @FadeThenShrink>
+
+                            <form id="formSearchDocuments" (submit)="searchDocuments(0)" novalidate>
+
+                                <div class="row g-2">
+
+                                    <div class="col-sm-6 col-md-4 col-lg-3">
+                                        <div class="form-group">
+                                            <input type="search" name="q" id="q" [(ngModel)]="documentSearchOptions.q" max="100" class="form-control" placeholder="Search documents" />
+                                        </div>
+                                    </div>
+
+                                    <div class="col-sm-3 col-md-3 col-lg-3 col-xl-2">
+                                        <div class="form-group">
+                                            <button type="submit" class="btn btn-outline-primary me-2 mb-1">Search<i class="fas fa-search ms-2"></i></button>
+                                        </div>
+                                    </div>
+
+                                </div>
+
+                            </form>
 
                         </div>
 

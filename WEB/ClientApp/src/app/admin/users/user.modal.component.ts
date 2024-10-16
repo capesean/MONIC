@@ -54,7 +54,7 @@ export class UserModalComponent implements OnInit {
         this.searchOptions.disabled = this.disabled;
         this.searchOptions.affiliatedEntityId = this.entity?.entityId;
         this.searchOptions.organisationId = this.organisation?.organisationId;
-        this.modal = this.modalService.open(this.content, { size: 'xl', centered: true, scrollable: true });
+        this.modal = this.modalService.open(this.content, { size: 'xl', centered: true, scrollable: false });
         this.runSearch();
         this.modal.result.then((user: User | User[]) => {
             if (this.multiple) this.changes.emit(user as User[]);

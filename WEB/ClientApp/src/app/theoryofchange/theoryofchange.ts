@@ -281,7 +281,7 @@ export class TheoryOfChangeComponent implements OnInit {
     }
 
     private openComponentModal(component?: Component): void {
-        let modalRef = this.modalService.open(TheoryOfChangeComponentModal, { size: 'xl', centered: true, scrollable: true });
+        let modalRef = this.modalService.open(TheoryOfChangeComponentModal, { size: 'xl', centered: true, scrollable: false });
         (modalRef.componentInstance as TheoryOfChangeComponentModal).setComponent(this.theoryOfChange, component);
         modalRef.result.then(
             () => {
@@ -291,7 +291,7 @@ export class TheoryOfChangeComponent implements OnInit {
     }
 
     private openRelationshipModal(relationship: Relationship, sourceComponent?: Component, targetComponent?: Component): void {
-        let modalRef = this.modalService.open(TheoryOfChangeRelationshipModal, { size: 'xl', centered: true, scrollable: true });
+        let modalRef = this.modalService.open(TheoryOfChangeRelationshipModal, { size: 'xl', centered: true, scrollable: false });
         (modalRef.componentInstance as TheoryOfChangeRelationshipModal).setRelationship(this.theoryOfChange, relationship, sourceComponent, targetComponent);
         modalRef.result.then(
             () => {

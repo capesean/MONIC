@@ -111,8 +111,6 @@
 
 <div *ngIf="!isNew">
 
-    <hr />
-
     <nav ngbNav #nav="ngbNav" class="nav-tabs">
 
         <ng-container ngbNavItem>
@@ -137,7 +135,7 @@
 
                     <div class="card-body" *ngIf="showDocumentsSearch" @FadeThenShrink>
 
-                        <form id="formSearchDocuments" (submit)="searchDocuments(0)" novalidate *ngIf="showDocumentsSearch">
+                        <form id="formSearchDocuments" (submit)="searchDocuments(0)" novalidate>
 
                             <div class="row g-2">
 
@@ -149,7 +147,7 @@
 
                                 <div class="col-sm-3 col-md-3 col-lg-3 col-xl-2">
                                     <div class="form-group">
-                                        <button form="formSearchLogFrameRows" type="submit" class="btn btn-outline-primary me-2 mb-1">Search<i class="fas fa-search ms-2"></i></button>
+                                        <button type="submit" class="btn btn-outline-primary me-2 mb-1">Search<i class="fas fa-search ms-2"></i></button>
                                     </div>
                                 </div>
 
