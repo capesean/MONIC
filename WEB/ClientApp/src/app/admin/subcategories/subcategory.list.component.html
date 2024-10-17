@@ -45,33 +45,29 @@
 
         </div>
 
-        <div class="table-responsive">
+        <div class="table-responsive">d
 
-            <div class="table-responsive">
+            <table class="table table-hover table-edge table-nowrap mb-0 align-middle">
+                <thead class="thead-light">
+                    <tr>
+                        <th>Category</th>
+                        <th>Code</th>
+                        <th>Name</th>
+                    </tr>
+                </thead>
+                <tbody class="list cursor-pointer">
+                    <tr *ngFor="let subcategory of subcategories" (click)="goToSubcategory(subcategory)">
+                        <td>{{ subcategory.category.name }}</td>
+                        <td>{{ subcategory.code }}</td>
+                        <td>{{ subcategory.name }}</td>
+                    </tr>
+                </tbody>
+            </table>
 
-                <table class="table table-hover table-edge table-nowrap mb-0 align-middle">
-                    <thead class="thead-light">
-                        <tr>
-                            <th>Category</th>
-                            <th>Code</th>
-                            <th>Name</th>
-                        </tr>
-                    </thead>
-                    <tbody class="list cursor-pointer">
-                        <tr *ngFor="let subcategory of subcategories" (click)="goToSubcategory(subcategory)">
-                            <td>{{ subcategory.category.name }}</td>
-                            <td>{{ subcategory.code }}</td>
-                            <td>{{ subcategory.name }}</td>
-                        </tr>
-                    </tbody>
-                </table>
+        </div>
 
-            </div>
-
-            <div class="card-footer">
-                <pager [headers]="headers" (pageChanged)="runSearch($event)"></pager>
-            </div>
-
+        <div class="card-footer">
+            <pager [headers]="headers" (pageChanged)="runSearch($event)"></pager>
         </div>
 
     </div>

@@ -24177,8 +24177,9 @@ html:not([data-sidebar-behaviour=condensed]) .navbar.navbar-dark {
 }
 
 .modal {
-  --bs-modal-header-padding: 1.25rem 1.75rem 1.25rem 1.75rem;
-  --bs-modal-footer-padding: 1.25rem 1.5rem;
+    --bs-modal-header-padding: 1.25rem 1.75rem 1.25rem 1.75rem;
+    --bs-modal-footer-padding: 1.25rem 1.5rem;
+    --bs-btn-close-color: white !important;
 }
 
 .modal-header .btn-close {
@@ -24415,9 +24416,22 @@ hr {
   color: rgba(var(--bs-body-color-rgb), 0.5) !important;
 }
 
-/*todo: make this .striped*/
 table.table tbody tr:nth-child(2n) {
-  background-color: #FaFbFc;
+    background-color: #f4f4f4;
+}
+
+table.table thead {
+    background-color: #e4e4e4;
+}
+
+table.table thead th {
+    color: #8e8e8e;
+}
+
+.modal-content .modal-header {
+    color: white;
+    background-color: #00BAC7;
+    text-transform: uppercase;
 }
 
 .flex-even {
