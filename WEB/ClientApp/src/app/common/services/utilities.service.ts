@@ -2,25 +2,17 @@ import { Inject, Injectable, LOCALE_ID } from "@angular/core";
 import { DataTypes, WidgetSizes } from "../models/enums.model";
 import { Indicator } from "../models/indicator.model";
 import * as d3 from 'd3';
-import { DecimalPipe, PercentPipe } from "@angular/common";
-import { CurrencyPipe } from "@angular/common";
+import { DecimalPipe, PercentPipe, CurrencyPipe } from "@angular/common";
 
 @Injectable({ providedIn: 'root' })
 export class UtilitiesService {
 
-    private percentPipe: PercentPipe;
-    private decimalPipe: DecimalPipe;
-    private currencyPipe: CurrencyPipe;
-
     constructor(
-        //@Inject(PercentPipe) private percentPipe: PercentPipe,
-        //private decimalPipe: DecimalPipe,
+        private percentPipe: PercentPipe,
+        private decimalPipe: DecimalPipe,
+        private currencyPipe: CurrencyPipe,
         @Inject(LOCALE_ID) private locale: string
     ) {
-        console.error("todo: how do you inject a pipe into a service?");
-        this.percentPipe = new PercentPipe(this.locale);
-        this.decimalPipe = new DecimalPipe(this.locale);
-        this.currencyPipe = new CurrencyPipe(this.locale);
     }
 
     getHeight(size: WidgetSizes): number {

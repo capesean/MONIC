@@ -1,5 +1,5 @@
 import { BrowserModule } from '@angular/platform-browser';
-import { NgModule } from '@angular/core';
+import { LOCALE_ID, NgModule } from '@angular/core';
 import { HttpClientJsonpModule, HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { RouterModule } from '@angular/router';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -16,6 +16,7 @@ import { AuthoriseRequestInterceptor, UnauthorisedResponseInterceptor } from './
 import { SharedModule } from './shared.module';
 import { JsonDateInterceptor } from './common/interceptors/jsondate.interceptor';
 import { QuillModule } from 'ngx-quill';
+import { CurrencyPipe, DecimalPipe, PercentPipe } from '@angular/common';
 
 @NgModule({
     imports: [
@@ -49,7 +50,11 @@ import { QuillModule } from 'ngx-quill';
         { provide: NgbDateAdapter, useClass: NgbDateNativeAdapter },
         AccessGuard,
         ErrorService,
-        NgbTooltipConfig
+        NgbTooltipConfig,
+        PercentPipe,
+        DecimalPipe,
+        CurrencyPipe,
+        { provide: LOCALE_ID, useValue: 'en-ZA' }
     ],
     bootstrap: [AppComponent]
 })

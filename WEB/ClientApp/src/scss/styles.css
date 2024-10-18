@@ -56,6 +56,16 @@ body#app {
     line-height: 1;
 }
 
+.widget .card .card-header .card-header-title > .mw-100 {
+    padding-right: 1rem;
+}
+
+    .widget .card .card-header .card-header-title > .mw-100 h4 {
+        overflow-x: clip;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+    }
+
 .widgetInfo {
     text-overflow: ellipsis;
     white-space: nowrap;
