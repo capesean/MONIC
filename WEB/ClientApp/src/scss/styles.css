@@ -602,3 +602,11 @@ table.table-hover > tbody > tr:hover > td {
     height: unset !important;
     width: unset !important;
 }
+
+.btn i.fa, .btn i.fas {
+    display: none !important;
+}
+
+.input-group .btn i.fa, .input-group .btn i.fas {
+    display: inline-block !important;
+}
