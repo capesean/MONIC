@@ -588,10 +588,15 @@ table.table-hover > tbody > tr:hover > td {
                 padding: 2px 0 !important;
             }
 
-.table tbody tr td::before,
-.table tbody tr td::before,
-.table tbody tr th::before,
-.table tbody tr th::before {
+    .card.card-primary .card-footer {
+        padding-top: 0.624999375rem !important;
+        padding-bottom: 0.624999375rem !important;
+        background-color: #f7f7f7;
+        border-bottom-left-radius: 0.75rem;
+        border-bottom-right-radius: 0.75rem;
+    }
+
+.table tbody tr td::before, .table tbody tr td::before, .table tbody tr th::before, .table tbody tr th::before {
     background-color: none !important;
     position: unset !important;
     height: unset !important;

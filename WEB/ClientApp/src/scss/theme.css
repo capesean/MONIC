@@ -25707,11 +25707,6 @@ hr {
   color: rgba(var(--bs-body-color-rgb), 0.5) !important;
 }
 
-/*todo: make this .striped*/
-table.table tbody tr:nth-child(2n) {
-  background-color: #F6F7F8;
-}
-
 .flex-even {
   flex: 1;
 }
@@ -25736,7 +25731,7 @@ table.table tbody tr:nth-child(2n) {
   font-size: 16px !important;
 }
 
-table.table tbody tr:nth-child(2n) {
+table.table.table-striped tbody tr:nth-child(2n) {
   background-color: #f4f4f4;
 }
 

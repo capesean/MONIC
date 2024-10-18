@@ -1,11 +1,15 @@
-<div class="row g-5">
+<div class="row gx-4 mt-5">
 
     <div class="col-md-6 col-xl-4">
 
-        <div class="card">
+        <div class="card card-primary">
+
             <div class="card-header">
-                Upload GeoJSON
+                <div class="card-header-title">
+                    <h4>Upload GeoJSON</h4>
+                </div>
             </div>
+
             <div class="card-body mb-4">
 
                 <form id="formGeoJSON" name="formGeoJSON" (submit)="uploadGeoJSON(formGeoJSON)" novalidate #formGeoJSON="ngForm" [ngClass]="{ 'was-validated': formGeoJSON.submitted }">
@@ -53,6 +57,7 @@
                 </form>
 
             </div>
+
             <div class="card-footer text-end">
                 <button type="submit" form="formGeoJSON" class="btn btn-outline-primary ms-2">Upload<i class="fas fa-cloud-upload ms-1"></i></button>
             </div>
@@ -63,10 +68,14 @@
 
     <div class="col-md-6 col-xl-4">
 
-        <div class="card">
+        <div class="card card-primary">
+
             <div class="card-header">
-                Import CSV File
+                <div class="card-header-title">
+                    <h4>Import CSV File</h4>
+                </div>
             </div>
+
             <div class="card-body mb-4">
 
                 <form id="formImportCSV" name="formImportCSV" (submit)="importCSV(formImportCSV)" novalidate #formImportCSV="ngForm" [ngClass]="{ 'was-validated': formImportCSV.submitted }">
@@ -98,6 +107,7 @@
                 </form>
 
             </div>
+
             <div class="card-footer text-end">
                 <button type="submit" form="formImportCSV" class="btn btn-outline-primary ms-2">Import<i class="fas fa-cloud-upload ms-1"></i></button>
             </div>
@@ -108,10 +118,14 @@
 
     <div class="col-md-6 col-xl-4">
 
-        <div class="card">
+        <div class="card card-primary">
+
             <div class="card-header">
-                Export to CSV File
+                <div class="card-header-title">
+                    <h4>Export to CSV File</h4>
+                </div>
             </div>
+
             <div class="card-body mb-4">
 
                 <form id="formExportCSV" name="formExportCSV" (submit)="exportCSV(formExportCSV)" novalidate #formExportCSV="ngForm" [ngClass]="{ 'was-validated': formExportCSV.submitted }">
@@ -175,6 +189,7 @@
                 </form>
 
             </div>
+
             <div class="card-footer text-end">
                 <button type="submit" form="formExportCSV" class="btn btn-outline-primary ms-2">Export<i class="fas fa-cloud-download ms-1"></i></button>
             </div>
