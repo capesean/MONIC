@@ -607,6 +607,6 @@ table.table-hover > tbody > tr:hover > td {
     display: none !important;
 }
 
-.input-group .btn i.fa, .input-group .btn i.fas {
+.input-group .btn i.fa, .input-group .btn i.fas, .btn.show-icons i.fa, .btn.show-icons i.fas {
     display: inline-block !important;
 }

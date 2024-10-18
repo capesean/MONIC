@@ -321,3 +321,9 @@ table.table thead th {
     border-bottom-left-radius: 0.75rem;
     border-bottom-right-radius: 0.75rem;
 }
+
+@media (min-width: 992px) {
+    main::before {
+        content: initial !important;
+    }
+}
