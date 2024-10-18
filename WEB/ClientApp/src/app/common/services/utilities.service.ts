@@ -34,6 +34,17 @@ export class UtilitiesService {
 
     getFormatter(indicator: Indicator) {
         return (value: any) => {
+
+            if (typeof value === 'number' && !isNaN(value)) {
+                // value is a number
+            }
+            else if (value && typeof value.value === 'number' && !isNaN(value.value))
+                value = value.value;
+            else if (value && value.axisDimension === "x")
+                return value.value;
+            else 
+                value = undefined;
+
             if (indicator.dataType === DataTypes.Percent) return this.percentPipe.transform(value, `1.${indicator.decimalPlaces}-${indicator.decimalPlaces}`, this.locale);
             if (indicator.dataType === DataTypes.Number) return this.decimalPipe.transform(value, `1.${indicator.decimalPlaces}-${indicator.decimalPlaces}`, this.locale);
             if (indicator.dataType === DataTypes.Currency) return this.currencyPipe.transform(value, `1.${indicator.decimalPlaces}-${indicator.decimalPlaces}`, this.locale);

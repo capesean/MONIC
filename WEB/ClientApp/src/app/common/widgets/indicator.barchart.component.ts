@@ -114,15 +114,23 @@ export class IndicatorBarChartComponent implements OnInit, Widget {
                         colorBy: "data"
                     }],
                     tooltip: {
-                        triggerOn: "click",
-                        alwaysShowContent: false,
+                        trigger: 'axis',
                         textStyle: {
                             fontSize: 10
+                        },
+                        axisPointer: {
+                            type: 'cross',
+                            crossStyle: {
+                                color: 'red'
+                            },
+                            label: {
+                                formatter: formatter
+                            }
                         },
                         valueFormatter: formatter
                     }
                 } as EChartsOption;
-
+                
                 this.error.emit(false);
                 this.loading.emit(false);
             },

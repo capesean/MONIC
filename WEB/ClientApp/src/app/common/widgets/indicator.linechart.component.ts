@@ -119,10 +119,18 @@ export class IndicatorLineChartComponent implements OnInit, Widget {
                         }
                     ],
                     tooltip: {
-                        triggerOn: "click",
-                        alwaysShowContent: false,
+                        trigger: 'axis',
                         textStyle: {
                             fontSize: 10
+                        },
+                        axisPointer: {
+                            type: 'cross',
+                            crossStyle: {
+                                color: 'red'
+                            },
+                            label: {
+                                formatter: formatter
+                            }
                         },
                         valueFormatter: formatter
                     }

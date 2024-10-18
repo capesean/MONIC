@@ -68,7 +68,14 @@ export class QuestionnaireBarChartComponent implements OnInit, Widget {
                 const xCategories: string[] = [];
                 const values: number[] = [];
                 const formatter = (value: any): string => {
-                    return d3.format(`.1f`)(value * 100) + "%";
+                    if (typeof value === 'number' && !isNaN(value))
+                        return d3.format(`.1f`)(value * 100) + "%";
+                    else if (value && typeof value.value === 'number' && !isNaN(value.value))
+                        return d3.format(`.1f`)(value.value * 100) + "%";
+                    else if (value.axisDimension === "x")
+                        return value.value;
+                    else
+                        return undefined;
                 };
 
                 response.progresses.forEach(surveyProgress => {
@@ -107,10 +114,18 @@ export class QuestionnaireBarChartComponent implements OnInit, Widget {
                         colorBy: "data"
                     }],
                     tooltip: {
-                        triggerOn: "click",
-                        alwaysShowContent: false,
+                        trigger: 'axis',
                         textStyle: {
                             fontSize: 10
+                        },
+                        axisPointer: {
+                            type: 'cross',
+                            crossStyle: {
+                                color: 'red'
+                            },
+                            label: {
+                                formatter: formatter
+                            }
                         },
                         valueFormatter: formatter
                     }
