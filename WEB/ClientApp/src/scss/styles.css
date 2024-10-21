@@ -606,3 +606,7 @@ table.table-hover > tbody > tr:hover > td {
 .input-group .btn i.fa, .input-group .btn i.fas, .btn.show-icons i.fa, .btn.show-icons i.fas {
     display: inline-block !important;
 }
+
+.hover-primary:hover {
+    color: #0d6efd !important;
+}
