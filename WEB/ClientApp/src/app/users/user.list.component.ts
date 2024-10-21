@@ -3,18 +3,21 @@ import { Router, ActivatedRoute, NavigationEnd } from '@angular/router';
 import { Subject, Subscription } from 'rxjs';
 import { PagingHeaders } from '../common/models/http.model';
 import { UserSearchOptions, UserSearchResponse, User } from '../common/models/user.model';
+import { FadeThenShrink } from '../common/animations/fadethenshrink';
 import { Enums } from '../common/models/enums.model';
 import { ErrorService } from '../common/services/error.service';
 import { UserService } from '../common/services/user.service';
 
 @Component({
     selector: 'user-list',
-    templateUrl: './user.list.component.html'
+    templateUrl: './user.list.component.html',
+    animations: [FadeThenShrink]
 })
 export class UserListComponent implements OnInit, OnDestroy {
 
     public users: User[] = [];
     public searchOptions = new UserSearchOptions();
+    public showSearchOptions = false;
     public headers = new PagingHeaders();
     private routerSubscription: Subscription;
     public roles = Enums.Roles;

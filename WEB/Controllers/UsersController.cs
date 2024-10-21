@@ -96,10 +96,9 @@ namespace WEB.Controllers
 
             if (!isNew)
             {
-                foreach (var roleId in user.Roles.ToList())
+                foreach (var role in await userManager.GetRolesAsync(user))
                 {
-                    var role = rm.Roles.Single(o => o.Id == roleId.RoleId);
-                    await userManager.RemoveFromRoleAsync(user, role.Name);
+                    await userManager.RemoveFromRoleAsync(user, role);
                 }
             }
 

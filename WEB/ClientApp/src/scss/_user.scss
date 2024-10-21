@@ -251,3 +251,55 @@ nav#breadcrumbs li.breadcrumb-item a:hover {
     padding-bottom: 6px;
     font-size: 16px !important;
 }
+
+
+table.table.table-striped tbody tr:nth-child(2n) {
+    background-color: #f4f4f4;
+}
+
+table.table thead {
+    background-color: #e4e4e4;
+}
+
+table.table thead th {
+    color: #8e8e8e;
+}
+
+.modal-content .modal-header {
+    color: white;
+    text-transform: uppercase;
+}
+
+.modal-content .close {
+    color: red !important;
+}
+
+.modal-content .modal-header {
+    background-color: var(--bs-primary);
+    border-top-left-radius: var(--bs-modal-border-radius);
+    border-top-right-radius: var(--bs-modal-border-radius);
+    border-bottom: none;
+    padding-top: 0.624999375rem !important;
+    padding-bottom: 0.624999375rem !important;
+}
+
+.modal-content .modal-header .btn-close {
+    --bs-btn-close-opacity: 1;
+    background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='%23ffffff'%3e%3cpath d='M.293.293a1 1 0 0 1 1.414 0L8 6.586 14.293.293a1 1 0 1 1 1.414 1.414L9.414 8l6.293 6.293a1 1 0 0 1-1.414 1.414L8 9.414l-6.293 6.293a1 1 0 0 1-1.414-1.414L6.586 8 .293 1.707a1 1 0 0 1 0-1.414z'/%3e%3c/svg%3e");
+    padding: 0.25rem;
+    margin-right: 0;
+}
+
+.modal-content .modal-footer {
+    padding-top: 0.624999375rem !important;
+    padding-bottom: 0.624999375rem !important;
+    background-color: #f7f7f7;
+    border-bottom-left-radius: 0.75rem;
+    border-bottom-right-radius: 0.75rem;
+}
+
+@media (min-width: 992px) {
+    main::before {
+        content: initial !important;
+    }
+}
