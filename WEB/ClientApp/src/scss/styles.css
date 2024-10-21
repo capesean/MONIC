@@ -8,6 +8,7 @@ main {
     }
 
     .navbar img.navbar-brand-img {
+        width: 100%;
         height: initial;
     }
 

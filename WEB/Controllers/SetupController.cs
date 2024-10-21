@@ -28,7 +28,7 @@ namespace AuthorizationServer.Controllers
         [HttpGet, AllowAnonymous]
         public async Task<IActionResult> CheckSetup()
         {
-            return Ok(new { runSetup = !await db.Users.AnyAsync() });
+            return Ok(new { runSetup = !(await db.Settings.SingleAsync()).SetupCompleted });
         }
 
         [HttpPost, AllowAnonymous]
