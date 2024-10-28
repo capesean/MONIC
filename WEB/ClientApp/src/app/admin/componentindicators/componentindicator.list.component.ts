@@ -3,17 +3,20 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { Subject } from 'rxjs';
 import { PagingHeaders } from '../../common/models/http.model';
 import { ComponentIndicatorSearchOptions, ComponentIndicatorSearchResponse, ComponentIndicator } from '../../common/models/componentindicator.model';
+import { FadeThenShrink } from '../../common/animations/fadethenshrink';
 import { ErrorService } from '../../common/services/error.service';
 import { ComponentIndicatorService } from '../../common/services/componentindicator.service';
 
 @NgComponent({
     selector: 'componentindicator-list',
-    templateUrl: './componentindicator.list.component.html'
+    templateUrl: './componentindicator.list.component.html',
+    animations: [FadeThenShrink]
 })
 export class ComponentIndicatorListComponent implements OnInit {
 
     public componentIndicators: ComponentIndicator[] = [];
     public searchOptions = new ComponentIndicatorSearchOptions();
+    public showSearchOptions = false;
     public headers = new PagingHeaders();
 
     constructor(

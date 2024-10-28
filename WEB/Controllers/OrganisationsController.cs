@@ -134,7 +134,24 @@ namespace WEB.Controllers
         [HttpDelete("{organisationId:Guid}/entities"), AuthorizeRoles(Roles.Administrator)]
         public async Task<IActionResult> DeleteEntities(Guid organisationId)
         {
+            if (await db.Data.AnyAsync(o => o.Entity.OrganisationId == organisationId))
+                return BadRequest("Unable to delete the entities as there are related data");
+
+            if (await db.EntityLinks.AnyAsync(o => o.ChildEntity.OrganisationId == organisationId))
+                return BadRequest("Unable to delete the entities as there are related entity links");
+
+            if (await db.EntityLinks.AnyAsync(o => o.ParentEntity.OrganisationId == organisationId))
+                return BadRequest("Unable to delete the entities as there are related entity links");
+
+            if (await db.Users.AnyAsync(o => o.Entity.OrganisationId == organisationId))
+                return BadRequest("Unable to delete the entities as there are related users");
+
+            if (await db.Responses.AnyAsync(o => o.Entity.OrganisationId == organisationId))
+                return BadRequest("Unable to delete the entities as there are related responses");
+
             using var transactionScope = Utilities.General.CreateTransactionScope();
+
+            await db.EntityPermissions.Where(o => o.Entity.OrganisationId == organisationId).ExecuteDeleteAsync();
 
             foreach (var entity in db.Entities.Where(o => o.OrganisationId == organisationId).ToList())
             {
@@ -147,13 +164,41 @@ namespace WEB.Controllers
 
             transactionScope.Complete();
 
+            transactionScope.Complete();
+
             return Ok();
         }
 
         [HttpDelete("{organisationId:Guid}/users"), AuthorizeRoles(Roles.Administrator)]
         public async Task<IActionResult> DeleteUsers(Guid organisationId)
         {
+            if (await db.Data.AnyAsync(o => o.LastSavedBy.OrganisationId == organisationId))
+                return BadRequest("Unable to delete the users as there are related data");
+
+            if (await db.Indicators.AnyAsync(o => o.CreatedBy.OrganisationId == organisationId))
+                return BadRequest("Unable to delete the users as there are related indicators");
+
+            if (await db.DataReviews.AnyAsync(o => o.User.OrganisationId == organisationId))
+                return BadRequest("Unable to delete the users as there are related data reviews");
+
+            if (await db.Responses.AnyAsync(o => o.SubmittedBy.OrganisationId == organisationId))
+                return BadRequest("Unable to delete the users as there are related responses");
+
+            if (await db.Documents.AnyAsync(o => o.UploadedBy.OrganisationId == organisationId))
+                return BadRequest("Unable to delete the users as there are related documents");
+
+            if (await db.FolderContents.AnyAsync(o => o.AddedBy.OrganisationId == organisationId))
+                return BadRequest("Unable to delete the users as there are related folder contents");
+
+            using var transactionScope = Utilities.General.CreateTransactionScope();
+
+            await db.EntityPermissions.Where(o => o.User.OrganisationId == organisationId).ExecuteDeleteAsync();
+
+            await db.IndicatorPermissions.Where(o => o.User.OrganisationId == organisationId).ExecuteDeleteAsync();
+
             await db.Users.Where(o => o.OrganisationId == organisationId).ExecuteDeleteAsync();
+
+            transactionScope.Complete();
 
             return Ok();
         }

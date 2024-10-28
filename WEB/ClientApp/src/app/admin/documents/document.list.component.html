@@ -1,12 +1,23 @@
-<app-page-title title="Documents"></app-page-title>
+<app-page-title></app-page-title>
 
-<div class="card border-0">
+<div class="card card-list">
 
-    <div class="card-body">
+    <div class="card-header">
+
+        <div class="card-header-title">
+            <h4>Documents</h4>
+            <div>
+                <i class="fa fa-fw ms-1 fa-search cursor-pointer" ngbTooltip="Toggle search options" (click)="showSearchOptions = !showSearchOptions"></i>
+            </div>
+        </div>
+
+    </div>
+
+    <div class="card-body" *ngIf="showSearchOptions" @FadeThenShrink>
 
         <form (submit)="runSearch(0)" novalidate>
 
-            <div class="row g-3">
+            <div class="row g-2">
 
                 <div class="col-sm-6 col-md-4 col-lg-3">
                     <div class="form-group">
@@ -14,30 +25,22 @@
                     </div>
                 </div>
 
-                <div class="col-sm-6 col-md-4 col-lg-3">
+                <div class="col-sm-6 col-md-5 col-xl-4">
                     <div class="form-group">
                         <item-select id="itemId" name="itemId" [(ngModel)]="searchOptions.itemId"></item-select>
                     </div>
                 </div>
 
+                <div class="col-sm-3 col-md-3 col-lg-3 col-xl-2">
+                    <div class="form-group">
+                        <button type="submit" class="btn btn-outline-primary me-2 mb-1">Search<i class="fas fa-search ms-2"></i></button>
+                    </div>
+                </div>
+
             </div>
-
-            <fieldset class="mt-3">
-
-                <button type="submit" class="btn btn-outline-primary me-2 mb-1">Search<i class="fas fa-search ms-2"></i></button>
-
-            </fieldset>
 
         </form>
 
-    </div>
-
-</div>
-
-<div class="card border-0">
-
-    <div class="card-header border-0 card-header-space-between">
-        <h4 class="card-header-title text-uppercase">Documents</h4>
     </div>
 
     <div class="table-responsive">
@@ -47,21 +50,23 @@
                 <tr>
                     <th>Item</th>
                     <th>File Name</th>
+                    <th class="w-20px text-center"><i class="fas fa-cloud-download text-secondary"></i></th>
                 </tr>
             </thead>
             <tbody class="list cursor-pointer">
                 <tr *ngFor="let document of documents" (click)="goToDocument(document)">
                     <td>{{ document.item.itemId }}</td>
                     <td>{{ document.fileName }}</td>
+                    <td class="text-center"><i class="fas fa-cloud-download cursor-pointer p-1 text-primary" (click)="downloadDocument(document, $event)"></i></td>
                 </tr>
             </tbody>
         </table>
 
-        </div>
-
-        <div class="card-footer">
-            <pager [headers]="headers" (pageChanged)="runSearch($event)"></pager>
-        </div>
-
     </div>
+
+    <div class="card-footer">
+        <pager [headers]="headers" (pageChanged)="runSearch($event)"></pager>
+    </div>
+
+</div>
 

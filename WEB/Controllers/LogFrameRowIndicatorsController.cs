@@ -57,6 +57,7 @@ namespace WEB.Controllers
 
             var logFrameRowIndicator = await db.LogFrameRowIndicators
                 .FirstOrDefaultAsync(o => o.LogFrameRowId == logFrameRowIndicatorDTO.LogFrameRowId && o.IndicatorId == logFrameRowIndicatorDTO.IndicatorId);
+
             var isNew = logFrameRowIndicator == null;
 
             if (isNew)

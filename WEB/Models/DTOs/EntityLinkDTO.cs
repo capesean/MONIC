@@ -37,7 +37,7 @@ namespace WEB.Models
             return entityLinkDTO;
         }
 
-        public static void Hydrate(EntityLink entityLink, EntityLinkDTO entityLinkDTO)
+        public static void Hydrate(EntityLink entityLink, EntityLinkDTO entityLinkDTO, bool isNew)
         {
         }
     }

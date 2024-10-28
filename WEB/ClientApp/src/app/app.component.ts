@@ -7,7 +7,7 @@ import { Title } from '@angular/platform-browser';
 import * as moment from 'moment';
 import { environment } from '../environments/environment';
 import { BreadcrumbService } from './common/services/breadcrumb.service';
-import { NgbModalConfig } from '@ng-bootstrap/ng-bootstrap';
+import { NgbModalConfig, NgbTooltipConfig } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
     selector: 'app-root',
@@ -22,11 +22,15 @@ export class AppComponent implements OnInit {
         private authService: AuthService,
         private breadcrumbService: BreadcrumbService,
         private titleService: Title,
-        private modalConfig: NgbModalConfig
+        modalConfig: NgbModalConfig,
+        tooltipConfig: NgbTooltipConfig
     ) {
         titleService.setTitle(environment.siteName);
         moment.locale("en-gb");
         modalConfig.scrollable = false;
+        tooltipConfig.placement = 'top';
+        tooltipConfig.openDelay = 750;
+        //tooltipConfig.closeDelay = 75000;
     }
 
     ngOnInit(): void {

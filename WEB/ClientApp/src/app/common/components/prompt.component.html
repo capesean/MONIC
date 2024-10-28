@@ -1,0 +1,23 @@
+<div class="modal-header" *ngIf="_options.title">
+    <h4 class="modal-title" id="modal-title">{{_options.title}}</h4>
+    <button type="button" class="btn-close" aria-label="Close button" aria-describedby="modal-title" (click)="modal.dismiss()"></button>
+</div>
+<div class="modal-body">
+
+    <p [innerHtml]="_options.text" *ngIf="_options.text" class="mb-4"></p>
+
+    <div class="row">
+        <div class="col-12">
+            <div class="form-group" [ngClass]="{ 'is-invalid': value.invalid }">
+
+                <input id="value" name="value" class="form-control" type="text" [(ngModel)]="response" #value="ngModel" />
+
+            </div>
+        </div>
+    </div>
+
+</div>
+<div class="modal-footer">
+    <button type="button" class="btn" [ngClass]="okClass" (click)="ok()" *ngIf="_options.ok">{{_options.ok}}</button>
+    <button type="button" class="btn" [ngClass]="cancelClass" (click)="modal.dismiss()" *ngIf="_options.cancel">{{_options.cancel}}</button>
+</div>

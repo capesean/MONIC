@@ -3,18 +3,21 @@ import { Router, ActivatedRoute, NavigationEnd } from '@angular/router';
 import { Subject, Subscription } from 'rxjs';
 import { PagingHeaders } from '../../common/models/http.model';
 import { EntitySearchOptions, EntitySearchResponse, Entity } from '../../common/models/entity.model';
+import { FadeThenShrink } from '../../common/animations/fadethenshrink';
 import { ErrorService } from '../../common/services/error.service';
 import { EntityService } from '../../common/services/entity.service';
 import { Roles } from '../../common/models/enums.model';
 
 @NgComponent({
     selector: 'entity-list',
-    templateUrl: './entity.list.component.html'
+    templateUrl: './entity.list.component.html',
+    animations: [FadeThenShrink]
 })
 export class EntityListComponent implements OnInit, OnDestroy {
 
     public entities: Entity[] = [];
     public searchOptions = new EntitySearchOptions();
+    public showSearchOptions = false;
     public headers = new PagingHeaders();
     private routerSubscription: Subscription;
 

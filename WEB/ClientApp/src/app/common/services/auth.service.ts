@@ -9,28 +9,31 @@ import { ProfileModel } from "../models/profile.models";
 import { Enums, Roles } from "../models/enums.model";
 import { FolderShortcutSettings, IndicatorBarChartSettings, IndicatorLineChartSettings, IndicatorMapSettings, IndicatorPieChartSettings, WidgetSettings } from "../models/widget.model";
 import { AppService } from "./app.service";
+import { switchMap } from "rxjs";
 
 @Injectable({ providedIn: 'root' })
 export class AuthService {
 
     private initalState: AuthStateModel = { jwtToken: null, tokens: null, authReady: false };
-    private state: BehaviorSubject<AuthStateModel>;
+    private _state$: BehaviorSubject<AuthStateModel>;
     private refreshSubscription$: Subscription;
     public state$: Observable<AuthStateModel>;
     public tokens$: Observable<AuthTokenModel>;
     public loggedIn$: Observable<boolean>;
+    private profileGet$: Observable<ProfileModel>;
+
     private _profile: ProfileModel;
-    private profileGet: Observable<ProfileModel>;
+    public roles$ = new BehaviorSubject<string[]>([]);
 
     constructor(
         private http: HttpClient,
         private router: Router,
         private appService: AppService
     ) {
-        this.state = new BehaviorSubject<AuthStateModel>(this.initalState);
-        this.state$ = this.state.asObservable();
+        this._state$ = new BehaviorSubject<AuthStateModel>(this.initalState);
+        this.state$ = this._state$.asObservable();
 
-        this.tokens$ = this.state
+        this.tokens$ = this._state$
             .pipe(filter(state => state.authReady))
             .pipe(map(state => state.tokens));
 
@@ -81,17 +84,33 @@ export class AuthService {
         return this.http.post<void>(`${environment.baseApiUrl}authorization/changepassword`, changePassword);
     }
 
-    isInRole(profile: ProfileModel, role: string | Roles): boolean {
-        if (!profile || !profile.roles) return false;
-        if (typeof (profile.roles) === "string" && profile.roles === "Administrator") return true;
-        if (typeof (profile.roles) !== "string" && profile.roles.indexOf("Administrator") > -1) return true;
-        if (typeof (role) === "number") role = Enums.Roles[role].name;
-        if (typeof (profile.roles) === "string") return role === profile.roles;
-        return profile.roles.indexOf(role) > -1;
+    private isInRole(profileRoles: string[], rolesToCheck: string | string[] | Roles | Roles[]): boolean {
+        if (!profileRoles || !profileRoles.length) return false;
+
+        // if user is admin, they have all/any roles
+        if (profileRoles.indexOf("Administrator") >= 0) return true;
+
+        if (typeof (rolesToCheck) === "number") rolesToCheck = Enums.Roles[rolesToCheck].name;
+
+        if (Array.isArray(rolesToCheck)) {
+            for (let roleToCheck of rolesToCheck) {
+                if (typeof (roleToCheck) === "number") roleToCheck = Enums.Roles[roleToCheck].name;
+                if (profileRoles.indexOf(roleToCheck) >= 0) return true;
+            }
+            return false;
+        } else {
+            return profileRoles.indexOf(rolesToCheck) >= 0;
+        }
+    }
+
+    isInRole$(role: string | Roles | Roles[] | string[]): Observable<boolean> {
+        return this.roles$.pipe(
+            map(roles => this.isInRole(roles, role))
+        );
     }
 
     refreshTokens(): Observable<AuthTokenModel> {
-        return this.state
+        return this._state$
             .pipe(first())
             /*
              * OpenIddict 3 invalidates refresh tokens after being used, so the latest token might have been retrieved by another tab
@@ -100,8 +119,8 @@ export class AuthService {
             */
             //.pipe(map(state => state.tokens))
             .pipe(map(() => this.retrieveTokens()))
-            .pipe(
-                mergeMap(tokens => {
+            .pipe(mergeMap(
+                tokens => {
 
                     // if there is no token in local storage, redirect to login
                     if (!tokens) {
@@ -113,16 +132,17 @@ export class AuthService {
                         .pipe(catchError(err => {
                             // error attempting to refresh tokens: redirect to login
                             if (err.status === 0) {
-                                return null;
+                                return of(undefined);
                                 // do nothing: might not have an internet connection
                             } else if (window.location.pathname !== "/auth/login")
                                 this.router.navigate(["/auth/login"]);
 
                             return throwError(() => 'Session Expired');
 
-                        }));
+                        })
+                        );
                 }
-                ));
+            ));
     }
 
     private storeToken(tokens: AuthTokenModel): void {
@@ -145,8 +165,13 @@ export class AuthService {
     }
 
     private updateState(newState: AuthStateModel): void {
-        const previousState = this.state.getValue();
-        this.state.next(Object.assign({}, previousState, newState));
+        const previousState = this._state$.getValue();
+        this._state$.next(Object.assign({}, previousState, newState));
+        if (newState?.jwtToken) {
+            this.roles$.next(Array.isArray(newState.jwtToken.role) ? newState.jwtToken.role : [newState.jwtToken.role]);
+        } else {
+            this.roles$.next([]);
+        }
     }
 
     private getTokens(data: RefreshGrantModel | LoginModel, grantType: string): Observable<AuthTokenModel> {
@@ -172,6 +197,7 @@ export class AuthService {
     }
 
     private startupTokenRefresh(): Observable<AuthTokenModel> {
+
         return of(this.retrieveTokens())
             .pipe(mergeMap((tokens: AuthTokenModel) => {
                 if (!tokens) {
@@ -213,8 +239,8 @@ export class AuthService {
             return of(this._profile);
         }
         // if a request is currently outstanding, return that request
-        if (!this.profileGet) {
-            this.profileGet = this.http
+        if (!this.profileGet$) {
+            this.profileGet$ = this.http
                 .get<ProfileModel>(`${environment.baseApiUrl}profile`)
                 .pipe(tap(profile => {
                     profile.dashboardSettings = JSON.parse(profile.dashboardSettings as unknown as string);
@@ -224,68 +250,79 @@ export class AuthService {
                 .pipe(tap(profile => {
                     this._profile = profile;
                     // clear the outstanding request
-                    this.profileGet = undefined;
+                    this.profileGet$ = undefined;
                 }));
         }
-        return this.profileGet;
+        return this.profileGet$;
     }
 
     canEdit(indicatorId?: string): Observable<boolean> {
-        return this.getProfile()
-            .pipe(
-                map(
-                    profile => {
-                        if (this.isInRole(profile, Roles.Administrator)) return true;
-                        return !!profile.indicatorPermissions.find(o => o.edit && (indicatorId === undefined || o.indicatorId === indicatorId));
-                    }
-                )
-            );
-
+        return this.isInRole$(Roles.Administrator).pipe(
+            map(result => {
+                if (result) return true;
+                return !!this._profile.indicatorPermissions.find(o => o.edit && (indicatorId === undefined || o.indicatorId === indicatorId));
+            })
+        );
     }
 
     canSubmit(indicatorId?: string): Observable<boolean> {
-        return forkJoin({
-            appSettings: this.appService.getAppSettings(),
-            profile: this.getProfile(),
-        }).pipe(
-            map(
-                data => {
-                    if (!data.appSettings.useSubmit) return false;
-                    if (this.isInRole(data.profile, Roles.Administrator)) return true;
-                    return !!data.profile.indicatorPermissions.find(o => o.submit && (indicatorId === undefined || o.indicatorId === indicatorId));
+        return this.appService.getAppSettings().pipe(
+            switchMap(appSettings => {
+                if (!appSettings.useSubmit) {
+                    return of(false);
                 }
-            )
+                return this.isInRole$(Roles.Administrator).pipe(
+                    map(result => {
+                        if (result) {
+                            return true;
+                        }
+                        return !!this._profile.indicatorPermissions.find(
+                            o => o.submit && (indicatorId === undefined || o.indicatorId === indicatorId)
+                        );
+                    })
+                );
+            })
         );
     }
 
     canVerify(indicatorId?: string): Observable<boolean> {
-        return forkJoin({
-            appSettings: this.appService.getAppSettings(),
-            profile: this.getProfile(),
-        }).pipe(
-            map(
-                data => {
-                    if (!data.appSettings.useVerify) return false;
-                    if (this.isInRole(data.profile, Roles.Administrator)) return true;
-                    return !!data.profile.indicatorPermissions.find(o => o.verify && (indicatorId === undefined || o.indicatorId === indicatorId));
+        return this.appService.getAppSettings().pipe(
+            switchMap(appSettings => {
+                if (!appSettings.useVerify) {
+                    return of(false);
                 }
-            )
+                return this.isInRole$(Roles.Administrator).pipe(
+                    map(result => {
+                        if (result) {
+                            return true;
+                        }
+                        return !!this._profile.indicatorPermissions.find(
+                            o => o.verify && (indicatorId === undefined || o.indicatorId === indicatorId)
+                        );
+                    })
+                );
+            })
         );
     }
 
     canApprove(indicatorId?: string): Observable<boolean> {
-        return forkJoin({
-            appSettings: this.appService.getAppSettings(),
-            profile: this.getProfile(),
-        }).pipe(
-                map(
-                    data => {
-                        if (!data.appSettings.useApprove) return false;
-                        if (this.isInRole(data.profile, Roles.Administrator)) return true;
-                        return !!data.profile.indicatorPermissions.find(o => o.approve && (indicatorId === undefined || o.indicatorId === indicatorId));
-                    }
-                )
-            );
+        return this.appService.getAppSettings().pipe(
+            switchMap(appSettings => {
+                if (!appSettings.useApprove) {
+                    return of(false);
+                }
+                return this.isInRole$(Roles.Administrator).pipe(
+                    map(result => {
+                        if (result) {
+                            return true;
+                        }
+                        return !!this._profile.indicatorPermissions.find(
+                            o => o.approve && (indicatorId === undefined || o.indicatorId === indicatorId)
+                        );
+                    })
+                );
+            })
+        );
     }
 
     saveDashboardSettings(settings?: WidgetSettings | IndicatorMapSettings | IndicatorLineChartSettings | IndicatorBarChartSettings | IndicatorPieChartSettings | FolderShortcutSettings, remove?: boolean): Observable<void> {
@@ -315,6 +352,7 @@ export class AuthService {
         if (!decoded) {
             throw new Error("Cannot decode the token.");
         }
+
         return JSON.parse(decoded);
     }
 

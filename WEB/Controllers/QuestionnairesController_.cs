@@ -1,11 +1,12 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using OpenAI.GPT3.ObjectModels.RequestModels;
-using OpenAI.GPT3;
-using OpenAI.GPT3.Managers;
+using OpenAI;
+using OpenAI.Managers;
+using OpenAI.ObjectModels.RequestModels;
 using WEB.Models;
 using WEB.Reports.Excel;
 using WEB.Reports.PDF;
+
 
 namespace WEB.Controllers
 {
@@ -25,7 +26,7 @@ namespace WEB.Controllers
 
             byte[] bytes = await questionnaireExport.GenerateAsync();
 
-            Response.Headers.Add("Content-Disposition", questionnaireExport.GetContentDisposition().ToString());
+            Response.Headers.Append("Content-Disposition", questionnaireExport.GetContentDisposition().ToString());
 
             return File(bytes, questionnaireExport.GetContentType());
         }
@@ -73,7 +74,7 @@ namespace WEB.Controllers
 
             byte[] bytes = await pdf.GenerateAsync();
 
-            Response.Headers.Add("Content-Disposition", pdf.GetContentDisposition().ToString());
+            Response.Headers.Append("Content-Disposition", pdf.GetContentDisposition().ToString());
 
             return File(bytes, pdf.GetContentType());
         }
@@ -137,7 +138,7 @@ namespace WEB.Controllers
             var chatCompletionCreateRequest = new ChatCompletionCreateRequest()
             {
                 Messages = null,
-                Model = OpenAI.GPT3.ObjectModels.Models.ChatGpt3_5Turbo,
+                Model = OpenAI.ObjectModels.Models.Gpt_4o,
                 MaxTokens = generateSummariesModel.MaxTokens,
                 N = 1,
                 Temperature = generateSummariesModel.Temperature

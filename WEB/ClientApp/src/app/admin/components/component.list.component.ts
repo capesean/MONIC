@@ -6,18 +6,21 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { PagingHeaders } from '../../common/models/http.model';
 import { ComponentSearchOptions, ComponentSearchResponse, Component } from '../../common/models/component.model';
 import { Enum, Enums } from '../../common/models/enums.model';
+import { FadeThenShrink } from '../../common/animations/fadethenshrink';
 import { ErrorService } from '../../common/services/error.service';
 import { ComponentService } from '../../common/services/component.service';
 import { ComponentSortComponent } from './component.sort.component';
 
 @NgComponent({
     selector: 'component-list',
-    templateUrl: './component.list.component.html'
+    templateUrl: './component.list.component.html',
+    animations: [FadeThenShrink]
 })
 export class ComponentListComponent implements OnInit, OnDestroy {
 
     public components: Component[] = [];
     public searchOptions = new ComponentSearchOptions();
+    public showSearchOptions = false;
     public headers = new PagingHeaders();
     private routerSubscription: Subscription;
     public componentTypes: Enum[] = Enums.ComponentTypes;
@@ -67,7 +70,7 @@ export class ComponentListComponent implements OnInit, OnDestroy {
     }
 
     showSort(): void {
-        let modalRef = this.modalService.open(ComponentSortComponent, { size: 'xl', centered: true, scrollable: true });
+        let modalRef = this.modalService.open(ComponentSortComponent, { size: 'xl', centered: true, scrollable: false });
         modalRef.result.then(
             () => {
 

@@ -1,10 +1,18 @@
 <ng-container *ngIf="route.children.length === 0">
 
-    <app-page-title title="Section"></app-page-title>
+    <app-page-title></app-page-title>
 
     <form id="form" name="form" (submit)="save(form)" novalidate #form="ngForm" [ngClass]="{ 'was-validated': form.submitted }">
 
-        <div class="card border-0">
+        <div class="card card-edit">
+
+            <div class="card-header">
+
+                <div class="card-header-title">
+                    <h4>Section</h4>
+                </div>
+
+            </div>
 
             <div class="card-body">
 
@@ -53,44 +61,47 @@
 
                 </fieldset>
 
-                <fieldset class="my-3">
-                    <button type="submit" class="btn btn-outline-success me-2 mb-1">Save<i class="fas fa-check ms-2"></i></button>
-                    <button type="button" *ngIf="!isNew" class="btn btn-outline-danger me-2 mb-1" (click)="delete()">Delete<i class="fas fa-times ms-2"></i></button>
-                </fieldset>
-
             </div>
 
+        </div>
+
+        <div class="mb-4">
+            <button type="submit" class="btn btn-outline-success me-2 mb-1">Save<i class="fas fa-check ms-2"></i></button>
+            <button type="button" *ngIf="!isNew" class="btn btn-outline-danger me-2 mb-1" (click)="delete()">Delete<i class="fas fa-times ms-2"></i></button>
         </div>
 
     </form>
 
     <ng-container *ngIf="!isNew">
 
-        <hr />
-
         <nav ngbNav #nav="ngbNav" class="nav-tabs">
 
-            <ng-container ngbNavItem class="pt-6">
+            <ng-container ngbNavItem>
 
                 <a ngbNavLink>Questions</a>
 
                 <ng-template ngbNavContent>
 
-                    <div class="card border-0 search-results">
+                    <div class="card card-list">
 
-                        <div class="card-header border-0">
+                        <div class="card-header">
 
-                            <h4 class="card-header-title text-uppercase">
-                                Questions
-                            </h4>
+                            <div class="card-header-title">
+                                <h4>Questions</h4>
+                                <div>
+                                    <i class="fa fa-fw ms-1 fa-plus cursor-pointer" ngbTooltip="Add Questions" [routerLink]="['./questions', 'add']"></i>
+                                    <i class="fa fa-fw ms-1 fa-search cursor-pointer" (click)="showQuestionsSearch=!showQuestionsSearch" ngbTooltip="Toggle search options"></i>
+                                    <i class="fa fa-fw ms-1 fa-sort cursor-pointer" (click)="showQuestionSort()" *ngIf="questionsHeaders.totalRecords > 1" ngbTooltip="Sort Questions"></i>
+                                </div>
+                            </div>
 
                         </div>
 
-                        <div class="card-body">
+                        <div class="card-body" *ngIf="showQuestionsSearch" @FadeThenShrink>
 
-                            <form id="formSearchQuestions" (submit)="searchQuestions(0)" novalidate *ngIf="showQuestionsSearch" class="mb-5">
+                            <form id="formSearchQuestions" (submit)="searchQuestions(0)" novalidate>
 
-                                <div class="row g-3">
+                                <div class="row g-2">
 
                                     <div class="col-sm-6 col-md-5 col-lg-4 col-xl-3">
                                         <div class="form-group">
@@ -101,6 +112,7 @@
                                     <div class="col-sm-6 col-md-4 col-lg-4 col-xl-3">
                                         <div class="form-group">
                                             <select id="questionType" name="questionType" [(ngModel)]="questionsSearchOptions.questionType" #questionType="ngModel" class="form-select">
+                                                <option [ngValue]="undefined" disabled>Question Type</option>
                                                 <option *ngFor="let questionType of questionTypes" [ngValue]="questionType.value">{{ questionType.label }}</option>
                                             </select>
                                         </div>
@@ -112,16 +124,15 @@
                                         </div>
                                     </div>
 
+                                    <div class="col-sm-3 col-md-3 col-lg-3 col-xl-2">
+                                        <div class="form-group">
+                                            <button form="formSearchQuestions" type="submit" class="btn btn-outline-primary me-2 mb-1">Search<i class="fas fa-search ms-2"></i></button>
+                                        </div>
+                                    </div>
+
                                 </div>
 
                             </form>
-
-                            <div class="mb-3">
-                                <a [routerLink]="['./questions', 'add']" class="btn btn-outline-primary me-2 mb-1">Add<i class="fas fa-plus ms-2"></i></a>
-                                <button *ngIf="!showQuestionsSearch" type="button" class="btn btn-outline-secondary me-2 mb-1" (click)="showQuestionsSearch=true">Filter<i class="fas fa-filter ms-2"></i></button>
-                                <button *ngIf="showQuestionsSearch" form="formSearchQuestions" type="submit" class="btn btn-outline-primary me-2 mb-1">Search<i class="fas fa-search ms-2"></i></button>
-                                <button type="button" class="btn btn-outline-secondary me-2 mb-1" (click)="showQuestionSort()" *ngIf="questionsHeaders.totalRecords > 1 && !showQuestionsSearch">Sort<i class="fas fa-sort ms-2"></i></button>
-                            </div>
 
                         </div>
 

@@ -1,9 +1,7 @@
-﻿using System;
-using WEB.Models;
+﻿using WEB.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Mvc.Filters;
 using Microsoft.AspNetCore.Http.Extensions;
-using System.IO;
 using Microsoft.AspNetCore.Mvc;
 using System.Net;
 
@@ -16,15 +14,15 @@ namespace WEB.Error
 
     public class ApiExceptionAttribute : ExceptionFilterAttribute, IFilterMetadata
     {
-        AppSettings _settings;
-        IEmailSender _emailSender;
-        DbContextOptions _options;
+        private readonly AppSettings appSettings;
+        private readonly IEmailSender emailSender;
+        private readonly IDbContextFactory<ApplicationDbContext> dbFactory;
 
-        public ApiExceptionAttribute(AppSettings appSettings, IEmailSender emailSender, DbContextOptions options)
+        public ApiExceptionAttribute(AppSettings appSettings, IEmailSender emailSender, IDbContextFactory<ApplicationDbContext> dbFactory)
         {
-            _settings = appSettings;
-            _emailSender = emailSender;
-            _options = options;
+            this.appSettings = appSettings;
+            this.emailSender = emailSender;
+            this.dbFactory = dbFactory;
         }
 
         public override void OnException(ExceptionContext context)
@@ -39,15 +37,12 @@ namespace WEB.Error
             }
             else
             {
-                Logger.Log(context, _settings, _emailSender, _options);
+                Log(context);
                 base.OnException(context);
             }
         }
-    }
 
-    public static class Logger
-    {
-        public static void Log(ExceptionContext context, AppSettings appSettings, IEmailSender emailSender, DbContextOptions options)
+        private void Log(ExceptionContext context)
         {
             if (context.Exception == null) return;
             if (context.Exception.Message == "A task was canceled.") return;
@@ -85,32 +80,33 @@ namespace WEB.Error
                 Method = method
             };
 
-            error.Exception = ProcessExceptions(error, context.Exception);
+            error.Exception = Logger.ProcessExceptions(error, context.Exception);
             error.ExceptionId = error.Exception.Id;
 
             try
             {
                 // use a new context to avoid SaveChanges saving pending commits on another context
-                using (var db = new ApplicationDbContext(options))
+                using var db = dbFactory.CreateDbContext();
+
+                db.Entry(error).State = EntityState.Added;
+                var exception = error.Exception;
+                while (exception != null)
                 {
-                    db.Entry(error).State = EntityState.Added;
-                    var exception = error.Exception;
-                    while (exception != null)
-                    {
-                        db.Entry(exception).State = EntityState.Added;
-                        exception = exception.InnerException;
-                    }
-                    db.SaveChanges();
+                    db.Entry(exception).State = EntityState.Added;
+                    exception = exception.InnerException;
                 }
+                db.SaveChanges();
+
             }
             catch { }
-            
+
             if (!string.IsNullOrWhiteSpace(appSettings.EmailSettings.EmailToErrors))
             {
                 var body = string.Empty;
-                body += "URL: " + url + Environment.NewLine;
                 body += "DATE: " + DateTime.UtcNow.ToString("dd MMMM yyyy, HH:mm:ss") + Environment.NewLine;
                 body += "USER: " + userName + Environment.NewLine;
+                body += "URL: " + url + Environment.NewLine;
+                body += "METHOD: " + method + Environment.NewLine;
                 body += "MESSAGE: " + errorMessage + Environment.NewLine;
                 body += "LINK: " + appSettings.RootUrl + "errors/" + error.Id.ToString().ToLower() + Environment.NewLine;
                 body += Environment.NewLine;
@@ -123,8 +119,6 @@ namespace WEB.Error
                     exception = exception.InnerException;
                 }
 
-                body += appSettings.RootUrl + "api/errors/" + error.Id + Environment.NewLine;
-
                 try
                 {
                     emailSender.SendEmailAsync(appSettings.EmailSettings.EmailToErrors, appSettings.EmailSettings.EmailToErrors, appSettings.SiteName + " Error", body, isErrorEmail: true).Wait();
@@ -132,7 +126,10 @@ namespace WEB.Error
                 catch { }
             }
         }
+    }
 
+    public static class Logger
+    {
         public static ErrorException ProcessExceptions(Models.Error error, Exception exception)
         {
             if (exception == null) return null;

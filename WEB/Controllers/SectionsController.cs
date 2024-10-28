@@ -138,7 +138,21 @@ namespace WEB.Controllers
         [HttpDelete("{sectionId:Guid}/questions"), AuthorizeRoles(Roles.Administrator)]
         public async Task<IActionResult> DeleteQuestions(Guid sectionId)
         {
+            if (await db.Questions.AnyAsync(o => o.CheckQuestion.SectionId == sectionId))
+                return BadRequest("Unable to delete the questions as there are related questions");
+
+            if (await db.SkipLogicOptions.AnyAsync(o => o.Question.SectionId == sectionId))
+                return BadRequest("Unable to delete the questions as there are related skip logic options");
+
+            using var transactionScope = Utilities.General.CreateTransactionScope();
+
+            await db.Answers.Where(o => o.Question.SectionId == sectionId).ExecuteDeleteAsync();
+
+            await db.QuestionSummaries.Where(o => o.Question.SectionId == sectionId).ExecuteDeleteAsync();
+
             await db.Questions.Where(o => o.SectionId == sectionId).ExecuteDeleteAsync();
+
+            transactionScope.Complete();
 
             return Ok();
         }

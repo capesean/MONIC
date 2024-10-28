@@ -16,7 +16,7 @@ import { ToastrService } from 'ngx-toastr';
 import { RelationshipService } from '../common/services/relationship.service';
 import { Relationship } from '../common/models/relationship.model';
 import { TheoryOfChangeRelationshipModal } from './theoryofchangerelationship.modal';
-import { ConfirmModalComponent, ModalOptions } from '../common/components/confirm.component';
+import { ConfirmModalComponent, ConfirmModalOptions } from '../common/components/confirm.component';
 import { NgForm } from '@angular/forms';
 import { HttpErrorResponse } from '@angular/common/http';
 
@@ -107,7 +107,7 @@ export class TheoryOfChangeComponent implements OnInit {
 
     public delete(): void {
         let modalRef = this.modalService.open(ConfirmModalComponent, { centered: true });
-        (modalRef.componentInstance as ConfirmModalComponent).options = { title: "Delete Theory of Change", text: "Are you sure you want to delete this theory of change?", deleteStyle: true, ok: "Delete" } as ModalOptions;
+        (modalRef.componentInstance as ConfirmModalComponent).options = { title: "Delete Theory of Change", text: "Are you sure you want to delete this theory of change?", deleteStyle: true, ok: "Delete" } as ConfirmModalOptions;
         modalRef.result.then(
             () => {
 
@@ -237,7 +237,7 @@ export class TheoryOfChangeComponent implements OnInit {
 
                     // a relationship already exists - ask user to edit that one
                     let modalRef = this.modalService.open(ConfirmModalComponent, { centered: true });
-                    (modalRef.componentInstance as ConfirmModalComponent).options = { title: "Link Components", text: `There is already a link between <strong>${sourceComponent.name}</strong> and <strong>${targetComponent.name}</strong>. Would you like to edit the existing link, or create a new one?`, ok: "Edit", no: "Create", cancel: "" } as ModalOptions;
+                    (modalRef.componentInstance as ConfirmModalComponent).options = { title: "Link Components", text: `There is already a link between <strong>${sourceComponent.name}</strong> and <strong>${targetComponent.name}</strong>. Would you like to edit the existing link, or create a new one?`, ok: "Edit", no: "Create", cancel: "" } as ConfirmModalOptions;
                     modalRef.result.then(
                         (result: boolean) => {
                             if (result) {

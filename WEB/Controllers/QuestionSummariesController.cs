@@ -56,6 +56,7 @@ namespace WEB.Controllers
 
             var questionSummary = await db.QuestionSummaries
                 .FirstOrDefaultAsync(o => o.QuestionId == questionSummaryDTO.QuestionId && o.DateId == questionSummaryDTO.DateId);
+
             var isNew = questionSummary == null;
 
             if (isNew)

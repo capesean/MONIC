@@ -43,8 +43,17 @@ namespace WEB.Controllers
         {
             _dbFactory = dbFactory;
             db = _dbFactory.CreateDbContext();
+            // todo: could remove usermanager?
             this.userManager = userManager;
             AppSettings = appSettings;
+        }
+
+        internal bool CurrentUserIsInRole(Roles role)
+        {
+            if ((HttpContext?.User?.Identity?.IsAuthenticated) != true) return false;
+            if (HttpContext.User.IsInRole(role.ToString())) return true;
+            if (role != Roles.Administrator && HttpContext.User.IsInRole(Roles.Administrator.ToString())) return true;
+            return false;
         }
 
         protected async Task<List<T>> GetPaginatedResponse<T>(IQueryable<T> query, SearchOptions pagingOptions)
@@ -71,7 +80,7 @@ namespace WEB.Controllers
                 first = pagingOptions.PageIndex * pagingOptions.PageSize
             };
 
-            HttpContext.Response.Headers.Add("X-Pagination", Newtonsoft.Json.JsonConvert.SerializeObject(paginationHeader));
+            HttpContext.Response.Headers.Append("X-Pagination", Newtonsoft.Json.JsonConvert.SerializeObject(paginationHeader));
 
             return results;
         }

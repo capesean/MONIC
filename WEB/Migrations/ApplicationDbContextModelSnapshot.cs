@@ -17,7 +17,7 @@ namespace WEB.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "7.0.2")
+                .HasAnnotation("ProductVersion", "8.0.6")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
@@ -131,12 +131,20 @@ namespace WEB.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("nvarchar(450)");
 
+                    b.Property<string>("ApplicationType")
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
+
                     b.Property<string>("ClientId")
                         .HasMaxLength(100)
                         .HasColumnType("nvarchar(100)");
 
                     b.Property<string>("ClientSecret")
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("ClientType")
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
 
                     b.Property<string>("ConcurrencyToken")
                         .IsConcurrencyToken()
@@ -151,6 +159,9 @@ namespace WEB.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("DisplayNames")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("JsonWebKeySet")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Permissions")
@@ -168,9 +179,8 @@ namespace WEB.Migrations
                     b.Property<string>("Requirements")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("Type")
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
+                    b.Property<string>("Settings")
+                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 
@@ -516,16 +526,16 @@ namespace WEB.Migrations
 
                     b.Property<string>("Code")
                         .IsRequired()
-                        .HasMaxLength(8)
-                        .HasColumnType("nvarchar(8)");
+                        .HasMaxLength(10)
+                        .HasColumnType("nvarchar(10)");
 
                     b.Property<int>("DateType")
                         .HasColumnType("int");
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasMaxLength(15)
-                        .HasColumnType("nvarchar(15)");
+                        .HasMaxLength(25)
+                        .HasColumnType("nvarchar(25)");
 
                     b.Property<DateTime>("OpenFrom")
                         .HasColumnType("Date");
@@ -641,6 +651,7 @@ namespace WEB.Migrations
             modelBuilder.Entity("WEB.Models.Document", b =>
                 {
                     b.Property<Guid>("DocumentId")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("FileName")
@@ -675,7 +686,6 @@ namespace WEB.Migrations
             modelBuilder.Entity("WEB.Models.DocumentContent", b =>
                 {
                     b.Property<Guid>("DocumentId")
-                        .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<byte[]>("FileContents")
@@ -683,7 +693,7 @@ namespace WEB.Migrations
 
                     b.HasKey("DocumentId");
 
-                    b.ToTable("Documents", (string)null);
+                    b.ToTable("DocumentContents", (string)null);
                 });
 
             modelBuilder.Entity("WEB.Models.Entity", b =>
@@ -2301,12 +2311,6 @@ namespace WEB.Migrations
 
             modelBuilder.Entity("WEB.Models.Document", b =>
                 {
-                    b.HasOne("WEB.Models.DocumentContent", "DocumentContent")
-                        .WithOne("Document")
-                        .HasForeignKey("WEB.Models.Document", "DocumentId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
                     b.HasOne("WEB.Models.Item", "Item")
                         .WithMany("Documents")
                         .HasForeignKey("ItemId")
@@ -2318,11 +2322,20 @@ namespace WEB.Migrations
                         .HasForeignKey("UploadedById")
                         .OnDelete(DeleteBehavior.Restrict);
 
-                    b.Navigation("DocumentContent");
-
                     b.Navigation("Item");
 
                     b.Navigation("UploadedBy");
+                });
+
+            modelBuilder.Entity("WEB.Models.DocumentContent", b =>
+                {
+                    b.HasOne("WEB.Models.Document", "Document")
+                        .WithOne("DocumentContent")
+                        .HasForeignKey("WEB.Models.DocumentContent", "DocumentId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("Document");
                 });
 
             modelBuilder.Entity("WEB.Models.Entity", b =>
@@ -2903,9 +2916,9 @@ namespace WEB.Migrations
                     b.Navigation("DataReviewLinks");
                 });
 
-            modelBuilder.Entity("WEB.Models.DocumentContent", b =>
+            modelBuilder.Entity("WEB.Models.Document", b =>
                 {
-                    b.Navigation("Document")
+                    b.Navigation("DocumentContent")
                         .IsRequired();
                 });
 

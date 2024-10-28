@@ -30,7 +30,7 @@ namespace WEB.Controllers
             }
 
             if (!string.IsNullOrWhiteSpace(searchOptions.q))
-                results = results.Where(o => o.Name.Contains(searchOptions.q) || o.Code.Contains(searchOptions.q));
+                results = results.Where(o => o.Code.Contains(searchOptions.q) || o.Name.Contains(searchOptions.q));
 
             if (searchOptions.CategoryId.HasValue) results = results.Where(o => o.CategoryId == searchOptions.CategoryId);
 
@@ -59,11 +59,11 @@ namespace WEB.Controllers
 
             if (subcategoryDTO.SubcategoryId != subcategoryId) return BadRequest("Id mismatch");
 
-            if (await db.Subcategories.AnyAsync(o => o.CategoryId == subcategoryDTO.CategoryId && o.Name == subcategoryDTO.Name && o.SubcategoryId != subcategoryDTO.SubcategoryId))
-                return BadRequest("Subcategory already exists on this Category.");
-
             if (await db.Subcategories.AnyAsync(o => o.Code == subcategoryDTO.Code && o.SubcategoryId != subcategoryDTO.SubcategoryId))
                 return BadRequest("Code already exists.");
+
+            if (await db.Subcategories.AnyAsync(o => o.CategoryId == subcategoryDTO.CategoryId && o.Name == subcategoryDTO.Name && o.SubcategoryId != subcategoryDTO.SubcategoryId))
+                return BadRequest("Subcategory already exists on this Category.");
 
             var isNew = subcategoryDTO.SubcategoryId == Guid.Empty;
 
@@ -135,7 +135,22 @@ namespace WEB.Controllers
         [HttpDelete("{subcategoryId:Guid}/indicators"), AuthorizeRoles(Roles.Administrator)]
         public async Task<IActionResult> DeleteIndicators(Guid subcategoryId)
         {
+            if (await db.Tokens.AnyAsync(o => o.SourceIndicator.SubcategoryId == subcategoryId))
+                return BadRequest("Unable to delete the indicators as there are related tokens");
+
+            if (await db.LogFrameRowIndicators.AnyAsync(o => o.Indicator.SubcategoryId == subcategoryId))
+                return BadRequest("Unable to delete the indicators as there are related log frame row indicators");
+
+            if (await db.ComponentIndicators.AnyAsync(o => o.Indicator.SubcategoryId == subcategoryId))
+                return BadRequest("Unable to delete the indicators as there are related component indicators");
+
             using var transactionScope = Utilities.General.CreateTransactionScope();
+
+            await db.Tokens.Where(o => o.Indicator.SubcategoryId == subcategoryId).ExecuteDeleteAsync();
+
+            await db.Data.Where(o => o.Indicator.SubcategoryId == subcategoryId).ExecuteDeleteAsync();
+
+            await db.IndicatorPermissions.Where(o => o.Indicator.SubcategoryId == subcategoryId).ExecuteDeleteAsync();
 
             foreach (var indicator in db.Indicators.Where(o => o.SubcategoryId == subcategoryId).ToList())
             {

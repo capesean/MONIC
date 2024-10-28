@@ -79,4 +79,9 @@ export class FolderSelectComponent implements OnInit, ControlValueAccessor {
         if (button && (this.folder || this.folders.length)) this.changed(this.multiple ? [] : null);
         else this.modal.open();
     }
+
+    clear() {
+        this.changed(this.multiple ? [] : null);
+    }
 }
+

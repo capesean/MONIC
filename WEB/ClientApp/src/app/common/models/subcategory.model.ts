@@ -5,8 +5,8 @@ import { Indicator } from './indicator.model';
 export class Subcategory {
     subcategoryId: string;
     categoryId: string;
-    name: string;
     code: string;
+    name: string;
     dataEntrySubtotal: boolean;
     sortOrder: number;
     category: Category;

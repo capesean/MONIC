@@ -1,6 +1,6 @@
 .pager {
     color: #666666;
-    margin-top: -0.75rem;
+    margin-top: -0.25rem;
 }
 
 ul.pagination {
@@ -11,6 +11,7 @@ ul.pagination {
         border: none !important;
         border-radius: 3px;
         margin-left: 1px;
+        cursor: pointer;
     }
 
         ul.pagination .page-link.page-number {
@@ -25,7 +26,7 @@ ul.pagination {
 }
 
 .pager-info {
-    padding: 2px 0 2px;
+    padding: 3px 0 2px;
     font-size: .75rem;
     line-height: 21px;
     margin-bottom: 1rem;
@@ -40,4 +41,13 @@ ul.pagination {
 
 .pagination .page-item.disabled {
     pointer-events: none;
+}
+
+.pagination .page-item.disabled {
+    opacity: 0.5;
+}
+
+.pagination .page-item:not(.disabled):hover a {
+    background-color: #e5faff !important;
+    cursor: pointer;
 }

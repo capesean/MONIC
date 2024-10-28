@@ -4,17 +4,20 @@ import { Subject, Subscription } from 'rxjs';
 import { PagingHeaders } from '../../common/models/http.model';
 import { TokenSearchOptions, TokenSearchResponse, Token } from '../../common/models/token.model';
 import { Enum, Enums } from '../../common/models/enums.model';
+import { FadeThenShrink } from '../../common/animations/fadethenshrink';
 import { ErrorService } from '../../common/services/error.service';
 import { TokenService } from '../../common/services/token.service';
 
 @NgComponent({
     selector: 'token-list',
-    templateUrl: './token.list.component.html'
+    templateUrl: './token.list.component.html',
+    animations: [FadeThenShrink]
 })
 export class TokenListComponent implements OnInit, OnDestroy {
 
     public tokens: Token[] = [];
     public searchOptions = new TokenSearchOptions();
+    public showSearchOptions = false;
     public headers = new PagingHeaders();
     private routerSubscription: Subscription;
     public tokenTypes: Enum[] = Enums.TokenTypes;

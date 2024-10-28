@@ -26,6 +26,7 @@ export class SectionModalComponent implements OnInit {
     @Input() canRemoveFilters = false;
     @Input() multiple = false;
     @Input() showAddNew = false;
+    @Input() showFilters = true;
     @Input() showFooter = true;
     @Input() resetOnOpen = false;
     @Input() title = this.multiple ? "Select sections" : "Select a section";
@@ -45,7 +46,7 @@ export class SectionModalComponent implements OnInit {
     open(): NgbModalRef {
         if (this.resetOnOpen) this.selectedItems = [];
         this.searchOptions.questionnaireId = this.questionnaire?.questionnaireId;
-        this.modal = this.modalService.open(this.content, { size: 'xl', centered: true, scrollable: true });
+        this.modal = this.modalService.open(this.content, { size: 'xl', centered: true, scrollable: false });
         this.runSearch();
         this.modal.result.then((section: Section | Section[]) => {
             if (this.multiple) this.changes.emit(section as Section[]);

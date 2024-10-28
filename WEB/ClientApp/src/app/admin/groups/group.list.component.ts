@@ -5,18 +5,21 @@ import { ToastrService } from 'ngx-toastr';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { PagingHeaders } from '../../common/models/http.model';
 import { GroupSearchOptions, GroupSearchResponse, Group } from '../../common/models/group.model';
+import { FadeThenShrink } from '../../common/animations/fadethenshrink';
 import { ErrorService } from '../../common/services/error.service';
 import { GroupService } from '../../common/services/group.service';
 import { GroupSortComponent } from './group.sort.component';
 
 @NgComponent({
     selector: 'group-list',
-    templateUrl: './group.list.component.html'
+    templateUrl: './group.list.component.html',
+    animations: [FadeThenShrink]
 })
 export class GroupListComponent implements OnInit, OnDestroy {
 
     public groups: Group[] = [];
     public searchOptions = new GroupSearchOptions();
+    public showSearchOptions = false;
     public headers = new PagingHeaders();
     private routerSubscription: Subscription;
 
@@ -65,7 +68,7 @@ export class GroupListComponent implements OnInit, OnDestroy {
     }
 
     showSort(): void {
-        let modalRef = this.modalService.open(GroupSortComponent, { size: 'xl', centered: true, scrollable: true });
+        let modalRef = this.modalService.open(GroupSortComponent, { size: 'xl', centered: true, scrollable: false });
         modalRef.result.then(
             () => {
 

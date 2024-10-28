@@ -5,10 +5,11 @@ import { NgForm } from '@angular/forms';
 import { Subject, Subscription } from 'rxjs';
 import { HttpErrorResponse } from '@angular/common/http';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { ConfirmModalComponent, ModalOptions } from '../../common/components/confirm.component';
+import { ConfirmModalComponent, ConfirmModalOptions } from '../../common/components/confirm.component';
 import { PagingHeaders } from '../../common/models/http.model';
 import { LogFrameRow } from '../../common/models/logframerow.model';
 import { Enum, Enums } from '../../common/models/enums.model';
+import { FadeThenShrink } from '../../common/animations/fadethenshrink';
 import { BreadcrumbService } from '../../common/services/breadcrumb.service';
 import { ErrorService } from '../../common/services/error.service';
 import { LogFrameRowService } from '../../common/services/logframerow.service';
@@ -23,7 +24,8 @@ import { Component } from '../../common/models/component.model';
 
 @NgComponent({
     selector: 'logframerow-edit',
-    templateUrl: './logframerow.edit.component.html'
+    templateUrl: './logframerow.edit.component.html',
+    animations: [FadeThenShrink]
 })
 export class LogFrameRowEditComponent implements OnInit, OnDestroy {
 
@@ -142,7 +144,7 @@ export class LogFrameRowEditComponent implements OnInit, OnDestroy {
     delete(): void {
 
         let modalRef = this.modalService.open(ConfirmModalComponent, { centered: true });
-        (modalRef.componentInstance as ConfirmModalComponent).options = { title: "Delete LogFrame Row", text: "Are you sure you want to delete this logframe row?", deleteStyle: true, ok: "Delete" } as ModalOptions;
+        (modalRef.componentInstance as ConfirmModalComponent).options = { title: "Delete LogFrame Row", text: "Are you sure you want to delete this logframe row?", deleteStyle: true, ok: "Delete" } as ConfirmModalOptions;
         modalRef.result.then(
             () => {
 
@@ -213,7 +215,7 @@ export class LogFrameRowEditComponent implements OnInit, OnDestroy {
         event.stopPropagation();
 
         let modalRef = this.modalService.open(ConfirmModalComponent, { centered: true });
-        (modalRef.componentInstance as ConfirmModalComponent).options = { title: "Delete Log Frame Row Indicator", text: "Are you sure you want to delete this log frame row indicator?", deleteStyle: true, ok: "Delete" } as ModalOptions;
+        (modalRef.componentInstance as ConfirmModalComponent).options = { title: "Delete Log Frame Row Indicator", text: "Are you sure you want to delete this log frame row indicator?", deleteStyle: true, ok: "Delete" } as ConfirmModalOptions;
         modalRef.result.then(
             () => {
 
@@ -233,7 +235,7 @@ export class LogFrameRowEditComponent implements OnInit, OnDestroy {
 
     deleteLogFrameRowIndicators(): void {
         let modalRef = this.modalService.open(ConfirmModalComponent, { centered: true });
-        (modalRef.componentInstance as ConfirmModalComponent).options = { title: "Delete Log Frame Row Indicators", text: "Are you sure you want to delete all the log frame row indicators?", deleteStyle: true, ok: "Delete" } as ModalOptions;
+        (modalRef.componentInstance as ConfirmModalComponent).options = { title: "Delete Log Frame Row Indicators", text: "Are you sure you want to delete all the log frame row indicators?", deleteStyle: true, ok: "Delete" } as ConfirmModalOptions;
         modalRef.result.then(
             () => {
 
@@ -300,7 +302,7 @@ export class LogFrameRowEditComponent implements OnInit, OnDestroy {
         event.stopPropagation();
 
         let modalRef = this.modalService.open(ConfirmModalComponent, { centered: true });
-        (modalRef.componentInstance as ConfirmModalComponent).options = { title: "Delete Log Frame Row Component", text: "Are you sure you want to delete this log frame row component?", deleteStyle: true, ok: "Delete" } as ModalOptions;
+        (modalRef.componentInstance as ConfirmModalComponent).options = { title: "Delete Log Frame Row Component", text: "Are you sure you want to delete this log frame row component?", deleteStyle: true, ok: "Delete" } as ConfirmModalOptions;
         modalRef.result.then(
             () => {
 
@@ -320,7 +322,7 @@ export class LogFrameRowEditComponent implements OnInit, OnDestroy {
 
     deleteLogFrameRowComponents(): void {
         let modalRef = this.modalService.open(ConfirmModalComponent, { centered: true });
-        (modalRef.componentInstance as ConfirmModalComponent).options = { title: "Delete Log Frame Row Components", text: "Are you sure you want to delete all the log frame row components?", deleteStyle: true, ok: "Delete" } as ModalOptions;
+        (modalRef.componentInstance as ConfirmModalComponent).options = { title: "Delete Log Frame Row Components", text: "Are you sure you want to delete all the log frame row components?", deleteStyle: true, ok: "Delete" } as ConfirmModalOptions;
         modalRef.result.then(
             () => {
 

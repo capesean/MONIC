@@ -19,7 +19,7 @@ import { tap } from 'rxjs';
 import { throwError } from 'rxjs';
 import { QuestionOption } from '../../../common/models/questionoption.model';
 import { AuthService } from '../../services/auth.service';
-import { ConfirmModalComponent, ModalOptions } from '../confirm.component';
+import { ConfirmModalComponent, ConfirmModalOptions } from '../confirm.component';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { EventEmitter } from '@angular/core';
 import { Questionnaire } from '../../models/questionnaire.model';
@@ -429,7 +429,7 @@ export class SurveyComponent {
 
     public submit(): void {
         let modalRef = this.modalService.open(ConfirmModalComponent, { centered: true });
-        (modalRef.componentInstance as ConfirmModalComponent).options = { title: "Submit Questionnaire", text: "Are you sure you want to submit this questionnaire? You will not be able to make any further changes if you do.", deleteStyle: false, ok: "Submit" } as ModalOptions;
+        (modalRef.componentInstance as ConfirmModalComponent).options = { title: "Submit Questionnaire", text: "Are you sure you want to submit this questionnaire? You will not be able to make any further changes if you do.", deleteStyle: false, ok: "Submit" } as ConfirmModalOptions;
         modalRef.result.then(
             () => {
 

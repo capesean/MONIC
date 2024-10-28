@@ -121,7 +121,13 @@ namespace WEB.Controllers
         [HttpDelete("{questionnaireId:Guid}/sections"), AuthorizeRoles(Roles.Administrator)]
         public async Task<IActionResult> DeleteSections(Guid questionnaireId)
         {
+            using var transactionScope = Utilities.General.CreateTransactionScope();
+
+            await db.Questions.Where(o => o.Section.QuestionnaireId == questionnaireId).ExecuteDeleteAsync();
+
             await db.Sections.Where(o => o.QuestionnaireId == questionnaireId).ExecuteDeleteAsync();
+
+            transactionScope.Complete();
 
             return Ok();
         }
@@ -130,8 +136,6 @@ namespace WEB.Controllers
         public async Task<IActionResult> DeleteResponses(Guid questionnaireId)
         {
             using var transactionScope = Utilities.General.CreateTransactionScope();
-
-            //await db.Documents.Where(o => db.Answers.Where(a => a.Response.QuestionnaireId == questionnaireId).Select(a => a.AnswerId).Contains(o.ItemId)).ExecuteDeleteAsync();
 
             await db.Items.Where(o => db.Answers.Where(a => a.Response.QuestionnaireId == questionnaireId).Select(a => a.AnswerId).Contains(o.ItemId)).ExecuteDeleteAsync();
 

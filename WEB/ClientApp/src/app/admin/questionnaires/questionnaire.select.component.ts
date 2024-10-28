@@ -81,4 +81,9 @@ export class QuestionnaireSelectComponent implements OnInit, ControlValueAccesso
         if (button && (this.questionnaire || this.questionnaires.length)) this.changed(this.multiple ? [] : null);
         else this.modal.open();
     }
+
+    clear() {
+        this.changed(this.multiple ? [] : null);
+    }
 }
+

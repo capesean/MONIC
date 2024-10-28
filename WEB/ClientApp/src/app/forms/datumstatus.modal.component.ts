@@ -10,7 +10,7 @@ import { EntityService } from "../common/services/entity.service";
 import { FormsService } from "../common/services/forms.service";
 import { DataReview } from "../common/models/datareview.model";
 import { Enums, ReviewResults, ReviewStatuses } from "../common/models/enums.model";
-import { ConfirmModalComponent, ModalOptions } from "../common/components/confirm.component";
+import { ConfirmModalComponent, ConfirmModalOptions } from "../common/components/confirm.component";
 import * as moment from "moment";
 
 @Component({
@@ -80,7 +80,7 @@ export class DatumStatusModalComponent {
         let text = `<p class="mb-0"><strong><small>${dataReview.user.fullName} on ${moment(dataReview.dateUtc).format('DD MMM YYYY [at] HH:mm')}:</small></strong></p><div class="mb-3">${dataReview.note.replace(/(?:\r\n|\r|\n)/g, "<br>")}</div>`;
 
         let modalRef = this.modalService.open(ConfirmModalComponent, { centered: true });
-        (modalRef.componentInstance as ConfirmModalComponent).options = { title: "Note", text: text, ok: null, cancel: "Close" } as ModalOptions;
+        (modalRef.componentInstance as ConfirmModalComponent).options = { title: "Note", text: text, ok: null, cancel: "Close" } as ConfirmModalOptions;
         modalRef.result.then(
             () => { },
             () => { }

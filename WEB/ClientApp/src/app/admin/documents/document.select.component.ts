@@ -80,4 +80,9 @@ export class DocumentSelectComponent implements OnInit, ControlValueAccessor {
         if (button && (this.document || this.documents.length)) this.changed(this.multiple ? [] : null);
         else this.modal.open();
     }
+
+    clear() {
+        this.changed(this.multiple ? [] : null);
+    }
 }
+

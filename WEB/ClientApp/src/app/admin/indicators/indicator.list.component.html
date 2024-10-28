@@ -1,14 +1,26 @@
 <ng-container *ngIf="route.children.length === 0">
 
-    <app-page-title title="Indicators"></app-page-title>
+    <app-page-title></app-page-title>
 
-    <div class="card border-0">
+    <div class="card card-list">
 
-        <div class="card-body">
+        <div class="card-header">
+
+            <div class="card-header-title">
+                <h4>Indicators</h4>
+                <div>
+                    <i class="fa fa-fw ms-1 fa-plus cursor-pointer" ngbTooltip="Add Indicator" [routerLink]="['./', 'add']"></i>
+                    <i class="fa fa-fw ms-1 fa-search cursor-pointer" ngbTooltip="Toggle search options" (click)="showSearchOptions = !showSearchOptions"></i>
+                </div>
+            </div>
+
+        </div>
+
+        <div class="card-body" *ngIf="showSearchOptions" @FadeThenShrink>
 
             <form (submit)="runSearch(0)" novalidate>
 
-                <div class="row g-3">
+                <div class="row g-2">
 
                     <div class="col-sm-6 col-md-4 col-lg-3">
                         <div class="form-group">
@@ -31,6 +43,7 @@
                     <div class="col-sm-6 col-md-4 col-lg-3">
                         <div class="form-group">
                             <select id="indicatorType" name="indicatorType" [(ngModel)]="searchOptions.indicatorType" #indicatorType="ngModel" class="form-select">
+                                <option [ngValue]="undefined" disabled>Indicator Type</option>
                                 <option *ngFor="let indicatorType of indicatorTypes" [ngValue]="indicatorType.value">{{ indicatorType.label }}</option>
                             </select>
                         </div>
@@ -39,12 +52,13 @@
                     <div class="col-sm-6 col-md-4 col-lg-3">
                         <div class="form-group">
                             <select id="indicatorStatus" name="indicatorStatus" [(ngModel)]="searchOptions.indicatorStatus" #indicatorStatus="ngModel" class="form-select">
+                                <option [ngValue]="undefined" disabled>Status</option>
                                 <option *ngFor="let indicatorStatus of indicatorStatuses" [ngValue]="indicatorStatus.value">{{ indicatorStatus.label }}</option>
                             </select>
                         </div>
                     </div>
 
-                    <div class="col-sm-6 col-md-4 col-lg-3">
+                    <div class="col-sm-6 col-md-5 col-xl-4">
                         <div class="form-group">
                             <entity-type-select id="entityTypeId" name="entityTypeId" [(ngModel)]="searchOptions.entityTypeId"></entity-type-select>
                         </div>
@@ -53,36 +67,28 @@
                     <div class="col-sm-6 col-md-4 col-lg-3">
                         <div class="form-group">
                             <select id="frequency" name="frequency" [(ngModel)]="searchOptions.frequency" #frequency="ngModel" class="form-select">
+                                <option [ngValue]="undefined" disabled>Frequency</option>
                                 <option *ngFor="let dateType of dateTypes" [ngValue]="dateType.value">{{ dateType.label }}</option>
                             </select>
                         </div>
                     </div>
 
-                    <div class="col-sm-6 col-md-4 col-lg-3">
+                    <div class="col-sm-6 col-md-5 col-xl-4">
                         <div class="form-group">
                             <user-select id="createdById" name="createdById" [(ngModel)]="searchOptions.createdById"></user-select>
                         </div>
                     </div>
 
+                    <div class="col-sm-3 col-md-3 col-lg-3 col-xl-2">
+                        <div class="form-group">
+                            <button type="submit" class="btn btn-outline-primary me-2 mb-1">Search<i class="fas fa-search ms-2"></i></button>
+                        </div>
+                    </div>
+
                 </div>
-
-                <fieldset class="mt-3">
-
-                    <button type="submit" class="btn btn-outline-primary me-2 mb-1">Search<i class="fas fa-search ms-2"></i></button>
-                    <a [routerLink]="['./', 'add']" class="btn btn-outline-primary me-2 mb-1">Add<i class="fas fa-plus ms-2"></i></a>
-
-                </fieldset>
 
             </form>
 
-        </div>
-
-    </div>
-
-    <div class="card border-0">
-
-        <div class="card-header border-0 card-header-space-between">
-            <h4 class="card-header-title text-uppercase">Indicators</h4>
         </div>
 
         <div class="table-responsive">

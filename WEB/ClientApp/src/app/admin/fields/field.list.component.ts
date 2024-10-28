@@ -6,18 +6,21 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { PagingHeaders } from '../../common/models/http.model';
 import { FieldSearchOptions, FieldSearchResponse, Field } from '../../common/models/field.model';
 import { Enum, Enums } from '../../common/models/enums.model';
+import { FadeThenShrink } from '../../common/animations/fadethenshrink';
 import { ErrorService } from '../../common/services/error.service';
 import { FieldService } from '../../common/services/field.service';
 import { FieldSortComponent } from './field.sort.component';
 
 @NgComponent({
     selector: 'field-list',
-    templateUrl: './field.list.component.html'
+    templateUrl: './field.list.component.html',
+    animations: [FadeThenShrink]
 })
 export class FieldListComponent implements OnInit, OnDestroy {
 
     public fields: Field[] = [];
     public searchOptions = new FieldSearchOptions();
+    public showSearchOptions = false;
     public headers = new PagingHeaders();
     private routerSubscription: Subscription;
     public sizes: Enum[] = Enums.Sizes;
@@ -69,7 +72,7 @@ export class FieldListComponent implements OnInit, OnDestroy {
     }
 
     showSort(): void {
-        let modalRef = this.modalService.open(FieldSortComponent, { size: 'xl', centered: true, scrollable: true });
+        let modalRef = this.modalService.open(FieldSortComponent, { size: 'xl', centered: true, scrollable: false });
         modalRef.result.then(
             () => {
 

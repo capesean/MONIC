@@ -27,6 +27,12 @@
         border: solid 1px #49b6d6;
     }
 
+        #formulaBox .indicator.card .card-header,
+        #formulaBox .indicator.card .card-footer {
+            padding-top: 10px;
+            padding-bottom: 10px;
+        }
+
     #formulaBox .token, #formulaBox #cursor {
         display: inline-block;
         vertical-align: middle;

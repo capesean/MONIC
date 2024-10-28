@@ -5,10 +5,11 @@ import { NgForm } from '@angular/forms';
 import { Subject } from 'rxjs';
 import { HttpErrorResponse } from '@angular/common/http';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { ConfirmModalComponent, ModalOptions } from '../../common/components/confirm.component';
+import { ConfirmModalComponent, ConfirmModalOptions } from '../../common/components/confirm.component';
 import { PagingHeaders } from '../../common/models/http.model';
 import { Group } from '../../common/models/group.model';
 import { Enum, Enums } from '../../common/models/enums.model';
+import { FadeThenShrink } from '../../common/animations/fadethenshrink';
 import { BreadcrumbService } from '../../common/services/breadcrumb.service';
 import { ErrorService } from '../../common/services/error.service';
 import { GroupService } from '../../common/services/group.service';
@@ -17,7 +18,8 @@ import { FieldService } from '../../common/services/field.service';
 
 @NgComponent({
     selector: 'group-edit',
-    templateUrl: './group.edit.component.html'
+    templateUrl: './group.edit.component.html',
+    animations: [FadeThenShrink]
 })
 export class GroupEditComponent implements OnInit {
 
@@ -107,7 +109,7 @@ export class GroupEditComponent implements OnInit {
     delete(): void {
 
         let modalRef = this.modalService.open(ConfirmModalComponent, { centered: true });
-        (modalRef.componentInstance as ConfirmModalComponent).options = { title: "Delete Group", text: "Are you sure you want to delete this group?", deleteStyle: true, ok: "Delete" } as ModalOptions;
+        (modalRef.componentInstance as ConfirmModalComponent).options = { title: "Delete Group", text: "Are you sure you want to delete this group?", deleteStyle: true, ok: "Delete" } as ConfirmModalOptions;
         modalRef.result.then(
             () => {
 
@@ -159,7 +161,7 @@ export class GroupEditComponent implements OnInit {
         event.stopPropagation();
 
         let modalRef = this.modalService.open(ConfirmModalComponent, { centered: true });
-        (modalRef.componentInstance as ConfirmModalComponent).options = { title: "Delete Field", text: "Are you sure you want to delete this field?", deleteStyle: true, ok: "Delete" } as ModalOptions;
+        (modalRef.componentInstance as ConfirmModalComponent).options = { title: "Delete Field", text: "Are you sure you want to delete this field?", deleteStyle: true, ok: "Delete" } as ConfirmModalOptions;
         modalRef.result.then(
             () => {
 
@@ -179,7 +181,7 @@ export class GroupEditComponent implements OnInit {
 
     deleteFields(): void {
         let modalRef = this.modalService.open(ConfirmModalComponent, { centered: true });
-        (modalRef.componentInstance as ConfirmModalComponent).options = { title: "Delete Fields", text: "Are you sure you want to delete all the fields?", deleteStyle: true, ok: "Delete" } as ModalOptions;
+        (modalRef.componentInstance as ConfirmModalComponent).options = { title: "Delete Fields", text: "Are you sure you want to delete all the fields?", deleteStyle: true, ok: "Delete" } as ConfirmModalOptions;
         modalRef.result.then(
             () => {
 

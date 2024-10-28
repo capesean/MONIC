@@ -3,17 +3,20 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { Subject } from 'rxjs';
 import { PagingHeaders } from '../../common/models/http.model';
 import { TaskSearchOptions, TaskSearchResponse, Task } from '../../common/models/task.model';
+import { FadeThenShrink } from '../../common/animations/fadethenshrink';
 import { ErrorService } from '../../common/services/error.service';
 import { TaskService } from '../../common/services/task.service';
 
 @NgComponent({
     selector: 'task-list',
-    templateUrl: './task.list.component.html'
+    templateUrl: './task.list.component.html',
+    animations: [FadeThenShrink]
 })
 export class TaskListComponent implements OnInit {
 
     public tasks: Task[] = [];
     public searchOptions = new TaskSearchOptions();
+    public showSearchOptions = false;
     public headers = new PagingHeaders();
 
     constructor(

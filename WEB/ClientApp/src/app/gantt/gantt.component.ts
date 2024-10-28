@@ -6,7 +6,7 @@ import { BreadcrumbService } from '../common/services/breadcrumb.service';
 import * as moment from 'moment';
 import { ToastrService } from 'ngx-toastr';
 import { forkJoin } from 'rxjs';
-import { ConfirmModalComponent, ModalOptions } from '../common/components/confirm.component';
+import { ConfirmModalComponent, ConfirmModalOptions } from '../common/components/confirm.component';
 import { GanttBucket, GanttMilestone, GanttTask, IGanttDate, IGanttProcess } from '../common/models/gantt.model';
 import { Milestone, MilestoneSearchOptions } from '../common/models/milestone.model';
 import { Project } from '../common/models/project.model';
@@ -98,7 +98,7 @@ export class GanttComponent implements OnInit {
 
     public delete(): void {
         let modalRef = this.modalService.open(ConfirmModalComponent, { centered: true });
-        (modalRef.componentInstance as ConfirmModalComponent).options = { title: "Delete Project", text: "Are you sure you want to delete this project?", deleteStyle: true, ok: "Delete" } as ModalOptions;
+        (modalRef.componentInstance as ConfirmModalComponent).options = { title: "Delete Project", text: "Are you sure you want to delete this project?", deleteStyle: true, ok: "Delete" } as ConfirmModalOptions;
         modalRef.result.then(
             () => {
 

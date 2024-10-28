@@ -28,6 +28,7 @@ export class QuestionnaireModalComponent implements OnInit {
     @Input() canRemoveFilters = false;
     @Input() multiple = false;
     @Input() showAddNew = false;
+    @Input() showFilters = true;
     @Input() showFooter = true;
     @Input() resetOnOpen = false;
     @Input() title = this.multiple ? "Select questionnaires" : "Select a questionnaire";
@@ -49,7 +50,7 @@ export class QuestionnaireModalComponent implements OnInit {
         if (this.resetOnOpen) this.selectedItems = [];
         this.searchOptions.entityTypeId = this.entityType?.entityTypeId;
         this.searchOptions.dateType = this.dateType?.value;
-        this.modal = this.modalService.open(this.content, { size: 'xl', centered: true, scrollable: true });
+        this.modal = this.modalService.open(this.content, { size: 'xl', centered: true, scrollable: false });
         this.runSearch();
         this.modal.result.then((questionnaire: Questionnaire | Questionnaire[]) => {
             if (this.multiple) this.changes.emit(questionnaire as Questionnaire[]);

@@ -56,6 +56,7 @@ namespace WEB.Controllers
 
             var optionValue = await db.OptionValues
                 .FirstOrDefaultAsync(o => o.ItemId == optionValueDTO.ItemId && o.OptionId == optionValueDTO.OptionId);
+
             var isNew = optionValue == null;
 
             if (isNew)

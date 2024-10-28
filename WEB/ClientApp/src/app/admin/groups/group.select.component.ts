@@ -78,4 +78,9 @@ export class GroupSelectComponent implements OnInit, ControlValueAccessor {
         if (button && (this.group || this.groups.length)) this.changed(this.multiple ? [] : null);
         else this.modal.open();
     }
+
+    clear() {
+        this.changed(this.multiple ? [] : null);
+    }
 }
+

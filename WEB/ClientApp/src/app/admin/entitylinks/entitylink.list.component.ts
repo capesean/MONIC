@@ -3,17 +3,20 @@ import { Router, ActivatedRoute, NavigationEnd } from '@angular/router';
 import { Subject, Subscription } from 'rxjs';
 import { PagingHeaders } from '../../common/models/http.model';
 import { EntityLinkSearchOptions, EntityLinkSearchResponse, EntityLink } from '../../common/models/entitylink.model';
+import { FadeThenShrink } from '../../common/animations/fadethenshrink';
 import { ErrorService } from '../../common/services/error.service';
 import { EntityLinkService } from '../../common/services/entitylink.service';
 
 @NgComponent({
     selector: 'entitylink-list',
-    templateUrl: './entitylink.list.component.html'
+    templateUrl: './entitylink.list.component.html',
+    animations: [FadeThenShrink]
 })
 export class EntityLinkListComponent implements OnInit, OnDestroy {
 
     public entityLinks: EntityLink[] = [];
     public searchOptions = new EntityLinkSearchOptions();
+    public showSearchOptions = false;
     public headers = new PagingHeaders();
     private routerSubscription: Subscription;
 

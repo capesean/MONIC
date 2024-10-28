@@ -5,10 +5,11 @@ import { NgForm } from '@angular/forms';
 import { Subject, Subscription } from 'rxjs';
 import { HttpErrorResponse } from '@angular/common/http';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { ConfirmModalComponent, ModalOptions } from '../../common/components/confirm.component';
+import { ConfirmModalComponent, ConfirmModalOptions } from '../../common/components/confirm.component';
 import { PagingHeaders } from '../../common/models/http.model';
 import { Section } from '../../common/models/section.model';
 import { Enum, Enums } from '../../common/models/enums.model';
+import { FadeThenShrink } from '../../common/animations/fadethenshrink';
 import { BreadcrumbService } from '../../common/services/breadcrumb.service';
 import { ErrorService } from '../../common/services/error.service';
 import { SectionService } from '../../common/services/section.service';
@@ -18,7 +19,8 @@ import { QuestionSortComponent } from '../questions/question.sort.component';
 
 @NgComponent({
     selector: 'section-edit',
-    templateUrl: './section.edit.component.html'
+    templateUrl: './section.edit.component.html',
+    animations: [FadeThenShrink]
 })
 export class SectionEditComponent implements OnInit, OnDestroy {
 
@@ -123,7 +125,7 @@ export class SectionEditComponent implements OnInit, OnDestroy {
     delete(): void {
 
         let modalRef = this.modalService.open(ConfirmModalComponent, { centered: true });
-        (modalRef.componentInstance as ConfirmModalComponent).options = { title: "Delete Section", text: "Are you sure you want to delete this section?", deleteStyle: true, ok: "Delete" } as ModalOptions;
+        (modalRef.componentInstance as ConfirmModalComponent).options = { title: "Delete Section", text: "Are you sure you want to delete this section?", deleteStyle: true, ok: "Delete" } as ConfirmModalOptions;
         modalRef.result.then(
             () => {
 
@@ -175,7 +177,7 @@ export class SectionEditComponent implements OnInit, OnDestroy {
         event.stopPropagation();
 
         let modalRef = this.modalService.open(ConfirmModalComponent, { centered: true });
-        (modalRef.componentInstance as ConfirmModalComponent).options = { title: "Delete Question", text: "Are you sure you want to delete this question?", deleteStyle: true, ok: "Delete" } as ModalOptions;
+        (modalRef.componentInstance as ConfirmModalComponent).options = { title: "Delete Question", text: "Are you sure you want to delete this question?", deleteStyle: true, ok: "Delete" } as ConfirmModalOptions;
         modalRef.result.then(
             () => {
 
@@ -195,7 +197,7 @@ export class SectionEditComponent implements OnInit, OnDestroy {
 
     deleteQuestions(): void {
         let modalRef = this.modalService.open(ConfirmModalComponent, { centered: true });
-        (modalRef.componentInstance as ConfirmModalComponent).options = { title: "Delete Questions", text: "Are you sure you want to delete all the questions?", deleteStyle: true, ok: "Delete" } as ModalOptions;
+        (modalRef.componentInstance as ConfirmModalComponent).options = { title: "Delete Questions", text: "Are you sure you want to delete all the questions?", deleteStyle: true, ok: "Delete" } as ConfirmModalOptions;
         modalRef.result.then(
             () => {
 

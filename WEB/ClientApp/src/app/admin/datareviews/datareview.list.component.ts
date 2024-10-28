@@ -4,17 +4,20 @@ import { Subject, Subscription } from 'rxjs';
 import { PagingHeaders } from '../../common/models/http.model';
 import { DataReviewSearchOptions, DataReviewSearchResponse, DataReview } from '../../common/models/datareview.model';
 import { Enum, Enums } from '../../common/models/enums.model';
+import { FadeThenShrink } from '../../common/animations/fadethenshrink';
 import { ErrorService } from '../../common/services/error.service';
 import { DataReviewService } from '../../common/services/datareview.service';
 
 @NgComponent({
     selector: 'datareview-list',
-    templateUrl: './datareview.list.component.html'
+    templateUrl: './datareview.list.component.html',
+    animations: [FadeThenShrink]
 })
 export class DataReviewListComponent implements OnInit, OnDestroy {
 
     public dataReviews: DataReview[] = [];
     public searchOptions = new DataReviewSearchOptions();
+    public showSearchOptions = false;
     public headers = new PagingHeaders();
     private routerSubscription: Subscription;
     public reviewStatuses: Enum[] = Enums.ReviewStatuses;

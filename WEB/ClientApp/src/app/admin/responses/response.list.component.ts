@@ -3,17 +3,20 @@ import { Router, ActivatedRoute, NavigationEnd } from '@angular/router';
 import { Subject, Subscription } from 'rxjs';
 import { PagingHeaders } from '../../common/models/http.model';
 import { ResponseSearchOptions, ResponseSearchResponse, Response } from '../../common/models/response.model';
+import { FadeThenShrink } from '../../common/animations/fadethenshrink';
 import { ErrorService } from '../../common/services/error.service';
 import { ResponseService } from '../../common/services/response.service';
 
 @NgComponent({
     selector: 'response-list',
-    templateUrl: './response.list.component.html'
+    templateUrl: './response.list.component.html',
+    animations: [FadeThenShrink]
 })
 export class ResponseListComponent implements OnInit, OnDestroy {
 
     public responses: Response[] = [];
     public searchOptions = new ResponseSearchOptions();
+    public showSearchOptions = false;
     public headers = new PagingHeaders();
     private routerSubscription: Subscription;
 

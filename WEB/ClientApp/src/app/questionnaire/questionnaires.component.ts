@@ -10,15 +10,18 @@ import { ToastrService } from 'ngx-toastr';
 import { Clipboard } from '@angular/cdk/clipboard';
 import { environment } from '../../environments/environment';
 import { QuestionnaireService } from '../common/services/questionnaire.service';
+import { FadeThenShrink } from '../common/animations/fadethenshrink';
 
 @Component({
     selector: 'app-questionnaires',
-    templateUrl: './questionnaires.component.html'
+    templateUrl: './questionnaires.component.html',
+    animations: [FadeThenShrink]
 })
 export class QuestionnairesComponent implements OnInit, OnDestroy {
 
     public responses: Response[] = [];
     public searchOptions = new ResponseSearchOptions();
+    public showSearchOptions = false;
     public headers = new PagingHeaders();
 
     private routerSubscription: Subscription;

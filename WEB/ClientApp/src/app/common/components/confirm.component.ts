@@ -7,12 +7,12 @@ import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 })
 export class ConfirmModalComponent {
 
-    public _options: ModalOptions = new ModalOptions();
+    public _options: ConfirmModalOptions = new ConfirmModalOptions();
     protected okClass = "btn-outline-secondary";
     protected noClass = "btn-outline-secondary";
     protected cancelClass = "btn-danger";
 
-    @Input() set options(opts: ModalOptions) {
+    @Input() set options(opts: ConfirmModalOptions) {
         this._options = { ...this._options, ...opts };
         if (opts.deleteStyle) {
             this.okClass = "btn-danger";
@@ -24,7 +24,7 @@ export class ConfirmModalComponent {
 
 }
 
-export class ModalOptions {
+export class ConfirmModalOptions {
     title: string = "Confirm";
     text: string = "Please confirm if you want to proceed";
     ok: string = "Ok";

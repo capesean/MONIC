@@ -26,6 +26,7 @@ export class MilestoneModalComponent implements OnInit {
     @Input() canRemoveFilters = false;
     @Input() multiple = false;
     @Input() showAddNew = false;
+    @Input() showFilters = true;
     @Input() showFooter = true;
     @Input() resetOnOpen = false;
     @Input() title = this.multiple ? "Select milestones" : "Select a milestone";
@@ -45,7 +46,7 @@ export class MilestoneModalComponent implements OnInit {
     open(): NgbModalRef {
         if (this.resetOnOpen) this.selectedItems = [];
         this.searchOptions.projectId = this.project?.projectId;
-        this.modal = this.modalService.open(this.content, { size: 'xl', centered: true, scrollable: true });
+        this.modal = this.modalService.open(this.content, { size: 'xl', centered: true, scrollable: false });
         this.runSearch();
         this.modal.result.then((milestone: Milestone | Milestone[]) => {
             if (this.multiple) this.changes.emit(milestone as Milestone[]);

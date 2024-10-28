@@ -29,6 +29,7 @@ export class DataReviewModalComponent implements OnInit {
     @Input() canRemoveFilters = false;
     @Input() multiple = false;
     @Input() showAddNew = false;
+    @Input() showFilters = true;
     @Input() showFooter = true;
     @Input() resetOnOpen = false;
     @Input() title = this.multiple ? "Select data reviews" : "Select a data review";
@@ -50,7 +51,7 @@ export class DataReviewModalComponent implements OnInit {
         if (this.resetOnOpen) this.selectedItems = [];
         this.searchOptions.userId = this.user?.id;
         this.searchOptions.reviewStatus = this.reviewStatus?.value;
-        this.modal = this.modalService.open(this.content, { size: 'xl', centered: true, scrollable: true });
+        this.modal = this.modalService.open(this.content, { size: 'xl', centered: true, scrollable: false });
         this.runSearch();
         this.modal.result.then((dataReview: DataReview | DataReview[]) => {
             if (this.multiple) this.changes.emit(dataReview as DataReview[]);

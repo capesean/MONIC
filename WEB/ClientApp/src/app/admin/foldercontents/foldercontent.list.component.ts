@@ -3,17 +3,20 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { Subject } from 'rxjs';
 import { PagingHeaders } from '../../common/models/http.model';
 import { FolderContentSearchOptions, FolderContentSearchResponse, FolderContent } from '../../common/models/foldercontent.model';
+import { FadeThenShrink } from '../../common/animations/fadethenshrink';
 import { ErrorService } from '../../common/services/error.service';
 import { FolderContentService } from '../../common/services/foldercontent.service';
 
 @NgComponent({
     selector: 'foldercontent-list',
-    templateUrl: './foldercontent.list.component.html'
+    templateUrl: './foldercontent.list.component.html',
+    animations: [FadeThenShrink]
 })
 export class FolderContentListComponent implements OnInit {
 
     public folderContents: FolderContent[] = [];
     public searchOptions = new FolderContentSearchOptions();
+    public showSearchOptions = false;
     public headers = new PagingHeaders();
 
     constructor(

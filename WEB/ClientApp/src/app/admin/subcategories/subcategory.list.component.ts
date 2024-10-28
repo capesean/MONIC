@@ -4,6 +4,7 @@ import { Subject, Subscription } from 'rxjs';
 import { PagingHeaders } from '../../common/models/http.model';
 import { ErrorService } from '../../common/services/error.service';
 import { SubcategorySearchOptions, SubcategorySearchResponse, Subcategory } from '../../common/models/subcategory.model';
+import { FadeThenShrink } from '../../common/animations/fadethenshrink';
 import { SubcategoryService } from '../../common/services/subcategory.service';
 import { ToastrService } from 'ngx-toastr';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
@@ -11,12 +12,14 @@ import { SubcategorySortComponent } from './subcategory.sort.component';
 
 @NgComponent({
     selector: 'subcategory-list',
-    templateUrl: './subcategory.list.component.html'
+    templateUrl: './subcategory.list.component.html',
+    animations: [FadeThenShrink]
 })
 export class SubcategoryListComponent implements OnInit {
 
     public subcategories: Subcategory[] = [];
     public searchOptions = new SubcategorySearchOptions();
+    public showSearchOptions = false;
     public headers = new PagingHeaders();
     private routerSubscription: Subscription;
 

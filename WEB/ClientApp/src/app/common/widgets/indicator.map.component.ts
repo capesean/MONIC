@@ -12,7 +12,7 @@ import { environment } from '../../../environments/environment';
 import { Indicator } from '../models/indicator.model';
 import { DateService } from '../services/date.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { ConfirmModalComponent, ModalOptions } from '../components/confirm.component';
+import { ConfirmModalComponent, ConfirmModalOptions } from '../components/confirm.component';
 import { IndicatorMapSettings, Widget } from '../models/widget.model';
 import { Observable } from 'rxjs';
 import { GoogleMapsApiService } from '../services/googlemapsapi.service';
@@ -89,6 +89,12 @@ export class IndicatorMapComponent implements OnInit, Widget {
         // add geojson when map & geojson are ready
         combineLatest({ map: this.mapReady, geoJson: this.geoJsonReady })
             .subscribe(result => {
+                
+                if (result.map?.data)
+                    result.map.data.forEach((feature) => {
+                        result.map.data.remove(feature);
+                    });
+
                 result.map.data.addGeoJson(result.geoJson);
                 result.map.fitBounds(this.getBounds(result.geoJson));
             });
@@ -121,7 +127,8 @@ export class IndicatorMapComponent implements OnInit, Widget {
         }).subscribe({
             next: response => {
 
-                this.data = response.data.data;
+                // TODO: this filter is to fix that data could be aggregated up (e.g. population for munic->district->province) but the relevant data should only be at the indicator level - although could allow user to select entity type?
+                this.data = response.data.data.filter(o => o.entity.entityTypeId === response.indicator.entityTypeId);
                 this.indicator = response.indicator;
                 this.date = response.date;
 
@@ -136,7 +143,7 @@ export class IndicatorMapComponent implements OnInit, Widget {
                             this.geoJsonReady.next(this.geoJson)
                         },
                         error: err => {
-                            if(err.status === 404) {
+                            if (err.status === 404) {
                                 this.loading.emit(false);
                                 this.toastr.error(`No geojson found for entity type: ${response.indicator.entityType.name}`);
                                 // todo: this should emit an error description?
@@ -165,6 +172,7 @@ export class IndicatorMapComponent implements OnInit, Widget {
     // declared as a function so that 'this' is the component
     getStyle = (feature: google.maps.Data.Feature): google.maps.Data.StyleOptions => {
         let color = 'grey';
+
         if (this.data) {
             const id = feature.getProperty("id");
             const datum = this.data.find(o => o.entity.code === id);
@@ -196,7 +204,7 @@ export class IndicatorMapComponent implements OnInit, Widget {
 
         if (!this.datum) {
             const modalRef = this.modalService.open(ConfirmModalComponent, { centered: true });
-            (modalRef.componentInstance as ConfirmModalComponent).options = { title: "Map Click", text: `<p class="mb-5">There is no data for the ${this.indicator.entityType.name.toLowerCase()} that was clicked (${id})</p>`, ok: "Close", cancel: undefined } as ModalOptions;
+            (modalRef.componentInstance as ConfirmModalComponent).options = { title: "Map Click", text: `<p class="mb-5">There is no data for the ${this.indicator.entityType.name.toLowerCase()} that was clicked (${id})</p>`, ok: "Close", cancel: undefined } as ConfirmModalOptions;
             return;
         }
 

@@ -78,4 +78,9 @@ export class ProjectSelectComponent implements OnInit, ControlValueAccessor {
         if (button && (this.project || this.projects.length)) this.changed(this.multiple ? [] : null);
         else this.modal.open();
     }
+
+    clear() {
+        this.changed(this.multiple ? [] : null);
+    }
 }
+

@@ -82,4 +82,9 @@ export class FolderContentSelectComponent implements OnInit, ControlValueAccesso
         if (button && (this.folderContent || this.folderContents.length)) this.changed(this.multiple ? [] : null);
         else this.modal.open();
     }
+
+    clear() {
+        this.changed(this.multiple ? [] : null);
+    }
 }
+

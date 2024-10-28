@@ -7,18 +7,21 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { BreadcrumbService } from '../../common/services/breadcrumb.service';
 import { ErrorService } from '../../common/services/error.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { ConfirmModalComponent, ModalOptions } from '../../common/components/confirm.component';
+import { ConfirmModalComponent, ConfirmModalOptions } from '../../common/components/confirm.component';
 import { PagingHeaders } from '../../common/models/http.model';
 import { Subcategory } from '../../common/models/subcategory.model';
 import { SubcategoryService } from '../../common/services/subcategory.service';
 import { Enum, Enums } from '../../common/models/enums.model';
+import { FadeThenShrink } from '../../common/animations/fadethenshrink';
 import { Indicator, IndicatorSearchOptions, IndicatorSearchResponse } from '../../common/models/indicator.model';
 import { IndicatorService } from '../../common/services/indicator.service';
 import { IndicatorSortComponent } from '../indicators/indicator.sort.component';
+import { trigger, transition, style, animate } from '@angular/animations';
 
 @NgComponent({
     selector: 'subcategory-edit',
-    templateUrl: './subcategory.edit.component.html'
+    templateUrl: './subcategory.edit.component.html',
+    animations: [FadeThenShrink]
 })
 export class SubcategoryEditComponent implements OnInit, OnDestroy {
 
@@ -26,6 +29,8 @@ export class SubcategoryEditComponent implements OnInit, OnDestroy {
     public isNew = true;
     private routerSubscription: Subscription;
     public indicatorTypes: Enum[] = Enums.IndicatorTypes;
+    public indicatorStatuses: Enum[] = Enums.IndicatorStatuses;
+    public dateTypes: Enum[] = Enums.DateTypes;
 
     public indicatorsSearchOptions = new IndicatorSearchOptions();
     public indicatorsHeaders = new PagingHeaders();
@@ -59,14 +64,14 @@ export class SubcategoryEditComponent implements OnInit, OnDestroy {
 
                 this.indicatorsSearchOptions.subcategoryId = subcategoryId;
                 this.indicatorsSearchOptions.includeParents = true;
-                this.loadIndicators();
+                this.searchIndicators();
 
             }
 
             this.routerSubscription = this.router.events.subscribe(event => {
                 if (event instanceof NavigationEnd && !this.route.firstChild) {
                     // this will double-load on new save, as params change (above) + nav ends
-                    this.loadIndicators();
+                    this.searchIndicators();
                 }
             });
 
@@ -123,7 +128,7 @@ export class SubcategoryEditComponent implements OnInit, OnDestroy {
     delete(): void {
 
         let modalRef = this.modalService.open(ConfirmModalComponent, { centered: true });
-        (modalRef.componentInstance as ConfirmModalComponent).options = { title: "Delete Subcategory", text: "Are you sure you want to delete this subcategory?", deleteStyle: true, ok: "Delete" } as ModalOptions;
+        (modalRef.componentInstance as ConfirmModalComponent).options = { title: "Delete Subcategory", text: "Are you sure you want to delete this subcategory?", deleteStyle: true, ok: "Delete" } as ConfirmModalOptions;
         modalRef.result.then(
             () => {
 
@@ -145,7 +150,7 @@ export class SubcategoryEditComponent implements OnInit, OnDestroy {
         this.breadcrumbService.changeBreadcrumb(this.route.snapshot, this.subcategory.name !== undefined ? this.subcategory.name.substring(0, 25) : "(new subcategory)");
     }
 
-    loadIndicators(pageIndex = 0): Subject<IndicatorSearchResponse> {
+    searchIndicators(pageIndex = 0): Subject<IndicatorSearchResponse> {
 
         this.indicatorsSearchOptions.pageIndex = pageIndex;
 
@@ -175,7 +180,7 @@ export class SubcategoryEditComponent implements OnInit, OnDestroy {
         event.stopPropagation();
 
         let modalRef = this.modalService.open(ConfirmModalComponent, { centered: true });
-        (modalRef.componentInstance as ConfirmModalComponent).options = { title: "Delete Indicator", text: "Are you sure you want to delete this indicator?", deleteStyle: true, ok: "Delete" } as ModalOptions;
+        (modalRef.componentInstance as ConfirmModalComponent).options = { title: "Delete Indicator", text: "Are you sure you want to delete this indicator?", deleteStyle: true, ok: "Delete" } as ConfirmModalOptions;
         modalRef.result.then(
             () => {
 
@@ -183,7 +188,7 @@ export class SubcategoryEditComponent implements OnInit, OnDestroy {
                     .subscribe({
                         next: () => {
                             this.toastr.success("The indicator has been deleted", "Delete Indicator");
-                            this.loadIndicators(this.indicatorsHeaders.pageIndex);
+                            this.searchIndicators(this.indicatorsHeaders.pageIndex);
                         },
                         error: err => {
                             this.errorService.handleError(err, "Indicator", "Delete");
@@ -195,7 +200,7 @@ export class SubcategoryEditComponent implements OnInit, OnDestroy {
 
     deleteIndicators(): void {
         let modalRef = this.modalService.open(ConfirmModalComponent, { centered: true });
-        (modalRef.componentInstance as ConfirmModalComponent).options = { title: "Delete Indicators", text: "Are you sure you want to delete all the indicators?", deleteStyle: true, ok: "Delete" } as ModalOptions;
+        (modalRef.componentInstance as ConfirmModalComponent).options = { title: "Delete Indicators", text: "Are you sure you want to delete all the indicators?", deleteStyle: true, ok: "Delete" } as ConfirmModalOptions;
         modalRef.result.then(
             () => {
 
@@ -203,7 +208,7 @@ export class SubcategoryEditComponent implements OnInit, OnDestroy {
                     .subscribe({
                         next: () => {
                             this.toastr.success("The indicators have been deleted", "Delete Indicators");
-                            this.loadIndicators();
+                            this.searchIndicators();
                         },
                         error: err => {
                             this.errorService.handleError(err, "Indicators", "Delete");
@@ -217,7 +222,7 @@ export class SubcategoryEditComponent implements OnInit, OnDestroy {
         let modalRef = this.modalService.open(IndicatorSortComponent, { size: 'xl', centered: true, scrollable: true });
         (modalRef.componentInstance as IndicatorSortComponent).subcategoryId = this.subcategory.subcategoryId;
         modalRef.result.then(
-            () => this.loadIndicators(this.indicatorsHeaders.pageIndex),
+            () => this.searchIndicators(this.indicatorsHeaders.pageIndex),
             () => { }
         );
     }

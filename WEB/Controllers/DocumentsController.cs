@@ -70,13 +70,8 @@ namespace WEB.Controllers
             }
             else
             {
-                if (documentDTO.FileContents != null)
-                    document = await db.Documents
-                        .Include(o => o.DocumentContent)
-                        .FirstOrDefaultAsync(o => o.DocumentId == documentDTO.DocumentId);
-                else
-                    document = await db.Documents
-                        .FirstOrDefaultAsync(o => o.DocumentId == documentDTO.DocumentId);
+                document = await db.Documents
+                    .FirstOrDefaultAsync(o => o.DocumentId == documentDTO.DocumentId);
 
                 if (document == null)
                     return NotFound();
@@ -93,7 +88,12 @@ namespace WEB.Controllers
                 if (isNew)
                     db.Entry(document.DocumentContent).State = EntityState.Added;
                 else
-                    db.Entry(document.DocumentContent).State = EntityState.Modified;
+                {
+                    if (await db.Documents.AnyAsync(o => o.DocumentId == documentDTO.DocumentId && o.DocumentContent != null))
+                        db.Entry(document.DocumentContent).State = EntityState.Modified;
+                    else
+                        db.Entry(document.DocumentContent).State = EntityState.Added;
+                }
             }
 
             await db.SaveChangesAsync();
@@ -105,16 +105,20 @@ namespace WEB.Controllers
         public async Task<IActionResult> Delete(Guid documentId)
         {
             var document = await db.Documents
-                .Include(o => o.DocumentContent)
                 .FirstOrDefaultAsync(o => o.DocumentId == documentId);
 
             if (document == null)
                 return NotFound();
 
+            using var transactionScope = Utilities.General.CreateTransactionScope();
+
+            await db.DocumentContents.Where(o => o.DocumentId == documentId).ExecuteDeleteAsync();
+
             db.Entry(document).State = EntityState.Deleted;
-            db.Entry(document.DocumentContent).State = EntityState.Deleted;
 
             await db.SaveChangesAsync();
+
+            transactionScope.Complete();
 
             return Ok();
         }

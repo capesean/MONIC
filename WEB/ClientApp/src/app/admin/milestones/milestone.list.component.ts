@@ -5,18 +5,21 @@ import { ToastrService } from 'ngx-toastr';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { PagingHeaders } from '../../common/models/http.model';
 import { MilestoneSearchOptions, MilestoneSearchResponse, Milestone } from '../../common/models/milestone.model';
+import { FadeThenShrink } from '../../common/animations/fadethenshrink';
 import { ErrorService } from '../../common/services/error.service';
 import { MilestoneService } from '../../common/services/milestone.service';
 import { MilestoneSortComponent } from './milestone.sort.component';
 
 @NgComponent({
     selector: 'milestone-list',
-    templateUrl: './milestone.list.component.html'
+    templateUrl: './milestone.list.component.html',
+    animations: [FadeThenShrink]
 })
 export class MilestoneListComponent implements OnInit, OnDestroy {
 
     public milestones: Milestone[] = [];
     public searchOptions = new MilestoneSearchOptions();
+    public showSearchOptions = false;
     public headers = new PagingHeaders();
     private routerSubscription: Subscription;
 
@@ -66,7 +69,7 @@ export class MilestoneListComponent implements OnInit, OnDestroy {
     }
 
     showSort(): void {
-        let modalRef = this.modalService.open(MilestoneSortComponent, { size: 'xl', centered: true, scrollable: true });
+        let modalRef = this.modalService.open(MilestoneSortComponent, { size: 'xl', centered: true, scrollable: false });
         modalRef.result.then(
             () => {
 

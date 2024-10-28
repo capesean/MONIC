@@ -9,7 +9,7 @@ import { DocumentService } from '../common/services/document.service';
 import { ItemComponent } from '../common/components/item.component';
 import { Item } from '../common/models/item.model';
 import { TheoryOfChange } from '../common/models/theoryofchange.model';
-import { ConfirmModalComponent, ModalOptions } from '../common/components/confirm.component';
+import { ConfirmModalComponent, ConfirmModalOptions } from '../common/components/confirm.component';
 import { Relationship } from '../common/models/relationship.model';
 import { RelationshipService } from '../common/services/relationship.service';
 import { Component } from '../common/models/component.model';
@@ -90,7 +90,7 @@ export class TheoryOfChangeRelationshipModal extends ItemComponent implements On
     delete(): void {
 
         let modalRef = this.modalService.open(ConfirmModalComponent, { centered: true });
-        (modalRef.componentInstance as ConfirmModalComponent).options = { title: "Delete Relationship", text: "Are you sure you want to delete this Relationship?", deleteStyle: true, ok: "Delete" } as ModalOptions;
+        (modalRef.componentInstance as ConfirmModalComponent).options = { title: "Delete Relationship", text: "Are you sure you want to delete this Relationship?", deleteStyle: true, ok: "Delete" } as ConfirmModalOptions;
         modalRef.result.then(
             () => {
 

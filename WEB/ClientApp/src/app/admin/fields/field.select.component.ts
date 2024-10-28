@@ -84,4 +84,9 @@ export class FieldSelectComponent implements OnInit, ControlValueAccessor {
         if (button && (this.field || this.fields.length)) this.changed(this.multiple ? [] : null);
         else this.modal.open();
     }
+
+    clear() {
+        this.changed(this.multiple ? [] : null);
+    }
 }
+

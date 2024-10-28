@@ -1,6 +1,6 @@
 using System.ComponentModel.DataAnnotations;
 
-namespace WEB.Models.DTOs
+namespace WEB.Models
 {
     public class SetupDTO
     {

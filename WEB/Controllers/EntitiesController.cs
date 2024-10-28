@@ -142,7 +142,7 @@ namespace WEB.Controllers
 
             await Permissions.SetEntityPermissionsAsync(db, AppSettings, entityDTO.OrganisationId, entity.EntityId);
 
-            ModelFactory.Hydrate(entity, entityDTO);
+            ModelFactory.Hydrate(entity, entityDTO, isNew);
 
             await ItemFunctions.HydrateFieldsAsync(db, entity.EntityId, entityDTO.FieldValues, entityDTO.OptionValues);
 
@@ -166,13 +166,13 @@ namespace WEB.Controllers
                 return BadRequest("Unable to delete the entity as it has related data");
 
             if (await db.EntityLinks.AnyAsync(o => o.ChildEntityId == entity.EntityId))
-                return BadRequest("Unable to delete the entity as it has related entity links");
+                return BadRequest("Unable to delete the entity as it has related aggregation parents");
 
             if (await db.EntityLinks.AnyAsync(o => o.ParentEntityId == entity.EntityId))
-                return BadRequest("Unable to delete the entity as it has related entity links");
+                return BadRequest("Unable to delete the entity as it has related aggregation children");
 
             if (await db.Users.AnyAsync(o => o.AffiliatedEntityId == entity.EntityId))
-                return BadRequest("Unable to delete the entity as it has related users");
+                return BadRequest("Unable to delete the entity as it has related affiliated users");
 
             if (await db.Responses.AnyAsync(o => o.EntityId == entity.EntityId))
                 return BadRequest("Unable to delete the entity as it has related responses");
@@ -230,7 +230,13 @@ namespace WEB.Controllers
         [HttpDelete("{entityId:Guid}/responses")]
         public async Task<IActionResult> DeleteResponses(Guid entityId)
         {
+            using var transactionScope = Utilities.General.CreateTransactionScope();
+
+            await db.Answers.Where(o => o.Response.EntityId == entityId).ExecuteDeleteAsync();
+
             await db.Responses.Where(o => o.EntityId == entityId).ExecuteDeleteAsync();
+
+            transactionScope.Complete();
 
             return Ok();
         }

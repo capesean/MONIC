@@ -108,7 +108,7 @@ namespace WEB.Controllers
                 return NotFound();
 
             if (await db.Folders.AnyAsync(o => o.ParentFolderId == folder.FolderId))
-                return BadRequest("Unable to delete the folder as it has related folders");
+                return BadRequest("Unable to delete the folder as it has related subfolders");
 
             using var transactionScope = Utilities.General.CreateTransactionScope();
 
@@ -129,7 +129,12 @@ namespace WEB.Controllers
         [HttpDelete("{folderId:Guid}/subfolders"), AuthorizeRoles(Roles.Administrator)]
         public async Task<IActionResult> DeleteSubfolders(Guid folderId)
         {
+            if (await db.Folders.AnyAsync(o => o.ParentFolder.ParentFolderId == folderId))
+                return BadRequest("Unable to delete the subfolders as there are related folders");
+
             using var transactionScope = Utilities.General.CreateTransactionScope();
+
+            await db.FolderContents.Where(o => o.Folder.FolderId == folderId).ExecuteDeleteAsync();
 
             foreach (var folder in db.Folders.Where(o => o.ParentFolderId == folderId).ToList())
             {
@@ -140,6 +145,8 @@ namespace WEB.Controllers
             await db.Folders.Where(o => o.ParentFolderId == folderId).ExecuteDeleteAsync();
 
             await db.SaveChangesAsync();
+
+            transactionScope.Complete();
 
             transactionScope.Complete();
 

@@ -1,10 +1,18 @@
 <ng-container *ngIf="route.children.length === 0">
 
-    <app-page-title title="Component"></app-page-title>
+    <app-page-title></app-page-title>
 
     <form id="form" name="form" (submit)="save(form)" novalidate #form="ngForm" [ngClass]="{ 'was-validated': form.submitted }">
 
-        <div class="card border-0">
+        <div class="card card-edit">
+
+            <div class="card-header">
+
+                <div class="card-header-title">
+                    <h4>Component</h4>
+                </div>
+
+            </div>
 
             <div class="card-body">
 
@@ -146,44 +154,45 @@
 
                 </ng-container>
 
-                <fieldset class="my-3">
-                    <button type="submit" class="btn btn-outline-success me-2 mb-1">Save<i class="fas fa-check ms-2"></i></button>
-                    <button type="button" *ngIf="!isNew" class="btn btn-outline-danger me-2 mb-1" (click)="delete()">Delete<i class="fas fa-times ms-2"></i></button>
-                </fieldset>
-
             </div>
 
+        </div>
+
+        <div class="mb-4">
+            <button type="submit" class="btn btn-outline-success me-2 mb-1">Save<i class="fas fa-check ms-2"></i></button>
+            <button type="button" *ngIf="!isNew" class="btn btn-outline-danger me-2 mb-1" (click)="delete()">Delete<i class="fas fa-times ms-2"></i></button>
         </div>
 
     </form>
 
     <ng-container *ngIf="!isNew">
 
-        <hr />
-
         <nav ngbNav #nav="ngbNav" class="nav-tabs">
 
-            <ng-container ngbNavItem class="pt-6">
+            <ng-container ngbNavItem>
 
                 <a ngbNavLink>Relationships as Source</a>
 
                 <ng-template ngbNavContent>
 
-                    <div class="card border-0 search-results">
+                    <div class="card card-list">
 
-                        <div class="card-header border-0">
+                        <div class="card-header">
 
-                            <h4 class="card-header-title text-uppercase">
-                                Relationships as Source
-                            </h4>
+                            <div class="card-header-title">
+                                <h4>Relationships as Source</h4>
+                                <div>
+                                    <i class="fa fa-fw ms-1 fa-search cursor-pointer" (click)="showRelationshipsAsSourceSearch=!showRelationshipsAsSourceSearch" ngbTooltip="Toggle search options"></i>
+                                </div>
+                            </div>
 
                         </div>
 
-                        <div class="card-body">
+                        <div class="card-body" *ngIf="showRelationshipsAsSourceSearch" @FadeThenShrink>
 
-                            <form id="formSearchRelationshipsAsSource" (submit)="searchRelationshipsAsSource(0)" novalidate *ngIf="showRelationshipsAsSourceSearch" class="mb-5">
+                            <form id="formSearchRelationshipsAsSource" (submit)="searchRelationshipsAsSource(0)" novalidate>
 
-                                <div class="row g-3">
+                                <div class="row g-2">
 
                                     <div class="col-sm-6 col-md-4 col-lg-4 col-xl-3">
                                         <div class="form-group">
@@ -197,14 +206,15 @@
                                         </div>
                                     </div>
 
+                                    <div class="col-sm-3 col-md-3 col-lg-3 col-xl-2">
+                                        <div class="form-group">
+                                            <button form="formSearchRelationshipsAsSource" type="submit" class="btn btn-outline-primary me-2 mb-1">Search<i class="fas fa-search ms-2"></i></button>
+                                        </div>
+                                    </div>
+
                                 </div>
 
                             </form>
-
-                            <div class="mb-3">
-                                <button *ngIf="!showRelationshipsAsSourceSearch" type="button" class="btn btn-outline-secondary me-2 mb-1" (click)="showRelationshipsAsSourceSearch=true">Filter<i class="fas fa-filter ms-2"></i></button>
-                                <button *ngIf="showRelationshipsAsSourceSearch" form="formSearchRelationshipsAsSource" type="submit" class="btn btn-outline-primary me-2 mb-1">Search<i class="fas fa-search ms-2"></i></button>
-                            </div>
 
                         </div>
 
@@ -239,27 +249,30 @@
 
             </ng-container>
 
-            <ng-container ngbNavItem class="pt-6">
+            <ng-container ngbNavItem>
 
                 <a ngbNavLink>Relationships as Target</a>
 
                 <ng-template ngbNavContent>
 
-                    <div class="card border-0 search-results">
+                    <div class="card card-list">
 
-                        <div class="card-header border-0">
+                        <div class="card-header">
 
-                            <h4 class="card-header-title text-uppercase">
-                                Relationships as Target
-                            </h4>
+                            <div class="card-header-title">
+                                <h4>Relationships as Target</h4>
+                                <div>
+                                    <i class="fa fa-fw ms-1 fa-search cursor-pointer" (click)="showRelationshipsAsTargetSearch=!showRelationshipsAsTargetSearch" ngbTooltip="Toggle search options"></i>
+                                </div>
+                            </div>
 
                         </div>
 
-                        <div class="card-body">
+                        <div class="card-body" *ngIf="showRelationshipsAsTargetSearch" @FadeThenShrink>
 
-                            <form id="formSearchRelationshipsAsTarget" (submit)="searchRelationshipsAsTarget(0)" novalidate *ngIf="showRelationshipsAsTargetSearch" class="mb-5">
+                            <form id="formSearchRelationshipsAsTarget" (submit)="searchRelationshipsAsTarget(0)" novalidate>
 
-                                <div class="row g-3">
+                                <div class="row g-2">
 
                                     <div class="col-sm-6 col-md-4 col-lg-4 col-xl-3">
                                         <div class="form-group">
@@ -273,14 +286,15 @@
                                         </div>
                                     </div>
 
+                                    <div class="col-sm-3 col-md-3 col-lg-3 col-xl-2">
+                                        <div class="form-group">
+                                            <button form="formSearchRelationshipsAsTarget" type="submit" class="btn btn-outline-primary me-2 mb-1">Search<i class="fas fa-search ms-2"></i></button>
+                                        </div>
+                                    </div>
+
                                 </div>
 
                             </form>
-
-                            <div class="mb-3">
-                                <button *ngIf="!showRelationshipsAsTargetSearch" type="button" class="btn btn-outline-secondary me-2 mb-1" (click)="showRelationshipsAsTargetSearch=true">Filter<i class="fas fa-filter ms-2"></i></button>
-                                <button *ngIf="showRelationshipsAsTargetSearch" form="formSearchRelationshipsAsTarget" type="submit" class="btn btn-outline-primary me-2 mb-1">Search<i class="fas fa-search ms-2"></i></button>
-                            </div>
 
                         </div>
 
@@ -316,27 +330,30 @@
 
             </ng-container>
 
-            <ng-container ngbNavItem class="pt-6">
+            <ng-container ngbNavItem>
 
                 <a ngbNavLink>Log Frame Row Components</a>
 
                 <ng-template ngbNavContent>
 
-                    <div class="card border-0 search-results">
+                    <div class="card card-list">
 
-                        <div class="card-header border-0">
+                        <div class="card-header">
 
-                            <h4 class="card-header-title text-uppercase">
-                                Log Frame Row Components
-                            </h4>
+                            <div class="card-header-title">
+                                <h4>Log Frame Row Components</h4>
+                                <div>
+                                    <i class="fa fa-fw ms-1 fa-search cursor-pointer" (click)="showLogFrameRowComponentsSearch=!showLogFrameRowComponentsSearch" ngbTooltip="Toggle search options"></i>
+                                </div>
+                            </div>
 
                         </div>
 
-                        <div class="card-body">
+                        <div class="card-body" *ngIf="showLogFrameRowComponentsSearch" @FadeThenShrink>
 
-                            <form id="formSearchLogFrameRowComponents" (submit)="searchLogFrameRowComponents(0)" novalidate *ngIf="showLogFrameRowComponentsSearch" class="mb-5">
+                            <form id="formSearchLogFrameRowComponents" (submit)="searchLogFrameRowComponents(0)" novalidate>
 
-                                <div class="row g-3">
+                                <div class="row g-2">
 
                                     <div class="col-sm-6 col-md-4 col-lg-4 col-xl-3">
                                         <div class="form-group">
@@ -344,14 +361,15 @@
                                         </div>
                                     </div>
 
+                                    <div class="col-sm-3 col-md-3 col-lg-3 col-xl-2">
+                                        <div class="form-group">
+                                            <button form="formSearchLogFrameRowComponents" type="submit" class="btn btn-outline-primary me-2 mb-1">Search<i class="fas fa-search ms-2"></i></button>
+                                        </div>
+                                    </div>
+
                                 </div>
 
                             </form>
-
-                            <div class="mb-3">
-                                <button *ngIf="!showLogFrameRowComponentsSearch" type="button" class="btn btn-outline-secondary me-2 mb-1" (click)="showLogFrameRowComponentsSearch=true">Filter<i class="fas fa-filter ms-2"></i></button>
-                                <button *ngIf="showLogFrameRowComponentsSearch" form="formSearchLogFrameRowComponents" type="submit" class="btn btn-outline-primary me-2 mb-1">Search<i class="fas fa-search ms-2"></i></button>
-                            </div>
 
                         </div>
 
@@ -386,19 +404,19 @@
 
             </ng-container>
 
-            <ng-container ngbNavItem class="pt-6">
+            <ng-container ngbNavItem>
 
                 <a ngbNavLink>Theories of Change</a>
 
                 <ng-template ngbNavContent>
 
-                    <div class="card border-0 search-results">
+                    <div class="card card-list">
 
-                        <div class="card-header border-0">
+                        <div class="card-header">
 
-                            <h4 class="card-header-title text-uppercase">
-                                Theories of Change
-                            </h4>
+                            <div class="card-header-title">
+                                <h4>Theories of Change</h4>
+                            </div>
 
                         </div>
 
@@ -431,27 +449,31 @@
 
             </ng-container>
 
-            <ng-container ngbNavItem class="pt-6">
+            <ng-container ngbNavItem>
 
                 <a ngbNavLink>Component Indicators</a>
 
                 <ng-template ngbNavContent>
 
-                    <div class="card border-0 search-results">
+                    <div class="card card-list">
 
-                        <div class="card-header border-0">
+                        <div class="card-header">
 
-                            <h4 class="card-header-title text-uppercase">
-                                Component Indicators
-                            </h4>
+                            <div class="card-header-title">
+                                <h4>Component Indicators</h4>
+                                <div>
+                                    <i class="fa fa-fw ms-1 fa-plus cursor-pointer" ngbTooltip="Add Component Indicators" (click)="addComponentIndicators()"></i>
+                                    <i class="fa fa-fw ms-1 fa-search cursor-pointer" (click)="showComponentIndicatorsSearch=!showComponentIndicatorsSearch" ngbTooltip="Toggle search options"></i>
+                                </div>
+                            </div>
 
                         </div>
 
-                        <div class="card-body">
+                        <div class="card-body" *ngIf="showComponentIndicatorsSearch" @FadeThenShrink>
 
-                            <form id="formSearchComponentIndicators" (submit)="searchComponentIndicators(0)" novalidate *ngIf="showComponentIndicatorsSearch" class="mb-5">
+                            <form id="formSearchComponentIndicators" (submit)="searchComponentIndicators(0)" novalidate>
 
-                                <div class="row g-3">
+                                <div class="row g-2">
 
                                     <div class="col-sm-6 col-md-4 col-lg-4 col-xl-3">
                                         <div class="form-group">
@@ -459,15 +481,15 @@
                                         </div>
                                     </div>
 
+                                    <div class="col-sm-3 col-md-3 col-lg-3 col-xl-2">
+                                        <div class="form-group">
+                                            <button form="formSearchComponentIndicators" type="submit" class="btn btn-outline-primary me-2 mb-1">Search<i class="fas fa-search ms-2"></i></button>
+                                        </div>
+                                    </div>
+
                                 </div>
 
                             </form>
-
-                            <div class="mb-3">
-                                <button class="btn btn-outline-primary me-2 mb-1" (click)="addComponentIndicators()">Add Component Indicators<i class="fas fa-plus ms-2"></i></button>
-                                <button *ngIf="!showComponentIndicatorsSearch" type="button" class="btn btn-outline-secondary me-2 mb-1" (click)="showComponentIndicatorsSearch=true">Filter<i class="fas fa-filter ms-2"></i></button>
-                                <button *ngIf="showComponentIndicatorsSearch" form="formSearchComponentIndicators" type="submit" class="btn btn-outline-primary me-2 mb-1">Search<i class="fas fa-search ms-2"></i></button>
-                            </div>
 
                         </div>
 

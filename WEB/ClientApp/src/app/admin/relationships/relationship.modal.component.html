@@ -1,19 +1,19 @@
 <ng-template #content let-modal>
 
-    <div class="modal-header">
+    <div class="modal-header p-4">
         <h4 class="modal-title" id="modal-basic-title">{{title}}</h4>
         <button type="button" class="btn-close" (click)="modal.dismiss()" aria-label="Close"></button>
     </div>
     
-    <div class="modal-body" [ngClass]="{ 'mb-6': !showFooter }">
+    <div class="modal-body p-5" [ngClass]="{ 'mb-6': !showFooter }">
 
         <form (submit)="runSearch()" novalidate>
 
             <fieldset>
 
-                <div class="alert alert-info alert-dismissible" *ngIf="theoryOfChange!=undefined">Filtered by theory of change: {{theoryOfChange.name}}<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close" (click)="searchOptions.theoryOfChangeId=undefined;theoryOfChange=undefined;runSearch();" *ngIf="canRemoveFilters"></button></div>
-                <div class="alert alert-info alert-dismissible" *ngIf="sourceComponent!=undefined">Filtered by source component: {{sourceComponent.name}}<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close" (click)="searchOptions.sourceComponentId=undefined;sourceComponent=undefined;runSearch();" *ngIf="canRemoveFilters"></button></div>
-                <div class="alert alert-info alert-dismissible" *ngIf="targetComponent!=undefined">Filtered by target component: {{targetComponent.name}}<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close" (click)="searchOptions.targetComponentId=undefined;targetComponent=undefined;runSearch();" *ngIf="canRemoveFilters"></button></div>
+                <div class="alert alert-info alert-dismissible" *ngIf="showFilters && theoryOfChange!=undefined">Filtered by theory of change: {{theoryOfChange.name}}<button type="button" class="btn-close" data-bs-dismiss="alert" (click)="searchOptions.theoryOfChangeId=undefined;theoryOfChange=undefined;runSearch();" *ngIf="canRemoveFilters"></button></div>
+                <div class="alert alert-info alert-dismissible" *ngIf="showFilters && sourceComponent!=undefined">Filtered by source component: {{sourceComponent.name}}<button type="button" class="btn-close" data-bs-dismiss="alert" (click)="searchOptions.sourceComponentId=undefined;sourceComponent=undefined;runSearch();" *ngIf="canRemoveFilters"></button></div>
+                <div class="alert alert-info alert-dismissible" *ngIf="showFilters && targetComponent!=undefined">Filtered by target component: {{targetComponent.name}}<button type="button" class="btn-close" data-bs-dismiss="alert" (click)="searchOptions.targetComponentId=undefined;targetComponent=undefined;runSearch();" *ngIf="canRemoveFilters"></button></div>
 
                 <div class="row g-3">
 
@@ -46,9 +46,9 @@
 
         </form>
 
-        <div class="table-responsive mt-6 mb-5">
+        <div class="table-responsive mt-4 mb-5">
 
-            <table class="table table-hover table-edge table-nowrap mb-0 align-middle">
+            <table class="table table-hover table-edge table-nowrap mb-0 align-middle table-sm">
                 <thead class="thead-light">
                     <tr>
                         <th class="text-center w-20px" *ngIf="multiple"><i class="fas fa-fw cursor-pointer" [ngClass]="{ 'fa-check-square': allSelected, 'fa-square': !allSelected }" (click)="toggleAll()"></i></th>
@@ -69,11 +69,11 @@
 
         </div>
 
-        <pager [headers]="headers" (pageChanged)="runSearch($event)"></pager>
+        <pager [headers]="headers" (pageChanged)="runSearch($event)" class="pager-sm"></pager>
 
     </div>
     
-    <div class="modal-footer" [ngClass]="{ 'justify-content-between': multiple }" *ngIf="showFooter">
+    <div class="modal-footer p-4" [ngClass]="{ 'justify-content-between': multiple }" *ngIf="showFooter">
         <div class="alert alert-info modal-selected-info" *ngIf="multiple">{{selectedItems.length}} selected</div>
         <div>
             <button type="button" class="btn btn-outline-primary ms-2" (click)="addNew()" target="_blank" *ngIf="showAddNew">Add</button>

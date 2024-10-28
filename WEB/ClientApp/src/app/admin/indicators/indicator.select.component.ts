@@ -87,4 +87,9 @@ export class IndicatorSelectComponent implements OnInit, ControlValueAccessor {
         if (button && (this.indicator || this.indicators.length)) this.changed(this.multiple ? [] : null);
         else this.modal.open();
     }
+
+    clear() {
+        this.changed(this.multiple ? [] : null);
+    }
 }
+

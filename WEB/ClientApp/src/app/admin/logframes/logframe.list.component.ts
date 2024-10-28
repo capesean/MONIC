@@ -3,17 +3,20 @@ import { Router, ActivatedRoute, NavigationEnd } from '@angular/router';
 import { Subject, Subscription } from 'rxjs';
 import { PagingHeaders } from '../../common/models/http.model';
 import { LogFrameSearchOptions, LogFrameSearchResponse, LogFrame } from '../../common/models/logframe.model';
+import { FadeThenShrink } from '../../common/animations/fadethenshrink';
 import { ErrorService } from '../../common/services/error.service';
 import { LogFrameService } from '../../common/services/logframe.service';
 
 @NgComponent({
     selector: 'logframe-list',
-    templateUrl: './logframe.list.component.html'
+    templateUrl: './logframe.list.component.html',
+    animations: [FadeThenShrink]
 })
 export class LogFrameListComponent implements OnInit, OnDestroy {
 
     public logFrames: LogFrame[] = [];
     public searchOptions = new LogFrameSearchOptions();
+    public showSearchOptions = false;
     public headers = new PagingHeaders();
     private routerSubscription: Subscription;
 

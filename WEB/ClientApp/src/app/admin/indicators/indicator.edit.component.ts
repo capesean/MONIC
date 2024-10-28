@@ -9,10 +9,11 @@ import { Indicator } from '../../common/models/indicator.model';
 import { Token, TokenSearchOptions } from '../../common/models/token.model';
 import { IndicatorService } from '../../common/services/indicator.service';
 import { Enum, Enums, OperatorTypes, TokenTypes, ParenthesisTypes, IndicatorStatuses, IndicatorTypes, ItemTypes, AggregationTypes, } from '../../common/models/enums.model';
+import { FadeThenShrink } from '../../common/animations/fadethenshrink';
 import { TokenService } from '../../common/services/token.service';
 import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { IndicatorModalComponent } from './indicator.modal.component';
-import { ConfirmModalComponent, ModalOptions } from '../../common/components/confirm.component';
+import { ConfirmModalComponent, ConfirmModalOptions } from '../../common/components/confirm.component';
 import { ItemComponent } from '../../common/components/item.component';
 import { AppService } from '../../common/services/app.service';
 import { DocumentService } from '../../common/services/document.service';
@@ -22,7 +23,8 @@ import { AppSettings } from '../../common/models/appsettings.model';
 @Component({
     selector: 'indicator-edit',
     templateUrl: './indicator.edit.component.html',
-    styleUrls: ['./indicator.edit.css']
+    styleUrls: ['./indicator.edit.css'],
+    animations: [FadeThenShrink]
 })
 export class IndicatorEditComponent extends ItemComponent implements OnInit {
 
@@ -188,7 +190,7 @@ export class IndicatorEditComponent extends ItemComponent implements OnInit {
     delete(): void {
 
         let modalRef = this.modalService.open(ConfirmModalComponent, { centered: true });
-        (modalRef.componentInstance as ConfirmModalComponent).options = { title: "Delete Indicator", text: "Are you sure you want to delete this indicator?", deleteStyle: true, ok: "Delete" } as ModalOptions;
+        (modalRef.componentInstance as ConfirmModalComponent).options = { title: "Delete Indicator", text: "Are you sure you want to delete this indicator?", deleteStyle: true, ok: "Delete" } as ConfirmModalOptions;
         modalRef.result.then(
             () => {
 

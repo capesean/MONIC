@@ -3,17 +3,20 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { Subject } from 'rxjs';
 import { PagingHeaders } from '../../common/models/http.model';
 import { LogFrameRowComponentSearchOptions, LogFrameRowComponentSearchResponse, LogFrameRowComponent } from '../../common/models/logframerowcomponent.model';
+import { FadeThenShrink } from '../../common/animations/fadethenshrink';
 import { ErrorService } from '../../common/services/error.service';
 import { LogFrameRowComponentService } from '../../common/services/logframerowcomponent.service';
 
 @NgComponent({
     selector: 'logframerowcomponent-list',
-    templateUrl: './logframerowcomponent.list.component.html'
+    templateUrl: './logframerowcomponent.list.component.html',
+    animations: [FadeThenShrink]
 })
 export class LogFrameRowComponentListComponent implements OnInit {
 
     public logFrameRowComponents: LogFrameRowComponent[] = [];
     public searchOptions = new LogFrameRowComponentSearchOptions();
+    public showSearchOptions = false;
     public headers = new PagingHeaders();
 
     constructor(

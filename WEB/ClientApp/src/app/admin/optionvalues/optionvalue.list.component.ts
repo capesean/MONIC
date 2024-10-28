@@ -3,17 +3,20 @@ import { Router, ActivatedRoute, NavigationEnd } from '@angular/router';
 import { Subject, Subscription } from 'rxjs';
 import { PagingHeaders } from '../../common/models/http.model';
 import { OptionValueSearchOptions, OptionValueSearchResponse, OptionValue } from '../../common/models/optionvalue.model';
+import { FadeThenShrink } from '../../common/animations/fadethenshrink';
 import { ErrorService } from '../../common/services/error.service';
 import { OptionValueService } from '../../common/services/optionvalue.service';
 
 @NgComponent({
     selector: 'optionvalue-list',
-    templateUrl: './optionvalue.list.component.html'
+    templateUrl: './optionvalue.list.component.html',
+    animations: [FadeThenShrink]
 })
 export class OptionValueListComponent implements OnInit, OnDestroy {
 
     public optionValues: OptionValue[] = [];
     public searchOptions = new OptionValueSearchOptions();
+    public showSearchOptions = false;
     public headers = new PagingHeaders();
     private routerSubscription: Subscription;
 

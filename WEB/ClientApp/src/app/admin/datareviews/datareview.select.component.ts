@@ -82,4 +82,9 @@ export class DataReviewSelectComponent implements OnInit, ControlValueAccessor {
         if (button && (this.dataReview || this.dataReviews.length)) this.changed(this.multiple ? [] : null);
         else this.modal.open();
     }
+
+    clear() {
+        this.changed(this.multiple ? [] : null);
+    }
 }
+

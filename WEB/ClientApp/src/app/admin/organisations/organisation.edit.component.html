@@ -1,8 +1,16 @@
-<app-page-title title="Organisation"></app-page-title>
+<app-page-title></app-page-title>
 
 <form id="form" name="form" (submit)="save(form)" novalidate #form="ngForm" [ngClass]="{ 'was-validated': form.submitted }">
 
-    <div class="card border-0">
+    <div class="card card-edit">
+
+        <div class="card-header">
+
+            <div class="card-header-title">
+                <h4>Organisation</h4>
+            </div>
+
+        </div>
 
         <div class="card-body">
 
@@ -82,44 +90,45 @@
 
             </ng-container>
 
-            <fieldset class="my-3">
-                <button type="submit" class="btn btn-outline-success me-2 mb-1">Save<i class="fas fa-check ms-2"></i></button>
-                <button type="button" *ngIf="!isNew" class="btn btn-outline-danger me-2 mb-1" (click)="delete()">Delete<i class="fas fa-times ms-2"></i></button>
-            </fieldset>
-
         </div>
 
+    </div>
+
+    <div class="mb-4">
+        <button type="submit" class="btn btn-outline-success me-2 mb-1">Save<i class="fas fa-check ms-2"></i></button>
+        <button type="button" *ngIf="!isNew" class="btn btn-outline-danger me-2 mb-1" (click)="delete()">Delete<i class="fas fa-times ms-2"></i></button>
     </div>
 
 </form>
 
 <ng-container *ngIf="!isNew">
 
-    <hr />
-
     <nav ngbNav #nav="ngbNav" class="nav-tabs">
 
-        <ng-container ngbNavItem class="pt-6">
+        <ng-container ngbNavItem>
 
             <a ngbNavLink>Entities</a>
 
             <ng-template ngbNavContent>
 
-                <div class="card border-0 search-results">
+                <div class="card card-list">
 
-                    <div class="card-header border-0">
+                    <div class="card-header">
 
-                        <h4 class="card-header-title text-uppercase">
-                            Entities
-                        </h4>
+                        <div class="card-header-title">
+                            <h4>Entities</h4>
+                            <div>
+                                <i class="fa fa-fw ms-1 fa-search cursor-pointer" (click)="showEntitiesSearch=!showEntitiesSearch" ngbTooltip="Toggle search options"></i>
+                            </div>
+                        </div>
 
                     </div>
 
-                    <div class="card-body">
+                    <div class="card-body" *ngIf="showEntitiesSearch" @FadeThenShrink>
 
-                        <form id="formSearchEntities" (submit)="searchEntities(0)" novalidate *ngIf="showEntitiesSearch" class="mb-5">
+                        <form id="formSearchEntities" (submit)="searchEntities(0)" novalidate>
 
-                            <div class="row g-3">
+                            <div class="row g-2">
 
                                 <div class="col-sm-6 col-md-5 col-lg-4 col-xl-3">
                                     <div class="form-group">
@@ -143,14 +152,15 @@
                                     </div>
                                 </div>
 
+                                <div class="col-sm-3 col-md-3 col-lg-3 col-xl-2">
+                                    <div class="form-group">
+                                        <button form="formSearchEntities" type="submit" class="btn btn-outline-primary me-2 mb-1">Search<i class="fas fa-search ms-2"></i></button>
+                                    </div>
+                                </div>
+
                             </div>
 
                         </form>
-
-                        <div class="mb-3">
-                            <button *ngIf="!showEntitiesSearch" type="button" class="btn btn-outline-secondary me-2 mb-1" (click)="showEntitiesSearch=true">Filter<i class="fas fa-filter ms-2"></i></button>
-                            <button *ngIf="showEntitiesSearch" form="formSearchEntities" type="submit" class="btn btn-outline-primary me-2 mb-1">Search<i class="fas fa-search ms-2"></i></button>
-                        </div>
 
                     </div>
 
@@ -187,27 +197,30 @@
 
         </ng-container>
 
-        <ng-container ngbNavItem class="pt-6">
+        <ng-container ngbNavItem>
 
             <a ngbNavLink>Users</a>
 
             <ng-template ngbNavContent>
 
-                <div class="card border-0 search-results">
+                <div class="card card-list">
 
-                    <div class="card-header border-0">
+                    <div class="card-header">
 
-                        <h4 class="card-header-title text-uppercase">
-                            Users
-                        </h4>
+                        <div class="card-header-title">
+                            <h4>Users</h4>
+                            <div>
+                                <i class="fa fa-fw ms-1 fa-search cursor-pointer" (click)="showUsersSearch=!showUsersSearch" ngbTooltip="Toggle search options"></i>
+                            </div>
+                        </div>
 
                     </div>
 
-                    <div class="card-body">
+                    <div class="card-body" *ngIf="showUsersSearch" @FadeThenShrink>
 
-                        <form id="formSearchUsers" (submit)="searchUsers(0)" novalidate *ngIf="showUsersSearch" class="mb-5">
+                        <form id="formSearchUsers" (submit)="searchUsers(0)" novalidate>
 
-                            <div class="row g-3">
+                            <div class="row g-2">
 
                                 <div class="col-sm-6 col-md-5 col-lg-4 col-xl-3">
                                     <div class="form-group">
@@ -231,14 +244,15 @@
                                     </div>
                                 </div>
 
+                                <div class="col-sm-3 col-md-3 col-lg-3 col-xl-2">
+                                    <div class="form-group">
+                                        <button form="formSearchUsers" type="submit" class="btn btn-outline-primary me-2 mb-1">Search<i class="fas fa-search ms-2"></i></button>
+                                    </div>
+                                </div>
+
                             </div>
 
                         </form>
-
-                        <div class="mb-3">
-                            <button *ngIf="!showUsersSearch" type="button" class="btn btn-outline-secondary me-2 mb-1" (click)="showUsersSearch=true">Filter<i class="fas fa-filter ms-2"></i></button>
-                            <button *ngIf="showUsersSearch" form="formSearchUsers" type="submit" class="btn btn-outline-primary me-2 mb-1">Search<i class="fas fa-search ms-2"></i></button>
-                        </div>
 
                     </div>
 

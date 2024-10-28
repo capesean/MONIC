@@ -1,6 +1,6 @@
 <div class="modal-header">
     <h4 class="modal-title" id="modal-title">Sort Subcategories</h4>
-    <button type="button" class="btn-close" aria-label="Close button" aria-describedby="modal-title" (click)="modal.dismiss()"></button>
+    <button type="button" class="btn-close" (click)="modal.dismiss()"></button>
 </div>
 
 <div class="table-responsive">
@@ -10,16 +10,16 @@
             <tr>
                 <th class="text-center w-20px"><i class="fas fa-sort"></i></th>
                 <th>Category</th>
-                <th>Subcategory</th>
                 <th>Code</th>
+                <th>Subcategory</th>
             </tr>
         </thead>
         <tbody cdkDropList (cdkDropListDropped)="drop($event)" class="cursor-grab">
             <tr *ngFor="let subcategory of subcategories" cdkDrag cdkDragHandle (cdkDragStarted)="dragStart($event)">
                 <td class="text-center"><i class="fas fa-sort"></i></td>
                 <td>{{ subcategory.category.name }}</td>
-                <td>{{ subcategory.name }}</td>
                 <td>{{ subcategory.code }}</td>
+                <td>{{ subcategory.name }}</td>
             </tr>
         </tbody>
     </table>

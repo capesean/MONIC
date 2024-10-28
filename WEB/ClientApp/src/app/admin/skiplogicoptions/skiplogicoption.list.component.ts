@@ -3,17 +3,20 @@ import { Router, ActivatedRoute, NavigationEnd } from '@angular/router';
 import { Subject, Subscription } from 'rxjs';
 import { PagingHeaders } from '../../common/models/http.model';
 import { SkipLogicOptionSearchOptions, SkipLogicOptionSearchResponse, SkipLogicOption } from '../../common/models/skiplogicoption.model';
+import { FadeThenShrink } from '../../common/animations/fadethenshrink';
 import { ErrorService } from '../../common/services/error.service';
 import { SkipLogicOptionService } from '../../common/services/skiplogicoption.service';
 
 @NgComponent({
     selector: 'skiplogicoption-list',
-    templateUrl: './skiplogicoption.list.component.html'
+    templateUrl: './skiplogicoption.list.component.html',
+    animations: [FadeThenShrink]
 })
 export class SkipLogicOptionListComponent implements OnInit, OnDestroy {
 
     public skipLogicOptions: SkipLogicOption[] = [];
     public searchOptions = new SkipLogicOptionSearchOptions();
+    public showSearchOptions = false;
     public headers = new PagingHeaders();
     private routerSubscription: Subscription;
 

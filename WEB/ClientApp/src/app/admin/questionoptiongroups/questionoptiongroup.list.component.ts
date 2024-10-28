@@ -3,17 +3,20 @@ import { Router, ActivatedRoute, NavigationEnd } from '@angular/router';
 import { Subject, Subscription } from 'rxjs';
 import { PagingHeaders } from '../../common/models/http.model';
 import { QuestionOptionGroupSearchOptions, QuestionOptionGroupSearchResponse, QuestionOptionGroup } from '../../common/models/questionoptiongroup.model';
+import { FadeThenShrink } from '../../common/animations/fadethenshrink';
 import { ErrorService } from '../../common/services/error.service';
 import { QuestionOptionGroupService } from '../../common/services/questionoptiongroup.service';
 
 @NgComponent({
     selector: 'questionoptiongroup-list',
-    templateUrl: './questionoptiongroup.list.component.html'
+    templateUrl: './questionoptiongroup.list.component.html',
+    animations: [FadeThenShrink]
 })
 export class QuestionOptionGroupListComponent implements OnInit, OnDestroy {
 
     public questionOptionGroups: QuestionOptionGroup[] = [];
     public searchOptions = new QuestionOptionGroupSearchOptions();
+    public showSearchOptions = false;
     public headers = new PagingHeaders();
     private routerSubscription: Subscription;
 

@@ -11,11 +11,11 @@ namespace WEB.Models
         [Required]
         public Guid CategoryId { get; set; }
 
-        [DisplayFormat(ConvertEmptyStringToNull = false), MaxLength(100)]
-        public string Name { get; set; }
-
         [DisplayFormat(ConvertEmptyStringToNull = false), MaxLength(15)]
         public string Code { get; set; }
+
+        [DisplayFormat(ConvertEmptyStringToNull = false), MaxLength(100)]
+        public string Name { get; set; }
 
         [Required]
         public bool DataEntrySubtotal { get; set; }
@@ -39,8 +39,8 @@ namespace WEB.Models
 
             subcategoryDTO.SubcategoryId = subcategory.SubcategoryId;
             subcategoryDTO.CategoryId = subcategory.CategoryId;
-            subcategoryDTO.Name = subcategory.Name;
             subcategoryDTO.Code = subcategory.Code;
+            subcategoryDTO.Name = subcategory.Name;
             subcategoryDTO.DataEntrySubtotal = subcategory.DataEntrySubtotal;
             subcategoryDTO.SortOrder = subcategory.SortOrder;
 
@@ -61,8 +61,8 @@ namespace WEB.Models
         public static void Hydrate(Subcategory subcategory, SubcategoryDTO subcategoryDTO)
         {
             subcategory.CategoryId = subcategoryDTO.CategoryId;
-            subcategory.Name = subcategoryDTO.Name;
             subcategory.Code = subcategoryDTO.Code;
+            subcategory.Name = subcategoryDTO.Name;
             subcategory.DataEntrySubtotal = subcategoryDTO.DataEntrySubtotal;
             subcategory.SortOrder = subcategoryDTO.SortOrder;
         }

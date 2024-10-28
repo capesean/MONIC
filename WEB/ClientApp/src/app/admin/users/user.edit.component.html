@@ -1,10 +1,18 @@
 <ng-container *ngIf="route.children.length === 0">
 
-    <app-page-title title="User"></app-page-title>
+    <app-page-title></app-page-title>
 
     <form id="form" name="form" (submit)="save(form)" novalidate #form="ngForm" [ngClass]="{ 'was-validated': form.submitted }">
 
-        <div class="card border-0">
+        <div class="card card-edit">
+
+            <div class="card-header">
+
+                <div class="card-header-title">
+                    <h4>User</h4>
+                </div>
+
+            </div>
 
             <div class="card-body">
 
@@ -149,44 +157,46 @@
 
                 </fieldset>
 
-                <fieldset class="my-3">
-                    <button type="submit" class="btn btn-outline-success me-2 mb-1">Save<i class="fas fa-check ms-2"></i></button>
-                    <button type="button" *ngIf="!isNew" class="btn btn-outline-danger me-2 mb-1" (click)="delete()">Delete<i class="fas fa-times ms-2"></i></button>
-                </fieldset>
-
             </div>
 
+        </div>
+
+        <div class="mb-4">
+            <button type="submit" class="btn btn-outline-success me-2 mb-1">Save<i class="fas fa-check ms-2"></i></button>
+            <button type="button" *ngIf="!isNew" class="btn btn-outline-danger me-2 mb-1" (click)="delete()">Delete<i class="fas fa-times ms-2"></i></button>
         </div>
 
     </form>
 
     <ng-container *ngIf="!isNew">
 
-        <hr />
-
         <nav ngbNav #nav="ngbNav" class="nav-tabs">
 
-            <ng-container ngbNavItem class="pt-6">
+            <ng-container ngbNavItem>
 
                 <a ngbNavLink>Entity Permissions</a>
 
                 <ng-template ngbNavContent>
 
-                    <div class="card border-0 search-results">
+                    <div class="card card-list">
 
-                        <div class="card-header border-0">
+                        <div class="card-header">
 
-                            <h4 class="card-header-title text-uppercase">
-                                Entity Permissions
-                            </h4>
+                            <div class="card-header-title">
+                                <h4>Entity Permissions</h4>
+                                <div>
+                                    <i class="fa fa-fw ms-1 fa-plus cursor-pointer" ngbTooltip="Add Entity Permissions" (click)="addEntityPermissions()"></i>
+                                    <i class="fa fa-fw ms-1 fa-search cursor-pointer" (click)="showEntityPermissionsSearch=!showEntityPermissionsSearch" ngbTooltip="Toggle search options"></i>
+                                </div>
+                            </div>
 
                         </div>
 
-                        <div class="card-body">
+                        <div class="card-body" *ngIf="showEntityPermissionsSearch" @FadeThenShrink>
 
-                            <form id="formSearchEntityPermissions" (submit)="searchEntityPermissions(0)" novalidate *ngIf="showEntityPermissionsSearch" class="mb-5">
+                            <form id="formSearchEntityPermissions" (submit)="searchEntityPermissions(0)" novalidate>
 
-                                <div class="row g-3">
+                                <div class="row g-2">
 
                                     <div class="col-sm-6 col-md-4 col-lg-4 col-xl-3">
                                         <div class="form-group">
@@ -194,15 +204,15 @@
                                         </div>
                                     </div>
 
+                                    <div class="col-sm-3 col-md-3 col-lg-3 col-xl-2">
+                                        <div class="form-group">
+                                            <button form="formSearchEntityPermissions" type="submit" class="btn btn-outline-primary me-2 mb-1">Search<i class="fas fa-search ms-2"></i></button>
+                                        </div>
+                                    </div>
+
                                 </div>
 
                             </form>
-
-                            <div class="mb-3">
-                                <button class="btn btn-outline-primary me-2 mb-1" (click)="addEntityPermissions()">Add Entity Permissions<i class="fas fa-plus ms-2"></i></button>
-                                <button *ngIf="!showEntityPermissionsSearch" type="button" class="btn btn-outline-secondary me-2 mb-1" (click)="showEntityPermissionsSearch=true">Filter<i class="fas fa-filter ms-2"></i></button>
-                                <button *ngIf="showEntityPermissionsSearch" form="formSearchEntityPermissions" type="submit" class="btn btn-outline-primary me-2 mb-1">Search<i class="fas fa-search ms-2"></i></button>
-                            </div>
 
                         </div>
 
@@ -237,27 +247,32 @@
 
             </ng-container>
 
-            <ng-container ngbNavItem class="pt-6">
+            <ng-container ngbNavItem>
 
                 <a ngbNavLink>Indicator Permissions</a>
 
                 <ng-template ngbNavContent>
 
-                    <div class="card border-0 search-results">
+                    <div class="card card-list">
 
-                        <div class="card-header border-0">
+                        <div class="card-header">
 
-                            <h4 class="card-header-title text-uppercase">
-                                Indicator Permissions
-                            </h4>
+                            <div class="card-header-title">
+                                <h4>Indicator Permissions</h4>
+                                <div>
+                                    <i class="fa fa-fw ms-1 fa-plus cursor-pointer" (click)="openIndicatorModal()" ngbTooltip="Add Indicators"></i>
+                                    <i class="fa fa-fw ms-1 fa-asterisk cursor-pointer" (click)="addIndicators([])" ngbTooltip="Add all Indicators"></i>
+                                    <i class="fa fa-fw ms-1 fa-search cursor-pointer" (click)="showIndicatorPermissionsSearch=!showIndicatorPermissionsSearch" ngbTooltip="Toggle search options"></i>
+                                </div>
+                            </div>
 
                         </div>
 
-                        <div class="card-body">
+                        <div class="card-body" *ngIf="showIndicatorPermissionsSearch" @FadeThenShrink>
 
-                            <form id="formSearchIndicatorPermissions" (submit)="searchIndicatorPermissions(0)" novalidate *ngIf="showIndicatorPermissionsSearch" class="mb-5">
+                            <form id="formSearchIndicatorPermissions" (submit)="searchIndicatorPermissions(0)" novalidate>
 
-                                <div class="row g-3">
+                                <div class="row g-2">
 
                                     <div class="col-sm-6 col-md-4 col-lg-4 col-xl-3">
                                         <div class="form-group">
@@ -275,16 +290,15 @@
                                         </div>
                                     </div>
 
+                                    <div class="col-sm-3 col-md-3 col-lg-3 col-xl-2">
+                                        <div class="form-group">
+                                            <button form="formSearchIndicatorPermissions" type="submit" class="btn btn-outline-primary me-2 mb-1">Search<i class="fas fa-search ms-2"></i></button>
+                                        </div>
+                                    </div>
+
                                 </div>
 
                             </form>
-
-                            <div class="mb-3">
-                                <button type="button" class="btn btn-outline-primary me-2 mb-1" (click)="openIndicatorModal()">Add Indicators<i class="fa fa-plus ms-2"></i></button>
-                                <button type="button" class="btn btn-outline-primary me-2 mb-1" (click)="addIndicators([])">All Indicators<i class="fa fa-plus ms-2"></i></button>
-                                <button *ngIf="!showIndicatorPermissionsSearch" type="button" class="btn btn-outline-secondary me-2 mb-1" (click)="showIndicatorPermissionsSearch=true">Filter<i class="fas fa-filter ms-2"></i></button>
-                                <button *ngIf="showIndicatorPermissionsSearch" form="formSearchIndicatorPermissions" type="submit" class="btn btn-outline-primary me-2 mb-1">Search<i class="fas fa-search ms-2"></i></button>
-                            </div>
 
                         </div>
 

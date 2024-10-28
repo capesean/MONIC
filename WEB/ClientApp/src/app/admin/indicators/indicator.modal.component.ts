@@ -33,6 +33,7 @@ export class IndicatorModalComponent implements OnInit {
     @Input() canRemoveFilters = false;
     @Input() multiple = false;
     @Input() showAddNew = false;
+    @Input() showFilters = true;
     @Input() showFooter = true;
     @Input() resetOnOpen = false;
     @Input() title = this.multiple ? "Select indicators" : "Select an indicator";
@@ -65,7 +66,7 @@ export class IndicatorModalComponent implements OnInit {
         this.searchOptions.entityTypeId = this.entityType?.entityTypeId;
         this.searchOptions.frequency = this.frequency?.value;
         this.searchOptions.createdById = this.createdBy?.id;
-        this.modal = this.modalService.open(this.content, { size: 'xl', centered: true, scrollable: true });
+        this.modal = this.modalService.open(this.content, { size: 'xl', centered: true, scrollable: false });
         this.runSearch();
         this.modal.result.then((indicator: Indicator | Indicator[]) => {
             if (this.multiple) this.changes.emit(indicator as Indicator[]);

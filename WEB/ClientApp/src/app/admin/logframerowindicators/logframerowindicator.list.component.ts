@@ -3,17 +3,20 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { Subject } from 'rxjs';
 import { PagingHeaders } from '../../common/models/http.model';
 import { LogFrameRowIndicatorSearchOptions, LogFrameRowIndicatorSearchResponse, LogFrameRowIndicator } from '../../common/models/logframerowindicator.model';
+import { FadeThenShrink } from '../../common/animations/fadethenshrink';
 import { ErrorService } from '../../common/services/error.service';
 import { LogFrameRowIndicatorService } from '../../common/services/logframerowindicator.service';
 
 @NgComponent({
     selector: 'logframerowindicator-list',
-    templateUrl: './logframerowindicator.list.component.html'
+    templateUrl: './logframerowindicator.list.component.html',
+    animations: [FadeThenShrink]
 })
 export class LogFrameRowIndicatorListComponent implements OnInit {
 
     public logFrameRowIndicators: LogFrameRowIndicator[] = [];
     public searchOptions = new LogFrameRowIndicatorSearchOptions();
+    public showSearchOptions = false;
     public headers = new PagingHeaders();
 
     constructor(

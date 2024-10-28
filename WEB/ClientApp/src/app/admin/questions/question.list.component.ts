@@ -6,18 +6,21 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { PagingHeaders } from '../../common/models/http.model';
 import { QuestionSearchOptions, QuestionSearchResponse, Question } from '../../common/models/question.model';
 import { Enum, Enums } from '../../common/models/enums.model';
+import { FadeThenShrink } from '../../common/animations/fadethenshrink';
 import { ErrorService } from '../../common/services/error.service';
 import { QuestionService } from '../../common/services/question.service';
 import { QuestionSortComponent } from './question.sort.component';
 
 @NgComponent({
     selector: 'question-list',
-    templateUrl: './question.list.component.html'
+    templateUrl: './question.list.component.html',
+    animations: [FadeThenShrink]
 })
 export class QuestionListComponent implements OnInit, OnDestroy {
 
     public questions: Question[] = [];
     public searchOptions = new QuestionSearchOptions();
+    public showSearchOptions = false;
     public headers = new PagingHeaders();
     private routerSubscription: Subscription;
     public questionTypes: Enum[] = Enums.QuestionTypes;
@@ -68,7 +71,7 @@ export class QuestionListComponent implements OnInit, OnDestroy {
     }
 
     showSort(): void {
-        let modalRef = this.modalService.open(QuestionSortComponent, { size: 'xl', centered: true, scrollable: true });
+        let modalRef = this.modalService.open(QuestionSortComponent, { size: 'xl', centered: true, scrollable: false });
         modalRef.result.then(
             () => {
 

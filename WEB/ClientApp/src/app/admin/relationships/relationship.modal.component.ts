@@ -27,6 +27,7 @@ export class RelationshipModalComponent implements OnInit {
     @Input() canRemoveFilters = false;
     @Input() multiple = false;
     @Input() showAddNew = false;
+    @Input() showFilters = true;
     @Input() showFooter = true;
     @Input() resetOnOpen = false;
     @Input() title = this.multiple ? "Select relationships" : "Select a relationship";
@@ -50,7 +51,7 @@ export class RelationshipModalComponent implements OnInit {
         this.searchOptions.theoryOfChangeId = this.theoryOfChange?.theoryOfChangeId;
         this.searchOptions.sourceComponentId = this.sourceComponent?.componentId;
         this.searchOptions.targetComponentId = this.targetComponent?.componentId;
-        this.modal = this.modalService.open(this.content, { size: 'xl', centered: true, scrollable: true });
+        this.modal = this.modalService.open(this.content, { size: 'xl', centered: true, scrollable: false });
         this.runSearch();
         this.modal.result.then((relationship: Relationship | Relationship[]) => {
             if (this.multiple) this.changes.emit(relationship as Relationship[]);

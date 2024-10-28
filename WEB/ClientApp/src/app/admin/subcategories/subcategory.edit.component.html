@@ -1,173 +1,213 @@
-<div *ngIf="route.children.length === 0">
+<app-page-title></app-page-title>
 
-    <app-page-title title="Subcategory"></app-page-title>
+<form id="form" name="form" (submit)="save(form)" novalidate #form="ngForm" [ngClass]="{ 'was-validated': form.submitted }">
 
-    <form id="form" name="form" (submit)="save(form)" novalidate #form="ngForm" [ngClass]="{ 'was-validated': form.submitted }">
+    <div class="card card-edit">
 
-        <div class="card border-0">
+        <div class="card-header">
 
-            <div class="card-body">
-
-                <fieldset class="group">
-
-                    <div class="row g-3">
-
-                        <div class="col-sm-6 col-md-4">
-                            <div class="form-group" [ngClass]="{ 'is-invalid': code.invalid }">
-
-                                <label for="code">
-                                    Code:
-                                </label>
-
-                                <input id="code" name="code" class="form-control" type="text" [(ngModel)]="subcategory.code" #code="ngModel" required maxlength="15" />
-
-                                <div *ngIf="code.errors?.required" class="invalid-feedback">
-                                    Code is required
-                                </div>
-
-                                <div *ngIf="code.errors?.maxlength" class="invalid-feedback">
-                                    Code must be at most 15 characters long
-                                </div>
-
-                            </div>
-                        </div>
-
-                        <div class="col-sm-6 col-md-4">
-                            <div class="form-group" [ngClass]="{ 'is-invalid': name.invalid }">
-
-                                <label for="name">
-                                    Name:
-                                </label>
-
-                                <input id="name" name="name" class="form-control" type="text" [(ngModel)]="subcategory.name" #name="ngModel" required (ngModelChange)="changeBreadcrumb()" maxlength="100" />
-
-                                <div *ngIf="name.errors?.required" class="invalid-feedback">
-                                    Name is required
-                                </div>
-
-                                <div *ngIf="name.errors?.maxlength" class="invalid-feedback">
-                                    Name must be at most 100 characters long
-                                </div>
-
-                            </div>
-                        </div>
-
-                        <div class="col-sm-6 col-md-4">
-                            <div class="form-group" [ngClass]="{ 'is-invalid': dataEntrySubtotal.invalid }">
-
-                                <label for="dataEntrySubtotal">
-                                    Data Entry Subtotal:
-                                </label>
-
-                                <div class="form-check">
-                                    <input id="dataEntrySubtotal" name="dataEntrySubtotal" class="form-check-input" type="checkbox" [(ngModel)]="subcategory.dataEntrySubtotal" #dataEntrySubtotal="ngModel" />
-                                    <label class="form-check-label" for="dataEntrySubtotal">
-                                        Data Entry Subtotal
-                                    </label>
-                                </div>
-
-                            </div>
-                        </div>
-
-                    </div>
-
-                </fieldset>
-
-                <fieldset class="my-3">
-                    <button type="submit" class="btn btn-outline-success me-2 mb-1">Save<i class="fas fa-check ms-2"></i></button>
-                    <button type="button" *ngIf="!isNew" class="btn btn-outline-danger me-2 mb-1" (click)="delete()">Delete<i class="fas fa-times ms-2"></i></button>
-                </fieldset>
-
+            <div class="card-header-title">
+                <h4>Subcategory</h4>
             </div>
 
         </div>
 
-    </form>
+        <div class="card-body">
 
-    <div *ngIf="!isNew">
+            <fieldset class="group">
 
-        <hr />
+                <div class="row g-3">
 
-        <nav ngbNav #nav="ngbNav" class="nav-tabs">
+                    <div class="col-sm-6 col-md-4">
+                        <div class="form-group" [ngClass]="{ 'is-invalid': code.invalid }">
 
-            <ng-container ngbNavItem>
+                            <label for="code">
+                                Code:
+                            </label>
 
-                <a ngbNavLink>Indicators</a>
+                            <input id="code" name="code" class="form-control" type="text" [(ngModel)]="subcategory.code" #code="ngModel" required maxlength="15" />
 
-                <ng-template ngbNavContent>
+                            <div *ngIf="code.errors?.required" class="invalid-feedback">
+                                Code is required
+                            </div>
 
-                    <div class="card border-0 search-results">
-
-                        <div class="card-header border-0">
-
-                            <h4 class="card-header-title text-uppercase">
-                                Indicators
-                            </h4>
-
-                        </div>
-
-                        <div class="card-body">
-
-                            <form id="formSearchIndicators" (submit)="loadIndicators(0)" novalidate *ngIf="showIndicatorsSearch" class="mb-5">
-
-                                <div class="row g-3">
-
-                                    <div class="col-sm-6 col-md-5 col-lg-4 col-xl-3">
-                                        <div class="form-group">
-                                            <input type="search" name="q" id="q" [(ngModel)]="indicatorsSearchOptions.q" max="100" class="form-control" placeholder="Search indicators" />
-                                        </div>
-                                    </div>
-
-                                </div>
-
-                            </form>
-
-                            <div class="mb-3">
-                                <a [routerLink]="['./indicators', 'add']" class="btn btn-outline-primary me-2 mb-1">Add<i class="fas fa-plus ms-2"></i></a>
-                                <button *ngIf="!showIndicatorsSearch" type="button" class="btn btn-outline-secondary me-2 mb-1" (click)="showIndicatorsSearch=true">Filter<i class="fas fa-filter ms-2"></i></button>
-                                <button *ngIf="showIndicatorsSearch" form="formSearchIndicators" type="submit" class="btn btn-outline-primary me-2 mb-1">Search<i class="fas fa-search ms-2"></i></button>
-                                <button type="button" class="btn btn-outline-secondary me-2 mb-1" (click)="showIndicatorSort()" *ngIf="indicatorsHeaders.totalRecords > 1 && !showIndicatorsSearch">Sort<i class="fas fa-sort ms-2"></i></button>
+                            <div *ngIf="code.errors?.maxlength" class="invalid-feedback">
+                                Code must be at most 15 characters long
                             </div>
 
                         </div>
+                    </div>
 
-                        <div class="table-responsive">
+                    <div class="col-sm-6 col-md-4">
+                        <div class="form-group" [ngClass]="{ 'is-invalid': name.invalid }">
 
-                            <table class="table table-hover table-edge table-nowrap mb-0 align-middle">
-                                <thead class="thead-light">
-                                    <tr>
-                                        <th>Name</th>
-                                        <th>Code</th>
-                                        <th class="w-20px text-center"><i class="fas fa-times text-danger cursor-pointer" (click)="deleteIndicators()" ngbTooltip="Delete all indicators" container="body" placement="left"></i></th>
-                                    </tr>
-                                </thead>
-                                <tbody class="list cursor-pointer">
-                                    <tr *ngFor="let subcategory of indicators" (click)="goToIndicator(subcategory)">
-                                        <td>{{ subcategory.name }}</td>
-                                        <td>{{ subcategory.code }}</td>
-                                        <td class="text-center"><i class="fas fa-times cursor-pointer p-1 text-danger" (click)="deleteIndicator(subcategory, $event)"></i></td>
-                                    </tr>
-                                </tbody>
-                            </table>
+                            <label for="name">
+                                Subcategory:
+                            </label>
+
+                            <input id="name" name="name" class="form-control" type="text" [(ngModel)]="subcategory.name" #name="ngModel" required (ngModelChange)="changeBreadcrumb()" maxlength="100" />
+
+                            <div *ngIf="name.errors?.required" class="invalid-feedback">
+                                Subcategory is required
+                            </div>
+
+                            <div *ngIf="name.errors?.maxlength" class="invalid-feedback">
+                                Subcategory must be at most 100 characters long
+                            </div>
 
                         </div>
+                    </div>
 
-                        <div class="card-footer">
-                            <pager [headers]="indicatorsHeaders" (pageChanged)="loadIndicators($event)"></pager>
+                    <div class="col-sm-6 col-md-4">
+                        <div class="form-group" [ngClass]="{ 'is-invalid': dataEntrySubtotal.invalid }">
+
+                            <label for="dataEntrySubtotal">
+                                Data Entry Subtotal:
+                            </label>
+
+                            <div class="form-check">
+                                <input id="dataEntrySubtotal" name="dataEntrySubtotal" class="form-check-input" type="checkbox" [(ngModel)]="subcategory.dataEntrySubtotal" #dataEntrySubtotal="ngModel" />
+                                <label class="form-check-label" for="dataEntrySubtotal">
+                                    Data Entry Subtotal
+                                </label>
+                            </div>
+
+                        </div>
+                    </div>
+
+                </div>
+
+            </fieldset>
+
+        </div>
+
+    </div>
+
+    <div class="mb-4">
+        <button type="submit" class="btn btn-outline-success me-2 mb-1">Save<i class="fas fa-check ms-2"></i></button>
+        <button type="button" *ngIf="!isNew" class="btn btn-outline-danger me-2 mb-1" (click)="delete()">Delete<i class="fas fa-times ms-2"></i></button>
+    </div>
+
+</form>
+
+<ng-container *ngIf="!isNew">
+
+    <nav ngbNav #nav="ngbNav" class="nav-tabs">
+
+        <ng-container ngbNavItem>
+
+            <a ngbNavLink>Indicators</a>
+
+            <ng-template ngbNavContent>
+
+                <div class="card card-list">
+
+                    <div class="card-header">
+
+                        <div class="card-header-title">
+                            <h4>Indicators</h4>
+                            <div>
+                                <i class="fa fa-fw ms-1 fa-search cursor-pointer" (click)="showIndicatorsSearch=!showIndicatorsSearch" ngbTooltip="Toggle search options"></i>
+                            </div>
                         </div>
 
                     </div>
 
-                </ng-template>
+                    <div class="card-body" *ngIf="showIndicatorsSearch" @FadeThenShrink>
 
-            </ng-container>
+                        <form id="formSearchIndicators" (submit)="searchIndicators(0)" novalidate>
 
-        </nav>
+                            <div class="row g-2">
 
-        <div [ngbNavOutlet]="nav" class="mt-1"></div>
+                                <div class="col-sm-6 col-md-5 col-lg-4 col-xl-3">
+                                    <div class="form-group">
+                                        <input type="search" name="q" id="q" [(ngModel)]="indicatorsSearchOptions.q" max="100" class="form-control" placeholder="Search indicators" />
+                                    </div>
+                                </div>
 
-    </div>
+                                <div class="col-sm-6 col-md-4 col-lg-4 col-xl-3">
+                                    <div class="form-group">
+                                        <select id="indicatorType" name="indicatorType" [(ngModel)]="indicatorsSearchOptions.indicatorType" #indicatorType="ngModel" class="form-select">
+                                            <option [ngValue]="undefined" disabled>Indicator Type</option>
+                                            <option *ngFor="let indicatorType of indicatorTypes" [ngValue]="indicatorType.value">{{ indicatorType.label }}</option>
+                                        </select>
+                                    </div>
+                                </div>
 
-</div>
+                                <div class="col-sm-6 col-md-4 col-lg-4 col-xl-3">
+                                    <div class="form-group">
+                                        <select id="indicatorStatus" name="indicatorStatus" [(ngModel)]="indicatorsSearchOptions.indicatorStatus" #indicatorStatus="ngModel" class="form-select">
+                                            <option [ngValue]="undefined" disabled>Status</option>
+                                            <option *ngFor="let indicatorStatus of indicatorStatuses" [ngValue]="indicatorStatus.value">{{ indicatorStatus.label }}</option>
+                                        </select>
+                                    </div>
+                                </div>
 
-<router-outlet></router-outlet>
+                                <div class="col-sm-6 col-md-4 col-lg-4 col-xl-3">
+                                    <div class="form-group">
+                                        <entity-type-select id="entityTypeId" name="entityTypeId" [(ngModel)]="indicatorsSearchOptions.entityTypeId"></entity-type-select>
+                                    </div>
+                                </div>
+
+                                <div class="col-sm-6 col-md-4 col-lg-4 col-xl-3">
+                                    <div class="form-group">
+                                        <select id="frequency" name="frequency" [(ngModel)]="indicatorsSearchOptions.frequency" #frequency="ngModel" class="form-select">
+                                            <option [ngValue]="undefined" disabled>Frequency</option>
+                                            <option *ngFor="let dateType of dateTypes" [ngValue]="dateType.value">{{ dateType.label }}</option>
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <div class="col-sm-3 col-md-3 col-lg-3 col-xl-2">
+                                    <div class="form-group">
+                                        <button form="formSearchIndicators" type="submit" class="btn btn-outline-primary me-2 mb-1">Search<i class="fas fa-search ms-2"></i></button>
+                                    </div>
+                                </div>
+
+                            </div>
+
+                        </form>
+
+                    </div>
+
+                    <div class="table-responsive">
+
+                        <table class="table table-hover table-edge table-nowrap mb-0 align-middle">
+                            <thead class="thead-light">
+                                <tr>
+                                    <th>Name</th>
+                                    <th>Code</th>
+                                    <th>Indicator Type</th>
+                                    <th>Frequency</th>
+                                    <th class="w-20px text-center"><i class="fas fa-times text-danger cursor-pointer" (click)="deleteIndicators()" ngbTooltip="Delete all indicators" container="body" placement="left"></i></th>
+                                </tr>
+                            </thead>
+                            <tbody class="list cursor-pointer">
+                                <tr *ngFor="let indicator of indicators" (click)="goToIndicator(indicator)">
+                                    <td>{{ indicator.name }}</td>
+                                    <td>{{ indicator.code }}</td>
+                                    <td>{{ indicatorTypes[indicator.indicatorType].label }}</td>
+                                    <td>{{ dateTypes[indicator.frequency].label }}</td>
+                                    <td class="text-center"><i class="fas fa-times cursor-pointer p-1 text-danger" (click)="deleteIndicator(indicator, $event)"></i></td>
+                                </tr>
+                            </tbody>
+                        </table>
+
+                    </div>
+
+                    <div class="card-footer">
+                        <pager [headers]="indicatorsHeaders" (pageChanged)="searchIndicators($event)"></pager>
+                    </div>
+
+                </div>
+
+            </ng-template>
+
+        </ng-container>
+
+    </nav>
+
+    <div [ngbNavOutlet]="nav" class="mt-1"></div>
+
+</ng-container>
+

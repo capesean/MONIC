@@ -1,3 +1,5 @@
+using Azure.Identity;
+using Microsoft.AspNetCore.DataProtection;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using WEB;
@@ -8,11 +10,29 @@ using static OpenIddict.Abstractions.OpenIddictConstants;
 var builder = WebApplication.CreateBuilder(args);
 
 var appSettings = builder.Configuration.GetSection("Settings").Get<AppSettings>();
-DbContextOptions dbContextOptions = null;
+
+if (appSettings.UseAzureDataProtection)
+{
+    // use azure blob storage to persist the data protection keys, so the decryption of JWTs works after restarting the app (e.g. publishing)
+
+    /*
+     * The requires a storage account, container & blob created on Azure - for the blob storage url
+     * -> The URL is in the format: https://[storage-account].blob.core.windows.net/[container]/[filename].xml 
+     * -> filename can be something like "dataprotectionkeys" - it will be created on first run
+     * It also requires an app registration on Entra Id (formerly Azure Active Directory) for the tenantId, clientId and secret
+     * The app registration also needs to be added to the container's access Control (IAM) with role: Storage Blob Data Contributor
+     */
+    var tokenCredential = new ClientSecretCredential(appSettings.AzureBlobStorage.TenantId, appSettings.AzureBlobStorage.ClientId, appSettings.AzureBlobStorage.ClientSecret);
+
+    builder.Services.AddDataProtection()
+                .PersistKeysToAzureBlobStorage(new Uri(appSettings.AzureBlobStorage.AzureBlobStorageUrl), tokenCredential);
+}
 
 // todo: this is not correct - find out a better way to get correct path
 appSettings.WebRootPath = Path.Combine(Directory.GetCurrentDirectory(), appSettings.IsDevelopment ? "ClientApp\\src\\" : "wwwroot\\");
 appSettings.RootPath = Path.Combine(Directory.GetCurrentDirectory());
+
+builder.Services.AddScoped<ApiExceptionAttribute>();
 
 //builder.Services.AddControllers(options => options.Filters.Add(typeof(ApiExceptionAttribute)))
 builder.Services.AddControllersWithViews(options => options.Filters.Add(typeof(ApiExceptionAttribute)))
@@ -43,9 +63,24 @@ if (appSettings.IsDevelopment)
     });
 }
 
+builder.Services.AddHttpContextAccessor();
+builder.Services.AddScoped<IIdentityService, IdentityService>();
+
+builder.Services.AddDbContext<ApplicationDbContext>((serviceProvider, options) =>
+{
+    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"),
+        sqlOptions =>
+        {
+            sqlOptions.CommandTimeout(300);
+            sqlOptions.UseQuerySplittingBehavior(QuerySplittingBehavior.SplitQuery);
+        });
+
+    options.UseQueryTrackingBehavior(QueryTrackingBehavior.NoTracking);
+    options.UseOpenIddict();
+});
+
 builder.Services.AddDbContextFactory<ApplicationDbContext>(options =>
 {
-    // Configure the context to use Microsoft SQL Server.
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"),
         sqlOptions =>
         {
@@ -56,15 +91,9 @@ builder.Services.AddDbContextFactory<ApplicationDbContext>(options =>
 
     options.UseQueryTrackingBehavior(QueryTrackingBehavior.NoTracking);
 
-    // Register the entity sets needed by OpenIddict.
-    // Note: use the generic overload if you need
-    // to replace the default OpenIddict entities.
     options.UseOpenIddict();
 
-    // store for init
-    dbContextOptions = options.Options;
-
-});
+}, ServiceLifetime.Scoped);
 
 builder.Services.AddIdentity<User, Role>(options =>
     {
@@ -156,8 +185,6 @@ app.UseAuthorization();
 app.MapControllers();
 //app.UseEndpoints(endpoints => endpoints.MapControllers());
 
-app.MapFallbackToFile("index.html"); ;
+app.MapFallbackToFile("index.html");
 
 app.Run();
-
-

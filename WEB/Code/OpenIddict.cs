@@ -37,18 +37,29 @@ namespace WEB
                     // register the signing and encryption credentials.
                     if (appSettings.IsDevelopment)
                     {
-                        // can also use options.AddEphemeralEncryptionKey().AddEphemeralSigningKey();
-                        //options.AddDevelopmentEncryptionCertificate()
-                        //        .AddDevelopmentSigningCertificate();
-
-                        var certificate = X509Certificate.GetCertificate(appSettings);
-                        options.AddEncryptionCertificate(certificate);
-                        options.AddSigningCertificate(certificate);
+                        if (string.IsNullOrEmpty(appSettings.CertificatePassword))
+                        {
+                            // logins will not persist beyong restarts
+                            options.AddDevelopmentEncryptionCertificate()
+                                    .AddDevelopmentSigningCertificate();
+                        }
+                        else
+                        {
+                            // create a certificate using the CertificatePassword & store it for re-use
+                            var certificate = X509Certificate.GetCertificate(appSettings);
+                            options.AddEncryptionCertificate(certificate);
+                            options.AddSigningCertificate(certificate);
+                        }
                     }
                     else
                     {
-                        // todo: better / more secure ways of storing certificates: https://documentation.openiddict.com/configuration/encryption-and-signing-credentials.html
+                        if (appSettings.UseAzureDataProtection)
+                        {
+                            // this stores/retrieves the data protection key in azure blob storage, meaning logins persist beyond restarting (e.g. publishing)
+                            options.UseDataProtection();
+                        }
 
+                        // todo: production certificates should be stored in Azure key vault: https://documentation.openiddict.com/configuration/encryption-and-signing-credentials.html
                         var certificate = X509Certificate.GetCertificate(appSettings);
                         options.AddEncryptionCertificate(certificate);
                         options.AddSigningCertificate(certificate);
@@ -107,6 +118,12 @@ namespace WEB
                     //
                     // options.EnableAuthorizationEntryValidation();
                     // options.EnableTokenEntryValidation();
+
+                    if (appSettings.UseAzureDataProtection)
+                    {
+                        options.UseDataProtection();
+                    }
+
                 });
 
             builder.Services.ConfigureApplicationCookie(config =>

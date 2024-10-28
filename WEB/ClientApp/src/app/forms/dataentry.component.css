@@ -23,15 +23,16 @@
 ::ng-deep button.accordion-button {
     text-transform: uppercase;
     font-weight: bold;
-    font-size: 1.4rem;
+    font-size: 1rem;
 }
 
 ::ng-deep .accordion-button.collapsed {
-    background-color: #fc8d62cc;
+    background-color: #fc8d62ff !important;
+    color: black;
 }
 
 ::ng-deep .accordion-button:not(.collapsed) {
-    background-color: #fc8d627f;
+    background-color: #fc8d6277 !important;
     color: black;
 }
 
@@ -42,6 +43,7 @@
 ::ng-deep .accordion-item {
     margin-top: 2rem;
     margin-bottom: 2rem;
+    border: solid 1px rgba(var(--bs-secondary-rgb), 1) !important;
 }
 
 .text-tiny {

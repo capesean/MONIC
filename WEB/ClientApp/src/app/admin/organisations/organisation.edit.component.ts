@@ -7,7 +7,7 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { BreadcrumbService } from '../../common/services/breadcrumb.service';
 import { ErrorService } from '../../common/services/error.service';
 import { NgbActiveModal, NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { ConfirmModalComponent, ModalOptions } from '../../common/components/confirm.component';
+import { ConfirmModalComponent, ConfirmModalOptions } from '../../common/components/confirm.component';
 import { PagingHeaders } from '../../common/models/http.model';
 import { Organisation } from '../../common/models/organisation.model';
 import { OrganisationService } from '../../common/services/organisation.service';
@@ -18,12 +18,14 @@ import { UserService } from '../../common/services/user.service';
 import { ItemComponent } from '../../common/components/item.component';
 import { AppService } from '../../common/services/app.service';
 import { Enum, Enums, ItemTypes, Roles } from '../../common/models/enums.model';
+import { FadeThenShrink } from '../../common/animations/fadethenshrink';
 import { DocumentService } from '../../common/services/document.service';
 import { Item } from '../../common/models/item.model';
 
 @Component({
     selector: 'organisation-edit',
-    templateUrl: './organisation.edit.component.html'
+    templateUrl: './organisation.edit.component.html',
+    animations: [FadeThenShrink]
 })
 export class OrganisationEditComponent extends ItemComponent implements OnInit {
 
@@ -138,7 +140,7 @@ export class OrganisationEditComponent extends ItemComponent implements OnInit {
     delete(): void {
 
         let modalRef = this.modalService.open(ConfirmModalComponent, { centered: true });
-        (modalRef.componentInstance as ConfirmModalComponent).options = { title: "Delete Organisation", text: "Are you sure you want to delete this organisation?" } as ModalOptions;
+        (modalRef.componentInstance as ConfirmModalComponent).options = { title: "Delete Organisation", text: "Are you sure you want to delete this organisation?" } as ConfirmModalOptions;
         modalRef.result.then(
             () => {
 
@@ -190,7 +192,7 @@ export class OrganisationEditComponent extends ItemComponent implements OnInit {
         event.stopPropagation();
 
         let modalRef = this.modalService.open(ConfirmModalComponent, { centered: true });
-        (modalRef.componentInstance as ConfirmModalComponent).options = { title: "Delete Entity", text: "Are you sure you want to delete this entity?" } as ModalOptions;
+        (modalRef.componentInstance as ConfirmModalComponent).options = { title: "Delete Entity", text: "Are you sure you want to delete this entity?" } as ConfirmModalOptions;
         modalRef.result.then(
             () => {
 
@@ -210,7 +212,7 @@ export class OrganisationEditComponent extends ItemComponent implements OnInit {
 
     deleteEntities(): void {
         let modalRef = this.modalService.open(ConfirmModalComponent, { centered: true });
-        (modalRef.componentInstance as ConfirmModalComponent).options = { title: "Delete Entity", text: "Are you sure you want to delete all the entities?" } as ModalOptions;
+        (modalRef.componentInstance as ConfirmModalComponent).options = { title: "Delete Entity", text: "Are you sure you want to delete all the entities?" } as ConfirmModalOptions;
         modalRef.result.then(
             () => {
 
@@ -258,7 +260,7 @@ export class OrganisationEditComponent extends ItemComponent implements OnInit {
         event.stopPropagation();
 
         let modalRef = this.modalService.open(ConfirmModalComponent, { centered: true });
-        (modalRef.componentInstance as ConfirmModalComponent).options = { title: "Delete User", text: "Are you sure you want to delete this user?" } as ModalOptions;
+        (modalRef.componentInstance as ConfirmModalComponent).options = { title: "Delete User", text: "Are you sure you want to delete this user?" } as ConfirmModalOptions;
         modalRef.result.then(
             () => {
 
@@ -278,7 +280,7 @@ export class OrganisationEditComponent extends ItemComponent implements OnInit {
 
     deleteUsers(): void {
         let modalRef = this.modalService.open(ConfirmModalComponent, { centered: true });
-        (modalRef.componentInstance as ConfirmModalComponent).options = { title: "Delete User", text: "Are you sure you want to delete all the users?" } as ModalOptions;
+        (modalRef.componentInstance as ConfirmModalComponent).options = { title: "Delete User", text: "Are you sure you want to delete all the users?" } as ConfirmModalOptions;
         modalRef.result.then(
             () => {
 

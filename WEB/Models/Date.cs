@@ -10,10 +10,10 @@ namespace WEB.Models
         [Key, Required]
         public Guid DateId { get; set; }
 
-        [Required(AllowEmptyStrings = true), MaxLength(15)]
+        [Required(AllowEmptyStrings = true), MaxLength(25)]
         public string Name { get; set; }
 
-        [Required(AllowEmptyStrings = true), MaxLength(8)]
+        [Required(AllowEmptyStrings = true), MaxLength(10)]
         public string Code { get; set; }
 
         [Required]

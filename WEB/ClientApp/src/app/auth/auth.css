@@ -2,6 +2,7 @@
     width: 420px;
     max-width: 95%;
     margin: auto;
+    margin-top: 4rem !important;
     background-color: white;
     border: solid 1px grey;
     padding: 20px 30px;

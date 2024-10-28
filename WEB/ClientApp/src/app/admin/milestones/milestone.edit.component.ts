@@ -5,9 +5,10 @@ import { NgForm } from '@angular/forms';
 import { Subject, Subscription } from 'rxjs';
 import { HttpErrorResponse } from '@angular/common/http';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { ConfirmModalComponent, ModalOptions } from '../../common/components/confirm.component';
+import { ConfirmModalComponent, ConfirmModalOptions } from '../../common/components/confirm.component';
 import { PagingHeaders } from '../../common/models/http.model';
 import { Milestone } from '../../common/models/milestone.model';
+import { FadeThenShrink } from '../../common/animations/fadethenshrink';
 import { BreadcrumbService } from '../../common/services/breadcrumb.service';
 import { ErrorService } from '../../common/services/error.service';
 import { MilestoneService } from '../../common/services/milestone.service';
@@ -16,7 +17,8 @@ import { TaskService } from '../../common/services/task.service';
 
 @NgComponent({
     selector: 'milestone-edit',
-    templateUrl: './milestone.edit.component.html'
+    templateUrl: './milestone.edit.component.html',
+    animations: [FadeThenShrink]
 })
 export class MilestoneEditComponent implements OnInit, OnDestroy {
 
@@ -120,7 +122,7 @@ export class MilestoneEditComponent implements OnInit, OnDestroy {
     delete(): void {
 
         let modalRef = this.modalService.open(ConfirmModalComponent, { centered: true });
-        (modalRef.componentInstance as ConfirmModalComponent).options = { title: "Delete Milestone", text: "Are you sure you want to delete this milestone?", deleteStyle: true, ok: "Delete" } as ModalOptions;
+        (modalRef.componentInstance as ConfirmModalComponent).options = { title: "Delete Milestone", text: "Are you sure you want to delete this milestone?", deleteStyle: true, ok: "Delete" } as ConfirmModalOptions;
         modalRef.result.then(
             () => {
 
@@ -172,7 +174,7 @@ export class MilestoneEditComponent implements OnInit, OnDestroy {
         event.stopPropagation();
 
         let modalRef = this.modalService.open(ConfirmModalComponent, { centered: true });
-        (modalRef.componentInstance as ConfirmModalComponent).options = { title: "Delete Task", text: "Are you sure you want to delete this task?", deleteStyle: true, ok: "Delete" } as ModalOptions;
+        (modalRef.componentInstance as ConfirmModalComponent).options = { title: "Delete Task", text: "Are you sure you want to delete this task?", deleteStyle: true, ok: "Delete" } as ConfirmModalOptions;
         modalRef.result.then(
             () => {
 
@@ -192,7 +194,7 @@ export class MilestoneEditComponent implements OnInit, OnDestroy {
 
     deleteTasks(): void {
         let modalRef = this.modalService.open(ConfirmModalComponent, { centered: true });
-        (modalRef.componentInstance as ConfirmModalComponent).options = { title: "Delete Tasks", text: "Are you sure you want to delete all the tasks?", deleteStyle: true, ok: "Delete" } as ModalOptions;
+        (modalRef.componentInstance as ConfirmModalComponent).options = { title: "Delete Tasks", text: "Are you sure you want to delete all the tasks?", deleteStyle: true, ok: "Delete" } as ConfirmModalOptions;
         modalRef.result.then(
             () => {
 

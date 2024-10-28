@@ -95,21 +95,36 @@ export class DataEntryComponent implements OnInit, AfterViewInit {
                 profile => {
                     this.profile = profile;
                     this.organisation = profile.organisation;
-                    if (this.authService.isInRole(profile, Roles.Administrator)) {
-                        // todo: remove these? legacy from RURA?
-                        this.canReject = true;
-                        this.organisation = undefined;
-                        this.isOpen = null;
-                        this.hasOpened = true;
-                    } else if (this.authService.isInRole(profile, Roles.Oversight)) {
-                        this.isOpen = null;
-                        this.hasOpened = true;
-                    }
 
                     // the form defaults to edit, if the user doesn't have the ability, switch to view
                     if (!this.canEdit) this.options.permissionType = PermissionTypes.View;
 
                 })
+
+        this.authService.isInRole$(Roles.Administrator)
+            .subscribe({
+                next: result => {
+                    if (result) {
+                        // todo: remove these? legacy from RURA?
+                        this.canReject = true;
+                        this.organisation = undefined;
+                        this.isOpen = null;
+                        this.hasOpened = true;
+                    } else {
+
+                        this.authService.isInRole$(Roles.Oversight)
+                            .subscribe({
+                                next: result => {
+                                    if (result) {
+                                        this.isOpen = null;
+                                        this.hasOpened = true;
+                                    }
+                                }
+                            });
+
+                    }
+                }
+            });
 
         // ****************** temp for development
         //if (window.location.hostname === "localhost") {

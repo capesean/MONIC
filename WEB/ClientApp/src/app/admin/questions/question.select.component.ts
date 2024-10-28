@@ -85,4 +85,9 @@ export class QuestionSelectComponent implements OnInit, ControlValueAccessor {
         if (button && (this.question || this.questions.length)) this.changed(this.multiple ? [] : null);
         else this.modal.open();
     }
+
+    clear() {
+        this.changed(this.multiple ? [] : null);
+    }
 }
+

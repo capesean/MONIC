@@ -4,17 +4,20 @@ import { Subject, Subscription } from 'rxjs';
 import { PagingHeaders } from '../../common/models/http.model';
 import { ItemSearchOptions, ItemSearchResponse, Item } from '../../common/models/item.model';
 import { Enum, Enums } from '../../common/models/enums.model';
+import { FadeThenShrink } from '../../common/animations/fadethenshrink';
 import { ErrorService } from '../../common/services/error.service';
 import { ItemService } from '../../common/services/item.service';
 
 @NgComponent({
     selector: 'item-list',
-    templateUrl: './item.list.component.html'
+    templateUrl: './item.list.component.html',
+    animations: [FadeThenShrink]
 })
 export class ItemListComponent implements OnInit, OnDestroy {
 
     public items: Item[] = [];
     public searchOptions = new ItemSearchOptions();
+    public showSearchOptions = false;
     public headers = new PagingHeaders();
     private routerSubscription: Subscription;
     public itemTypes: Enum[] = Enums.ItemTypes;

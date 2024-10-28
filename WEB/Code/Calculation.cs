@@ -43,7 +43,7 @@ namespace WEB
             if (indicators.Any(o => o.IndicatorType != IndicatorType.Collected)) throw new Exception("Attempting to save a non-collected indicator");
 
             var tokenStacks = GetTokenStacksToCalculate(indicatorIds);
-
+            
             // entityIds for agg+calc: current entity + parents
             entityIds.AddRange(await db.EntityLinks.Where(o => entityIds.Contains(o.ChildEntityId)).Select(o => o.ParentEntityId).Distinct().ToListAsync());
             entityIds = entityIds.Distinct().ToList();
@@ -452,7 +452,7 @@ namespace WEB
 
         private static Stack<TokenStruct> ToPostFixStack(Indicator indicator)
         {
-            ICollection<Token> tokens = indicator.Tokens;
+            var tokens = indicator.Tokens.OrderBy(o => o.TokenNumber);
 
             // get the tokens from the infix stack
             var tempStack = new Stack<Token>(tokens);

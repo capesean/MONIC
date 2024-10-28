@@ -5,9 +5,10 @@ import { NgForm } from '@angular/forms';
 import { Subject, Subscription } from 'rxjs';
 import { HttpErrorResponse } from '@angular/common/http';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { ConfirmModalComponent, ModalOptions } from '../../common/components/confirm.component';
+import { ConfirmModalComponent, ConfirmModalOptions } from '../../common/components/confirm.component';
 import { PagingHeaders } from '../../common/models/http.model';
 import { Response } from '../../common/models/response.model';
+import { FadeThenShrink } from '../../common/animations/fadethenshrink';
 import { BreadcrumbService } from '../../common/services/breadcrumb.service';
 import { ErrorService } from '../../common/services/error.service';
 import { ResponseService } from '../../common/services/response.service';
@@ -21,7 +22,8 @@ import { environment } from '../../../environments/environment';
 
 @NgComponent({
     selector: 'response-edit',
-    templateUrl: './response.edit.component.html'
+    templateUrl: './response.edit.component.html',
+    animations: [FadeThenShrink]
 })
 export class ResponseEditComponent implements OnInit, OnDestroy {
 
@@ -136,7 +138,7 @@ export class ResponseEditComponent implements OnInit, OnDestroy {
     delete(): void {
 
         let modalRef = this.modalService.open(ConfirmModalComponent, { centered: true });
-        (modalRef.componentInstance as ConfirmModalComponent).options = { title: "Delete Response", text: "Are you sure you want to delete this response?", deleteStyle: true, ok: "Delete" } as ModalOptions;
+        (modalRef.componentInstance as ConfirmModalComponent).options = { title: "Delete Response", text: "Are you sure you want to delete this response?", deleteStyle: true, ok: "Delete" } as ConfirmModalOptions;
         modalRef.result.then(
             () => {
 
@@ -188,7 +190,7 @@ export class ResponseEditComponent implements OnInit, OnDestroy {
         event.stopPropagation();
 
         let modalRef = this.modalService.open(ConfirmModalComponent, { centered: true });
-        (modalRef.componentInstance as ConfirmModalComponent).options = { title: "Delete Answer", text: "Are you sure you want to delete this answer?", deleteStyle: true, ok: "Delete" } as ModalOptions;
+        (modalRef.componentInstance as ConfirmModalComponent).options = { title: "Delete Answer", text: "Are you sure you want to delete this answer?", deleteStyle: true, ok: "Delete" } as ConfirmModalOptions;
         modalRef.result.then(
             () => {
 
@@ -208,7 +210,7 @@ export class ResponseEditComponent implements OnInit, OnDestroy {
 
     deleteAnswers(): void {
         let modalRef = this.modalService.open(ConfirmModalComponent, { centered: true });
-        (modalRef.componentInstance as ConfirmModalComponent).options = { title: "Delete Answers", text: "Are you sure you want to delete all the answers?", deleteStyle: true, ok: "Delete" } as ModalOptions;
+        (modalRef.componentInstance as ConfirmModalComponent).options = { title: "Delete Answers", text: "Are you sure you want to delete all the answers?", deleteStyle: true, ok: "Delete" } as ConfirmModalOptions;
         modalRef.result.then(
             () => {
 
@@ -236,7 +238,7 @@ export class ResponseEditComponent implements OnInit, OnDestroy {
     public unsubmit(): void {
 
         let modalRef = this.modalService.open(ConfirmModalComponent, { centered: true });
-        (modalRef.componentInstance as ConfirmModalComponent).options = { title: "Unsubmit Response", text: "Are you sure you want to unsubmit this response?", deleteStyle: true, ok: "Unsubmit" } as ModalOptions;
+        (modalRef.componentInstance as ConfirmModalComponent).options = { title: "Unsubmit Response", text: "Are you sure you want to unsubmit this response?", deleteStyle: true, ok: "Unsubmit" } as ConfirmModalOptions;
         modalRef.result.then(
             () => {
                 this.responseService.unsubmit(this.response.responseId)

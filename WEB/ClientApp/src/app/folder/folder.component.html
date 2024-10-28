@@ -10,10 +10,12 @@
 
     <ng-container *ngIf="!crumb.folderView.subfolders.length && !crumb.folderView.folderContents.length">
 
-        <div class="card border-0">
+        <div class="card card-primary">
 
-            <div class="card-header text-bg-secondary">
-                There are no folders or folder contents to display
+            <div class="card-header">
+                <div class="card-header-title">
+                    <h4>There are no folders or folder contents to display</h4>
+                </div>
             </div>
 
             <div class="card-body"></div>
@@ -36,10 +38,12 @@
 
     <div class="alert text-dark bg-light-monic mb-6" *ngIf="crumb.folderView.folder?.description as description">{{description}}</div>
 
-    <div class="card border-0" *ngIf="crumb.folderView.folderContents.length">
+    <div class="card card-primary" *ngIf="crumb.folderView.folderContents.length">
 
-        <div class="card-header border-0 card-header-space-between">
-            <h4 class="card-header-title text-uppercase">Contents</h4>
+        <div class="card-header">
+            <div class="card-header-title">
+                <h4>Contents</h4>
+            </div>
         </div>
 
         <div class="table-responsive">
@@ -61,10 +65,12 @@
 
     </div>
 
-    <div class="card border-0" *ngIf="crumb.folderView.documents.length">
+    <div class="card card-primary" *ngIf="crumb.folderView.documents.length">
 
-        <div class="card-header border-0 card-header-space-between">
-            <h4 class="card-header-title text-uppercase">Documents</h4>
+        <div class="card-header">
+            <div class="card-header-title">
+                <h4>Documents</h4>
+            </div>
         </div>
 
         <div class="table-responsive">

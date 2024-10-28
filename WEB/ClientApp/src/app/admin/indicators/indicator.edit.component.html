@@ -1,8 +1,16 @@
-<app-page-title title="Indicator"></app-page-title>
+<app-page-title></app-page-title>
 
 <form id="form" name="form" (submit)="save(form)" novalidate #form="ngForm" [ngClass]="{ 'was-validated': form.submitted }">
 
-    <div class="card border-0">
+    <div class="card card-edit">
+
+        <div class="card-header">
+
+            <div class="card-header-title">
+                <h4>Indicator</h4>
+            </div>
+
+        </div>
 
         <div class="card-body">
 
@@ -320,11 +328,26 @@
 
             </ng-container>
 
-            <fieldset id="formulaBox" class="group px-0 pb-0" *ngIf="indicator.indicatorType === indicatorTypesCalculated">
 
-                <legend class="ms-4">Formula</legend>
+        </div>
 
-                <div id="formula" class="px-3 mt-1 pb-3" tabindex="0" (keydown)="keyDown($event)" (keyup)="key($event)" (click)="formulaClick();">
+    </div>
+
+    <div class="card card-edit" *ngIf="indicator.indicatorType === indicatorTypesCalculated">
+
+        <div class="card-header">
+
+            <div class="card-header-title">
+                <h4>Formula</h4>
+            </div>
+
+        </div>
+
+        <div class="card-body px-1 pb-0">
+
+            <fieldset id="formulaBox" class="group px-0 pb-0">
+
+                <div id="formula" tabindex="0" (keydown)="keyDown($event)" (keyup)="key($event)" (click)="formulaClick();">
 
                     <div id="cursor">
                         <span [ngClass]="{'blink': -1 === activeToken}">|</span>
@@ -345,7 +368,7 @@
                                 {{token.numberAsText}}
                             </div>
 
-                            <div *ngIf="token.tokenType === tokenTypesIndicator" class="indicator card">
+                            <div *ngIf="token.tokenType === tokenTypesIndicator" class="indicator card mb-4">
                                 <div class="card-header bg-info text-white">
                                     <i *ngIf="token.convertNullToZero" ngbTooltip="Treat blanks as a zero (0)" class="fa fa-toggle-on float-right mt-1 cursor-pointer" (click)="token.convertNullToZero = !token.convertNullToZero"></i>
                                     <i *ngIf="!token.convertNullToZero" ngbTooltip="Do not treat blanks as a zero (0)" class="fa fa-toggle-off float-right mt-1 cursor-pointer" (click)="token.convertNullToZero = !token.convertNullToZero"></i>
@@ -354,7 +377,7 @@
                                 <div class="card-body">
                                     <p>{{token.sourceIndicator.name}}</p>
                                 </div>
-                                <div class="card-footer">
+                                <div class="card-footer bg-light">
                                     <p class="small text-muted mb-0">{{token.sourceIndicator.entityType.name}}, {{dateTypes[token.sourceIndicator.frequency].label}}</p>
                                 </div>
                             </div>
@@ -376,45 +399,40 @@
 
             </fieldset>
 
-            <fieldset class="my-3">
-                <button type="submit" class="btn btn-outline-success me-2 mb-1">Save<i class="fas fa-check ms-2"></i></button>
-                <button type="button" *ngIf="!isNew" class="btn btn-outline-danger me-2 mb-1" (click)="delete()">Delete<i class="fas fa-times ms-2"></i></button>
-                <button type="button" *ngIf="!isNew && indicator.indicatorType === indicatorTypesCalculated" class="btn btn-outline-primary me-2 mb-1" (click)="calculate()">Calculate<i class="fa fa-cogs ms-1"></i></button>
-                <button type="button" *ngIf="indicator.indicatorType === indicatorTypesCalculated" class="btn btn-outline-dark me-2 mb-1" (click)="showHelp()">Help<i class="fa fa-question-circle ms-1"></i></button>
-            </fieldset>
-
         </div>
 
+    </div>
+
+    <div class="mb-4">
+        <button type="submit" class="btn btn-outline-success me-2 mb-1">Save<i class="fas fa-check ms-2"></i></button>
+        <button type="button" *ngIf="!isNew" class="btn btn-outline-danger me-2 mb-1" (click)="delete()">Delete<i class="fas fa-times ms-2"></i></button>
+        <button type="button" *ngIf="!isNew && indicator.indicatorType === indicatorTypesCalculated" class="btn btn-outline-primary me-2 mb-1" (click)="calculate()">Calculate<i class="fa fa-cogs ms-1"></i></button>
+        <button type="button" *ngIf="indicator.indicatorType === indicatorTypesCalculated" class="btn btn-outline-dark me-2 mb-1" (click)="showHelp()">Help<i class="fa fa-question-circle ms-1"></i></button>
     </div>
 
 </form>
 
 <ng-container *ngIf="!isNew">
 
-    <hr />
-
     <nav ngbNav #nav="ngbNav" class="nav-tabs">
 
-        <ng-container ngbNavItem class="pt-6">
+        <ng-container ngbNavItem>
 
             <a ngbNavLink>Documents</a>
 
             <ng-template ngbNavContent>
 
-                <div class="card border-0 search-results">
+                <div class="card card-list">
 
-                    <div class="card-header border-0">
+                    <div class="card-header">
 
-                        <h4 class="card-header-title text-uppercase">
-                            Entities
-                        </h4>
-
-                    </div>
-
-                    <div class="card-body">
-
-                        <div class="mb-3">
-                            <button class="btn btn-outline-success me-2 mb-1" (click)="showDocumentManageModal()">Add Document<i class="fas fa-plus ms-2"></i></button>
+                        <div class="card-header-title">
+                            <h4>
+                                Documents
+                            </h4>
+                            <div>
+                                <i class="fa fa-fw ms-1 fa-plus cursor-pointer" (click)="showDocumentManageModal()" ngbTooltip="Add Document"></i>
+                            </div>
                         </div>
 
                     </div>

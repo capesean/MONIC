@@ -3,17 +3,20 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { Subject } from 'rxjs';
 import { PagingHeaders } from '../../common/models/http.model';
 import { EntityPermissionSearchOptions, EntityPermissionSearchResponse, EntityPermission } from '../../common/models/entitypermission.model';
+import { FadeThenShrink } from '../../common/animations/fadethenshrink';
 import { ErrorService } from '../../common/services/error.service';
 import { EntityPermissionService } from '../../common/services/entitypermission.service';
 
 @NgComponent({
     selector: 'entitypermission-list',
-    templateUrl: './entitypermission.list.component.html'
+    templateUrl: './entitypermission.list.component.html',
+    animations: [FadeThenShrink]
 })
 export class EntityPermissionListComponent implements OnInit {
 
     public entityPermissions: EntityPermission[] = [];
     public searchOptions = new EntityPermissionSearchOptions();
+    public showSearchOptions = false;
     public headers = new PagingHeaders();
 
     constructor(

@@ -128,16 +128,16 @@ namespace WEB.Controllers
                 return BadRequest("Unable to delete the date as it has related data");
 
             if (await db.Dates.AnyAsync(o => o.QuarterId == date.DateId))
-                return BadRequest("Unable to delete the date as it has related dates");
+                return BadRequest("Unable to delete the date as it has related dates in quarter");
 
             if (await db.Dates.AnyAsync(o => o.YearId == date.DateId))
-                return BadRequest("Unable to delete the date as it has related dates");
+                return BadRequest("Unable to delete the date as it has related dates in year");
 
             if (await db.Responses.AnyAsync(o => o.DateId == date.DateId))
                 return BadRequest("Unable to delete the date as it has related responses");
 
             if (await db.Questionnaires.AnyAsync(o => o.DefaultDateId == date.DateId))
-                return BadRequest("Unable to delete the date as it has related questionnaires");
+                return BadRequest("Unable to delete the date as it has related default date questionnaires");
 
             using var transactionScope = Utilities.General.CreateTransactionScope();
 
@@ -173,7 +173,25 @@ namespace WEB.Controllers
         [HttpDelete("{dateId:Guid}/datesinquarter"), AuthorizeRoles(Roles.Administrator)]
         public async Task<IActionResult> DeleteDatesInQuarter(Guid dateId)
         {
+            if (await db.Data.AnyAsync(o => o.Date.QuarterId == dateId))
+                return BadRequest("Unable to delete the dates in quarter as there are related data");
+
+            if (await db.Dates.AnyAsync(o => o.QuarterId == dateId))
+                return BadRequest("Unable to delete the dates in quarter as there are related dates");
+
+            if (await db.Responses.AnyAsync(o => o.Date.QuarterId == dateId))
+                return BadRequest("Unable to delete the dates in quarter as there are related responses");
+
+            if (await db.Questionnaires.AnyAsync(o => o.Date.QuarterId == dateId))
+                return BadRequest("Unable to delete the dates in quarter as there are related questionnaires");
+
+            using var transactionScope = Utilities.General.CreateTransactionScope();
+
+            await db.QuestionSummaries.Where(o => o.Date.DateId == dateId).ExecuteDeleteAsync();
+
             await db.Dates.Where(o => o.QuarterId == dateId).ExecuteDeleteAsync();
+
+            transactionScope.Complete();
 
             return Ok();
         }
@@ -181,7 +199,25 @@ namespace WEB.Controllers
         [HttpDelete("{dateId:Guid}/datesinyear"), AuthorizeRoles(Roles.Administrator)]
         public async Task<IActionResult> DeleteDatesInYear(Guid dateId)
         {
+            if (await db.Data.AnyAsync(o => o.Date.YearId == dateId))
+                return BadRequest("Unable to delete the dates in year as there are related data");
+
+            if (await db.Dates.AnyAsync(o => o.YearId == dateId))
+                return BadRequest("Unable to delete the dates in year as there are related dates");
+
+            if (await db.Responses.AnyAsync(o => o.Date.YearId == dateId))
+                return BadRequest("Unable to delete the dates in year as there are related responses");
+
+            if (await db.Questionnaires.AnyAsync(o => o.Date.YearId == dateId))
+                return BadRequest("Unable to delete the dates in year as there are related questionnaires");
+
+            using var transactionScope = Utilities.General.CreateTransactionScope();
+
+            await db.QuestionSummaries.Where(o => o.Date.DateId == dateId).ExecuteDeleteAsync();
+
             await db.Dates.Where(o => o.YearId == dateId).ExecuteDeleteAsync();
+
+            transactionScope.Complete();
 
             return Ok();
         }
@@ -189,7 +225,13 @@ namespace WEB.Controllers
         [HttpDelete("{dateId:Guid}/responses"), AuthorizeRoles(Roles.Administrator)]
         public async Task<IActionResult> DeleteResponses(Guid dateId)
         {
+            using var transactionScope = Utilities.General.CreateTransactionScope();
+
+            await db.Answers.Where(o => o.Response.DateId == dateId).ExecuteDeleteAsync();
+
             await db.Responses.Where(o => o.DateId == dateId).ExecuteDeleteAsync();
+
+            transactionScope.Complete();
 
             return Ok();
         }

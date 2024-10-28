@@ -56,6 +56,7 @@ namespace WEB.Controllers
 
             var theoryOfChangeComponent = await db.TheoryOfChangeComponents
                 .FirstOrDefaultAsync(o => o.TheoryOfChangeId == theoryOfChangeComponentDTO.TheoryOfChangeId && o.ComponentId == theoryOfChangeComponentDTO.ComponentId);
+
             var isNew = theoryOfChangeComponent == null;
 
             if (isNew)

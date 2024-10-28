@@ -3,17 +3,20 @@ import { Router, ActivatedRoute, NavigationEnd } from '@angular/router';
 import { Subject, Subscription } from 'rxjs';
 import { PagingHeaders } from '../../common/models/http.model';
 import { IndicatorPermissionSearchOptions, IndicatorPermissionSearchResponse, IndicatorPermission } from '../../common/models/indicatorpermission.model';
+import { FadeThenShrink } from '../../common/animations/fadethenshrink';
 import { ErrorService } from '../../common/services/error.service';
 import { IndicatorPermissionService } from '../../common/services/indicatorpermission.service';
 
 @NgComponent({
     selector: 'indicatorpermission-list',
-    templateUrl: './indicatorpermission.list.component.html'
+    templateUrl: './indicatorpermission.list.component.html',
+    animations: [FadeThenShrink]
 })
 export class IndicatorPermissionListComponent implements OnInit, OnDestroy {
 
     public indicatorPermissions: IndicatorPermission[] = [];
     public searchOptions = new IndicatorPermissionSearchOptions();
+    public showSearchOptions = false;
     public headers = new PagingHeaders();
     private routerSubscription: Subscription;
 

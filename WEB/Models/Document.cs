@@ -61,7 +61,7 @@ namespace WEB.Models
 
     public class DocumentContent
     {
-        [Key, Required]
+        [Key, Required, ForeignKey("Document")]
         public Guid DocumentId { get; set; }
 
         public byte[] FileContents { get; set; }

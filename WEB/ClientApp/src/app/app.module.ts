@@ -8,7 +8,7 @@ import { AppRoutes } from './app.routes';
 import { NgHttpLoaderModule } from 'ng-http-loader';
 import { AppComponent } from './app.component';
 import { FormsModule } from '@angular/forms';
-import { NgbModule, NgbDateAdapter, NgbDateNativeAdapter } from '@ng-bootstrap/ng-bootstrap';
+import { NgbModule, NgbDateAdapter, NgbDateNativeAdapter, NgbTooltipConfig } from '@ng-bootstrap/ng-bootstrap';
 import { ErrorService } from './common/services/error.service';
 import { NotFoundComponent } from './common/components/notfound.component';
 import { AccessGuard } from './common/auth/auth.accessguard';
@@ -48,7 +48,8 @@ import { QuillModule } from 'ngx-quill';
         { provide: HTTP_INTERCEPTORS, useClass: JsonDateInterceptor, multi: true },
         { provide: NgbDateAdapter, useClass: NgbDateNativeAdapter },
         AccessGuard,
-        ErrorService
+        ErrorService,
+        NgbTooltipConfig
     ],
     bootstrap: [AppComponent]
 })

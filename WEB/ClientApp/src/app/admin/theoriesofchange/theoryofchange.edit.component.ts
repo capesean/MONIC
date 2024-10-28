@@ -5,9 +5,10 @@ import { NgForm } from '@angular/forms';
 import { Subject, Subscription } from 'rxjs';
 import { HttpErrorResponse } from '@angular/common/http';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { ConfirmModalComponent, ModalOptions } from '../../common/components/confirm.component';
+import { ConfirmModalComponent, ConfirmModalOptions } from '../../common/components/confirm.component';
 import { PagingHeaders } from '../../common/models/http.model';
 import { TheoryOfChange } from '../../common/models/theoryofchange.model';
+import { FadeThenShrink } from '../../common/animations/fadethenshrink';
 import { BreadcrumbService } from '../../common/services/breadcrumb.service';
 import { ErrorService } from '../../common/services/error.service';
 import { TheoryOfChangeService } from '../../common/services/theoryofchange.service';
@@ -20,7 +21,8 @@ import { Component } from '../../common/models/component.model';
 
 @NgComponent({
     selector: 'theoryofchange-edit',
-    templateUrl: './theoryofchange.edit.component.html'
+    templateUrl: './theoryofchange.edit.component.html',
+    animations: [FadeThenShrink]
 })
 export class TheoryOfChangeEditComponent implements OnInit, OnDestroy {
 
@@ -136,7 +138,7 @@ export class TheoryOfChangeEditComponent implements OnInit, OnDestroy {
     delete(): void {
 
         let modalRef = this.modalService.open(ConfirmModalComponent, { centered: true });
-        (modalRef.componentInstance as ConfirmModalComponent).options = { title: "Delete Theory of Change", text: "Are you sure you want to delete this theory of change?", deleteStyle: true, ok: "Delete" } as ModalOptions;
+        (modalRef.componentInstance as ConfirmModalComponent).options = { title: "Delete Theory of Change", text: "Are you sure you want to delete this theory of change?", deleteStyle: true, ok: "Delete" } as ConfirmModalOptions;
         modalRef.result.then(
             () => {
 
@@ -207,7 +209,7 @@ export class TheoryOfChangeEditComponent implements OnInit, OnDestroy {
         event.stopPropagation();
 
         let modalRef = this.modalService.open(ConfirmModalComponent, { centered: true });
-        (modalRef.componentInstance as ConfirmModalComponent).options = { title: "Delete Theory of Change Component", text: "Are you sure you want to delete this theory of change component?", deleteStyle: true, ok: "Delete" } as ModalOptions;
+        (modalRef.componentInstance as ConfirmModalComponent).options = { title: "Delete Theory of Change Component", text: "Are you sure you want to delete this theory of change component?", deleteStyle: true, ok: "Delete" } as ConfirmModalOptions;
         modalRef.result.then(
             () => {
 
@@ -227,7 +229,7 @@ export class TheoryOfChangeEditComponent implements OnInit, OnDestroy {
 
     deleteTheoryOfChangeComponents(): void {
         let modalRef = this.modalService.open(ConfirmModalComponent, { centered: true });
-        (modalRef.componentInstance as ConfirmModalComponent).options = { title: "Delete Theory of Change Components", text: "Are you sure you want to delete all the components?", deleteStyle: true, ok: "Delete" } as ModalOptions;
+        (modalRef.componentInstance as ConfirmModalComponent).options = { title: "Delete Components", text: "Are you sure you want to delete all the components?", deleteStyle: true, ok: "Delete" } as ConfirmModalOptions;
         modalRef.result.then(
             () => {
 
@@ -275,7 +277,7 @@ export class TheoryOfChangeEditComponent implements OnInit, OnDestroy {
         event.stopPropagation();
 
         let modalRef = this.modalService.open(ConfirmModalComponent, { centered: true });
-        (modalRef.componentInstance as ConfirmModalComponent).options = { title: "Delete Relationship", text: "Are you sure you want to delete this relationship?", deleteStyle: true, ok: "Delete" } as ModalOptions;
+        (modalRef.componentInstance as ConfirmModalComponent).options = { title: "Delete Relationship", text: "Are you sure you want to delete this relationship?", deleteStyle: true, ok: "Delete" } as ConfirmModalOptions;
         modalRef.result.then(
             () => {
 
@@ -295,7 +297,7 @@ export class TheoryOfChangeEditComponent implements OnInit, OnDestroy {
 
     deleteRelationships(): void {
         let modalRef = this.modalService.open(ConfirmModalComponent, { centered: true });
-        (modalRef.componentInstance as ConfirmModalComponent).options = { title: "Delete Relationships", text: "Are you sure you want to delete all the relationships?", deleteStyle: true, ok: "Delete" } as ModalOptions;
+        (modalRef.componentInstance as ConfirmModalComponent).options = { title: "Delete Relationships", text: "Are you sure you want to delete all the relationships?", deleteStyle: true, ok: "Delete" } as ConfirmModalOptions;
         modalRef.result.then(
             () => {
 

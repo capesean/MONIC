@@ -25,6 +25,7 @@ export class ProjectModalComponent implements OnInit {
     @Input() canRemoveFilters = false;
     @Input() multiple = false;
     @Input() showAddNew = false;
+    @Input() showFilters = true;
     @Input() showFooter = true;
     @Input() resetOnOpen = false;
     @Input() title = this.multiple ? "Select projects" : "Select a project";
@@ -42,7 +43,7 @@ export class ProjectModalComponent implements OnInit {
 
     open(): NgbModalRef {
         if (this.resetOnOpen) this.selectedItems = [];
-        this.modal = this.modalService.open(this.content, { size: 'xl', centered: true, scrollable: true });
+        this.modal = this.modalService.open(this.content, { size: 'xl', centered: true, scrollable: false });
         this.runSearch();
         this.modal.result.then((project: Project | Project[]) => {
             if (this.multiple) this.changes.emit(project as Project[]);
