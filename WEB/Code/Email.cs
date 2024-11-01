@@ -40,11 +40,14 @@ namespace WEB
                 html = File.ReadAllText(Path.Combine(_appSettings.WebRootPath, "assets/templates/email.html"));
                 html = html.Replace("{rootUrl}", _appSettings.RootUrl);
                 html = html.Replace("{title}", subject);
-                if (bodyHtml == null) bodyHtml = bodyText;
-                while (bodyHtml.IndexOf(Environment.NewLine + Environment.NewLine) >= 0)
-                    bodyHtml = bodyHtml.Replace(Environment.NewLine + Environment.NewLine, Environment.NewLine);
-                var lines = "<p>" + string.Join("</p><p>", bodyHtml.Split(new string[] { Environment.NewLine }, StringSplitOptions.None)) + "</p>";
-                html = html.Replace("{body}", lines);
+                if (bodyHtml == null)
+                {
+                    bodyHtml = bodyText;
+                    while (bodyHtml.IndexOf(Environment.NewLine + Environment.NewLine) >= 0)
+                        bodyHtml = bodyHtml.Replace(Environment.NewLine + Environment.NewLine, Environment.NewLine);
+                    bodyHtml = "<p>" + string.Join("</p><p>", bodyHtml.Split(new string[] { Environment.NewLine }, StringSplitOptions.None)) + "</p>";
+                }
+                html = html.Replace("{body}", bodyHtml);
             }
 
 
