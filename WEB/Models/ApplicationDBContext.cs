@@ -12,7 +12,7 @@ namespace WEB.Models
 
         private readonly IIdentityService identityService;
         public bool UserIsInAnyRole(params Roles[] roles) => identityService.UserIsInAnyRole(roles);
-
+        private Settings _settings;
 
         public ApplicationDbContext(
             DbContextOptions options,
@@ -29,6 +29,11 @@ namespace WEB.Models
         //{
         //    return new ApplicationDbContext();
         //}
+
+        public Settings GetDbSettings()
+        {
+            return _settings ??= Settings.Single();
+        }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {

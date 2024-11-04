@@ -29,6 +29,8 @@ namespace WEB.Controllers
 
         }
         internal AppSettings AppSettings;
+        private Settings _dbSettings;
+        internal Settings dbSettings { get { return _dbSettings ??= db.GetDbSettings(); } }
 
         internal BaseApiController(IDbContextFactory<ApplicationDbContext> dbFactory, UserManager<User> userManager, AppSettings appSettings)
         {

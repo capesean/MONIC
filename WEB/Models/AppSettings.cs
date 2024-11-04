@@ -26,10 +26,6 @@
             }
         }
 
-        public Settings GetDbSettings(ApplicationDbContext db)
-        {
-            return db.Settings.Single();
-        }
     }
 
     public class EmailSettings
