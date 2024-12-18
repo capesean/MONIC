@@ -18,7 +18,7 @@
         {
             get
             {
-                return !IsDevelopment && Azure.DataProtection != null;
+                return !IsDevelopment && Azure.DataProtection != null && !string.IsNullOrWhiteSpace(Azure.DataProtection.ConnectionString);
             }
         }
 
@@ -45,10 +45,8 @@
 
             public class DataProtectionSettings
             {
-                public string TenantId { get; set; }
-                public string ClientId { get; set; }
-                public string ClientSecret { get; set; }
-                public string BlobStorageUrl { get; set; }
+                public string ConnectionString { get; set; }
+                public string ContainerName { get; set; }
             }
 
             public class DocumentsSettings
