@@ -110,18 +110,19 @@ namespace WEB.Controllers
             if (await db.Folders.AnyAsync(o => o.ParentFolderId == folder.FolderId))
                 return BadRequest("Unable to delete the folder as it has related subfolders");
 
-            using var transactionScope = Utilities.General.CreateTransactionScope();
+            using (var transactionScope = Utilities.General.CreateTransactionScope())
+            {
+                await db.FolderContents.Where(o => o.FolderId == folder.FolderId).ExecuteDeleteAsync();
 
-            await db.FolderContents.Where(o => o.FolderId == folder.FolderId).ExecuteDeleteAsync();
+                ItemFunctions.DeleteDocuments(db, folder.FolderId);
+                ItemFunctions.DeleteFields(db, folderId, true);
 
-            ItemFunctions.DeleteDocuments(db, folder.FolderId);
-            ItemFunctions.DeleteFields(db, folderId, true);
+                db.Entry(folder).State = EntityState.Deleted;
 
-            db.Entry(folder).State = EntityState.Deleted;
+                await db.SaveChangesAsync();
 
-            await db.SaveChangesAsync();
-
-            transactionScope.Complete();
+                transactionScope.Complete();
+            }
 
             return Ok();
         }
@@ -132,23 +133,24 @@ namespace WEB.Controllers
             if (await db.Folders.AnyAsync(o => o.ParentFolder.ParentFolderId == folderId))
                 return BadRequest("Unable to delete the subfolders as there are related folders");
 
-            using var transactionScope = Utilities.General.CreateTransactionScope();
-
-            await db.FolderContents.Where(o => o.Folder.FolderId == folderId).ExecuteDeleteAsync();
-
-            foreach (var folder in db.Folders.Where(o => o.ParentFolderId == folderId).ToList())
+            using (var transactionScope = Utilities.General.CreateTransactionScope())
             {
-                ItemFunctions.DeleteDocuments(db, folder.FolderId);
-                ItemFunctions.DeleteFields(db, folder.FolderId, true);
+                await db.FolderContents.Where(o => o.Folder.FolderId == folderId).ExecuteDeleteAsync();
+
+                foreach (var folder in db.Folders.Where(o => o.ParentFolderId == folderId).ToList())
+                {
+                    ItemFunctions.DeleteDocuments(db, folder.FolderId);
+                    ItemFunctions.DeleteFields(db, folder.FolderId, true);
+                }
+
+                await db.Folders.Where(o => o.ParentFolderId == folderId).ExecuteDeleteAsync();
+
+                await db.SaveChangesAsync();
+
+                await db.Folders.Where(o => o.ParentFolderId == folderId).ExecuteDeleteAsync();
+
+                transactionScope.Complete();
             }
-
-            await db.Folders.Where(o => o.ParentFolderId == folderId).ExecuteDeleteAsync();
-
-            await db.SaveChangesAsync();
-
-            transactionScope.Complete();
-
-            transactionScope.Complete();
 
             return Ok();
         }

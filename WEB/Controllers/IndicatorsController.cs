@@ -158,21 +158,22 @@ namespace WEB.Controllers
             if (await db.ComponentIndicators.AnyAsync(o => o.IndicatorId == indicator.IndicatorId))
                 return BadRequest("Unable to delete the indicator as it has related component indicators");
 
-            using var transactionScope = Utilities.General.CreateTransactionScope();
+            using (var transactionScope = Utilities.General.CreateTransactionScope())
+            {
+                await db.Tokens.Where(o => o.IndicatorId == indicator.IndicatorId).ExecuteDeleteAsync();
 
-            await db.Tokens.Where(o => o.IndicatorId == indicator.IndicatorId).ExecuteDeleteAsync();
+                await db.Data.Where(o => o.IndicatorId == indicator.IndicatorId).ExecuteDeleteAsync();
 
-            await db.Data.Where(o => o.IndicatorId == indicator.IndicatorId).ExecuteDeleteAsync();
+                await db.IndicatorPermissions.Where(o => o.IndicatorId == indicator.IndicatorId).ExecuteDeleteAsync();
 
-            await db.IndicatorPermissions.Where(o => o.IndicatorId == indicator.IndicatorId).ExecuteDeleteAsync();
-
-            ItemFunctions.DeleteFields(db, indicatorId, true);
+                ItemFunctions.DeleteFields(db, indicatorId, true);
 
             db.Entry(indicator).State = EntityState.Deleted;
 
-            await db.SaveChangesAsync();
+                await db.SaveChangesAsync();
 
-            transactionScope.Complete();
+                transactionScope.Complete();
+            }
 
             return Ok();
         }

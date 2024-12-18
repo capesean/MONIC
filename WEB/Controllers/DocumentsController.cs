@@ -110,15 +110,16 @@ namespace WEB.Controllers
             if (document == null)
                 return NotFound();
 
-            using var transactionScope = Utilities.General.CreateTransactionScope();
+            using (var transactionScope = Utilities.General.CreateTransactionScope())
+            {
+                await db.DocumentContents.Where(o => o.DocumentId == documentId).ExecuteDeleteAsync();
 
-            await db.DocumentContents.Where(o => o.DocumentId == documentId).ExecuteDeleteAsync();
+                db.Entry(document).State = EntityState.Deleted;
 
-            db.Entry(document).State = EntityState.Deleted;
+                await db.SaveChangesAsync();
 
-            await db.SaveChangesAsync();
-
-            transactionScope.Complete();
+                transactionScope.Complete();
+            }
 
             return Ok();
         }

@@ -149,11 +149,11 @@ namespace WEB.Controllers
             if (await db.Responses.AnyAsync(o => o.Entity.EntityTypeId == entityTypeId))
                 return BadRequest("Unable to delete the entities as there are related responses");
 
-            using var transactionScope = Utilities.General.CreateTransactionScope();
+            using (var transactionScope = Utilities.General.CreateTransactionScope())
+            {
+                await db.EntityPermissions.Where(o => o.Entity.EntityTypeId == entityTypeId).ExecuteDeleteAsync();
 
-            await db.EntityPermissions.Where(o => o.Entity.EntityTypeId == entityTypeId).ExecuteDeleteAsync();
-
-            foreach (var entity in db.Entities.Where(o => o.EntityTypeId == entityTypeId).ToList())
+                foreach (var entity in db.Entities.Where(o => o.EntityTypeId == entityTypeId).ToList())
             {
                 ItemFunctions.DeleteFields(db, entity.EntityId, true);
             }
@@ -164,7 +164,8 @@ namespace WEB.Controllers
 
             transactionScope.Complete();
 
-            transactionScope.Complete();
+                transactionScope.Complete();
+            }
 
             return Ok();
         }
@@ -175,13 +176,14 @@ namespace WEB.Controllers
             if (await db.Responses.AnyAsync(o => o.Questionnaire.EntityTypeId == entityTypeId))
                 return BadRequest("Unable to delete the questionnaires as there are related responses");
 
-            using var transactionScope = Utilities.General.CreateTransactionScope();
+            using (var transactionScope = Utilities.General.CreateTransactionScope())
+            {
+                await db.Sections.Where(o => o.Questionnaire.EntityTypeId == entityTypeId).ExecuteDeleteAsync();
 
-            await db.Sections.Where(o => o.Questionnaire.EntityTypeId == entityTypeId).ExecuteDeleteAsync();
+                await db.Questionnaires.Where(o => o.EntityTypeId == entityTypeId).ExecuteDeleteAsync();
 
-            await db.Questionnaires.Where(o => o.EntityTypeId == entityTypeId).ExecuteDeleteAsync();
-
-            transactionScope.Complete();
+                transactionScope.Complete();
+            }
 
             return Ok();
         }

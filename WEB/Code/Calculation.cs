@@ -43,7 +43,7 @@ namespace WEB
             if (indicators.Any(o => o.IndicatorType != IndicatorType.Collected)) throw new Exception("Attempting to save a non-collected indicator");
 
             var tokenStacks = GetTokenStacksToCalculate(indicatorIds);
-            
+
             // entityIds for agg+calc: current entity + parents
             entityIds.AddRange(await db.EntityLinks.Where(o => entityIds.Contains(o.ChildEntityId)).Select(o => o.ParentEntityId).Distinct().ToListAsync());
             entityIds = entityIds.Distinct().ToList();
@@ -54,7 +54,6 @@ namespace WEB
             dateIds = dateIds.Distinct().ToList();
 
             using var transactionScope = Utilities.General.CreateTransactionScope();
-
             using (var cmd = db.Database.GetDbConnection().CreateCommand())
             {
                 cmd.CommandText = "SaveData";
@@ -76,11 +75,11 @@ namespace WEB
                     foreach (var datum in data)
                     {
                         dataTable.Rows.Add(
-                            datum.IndicatorId, 
-                            datum.EntityId, 
-                            datum.DateId, 
-                            datum.Value, 
-                            datum.Note, 
+                            datum.IndicatorId,
+                            datum.EntityId,
+                            datum.DateId,
+                            datum.Value,
+                            datum.Note,
                             // can't mark blank as delete else submitting a blank row results in errors (FK to DataReviews)
                             false//datum.Value == null && string.IsNullOrWhiteSpace(datum.Note)
                             );
@@ -107,7 +106,7 @@ namespace WEB
 
             await AggregateAsync(indicatorIds, entityIds, dateIds);
 
-            if (tokenStacks.Any())
+            if (tokenStacks.Count != 0)
                 await CalculateAsync(tokenStacks, entityIds, dateIds);
 
             transactionScope.Complete();
@@ -138,72 +137,70 @@ namespace WEB
 
             if (allIndicators.Any(o => indicatorIds.Contains(o.IndicatorId) && o.IndicatorType != IndicatorType.Collected)) throw new Exception("A non-collected indicator was passed to the AggregateAsync function");
 
-            using (var cmd = db.Database.GetDbConnection().CreateCommand())
+            using var cmd = db.Database.GetDbConnection().CreateCommand();
+            cmd.CommandText = "Aggregate";
+            cmd.CommandType = CommandType.StoredProcedure;
+            cmd.CommandTimeout = 300;
+
+            cmd.Parameters.Add(new SqlParameter("UserId", userId));
+
+            using (var dataTable = new DataTable())
             {
-                cmd.CommandText = "Aggregate";
-                cmd.CommandType = CommandType.StoredProcedure;
-                cmd.CommandTimeout = 300;
+                dataTable.Columns.Add("Id", typeof(Guid));
 
-                cmd.Parameters.Add(new SqlParameter("UserId", userId));
-
-                using (var dataTable = new DataTable())
+                foreach (var indicatorId in indicatorIds)
                 {
-                    dataTable.Columns.Add("Id", typeof(Guid));
-
-                    foreach (var indicatorId in indicatorIds)
-                    {
-                        dataTable.Rows.Add(indicatorId);
-                    }
-
-                    var dataParam = new SqlParameter("@IndicatorIds", dataTable);
-                    dataParam.SqlDbType = SqlDbType.Structured;
-                    dataParam.TypeName = "dbo.GuidIds";
-                    cmd.Parameters.Add(dataParam);
-
+                    dataTable.Rows.Add(indicatorId);
                 }
 
-                using (var dataTable = new DataTable())
+                var dataParam = new SqlParameter("@IndicatorIds", dataTable);
+                dataParam.SqlDbType = SqlDbType.Structured;
+                dataParam.TypeName = "dbo.GuidIds";
+                cmd.Parameters.Add(dataParam);
+
+            }
+
+            using (var dataTable = new DataTable())
+            {
+                dataTable.Columns.Add("Id", typeof(Guid));
+
+                foreach (var EntityId in entityIds)
                 {
-                    dataTable.Columns.Add("Id", typeof(Guid));
-
-                    foreach (var EntityId in entityIds)
-                    {
-                        dataTable.Rows.Add(EntityId);
-                    }
-
-                    var dataParam = new SqlParameter("@EntityIds", dataTable);
-                    dataParam.SqlDbType = SqlDbType.Structured;
-                    dataParam.TypeName = "dbo.GuidIds";
-                    cmd.Parameters.Add(dataParam);
-
+                    dataTable.Rows.Add(EntityId);
                 }
 
-                using (var dataTable = new DataTable())
+                var dataParam = new SqlParameter("@EntityIds", dataTable);
+                dataParam.SqlDbType = SqlDbType.Structured;
+                dataParam.TypeName = "dbo.GuidIds";
+                cmd.Parameters.Add(dataParam);
+
+            }
+
+            using (var dataTable = new DataTable())
+            {
+                dataTable.Columns.Add("Id", typeof(Guid));
+
+                foreach (var DateId in dateIds)
                 {
-                    dataTable.Columns.Add("Id", typeof(Guid));
-
-                    foreach (var DateId in dateIds)
-                    {
-                        dataTable.Rows.Add(DateId);
-                    }
-
-                    var dataParam = new SqlParameter("@DateIds", dataTable);
-                    dataParam.SqlDbType = SqlDbType.Structured;
-                    dataParam.TypeName = "dbo.GuidIds";
-                    cmd.Parameters.Add(dataParam);
-
+                    dataTable.Rows.Add(DateId);
                 }
 
-                var wasOpen = cmd.Connection.State == ConnectionState.Open;
-                if (!wasOpen) cmd.Connection.Open();
-                try
-                {
-                    await cmd.ExecuteNonQueryAsync();
-                }
-                finally
-                {
-                    if (!wasOpen) cmd.Connection.Close();
-                }
+                var dataParam = new SqlParameter("@DateIds", dataTable);
+                dataParam.SqlDbType = SqlDbType.Structured;
+                dataParam.TypeName = "dbo.GuidIds";
+                cmd.Parameters.Add(dataParam);
+
+            }
+
+            var wasOpen = cmd.Connection.State == ConnectionState.Open;
+            if (!wasOpen) cmd.Connection.Open();
+            try
+            {
+                await cmd.ExecuteNonQueryAsync();
+            }
+            finally
+            {
+                if (!wasOpen) cmd.Connection.Close();
             }
         }
 
@@ -369,85 +366,87 @@ namespace WEB
             //List<Guid> indicatorIds = null;
             List<Date> dates = null;
 
-            using var transactionScope = Utilities.General.CreateTransactionScope();
-
-            if (changeType == EntityLinkChangeType.Remove)
+            using (var transactionScope = Utilities.General.CreateTransactionScope())
             {
-                // REMOVING an entity link between a parent & a child entity:
-                // AGGREGATION: any aggregated data for the parent, will need to be re-aggregated to exclude the child
 
-                db.Entry(entityLink).State = EntityState.Deleted;
+                if (changeType == EntityLinkChangeType.Remove)
+                {
+                    // REMOVING an entity link between a parent & a child entity:
+                    // AGGREGATION: any aggregated data for the parent, will need to be re-aggregated to exclude the child
 
-                await Permissions.RemoveOversightEntityPermissionsAsync(db, appSettings, entityLink);
+                    db.Entry(entityLink).State = EntityState.Deleted;
 
-                indicatorIdsToAggregate = await db.Data.Where(
-                        // filter to the parent entity's Id
-                        o => o.EntityId == entityLink.ParentEntityId
+                    await Permissions.RemoveOversightEntityPermissionsAsync(db, appSettings, entityLink);
+
+                    indicatorIdsToAggregate = await db.Data.Where(
+                            // filter to the parent entity's Id
+                            o => o.EntityId == entityLink.ParentEntityId
+                            // not necessary?
+                            && o.Aggregated
+                            // for indicators that are collected
+                            && o.Indicator.IndicatorType == IndicatorType.Collected
+                            // for indicators that are not collected for this entity type
+                            && o.Indicator.EntityTypeId != o.Entity.EntityTypeId
+                            )
+                        .Select(o => o.IndicatorId)
+                        .Distinct()
+                        .ToListAsync();
+
+                    // get all dates that have been aggregated for the parent, plus any dates 'above' those
+                    dates = await db.Data.Where(o => o.EntityId == entityLink.ParentEntityId && o.Aggregated)
+                        .Select(o => o.Date)
+                        .Distinct()
+                        .ToListAsync();
+                }
+                else
+                {
+                    // ADDING an entity link between a parent & a child entity: 
+                    // AGGREGATION: any collected indicators that apply to the child, will need to be aggregated to the parent
+
+                    db.Entry(entityLink).State = EntityState.Added;
+
+                    await Permissions.AddOversightEntityPermissionsAsync(db, appSettings, entityLink);
+
+                    indicatorIdsToAggregate = await db.Data.Where(
+                        // filter to the child entity's Id
+                        o => o.EntityId == entityLink.ChildEntityId
                         // not necessary?
-                        && o.Aggregated
+                        && !o.Aggregated
                         // for indicators that are collected
                         && o.Indicator.IndicatorType == IndicatorType.Collected
-                        // for indicators that are not collected for this entity type
-                        && o.Indicator.EntityTypeId != o.Entity.EntityTypeId
+                        // for indicators that are collected for this entity type
+                        && o.Indicator.EntityTypeId == o.Entity.EntityTypeId
                         )
-                    .Select(o => o.IndicatorId)
-                    .Distinct()
-                    .ToListAsync();
+                        .Select(o => o.IndicatorId)
+                        .Distinct()
+                        .ToListAsync();
 
-                // get all dates that have been aggregated for the parent, plus any dates 'above' those
-                dates = await db.Data.Where(o => o.EntityId == entityLink.ParentEntityId && o.Aggregated)
-                    .Select(o => o.Date)
-                    .Distinct()
-                    .ToListAsync();
+                    // get all dates that have been entered (not aggregated) for the child, plus any dates 'above' those
+                    dates = await db.Data.Where(o => o.EntityId == entityLink.ChildEntityId && !o.Aggregated)
+                        .Select(o => o.Date)
+                        .Distinct()
+                        .ToListAsync();
+                }
+
+                var tokenStacks = GetTokenStacksToCalculate(indicatorIdsToAggregate);
+
+                // get the dates selected plus the 'parents' of those
+                var dateIds = dates.Select(o => o.DateId).ToList();
+                foreach (var dateId in dates.Where(o => o.QuarterId.HasValue).Select(o => o.QuarterId.Value).Distinct())
+                    if (!dateIds.Contains(dateId)) dateIds.Add(dateId);
+                foreach (var dateId in dates.Where(o => o.YearId.HasValue).Select(o => o.YearId.Value).Distinct())
+                    if (!dateIds.Contains(dateId)) dateIds.Add(dateId);
+
+                // save the entityLink change
+                await db.SaveChangesAsync();
+
+                await AggregateAsync(indicatorIdsToAggregate, new List<Guid> { entityLink.ParentEntityId }, dateIds);
+
+                if (tokenStacks.Any())
+                    await CalculateAsync(tokenStacks, new List<Guid> { entityLink.ParentEntityId }, dateIds);
+
+                transactionScope.Complete();
             }
-            else
-            {
-                // ADDING an entity link between a parent & a child entity: 
-                // AGGREGATION: any collected indicators that apply to the child, will need to be aggregated to the parent
-
-                db.Entry(entityLink).State = EntityState.Added;
-
-                await Permissions.AddOversightEntityPermissionsAsync(db, appSettings, entityLink);
-
-                indicatorIdsToAggregate = await db.Data.Where(
-                    // filter to the child entity's Id
-                    o => o.EntityId == entityLink.ChildEntityId
-                    // not necessary?
-                    && !o.Aggregated
-                    // for indicators that are collected
-                    && o.Indicator.IndicatorType == IndicatorType.Collected
-                    // for indicators that are collected for this entity type
-                    && o.Indicator.EntityTypeId == o.Entity.EntityTypeId
-                    )
-                    .Select(o => o.IndicatorId)
-                    .Distinct()
-                    .ToListAsync();
-
-                // get all dates that have been entered (not aggregated) for the child, plus any dates 'above' those
-                dates = await db.Data.Where(o => o.EntityId == entityLink.ChildEntityId && !o.Aggregated)
-                    .Select(o => o.Date)
-                    .Distinct()
-                    .ToListAsync();
-            }
-
-            var tokenStacks = GetTokenStacksToCalculate(indicatorIdsToAggregate);
-
-            // get the dates selected plus the 'parents' of those
-            var dateIds = dates.Select(o => o.DateId).ToList();
-            foreach (var dateId in dates.Where(o => o.QuarterId.HasValue).Select(o => o.QuarterId.Value).Distinct())
-                if (!dateIds.Contains(dateId)) dateIds.Add(dateId);
-            foreach (var dateId in dates.Where(o => o.YearId.HasValue).Select(o => o.YearId.Value).Distinct())
-                if (!dateIds.Contains(dateId)) dateIds.Add(dateId);
-
-            // save the entityLink change
-            await db.SaveChangesAsync();
-
-            await AggregateAsync(indicatorIdsToAggregate, new List<Guid> { entityLink.ParentEntityId }, dateIds);
-
-            if (tokenStacks.Any())
-                await CalculateAsync(tokenStacks, new List<Guid> { entityLink.ParentEntityId }, dateIds);
-
-            transactionScope.Complete();
         }
 
         private static Stack<TokenStruct> ToPostFixStack(Indicator indicator)

@@ -149,11 +149,11 @@ namespace WEB.Controllers
             if (await db.Responses.AnyAsync(o => o.Entity.OrganisationId == organisationId))
                 return BadRequest("Unable to delete the entities as there are related responses");
 
-            using var transactionScope = Utilities.General.CreateTransactionScope();
+            using (var transactionScope = Utilities.General.CreateTransactionScope())
+            {
+                await db.EntityPermissions.Where(o => o.Entity.OrganisationId == organisationId).ExecuteDeleteAsync();
 
-            await db.EntityPermissions.Where(o => o.Entity.OrganisationId == organisationId).ExecuteDeleteAsync();
-
-            foreach (var entity in db.Entities.Where(o => o.OrganisationId == organisationId).ToList())
+                foreach (var entity in db.Entities.Where(o => o.OrganisationId == organisationId).ToList())
             {
                 ItemFunctions.DeleteFields(db, entity.EntityId, true);
             }
@@ -164,7 +164,8 @@ namespace WEB.Controllers
 
             transactionScope.Complete();
 
-            transactionScope.Complete();
+                transactionScope.Complete();
+            }
 
             return Ok();
         }
@@ -190,15 +191,16 @@ namespace WEB.Controllers
             if (await db.FolderContents.AnyAsync(o => o.AddedBy.OrganisationId == organisationId))
                 return BadRequest("Unable to delete the users as there are related folder contents");
 
-            using var transactionScope = Utilities.General.CreateTransactionScope();
+            using (var transactionScope = Utilities.General.CreateTransactionScope())
+            {
+                await db.EntityPermissions.Where(o => o.User.OrganisationId == organisationId).ExecuteDeleteAsync();
 
-            await db.EntityPermissions.Where(o => o.User.OrganisationId == organisationId).ExecuteDeleteAsync();
+                await db.IndicatorPermissions.Where(o => o.User.OrganisationId == organisationId).ExecuteDeleteAsync();
 
-            await db.IndicatorPermissions.Where(o => o.User.OrganisationId == organisationId).ExecuteDeleteAsync();
+                await db.Users.Where(o => o.OrganisationId == organisationId).ExecuteDeleteAsync();
 
-            await db.Users.Where(o => o.OrganisationId == organisationId).ExecuteDeleteAsync();
-
-            transactionScope.Complete();
+                transactionScope.Complete();
+            }
 
             return Ok();
         }

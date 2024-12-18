@@ -177,17 +177,18 @@ namespace WEB.Controllers
             if (await db.Responses.AnyAsync(o => o.EntityId == entity.EntityId))
                 return BadRequest("Unable to delete the entity as it has related responses");
 
-            using var transactionScope = Utilities.General.CreateTransactionScope();
+            using (var transactionScope = Utilities.General.CreateTransactionScope())
+            {
+                await db.EntityPermissions.Where(o => o.EntityId == entity.EntityId).ExecuteDeleteAsync();
 
-            await db.EntityPermissions.Where(o => o.EntityId == entity.EntityId).ExecuteDeleteAsync();
-
-            ItemFunctions.DeleteFields(db, entityId, true);
+                ItemFunctions.DeleteFields(db, entityId, true);
 
             db.Entry(entity).State = EntityState.Deleted;
 
-            await db.SaveChangesAsync();
+                await db.SaveChangesAsync();
 
-            transactionScope.Complete();
+                transactionScope.Complete();
+            }
 
             return Ok();
         }
@@ -230,13 +231,14 @@ namespace WEB.Controllers
         [HttpDelete("{entityId:Guid}/responses")]
         public async Task<IActionResult> DeleteResponses(Guid entityId)
         {
-            using var transactionScope = Utilities.General.CreateTransactionScope();
+            using (var transactionScope = Utilities.General.CreateTransactionScope())
+            {
+                await db.Answers.Where(o => o.Response.EntityId == entityId).ExecuteDeleteAsync();
 
-            await db.Answers.Where(o => o.Response.EntityId == entityId).ExecuteDeleteAsync();
+                await db.Responses.Where(o => o.EntityId == entityId).ExecuteDeleteAsync();
 
-            await db.Responses.Where(o => o.EntityId == entityId).ExecuteDeleteAsync();
-
-            transactionScope.Complete();
+                transactionScope.Complete();
+            }
 
             return Ok();
         }

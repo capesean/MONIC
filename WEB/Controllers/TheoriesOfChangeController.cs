@@ -104,17 +104,18 @@ namespace WEB.Controllers
             if (theoryOfChange == null)
                 return NotFound();
 
-            using var transactionScope = Utilities.General.CreateTransactionScope();
+            using (var transactionScope = Utilities.General.CreateTransactionScope())
+            {
+                await db.TheoryOfChangeComponents.Where(o => o.TheoryOfChangeId == theoryOfChange.TheoryOfChangeId).ExecuteDeleteAsync();
 
-            await db.TheoryOfChangeComponents.Where(o => o.TheoryOfChangeId == theoryOfChange.TheoryOfChangeId).ExecuteDeleteAsync();
+                await db.Relationships.Where(o => o.TheoryOfChangeId == theoryOfChange.TheoryOfChangeId).ExecuteDeleteAsync();
 
-            await db.Relationships.Where(o => o.TheoryOfChangeId == theoryOfChange.TheoryOfChangeId).ExecuteDeleteAsync();
+                db.Entry(theoryOfChange).State = EntityState.Deleted;
 
-            db.Entry(theoryOfChange).State = EntityState.Deleted;
+                await db.SaveChangesAsync();
 
-            await db.SaveChangesAsync();
-
-            transactionScope.Complete();
+                transactionScope.Complete();
+            }
 
             return Ok();
         }

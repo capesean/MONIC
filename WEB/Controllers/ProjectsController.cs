@@ -90,17 +90,18 @@ namespace WEB.Controllers
             if (project == null)
                 return NotFound();
 
-            using var transactionScope = Utilities.General.CreateTransactionScope();
-
-            await db.Tasks.Where(o => o.Milestone.ProjectId == project.ProjectId).ExecuteDeleteAsync();
+            using (var transactionScope = Utilities.General.CreateTransactionScope())
+            {
+                await db.Tasks.Where(o => o.Milestone.ProjectId == project.ProjectId).ExecuteDeleteAsync();
 
             await db.Milestones.Where(o => o.ProjectId == project.ProjectId).ExecuteDeleteAsync();
 
-            db.Entry(project).State = EntityState.Deleted;
+                db.Entry(project).State = EntityState.Deleted;
 
-            await db.SaveChangesAsync();
+                await db.SaveChangesAsync();
 
-            transactionScope.Complete();
+                transactionScope.Complete();
+            }
 
             return Ok();
         }
@@ -108,13 +109,14 @@ namespace WEB.Controllers
         [HttpDelete("{projectId:Guid}/milestones"), AuthorizeRoles(Roles.Administrator)]
         public async Task<IActionResult> DeleteMilestones(Guid projectId)
         {
-            using var transactionScope = Utilities.General.CreateTransactionScope();
+            using (var transactionScope = Utilities.General.CreateTransactionScope())
+            {
+                await db.Tasks.Where(o => o.Milestone.ProjectId == projectId).ExecuteDeleteAsync();
 
-            await db.Tasks.Where(o => o.Milestone.ProjectId == projectId).ExecuteDeleteAsync();
+                await db.Milestones.Where(o => o.ProjectId == projectId).ExecuteDeleteAsync();
 
-            await db.Milestones.Where(o => o.ProjectId == projectId).ExecuteDeleteAsync();
-
-            transactionScope.Complete();
+                transactionScope.Complete();
+            }
 
             return Ok();
         }

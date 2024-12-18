@@ -105,17 +105,18 @@ namespace WEB.Controllers
             if (field == null)
                 return NotFound();
 
-            using var transactionScope = Utilities.General.CreateTransactionScope();
+            using (var transactionScope = Utilities.General.CreateTransactionScope())
+            {
+                await db.Options.Where(o => o.FieldId == field.FieldId).ExecuteDeleteAsync();
 
-            await db.Options.Where(o => o.FieldId == field.FieldId).ExecuteDeleteAsync();
+                await db.FieldValues.Where(o => o.FieldId == field.FieldId).ExecuteDeleteAsync();
 
-            await db.FieldValues.Where(o => o.FieldId == field.FieldId).ExecuteDeleteAsync();
+                db.Entry(field).State = EntityState.Deleted;
 
-            db.Entry(field).State = EntityState.Deleted;
+                await db.SaveChangesAsync();
 
-            await db.SaveChangesAsync();
-
-            transactionScope.Complete();
+                transactionScope.Complete();
+            }
 
             return Ok();
         }
@@ -141,13 +142,14 @@ namespace WEB.Controllers
         [HttpDelete("{fieldId:Guid}/options"), AuthorizeRoles(Roles.Administrator)]
         public async Task<IActionResult> DeleteOptions(Guid fieldId)
         {
-            using var transactionScope = Utilities.General.CreateTransactionScope();
+            using (var transactionScope = Utilities.General.CreateTransactionScope())
+            {
+                await db.OptionValues.Where(o => o.Option.FieldId == fieldId).ExecuteDeleteAsync();
 
-            await db.OptionValues.Where(o => o.Option.FieldId == fieldId).ExecuteDeleteAsync();
+                await db.Options.Where(o => o.FieldId == fieldId).ExecuteDeleteAsync();
 
-            await db.Options.Where(o => o.FieldId == fieldId).ExecuteDeleteAsync();
-
-            transactionScope.Complete();
+                transactionScope.Complete();
+            }
 
             return Ok();
         }

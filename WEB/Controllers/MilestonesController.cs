@@ -100,15 +100,16 @@ namespace WEB.Controllers
             if (milestone == null)
                 return NotFound();
 
-            using var transactionScope = Utilities.General.CreateTransactionScope();
+            using (var transactionScope = Utilities.General.CreateTransactionScope())
+            {
+                await db.Tasks.Where(o => o.MilestoneId == milestone.MilestoneId).ExecuteDeleteAsync();
 
-            await db.Tasks.Where(o => o.MilestoneId == milestone.MilestoneId).ExecuteDeleteAsync();
+                db.Entry(milestone).State = EntityState.Deleted;
 
-            db.Entry(milestone).State = EntityState.Deleted;
+                await db.SaveChangesAsync();
 
-            await db.SaveChangesAsync();
-
-            transactionScope.Complete();
+                transactionScope.Complete();
+            }
 
             return Ok();
         }

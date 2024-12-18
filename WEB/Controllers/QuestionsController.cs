@@ -169,9 +169,9 @@ namespace WEB.Controllers
             if (await db.SkipLogicOptions.AnyAsync(o => o.QuestionId == question.QuestionId))
                 return BadRequest("Unable to delete the question as it has related skip logic options");
 
-            using var transactionScope = Utilities.General.CreateTransactionScope();
-
-            await db.Documents.Where(o => o.ItemId == question.QuestionId).ExecuteDeleteAsync();
+            using (var transactionScope = Utilities.General.CreateTransactionScope())
+            {
+                await db.Documents.Where(o => o.ItemId == question.QuestionId).ExecuteDeleteAsync();
 
             await db.Items.Where(o => o.ItemId == question.QuestionId).ExecuteDeleteAsync();
 
@@ -179,13 +179,14 @@ namespace WEB.Controllers
 
             await db.Answers.Where(o => o.QuestionId == question.QuestionId).ExecuteDeleteAsync();
 
-            await db.QuestionSummaries.Where(o => o.QuestionId == question.QuestionId).ExecuteDeleteAsync();
+                await db.QuestionSummaries.Where(o => o.QuestionId == question.QuestionId).ExecuteDeleteAsync();
 
-            db.Entry(question).State = EntityState.Deleted;
+                db.Entry(question).State = EntityState.Deleted;
 
-            await db.SaveChangesAsync();
+                await db.SaveChangesAsync();
 
-            transactionScope.Complete();
+                transactionScope.Complete();
+            }
 
             return Ok();
         }
@@ -212,13 +213,14 @@ namespace WEB.Controllers
         [HttpDelete("{questionId:Guid}/answers")]
         public async Task<IActionResult> DeleteAnswers(Guid questionId)
         {
-            using var transactionScope = Utilities.General.CreateTransactionScope();
+            using (var transactionScope = Utilities.General.CreateTransactionScope())
+            {
+                await db.AnswerOptions.Where(o => o.Answer.QuestionId == questionId).ExecuteDeleteAsync();
 
-            await db.AnswerOptions.Where(o => o.Answer.QuestionId == questionId).ExecuteDeleteAsync();
+                await db.Answers.Where(o => o.QuestionId == questionId).ExecuteDeleteAsync();
 
-            await db.Answers.Where(o => o.QuestionId == questionId).ExecuteDeleteAsync();
-
-            transactionScope.Complete();
+                transactionScope.Complete();
+            }
 
             return Ok();
         }

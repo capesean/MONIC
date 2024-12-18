@@ -112,15 +112,16 @@ namespace WEB.Controllers
             if (await db.Data.AnyAsync(o => o.RejectDataReviewId == dataReview.DataReviewId))
                 return BadRequest("Unable to delete the data review as it has related rejected data");
 
-            using var transactionScope = Utilities.General.CreateTransactionScope();
+            using (var transactionScope = Utilities.General.CreateTransactionScope())
+            {
+                await db.DataReviewLinks.Where(o => o.DataReviewId == dataReview.DataReviewId).ExecuteDeleteAsync();
 
-            await db.DataReviewLinks.Where(o => o.DataReviewId == dataReview.DataReviewId).ExecuteDeleteAsync();
+                db.Entry(dataReview).State = EntityState.Deleted;
 
-            db.Entry(dataReview).State = EntityState.Deleted;
+                await db.SaveChangesAsync();
 
-            await db.SaveChangesAsync();
-
-            transactionScope.Complete();
+                transactionScope.Complete();
+            }
 
             return Ok();
         }

@@ -96,15 +96,16 @@ namespace WEB.Controllers
             if (await db.Questions.AnyAsync(o => o.QuestionOptionGroupId == questionOptionGroup.QuestionOptionGroupId))
                 return BadRequest("Unable to delete the question option group as it has related questions");
 
-            using var transactionScope = Utilities.General.CreateTransactionScope();
+            using (var transactionScope = Utilities.General.CreateTransactionScope())
+            {
+                await db.QuestionOptions.Where(o => o.QuestionOptionGroupId == questionOptionGroup.QuestionOptionGroupId).ExecuteDeleteAsync();
 
-            await db.QuestionOptions.Where(o => o.QuestionOptionGroupId == questionOptionGroup.QuestionOptionGroupId).ExecuteDeleteAsync();
+                db.Entry(questionOptionGroup).State = EntityState.Deleted;
 
-            db.Entry(questionOptionGroup).State = EntityState.Deleted;
+                await db.SaveChangesAsync();
 
-            await db.SaveChangesAsync();
-
-            transactionScope.Complete();
+                transactionScope.Complete();
+            }
 
             return Ok();
         }
@@ -132,15 +133,16 @@ namespace WEB.Controllers
             if (await db.SkipLogicOptions.AnyAsync(o => o.Question.QuestionOptionGroupId == questionOptionGroupId))
                 return BadRequest("Unable to delete the questions as there are related skip logic options");
 
-            using var transactionScope = Utilities.General.CreateTransactionScope();
+            using (var transactionScope = Utilities.General.CreateTransactionScope())
+            {
+                await db.Answers.Where(o => o.Question.QuestionOptionGroupId == questionOptionGroupId).ExecuteDeleteAsync();
 
-            await db.Answers.Where(o => o.Question.QuestionOptionGroupId == questionOptionGroupId).ExecuteDeleteAsync();
+                await db.QuestionSummaries.Where(o => o.Question.QuestionOptionGroupId == questionOptionGroupId).ExecuteDeleteAsync();
 
-            await db.QuestionSummaries.Where(o => o.Question.QuestionOptionGroupId == questionOptionGroupId).ExecuteDeleteAsync();
+                await db.Questions.Where(o => o.QuestionOptionGroupId == questionOptionGroupId).ExecuteDeleteAsync();
 
-            await db.Questions.Where(o => o.QuestionOptionGroupId == questionOptionGroupId).ExecuteDeleteAsync();
-
-            transactionScope.Complete();
+                transactionScope.Complete();
+            }
 
             return Ok();
         }

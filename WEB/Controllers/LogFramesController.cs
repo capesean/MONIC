@@ -103,15 +103,16 @@ namespace WEB.Controllers
         [HttpDelete("{logFrameId:Guid}/logframerows"), AuthorizeRoles(Roles.Administrator)]
         public async Task<IActionResult> DeleteLogFrameRows(Guid logFrameId)
         {
-            using var transactionScope = Utilities.General.CreateTransactionScope();
+            using (var transactionScope = Utilities.General.CreateTransactionScope())
+            {
+                await db.LogFrameRowIndicators.Where(o => o.LogFrameRow.LogFrameId == logFrameId).ExecuteDeleteAsync();
 
-            await db.LogFrameRowIndicators.Where(o => o.LogFrameRow.LogFrameId == logFrameId).ExecuteDeleteAsync();
+                await db.LogFrameRowComponents.Where(o => o.LogFrameRow.LogFrameId == logFrameId).ExecuteDeleteAsync();
 
-            await db.LogFrameRowComponents.Where(o => o.LogFrameRow.LogFrameId == logFrameId).ExecuteDeleteAsync();
+                await db.LogFrameRows.Where(o => o.LogFrameId == logFrameId).ExecuteDeleteAsync();
 
-            await db.LogFrameRows.Where(o => o.LogFrameId == logFrameId).ExecuteDeleteAsync();
-
-            transactionScope.Complete();
+                transactionScope.Complete();
+            }
 
             return Ok();
         }

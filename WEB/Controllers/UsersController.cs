@@ -286,18 +286,19 @@ namespace WEB.Controllers
             if (await db.FolderContents.AnyAsync(o => o.AddedById == user.Id))
                 return BadRequest("Unable to delete the user as it has related added folder content");
 
-            using var transactionScope = Utilities.General.CreateTransactionScope();
+            using (var transactionScope = Utilities.General.CreateTransactionScope())
+            {
+                await db.EntityPermissions.Where(o => o.UserId == user.Id).ExecuteDeleteAsync();
 
-            await db.EntityPermissions.Where(o => o.UserId == user.Id).ExecuteDeleteAsync();
+                await db.IndicatorPermissions.Where(o => o.UserId == user.Id).ExecuteDeleteAsync();
 
-            await db.IndicatorPermissions.Where(o => o.UserId == user.Id).ExecuteDeleteAsync();
+                foreach (var role in await userManager.GetRolesAsync(user))
+                    await userManager.RemoveFromRoleAsync(user, role);
 
-            foreach (var role in await userManager.GetRolesAsync(user))
-                await userManager.RemoveFromRoleAsync(user, role);
+                await userManager.DeleteAsync(user);
 
-            await userManager.DeleteAsync(user);
-
-            transactionScope.Complete();
+                transactionScope.Complete();
+            }
 
             return Ok();
         }

@@ -110,23 +110,24 @@ namespace WEB.Controllers
             if (await db.LogFrameRowComponents.AnyAsync(o => o.ComponentId == component.ComponentId))
                 return BadRequest("Unable to delete the component as it has related log frame row components");
 
-            using var transactionScope = Utilities.General.CreateTransactionScope();
+            using (var transactionScope = Utilities.General.CreateTransactionScope())
+            {
+                await db.Relationships.Where(o => o.SourceComponentId == component.ComponentId).ExecuteDeleteAsync();
 
-            await db.Relationships.Where(o => o.SourceComponentId == component.ComponentId).ExecuteDeleteAsync();
+                await db.Relationships.Where(o => o.TargetComponentId == component.ComponentId).ExecuteDeleteAsync();
 
-            await db.Relationships.Where(o => o.TargetComponentId == component.ComponentId).ExecuteDeleteAsync();
+                await db.TheoryOfChangeComponents.Where(o => o.ComponentId == component.ComponentId).ExecuteDeleteAsync();
 
-            await db.TheoryOfChangeComponents.Where(o => o.ComponentId == component.ComponentId).ExecuteDeleteAsync();
+                await db.ComponentIndicators.Where(o => o.ComponentId == component.ComponentId).ExecuteDeleteAsync();
 
-            await db.ComponentIndicators.Where(o => o.ComponentId == component.ComponentId).ExecuteDeleteAsync();
-
-            ItemFunctions.DeleteFields(db, componentId, true);
+                ItemFunctions.DeleteFields(db, componentId, true);
 
             db.Entry(component).State = EntityState.Deleted;
 
-            await db.SaveChangesAsync();
+                await db.SaveChangesAsync();
 
-            transactionScope.Complete();
+                transactionScope.Complete();
+            }
 
             return Ok();
         }

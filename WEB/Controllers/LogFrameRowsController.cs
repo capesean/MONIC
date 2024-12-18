@@ -142,17 +142,18 @@ namespace WEB.Controllers
             if (logFrameRow == null)
                 return NotFound();
 
-            using var transactionScope = Utilities.General.CreateTransactionScope();
+            using (var transactionScope = Utilities.General.CreateTransactionScope())
+            {
+                await db.LogFrameRowIndicators.Where(o => o.LogFrameRowId == logFrameRow.LogFrameRowId).ExecuteDeleteAsync();
 
-            await db.LogFrameRowIndicators.Where(o => o.LogFrameRowId == logFrameRow.LogFrameRowId).ExecuteDeleteAsync();
+                await db.LogFrameRowComponents.Where(o => o.LogFrameRowId == logFrameRow.LogFrameRowId).ExecuteDeleteAsync();
 
-            await db.LogFrameRowComponents.Where(o => o.LogFrameRowId == logFrameRow.LogFrameRowId).ExecuteDeleteAsync();
+                db.Entry(logFrameRow).State = EntityState.Deleted;
 
-            db.Entry(logFrameRow).State = EntityState.Deleted;
+                await db.SaveChangesAsync();
 
-            await db.SaveChangesAsync();
-
-            transactionScope.Complete();
+                transactionScope.Complete();
+            }
 
             return Ok();
         }

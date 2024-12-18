@@ -118,13 +118,14 @@ namespace WEB.Controllers
         [HttpDelete("{itemId:Guid}/documents"), AuthorizeRoles(Roles.Administrator)]
         public async Task<IActionResult> DeleteDocuments(Guid itemId)
         {
-            using var transactionScope = Utilities.General.CreateTransactionScope();
+            using (var transactionScope = Utilities.General.CreateTransactionScope())
+            {
+                await db.DocumentContents.Where(o => o.Document.ItemId == itemId).ExecuteDeleteAsync();
 
-            await db.DocumentContents.Where(o => o.Document.ItemId == itemId).ExecuteDeleteAsync();
+                await db.Documents.Where(o => o.ItemId == itemId).ExecuteDeleteAsync();
 
-            await db.Documents.Where(o => o.ItemId == itemId).ExecuteDeleteAsync();
-
-            transactionScope.Complete();
+                transactionScope.Complete();
+            }
 
             return Ok();
         }

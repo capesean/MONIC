@@ -105,15 +105,16 @@ namespace WEB.Controllers
             if (await db.Responses.AnyAsync(o => o.QuestionnaireId == questionnaire.QuestionnaireId))
                 return BadRequest("Unable to delete the questionnaire as it has related responses");
 
-            using var transactionScope = Utilities.General.CreateTransactionScope();
+            using (var transactionScope = Utilities.General.CreateTransactionScope())
+            {
+                await db.Sections.Where(o => o.QuestionnaireId == questionnaire.QuestionnaireId).ExecuteDeleteAsync();
 
-            await db.Sections.Where(o => o.QuestionnaireId == questionnaire.QuestionnaireId).ExecuteDeleteAsync();
+                db.Entry(questionnaire).State = EntityState.Deleted;
 
-            db.Entry(questionnaire).State = EntityState.Deleted;
+                await db.SaveChangesAsync();
 
-            await db.SaveChangesAsync();
-
-            transactionScope.Complete();
+                transactionScope.Complete();
+            }
 
             return Ok();
         }
@@ -121,13 +122,14 @@ namespace WEB.Controllers
         [HttpDelete("{questionnaireId:Guid}/sections"), AuthorizeRoles(Roles.Administrator)]
         public async Task<IActionResult> DeleteSections(Guid questionnaireId)
         {
-            using var transactionScope = Utilities.General.CreateTransactionScope();
+            using (var transactionScope = Utilities.General.CreateTransactionScope())
+            {
+                await db.Questions.Where(o => o.Section.QuestionnaireId == questionnaireId).ExecuteDeleteAsync();
 
-            await db.Questions.Where(o => o.Section.QuestionnaireId == questionnaireId).ExecuteDeleteAsync();
+                await db.Sections.Where(o => o.QuestionnaireId == questionnaireId).ExecuteDeleteAsync();
 
-            await db.Sections.Where(o => o.QuestionnaireId == questionnaireId).ExecuteDeleteAsync();
-
-            transactionScope.Complete();
+                transactionScope.Complete();
+            }
 
             return Ok();
         }
@@ -135,17 +137,18 @@ namespace WEB.Controllers
         [HttpDelete("{questionnaireId:Guid}/responses"), AuthorizeRoles(Roles.Administrator)]
         public async Task<IActionResult> DeleteResponses(Guid questionnaireId)
         {
-            using var transactionScope = Utilities.General.CreateTransactionScope();
-
-            await db.Items.Where(o => db.Answers.Where(a => a.Response.QuestionnaireId == questionnaireId).Select(a => a.AnswerId).Contains(o.ItemId)).ExecuteDeleteAsync();
+            using (var transactionScope = Utilities.General.CreateTransactionScope())
+            {
+                await db.Items.Where(o => db.Answers.Where(a => a.Response.QuestionnaireId == questionnaireId).Select(a => a.AnswerId).Contains(o.ItemId)).ExecuteDeleteAsync();
 
             await db.AnswerOptions.Where(o => o.Answer.Response.QuestionnaireId == questionnaireId).ExecuteDeleteAsync();
 
             await db.Answers.Where(o => o.Response.QuestionnaireId == questionnaireId).ExecuteDeleteAsync();
 
-            await db.Responses.Where(o => o.QuestionnaireId == questionnaireId).ExecuteDeleteAsync();
+                await db.Responses.Where(o => o.QuestionnaireId == questionnaireId).ExecuteDeleteAsync();
 
-            transactionScope.Complete();
+                transactionScope.Complete();
+            }
 
             return Ok();
         }

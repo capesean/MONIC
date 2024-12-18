@@ -118,9 +118,9 @@ namespace WEB.Controllers
             if (response == null)
                 return NotFound();
 
-            using var transactionScope = Utilities.General.CreateTransactionScope();
-
-            foreach (var answer in db.Answers.Where(o => o.ResponseId == response.ResponseId))
+            using (var transactionScope = Utilities.General.CreateTransactionScope())
+            {
+                foreach (var answer in db.Answers.Where(o => o.ResponseId == response.ResponseId))
             {
                 //await db.Documents.Where(o => o.ItemId == answer.QuestionId).ExecuteDeleteAsync();
 
@@ -131,11 +131,12 @@ namespace WEB.Controllers
 
             await db.Answers.Where(o => o.ResponseId == response.ResponseId).ExecuteDeleteAsync();
 
-            db.Entry(response).State = EntityState.Deleted;
+                db.Entry(response).State = EntityState.Deleted;
 
-            await db.SaveChangesAsync();
+                await db.SaveChangesAsync();
 
-            transactionScope.Complete();
+                transactionScope.Complete();
+            }
 
             return Ok();
         }
@@ -143,11 +144,11 @@ namespace WEB.Controllers
         [HttpDelete("{responseId:Guid}/answers"), AuthorizeRoles(Roles.Administrator)]
         public async Task<IActionResult> DeleteAnswers(Guid responseId)
         {
-            using var transactionScope = Utilities.General.CreateTransactionScope();
+            using (var transactionScope = Utilities.General.CreateTransactionScope())
+            {
+                await db.AnswerOptions.Where(o => o.Answer.ResponseId == responseId).ExecuteDeleteAsync();
 
-            await db.AnswerOptions.Where(o => o.Answer.ResponseId == responseId).ExecuteDeleteAsync();
-
-            foreach (var answer in db.Answers.Where(o => o.ResponseId == responseId).ToList())
+                foreach (var answer in db.Answers.Where(o => o.ResponseId == responseId).ToList())
             {
                 await db.Documents.Where(o => o.ItemId == answer.AnswerId).ExecuteDeleteAsync();
                 await db.Items.Where(o => o.ItemId == answer.AnswerId).ExecuteDeleteAsync();
@@ -158,7 +159,8 @@ namespace WEB.Controllers
 
             transactionScope.Complete();
 
-            transactionScope.Complete();
+                transactionScope.Complete();
+            }
 
             return Ok();
         }

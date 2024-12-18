@@ -144,15 +144,15 @@ namespace WEB.Controllers
             if (await db.ComponentIndicators.AnyAsync(o => o.Indicator.SubcategoryId == subcategoryId))
                 return BadRequest("Unable to delete the indicators as there are related component indicators");
 
-            using var transactionScope = Utilities.General.CreateTransactionScope();
+            using (var transactionScope = Utilities.General.CreateTransactionScope())
+            {
+                await db.Tokens.Where(o => o.Indicator.SubcategoryId == subcategoryId).ExecuteDeleteAsync();
 
-            await db.Tokens.Where(o => o.Indicator.SubcategoryId == subcategoryId).ExecuteDeleteAsync();
+                await db.Data.Where(o => o.Indicator.SubcategoryId == subcategoryId).ExecuteDeleteAsync();
 
-            await db.Data.Where(o => o.Indicator.SubcategoryId == subcategoryId).ExecuteDeleteAsync();
+                await db.IndicatorPermissions.Where(o => o.Indicator.SubcategoryId == subcategoryId).ExecuteDeleteAsync();
 
-            await db.IndicatorPermissions.Where(o => o.Indicator.SubcategoryId == subcategoryId).ExecuteDeleteAsync();
-
-            foreach (var indicator in db.Indicators.Where(o => o.SubcategoryId == subcategoryId).ToList())
+                foreach (var indicator in db.Indicators.Where(o => o.SubcategoryId == subcategoryId).ToList())
             {
                 ItemFunctions.DeleteFields(db, indicator.IndicatorId, true);
             }
@@ -161,7 +161,8 @@ namespace WEB.Controllers
 
             await db.SaveChangesAsync();
 
-            transactionScope.Complete();
+                transactionScope.Complete();
+            }
 
             return Ok();
         }
