@@ -15,8 +15,6 @@ namespace WEB.Controllers
         [HttpGet, Route("settings")]
         public IActionResult Get()
         {
-            var dbSettings = AppSettings.GetDbSettings(db);
-
             // return the settings for all logged in users
             return Ok(
                 new
@@ -34,8 +32,6 @@ namespace WEB.Controllers
         [HttpGet, Route("setupcheck"), AllowAnonymous]
         public IActionResult SetupCheck()
         {
-            var dbSettings = AppSettings.GetDbSettings(db);
-
             return Ok(
                 new
                 {

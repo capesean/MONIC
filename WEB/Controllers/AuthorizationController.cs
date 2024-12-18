@@ -295,10 +295,8 @@ namespace AuthorizationServer.Controllers
             text += Environment.NewLine;
             text += AppSettings.RootUrl + "auth/reset?e=" + user.Email + "&t=" + token + Environment.NewLine;
 
-            var html = user.FirstName + Environment.NewLine;
-            html += Environment.NewLine;
-            html += "A password reset has been requested. Please use the link below to reset your password." + Environment.NewLine;
-            html += Environment.NewLine;
+            var html = $"<p>{user.FirstName}</p>";
+            html += "<p>A password reset has been requested. Please use the link below to reset your password.</p>";
             html += AppSettings.RootUrl + "auth/reset?e=" + user.Email + "&t=" + WebUtility.UrlEncode(token) + Environment.NewLine;
 
             await emailSender.SendEmailAsync(user.Email, user.FullName, "Password Reset", text, html);

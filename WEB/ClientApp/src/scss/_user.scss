@@ -277,6 +277,10 @@ hr {
     font-size: 16px !important;
 }
 
+.table > :not(caption) > * > td {
+    --bs-table-bg: white;
+}
+
 table.table.table-striped tbody tr:nth-child(2n) {
     background-color: #f4f4f4;
 }

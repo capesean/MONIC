@@ -100,7 +100,7 @@ namespace WEB.Error
             }
             catch { }
 
-            if (!string.IsNullOrWhiteSpace(appSettings.EmailSettings.EmailToErrors))
+            if (!string.IsNullOrWhiteSpace(appSettings.Email.EmailToErrors))
             {
                 var body = string.Empty;
                 body += "DATE: " + DateTime.UtcNow.ToString("dd MMMM yyyy, HH:mm:ss") + Environment.NewLine;
@@ -121,7 +121,7 @@ namespace WEB.Error
 
                 try
                 {
-                    emailSender.SendEmailAsync(appSettings.EmailSettings.EmailToErrors, appSettings.EmailSettings.EmailToErrors, appSettings.SiteName + " Error", body, isErrorEmail: true).Wait();
+                    emailSender.SendEmailAsync(appSettings.Email.EmailToErrors, appSettings.Email.EmailToErrors, appSettings.SiteName + " Error", body, isErrorEmail: true).Wait();
                 }
                 catch { }
             }

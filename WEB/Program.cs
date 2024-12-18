@@ -22,10 +22,9 @@ if (appSettings.UseAzureDataProtection)
      * It also requires an app registration on Entra Id (formerly Azure Active Directory) for the tenantId, clientId and secret
      * The app registration also needs to be added to the container's access Control (IAM) with role: Storage Blob Data Contributor
      */
-    var tokenCredential = new ClientSecretCredential(appSettings.AzureBlobStorage.TenantId, appSettings.AzureBlobStorage.ClientId, appSettings.AzureBlobStorage.ClientSecret);
 
     builder.Services.AddDataProtection()
-                .PersistKeysToAzureBlobStorage(new Uri(appSettings.AzureBlobStorage.AzureBlobStorageUrl), tokenCredential);
+                .PersistKeysToAzureBlobStorage(appSettings.Azure.DataProtection.ConnectionString, appSettings.Azure.DataProtection.ContainerName, "dataprotectionkeys.xml");
 }
 
 // todo: this is not correct - find out a better way to get correct path

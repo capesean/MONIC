@@ -28,7 +28,7 @@ namespace AuthorizationServer.Controllers
         [HttpGet, AllowAnonymous]
         public async Task<IActionResult> CheckSetup()
         {
-            return Ok(new { runSetup = !await db.Users.AnyAsync() });
+            return Ok(new { runSetup = !(await db.Settings.SingleAsync()).SetupCompleted });
         }
 
         [HttpPost, AllowAnonymous]
@@ -37,8 +37,6 @@ namespace AuthorizationServer.Controllers
             if (!ModelState.IsValid) return BadRequest(ModelState);
 
             if (await db.Users.AnyAsync()) throw new HandledException("The database already has a user account.");
-
-            var dbSettings = AppSettings.GetDbSettings(db);
 
             if (dbSettings.SetupCompleted) throw new HandledException("The setup process has already completed.");
 

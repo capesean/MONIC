@@ -22,7 +22,7 @@ export class AppComponent implements OnInit {
         private authService: AuthService,
         private breadcrumbService: BreadcrumbService,
         private titleService: Title,
-        modalConfig: NgbModalConfig,
+        private modalConfig: NgbModalConfig,
         tooltipConfig: NgbTooltipConfig
     ) {
         titleService.setTitle(environment.siteName);
