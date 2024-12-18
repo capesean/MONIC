@@ -52,7 +52,7 @@ export const CustomRoutes: Route[] = [
         pathMatch: 'full',
         data: {
             breadcrumb: 'Data Entry',
-            menu: 'mneTools'
+            menu: 'home'
         },
     },
     {
@@ -62,7 +62,7 @@ export const CustomRoutes: Route[] = [
         component: TheoriesOfChangeComponent,
         data: {
             breadcrumb: 'Theories of Change',
-            menu: 'mneTools'
+            menu: 'home'
         },
         children: [
             {
@@ -72,7 +72,7 @@ export const CustomRoutes: Route[] = [
                 canActivateChild: [AccessGuard],
                 data: {
                     breadcrumb: 'Add Theory of Change',
-                    menu: 'mneTools'
+                    menu: 'home'
                 }
             }
         ]
@@ -84,7 +84,7 @@ export const CustomRoutes: Route[] = [
         component: LogFramesComponent,
         data: {
             breadcrumb: 'Logical Frameworks',
-            menu: 'mneTools'
+            menu: 'home'
         },
         children: [
             {
@@ -94,7 +94,7 @@ export const CustomRoutes: Route[] = [
                 canActivateChild: [AccessGuard],
                 data: {
                     breadcrumb: 'Add Logical Framework',
-                    menu: 'mneTools'
+                    menu: 'home'
                 }
             }
         ]
@@ -106,7 +106,7 @@ export const CustomRoutes: Route[] = [
         component: QuestionnairesComponent,
         data: {
             breadcrumb: 'Questionnaires',
-            menu: 'mneTools'
+            menu: 'home'
         },
         children: [
             {
@@ -116,7 +116,7 @@ export const CustomRoutes: Route[] = [
                 canActivateChild: [AccessGuard],
                 data: {
                     breadcrumb: 'Add Questionnaire',
-                    menu: 'mneTools'
+                    menu: 'home'
                 }
             }
         ]
@@ -128,7 +128,7 @@ export const CustomRoutes: Route[] = [
         component: GanttsComponent,
         data: {
             breadcrumb: 'Gantt Charts',
-            menu: 'mneTools'
+            menu: 'home'
         },
         children: [
             {
@@ -138,7 +138,7 @@ export const CustomRoutes: Route[] = [
                 canActivateChild: [AccessGuard],
                 data: {
                     breadcrumb: 'Add Gantt Chart',
-                    menu: 'mneTools'
+                    menu: 'home'
                 }
             }
         ]
@@ -161,7 +161,7 @@ export const CustomRoutes: Route[] = [
         component: FolderComponent,
         data: {
             breadcrumb: 'Folder',
-            menu: 'mneTools'
+            menu: 'home'
         },
         children: [
             {

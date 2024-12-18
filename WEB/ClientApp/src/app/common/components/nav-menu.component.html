@@ -15,22 +15,12 @@
             <ul class="navbar-nav">
 
                 <li class="nav-item dropdown">
-                    <a class="nav-link" [ngClass]="{ 'active': activeMenu === 'dashboards', 'collapsed': !menuStates['dashboards'] }" (click)="dashboardsMenu.toggle();">
-                        <i class="fas fa-fw fa-house"></i>Dashboards<i class="fas fa-fw fa-chevron-down"></i>
+                    <a class="nav-link" [ngClass]="{ 'active': activeMenu === 'home', 'collapsed': !menuStates['home'] }" (click)="homeMenu.toggle();">
+                        <i class="fas fa-fw fa-house"></i>Home<i class="fas fa-fw fa-chevron-down"></i>
                     </a>
-                    <div #dashboardsMenu="ngbCollapse" [(ngbCollapse)]="menuStates['dashboards']">
+                    <div #homeMenu="ngbCollapse" [(ngbCollapse)]="menuStates['home']">
                         <ul class="nav flex-column">
-                            <li class="nav-item"><a class="nav-link" routerLinkActive="active" routerLink="/" [routerLinkActiveOptions]="{exact: true}"><i class="fas fa-fw me-2 fa-house"></i>Home</a></li>
-                        </ul>
-                    </div>
-                </li>
-
-                <li class="nav-item dropdown" [appHasRole]="['Questionnaires', 'DataEntry']">
-                    <a class="nav-link" [ngClass]="{ 'active': activeMenu === 'mneTools', 'collapsed': !menuStates['mneTools'] }" (click)="mneToolsMenu.toggle();">
-                        <i class="fas fa-fw fa-chart-area"></i>M&amp;E Tools<i class="fas fa-fw fa-chevron-down"></i>
-                    </a>
-                    <div #mneToolsMenu="ngbCollapse" [(ngbCollapse)]="menuStates['mneTools']">
-                        <ul class="nav flex-column">
+                            <li class="nav-item"><a class="nav-link" routerLinkActive="active" routerLink="/" [routerLinkActiveOptions]="{exact: true}"><i class="fas fa-fw me-2 fa-house"></i>Dashboard</a></li>
                             <li class="nav-item" appHasRole="DataEntry"><a class="nav-link" routerLinkActive="active" routerLink="/dataentry"><i class="fas fa-fw me-2 fa-table-list"></i>Data Entry</a></li>
                             <li class="nav-item" appHasRole="Administrator"><a class="nav-link" routerLinkActive="active" routerLink="/theoryofchange"><i class="fas fa-fw me-2 fa-diagram-project"></i>Theories of Change</a></li>
                             <li class="nav-item" appHasRole="Administrator"><a class="nav-link" routerLinkActive="active" routerLink="/logframe"><i class="fas fa-fw me-2 fa-table"></i>Logical Frameworks</a></li>
