@@ -26,7 +26,7 @@ export const CustomRoutes: Route[] = [
         pathMatch: 'full',
         data: {
             breadcrumb: 'Home',
-            menu: 'dashboards'
+            menu: 'home'
         },
     },
     {
@@ -165,7 +165,11 @@ export const CustomRoutes: Route[] = [
         },
         children: [
             {
-                path: '**', component: FolderComponent
+                path: '**',
+                component: FolderComponent,
+                data: {
+                    menu: 'home'
+                }
             }
         ]
     },

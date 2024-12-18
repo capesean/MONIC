@@ -68,13 +68,6 @@
 	  <None Remove="ClientApp\src\app\common\models\download.model.ts" />
 	</ItemGroup>
 
-	<ItemGroup>
-	  <_WebToolingArtifacts Remove="Properties\PublishProfiles\mietmonic.pubxml" />
-	  <_WebToolingArtifacts Remove="Properties\PublishProfiles\migsa.pubxml" />
-	  <_WebToolingArtifacts Remove="Properties\PublishProfiles\monicdemo.pubxml" />
-	  <_WebToolingArtifacts Remove="Properties\PublishProfiles\trialogue.pubxml" />
-	</ItemGroup>
-
 
 	<ItemGroup>
 		<Content Include="ClientApp\src\assets\favicon.ico">
@@ -115,6 +108,7 @@
 		<Folder Include="ClientApp\src\app\common\scroll-spy\" />
 		<Folder Include="ClientApp\src\assets\geojson\" />
 		<Folder Include="Migrations\" />
+		<Folder Include="Properties\PublishProfiles\" />
 	</ItemGroup>
 
 	<ItemGroup>
