@@ -29,7 +29,6 @@
             _settings ??= db.Settings.Single();
             return _settings;
         }
-    }
 
         public class EmailSettings
         {
@@ -65,6 +64,6 @@
             }
         }
 
-
     }
+
 }
