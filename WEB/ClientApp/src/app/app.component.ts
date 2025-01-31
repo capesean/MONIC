@@ -28,7 +28,6 @@ export class AppComponent implements OnInit {
         titleService.setTitle(environment.siteName);
         moment.locale("en-gb");
         modalConfig.scrollable = false;
-        modalConfig.scrollable = false;
         tooltipConfig.placement = 'top';
         tooltipConfig.openDelay = 750;
     }
