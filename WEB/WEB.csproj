@@ -6,6 +6,7 @@
 		<IsPackable>false</IsPackable>
 		<SpaRoot>ClientApp\</SpaRoot>
 		<SpaProxyServerUrl>https://localhost:44401</SpaProxyServerUrl>
+		<!--this next line, plus the ASPNETCORE_HOSTINGSTARTUPASSEMBLIES in launchSettings, will allow the SPA to run in the same process as the server-->
 		<SpaProxyLaunchCommand>npm start</SpaProxyLaunchCommand>
 		<ImplicitUsings>enable</ImplicitUsings>
 	</PropertyGroup>
