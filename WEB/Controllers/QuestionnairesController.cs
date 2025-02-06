@@ -120,7 +120,6 @@ namespace WEB.Controllers
 
                 await db.Questions.Where(o => o.Section.QuestionnaireId == questionnaire.QuestionnaireId).ExecuteDeleteAsync();
 
-                await db.Questions.Where(o => o.Section.QuestionnaireId == questionnaire.QuestionnaireId).ExecuteDeleteAsync();
 
                 await db.Sections.Where(o => o.QuestionnaireId == questionnaire.QuestionnaireId).ExecuteDeleteAsync();
 
