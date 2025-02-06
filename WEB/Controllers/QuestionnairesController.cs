@@ -110,6 +110,16 @@ namespace WEB.Controllers
 
             using (var transactionScope = Utilities.General.CreateTransactionScope())
             {
+                await db.QuestionSummaries.Where(o => o.Question.Section.QuestionnaireId == questionnaire.QuestionnaireId).ExecuteDeleteAsync();
+
+                await db.SkipLogicOptions.Where(o => o.Question.Section.QuestionnaireId == questionnaire.QuestionnaireId).ExecuteDeleteAsync();
+
+                await db.Questions
+                    .Where(o => o.Section.QuestionnaireId == questionnaire.QuestionnaireId)
+                    .ExecuteUpdateAsync(setters => setters.SetProperty(q => q.CheckQuestionId, (Guid?)null));
+
+                await db.Questions.Where(o => o.Section.QuestionnaireId == questionnaire.QuestionnaireId).ExecuteDeleteAsync();
+
                 await db.Questions.Where(o => o.Section.QuestionnaireId == questionnaire.QuestionnaireId).ExecuteDeleteAsync();
 
                 await db.Sections.Where(o => o.QuestionnaireId == questionnaire.QuestionnaireId).ExecuteDeleteAsync();

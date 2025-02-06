@@ -229,9 +229,16 @@ namespace WEB.Controllers
             db.Entry(newQuestionnaire).State = EntityState.Added;
 
             var sections = await db.Sections
-                .Include(o => o.Questions)
                 .Where(o => o.QuestionnaireId == questionnaireId)
                 .ToListAsync();
+
+            var questions = await db.Questions
+                .Where(o => o.Section.QuestionnaireId == questionnaireId)
+                .ToListAsync();
+
+            var questionIdMap = new Dictionary<Guid, Guid>();
+            foreach (var question in questions)
+                questionIdMap.Add(question.QuestionId, Guid.NewGuid());
 
             foreach (var section in sections)
             {
@@ -240,13 +247,27 @@ namespace WEB.Controllers
                 newSection.QuestionnaireId = newQuestionnaire.QuestionnaireId;
                 db.Entry(newSection).State = EntityState.Added;
 
-                foreach (var question in section.Questions)
+                foreach (var question in questions.Where(o => o.SectionId == section.SectionId))
                 {
                     var newQuestion = new Question();
                     ModelFactory.Hydrate(newQuestion, ModelFactory.Create(question));
+                    newQuestion.QuestionId = questionIdMap[question.QuestionId];
                     newQuestion.SectionId = newSection.SectionId;
+                    if (question.CheckQuestionId.HasValue) newQuestion.CheckQuestionId = questionIdMap[question.CheckQuestionId.Value];
                     db.Entry(newQuestion).State = EntityState.Added;
                 }
+            }
+
+            var skipLogicOptions = await db.SkipLogicOptions
+                .Where(o => o.Question.Section.QuestionnaireId == questionnaireId)
+                .ToListAsync();
+
+            foreach (var skipLogicOption in skipLogicOptions)
+            {
+                var newSkipLogicOption = new SkipLogicOption();
+                newSkipLogicOption.QuestionId = questionIdMap[skipLogicOption.QuestionId];
+                newSkipLogicOption.CheckQuestionOptionId = skipLogicOption.CheckQuestionOptionId;
+                db.Entry(newSkipLogicOption).State = EntityState.Added;
             }
 
             await db.SaveChangesAsync();
