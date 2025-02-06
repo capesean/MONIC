@@ -359,7 +359,7 @@ namespace WEB.Migrations
                         .IsUnique()
                         .HasDatabaseName("IX_Answers_ResponseId_QuestionId");
 
-                    b.ToTable("Answers");
+                    b.ToTable("Answers", (string)null);
                 });
 
             modelBuilder.Entity("WEB.Models.AnswerOption", b =>
@@ -375,7 +375,7 @@ namespace WEB.Migrations
 
                     b.HasIndex("QuestionOptionId");
 
-                    b.ToTable("AnswerOptions");
+                    b.ToTable("AnswerOptions", (string)null);
                 });
 
             modelBuilder.Entity("WEB.Models.Category", b =>
@@ -407,7 +407,7 @@ namespace WEB.Migrations
                         .IsUnique()
                         .HasDatabaseName("IX_Category_Name");
 
-                    b.ToTable("Categories");
+                    b.ToTable("Categories", (string)null);
                 });
 
             modelBuilder.Entity("WEB.Models.Component", b =>
@@ -449,7 +449,7 @@ namespace WEB.Migrations
                         .IsUnique()
                         .HasDatabaseName("IX_Component_Code");
 
-                    b.ToTable("Components");
+                    b.ToTable("Components", (string)null);
                 });
 
             modelBuilder.Entity("WEB.Models.ComponentIndicator", b =>
@@ -465,7 +465,7 @@ namespace WEB.Migrations
 
                     b.HasIndex("IndicatorId");
 
-                    b.ToTable("ComponentIndicators");
+                    b.ToTable("ComponentIndicators", (string)null);
                 });
 
             modelBuilder.Entity("WEB.Models.DataReview", b =>
@@ -493,7 +493,7 @@ namespace WEB.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("DataReviews");
+                    b.ToTable("DataReviews", (string)null);
                 });
 
             modelBuilder.Entity("WEB.Models.DataReviewLink", b =>
@@ -515,7 +515,7 @@ namespace WEB.Migrations
 
                     b.HasIndex("DataReviewId");
 
-                    b.ToTable("DataReviewLinks");
+                    b.ToTable("DataReviewLinks", (string)null);
                 });
 
             modelBuilder.Entity("WEB.Models.Date", b =>
@@ -566,7 +566,7 @@ namespace WEB.Migrations
 
                     b.HasIndex("YearId");
 
-                    b.ToTable("Dates");
+                    b.ToTable("Dates", (string)null);
                 });
 
             modelBuilder.Entity("WEB.Models.Datum", b =>
@@ -645,7 +645,7 @@ namespace WEB.Migrations
 
                     b.HasIndex("VerifyDataReviewId");
 
-                    b.ToTable("Data");
+                    b.ToTable("Data", (string)null);
                 });
 
             modelBuilder.Entity("WEB.Models.Document", b =>
@@ -680,7 +680,7 @@ namespace WEB.Migrations
 
                     b.HasIndex("UploadedById");
 
-                    b.ToTable("Documents");
+                    b.ToTable("Documents", (string)null);
                 });
 
             modelBuilder.Entity("WEB.Models.DocumentContent", b =>
@@ -743,7 +743,7 @@ namespace WEB.Migrations
                         .HasDatabaseName("IX_Entity_ShortName")
                         .HasFilter("[OrganisationId] IS NOT NULL");
 
-                    b.ToTable("Entities");
+                    b.ToTable("Entities", (string)null);
                 });
 
             modelBuilder.Entity("WEB.Models.EntityLink", b =>
@@ -759,7 +759,7 @@ namespace WEB.Migrations
 
                     b.HasIndex("ParentEntityId");
 
-                    b.ToTable("EntityLinks");
+                    b.ToTable("EntityLinks", (string)null);
                 });
 
             modelBuilder.Entity("WEB.Models.EntityPermission", b =>
@@ -780,7 +780,7 @@ namespace WEB.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("EntityPermissions");
+                    b.ToTable("EntityPermissions", (string)null);
                 });
 
             modelBuilder.Entity("WEB.Models.EntityType", b =>
@@ -812,7 +812,7 @@ namespace WEB.Migrations
                         .IsUnique()
                         .HasDatabaseName("IX_EntityType_Plural");
 
-                    b.ToTable("EntityTypes");
+                    b.ToTable("EntityTypes", (string)null);
                 });
 
             modelBuilder.Entity("WEB.Models.Error", b =>
@@ -848,7 +848,7 @@ namespace WEB.Migrations
 
                     b.HasIndex("ExceptionId");
 
-                    b.ToTable("Errors");
+                    b.ToTable("Errors", (string)null);
                 });
 
             modelBuilder.Entity("WEB.Models.ErrorException", b =>
@@ -870,7 +870,7 @@ namespace WEB.Migrations
 
                     b.HasIndex("InnerExceptionId");
 
-                    b.ToTable("Exceptions");
+                    b.ToTable("Exceptions", (string)null);
                 });
 
             modelBuilder.Entity("WEB.Models.Field", b =>
@@ -950,7 +950,7 @@ namespace WEB.Migrations
                         .IsUnique()
                         .HasDatabaseName("IX_Field_Name");
 
-                    b.ToTable("Fields");
+                    b.ToTable("Fields", (string)null);
                 });
 
             modelBuilder.Entity("WEB.Models.FieldValue", b =>
@@ -969,7 +969,7 @@ namespace WEB.Migrations
 
                     b.HasIndex("FieldId");
 
-                    b.ToTable("FieldValues");
+                    b.ToTable("FieldValues", (string)null);
                 });
 
             modelBuilder.Entity("WEB.Models.Folder", b =>
@@ -998,7 +998,7 @@ namespace WEB.Migrations
 
                     b.HasIndex("ParentFolderId");
 
-                    b.ToTable("Folders");
+                    b.ToTable("Folders", (string)null);
                 });
 
             modelBuilder.Entity("WEB.Models.FolderContent", b =>
@@ -1033,7 +1033,7 @@ namespace WEB.Migrations
                         .IsUnique()
                         .HasDatabaseName("IX_FolderContent_Name");
 
-                    b.ToTable("FolderContents");
+                    b.ToTable("FolderContents", (string)null);
                 });
 
             modelBuilder.Entity("WEB.Models.Group", b =>
@@ -1056,7 +1056,7 @@ namespace WEB.Migrations
                         .IsUnique()
                         .HasDatabaseName("IX_Group_Name");
 
-                    b.ToTable("Groups");
+                    b.ToTable("Groups", (string)null);
                 });
 
             modelBuilder.Entity("WEB.Models.Indicator", b =>
@@ -1147,7 +1147,7 @@ namespace WEB.Migrations
 
                     b.HasIndex("SubcategoryId");
 
-                    b.ToTable("Indicators");
+                    b.ToTable("Indicators", (string)null);
                 });
 
             modelBuilder.Entity("WEB.Models.IndicatorPermission", b =>
@@ -1180,7 +1180,7 @@ namespace WEB.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("IndicatorPermissions");
+                    b.ToTable("IndicatorPermissions", (string)null);
                 });
 
             modelBuilder.Entity("WEB.Models.Item", b =>
@@ -1195,7 +1195,7 @@ namespace WEB.Migrations
 
                     b.HasKey("ItemId");
 
-                    b.ToTable("Items");
+                    b.ToTable("Items", (string)null);
                 });
 
             modelBuilder.Entity("WEB.Models.LogFrame", b =>
@@ -1215,7 +1215,7 @@ namespace WEB.Migrations
                         .IsUnique()
                         .HasDatabaseName("IX_LogFrame_Name");
 
-                    b.ToTable("LogFrames");
+                    b.ToTable("LogFrames", (string)null);
                 });
 
             modelBuilder.Entity("WEB.Models.LogFrameRow", b =>
@@ -1253,7 +1253,7 @@ namespace WEB.Migrations
 
                     b.HasIndex("LogFrameId");
 
-                    b.ToTable("LogFrameRows");
+                    b.ToTable("LogFrameRows", (string)null);
                 });
 
             modelBuilder.Entity("WEB.Models.LogFrameRowComponent", b =>
@@ -1269,7 +1269,7 @@ namespace WEB.Migrations
 
                     b.HasIndex("ComponentId");
 
-                    b.ToTable("LogFrameRowComponents");
+                    b.ToTable("LogFrameRowComponents", (string)null);
                 });
 
             modelBuilder.Entity("WEB.Models.LogFrameRowIndicator", b =>
@@ -1285,7 +1285,7 @@ namespace WEB.Migrations
 
                     b.HasIndex("IndicatorId");
 
-                    b.ToTable("LogFrameRowIndicators");
+                    b.ToTable("LogFrameRowIndicators", (string)null);
                 });
 
             modelBuilder.Entity("WEB.Models.Milestone", b =>
@@ -1318,7 +1318,7 @@ namespace WEB.Migrations
                         .IsUnique()
                         .HasDatabaseName("IX_Milestone_Name");
 
-                    b.ToTable("Milestones");
+                    b.ToTable("Milestones", (string)null);
                 });
 
             modelBuilder.Entity("WEB.Models.Option", b =>
@@ -1344,7 +1344,7 @@ namespace WEB.Migrations
                         .IsUnique()
                         .HasDatabaseName("IX_Option_Name");
 
-                    b.ToTable("Options");
+                    b.ToTable("Options", (string)null);
                 });
 
             modelBuilder.Entity("WEB.Models.OptionValue", b =>
@@ -1360,7 +1360,7 @@ namespace WEB.Migrations
 
                     b.HasIndex("OptionId");
 
-                    b.ToTable("OptionValues");
+                    b.ToTable("OptionValues", (string)null);
                 });
 
             modelBuilder.Entity("WEB.Models.Organisation", b =>
@@ -1389,7 +1389,7 @@ namespace WEB.Migrations
                         .IsUnique()
                         .HasDatabaseName("IX_Organisation_Name");
 
-                    b.ToTable("Organisations");
+                    b.ToTable("Organisations", (string)null);
                 });
 
             modelBuilder.Entity("WEB.Models.Project", b =>
@@ -1413,7 +1413,7 @@ namespace WEB.Migrations
                         .IsUnique()
                         .HasDatabaseName("IX_Project_Name");
 
-                    b.ToTable("Projects");
+                    b.ToTable("Projects", (string)null);
                 });
 
             modelBuilder.Entity("WEB.Models.Question", b =>
@@ -1474,7 +1474,7 @@ namespace WEB.Migrations
                         .IsUnique()
                         .HasDatabaseName("IX_Question_Code");
 
-                    b.ToTable("Questions");
+                    b.ToTable("Questions", (string)null);
                 });
 
             modelBuilder.Entity("WEB.Models.QuestionOption", b =>
@@ -1505,7 +1505,7 @@ namespace WEB.Migrations
 
                     b.HasIndex("QuestionOptionGroupId");
 
-                    b.ToTable("QuestionOptions");
+                    b.ToTable("QuestionOptions", (string)null);
                 });
 
             modelBuilder.Entity("WEB.Models.QuestionOptionGroup", b =>
@@ -1528,7 +1528,7 @@ namespace WEB.Migrations
                         .IsUnique()
                         .HasDatabaseName("IX_QuestionOptionGroup_Name");
 
-                    b.ToTable("QuestionOptionGroups");
+                    b.ToTable("QuestionOptionGroups", (string)null);
                 });
 
             modelBuilder.Entity("WEB.Models.QuestionSummary", b =>
@@ -1547,7 +1547,7 @@ namespace WEB.Migrations
 
                     b.HasIndex("DateId");
 
-                    b.ToTable("QuestionSummaries");
+                    b.ToTable("QuestionSummaries", (string)null);
                 });
 
             modelBuilder.Entity("WEB.Models.Questionnaire", b =>
@@ -1609,7 +1609,7 @@ namespace WEB.Migrations
                         .IsUnique()
                         .HasDatabaseName("IX_Questionnaire_Name");
 
-                    b.ToTable("Questionnaires");
+                    b.ToTable("Questionnaires", (string)null);
                 });
 
             modelBuilder.Entity("WEB.Models.Relationship", b =>
@@ -1639,7 +1639,7 @@ namespace WEB.Migrations
 
                     b.HasIndex("TheoryOfChangeId");
 
-                    b.ToTable("Relationships");
+                    b.ToTable("Relationships", (string)null);
                 });
 
             modelBuilder.Entity("WEB.Models.Response", b =>
@@ -1703,7 +1703,7 @@ namespace WEB.Migrations
 
                     b.HasIndex("SubmittedById");
 
-                    b.ToTable("Responses");
+                    b.ToTable("Responses", (string)null);
                 });
 
             modelBuilder.Entity("WEB.Models.Role", b =>
@@ -1760,7 +1760,7 @@ namespace WEB.Migrations
                         .IsUnique()
                         .HasDatabaseName("IX_Section_Name");
 
-                    b.ToTable("Sections");
+                    b.ToTable("Sections", (string)null);
                 });
 
             modelBuilder.Entity("WEB.Models.Settings", b =>
@@ -1793,7 +1793,7 @@ namespace WEB.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Settings");
+                    b.ToTable("Settings", (string)null);
                 });
 
             modelBuilder.Entity("WEB.Models.SkipLogicOption", b =>
@@ -1809,7 +1809,7 @@ namespace WEB.Migrations
 
                     b.HasIndex("CheckQuestionOptionId");
 
-                    b.ToTable("SkipLogicOptions");
+                    b.ToTable("SkipLogicOptions", (string)null);
                 });
 
             modelBuilder.Entity("WEB.Models.Subcategory", b =>
@@ -1847,7 +1847,7 @@ namespace WEB.Migrations
                         .IsUnique()
                         .HasDatabaseName("IX_Subcategory_Name");
 
-                    b.ToTable("Subcategories");
+                    b.ToTable("Subcategories", (string)null);
                 });
 
             modelBuilder.Entity("WEB.Models.Task", b =>
@@ -1889,7 +1889,7 @@ namespace WEB.Migrations
                         .IsUnique()
                         .HasDatabaseName("IX_Task_Name");
 
-                    b.ToTable("Tasks");
+                    b.ToTable("Tasks", (string)null);
                 });
 
             modelBuilder.Entity("WEB.Models.TheoryOfChange", b =>
@@ -1909,7 +1909,7 @@ namespace WEB.Migrations
                         .IsUnique()
                         .HasDatabaseName("IX_TheoryOfChange_Name");
 
-                    b.ToTable("TheoriesOfChange");
+                    b.ToTable("TheoriesOfChange", (string)null);
                 });
 
             modelBuilder.Entity("WEB.Models.TheoryOfChangeComponent", b =>
@@ -1925,7 +1925,7 @@ namespace WEB.Migrations
 
                     b.HasIndex("ComponentId");
 
-                    b.ToTable("TheoryOfChangeComponents");
+                    b.ToTable("TheoryOfChangeComponents", (string)null);
                 });
 
             modelBuilder.Entity("WEB.Models.Token", b =>
@@ -1959,7 +1959,7 @@ namespace WEB.Migrations
 
                     b.HasIndex("SourceIndicatorId");
 
-                    b.ToTable("Tokens");
+                    b.ToTable("Tokens", (string)null);
                 });
 
             modelBuilder.Entity("WEB.Models.User", b =>

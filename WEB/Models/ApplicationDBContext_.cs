@@ -376,6 +376,7 @@ namespace WEB.Models
 
         public void AddNullableUniqueIndexes()
         {
+            CreateNullableUniqueIndex("Questionnaires", "PublicCode");
             CreateNullableUniqueIndex("Responses", "PublicCode");
         }
     }

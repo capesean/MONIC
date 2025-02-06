@@ -66,6 +66,9 @@ namespace WEB.Controllers
             if (await db.Questionnaires.AnyAsync(o => o.Name == questionnaireDTO.Name && o.QuestionnaireId != questionnaireDTO.QuestionnaireId))
                 return BadRequest("Name already exists.");
 
+            if (questionnaireDTO.PublicCode != null && await db.Questionnaires.AnyAsync(o => o.PublicCode == questionnaireDTO.PublicCode && o.QuestionnaireId != questionnaireDTO.QuestionnaireId))
+                return BadRequest("Public Code already exists.");
+
             var isNew = questionnaireDTO.QuestionnaireId == Guid.Empty;
 
             Questionnaire questionnaire;
