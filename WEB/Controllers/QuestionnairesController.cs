@@ -107,6 +107,8 @@ namespace WEB.Controllers
 
             using (var transactionScope = Utilities.General.CreateTransactionScope())
             {
+                await db.Questions.Where(o => o.Section.QuestionnaireId == questionnaire.QuestionnaireId).ExecuteDeleteAsync();
+
                 await db.Sections.Where(o => o.QuestionnaireId == questionnaire.QuestionnaireId).ExecuteDeleteAsync();
 
                 db.Entry(questionnaire).State = EntityState.Deleted;
