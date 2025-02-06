@@ -45,9 +45,15 @@ namespace WEB.Controllers
         {
             if (string.IsNullOrWhiteSpace(publicCode)) return BadRequest("Questionnaire Public Code not provided");
 
-            var questionnaire = await db.Questionnaires
+            var questionnaires = await db.Questionnaires
                 .Include(o => o.EntityType)
-                .FirstOrDefaultAsync(o => o.PublicCode == publicCode);
+                .Where(o => o.PublicCode == publicCode)
+                .Take(2)
+                .ToListAsync();
+
+            if (questionnaires.Count > 1) return BadRequest("Multiple Questionnaires found with the same Public Code");
+
+            var questionnaire = questionnaires.FirstOrDefault();
 
             if (questionnaire == null) return NotFound();
 

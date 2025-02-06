@@ -1,4 +1,4 @@
-import { Component as NgComponent, OnInit, OnDestroy } from '@angular/core';
+import { Component as NgComponent, OnInit, OnDestroy, TemplateRef } from '@angular/core';
 import { Router, ActivatedRoute, NavigationEnd } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { NgForm } from '@angular/forms';
@@ -81,6 +81,8 @@ export class QuestionnaireEditComponent implements OnInit, OnDestroy {
         optionId: undefined as string
     };
     public analysisResults = new AnalysisResults();
+
+    public duplicate = { name: undefined as string };
 
     constructor(
         private router: Router,
@@ -526,4 +528,32 @@ export class QuestionnaireEditComponent implements OnInit, OnDestroy {
                 error: err => this.errorService.handleError(err, "Summary", "Save")
             });
     }
+
+    openDuplicateModal(modal: TemplateRef<any>) {
+        this.modalService.open(modal, { centered: true });
+
+    }
+
+    createDuplicate(form: NgForm) {
+
+        if (form.invalid) {
+
+            this.toastr.error("The form has not been completed correctly.", "Form Error");
+            return;
+
+        }
+
+        this.questionnaireService.duplicate(this.questionnaire.questionnaireId, this.duplicate.name)
+            .subscribe({
+                next: questionnaire => {
+                    this.toastr.success("The questionnaire has been duplicated", "Duplicate Questionnaire");
+                    this.router.navigate(["../", questionnaire.questionnaireId], { relativeTo: this.route });
+                    this.modalService.dismissAll();
+                    window.scrollTo(0, 0);
+                },
+                error: err => this.errorService.handleError(err, "Questionnaire", "Duplicate")
+            });
+
+    }
+
 }

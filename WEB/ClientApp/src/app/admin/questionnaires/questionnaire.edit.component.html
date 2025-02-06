@@ -246,9 +246,18 @@
         <div class="mb-4">
             <button type="submit" class="btn btn-outline-success me-2 mb-1">Save<i class="fas fa-check ms-2"></i></button>
             <button type="button" *ngIf="!isNew" class="btn btn-outline-danger me-2 mb-1" (click)="delete()">Delete<i class="fas fa-times ms-2"></i></button>
-            <button type="button" *ngIf="!isNew" class="btn btn-outline-secondary me-2 mb-1" (click)="export()">Export<i class="fas fa-cloud-download ms-2"></i></button>
-            <button type="button" *ngIf="!isNew" class="btn btn-outline-secondary me-2 mb-1" (click)="download()">Download PDF<i class="fas fa-cloud-download ms-2"></i></button>
-            <button type="button" *ngIf="!isNew" class="btn btn-outline-secondary me-2 mb-1" (click)="generateSummaries()">Generate Summaries<i class="fas fa-robot ms-2"></i></button>
+
+            <div ngbDropdown class="d-inline-block" *ngIf="!isNew">
+                <button type="button" class="btn btn-outline-secondary me-2 mb-1" ngbDropdownToggle>
+                    Actions
+                </button>
+                <div ngbDropdownMenu>
+                    <button type="button" ngbDropdownItem (click)="export()">Export</button>
+                    <button type="button" ngbDropdownItem (click)="download()">Download PDF</button>
+                    <button type="button" ngbDropdownItem (click)="generateSummaries()">Summaries</button>
+                    <button type="button" ngbDropdownItem (click)="openDuplicateModal(duplicateModal)">Duplicate</button>
+                </div>
+            </div>
         </div>
 
     </form>
@@ -564,3 +573,51 @@
 
 <router-outlet></router-outlet>
 
+<ng-template #duplicateModal let-modal>
+
+    <div class="modal-header p-4">
+        <h4 class="modal-title" id="modal-basic-title">Duplicate Questionnaire</h4>
+        <button type="button" class="btn-close" (click)="modal.dismiss()" aria-label="Close"></button>
+    </div>
+
+    <div class="modal-body p-5">
+
+        <form id="formDuplicate" name="formDuplicate" (submit)="createDuplicate(formDuplicate)" novalidate #formDuplicate="ngForm" [ngClass]="{ 'was-validated': formDuplicate.submitted }">
+
+            <fieldset class="group">
+
+                <div class="row g-3">
+
+                    <div class="col-sm-12">
+                        <div class="form-group" [ngClass]="{ 'is-invalid': name.invalid }">
+
+                            <label for="name">
+                                Name:
+                            </label>
+
+                            <input id="name" name="name" class="form-control" type="text" [(ngModel)]="duplicate.name" #name="ngModel" required (ngModelChange)="changeBreadcrumb()" maxlength="250" />
+
+                            <div *ngIf="name.errors?.required" class="invalid-feedback">
+                                Name is required
+                            </div>
+
+                            <div *ngIf="name.errors?.maxlength" class="invalid-feedback">
+                                Name must be at most 250 characters long
+                            </div>
+
+                        </div>
+                    </div>
+
+                </div>
+
+            </fieldset>
+
+        </form>
+
+    </div>
+
+    <div class="modal-footer p-4">
+        <button type="submit" form="formDuplicate" class="btn btn-outline-primary ms-2">Duplicate</button>
+    </div>
+
+</ng-template>

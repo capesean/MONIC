@@ -629,3 +629,11 @@ table.table-hover > tbody > tr:hover > td {
 .hover-primary:hover {
     color: #0d6efd !important;
 }
+
+.dropdown-toggle:not(.dropdown-toggle-split)::after {
+    margin-left: 1rem;
+}
+
+.dropdown .dropdown-toggle::after {
+    padding-left: 1em;
+}

@@ -72,6 +72,11 @@ export class QuestionnaireService extends SearchQuery {
     generateSummary(generateSummariesModel: GenerateSummariesModel): Observable<QuestionSummary> {
         return this.http.post<QuestionSummary>(`${environment.baseApiUrl}questionnaires/generatesummaries`, generateSummariesModel);
     }
+
+    duplicate(questionnaireId: string, name: string): Observable<Questionnaire> {
+        return this.http.post<Questionnaire>(`${environment.baseApiUrl}questionnaires/${questionnaireId}/duplicate`, { name: name });
+    }
+
 }
 
 export class ExportModel {

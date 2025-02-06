@@ -213,6 +213,47 @@ namespace WEB.Controllers
             return Ok(ModelFactory.Create(questionSummary));
         }
 
+        [HttpPost("{questionnaireId:Guid}/duplicate"), AuthorizeRoles(Roles.Administrator)]
+        public async Task<IActionResult> Duplicate([FromRoute] Guid questionnaireId, [FromBody] DuplicateModel model)
+        {
+            var questionnaire = await db.Questionnaires
+                .FirstOrDefaultAsync(o => o.QuestionnaireId == questionnaireId);
+
+            if (questionnaire == null)
+                return NotFound();
+
+            var newQuestionnaire = new Questionnaire();
+            ModelFactory.Hydrate(newQuestionnaire, ModelFactory.Create(questionnaire));
+            newQuestionnaire.Name = model.Name;
+            newQuestionnaire.PublicCode = null;
+            db.Entry(newQuestionnaire).State = EntityState.Added;
+
+            var sections = await db.Sections
+                .Include(o => o.Questions)
+                .Where(o => o.QuestionnaireId == questionnaireId)
+                .ToListAsync();
+
+            foreach (var section in sections)
+            {
+                var newSection = new Section();
+                ModelFactory.Hydrate(newSection, ModelFactory.Create(section));
+                newSection.QuestionnaireId = newQuestionnaire.QuestionnaireId;
+                db.Entry(newSection).State = EntityState.Added;
+
+                foreach (var question in section.Questions)
+                {
+                    var newQuestion = new Question();
+                    ModelFactory.Hydrate(newQuestion, ModelFactory.Create(question));
+                    newQuestion.SectionId = newSection.SectionId;
+                    db.Entry(newQuestion).State = EntityState.Added;
+                }
+            }
+
+            await db.SaveChangesAsync();
+
+            return Ok(ModelFactory.Create(newQuestionnaire));
+        }
+
         public class GenerateSummariesModel
         {
             public Guid QuestionnaireId { get; set; }
@@ -235,6 +276,11 @@ namespace WEB.Controllers
             public bool UseOptionValues { get; set; }
             public bool UseOptionColors { get; set; }
             public bool IncludeCharts { get; set; }
+        }
+
+        public class DuplicateModel
+        {
+            public string Name { get; set; }
         }
     }
 
