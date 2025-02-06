@@ -19,7 +19,7 @@
 		<SpaRoot>ClientApp\</SpaRoot>
 		<!--matches to the port in package.json start command-->
 		<SpaProxyServerUrl>https://localhost:44410</SpaProxyServerUrl>
-		<SpaProxyLaunchCommand>npm start</SpaProxyLaunchCommand>
+		<!--<SpaProxyLaunchCommand>npm start</SpaProxyLaunchCommand>-->
 		<ImplicitUsings>enable</ImplicitUsings>
 	</PropertyGroup>
 
