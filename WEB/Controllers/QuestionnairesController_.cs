@@ -236,6 +236,9 @@ namespace WEB.Controllers
                 .Where(o => o.Section.QuestionnaireId == questionnaireId)
                 .ToListAsync();
 
+            var questionOptionGroups = await db.QuestionOptionGroups
+                .ToDictionaryAsync(o => o.QuestionOptionGroupId);
+
             var questionIdMap = new Dictionary<Guid, Guid>();
             foreach (var question in questions)
                 questionIdMap.Add(question.QuestionId, Guid.NewGuid());
@@ -255,6 +258,25 @@ namespace WEB.Controllers
                     newQuestion.SectionId = newSection.SectionId;
                     if (question.CheckQuestionId.HasValue) newQuestion.CheckQuestionId = questionIdMap[question.CheckQuestionId.Value];
                     db.Entry(newQuestion).State = EntityState.Added;
+
+                    if (question.QuestionOptionGroupId.HasValue && questionOptionGroups.TryGetValue(question.QuestionOptionGroupId.Value, out QuestionOptionGroup qog) && !qog.Shared)
+                    {
+                        var newQuestionOptionGroup = new QuestionOptionGroup();
+                        newQuestionOptionGroup.QuestionOptionGroupId = question.QuestionId;
+                        newQuestionOptionGroup.Name = question.QuestionId.ToString().ToLowerInvariant();
+                        newQuestionOptionGroup.Shared = false;
+                        db.Entry(newQuestionOptionGroup).State = EntityState.Added;
+
+                        var questionOptions = await db.QuestionOptions.Where(o => o.QuestionOptionGroupId == qog.QuestionOptionGroupId).ToListAsync();
+                        foreach (var questionOption in questionOptions)
+                        {
+                            var newQuestionOption = new QuestionOption();
+                            ModelFactory.Hydrate(newQuestionOption, ModelFactory.Create(questionOption));
+                            newQuestionOption.QuestionOptionId = Guid.NewGuid();
+                            newQuestionOption.QuestionOptionGroupId = newQuestionOptionGroup.QuestionOptionGroupId;
+                            db.Entry(newQuestionOption).State = EntityState.Added;
+                        }
+                    }
                 }
             }
 
