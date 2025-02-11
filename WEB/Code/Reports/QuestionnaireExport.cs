@@ -44,6 +44,8 @@ namespace WEB.Reports.Excel
             var dates = await db.Dates.Where(o => o.DateType == questionnaire.DateType && (!dateIds.Any() || dateIds.Contains(o.DateId)))
                 .ToListAsync();
 
+            if (includeCharts && dates.Count > 1) throw new HandledException("Charts can only be generated for a single date");
+
             var questions = await db.Questions
                 .Include(o => o.SkipLogicOptions)
                 .Where(o => o.Section.QuestionnaireId == questionnaire.QuestionnaireId)
@@ -144,6 +146,9 @@ namespace WEB.Reports.Excel
                 var responsesInDate = responses.Where(o => o.DateId == date.DateId);
 
                 var ws = xls.Workbook.Worksheets.Add(date.Code);
+
+                questionColumns = new Dictionary<Guid, int>();
+                optionColumns = new Dictionary<Guid, int>();
 
                 var col = 1;
                 ws.Cells[4, col++].Value = questionnaire.EntityType.Name;
@@ -423,7 +428,7 @@ namespace WEB.Reports.Excel
 
             }
 
-            if (includeCharts)
+            if (includeCharts && dates.Count == 1)
             {
                 // should only be one date
                 var date = dates.Single();
