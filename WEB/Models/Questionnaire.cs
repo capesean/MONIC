@@ -47,6 +47,9 @@ namespace WEB.Models
         [Required]
         public bool SubmitOnCompletion { get; set; }
 
+        [Required]
+        public bool DisableEntry { get; set; }
+
         public virtual ICollection<Section> Sections { get; set; } = new List<Section>();
 
         public virtual ICollection<Response> Responses { get; set; } = new List<Response>();

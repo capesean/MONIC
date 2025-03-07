@@ -20,6 +20,7 @@ export class Questionnaire {
     defaultDateId: string;
     useSubmit: boolean;
     submitOnCompletion: boolean;
+    disableEntry: boolean;
     date: Date;
     entityType: EntityType;
 

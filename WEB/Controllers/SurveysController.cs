@@ -88,6 +88,8 @@ namespace WEB.Controllers
 
             if (questionnaire == null) return NotFound();
 
+            if (questionnaire.DisableEntry) return BadRequest("The questionnaire does not allow entry");
+
             var entity = await db.Entities.Include(o => o.EntityType).FirstOrDefaultAsync(o => o.EntityId == startModel.EntityId);
             if (entity == null) return BadRequest($"Invalid {questionnaire.EntityType.Name}");
             if (entity.EntityTypeId != questionnaire.EntityTypeId) return BadRequest($"Invalid Entity Type");
@@ -211,6 +213,8 @@ namespace WEB.Controllers
 
             Load(surveyParams, out Response response, out ActionResult result);
             if (result != null) return result;
+
+            if (response.Questionnaire.DisableEntry) return BadRequest("The questionnaire does not allow entry");
 
             if (response.Submitted) return BadRequest("The response cannot be modified as it has already been submitted");
 

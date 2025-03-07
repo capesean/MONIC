@@ -45,6 +45,9 @@ namespace WEB.Models
         [Required]
         public bool SubmitOnCompletion { get; set; }
 
+        [Required]
+        public bool DisableEntry { get; set; }
+
         public DateDTO Date { get; set; }
 
         public EntityTypeDTO EntityType { get; set; }
@@ -77,6 +80,7 @@ namespace WEB.Models
             questionnaireDTO.DefaultDateId = questionnaire.DefaultDateId;
             questionnaireDTO.UseSubmit = questionnaire.UseSubmit;
             questionnaireDTO.SubmitOnCompletion = questionnaire.SubmitOnCompletion;
+            questionnaireDTO.DisableEntry = questionnaire.DisableEntry;
 
             if (includeParents)
             {
@@ -110,6 +114,7 @@ namespace WEB.Models
             questionnaire.DefaultDateId = questionnaireDTO.DefaultDateId;
             questionnaire.UseSubmit = questionnaireDTO.UseSubmit;
             questionnaire.SubmitOnCompletion = questionnaireDTO.SubmitOnCompletion;
+            questionnaire.DisableEntry = questionnaireDTO.DisableEntry;
         }
     }
 }
