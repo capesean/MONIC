@@ -243,6 +243,8 @@ namespace WEB.Controllers
             foreach (var question in questions)
                 questionIdMap.Add(question.QuestionId, Guid.NewGuid());
 
+            var questionOptionIdMap = new Dictionary<Guid, Guid>();
+
             foreach (var section in sections)
             {
                 var newSection = new Section();
@@ -259,22 +261,38 @@ namespace WEB.Controllers
                     if (question.CheckQuestionId.HasValue) newQuestion.CheckQuestionId = questionIdMap[question.CheckQuestionId.Value];
                     db.Entry(newQuestion).State = EntityState.Added;
 
-                    if (question.QuestionOptionGroupId.HasValue && questionOptionGroups.TryGetValue(question.QuestionOptionGroupId.Value, out QuestionOptionGroup qog) && !qog.Shared)
+                    if (question.QuestionOptionGroupId.HasValue)
                     {
-                        var newQuestionOptionGroup = new QuestionOptionGroup();
-                        newQuestionOptionGroup.QuestionOptionGroupId = question.QuestionId;
-                        newQuestionOptionGroup.Name = question.QuestionId.ToString().ToLowerInvariant();
-                        newQuestionOptionGroup.Shared = false;
-                        db.Entry(newQuestionOptionGroup).State = EntityState.Added;
-
-                        var questionOptions = await db.QuestionOptions.Where(o => o.QuestionOptionGroupId == qog.QuestionOptionGroupId).ToListAsync();
-                        foreach (var questionOption in questionOptions)
+                        if (!questionOptionGroups[question.QuestionOptionGroupId.Value].Shared)
                         {
-                            var newQuestionOption = new QuestionOption();
-                            ModelFactory.Hydrate(newQuestionOption, ModelFactory.Create(questionOption));
-                            newQuestionOption.QuestionOptionId = Guid.NewGuid();
-                            newQuestionOption.QuestionOptionGroupId = newQuestionOptionGroup.QuestionOptionGroupId;
-                            db.Entry(newQuestionOption).State = EntityState.Added;
+                            var newQuestionOptionGroup = new QuestionOptionGroup();
+                            newQuestionOptionGroup.QuestionOptionGroupId = newQuestion.QuestionId;
+                            newQuestionOptionGroup.Name = newQuestion.QuestionId.ToString().ToLowerInvariant();
+                            newQuestionOptionGroup.Shared = false;
+                            db.Entry(newQuestionOptionGroup).State = EntityState.Added;
+
+                            newQuestion.QuestionOptionGroupId = newQuestionOptionGroup.QuestionOptionGroupId;
+                            
+                            var questionOptions = await db.QuestionOptions.Where(o => o.QuestionOptionGroupId == question.QuestionOptionGroupId.Value).ToListAsync();
+                            foreach (var questionOption in questionOptions)
+                            {
+                                var newQuestionOption = new QuestionOption();
+                                ModelFactory.Hydrate(newQuestionOption, ModelFactory.Create(questionOption));
+                                newQuestionOption.QuestionOptionId = Guid.NewGuid();
+                                newQuestionOption.QuestionOptionGroupId = newQuestionOptionGroup.QuestionOptionGroupId;
+                                db.Entry(newQuestionOption).State = EntityState.Added;
+
+                                questionOptionIdMap.Add(questionOption.QuestionOptionId, newQuestionOption.QuestionOptionId);
+                            }
+                        }
+                        else
+                        {
+                            var questionOptions = await db.QuestionOptions.Where(o => o.QuestionOptionGroupId == question.QuestionOptionGroupId.Value).ToListAsync();
+                            foreach (var questionOption in questionOptions)
+                            {
+                                if (!questionOptionIdMap.ContainsKey(questionOption.QuestionOptionId))
+                                    questionOptionIdMap.Add(questionOption.QuestionOptionId, questionOption.QuestionOptionId);
+                            }
                         }
                     }
                 }
@@ -288,7 +306,8 @@ namespace WEB.Controllers
             {
                 var newSkipLogicOption = new SkipLogicOption();
                 newSkipLogicOption.QuestionId = questionIdMap[skipLogicOption.QuestionId];
-                newSkipLogicOption.CheckQuestionOptionId = skipLogicOption.CheckQuestionOptionId;
+                // newSkipLogicOption.CheckQuestionOptionId = skipLogicOption.CheckQuestionOptionId;
+                newSkipLogicOption.CheckQuestionOptionId = questionOptionIdMap[skipLogicOption.CheckQuestionOptionId];
                 db.Entry(newSkipLogicOption).State = EntityState.Added;
             }
 
