@@ -24,7 +24,8 @@ import { AppSettings } from '../../common/models/appsettings.model';
     selector: 'indicator-edit',
     templateUrl: './indicator.edit.component.html',
     styleUrls: ['./indicator.edit.css'],
-    animations: [FadeThenShrink]
+    animations: [FadeThenShrink],
+    standalone: false
 })
 export class IndicatorEditComponent extends ItemComponent implements OnInit {
 

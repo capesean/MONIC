@@ -10,7 +10,8 @@ import { RelationshipService } from '../../common/services/relationship.service'
 @NgComponent({
     selector: 'relationship-list',
     templateUrl: './relationship.list.component.html',
-    animations: [FadeThenShrink]
+    animations: [FadeThenShrink],
+    standalone: false
 })
 export class RelationshipListComponent implements OnInit {
 

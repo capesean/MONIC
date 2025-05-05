@@ -21,7 +21,8 @@ import { QuestionnaireService } from '../../common/services/questionnaire.servic
 @NgComponent({
     selector: 'entitytype-edit',
     templateUrl: './entitytype.edit.component.html',
-    animations: [FadeThenShrink]
+    animations: [FadeThenShrink],
+    standalone: false
 })
 export class EntityTypeEditComponent implements OnInit {
 

@@ -9,11 +9,12 @@ import { EntityType } from '../../common/models/entitytype.model';
     selector: 'questionnaire-select',
     templateUrl: './questionnaire.select.component.html',
     providers: [{
-        provide: NG_VALUE_ACCESSOR,
-        useExisting: forwardRef(() => QuestionnaireSelectComponent),
-        multi: true
-    }],
-    host: { 'class': 'app-select' }
+            provide: NG_VALUE_ACCESSOR,
+            useExisting: forwardRef(() => QuestionnaireSelectComponent),
+            multi: true
+        }],
+    host: { 'class': 'app-select' },
+    standalone: false
 })
 export class QuestionnaireSelectComponent implements OnInit, ControlValueAccessor {
 

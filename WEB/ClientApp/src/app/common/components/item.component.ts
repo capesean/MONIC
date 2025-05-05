@@ -18,7 +18,8 @@ import { Item } from '../models/item.model';
 import { AppService } from '../services/app.service';
 
 @Component({
-    template: ''
+    template: '',
+    standalone: false
 })
 export abstract class ItemComponent {
 

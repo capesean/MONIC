@@ -21,7 +21,8 @@ import { GanttTaskComponent } from './gantt.task.component';
 @Component({
     selector: 'gantt',
     templateUrl: './gantt.component.html',
-    styleUrls: ['./gantt.component.css']
+    styleUrls: ['./gantt.component.css'],
+    standalone: false
 })
 export class GanttComponent implements OnInit {
 

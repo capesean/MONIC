@@ -11,7 +11,8 @@ import { Roles } from '../../common/models/enums.model';
 
 @NgComponent({
     selector: 'entity-modal',
-    templateUrl: './entity.modal.component.html'
+    templateUrl: './entity.modal.component.html',
+    standalone: false
 })
 export class EntityModalComponent implements OnInit {
 

@@ -10,7 +10,8 @@ import { LogFrameRowComponentService } from '../../common/services/logframerowco
 @NgComponent({
     selector: 'logframerowcomponent-list',
     templateUrl: './logframerowcomponent.list.component.html',
-    animations: [FadeThenShrink]
+    animations: [FadeThenShrink],
+    standalone: false
 })
 export class LogFrameRowComponentListComponent implements OnInit {
 

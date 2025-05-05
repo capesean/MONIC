@@ -10,7 +10,8 @@ import { Component } from '../../common/models/component.model';
 
 @NgComponent({
     selector: 'relationship-modal',
-    templateUrl: './relationship.modal.component.html'
+    templateUrl: './relationship.modal.component.html',
+    standalone: false
 })
 export class RelationshipModalComponent implements OnInit {
 

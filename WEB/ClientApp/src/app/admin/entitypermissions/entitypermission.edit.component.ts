@@ -12,7 +12,8 @@ import { EntityPermissionService } from '../../common/services/entitypermission.
 
 @NgComponent({
     selector: 'entitypermission-edit',
-    templateUrl: './entitypermission.edit.component.html'
+    templateUrl: './entitypermission.edit.component.html',
+    standalone: false
 })
 export class EntityPermissionEditComponent implements OnInit {
 

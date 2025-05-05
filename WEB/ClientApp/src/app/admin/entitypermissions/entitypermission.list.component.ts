@@ -10,7 +10,8 @@ import { EntityPermissionService } from '../../common/services/entitypermission.
 @NgComponent({
     selector: 'entitypermission-list',
     templateUrl: './entitypermission.list.component.html',
-    animations: [FadeThenShrink]
+    animations: [FadeThenShrink],
+    standalone: false
 })
 export class EntityPermissionListComponent implements OnInit {
 

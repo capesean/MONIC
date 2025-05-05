@@ -22,7 +22,8 @@ import { Component } from '../../common/models/component.model';
 @NgComponent({
     selector: 'theoryofchange-edit',
     templateUrl: './theoryofchange.edit.component.html',
-    animations: [FadeThenShrink]
+    animations: [FadeThenShrink],
+    standalone: false
 })
 export class TheoryOfChangeEditComponent implements OnInit, OnDestroy {
 

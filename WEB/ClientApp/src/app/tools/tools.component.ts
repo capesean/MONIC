@@ -14,7 +14,8 @@ import { Date } from '../common/models/date.model';
 
 @Component({
     selector: 'tools',
-    templateUrl: './tools.component.html'
+    templateUrl: './tools.component.html',
+    standalone: false
 })
 export class ToolsComponent implements OnInit {
 

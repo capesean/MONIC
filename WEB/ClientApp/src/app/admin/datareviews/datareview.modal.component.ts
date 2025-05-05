@@ -10,7 +10,8 @@ import { User } from '../../common/models/user.model';
 
 @NgComponent({
     selector: 'data-review-modal',
-    templateUrl: './datareview.modal.component.html'
+    templateUrl: './datareview.modal.component.html',
+    standalone: false
 })
 export class DataReviewModalComponent implements OnInit {
 

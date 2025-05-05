@@ -9,7 +9,8 @@ import { QuestionOptionGroup } from '../../common/models/questionoptiongroup.mod
 
 @NgComponent({
     selector: 'question-option-modal',
-    templateUrl: './questionoption.modal.component.html'
+    templateUrl: './questionoption.modal.component.html',
+    standalone: false
 })
 export class QuestionOptionModalComponent implements OnInit {
 

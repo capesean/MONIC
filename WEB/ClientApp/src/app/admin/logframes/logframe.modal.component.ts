@@ -8,7 +8,8 @@ import { ErrorService } from '../../common/services/error.service';
 
 @NgComponent({
     selector: 'log-frame-modal',
-    templateUrl: './logframe.modal.component.html'
+    templateUrl: './logframe.modal.component.html',
+    standalone: false
 })
 export class LogFrameModalComponent implements OnInit {
 

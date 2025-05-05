@@ -9,7 +9,8 @@ import { ToastrService } from 'ngx-toastr';
 
 @NgComponent({
     selector: 'section-sort',
-    templateUrl: './section.sort.component.html'
+    templateUrl: './section.sort.component.html',
+    standalone: false
 })
 export class SectionSortComponent implements OnInit {
 

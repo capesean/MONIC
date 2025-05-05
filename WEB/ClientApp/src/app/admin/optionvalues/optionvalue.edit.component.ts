@@ -12,7 +12,8 @@ import { OptionValueService } from '../../common/services/optionvalue.service';
 
 @NgComponent({
     selector: 'optionvalue-edit',
-    templateUrl: './optionvalue.edit.component.html'
+    templateUrl: './optionvalue.edit.component.html',
+    standalone: false
 })
 export class OptionValueEditComponent implements OnInit {
 

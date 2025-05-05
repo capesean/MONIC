@@ -8,11 +8,12 @@ import { Enum } from '../../common/models/enums.model';
     selector: 'group-select',
     templateUrl: './group.select.component.html',
     providers: [{
-        provide: NG_VALUE_ACCESSOR,
-        useExisting: forwardRef(() => GroupSelectComponent),
-        multi: true
-    }],
-    host: { 'class': 'app-select' }
+            provide: NG_VALUE_ACCESSOR,
+            useExisting: forwardRef(() => GroupSelectComponent),
+            multi: true
+        }],
+    host: { 'class': 'app-select' },
+    standalone: false
 })
 export class GroupSelectComponent implements OnInit, ControlValueAccessor {
 

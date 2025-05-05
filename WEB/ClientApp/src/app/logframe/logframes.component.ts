@@ -9,7 +9,8 @@ import { OnDestroy } from '@angular/core';
 
 @Component({
     selector: 'app-logframes',
-    templateUrl: './logframes.component.html'
+    templateUrl: './logframes.component.html',
+    standalone: false
 })
 export class LogFramesComponent implements OnInit, OnDestroy {
 

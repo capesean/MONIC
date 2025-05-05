@@ -28,7 +28,8 @@ import { Item } from '../../common/models/item.model';
 @NgComponent({
     selector: 'entity-edit',
     templateUrl: './entity.edit.component.html',
-    animations: [FadeThenShrink]
+    animations: [FadeThenShrink],
+    standalone: false
 })
 export class EntityEditComponent extends ItemComponent implements OnInit {
 

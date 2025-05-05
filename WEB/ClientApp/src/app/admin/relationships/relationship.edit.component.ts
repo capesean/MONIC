@@ -19,7 +19,8 @@ import { FadeThenShrink } from '../../common/animations/fadethenshrink';
 @NgComponent({
     selector: 'relationship-edit',
     templateUrl: './relationship.edit.component.html',
-    animations: [FadeThenShrink]
+    animations: [FadeThenShrink],
+    standalone: false
 })
 export class RelationshipEditComponent extends ItemComponent implements OnInit {
 

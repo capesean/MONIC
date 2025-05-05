@@ -12,7 +12,8 @@ import { Questionnaire } from '../../common/models/questionnaire.model';
 
 @NgComponent({
     selector: 'question-modal',
-    templateUrl: './question.modal.component.html'
+    templateUrl: './question.modal.component.html',
+    standalone: false
 })
 export class QuestionModalComponent implements OnInit {
 

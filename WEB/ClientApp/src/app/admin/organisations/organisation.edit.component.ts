@@ -25,7 +25,8 @@ import { Item } from '../../common/models/item.model';
 @Component({
     selector: 'organisation-edit',
     templateUrl: './organisation.edit.component.html',
-    animations: [FadeThenShrink]
+    animations: [FadeThenShrink],
+    standalone: false
 })
 export class OrganisationEditComponent extends ItemComponent implements OnInit {
 

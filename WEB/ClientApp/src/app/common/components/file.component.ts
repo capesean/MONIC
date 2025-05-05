@@ -6,10 +6,11 @@ import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
     templateUrl: './file.component.html',
     styleUrls: ['./file.component.css'],
     providers: [{
-        provide: NG_VALUE_ACCESSOR,
-        useExisting: forwardRef(() => FileComponent),
-        multi: true
-    }]
+            provide: NG_VALUE_ACCESSOR,
+            useExisting: forwardRef(() => FileComponent),
+            multi: true
+        }],
+    standalone: false
 })
 export class FileComponent implements OnInit, ControlValueAccessor {
 

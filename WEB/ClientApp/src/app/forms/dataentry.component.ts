@@ -29,7 +29,8 @@ import { AppService } from '../common/services/app.service';
 @Component({
     selector: 'dataentry',
     templateUrl: './dataentry.component.html',
-    styleUrls: ['./dataentry.component.css']
+    styleUrls: ['./dataentry.component.css'],
+    standalone: false
 })
 export class DataEntryComponent implements OnInit, AfterViewInit {
 

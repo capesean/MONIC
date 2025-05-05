@@ -14,7 +14,8 @@ import * as moment from 'moment';
 
 @NgComponent({
     selector: 'datareview-edit',
-    templateUrl: './datareview.edit.component.html'
+    templateUrl: './datareview.edit.component.html',
+    standalone: false
 })
 export class DataReviewEditComponent implements OnInit {
 

@@ -13,7 +13,8 @@ import { MilestoneSortComponent } from './milestone.sort.component';
 @NgComponent({
     selector: 'milestone-list',
     templateUrl: './milestone.list.component.html',
-    animations: [FadeThenShrink]
+    animations: [FadeThenShrink],
+    standalone: false
 })
 export class MilestoneListComponent implements OnInit, OnDestroy {
 

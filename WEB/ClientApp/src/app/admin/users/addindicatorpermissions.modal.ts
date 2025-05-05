@@ -5,7 +5,8 @@ import { Indicator } from '../../common/models/indicator.model';
 
 @NgComponent({
     selector: 'addindicatorpermissions-modal',
-    templateUrl: './addindicatorpermissions.modal.html'
+    templateUrl: './addindicatorpermissions.modal.html',
+    standalone: false
 })
 export class AddIndicatorsPermissionModal {
 

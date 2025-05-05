@@ -7,7 +7,8 @@ import { FolderService } from "../services/folder.service";
 
 @Component({
     selector: 'folderview',
-    templateUrl: './folderview.component.html'
+    templateUrl: './folderview.component.html',
+    standalone: false
 })
 export class FolderViewComponent implements OnInit {
 

@@ -11,7 +11,8 @@ import { SurveyProgress } from '../models/survey.model';
 
 @NgComponent({
     selector: 'app-questionnaire-bar-chart',
-    templateUrl: './questionnaire.barchart.component.html'
+    templateUrl: './questionnaire.barchart.component.html',
+    standalone: false
 })
 export class QuestionnaireBarChartComponent implements OnInit, Widget {
 

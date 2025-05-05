@@ -13,7 +13,8 @@ import { IndicatorMapSettings } from '../models/widget.model';
 
 @NgComponent({
     selector: 'app-indicator-map-settings',
-    templateUrl: './indicator.map.settings.component.html'
+    templateUrl: './indicator.map.settings.component.html',
+    standalone: false
 })
 export class IndicatorMapSettingsComponent implements OnInit {
 

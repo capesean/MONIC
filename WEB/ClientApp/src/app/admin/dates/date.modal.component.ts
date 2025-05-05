@@ -9,7 +9,8 @@ import { Enum, Enums } from '../../common/models/enums.model';
 
 @NgComponent({
     selector: 'date-modal',
-    templateUrl: './date.modal.component.html'
+    templateUrl: './date.modal.component.html',
+    standalone: false
 })
 export class DateModalComponent implements OnInit {
 

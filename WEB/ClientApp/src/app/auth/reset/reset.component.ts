@@ -10,6 +10,7 @@ import { ErrorService } from '../../common/services/error.service';
     selector: 'reset',
     templateUrl: './reset.component.html',
     styleUrls: ['../auth.css'],
+    standalone: false
 })
 export class ResetComponent implements OnInit {
 

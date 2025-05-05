@@ -9,7 +9,8 @@ import { Project } from '../../common/models/project.model';
 
 @NgComponent({
     selector: 'milestone-modal',
-    templateUrl: './milestone.modal.component.html'
+    templateUrl: './milestone.modal.component.html',
+    standalone: false
 })
 export class MilestoneModalComponent implements OnInit {
 

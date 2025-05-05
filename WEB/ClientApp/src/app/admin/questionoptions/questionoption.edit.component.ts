@@ -12,7 +12,8 @@ import { QuestionOptionService } from '../../common/services/questionoption.serv
 
 @NgComponent({
     selector: 'questionoption-edit',
-    templateUrl: './questionoption.edit.component.html'
+    templateUrl: './questionoption.edit.component.html',
+    standalone: false
 })
 export class QuestionOptionEditComponent implements OnInit {
 

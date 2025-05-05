@@ -15,7 +15,8 @@ enum QuestionStatus { Queued, Processing, Success, Error }
 
 @NgComponent({
     selector: 'questionnaire-generate-summaries',
-    templateUrl: './questionnaire.generate.summaries.component.html'
+    templateUrl: './questionnaire.generate.summaries.component.html',
+    standalone: false
 })
 export class QuestionnaireGenerateSummariesComponent implements OnInit {
 

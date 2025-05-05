@@ -11,7 +11,8 @@ import { ConfirmModalComponent, ConfirmModalOptions } from '../../common/compone
 
 @Component({
     selector: 'document-manage',
-    templateUrl: './document.manage.component.html'
+    templateUrl: './document.manage.component.html',
+    standalone: false
 })
 export class DocumentManageComponent implements OnInit {
 

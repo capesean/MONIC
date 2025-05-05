@@ -13,7 +13,8 @@ import { IndicatorService } from '../services/indicator.service';
 
 @NgComponent({
     selector: 'app-indicator-linechart-settings',
-    templateUrl: './indicator.linechart.settings.component.html'
+    templateUrl: './indicator.linechart.settings.component.html',
+    standalone: false
 })
 export class IndicatorLineChartSettingsComponent implements OnInit {
 

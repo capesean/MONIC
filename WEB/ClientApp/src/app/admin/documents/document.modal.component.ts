@@ -9,7 +9,8 @@ import { Item } from '../../common/models/item.model';
 
 @NgComponent({
     selector: 'document-modal',
-    templateUrl: './document.modal.component.html'
+    templateUrl: './document.modal.component.html',
+    standalone: false
 })
 export class DocumentModalComponent implements OnInit {
 

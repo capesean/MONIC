@@ -15,7 +15,8 @@ import { FadeThenShrink } from '../common/animations/fadethenshrink';
 @Component({
     selector: 'app-questionnaires',
     templateUrl: './questionnaires.component.html',
-    animations: [FadeThenShrink]
+    animations: [FadeThenShrink],
+    standalone: false
 })
 export class QuestionnairesComponent implements OnInit, OnDestroy {
 

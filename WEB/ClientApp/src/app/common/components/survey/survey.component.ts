@@ -27,7 +27,8 @@ import { Questionnaire } from '../../models/questionnaire.model';
 @Component({
     selector: 'app-survey',
     templateUrl: './survey.component.html',
-    styleUrls: ['./survey.component.css']
+    styleUrls: ['./survey.component.css'],
+    standalone: false
 })
 export class SurveyComponent {
 

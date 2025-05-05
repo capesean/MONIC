@@ -10,7 +10,8 @@ import { OrganisationService } from '../../common/services/organisation.service'
 @NgComponent({
     selector: 'organisation-list',
     templateUrl: './organisation.list.component.html',
-    animations: [FadeThenShrink]
+    animations: [FadeThenShrink],
+    standalone: false
 })
 export class OrganisationListComponent implements OnInit, OnDestroy {
 

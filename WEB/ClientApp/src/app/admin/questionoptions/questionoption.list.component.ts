@@ -13,7 +13,8 @@ import { QuestionOptionSortComponent } from './questionoption.sort.component';
 @NgComponent({
     selector: 'questionoption-list',
     templateUrl: './questionoption.list.component.html',
-    animations: [FadeThenShrink]
+    animations: [FadeThenShrink],
+    standalone: false
 })
 export class QuestionOptionListComponent implements OnInit {
 

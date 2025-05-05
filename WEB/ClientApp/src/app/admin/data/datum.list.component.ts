@@ -12,7 +12,8 @@ import { AppSettings } from '../../common/models/appsettings.model';
 @NgComponent({
     selector: 'datum-list',
     templateUrl: './datum.list.component.html',
-    animations: [FadeThenShrink]
+    animations: [FadeThenShrink],
+    standalone: false
 })
 export class DatumListComponent implements OnInit, OnDestroy {
 

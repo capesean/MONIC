@@ -9,7 +9,8 @@ import { Enum, Enums } from '../../common/models/enums.model';
 
 @NgComponent({
     selector: 'questionnaire-download',
-    templateUrl: './questionnaire.download.component.html'
+    templateUrl: './questionnaire.download.component.html',
+    standalone: false
 })
 export class QuestionnaireDownloadComponent implements OnInit {
 

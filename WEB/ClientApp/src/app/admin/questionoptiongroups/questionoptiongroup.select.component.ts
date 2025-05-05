@@ -8,11 +8,12 @@ import { Enum } from '../../common/models/enums.model';
     selector: 'question-option-group-select',
     templateUrl: './questionoptiongroup.select.component.html',
     providers: [{
-        provide: NG_VALUE_ACCESSOR,
-        useExisting: forwardRef(() => QuestionOptionGroupSelectComponent),
-        multi: true
-    }],
-    host: { 'class': 'app-select' }
+            provide: NG_VALUE_ACCESSOR,
+            useExisting: forwardRef(() => QuestionOptionGroupSelectComponent),
+            multi: true
+        }],
+    host: { 'class': 'app-select' },
+    standalone: false
 })
 export class QuestionOptionGroupSelectComponent implements OnInit, ControlValueAccessor {
 

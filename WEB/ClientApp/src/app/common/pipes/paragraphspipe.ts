@@ -3,7 +3,8 @@ import { Questionnaire } from '../models/questionnaire.model';
 import { QuestionLink } from '../models/survey.model';
 
 @Pipe({
-    name: 'paragraphsPipe'
+    name: 'paragraphsPipe',
+    standalone: false
 })
 export class ParagraphsPipe implements PipeTransform {
     transform(questionLink: QuestionLink, questionnaire: Questionnaire): string {

@@ -13,7 +13,8 @@ import { QuillConfig } from '../../common/services/quill.config';
 
 @NgComponent({
     selector: 'foldercontent-edit',
-    templateUrl: './foldercontent.edit.component.html'
+    templateUrl: './foldercontent.edit.component.html',
+    standalone: false
 })
 export class FolderContentEditComponent implements OnInit {
 

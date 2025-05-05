@@ -12,7 +12,8 @@ import { TheoryOfChangeComponentService } from '../../common/services/theoryofch
 
 @NgComponent({
     selector: 'theoryofchangecomponent-edit',
-    templateUrl: './theoryofchangecomponent.edit.component.html'
+    templateUrl: './theoryofchangecomponent.edit.component.html',
+    standalone: false
 })
 export class TheoryOfChangeComponentEditComponent implements OnInit {
 

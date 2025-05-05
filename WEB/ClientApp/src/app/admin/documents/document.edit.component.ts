@@ -13,7 +13,8 @@ import { DownloadService } from '../../common/services/download.service';
 
 @NgComponent({
     selector: 'document-edit',
-    templateUrl: './document.edit.component.html'
+    templateUrl: './document.edit.component.html',
+    standalone: false
 })
 export class DocumentEditComponent implements OnInit {
 

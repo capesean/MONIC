@@ -30,7 +30,8 @@ import { SurveyService } from '../../common/services/survey.service';
 @NgComponent({
     selector: 'question-edit',
     templateUrl: './question.edit.component.html',
-    animations: [FadeThenShrink]
+    animations: [FadeThenShrink],
+    standalone: false
 })
 export class QuestionEditComponent implements OnInit {
 

@@ -2,7 +2,8 @@ import { Pipe, PipeTransform } from '@angular/core';
 import { Field } from '../models/field.model';
 
 @Pipe({
-    name: 'groupPipe'
+    name: 'groupPipe',
+    standalone: false
 })
 export class GroupPipe implements PipeTransform {
     transform(fields: Field[], groupId: string): Field[] {

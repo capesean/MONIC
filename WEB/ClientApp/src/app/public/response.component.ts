@@ -5,6 +5,7 @@ import { ActivatedRoute } from '@angular/router';
 @Component({
     selector: 'public-response',
     templateUrl: './response.component.html',
+    standalone: false
 })
 export class ResponseComponent implements OnInit {
 

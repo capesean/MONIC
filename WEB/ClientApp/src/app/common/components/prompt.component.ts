@@ -4,7 +4,8 @@ import { ToastrService } from 'ngx-toastr';
 
 @Component({
     selector: 'app-prompt',
-    templateUrl: './prompt.component.html'
+    templateUrl: './prompt.component.html',
+    standalone: false
 })
 export class PromptModalComponent {
 

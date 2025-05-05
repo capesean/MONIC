@@ -10,7 +10,8 @@ import { LogFrameRowIndicatorService } from '../../common/services/logframerowin
 @NgComponent({
     selector: 'logframerowindicator-list',
     templateUrl: './logframerowindicator.list.component.html',
-    animations: [FadeThenShrink]
+    animations: [FadeThenShrink],
+    standalone: false
 })
 export class LogFrameRowIndicatorListComponent implements OnInit {
 

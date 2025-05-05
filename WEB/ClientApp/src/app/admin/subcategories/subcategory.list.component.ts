@@ -13,7 +13,8 @@ import { SubcategorySortComponent } from './subcategory.sort.component';
 @NgComponent({
     selector: 'subcategory-list',
     templateUrl: './subcategory.list.component.html',
-    animations: [FadeThenShrink]
+    animations: [FadeThenShrink],
+    standalone: false
 })
 export class SubcategoryListComponent implements OnInit {
 

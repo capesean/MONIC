@@ -9,7 +9,8 @@ import { Field } from '../../common/models/field.model';
 
 @NgComponent({
     selector: 'option-modal',
-    templateUrl: './option.modal.component.html'
+    templateUrl: './option.modal.component.html',
+    standalone: false
 })
 export class OptionModalComponent implements OnInit {
 

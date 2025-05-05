@@ -14,7 +14,8 @@ import { FieldSortComponent } from './field.sort.component';
 @NgComponent({
     selector: 'field-list',
     templateUrl: './field.list.component.html',
-    animations: [FadeThenShrink]
+    animations: [FadeThenShrink],
+    standalone: false
 })
 export class FieldListComponent implements OnInit, OnDestroy {
 

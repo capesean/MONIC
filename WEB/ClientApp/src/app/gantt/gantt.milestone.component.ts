@@ -10,7 +10,8 @@ import { Project } from '../common/models/project.model';
 
 @Component({
     selector: 'gantt-milestone',
-    templateUrl: './gantt.milestone.component.html'
+    templateUrl: './gantt.milestone.component.html',
+    standalone: false
 })
 export class GanttMilestoneComponent implements OnInit {
 

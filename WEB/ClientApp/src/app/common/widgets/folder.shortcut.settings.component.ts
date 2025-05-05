@@ -14,7 +14,8 @@ import { IndicatorService } from '../services/indicator.service';
 
 @NgComponent({
     selector: 'app-folder-shortcut-settings',
-    templateUrl: './folder.shortcut.settings.component.html'
+    templateUrl: './folder.shortcut.settings.component.html',
+    standalone: false
 })
 export class FolderShortcutSettingsComponent implements OnInit {
 

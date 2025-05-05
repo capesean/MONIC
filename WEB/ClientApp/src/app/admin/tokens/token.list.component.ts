@@ -11,7 +11,8 @@ import { TokenService } from '../../common/services/token.service';
 @NgComponent({
     selector: 'token-list',
     templateUrl: './token.list.component.html',
-    animations: [FadeThenShrink]
+    animations: [FadeThenShrink],
+    standalone: false
 })
 export class TokenListComponent implements OnInit, OnDestroy {
 

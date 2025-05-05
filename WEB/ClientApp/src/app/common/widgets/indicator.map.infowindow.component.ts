@@ -5,7 +5,8 @@ import { Indicator } from "../models/indicator.model";
 
 @Component({
     selector: 'app-indicator-map-info-window',
-    templateUrl: './indicator.map.infowindow.component.html'
+    templateUrl: './indicator.map.infowindow.component.html',
+    standalone: false
 })
 export class IndicatorMapInfoWindowComponent {
 

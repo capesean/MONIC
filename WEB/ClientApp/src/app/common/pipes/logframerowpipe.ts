@@ -3,7 +3,8 @@ import { ComponentTypes, LogFrameRowTypes } from '../models/enums.model';
 import { LogFrameRow } from '../models/logframerow.model';
 
 @Pipe({
-    name: 'logFrameRowPipe'
+    name: 'logFrameRowPipe',
+    standalone: false
 })
 export class LogFrameRowPipe implements PipeTransform {
     transform(rows: LogFrameRow[], type: LogFrameRowTypes): LogFrameRow[] {

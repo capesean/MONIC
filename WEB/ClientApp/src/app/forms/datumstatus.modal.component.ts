@@ -17,7 +17,8 @@ import * as moment from "moment";
     selector: 'app-datumstatus-modal',
     templateUrl: './datumstatus.modal.component.html',
     styleUrls: ['./datumstatus.modal.component.css'],
-    encapsulation: ViewEncapsulation.None
+    encapsulation: ViewEncapsulation.None,
+    standalone: false
 })
 export class DatumStatusModalComponent {
 

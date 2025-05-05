@@ -12,7 +12,8 @@ import { AnswerOptionService } from '../../common/services/answeroption.service'
 
 @NgComponent({
     selector: 'answeroption-edit',
-    templateUrl: './answeroption.edit.component.html'
+    templateUrl: './answeroption.edit.component.html',
+    standalone: false
 })
 export class AnswerOptionEditComponent implements OnInit {
 

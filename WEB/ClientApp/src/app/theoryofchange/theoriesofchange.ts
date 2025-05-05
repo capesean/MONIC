@@ -8,7 +8,8 @@ import { Subscription } from 'rxjs';
 
 @NgComponent({
     selector: 'app-theoriesofchange',
-    templateUrl: './theoriesofchange.html'
+    templateUrl: './theoriesofchange.html',
+    standalone: false
 })
 export class TheoriesOfChangeComponent implements OnInit, OnDestroy {
 

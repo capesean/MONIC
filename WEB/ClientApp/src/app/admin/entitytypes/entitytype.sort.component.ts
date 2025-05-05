@@ -9,7 +9,8 @@ import { ToastrService } from 'ngx-toastr';
 
 @NgComponent({
     selector: 'entity-type-sort',
-    templateUrl: './entitytype.sort.component.html'
+    templateUrl: './entitytype.sort.component.html',
+    standalone: false
 })
 export class EntityTypeSortComponent implements OnInit {
 

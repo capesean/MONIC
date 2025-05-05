@@ -21,7 +21,8 @@ import { OptionValueService } from '../../common/services/optionvalue.service';
 @NgComponent({
     selector: 'item-edit',
     templateUrl: './item.edit.component.html',
-    animations: [FadeThenShrink]
+    animations: [FadeThenShrink],
+    standalone: false
 })
 export class ItemEditComponent implements OnInit, OnDestroy {
 

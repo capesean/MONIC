@@ -20,7 +20,8 @@ import { ResponseService } from '../../common/services/response.service';
 @NgComponent({
     selector: 'date-edit',
     templateUrl: './date.edit.component.html',
-    animations: [FadeThenShrink]
+    animations: [FadeThenShrink],
+    standalone: false
 })
 export class DateEditComponent implements OnInit {
 

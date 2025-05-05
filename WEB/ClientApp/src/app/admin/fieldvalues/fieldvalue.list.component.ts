@@ -10,7 +10,8 @@ import { FieldValueService } from '../../common/services/fieldvalue.service';
 @NgComponent({
     selector: 'fieldvalue-list',
     templateUrl: './fieldvalue.list.component.html',
-    animations: [FadeThenShrink]
+    animations: [FadeThenShrink],
+    standalone: false
 })
 export class FieldValueListComponent implements OnInit, OnDestroy {
 

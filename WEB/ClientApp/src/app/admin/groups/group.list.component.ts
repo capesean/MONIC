@@ -13,7 +13,8 @@ import { GroupSortComponent } from './group.sort.component';
 @NgComponent({
     selector: 'group-list',
     templateUrl: './group.list.component.html',
-    animations: [FadeThenShrink]
+    animations: [FadeThenShrink],
+    standalone: false
 })
 export class GroupListComponent implements OnInit, OnDestroy {
 

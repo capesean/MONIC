@@ -25,7 +25,8 @@ import { Component } from '../../common/models/component.model';
 @NgComponent({
     selector: 'logframerow-edit',
     templateUrl: './logframerow.edit.component.html',
-    animations: [FadeThenShrink]
+    animations: [FadeThenShrink],
+    standalone: false
 })
 export class LogFrameRowEditComponent implements OnInit, OnDestroy {
 

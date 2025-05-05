@@ -4,7 +4,8 @@ import { BreadcrumbService } from '../services/breadcrumb.service';
 
 @Component({
     selector: 'app-breadcrumb',
-    templateUrl: './breadcrumb.component.html'
+    templateUrl: './breadcrumb.component.html',
+    standalone: false
 })
 export class BreadcrumbComponent {
     breadcrumbs: Breadcrumb[];

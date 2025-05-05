@@ -13,7 +13,8 @@ import { CategorySortComponent } from './category.sort.component';
 @NgComponent({
     selector: 'category-list',
     templateUrl: './category.list.component.html',
-    animations: [FadeThenShrink]
+    animations: [FadeThenShrink],
+    standalone: false
 })
 export class CategoryListComponent implements OnInit, OnDestroy {
 

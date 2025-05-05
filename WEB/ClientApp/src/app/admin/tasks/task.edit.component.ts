@@ -12,7 +12,8 @@ import { TaskService } from '../../common/services/task.service';
 
 @NgComponent({
     selector: 'task-edit',
-    templateUrl: './task.edit.component.html'
+    templateUrl: './task.edit.component.html',
+    standalone: false
 })
 export class TaskEditComponent implements OnInit {
 

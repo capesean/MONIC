@@ -8,7 +8,8 @@ import { ErrorService } from '../../common/services/error.service';
 
 @NgComponent({
     selector: 'question-option-group-modal',
-    templateUrl: './questionoptiongroup.modal.component.html'
+    templateUrl: './questionoptiongroup.modal.component.html',
+    standalone: false
 })
 export class QuestionOptionGroupModalComponent implements OnInit {
 

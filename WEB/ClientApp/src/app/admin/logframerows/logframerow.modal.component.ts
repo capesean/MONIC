@@ -10,7 +10,8 @@ import { LogFrame } from '../../common/models/logframe.model';
 
 @NgComponent({
     selector: 'log-frame-row-modal',
-    templateUrl: './logframerow.modal.component.html'
+    templateUrl: './logframerow.modal.component.html',
+    standalone: false
 })
 export class LogFrameRowModalComponent implements OnInit {
 

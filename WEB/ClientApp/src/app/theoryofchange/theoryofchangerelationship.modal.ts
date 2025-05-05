@@ -16,7 +16,8 @@ import { Component } from '../common/models/component.model';
 
 @NgComponent({
     selector: 'theoryofchangerelationship-modal',
-    templateUrl: './theoryofchangerelationship.modal.html'
+    templateUrl: './theoryofchangerelationship.modal.html',
+    standalone: false
 })
 export class TheoryOfChangeRelationshipModal extends ItemComponent implements OnInit {
 

@@ -23,7 +23,8 @@ import { HttpErrorResponse } from '@angular/common/http';
 @NgComponent({
     selector: 'app-theoryofchange',
     templateUrl: './theoryofchange.html',
-    styleUrls: ['./theoryofchange.css']
+    styleUrls: ['./theoryofchange.css'],
+    standalone: false
 })
 export class TheoryOfChangeComponent implements OnInit {
 

@@ -4,7 +4,8 @@ import { FolderService, FolderView } from '../services/folder.service';
 
 @NgComponent({
     selector: 'app-folder-shortcut',
-    templateUrl: './folder.shortcut.component.html'
+    templateUrl: './folder.shortcut.component.html',
+    standalone: false
 })
 export class FolderShortcutComponent implements OnInit, Widget {
 

@@ -10,7 +10,8 @@ import { Enum, Enums } from '../../common/models/enums.model';
 
 @NgComponent({
     selector: 'field-sort',
-    templateUrl: './field.sort.component.html'
+    templateUrl: './field.sort.component.html',
+    standalone: false
 })
 export class FieldSortComponent implements OnInit {
 

@@ -13,7 +13,8 @@ import { IndicatorService } from '../services/indicator.service';
 
 @NgComponent({
     selector: 'app-indicator-barchart-settings',
-    templateUrl: './indicator.barchart.settings.component.html'
+    templateUrl: './indicator.barchart.settings.component.html',
+    standalone: false
 })
 export class IndicatorBarChartSettingsComponent implements OnInit {
 

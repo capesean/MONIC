@@ -12,7 +12,8 @@ import { DatumService } from '../../common/services/datum.service';
 
 @NgComponent({
     selector: 'datum-edit',
-    templateUrl: './datum.edit.component.html'
+    templateUrl: './datum.edit.component.html',
+    standalone: false
 })
 export class DatumEditComponent implements OnInit {
 

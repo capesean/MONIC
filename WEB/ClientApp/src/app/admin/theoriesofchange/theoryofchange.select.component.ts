@@ -8,11 +8,12 @@ import { Enum } from '../../common/models/enums.model';
     selector: 'theory-of-change-select',
     templateUrl: './theoryofchange.select.component.html',
     providers: [{
-        provide: NG_VALUE_ACCESSOR,
-        useExisting: forwardRef(() => TheoryOfChangeSelectComponent),
-        multi: true
-    }],
-    host: { 'class': 'app-select' }
+            provide: NG_VALUE_ACCESSOR,
+            useExisting: forwardRef(() => TheoryOfChangeSelectComponent),
+            multi: true
+        }],
+    host: { 'class': 'app-select' },
+    standalone: false
 })
 export class TheoryOfChangeSelectComponent implements OnInit, ControlValueAccessor {
 

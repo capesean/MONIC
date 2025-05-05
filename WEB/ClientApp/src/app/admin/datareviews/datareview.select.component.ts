@@ -10,11 +10,12 @@ import * as moment from 'moment';
     selector: 'data-review-select',
     templateUrl: './datareview.select.component.html',
     providers: [{
-        provide: NG_VALUE_ACCESSOR,
-        useExisting: forwardRef(() => DataReviewSelectComponent),
-        multi: true
-    }],
-    host: { 'class': 'app-select' }
+            provide: NG_VALUE_ACCESSOR,
+            useExisting: forwardRef(() => DataReviewSelectComponent),
+            multi: true
+        }],
+    host: { 'class': 'app-select' },
+    standalone: false
 })
 export class DataReviewSelectComponent implements OnInit, ControlValueAccessor {
 

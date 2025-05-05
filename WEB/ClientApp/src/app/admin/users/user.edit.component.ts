@@ -30,7 +30,8 @@ import { AddIndicatorsPermissionModal, AddIndicatorsPermissionOptions } from './
 @NgComponent({
     selector: 'user-edit',
     templateUrl: './user.edit.component.html',
-    animations: [FadeThenShrink]
+    animations: [FadeThenShrink],
+    standalone: false
 })
 export class UserEditComponent implements OnInit, OnDestroy {
 

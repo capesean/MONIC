@@ -10,7 +10,8 @@ import { OptionValueService } from '../../common/services/optionvalue.service';
 @NgComponent({
     selector: 'optionvalue-list',
     templateUrl: './optionvalue.list.component.html',
-    animations: [FadeThenShrink]
+    animations: [FadeThenShrink],
+    standalone: false
 })
 export class OptionValueListComponent implements OnInit, OnDestroy {
 

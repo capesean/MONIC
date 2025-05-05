@@ -18,7 +18,8 @@ import { LogFrameRowComponent } from '../common/models/logframerowcomponent.mode
 
 @NgComponent({
     selector: 'logframe-row',
-    templateUrl: './logframe.row.component.html'
+    templateUrl: './logframe.row.component.html',
+    standalone: false
 })
 export class LogFrameRowViewComponent implements OnInit {
 

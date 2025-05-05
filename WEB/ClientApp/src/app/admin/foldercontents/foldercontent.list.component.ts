@@ -10,7 +10,8 @@ import { FolderContentService } from '../../common/services/foldercontent.servic
 @NgComponent({
     selector: 'foldercontent-list',
     templateUrl: './foldercontent.list.component.html',
-    animations: [FadeThenShrink]
+    animations: [FadeThenShrink],
+    standalone: false
 })
 export class FolderContentListComponent implements OnInit {
 

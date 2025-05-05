@@ -11,7 +11,8 @@ import { Date } from '../../common/models/date.model';
 
 @NgComponent({
     selector: 'response-modal',
-    templateUrl: './response.modal.component.html'
+    templateUrl: './response.modal.component.html',
+    standalone: false
 })
 export class ResponseModalComponent implements OnInit {
 

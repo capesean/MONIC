@@ -11,7 +11,8 @@ import { Roles } from '../../common/models/enums.model';
 @NgComponent({
     selector: 'entity-list',
     templateUrl: './entity.list.component.html',
-    animations: [FadeThenShrink]
+    animations: [FadeThenShrink],
+    standalone: false
 })
 export class EntityListComponent implements OnInit, OnDestroy {
 

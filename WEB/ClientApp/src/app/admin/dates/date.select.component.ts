@@ -8,11 +8,12 @@ import { Enum } from '../../common/models/enums.model';
     selector: 'date-select',
     templateUrl: './date.select.component.html',
     providers: [{
-        provide: NG_VALUE_ACCESSOR,
-        useExisting: forwardRef(() => DateSelectComponent),
-        multi: true
-    }],
-    host: { 'class': 'app-select' }
+            provide: NG_VALUE_ACCESSOR,
+            useExisting: forwardRef(() => DateSelectComponent),
+            multi: true
+        }],
+    host: { 'class': 'app-select' },
+    standalone: false
 })
 export class DateSelectComponent implements OnInit, ControlValueAccessor {
 

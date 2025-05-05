@@ -10,7 +10,8 @@ import { QuestionOptionGroupService } from '../../common/services/questionoption
 @NgComponent({
     selector: 'questionoptiongroup-list',
     templateUrl: './questionoptiongroup.list.component.html',
-    animations: [FadeThenShrink]
+    animations: [FadeThenShrink],
+    standalone: false
 })
 export class QuestionOptionGroupListComponent implements OnInit, OnDestroy {
 

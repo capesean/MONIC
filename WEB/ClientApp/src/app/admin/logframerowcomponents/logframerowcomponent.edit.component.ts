@@ -12,7 +12,8 @@ import { LogFrameRowComponentService } from '../../common/services/logframerowco
 
 @NgComponent({
     selector: 'logframerowcomponent-edit',
-    templateUrl: './logframerowcomponent.edit.component.html'
+    templateUrl: './logframerowcomponent.edit.component.html',
+    standalone: false
 })
 export class LogFrameRowComponentEditComponent implements OnInit {
 

@@ -8,7 +8,8 @@ import { ErrorService } from '../../common/services/error.service';
 
 @NgComponent({
     selector: 'group-modal',
-    templateUrl: './group.modal.component.html'
+    templateUrl: './group.modal.component.html',
+    standalone: false
 })
 export class GroupModalComponent implements OnInit {
 

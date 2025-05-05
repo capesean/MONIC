@@ -10,7 +10,8 @@ import { IndicatorPermissionService } from '../../common/services/indicatorpermi
 @NgComponent({
     selector: 'indicatorpermission-list',
     templateUrl: './indicatorpermission.list.component.html',
-    animations: [FadeThenShrink]
+    animations: [FadeThenShrink],
+    standalone: false
 })
 export class IndicatorPermissionListComponent implements OnInit, OnDestroy {
 

@@ -14,7 +14,8 @@ import { ComponentSortComponent } from './component.sort.component';
 @NgComponent({
     selector: 'component-list',
     templateUrl: './component.list.component.html',
-    animations: [FadeThenShrink]
+    animations: [FadeThenShrink],
+    standalone: false
 })
 export class ComponentListComponent implements OnInit, OnDestroy {
 

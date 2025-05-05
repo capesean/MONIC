@@ -24,7 +24,8 @@ import { Item } from '../../common/models/item.model';
 @NgComponent({
     selector: 'folder-edit',
     templateUrl: './folder.edit.component.html',
-    animations: [FadeThenShrink]
+    animations: [FadeThenShrink],
+    standalone: false
 })
 export class FolderEditComponent extends ItemComponent implements OnInit, OnDestroy {
 

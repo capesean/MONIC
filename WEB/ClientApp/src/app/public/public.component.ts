@@ -3,7 +3,8 @@ import { DOCUMENT } from '@angular/common';
 
 @Component({
     selector: 'public-root',
-    templateUrl: './public.component.html'
+    templateUrl: './public.component.html',
+    standalone: false
 })
 export class PublicComponent implements OnInit {
 

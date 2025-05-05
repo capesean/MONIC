@@ -13,7 +13,8 @@ import { UtilitiesService } from '../services/utilities.service';
 
 @NgComponent({
     selector: 'app-indicator-bar-chart',
-    templateUrl: './indicator.barchart.component.html'
+    templateUrl: './indicator.barchart.component.html',
+    standalone: false
 })
 export class IndicatorBarChartComponent implements OnInit, Widget {
 

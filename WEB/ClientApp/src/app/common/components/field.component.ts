@@ -34,7 +34,8 @@ enum ControlTypes {
             multi: true,
             useExisting: FieldComponent
         }
-    ]
+    ],
+    standalone: false
 })
 export class FieldComponent implements OnInit, ControlValueAccessor, Validator {
 

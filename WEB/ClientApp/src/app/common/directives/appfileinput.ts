@@ -2,6 +2,7 @@ import { Directive, HostListener, EventEmitter, Input, Output } from '@angular/c
 
 @Directive({
     selector: '[app-file-input]',
+    standalone: false
 })
 export class AppFileInputDirective /*implements ControlValueAccessor*/ {
 

@@ -9,11 +9,12 @@ import { Category } from '../../common/models/category.model';
     selector: 'subcategory-select',
     templateUrl: './subcategory.select.component.html',
     providers: [{
-        provide: NG_VALUE_ACCESSOR,
-        useExisting: forwardRef(() => SubcategorySelectComponent),
-        multi: true
-    }],
-    host: { 'class': 'app-select' }
+            provide: NG_VALUE_ACCESSOR,
+            useExisting: forwardRef(() => SubcategorySelectComponent),
+            multi: true
+        }],
+    host: { 'class': 'app-select' },
+    standalone: false
 })
 export class SubcategorySelectComponent implements OnInit, ControlValueAccessor {
 

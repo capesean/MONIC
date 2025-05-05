@@ -13,7 +13,8 @@ import { OptionSortComponent } from './option.sort.component';
 @NgComponent({
     selector: 'option-list',
     templateUrl: './option.list.component.html',
-    animations: [FadeThenShrink]
+    animations: [FadeThenShrink],
+    standalone: false
 })
 export class OptionListComponent implements OnInit {
 

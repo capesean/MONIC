@@ -10,7 +10,8 @@ import { AnswerService } from '../../common/services/answer.service';
 @NgComponent({
     selector: 'answer-list',
     templateUrl: './answer.list.component.html',
-    animations: [FadeThenShrink]
+    animations: [FadeThenShrink],
+    standalone: false
 })
 export class AnswerListComponent implements OnInit, OnDestroy {
 

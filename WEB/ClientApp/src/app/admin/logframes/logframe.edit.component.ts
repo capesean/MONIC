@@ -20,7 +20,8 @@ import { LogFrameRowSortComponent } from '../logframerows/logframerow.sort.compo
 @NgComponent({
     selector: 'logframe-edit',
     templateUrl: './logframe.edit.component.html',
-    animations: [FadeThenShrink]
+    animations: [FadeThenShrink],
+    standalone: false
 })
 export class LogFrameEditComponent implements OnInit, OnDestroy {
 

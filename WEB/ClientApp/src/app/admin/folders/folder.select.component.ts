@@ -8,11 +8,12 @@ import { Enum } from '../../common/models/enums.model';
     selector: 'folder-select',
     templateUrl: './folder.select.component.html',
     providers: [{
-        provide: NG_VALUE_ACCESSOR,
-        useExisting: forwardRef(() => FolderSelectComponent),
-        multi: true
-    }],
-    host: { 'class': 'app-select' }
+            provide: NG_VALUE_ACCESSOR,
+            useExisting: forwardRef(() => FolderSelectComponent),
+            multi: true
+        }],
+    host: { 'class': 'app-select' },
+    standalone: false
 })
 export class FolderSelectComponent implements OnInit, ControlValueAccessor {
 

@@ -33,7 +33,8 @@ import { Item } from '../../common/models/item.model';
 @NgComponent({
     selector: 'component-edit',
     templateUrl: './component.edit.component.html',
-    animations: [FadeThenShrink]
+    animations: [FadeThenShrink],
+    standalone: false
 })
 export class ComponentEditComponent extends ItemComponent implements OnInit, OnDestroy {
 

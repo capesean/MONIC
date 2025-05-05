@@ -23,7 +23,8 @@ import { environment } from '../../../environments/environment';
 @NgComponent({
     selector: 'response-edit',
     templateUrl: './response.edit.component.html',
-    animations: [FadeThenShrink]
+    animations: [FadeThenShrink],
+    standalone: false
 })
 export class ResponseEditComponent implements OnInit, OnDestroy {
 

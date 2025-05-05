@@ -14,7 +14,8 @@ import { QuestionOptionService } from '../../common/services/questionoption.serv
 
 @Component({
     selector: 'app-questionlogic',
-    templateUrl: './questionlogic.component.html'
+    templateUrl: './questionlogic.component.html',
+    standalone: false
 })
 export class QuestionLogicModalComponent {
 

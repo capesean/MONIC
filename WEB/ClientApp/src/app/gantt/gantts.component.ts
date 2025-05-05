@@ -8,7 +8,8 @@ import { Subscription } from 'rxjs';
 
 @Component({
     selector: 'app-gantts',
-    templateUrl: './gantts.component.html'
+    templateUrl: './gantts.component.html',
+    standalone: false
 })
 export class GanttsComponent implements OnInit, OnDestroy {
 

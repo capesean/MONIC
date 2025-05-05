@@ -10,7 +10,8 @@ import { Enum, Enums } from '../../common/models/enums.model';
 
 @NgComponent({
     selector: 'log-frame-row-sort',
-    templateUrl: './logframerow.sort.component.html'
+    templateUrl: './logframerow.sort.component.html',
+    standalone: false
 })
 export class LogFrameRowSortComponent implements OnInit {
 

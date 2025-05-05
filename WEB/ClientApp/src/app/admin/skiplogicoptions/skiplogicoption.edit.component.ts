@@ -12,7 +12,8 @@ import { SkipLogicOptionService } from '../../common/services/skiplogicoption.se
 
 @NgComponent({
     selector: 'skiplogicoption-edit',
-    templateUrl: './skiplogicoption.edit.component.html'
+    templateUrl: './skiplogicoption.edit.component.html',
+    standalone: false
 })
 export class SkipLogicOptionEditComponent implements OnInit {
 

@@ -10,7 +10,8 @@ import { TheoryOfChangeComponentService } from '../../common/services/theoryofch
 @NgComponent({
     selector: 'theoryofchangecomponent-list',
     templateUrl: './theoryofchangecomponent.list.component.html',
-    animations: [FadeThenShrink]
+    animations: [FadeThenShrink],
+    standalone: false
 })
 export class TheoryOfChangeComponentListComponent implements OnInit {
 

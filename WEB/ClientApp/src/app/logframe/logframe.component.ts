@@ -18,7 +18,8 @@ import { tap } from 'rxjs';
 @Component({
     selector: 'logframe',
     templateUrl: './logframe.component.html',
-    styleUrls: ['./logframe.component.css']
+    styleUrls: ['./logframe.component.css'],
+    standalone: false
 })
 export class LogFrameComponent implements OnInit {
 

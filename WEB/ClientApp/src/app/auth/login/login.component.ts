@@ -12,6 +12,7 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
     selector: 'login',
     templateUrl: './login.component.html',
     styleUrls: ['../auth.css'],
+    standalone: false
 })
 export class LoginComponent implements OnInit {
 

@@ -10,7 +10,8 @@ import { FolderService } from '../../common/services/folder.service';
 @NgComponent({
     selector: 'folder-list',
     templateUrl: './folder.list.component.html',
-    animations: [FadeThenShrink]
+    animations: [FadeThenShrink],
+    standalone: false
 })
 export class FolderListComponent implements OnInit, OnDestroy {
 

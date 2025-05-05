@@ -19,7 +19,8 @@ import { MilestoneSortComponent } from '../milestones/milestone.sort.component';
 @NgComponent({
     selector: 'project-edit',
     templateUrl: './project.edit.component.html',
-    animations: [FadeThenShrink]
+    animations: [FadeThenShrink],
+    standalone: false
 })
 export class ProjectEditComponent implements OnInit, OnDestroy {
 

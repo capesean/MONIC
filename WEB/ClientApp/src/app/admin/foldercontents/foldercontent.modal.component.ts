@@ -10,7 +10,8 @@ import { User } from '../../common/models/user.model';
 
 @NgComponent({
     selector: 'folder-content-modal',
-    templateUrl: './foldercontent.modal.component.html'
+    templateUrl: './foldercontent.modal.component.html',
+    standalone: false
 })
 export class FolderContentModalComponent implements OnInit {
 

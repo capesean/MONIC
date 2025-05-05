@@ -10,7 +10,8 @@ import { TaskService } from '../../common/services/task.service';
 @NgComponent({
     selector: 'task-list',
     templateUrl: './task.list.component.html',
-    animations: [FadeThenShrink]
+    animations: [FadeThenShrink],
+    standalone: false
 })
 export class TaskListComponent implements OnInit {
 

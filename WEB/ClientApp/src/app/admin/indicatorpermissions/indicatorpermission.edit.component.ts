@@ -12,7 +12,8 @@ import { IndicatorPermissionService } from '../../common/services/indicatorpermi
 
 @NgComponent({
     selector: 'indicatorpermission-edit',
-    templateUrl: './indicatorpermission.edit.component.html'
+    templateUrl: './indicatorpermission.edit.component.html',
+    standalone: false
 })
 export class IndicatorPermissionEditComponent implements OnInit {
 

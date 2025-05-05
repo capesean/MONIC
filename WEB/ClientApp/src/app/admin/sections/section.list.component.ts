@@ -13,7 +13,8 @@ import { SectionSortComponent } from './section.sort.component';
 @NgComponent({
     selector: 'section-list',
     templateUrl: './section.list.component.html',
-    animations: [FadeThenShrink]
+    animations: [FadeThenShrink],
+    standalone: false
 })
 export class SectionListComponent implements OnInit, OnDestroy {
 

@@ -13,6 +13,7 @@ import { SurveyService } from '../common/services/survey.service';
 @Component({
     selector: 'public-questionnaire',
     templateUrl: './questionnaire.component.html',
+    standalone: false
 })
 export class QuestionnaireComponent implements OnInit {
 

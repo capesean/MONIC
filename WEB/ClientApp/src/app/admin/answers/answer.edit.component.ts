@@ -18,7 +18,8 @@ import { AnswerOptionService } from '../../common/services/answeroption.service'
 @NgComponent({
     selector: 'answer-edit',
     templateUrl: './answer.edit.component.html',
-    animations: [FadeThenShrink]
+    animations: [FadeThenShrink],
+    standalone: false
 })
 export class AnswerEditComponent implements OnInit, OnDestroy {
 

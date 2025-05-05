@@ -12,7 +12,8 @@ import { ComponentIndicatorService } from '../../common/services/componentindica
 
 @NgComponent({
     selector: 'componentindicator-edit',
-    templateUrl: './componentindicator.edit.component.html'
+    templateUrl: './componentindicator.edit.component.html',
+    standalone: false
 })
 export class ComponentIndicatorEditComponent implements OnInit {
 

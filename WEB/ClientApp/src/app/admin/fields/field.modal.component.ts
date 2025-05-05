@@ -10,7 +10,8 @@ import { Group } from '../../common/models/group.model';
 
 @NgComponent({
     selector: 'field-modal',
-    templateUrl: './field.modal.component.html'
+    templateUrl: './field.modal.component.html',
+    standalone: false
 })
 export class FieldModalComponent implements OnInit {
 

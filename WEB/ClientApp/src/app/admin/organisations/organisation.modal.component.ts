@@ -8,7 +8,8 @@ import { ErrorService } from '../../common/services/error.service';
 
 @NgComponent({
     selector: 'organisation-modal',
-    templateUrl: './organisation.modal.component.html'
+    templateUrl: './organisation.modal.component.html',
+    standalone: false
 })
 export class OrganisationModalComponent implements OnInit {
 

@@ -8,7 +8,8 @@ import { ErrorService } from '../../common/services/error.service';
 
 @NgComponent({
     selector: 'folder-modal',
-    templateUrl: './folder.modal.component.html'
+    templateUrl: './folder.modal.component.html',
+    standalone: false
 })
 export class FolderModalComponent implements OnInit {
 

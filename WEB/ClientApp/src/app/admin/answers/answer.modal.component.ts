@@ -10,7 +10,8 @@ import { Question } from '../../common/models/question.model';
 
 @NgComponent({
     selector: 'answer-modal',
-    templateUrl: './answer.modal.component.html'
+    templateUrl: './answer.modal.component.html',
+    standalone: false
 })
 export class AnswerModalComponent implements OnInit {
 

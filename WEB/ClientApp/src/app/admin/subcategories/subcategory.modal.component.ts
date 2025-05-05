@@ -9,7 +9,8 @@ import { Category } from '../../common/models/category.model';
 
 @NgComponent({
     selector: 'subcategory-modal',
-    templateUrl: './subcategory.modal.component.html'
+    templateUrl: './subcategory.modal.component.html',
+    standalone: false
 })
 export class SubcategoryModalComponent implements OnInit {
 

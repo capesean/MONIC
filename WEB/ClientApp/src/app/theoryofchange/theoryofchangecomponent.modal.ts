@@ -23,7 +23,8 @@ import { PagingHeaders } from '../common/models/http.model';
 
 @NgComponent({
     selector: 'theoryofchangecomponent-modal',
-    templateUrl: './theoryofchangecomponent.modal.html'
+    templateUrl: './theoryofchangecomponent.modal.html',
+    standalone: false
 })
 export class TheoryOfChangeComponentModal extends ItemComponent implements OnInit {
 

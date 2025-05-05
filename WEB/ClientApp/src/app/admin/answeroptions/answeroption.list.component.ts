@@ -10,7 +10,8 @@ import { AnswerOptionService } from '../../common/services/answeroption.service'
 @NgComponent({
     selector: 'answeroption-list',
     templateUrl: './answeroption.list.component.html',
-    animations: [FadeThenShrink]
+    animations: [FadeThenShrink],
+    standalone: false
 })
 export class AnswerOptionListComponent implements OnInit {
 

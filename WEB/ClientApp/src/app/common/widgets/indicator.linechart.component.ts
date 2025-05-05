@@ -13,7 +13,8 @@ import { UtilitiesService } from '../services/utilities.service';
 
 @NgComponent({
     selector: 'app-indicator-line-chart',
-    templateUrl: './indicator.linechart.component.html'
+    templateUrl: './indicator.linechart.component.html',
+    standalone: false
 })
 export class IndicatorLineChartComponent implements OnInit, Widget {
 

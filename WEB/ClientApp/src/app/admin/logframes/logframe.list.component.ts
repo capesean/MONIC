@@ -10,7 +10,8 @@ import { LogFrameService } from '../../common/services/logframe.service';
 @NgComponent({
     selector: 'logframe-list',
     templateUrl: './logframe.list.component.html',
-    animations: [FadeThenShrink]
+    animations: [FadeThenShrink],
+    standalone: false
 })
 export class LogFrameListComponent implements OnInit, OnDestroy {
 

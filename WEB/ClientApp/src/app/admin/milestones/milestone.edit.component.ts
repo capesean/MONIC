@@ -18,7 +18,8 @@ import { TaskService } from '../../common/services/task.service';
 @NgComponent({
     selector: 'milestone-edit',
     templateUrl: './milestone.edit.component.html',
-    animations: [FadeThenShrink]
+    animations: [FadeThenShrink],
+    standalone: false
 })
 export class MilestoneEditComponent implements OnInit, OnDestroy {
 

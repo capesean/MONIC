@@ -10,7 +10,8 @@ import { SettingsService } from '../../common/services/settings.service';
 
 @NgComponent({
     selector: 'settings-edit',
-    templateUrl: './settings.edit.component.html'
+    templateUrl: './settings.edit.component.html',
+    standalone: false
 })
 export class SettingsEditComponent implements OnInit {
 

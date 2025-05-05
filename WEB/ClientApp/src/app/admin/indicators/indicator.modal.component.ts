@@ -13,7 +13,8 @@ import { Category } from '../../common/models/category.model';
 
 @NgComponent({
     selector: 'indicator-modal',
-    templateUrl: './indicator.modal.component.html'
+    templateUrl: './indicator.modal.component.html',
+    standalone: false
 })
 export class IndicatorModalComponent implements OnInit {
 

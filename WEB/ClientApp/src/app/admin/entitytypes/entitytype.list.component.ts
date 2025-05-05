@@ -13,7 +13,8 @@ import { EntityTypeSortComponent } from './entitytype.sort.component';
 @NgComponent({
     selector: 'entitytype-list',
     templateUrl: './entitytype.list.component.html',
-    animations: [FadeThenShrink]
+    animations: [FadeThenShrink],
+    standalone: false
 })
 export class EntityTypeListComponent implements OnInit, OnDestroy {
 

@@ -20,7 +20,8 @@ import { QuestionSortComponent } from '../questions/question.sort.component';
 @NgComponent({
     selector: 'section-edit',
     templateUrl: './section.edit.component.html',
-    animations: [FadeThenShrink]
+    animations: [FadeThenShrink],
+    standalone: false
 })
 export class SectionEditComponent implements OnInit, OnDestroy {
 

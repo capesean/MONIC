@@ -9,7 +9,8 @@ import { Milestone } from '../../common/models/milestone.model';
 
 @NgComponent({
     selector: 'task-modal',
-    templateUrl: './task.modal.component.html'
+    templateUrl: './task.modal.component.html',
+    standalone: false
 })
 export class TaskModalComponent implements OnInit {
 

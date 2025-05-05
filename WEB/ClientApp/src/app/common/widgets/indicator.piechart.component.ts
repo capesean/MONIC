@@ -10,7 +10,8 @@ import { IndicatorPieChartSettings, Widget } from '../models/widget.model';
 
 @NgComponent({
     selector: 'app-indicator-pie-chart',
-    templateUrl: './indicator.piechart.component.html'
+    templateUrl: './indicator.piechart.component.html',
+    standalone: false
 })
 export class IndicatorPieChartComponent implements OnInit, Widget {
 

@@ -10,7 +10,8 @@ import { ResponseService } from '../../common/services/response.service';
 @NgComponent({
     selector: 'response-list',
     templateUrl: './response.list.component.html',
-    animations: [FadeThenShrink]
+    animations: [FadeThenShrink],
+    standalone: false
 })
 export class ResponseListComponent implements OnInit, OnDestroy {
 

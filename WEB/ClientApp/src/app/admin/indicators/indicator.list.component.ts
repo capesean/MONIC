@@ -14,7 +14,8 @@ import { Category } from '../../common/models/category.model';
 @NgComponent({
     selector: 'indicator-list',
     templateUrl: './indicator.list.component.html',
-    animations: [FadeThenShrink]
+    animations: [FadeThenShrink],
+    standalone: false
 })
 export class IndicatorListComponent implements OnInit, OnDestroy {
 

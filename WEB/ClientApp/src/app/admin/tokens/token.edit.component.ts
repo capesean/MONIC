@@ -13,7 +13,8 @@ import { TokenService } from '../../common/services/token.service';
 
 @NgComponent({
     selector: 'token-edit',
-    templateUrl: './token.edit.component.html'
+    templateUrl: './token.edit.component.html',
+    standalone: false
 })
 export class TokenEditComponent implements OnInit {
 

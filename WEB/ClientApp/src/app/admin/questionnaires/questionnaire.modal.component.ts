@@ -10,7 +10,8 @@ import { EntityType } from '../../common/models/entitytype.model';
 
 @NgComponent({
     selector: 'questionnaire-modal',
-    templateUrl: './questionnaire.modal.component.html'
+    templateUrl: './questionnaire.modal.component.html',
+    standalone: false
 })
 export class QuestionnaireModalComponent implements OnInit {
 

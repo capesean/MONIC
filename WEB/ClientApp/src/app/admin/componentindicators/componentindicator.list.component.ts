@@ -10,7 +10,8 @@ import { ComponentIndicatorService } from '../../common/services/componentindica
 @NgComponent({
     selector: 'componentindicator-list',
     templateUrl: './componentindicator.list.component.html',
-    animations: [FadeThenShrink]
+    animations: [FadeThenShrink],
+    standalone: false
 })
 export class ComponentIndicatorListComponent implements OnInit {
 

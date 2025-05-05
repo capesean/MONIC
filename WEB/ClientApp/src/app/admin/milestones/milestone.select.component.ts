@@ -9,11 +9,12 @@ import { Project } from '../../common/models/project.model';
     selector: 'milestone-select',
     templateUrl: './milestone.select.component.html',
     providers: [{
-        provide: NG_VALUE_ACCESSOR,
-        useExisting: forwardRef(() => MilestoneSelectComponent),
-        multi: true
-    }],
-    host: { 'class': 'app-select' }
+            provide: NG_VALUE_ACCESSOR,
+            useExisting: forwardRef(() => MilestoneSelectComponent),
+            multi: true
+        }],
+    host: { 'class': 'app-select' },
+    standalone: false
 })
 export class MilestoneSelectComponent implements OnInit, ControlValueAccessor {
 

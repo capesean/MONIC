@@ -7,6 +7,7 @@ import { BreadcrumbService } from '../common/services/breadcrumb.service';
 @Component({
     selector: 'app-questionnaire',
     templateUrl: './questionnaire.component.html',
+    standalone: false
 })
 export class QuestionnaireComponent implements OnInit {
 

@@ -11,7 +11,8 @@ import { QuestionnaireService } from '../../common/services/questionnaire.servic
 @NgComponent({
     selector: 'questionnaire-list',
     templateUrl: './questionnaire.list.component.html',
-    animations: [FadeThenShrink]
+    animations: [FadeThenShrink],
+    standalone: false
 })
 export class QuestionnaireListComponent implements OnInit, OnDestroy {
 

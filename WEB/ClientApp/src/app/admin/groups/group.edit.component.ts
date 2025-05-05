@@ -19,7 +19,8 @@ import { FieldService } from '../../common/services/field.service';
 @NgComponent({
     selector: 'group-edit',
     templateUrl: './group.edit.component.html',
-    animations: [FadeThenShrink]
+    animations: [FadeThenShrink],
+    standalone: false
 })
 export class GroupEditComponent implements OnInit {
 

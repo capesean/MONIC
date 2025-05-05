@@ -19,7 +19,8 @@ import { SubcategorySortComponent } from '../subcategories/subcategory.sort.comp
 @NgComponent({
     selector: 'category-edit',
     templateUrl: './category.edit.component.html',
-    animations: [FadeThenShrink]
+    animations: [FadeThenShrink],
+    standalone: false
 })
 export class CategoryEditComponent implements OnInit, OnDestroy {
 

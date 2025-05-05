@@ -9,7 +9,8 @@ import { Enum, Enums } from '../../common/models/enums.model';
 
 @NgComponent({
     selector: 'item-modal',
-    templateUrl: './item.modal.component.html'
+    templateUrl: './item.modal.component.html',
+    standalone: false
 })
 export class ItemModalComponent implements OnInit {
 

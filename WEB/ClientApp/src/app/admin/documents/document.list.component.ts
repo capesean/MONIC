@@ -11,7 +11,8 @@ import { DownloadService } from '../../common/services/download.service';
 @NgComponent({
     selector: 'document-list',
     templateUrl: './document.list.component.html',
-    animations: [FadeThenShrink]
+    animations: [FadeThenShrink],
+    standalone: false
 })
 export class DocumentListComponent implements OnInit {
 

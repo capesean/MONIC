@@ -10,7 +10,8 @@ import { SkipLogicOptionService } from '../../common/services/skiplogicoption.se
 @NgComponent({
     selector: 'skiplogicoption-list',
     templateUrl: './skiplogicoption.list.component.html',
-    animations: [FadeThenShrink]
+    animations: [FadeThenShrink],
+    standalone: false
 })
 export class SkipLogicOptionListComponent implements OnInit, OnDestroy {
 

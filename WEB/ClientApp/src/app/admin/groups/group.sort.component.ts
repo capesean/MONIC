@@ -9,7 +9,8 @@ import { ToastrService } from 'ngx-toastr';
 
 @NgComponent({
     selector: 'group-sort',
-    templateUrl: './group.sort.component.html'
+    templateUrl: './group.sort.component.html',
+    standalone: false
 })
 export class GroupSortComponent implements OnInit {
 

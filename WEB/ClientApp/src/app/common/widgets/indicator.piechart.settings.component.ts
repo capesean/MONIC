@@ -11,7 +11,8 @@ import { ErrorService } from '../services/error.service';
 
 @NgComponent({
     selector: 'app-indicator-piechart-settings',
-    templateUrl: './indicator.piechart.settings.component.html'
+    templateUrl: './indicator.piechart.settings.component.html',
+    standalone: false
 })
 export class IndicatorPieChartSettingsComponent implements OnInit {
 

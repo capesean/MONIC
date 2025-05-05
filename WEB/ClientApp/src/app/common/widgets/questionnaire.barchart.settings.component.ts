@@ -15,7 +15,8 @@ import { QuestionnaireService } from '../services/questionnaire.service';
 
 @NgComponent({
     selector: 'app-questionnaire-barchart-settings',
-    templateUrl: './questionnaire.barchart.settings.component.html'
+    templateUrl: './questionnaire.barchart.settings.component.html',
+    standalone: false
 })
 export class QuestionnaireBarChartSettingsComponent implements OnInit {
 

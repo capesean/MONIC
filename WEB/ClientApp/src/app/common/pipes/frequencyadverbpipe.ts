@@ -2,7 +2,8 @@ import { Pipe, PipeTransform } from '@angular/core';
 import { DateTypes } from '../models/enums.model';
 
 @Pipe({
-    name: 'frequencyAdverb'
+    name: 'frequencyAdverb',
+    standalone: false
 })
 export class FrequencyAdverb implements PipeTransform {
     transform(frequency: DateTypes): string {

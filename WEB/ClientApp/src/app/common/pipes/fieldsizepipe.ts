@@ -3,7 +3,8 @@ import { Sizes } from '../models/enums.model';
 import { Field } from '../models/field.model';
 
 @Pipe({
-    name: 'fieldSizePipe'
+    name: 'fieldSizePipe',
+    standalone: false
 })
 export class FieldSizePipe implements PipeTransform {
     transform(field: Field): string {

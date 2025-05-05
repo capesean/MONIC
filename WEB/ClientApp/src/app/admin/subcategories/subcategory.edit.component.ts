@@ -21,7 +21,8 @@ import { trigger, transition, style, animate } from '@angular/animations';
 @NgComponent({
     selector: 'subcategory-edit',
     templateUrl: './subcategory.edit.component.html',
-    animations: [FadeThenShrink]
+    animations: [FadeThenShrink],
+    standalone: false
 })
 export class SubcategoryEditComponent implements OnInit, OnDestroy {
 

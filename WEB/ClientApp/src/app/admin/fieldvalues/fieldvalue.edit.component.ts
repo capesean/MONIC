@@ -12,7 +12,8 @@ import { FieldValueService } from '../../common/services/fieldvalue.service';
 
 @NgComponent({
     selector: 'fieldvalue-edit',
-    templateUrl: './fieldvalue.edit.component.html'
+    templateUrl: './fieldvalue.edit.component.html',
+    standalone: false
 })
 export class FieldValueEditComponent implements OnInit {
 

@@ -53,7 +53,8 @@ class AnalysisAnswer {
 @NgComponent({
     selector: 'questionnaire-edit',
     templateUrl: './questionnaire.edit.component.html',
-    animations: [FadeThenShrink]
+    animations: [FadeThenShrink],
+    standalone: false
 })
 export class QuestionnaireEditComponent implements OnInit, OnDestroy {
 

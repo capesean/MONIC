@@ -5,7 +5,8 @@ import { LogFrameRow } from "../common/models/logframerow.model";
     selector: 'app-logframerows',
     templateUrl: './logframerows.component.html',
     styleUrls: ['./logframerows.component.css'],
-    encapsulation: ViewEncapsulation.None
+    encapsulation: ViewEncapsulation.None,
+    standalone: false
 })
 export class LogFrameRowsComponent {
 

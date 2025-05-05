@@ -22,7 +22,8 @@ import { QuestionOptionSortComponent } from '../questionoptions/questionoption.s
 @NgComponent({
     selector: 'questionoptiongroup-edit',
     templateUrl: './questionoptiongroup.edit.component.html',
-    animations: [FadeThenShrink]
+    animations: [FadeThenShrink],
+    standalone: false
 })
 export class QuestionOptionGroupEditComponent implements OnInit, OnDestroy {
 

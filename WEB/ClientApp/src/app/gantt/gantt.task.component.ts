@@ -10,7 +10,8 @@ import { Milestone } from '../common/models/milestone.model';
 
 @Component({
     selector: 'gantt-task',
-    templateUrl: './gantt.task.component.html'
+    templateUrl: './gantt.task.component.html',
+    standalone: false
 })
 export class GanttTaskComponent implements OnInit {
 

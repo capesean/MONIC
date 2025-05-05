@@ -9,7 +9,8 @@ import { ToastrService } from 'ngx-toastr';
 
 @NgComponent({
     selector: 'milestone-sort',
-    templateUrl: './milestone.sort.component.html'
+    templateUrl: './milestone.sort.component.html',
+    standalone: false
 })
 export class MilestoneSortComponent implements OnInit {
 

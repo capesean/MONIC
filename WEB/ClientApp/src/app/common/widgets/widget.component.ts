@@ -21,6 +21,7 @@ import { QuestionnaireBarChartSettingsComponent } from './questionnaire.barchart
 @Component({
     selector: 'app-widget',
     templateUrl: './widget.component.html',
+    standalone: false
 }) export class WidgetComponent implements OnInit {
 
     public error = false;

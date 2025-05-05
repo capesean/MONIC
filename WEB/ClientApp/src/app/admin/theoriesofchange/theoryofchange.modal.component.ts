@@ -8,7 +8,8 @@ import { ErrorService } from '../../common/services/error.service';
 
 @NgComponent({
     selector: 'theory-of-change-modal',
-    templateUrl: './theoryofchange.modal.component.html'
+    templateUrl: './theoryofchange.modal.component.html',
+    standalone: false
 })
 export class TheoryOfChangeModalComponent implements OnInit {
 

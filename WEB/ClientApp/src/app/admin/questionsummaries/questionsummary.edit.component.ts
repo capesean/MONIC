@@ -12,7 +12,8 @@ import { QuestionSummaryService } from '../../common/services/questionsummary.se
 
 @NgComponent({
     selector: 'questionsummary-edit',
-    templateUrl: './questionsummary.edit.component.html'
+    templateUrl: './questionsummary.edit.component.html',
+    standalone: false
 })
 export class QuestionSummaryEditComponent implements OnInit {
 

@@ -11,7 +11,8 @@ import { DataReviewService } from '../../common/services/datareview.service';
 @NgComponent({
     selector: 'datareview-list',
     templateUrl: './datareview.list.component.html',
-    animations: [FadeThenShrink]
+    animations: [FadeThenShrink],
+    standalone: false
 })
 export class DataReviewListComponent implements OnInit, OnDestroy {
 

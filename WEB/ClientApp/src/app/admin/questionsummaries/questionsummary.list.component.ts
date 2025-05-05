@@ -10,7 +10,8 @@ import { QuestionSummaryService } from '../../common/services/questionsummary.se
 @NgComponent({
     selector: 'questionsummary-list',
     templateUrl: './questionsummary.list.component.html',
-    animations: [FadeThenShrink]
+    animations: [FadeThenShrink],
+    standalone: false
 })
 export class QuestionSummaryListComponent implements OnInit {
 

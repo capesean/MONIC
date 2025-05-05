@@ -8,7 +8,8 @@ import { ErrorService } from '../../common/services/error.service';
 
 @NgComponent({
     selector: 'entity-type-modal',
-    templateUrl: './entitytype.modal.component.html'
+    templateUrl: './entitytype.modal.component.html',
+    standalone: false
 })
 export class EntityTypeModalComponent implements OnInit {
 

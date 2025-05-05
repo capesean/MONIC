@@ -14,7 +14,8 @@ import { DateSortComponent } from './date.sort.component';
 @NgComponent({
     selector: 'date-list',
     templateUrl: './date.list.component.html',
-    animations: [FadeThenShrink]
+    animations: [FadeThenShrink],
+    standalone: false
 })
 export class DateListComponent implements OnInit, OnDestroy {
 

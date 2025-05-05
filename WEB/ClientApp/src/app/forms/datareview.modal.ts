@@ -12,7 +12,8 @@ import { ToastrService } from "ngx-toastr";
     selector: 'app-datareview-modal',
     templateUrl: './datareview.modal.html',
     styleUrls: ['./datareview.modal.css'],
-    encapsulation: ViewEncapsulation.None
+    encapsulation: ViewEncapsulation.None,
+    standalone: false
 })
 export class DataReviewModalComponent {
 

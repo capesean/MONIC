@@ -10,7 +10,8 @@ import { ProjectService } from '../../common/services/project.service';
 @NgComponent({
     selector: 'project-list',
     templateUrl: './project.list.component.html',
-    animations: [FadeThenShrink]
+    animations: [FadeThenShrink],
+    standalone: false
 })
 export class ProjectListComponent implements OnInit, OnDestroy {
 

@@ -9,7 +9,8 @@ import { ErrorService } from '../common/services/error.service';
 
 @Component({
     selector: 'app-account',
-    templateUrl: './account.component.html'
+    templateUrl: './account.component.html',
+    standalone: false
 })
 export class AccountComponent implements OnInit, AfterViewInit, OnDestroy {
 

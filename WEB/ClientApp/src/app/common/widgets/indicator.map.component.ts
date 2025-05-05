@@ -24,7 +24,8 @@ import { ToastrService } from 'ngx-toastr';
 
 @NgComponent({
     selector: 'app-indicator-map',
-    templateUrl: './indicator.map.component.html'
+    templateUrl: './indicator.map.component.html',
+    standalone: false
 })
 export class IndicatorMapComponent implements OnInit, Widget {
 

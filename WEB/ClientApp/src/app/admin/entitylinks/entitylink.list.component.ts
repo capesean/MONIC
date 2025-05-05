@@ -10,7 +10,8 @@ import { EntityLinkService } from '../../common/services/entitylink.service';
 @NgComponent({
     selector: 'entitylink-list',
     templateUrl: './entitylink.list.component.html',
-    animations: [FadeThenShrink]
+    animations: [FadeThenShrink],
+    standalone: false
 })
 export class EntityLinkListComponent implements OnInit, OnDestroy {
 

@@ -9,11 +9,12 @@ import { Item } from '../../common/models/item.model';
     selector: 'document-select',
     templateUrl: './document.select.component.html',
     providers: [{
-        provide: NG_VALUE_ACCESSOR,
-        useExisting: forwardRef(() => DocumentSelectComponent),
-        multi: true
-    }],
-    host: { 'class': 'app-select' }
+            provide: NG_VALUE_ACCESSOR,
+            useExisting: forwardRef(() => DocumentSelectComponent),
+            multi: true
+        }],
+    host: { 'class': 'app-select' },
+    standalone: false
 })
 export class DocumentSelectComponent implements OnInit, ControlValueAccessor {
 

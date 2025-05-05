@@ -14,7 +14,8 @@ import { LogFrameRowSortComponent } from './logframerow.sort.component';
 @NgComponent({
     selector: 'logframerow-list',
     templateUrl: './logframerow.list.component.html',
-    animations: [FadeThenShrink]
+    animations: [FadeThenShrink],
+    standalone: false
 })
 export class LogFrameRowListComponent implements OnInit, OnDestroy {
 

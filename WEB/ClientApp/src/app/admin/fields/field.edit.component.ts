@@ -20,7 +20,8 @@ import { OptionSortComponent } from '../options/option.sort.component';
 @NgComponent({
     selector: 'field-edit',
     templateUrl: './field.edit.component.html',
-    animations: [FadeThenShrink]
+    animations: [FadeThenShrink],
+    standalone: false
 })
 export class FieldEditComponent implements OnInit, OnDestroy {
 

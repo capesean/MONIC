@@ -11,11 +11,12 @@ import { Date } from '../../common/models/date.model';
     selector: 'response-select',
     templateUrl: './response.select.component.html',
     providers: [{
-        provide: NG_VALUE_ACCESSOR,
-        useExisting: forwardRef(() => ResponseSelectComponent),
-        multi: true
-    }],
-    host: { 'class': 'app-select' }
+            provide: NG_VALUE_ACCESSOR,
+            useExisting: forwardRef(() => ResponseSelectComponent),
+            multi: true
+        }],
+    host: { 'class': 'app-select' },
+    standalone: false
 })
 export class ResponseSelectComponent implements OnInit, ControlValueAccessor {
 

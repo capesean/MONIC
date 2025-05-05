@@ -10,11 +10,12 @@ import { Component } from '../../common/models/component.model';
     selector: 'relationship-select',
     templateUrl: './relationship.select.component.html',
     providers: [{
-        provide: NG_VALUE_ACCESSOR,
-        useExisting: forwardRef(() => RelationshipSelectComponent),
-        multi: true
-    }],
-    host: { 'class': 'app-select' }
+            provide: NG_VALUE_ACCESSOR,
+            useExisting: forwardRef(() => RelationshipSelectComponent),
+            multi: true
+        }],
+    host: { 'class': 'app-select' },
+    standalone: false
 })
 export class RelationshipSelectComponent implements OnInit, ControlValueAccessor {
 

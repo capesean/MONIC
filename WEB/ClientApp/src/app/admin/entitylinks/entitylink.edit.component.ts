@@ -12,7 +12,8 @@ import { EntityLinkService } from '../../common/services/entitylink.service';
 
 @NgComponent({
     selector: 'entitylink-edit',
-    templateUrl: './entitylink.edit.component.html'
+    templateUrl: './entitylink.edit.component.html',
+    standalone: false
 })
 export class EntityLinkEditComponent implements OnInit {
 

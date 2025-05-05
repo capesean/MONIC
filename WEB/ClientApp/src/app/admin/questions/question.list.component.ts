@@ -14,7 +14,8 @@ import { QuestionSortComponent } from './question.sort.component';
 @NgComponent({
     selector: 'question-list',
     templateUrl: './question.list.component.html',
-    animations: [FadeThenShrink]
+    animations: [FadeThenShrink],
+    standalone: false
 })
 export class QuestionListComponent implements OnInit, OnDestroy {
 

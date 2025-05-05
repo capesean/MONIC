@@ -11,7 +11,8 @@ import { ItemService } from '../../common/services/item.service';
 @NgComponent({
     selector: 'item-list',
     templateUrl: './item.list.component.html',
-    animations: [FadeThenShrink]
+    animations: [FadeThenShrink],
+    standalone: false
 })
 export class ItemListComponent implements OnInit, OnDestroy {
 

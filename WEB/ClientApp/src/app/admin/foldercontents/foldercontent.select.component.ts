@@ -10,11 +10,12 @@ import { User } from '../../common/models/user.model';
     selector: 'folder-content-select',
     templateUrl: './foldercontent.select.component.html',
     providers: [{
-        provide: NG_VALUE_ACCESSOR,
-        useExisting: forwardRef(() => FolderContentSelectComponent),
-        multi: true
-    }],
-    host: { 'class': 'app-select' }
+            provide: NG_VALUE_ACCESSOR,
+            useExisting: forwardRef(() => FolderContentSelectComponent),
+            multi: true
+        }],
+    host: { 'class': 'app-select' },
+    standalone: false
 })
 export class FolderContentSelectComponent implements OnInit, ControlValueAccessor {
 

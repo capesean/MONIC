@@ -17,6 +17,7 @@ import { DomSanitizer } from '@angular/platform-browser';
 @Component({
     selector: 'folder',
     templateUrl: './folder.component.html',
+    standalone: false
 })
 export class FolderComponent implements OnInit, OnDestroy {
 

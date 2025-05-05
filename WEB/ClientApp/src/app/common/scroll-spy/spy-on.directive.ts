@@ -3,7 +3,8 @@ import { Directive, ElementRef, Renderer2, Input, OnInit } from '@angular/core';
 import { ScrollSpyService } from './scroll-spy.service';
 
 @Directive({
-  selector: '[spyOn]'
+    selector: '[spyOn]',
+    standalone: false
 })
 export class SpyOnDirective implements OnInit {
 
