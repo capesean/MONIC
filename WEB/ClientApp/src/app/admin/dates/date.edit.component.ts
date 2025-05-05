@@ -7,7 +7,7 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ConfirmModalComponent, ConfirmModalOptions } from '../../common/components/confirm.component';
 import { PagingHeaders } from '../../common/models/http.model';
-import { Date } from '../../common/models/date.model';
+import { AppDate as Date } from '../../common/models/date.model';
 import { Enum, Enums, DateTypes } from '../../common/models/enums.model';
 import { FadeThenShrink } from '../../common/animations/fadethenshrink';
 import { BreadcrumbService } from '../../common/services/breadcrumb.service';
