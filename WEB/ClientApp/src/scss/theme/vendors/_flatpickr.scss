@@ -2,7 +2,7 @@
 // flatpickr
 //
 
-@import "~flatpickr/dist/flatpickr.css";
+@import "flatpickr/dist/flatpickr.css";
 
 .flatpickr-calendar {
     --#{$prefix}datepicker-bg: #{$datepicker-bg};

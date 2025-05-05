@@ -1,6 +1,6 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { LOCALE_ID, NgModule } from '@angular/core';
-import { HttpClientJsonpModule, HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
+import { HTTP_INTERCEPTORS, provideHttpClient, withInterceptorsFromDi, withJsonpSupport } from '@angular/common/http';
 import { RouterModule } from '@angular/router';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ToastrModule } from 'ngx-toastr';
@@ -18,12 +18,12 @@ import { JsonDateInterceptor } from './common/interceptors/jsondate.interceptor'
 import { QuillModule } from 'ngx-quill';
 import { CurrencyPipe, DecimalPipe, PercentPipe } from '@angular/common';
 
-@NgModule({
-    imports: [
-        BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
-        HttpClientModule,
-        HttpClientJsonpModule,
-        RouterModule.forRoot(AppRoutes, { /*enableTracing:true*/ }),
+@NgModule({ declarations: [
+        AppComponent,
+        NotFoundComponent
+    ],
+    bootstrap: [AppComponent], imports: [BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
+        RouterModule.forRoot(AppRoutes, { /*enableTracing:true*/}),
         ToastrModule.forRoot({
             closeButton: true,
             positionClass: "toast-bottom-right",
@@ -37,13 +37,7 @@ import { CurrencyPipe, DecimalPipe, PercentPipe } from '@angular/common';
         BrowserAnimationsModule,
         FormsModule,
         NgbModule,
-        SharedModule
-    ],
-    declarations: [
-        AppComponent,
-        NotFoundComponent
-    ],
-    providers: [
+        SharedModule], providers: [
         { provide: HTTP_INTERCEPTORS, useClass: AuthoriseRequestInterceptor, multi: true },
         { provide: HTTP_INTERCEPTORS, useClass: UnauthorisedResponseInterceptor, multi: true },
         { provide: HTTP_INTERCEPTORS, useClass: JsonDateInterceptor, multi: true },
@@ -54,8 +48,7 @@ import { CurrencyPipe, DecimalPipe, PercentPipe } from '@angular/common';
         PercentPipe,
         DecimalPipe,
         CurrencyPipe,
-        { provide: LOCALE_ID, useValue: 'en-ZA' }
-    ],
-    bootstrap: [AppComponent]
-})
+        { provide: LOCALE_ID, useValue: 'en-ZA' },
+        provideHttpClient(withInterceptorsFromDi(), withJsonpSupport())
+    ] })
 export class AppModule { }
