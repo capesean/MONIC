@@ -1,9 +1,9 @@
 import { Component as NgComponent, Input, OnInit, Output, EventEmitter, NgZone } from '@angular/core';
 import * as d3 from 'd3';
-import { EChartsOption } from 'echarts';
+import { EChartsOption } from 'echarts/types/dist/shared';
 import { combineLatest, forkJoin } from 'rxjs';
 import { Datum, DatumSearchOptions } from '../models/datum.model';
-import { Date } from '../models/date.model';
+import { AppDate } from '../models/date.model';
 import { DatumService } from '../services/datum.service';
 import { IndicatorService } from '../services/indicator.service';
 import { FeatureCollection, Polygon, MultiPolygon } from 'geojson';
@@ -59,7 +59,7 @@ export class IndicatorMapComponent implements OnInit, Widget {
     public loaded = false;
 
     public indicator: Indicator;
-    public date: Date;
+    public date: AppDate;
 
     public datum: Datum;
 

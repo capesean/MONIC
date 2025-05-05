@@ -118,7 +118,7 @@ export class FolderComponent implements OnInit, OnDestroy {
                 next: folderContent => {
                     this.modalService.open(folderContentView, { size: 'xl', centered: true, scrollable: false }).result.then(
                         () => this.selectedFolderContent,
-                        () => this.selectedFolderContent = undefined
+                        () => { this.selectedFolderContent = undefined; }
                     );
                     setTimeout(() => this.selectedFolderContent = folderContent, 500);
                 },

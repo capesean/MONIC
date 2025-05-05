@@ -1,11 +1,11 @@
 import { Component as NgComponent, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import * as d3 from 'd3';
-import { EChartsOption } from 'echarts';
+import { EChartsOption } from 'echarts/types/dist/shared';
 import { forkJoin } from 'rxjs';
 import { Datum, DatumSearchOptions } from '../models/datum.model';
 import { Indicator } from '../models/indicator.model';
 import { DateService } from '../services/date.service';
-import { Date } from '../models/date.model';
+import { AppDate } from '../models/date.model';
 import { DatumService } from '../services/datum.service';
 import { IndicatorService } from '../services/indicator.service';
 import { IndicatorBarChartSettings, Widget } from '../models/widget.model';
@@ -33,7 +33,7 @@ export class IndicatorBarChartComponent implements OnInit, Widget {
     public chartOptions: EChartsOption;
 
     public indicator: Indicator;
-    public date: Date;
+    public date: AppDate;
     public data: Datum[];
 
     constructor(

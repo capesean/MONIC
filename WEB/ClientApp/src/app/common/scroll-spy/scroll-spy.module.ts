@@ -3,8 +3,10 @@ import { SpyTargetDirective } from './spy-target.directive';
 import { SpyOnDirective } from './spy-on.directive';
 
 @NgModule({
+    imports: [
+        SpyTargetDirective
+    ],
     declarations: [
-        SpyTargetDirective,
         SpyOnDirective
     ],
     exports: [

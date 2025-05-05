@@ -10,7 +10,7 @@ import { ImportError } from '../common/models/import.model';
 import { DownloadService } from '../common/services/download.service';
 import { Indicator } from '../common/models/indicator.model';
 import { Entity } from '../common/models/entity.model';
-import { Date } from '../common/models/date.model';
+import { AppDate } from '../common/models/date.model';
 
 @Component({
     selector: 'tools',
@@ -40,7 +40,7 @@ export class ToolsComponent implements OnInit {
         entityIds: [] as string[],
         entities: [] as Entity[],
         dateIds: [] as string[],
-        dates: [] as Date[]
+        dates: [] as AppDate[]
     };
 
     constructor(

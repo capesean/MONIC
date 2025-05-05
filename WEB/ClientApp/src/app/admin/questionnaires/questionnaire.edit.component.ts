@@ -24,12 +24,12 @@ import { environment } from '../../../environments/environment';
 import { QuestionnaireDownloadComponent } from './questionnaire.download.component';
 import { QuestionnaireGenerateSummariesComponent } from './questionnaire.generate.summaries.component';
 import { Question } from '../../common/models/question.model';
-import { Date } from '../../common/models/date.model';
+import { AppDate } from '../../common/models/date.model';
 import { AnswerService } from '../../common/services/answer.service';
 import { QuestionOptionService } from '../../common/services/questionoption.service';
 import { AnswerSearchOptions, AnswerSearchResponse } from '../../common/models/answer.model';
 import { QuestionOptionSearchOptions, QuestionOptionSearchResponse } from '../../common/models/questionoption.model';
-import { EChartsOption } from 'echarts';
+import { EChartsOption } from 'echarts/types/dist/shared';
 import { Observable } from 'rxjs';
 import { of } from 'rxjs';
 import { QuestionSummaryService } from '../../common/services/questionsummary.service';
@@ -78,7 +78,7 @@ export class QuestionnaireEditComponent implements OnInit, OnDestroy {
         questionId: undefined as string,
         question: undefined as Question,
         dateId: undefined as string,
-        date: undefined as Date,
+        date: undefined as AppDate,
         optionId: undefined as string
     };
     public analysisResults = new AnalysisResults();

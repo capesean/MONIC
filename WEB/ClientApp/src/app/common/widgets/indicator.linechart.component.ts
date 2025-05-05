@@ -1,6 +1,5 @@
 import { Component as NgComponent, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import * as d3 from 'd3';
-import { EChartsOption } from 'echarts';
+import { EChartsOption } from 'echarts/types/dist/shared';
 import { forkJoin } from 'rxjs';
 import { Datum, DatumSearchOptions } from '../models/datum.model';
 import { Entity } from '../models/entity.model';

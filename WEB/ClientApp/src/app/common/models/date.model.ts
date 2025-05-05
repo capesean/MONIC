@@ -5,7 +5,7 @@ import { QuestionSummary } from './questionsummary.model';
 import { Response } from './response.model';
 import { Datum } from './datum.model';
 
-export class Date {
+export class AppDate {
     dateId: string;
     name: string;
     code: string;
@@ -15,11 +15,11 @@ export class Date {
     openFrom: Date;
     openTo: Date;
     sortOrder: number;
-    quarter: Date;
-    year: Date;
+    quarter: AppDate;
+    year: AppDate;
 
-    datesInQuarter: Date[];
-    datesInYear: Date[];
+    datesInQuarter: AppDate[];
+    datesInYear: AppDate[];
     defaultDateQuestionnaires: Questionnaire[];
     questionSummaries: QuestionSummary[];
     responses: Response[];
@@ -46,6 +46,6 @@ export class DateSearchOptions extends SearchOptions {
 }
 
 export class DateSearchResponse {
-    dates: Date[] = [];
+    dates: AppDate[] = [];
     headers: PagingHeaders;
 }

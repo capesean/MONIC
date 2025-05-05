@@ -9,7 +9,6 @@ import { FolderContent } from '../../common/models/foldercontent.model';
 import { BreadcrumbService } from '../../common/services/breadcrumb.service';
 import { ErrorService } from '../../common/services/error.service';
 import { FolderContentService } from '../../common/services/foldercontent.service';
-import { QuillConfig } from '../../common/services/quill.config';
 
 @NgComponent({
     selector: 'foldercontent-edit',
@@ -28,8 +27,7 @@ export class FolderContentEditComponent implements OnInit {
         private breadcrumbService: BreadcrumbService,
         private modalService: NgbModal,
         private folderContentService: FolderContentService,
-        private errorService: ErrorService,
-        public quillConfig: QuillConfig
+        private errorService: ErrorService
     ) {
     }
 

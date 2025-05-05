@@ -4,7 +4,7 @@ import { DataReviewModalComponent } from './datareview.modal.component';
 import { DataReview } from '../../common/models/datareview.model';
 import { Enum } from '../../common/models/enums.model';
 import { User } from '../../common/models/user.model';
-import * as moment from 'moment';
+import moment from 'moment';
 
 @NgComponent({
     selector: 'data-review-select',

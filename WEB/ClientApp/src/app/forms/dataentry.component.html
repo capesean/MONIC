@@ -107,9 +107,15 @@
                 <i class="fas fa-exclamation-triangle me-2"></i>There are no indicators for this combination of entity type and date, or you do not the permissions to access them
             </div>
 
-            <ngb-accordion #accordion="ngbAccordion" *ngFor="let categoryRow of categoryRows">
-                <ngb-panel title="{{categoryRow.category.name}}">
-                    <ng-template ngbPanelContent>
+            <div ngbAccordion #accordion="ngbAccordion" *ngFor="let categoryRow of categoryRows">
+
+                <div ngbAccordionItem>
+                    <h2 ngbAccordionHeader>
+                        <button ngbAccordionButton>{{categoryRow.category.name}}</button>
+                    </h2>
+                </div>
+                <div ngbAccordionCollapse>
+                    <div ngbAccordionBody>
 
                         <div *ngFor="let subcategoryRow of categoryRow.subcategoryRows" class="subcategorybox mb-4">
 
@@ -216,9 +222,10 @@
 
                         </div>
 
-                    </ng-template>
-                </ngb-panel>
-            </ngb-accordion>
+                    </div>
+                </div>
+
+            </div>
 
             <ng-container *ngTemplateOutlet="formButtons"></ng-container>
 

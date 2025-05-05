@@ -1,10 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import { Spinkit } from 'ng-http-loader';
+import { NgHttpLoaderComponent, Spinkit } from 'ng-http-loader';
 import { Observable } from 'rxjs';
 import { AuthStateModel } from './common/models/auth.models';
 import { AuthService } from './common/services/auth.service';
 import { Title } from '@angular/platform-browser';
-import * as moment from 'moment';
+import moment from 'moment';
 import { environment } from '../environments/environment';
 import { BreadcrumbService } from './common/services/breadcrumb.service';
 import { NgbModalConfig, NgbTooltipConfig } from '@ng-bootstrap/ng-bootstrap';

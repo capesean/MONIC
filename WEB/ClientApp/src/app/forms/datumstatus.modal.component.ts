@@ -3,7 +3,7 @@ import { NgbActiveModal, NgbModal } from "@ng-bootstrap/ng-bootstrap";
 import { Datum } from "../common/models/datum.model";
 import { Entity } from "../common/models/entity.model";
 import { Indicator } from "../common/models/indicator.model";
-import { Date } from "../common/models/date.model";
+import { AppDate } from "../common/models/date.model";
 import { DatumService } from "../common/services/datum.service";
 import { ErrorService } from "../common/services/error.service";
 import { EntityService } from "../common/services/entity.service";
@@ -11,7 +11,7 @@ import { FormsService } from "../common/services/forms.service";
 import { DataReview } from "../common/models/datareview.model";
 import { Enums, ReviewResults, ReviewStatuses } from "../common/models/enums.model";
 import { ConfirmModalComponent, ConfirmModalOptions } from "../common/components/confirm.component";
-import * as moment from "moment";
+import moment from "moment";
 
 @Component({
     selector: 'app-datumstatus-modal',
@@ -25,7 +25,7 @@ export class DatumStatusModalComponent {
     public datum: Datum;
     public indicator: Indicator;
     public entity: Entity;
-    public date: Date;
+    public date: AppDate;
     public dataReviews: DataReview[] = [];
     public noData = false;
 
@@ -39,7 +39,7 @@ export class DatumStatusModalComponent {
     ) {
     }
 
-    public setData(datum: Datum, indicator: Indicator, entity: Entity, date: Date) {
+    public setData(datum: Datum, indicator: Indicator, entity: Entity, date: AppDate) {
         this.indicator = indicator;
         this.date = date;
         this.datumService.get(indicator.indicatorId, entity.entityId, date.dateId)

@@ -1,31 +1,61 @@
+// ClientApp/tsconfig.json
 {
     "compileOnSave": false,
+
     "compilerOptions": {
-        "baseUrl": "./",
-        "outDir": "./dist/out-tsc",
-        "forceConsistentCasingInFileNames": true,
+        // ————— Pathing & output —————
+        "baseUrl": "./", // root for module resolution
+        "outDir": "./dist/out-tsc", // where compiled JS goes
+
+        // ————— Module & target —————
+        "target": "ES2022",
+        "module": "ES2020",
+        "moduleResolution": "node",
+        "lib": [ "ES2018", "DOM" ],
+
+        // ————— Decorators & metadata —————
+        "experimentalDecorators": true,
+        "emitDecoratorMetadata": true,
+        "importHelpers": true,
+
+        // ————— Interop & strictness —————
         "esModuleInterop": true,
+        "allowSyntheticDefaultImports": true,
+        "forceConsistentCasingInFileNames": true,
         "strict": true,
         "strictNullChecks": false,
         "noImplicitReturns": true,
         "noFallthroughCasesInSwitch": true,
+
+        // ————— misc —————
         "sourceMap": true,
         "declaration": false,
-        "experimentalDecorators": true,
-        "moduleResolution": "node",
-        "importHelpers": true,
-        "target": "ES2022",
-        "module": "ES2022",
-        "lib": [
-            "ES2022",
-            "dom"
-        ],
-        "useDefineForClassFields": false
+        "useDefineForClassFields": true,
+        "allowJs": true,
+        "types": []
     },
+
     "angularCompilerOptions": {
         "enableI18nLegacyMessageIdFormat": false,
         "strictInjectionParameters": true,
         "strictInputAccessModifiers": true,
         "strictTemplates": true
-    }
+    },
+
+    // entry-points for your app build
+    "files": [
+        "src/main.ts",
+        "src/polyfills.ts"
+    ],
+
+    // pick up any extra typings you might have
+    "include": [
+        "src/**/*.ts",
+        "src/**/*.d.ts"
+    ],
+
+    "exclude": [
+        "src/test.ts",
+        "**/*.spec.ts"
+    ]
 }

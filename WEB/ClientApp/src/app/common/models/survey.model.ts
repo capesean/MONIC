@@ -1,5 +1,5 @@
 import { Answer } from "./answer.model";
-import { Date } from "./date.model";
+import { AppDate } from "./date.model";
 import { Document } from "./document.model";
 import { Entity } from "./entity.model";
 import { SkipLogicActions } from "./enums.model";
@@ -47,5 +47,5 @@ export class SurveyProgress {
 export class StartQuestionnaire {
     questionnaire: Questionnaire;
     entities: Entity[];
-    dates: Date[];
+    dates: AppDate[];
 }

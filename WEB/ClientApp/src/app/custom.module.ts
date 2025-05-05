@@ -6,8 +6,8 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { DragDropModule } from '@angular/cdk/drag-drop';
 import { SharedModule } from './shared.module';
 import { StrongPasswordModule } from './common/zxcvbn/strong-password.module';
-import { NgxGraphModule } from '@swimlane/ngx-graph';
-import { NgxChartsModule } from '@swimlane/ngx-charts';
+//import { NgxGraphModule } from '@swimlane/ngx-graph';
+//import { NgxChartsModule } from '@swimlane/ngx-charts';
 import { HomeComponent } from './home/home.component';
 import { AccountComponent } from './account/account.component';
 import { ErrorsComponent } from './error/errors.component';
@@ -17,7 +17,8 @@ import { DataEntryComponent } from './forms/dataentry.component';
 import { TheoriesOfChangeComponent } from './theoryofchange/theoriesofchange';
 import { TheoryOfChangeComponentModal } from './theoryofchange/theoryofchangecomponent.modal';
 import { TheoryOfChangeRelationshipModal } from './theoryofchange/theoryofchangerelationship.modal';
-import { TheoryOfChangeComponent } from './theoryofchange/theoryofchange';
+// removed because ngx-graph is not supported
+//import { TheoryOfChangeComponent } from './theoryofchange/theoryofchange';
 import { LogFramesComponent } from './logframe/logframes.component';
 import { LogFrameComponent } from './logframe/logframe.component';
 import { LogFrameRowViewComponent } from './logframe/logframe.row.component';
@@ -61,8 +62,8 @@ import { FolderShortcutSettingsComponent } from './common/widgets/folder.shortcu
         DragDropModule,
         SharedModule,
         StrongPasswordModule,
-        NgxGraphModule,
-        NgxChartsModule,
+        //NgxGraphModule,
+        //NgxChartsModule,
         NgxEchartsModule.forRoot({
             echarts: () => import('echarts')
         }),
@@ -76,7 +77,7 @@ import { FolderShortcutSettingsComponent } from './common/widgets/folder.shortcu
         SetupComponent,
         DataEntryComponent,
         TheoriesOfChangeComponent,
-        TheoryOfChangeComponent,
+        //TheoryOfChangeComponent,
         TheoryOfChangeComponentModal,
         TheoryOfChangeRelationshipModal,
         LogFramesComponent,

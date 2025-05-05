@@ -4,7 +4,7 @@ import { Subject, Subscription } from 'rxjs';
 import { ToastrService } from 'ngx-toastr';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { PagingHeaders } from '../../common/models/http.model';
-import { DateSearchOptions, DateSearchResponse, Date } from '../../common/models/date.model';
+import { DateSearchOptions, DateSearchResponse, AppDate } from '../../common/models/date.model';
 import { Enum, Enums } from '../../common/models/enums.model';
 import { FadeThenShrink } from '../../common/animations/fadethenshrink';
 import { ErrorService } from '../../common/services/error.service';
@@ -19,7 +19,7 @@ import { DateSortComponent } from './date.sort.component';
 })
 export class DateListComponent implements OnInit, OnDestroy {
 
-    public dates: Date[] = [];
+    public dates: AppDate[] = [];
     public searchOptions = new DateSearchOptions();
     public showSearchOptions = false;
     public headers = new PagingHeaders();
@@ -81,7 +81,7 @@ export class DateListComponent implements OnInit, OnDestroy {
             }, () => { });
     }
 
-    goToDate(date: Date): void {
+    goToDate(date: AppDate): void {
         this.router.navigate([date.dateId], { relativeTo: this.route });
     }
 }

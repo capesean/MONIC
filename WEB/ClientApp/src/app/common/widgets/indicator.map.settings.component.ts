@@ -4,7 +4,7 @@ import { AuthService } from '../services/auth.service';
 import { ToastrService } from 'ngx-toastr';
 import { NgForm } from '@angular/forms';
 import { Indicator } from '../models/indicator.model';
-import { Date } from '../models/date.model';
+import { AppDate } from '../models/date.model';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { IndicatorService } from '../services/indicator.service';
 import { DateService } from '../services/date.service';
@@ -22,7 +22,7 @@ export class IndicatorMapSettingsComponent implements OnInit {
     public dateTypes = Enums.DateTypes;
     public widgetSizes = Enums.WidgetSizes;
 
-    public date: Date;
+    public date: AppDate;
     public indicator: Indicator;
 
     constructor(

@@ -3,7 +3,7 @@ import { Component } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
-import { Date } from '../common/models/date.model';
+import { AppDate } from '../common/models/date.model';
 import { Entity } from '../common/models/entity.model';
 import { Enums } from '../common/models/enums.model';
 import { Questionnaire } from '../common/models/questionnaire.model';
@@ -20,13 +20,13 @@ export class QuestionnaireComponent implements OnInit {
     public publicCode: string
     public questionnaire: Questionnaire;
     public entities: Entity[];
-    public dates: Date[];
+    public dates: AppDate[];
     public dateTypes = Enums.DateTypes;
     public options = {
         entityId: undefined as string,
         entity: undefined as Entity,
         dateId: undefined as string,
-        date: undefined as Date
+        date: undefined as AppDate
     };
 
     constructor(

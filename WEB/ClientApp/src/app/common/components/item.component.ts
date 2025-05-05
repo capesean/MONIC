@@ -8,7 +8,7 @@ import { ErrorService } from '../services/error.service';
 import { AsyncSubject, Subject } from 'rxjs';
 import { FieldValue } from '../models/fieldvalue.model';
 import { OptionValue } from '../models/optionvalue.model';
-import * as moment from 'moment';
+import moment from 'moment';
 import { DocumentService } from '../services/document.service';
 import { PagingHeaders } from '../models/http.model';
 import { Document, DocumentSearchOptions, DocumentSearchResponse } from '../models/document.model';

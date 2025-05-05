@@ -2,7 +2,7 @@ import { Component as NgComponent, OnInit } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { ToastrService } from 'ngx-toastr';
-import { Date } from '../models/date.model';
+import { AppDate } from '../models/date.model';
 import { Enums, WidgetTypes } from '../models/enums.model';
 import { IndicatorPieChartSettings } from '../models/widget.model';
 import { AuthService } from '../services/auth.service';
@@ -19,7 +19,7 @@ export class IndicatorPieChartSettingsComponent implements OnInit {
     public settings: IndicatorPieChartSettings;
     public widgetSizes = Enums.WidgetSizes;
 
-    public date: Date;
+    public date: AppDate;
 
     constructor(
         private errorService: ErrorService,

@@ -1,15 +1,10 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk.Web">
 
-	<PropertyGroup Label="Configuration" Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
-		<TypeScriptTarget>ES2021</TypeScriptTarget>
-	</PropertyGroup>
-
-	<PropertyGroup Label="Configuration" Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
-		<TypeScriptTarget>ES2021</TypeScriptTarget>
-	</PropertyGroup>
-
 	<PropertyGroup>
+		<TypeScriptConfigFile>ClientApp/tsconfig.json</TypeScriptConfigFile>
 		<TypeScriptToolsVersion>Latest</TypeScriptToolsVersion>
+		<TypeScriptCompileBlocked>true</TypeScriptCompileBlocked>
+		<TypeScriptNoEmit>true</TypeScriptNoEmit>
 	</PropertyGroup>
 
 	<PropertyGroup>
@@ -130,9 +125,9 @@
 	</ItemGroup>
 
 	<ItemGroup>
-	  <Content Update="appsettings.monic-migsa.json">
-	    <CopyToPublishDirectory>Never</CopyToPublishDirectory>
-	  </Content>
+		<Content Update="appsettings.monic-migsa.json">
+			<CopyToPublishDirectory>Never</CopyToPublishDirectory>
+		</Content>
 	</ItemGroup>
 
 	<Target Name="CustomCopyAppSettings" AfterTargets="Publish">

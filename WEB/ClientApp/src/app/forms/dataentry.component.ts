@@ -2,7 +2,7 @@ import { Component, OnInit, ViewChild, AfterViewInit } from '@angular/core';
 import { ProfileModel } from '../common/models/profile.models';
 import { AuthService } from '../common/services/auth.service';
 import { ToastrService } from 'ngx-toastr';
-import { Router, ActivatedRoute } from '@angular/router';
+import { ActivatedRoute } from '@angular/router';
 import { ErrorService } from '../common/services/error.service';
 import { NgForm } from '@angular/forms';
 import { DataEntryFormResponse, FormsService } from '../common/services/forms.service';
@@ -11,15 +11,15 @@ import { DateService } from '../common/services/date.service';
 import { EntityService } from '../common/services/entity.service';
 import { forkJoin, Observable, of, throwError } from 'rxjs';
 import { Entity, EntitySearchOptions } from '../common/models/entity.model';
-import { Date as myDate, DateSearchOptions } from '../common/models/date.model';
+import { AppDate as myDate, DateSearchOptions } from '../common/models/date.model';
 import { catchError, share } from 'rxjs/operators';
-import { PendingRequestsInterceptor } from 'ng-http-loader';
+import { PendingRequestsInterceptorConfigurer } from 'ng-http-loader';
 import { Organisation } from '../common/models/organisation.model';
-import * as moment from 'moment';
+import moment from 'moment';
 import { Indicator } from '../common/models/indicator.model';
 import { Enums, PermissionTypes, ReviewResults, ReviewStatuses, Roles } from '../common/models/enums.model';
 import { CategoryRow, IndicatorRow, IndicatorRowState, SubcategoryRow } from '../common/models/dataentry.model';
-import { NgbAccordion, NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { DatumStatusModalComponent } from './datumstatus.modal.component';
 import { DataReviewModalComponent } from './datareview.modal';
 import { environment } from '../../environments/environment';
@@ -56,7 +56,7 @@ export class DataEntryComponent implements OnInit, AfterViewInit {
     private appSettings: AppSettings;
 
     @ViewChild("optionsForm") form: NgForm;
-    @ViewChild("accordion") accordion: NgbAccordion;
+    @ViewChild("accordion") accordion: any;
 
     constructor(
         private authService: AuthService,
@@ -67,7 +67,7 @@ export class DataEntryComponent implements OnInit, AfterViewInit {
         private dateService: DateService,
         private entityService: EntityService,
         private route: ActivatedRoute,
-        pendingRequestsInterceptor: PendingRequestsInterceptor,
+        pendingRequestsInterceptor: PendingRequestsInterceptorConfigurer,
         private modalService: NgbModal
     ) {
         // disabled this otherwise the route is nuked each time and (eg) the nav controller initialises again
@@ -426,7 +426,8 @@ export class DataEntryComponent implements OnInit, AfterViewInit {
             else if (this.options.permissionType === PermissionTypes.Approve && datum.approved) row.checked = true;
         })
 
-        setTimeout(() => this.accordion.expandAll());
+        console.error("todo: fix accordion");
+        //setTimeout(() => this.accordion.expandAll());
     }
 
     close() {

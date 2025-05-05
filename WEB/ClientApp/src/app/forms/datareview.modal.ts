@@ -4,7 +4,7 @@ import { ErrorService } from "../common/services/error.service";
 import { IndicatorRow } from "../common/models/dataentry.model";
 import { Enums, ReviewResults, ReviewStatuses } from "../common/models/enums.model";
 import { Entity } from "../common/models/entity.model";
-import { Date } from "../common/models/date.model";
+import { AppDate } from "../common/models/date.model";
 import { FormsService } from "../common/services/forms.service";
 import { ToastrService } from "ngx-toastr";
 
@@ -21,7 +21,7 @@ export class DataReviewModalComponent {
     public verb = "";
     public indicatorRows: IndicatorRow[] = [];
     public entity: Entity;
-    public date: Date;
+    public date: AppDate;
     public status: ReviewStatuses;
     public result: ReviewResults;
     public rejectionNote: string = null;
@@ -34,7 +34,7 @@ export class DataReviewModalComponent {
     ) {
     }
 
-    public setData(indicatorRows: IndicatorRow[], status: ReviewStatuses, result: ReviewResults, entity: Entity, date: Date) {
+    public setData(indicatorRows: IndicatorRow[], status: ReviewStatuses, result: ReviewResults, entity: Entity, date: AppDate) {
 
         this.title = `${(result === ReviewResults.Rejected ? "Reject" : Enums.ReviewStatuses[status].label)} Data`;
 

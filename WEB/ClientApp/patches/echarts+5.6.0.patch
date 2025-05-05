@@ -1,0 +1,12 @@
+diff --git a/node_modules/echarts/index.d.ts b/node_modules/echarts/index.d.ts
+index 811908a..5e2b3ae 100644
+--- a/node_modules/echarts/index.d.ts
++++ b/node_modules/echarts/index.d.ts
+@@ -20,4 +20,4 @@
+ import * as echarts from './types/dist/echarts';
+ // Export for UMD module.
+ export as namespace echarts;
+-export = echarts;
+\ No newline at end of file
++export default echarts;
+\ No newline at end of file

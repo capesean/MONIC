@@ -2,7 +2,7 @@ import { Component as NgComponent, OnInit } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { ToastrService } from 'ngx-toastr';
-import { Date } from '../models/date.model';
+import { AppDate } from '../models/date.model';
 import { Entity, EntitySearchOptions } from '../models/entity.model';
 import { DateTypes, Enum, Enums, WidgetTypes } from '../models/enums.model';
 import { Questionnaire } from '../models/questionnaire.model';
@@ -25,7 +25,7 @@ export class QuestionnaireBarChartSettingsComponent implements OnInit {
     public widgetSizes = Enums.WidgetSizes;
 
     public questionnaire: Questionnaire;
-    public date: Date;
+    public date: AppDate;
     public entities: Entity[] = [];
 
     constructor(

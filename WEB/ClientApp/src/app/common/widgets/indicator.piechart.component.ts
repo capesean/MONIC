@@ -1,10 +1,10 @@
 import { Component as NgComponent, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import * as d3 from 'd3';
-import { EChartsOption } from 'echarts';
+import { EChartsOption } from 'echarts/types/dist/shared';
 import { forkJoin } from 'rxjs';
 import { DataStatus, DataStatusOptions } from '../models/datum.model';
 import { DateService } from '../services/date.service';
-import { Date } from '../models/date.model';
+import { AppDate } from '../models/date.model';
 import { DatumService } from '../services/datum.service';
 import { IndicatorPieChartSettings, Widget } from '../models/widget.model';
 
@@ -29,7 +29,7 @@ export class IndicatorPieChartComponent implements OnInit, Widget {
 
     public chartOptions: EChartsOption;
 
-    public date: Date;
+    public date: AppDate;
     public dataStatus: DataStatus;
 
     constructor(
