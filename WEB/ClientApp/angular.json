@@ -82,11 +82,11 @@
                     "builder": "@angular-devkit/build-angular:dev-server",
                     "configurations": {
                         "production": {
-                            "browserTarget": "Monic:build:production"
+                          "buildTarget": "Monic:build:production"
                         },
                         "development": {
-                            "browserTarget": "Monic:build:development",
-                            "proxyConfig": "proxy.conf.js"
+                          "proxyConfig": "proxy.conf.js",
+                            "buildTarget": "Monic:build:development"
                         }
                     },
                     "defaultConfiguration": "development"
@@ -94,7 +94,7 @@
                 "extract-i18n": {
                     "builder": "@angular-devkit/build-angular:extract-i18n",
                     "options": {
-                        "browserTarget": "Monic:build"
+                      "buildTarget": "Monic:build"
                     }
                 }
             }
