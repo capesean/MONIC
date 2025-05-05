@@ -7,7 +7,7 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ConfirmModalComponent, ConfirmModalOptions } from '../../common/components/confirm.component';
 import { PagingHeaders } from '../../common/models/http.model';
-import { AppDate } from '../../common/models/date.model';
+import { AppDate as Date } from '../../common/models/date.model';
 import { Enum, Enums, DateTypes } from '../../common/models/enums.model';
 import { FadeThenShrink } from '../../common/animations/fadethenshrink';
 import { BreadcrumbService } from '../../common/services/breadcrumb.service';
@@ -25,7 +25,7 @@ import { ResponseService } from '../../common/services/response.service';
 })
 export class DateEditComponent implements OnInit {
 
-    public date: AppDate = new AppDate();
+    public date: Date = new Date();
     public isNew = true;
     public dateTypes: Enum[] = Enums.DateTypes;
     public dateTypeYear = Enums.DateTypes[DateTypes.Year];
@@ -33,12 +33,12 @@ export class DateEditComponent implements OnInit {
 
     public datesInQuarterSearchOptions = new DateSearchOptions();
     public datesInQuarterHeaders = new PagingHeaders();
-    public datesInQuarter: AppDate[] = [];
+    public datesInQuarter: Date[] = [];
     public showDatesInQuarterSearch = false;
 
     public datesInYearSearchOptions = new DateSearchOptions();
     public datesInYearHeaders = new PagingHeaders();
-    public datesInYear: AppDate[] = [];
+    public datesInYear: Date[] = [];
     public showDatesInYearSearch = false;
 
     public responsesSearchOptions = new ResponseSearchOptions();
@@ -174,11 +174,11 @@ export class DateEditComponent implements OnInit {
 
     }
 
-    goToDateInQuarter(date: AppDate): void {
+    goToDateInQuarter(date: Date): void {
         this.router.navigate([date.dateId], { relativeTo: this.route });
     }
 
-    deleteDateInQuarter(date: AppDate, event: MouseEvent): void {
+    deleteDateInQuarter(date: Date, event: MouseEvent): void {
         event.stopPropagation();
 
         let modalRef = this.modalService.open(ConfirmModalComponent, { centered: true });
@@ -242,11 +242,11 @@ export class DateEditComponent implements OnInit {
 
     }
 
-    goToDateInYear(date: AppDate): void {
+    goToDateInYear(date: Date): void {
         this.router.navigate([date.dateId], { relativeTo: this.route });
     }
 
-    deleteDateInYear(date: AppDate, event: MouseEvent): void {
+    deleteDateInYear(date: Date, event: MouseEvent): void {
         event.stopPropagation();
 
         let modalRef = this.modalService.open(ConfirmModalComponent, { centered: true });
