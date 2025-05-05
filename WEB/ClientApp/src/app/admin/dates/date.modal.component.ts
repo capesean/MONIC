@@ -1,7 +1,7 @@
 import { Component as NgComponent, OnInit, ViewChild, Output, EventEmitter, TemplateRef, Input } from '@angular/core';
 import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { Observable } from 'rxjs';
-import { DateSearchOptions, DateSearchResponse, AppDate } from '../../common/models/date.model';
+import { DateSearchOptions, DateSearchResponse, Date } from '../../common/models/date.model';
 import { DateService } from '../../common/services/date.service';
 import { PagingHeaders } from '../../common/models/http.model';
 import { ErrorService } from '../../common/services/error.service';
@@ -15,16 +15,16 @@ import { Enum, Enums } from '../../common/models/enums.model';
 export class DateModalComponent implements OnInit {
 
     public modal: NgbModalRef;
-    public selectedItems: AppDate[] = [];
+    public selectedItems: Date[] = [];
     public headers: PagingHeaders = new PagingHeaders();
     public searchOptions: DateSearchOptions = new DateSearchOptions();
-    public dates: AppDate[];
+    public dates: Date[];
     public allSelected = false;
     dateTypes = Enums.DateTypes;
 
     @ViewChild('content') content: TemplateRef<unknown>;
-    @Output() change: EventEmitter<AppDate> = new EventEmitter<AppDate>();
-    @Output() changes: EventEmitter<AppDate[]> = new EventEmitter<AppDate[]>();
+    @Output() change: EventEmitter<Date> = new EventEmitter<Date>();
+    @Output() changes: EventEmitter<Date[]> = new EventEmitter<Date[]>();
     @Input() canRemoveFilters = false;
     @Input() multiple = false;
     @Input() showAddNew = false;
@@ -33,8 +33,8 @@ export class DateModalComponent implements OnInit {
     @Input() resetOnOpen = false;
     @Input() title = this.multiple ? "Select dates" : "Select a date";
     @Input() dateType: Enum;
-    @Input() quarter: AppDate;
-    @Input() year: AppDate;
+    @Input() quarter: Date;
+    @Input() year: Date;
     @Input() isOpen: boolean;
     @Input() hasOpened: boolean;
 
@@ -58,9 +58,9 @@ export class DateModalComponent implements OnInit {
         if (this.hasOpened != null) this.searchOptions.hasOpened = this.hasOpened;
         this.modal = this.modalService.open(this.content, { size: 'xl', centered: true, scrollable: false });
         this.runSearch();
-        this.modal.result.then((date: AppDate | AppDate[]) => {
-            if (this.multiple) this.changes.emit(date as AppDate[]);
-            else this.change.emit(date as AppDate);
+        this.modal.result.then((date: Date | Date[]) => {
+            if (this.multiple) this.changes.emit(date as Date[]);
+            else this.change.emit(date as Date);
         }, () => {
             // dismissed
         });
@@ -101,7 +101,7 @@ export class DateModalComponent implements OnInit {
         else this.modal.close(undefined);
     }
 
-    select(date: AppDate) {
+    select(date: Date) {
         if (this.multiple) {
             if (this.isSelected(date)) {
                 for (let i = 0; i < this.selectedItems.length; i++) {
@@ -118,7 +118,7 @@ export class DateModalComponent implements OnInit {
         }
     }
 
-    isSelected(date: AppDate) {
+    isSelected(date: Date) {
         if (!this.multiple) return false;
         return this.selectedItems.filter(item => item.dateId === date.dateId).length > 0;
     }

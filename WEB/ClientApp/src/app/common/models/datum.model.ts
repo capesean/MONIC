@@ -1,6 +1,6 @@
 import { SearchOptions, PagingHeaders } from './http.model';
 import { DataReview } from './datareview.model';
-import { AppDate as LocalDate } from './date.model';
+import { Date as LocalDate } from './date.model';
 import { Entity } from './entity.model';
 import { Indicator } from './indicator.model';
 import { DateTypes } from './enums.model';import { DataReviewLink } from './datareviewlink.model';

@@ -9,10 +9,10 @@ import { Questionnaire } from '../../common/models/questionnaire.model';
     selector: 'section-select',
     templateUrl: './section.select.component.html',
     providers: [{
-            provide: NG_VALUE_ACCESSOR,
-            useExisting: forwardRef(() => SectionSelectComponent),
-            multi: true
-        }],
+        provide: NG_VALUE_ACCESSOR,
+        useExisting: forwardRef(() => SectionSelectComponent),
+        multi: true
+    }],
     host: { 'class': 'app-select' },
     standalone: false
 })

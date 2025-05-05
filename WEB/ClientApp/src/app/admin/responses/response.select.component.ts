@@ -5,16 +5,16 @@ import { Response } from '../../common/models/response.model';
 import { Enum } from '../../common/models/enums.model';
 import { Questionnaire } from '../../common/models/questionnaire.model';
 import { Entity } from '../../common/models/entity.model';
-import { AppDate } from '../../common/models/date.model';
+import { Date } from '../../common/models/date.model';
 
 @NgComponent({
     selector: 'response-select',
     templateUrl: './response.select.component.html',
     providers: [{
-            provide: NG_VALUE_ACCESSOR,
-            useExisting: forwardRef(() => ResponseSelectComponent),
-            multi: true
-        }],
+        provide: NG_VALUE_ACCESSOR,
+        useExisting: forwardRef(() => ResponseSelectComponent),
+        multi: true
+    }],
     host: { 'class': 'app-select' },
     standalone: false
 })
@@ -29,7 +29,7 @@ export class ResponseSelectComponent implements OnInit, ControlValueAccessor {
     @Input() showAddNew = false;
     @Input() questionnaire: Questionnaire;
     @Input() entity: Entity;
-    @Input() date: AppDate;
+    @Input() date: Date;
 
     disabled = false;
     placeholder = this.multiple ? "Select responses" : "Select a response";

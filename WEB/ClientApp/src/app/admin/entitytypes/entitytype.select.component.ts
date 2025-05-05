@@ -8,10 +8,10 @@ import { Enum } from '../../common/models/enums.model';
     selector: 'entity-type-select',
     templateUrl: './entitytype.select.component.html',
     providers: [{
-            provide: NG_VALUE_ACCESSOR,
-            useExisting: forwardRef(() => EntityTypeSelectComponent),
-            multi: true
-        }],
+        provide: NG_VALUE_ACCESSOR,
+        useExisting: forwardRef(() => EntityTypeSelectComponent),
+        multi: true
+    }],
     host: { 'class': 'app-select' },
     standalone: false
 })

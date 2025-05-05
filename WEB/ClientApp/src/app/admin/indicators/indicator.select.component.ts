@@ -11,10 +11,10 @@ import { User } from '../../common/models/user.model';
     selector: 'indicator-select',
     templateUrl: './indicator.select.component.html',
     providers: [{
-            provide: NG_VALUE_ACCESSOR,
-            useExisting: forwardRef(() => IndicatorSelectComponent),
-            multi: true
-        }],
+        provide: NG_VALUE_ACCESSOR,
+        useExisting: forwardRef(() => IndicatorSelectComponent),
+        multi: true
+    }],
     host: { 'class': 'app-select' },
     standalone: false
 })

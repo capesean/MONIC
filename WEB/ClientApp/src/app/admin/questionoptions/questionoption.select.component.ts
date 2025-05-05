@@ -9,10 +9,10 @@ import { QuestionOptionGroup } from '../../common/models/questionoptiongroup.mod
     selector: 'question-option-select',
     templateUrl: './questionoption.select.component.html',
     providers: [{
-            provide: NG_VALUE_ACCESSOR,
-            useExisting: forwardRef(() => QuestionOptionSelectComponent),
-            multi: true
-        }],
+        provide: NG_VALUE_ACCESSOR,
+        useExisting: forwardRef(() => QuestionOptionSelectComponent),
+        multi: true
+    }],
     host: { 'class': 'app-select' },
     standalone: false
 })

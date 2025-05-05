@@ -1,12 +1,12 @@
 import { SearchOptions, PagingHeaders } from './http.model';
-import { AppDate } from './date.model';
+import { Date } from './date.model';
 import { Question } from './question.model';
 
 export class QuestionSummary {
     questionId: string;
     dateId: string;
     summary: string;
-    date: AppDate;
+    date: Date;
     question: Question;
 
     constructor() {

@@ -9,7 +9,7 @@ import { DownloadModel } from '../models/download.model';
 import { DownloadService } from './download.service';
 import { SurveyProgress } from '../models/survey.model';
 import { QuestionSummary } from '../models/questionsummary.model';
-import { AppDate } from '../models/date.model';
+import { Date } from '../models/date.model';
 import { Question } from '../models/question.model';
 
 @Injectable({ providedIn: 'root' })
@@ -96,7 +96,7 @@ export class GenerateSummariesModel {
     public questionId: string;
     public question: Question;
     public dateId: string;
-    public date: AppDate;
+    public date: Date;
     public maxTokens: number;
     public temperature: number;
     public systemMessage: string;

@@ -17,7 +17,6 @@ import { PageTitleComponent } from './common/components/pagetitle.component';
 import { SortIconComponent } from './common/components/sorticon.component';
 import { AppHasRoleDirective } from './common/directives/apphasrole';
 import { AppFileInputDirective } from './common/directives/appfileinput';
-//import { SpyOnDirective } from './common/scroll-spy/spy-on.directive';
 import { BooleanPipe } from './common/pipes/booleanpipe';
 import { MomentPipe } from './common/pipes/momentpipe';
 import { FileSizePipe } from './common/pipes/filesizepipe';
@@ -106,7 +105,6 @@ import { SurveyComponent } from './common/components/survey/survey.component';
 import { ParagraphsPipe } from './common/pipes/paragraphspipe';
 import { QuestionnaireExportComponent } from './admin/questionnaires/questionnaire.export.component';
 import { QuestionnaireDownloadComponent } from './admin/questionnaires/questionnaire.download.component';
-import { QuillModule } from 'ngx-quill';
 import { QuestionnaireGenerateSummariesComponent } from './admin/questionnaires/questionnaire.generate.summaries.component';
 import { FrequencyAdverb } from './common/pipes/frequencyadverbpipe';
 
@@ -116,8 +114,7 @@ import { FrequencyAdverb } from './common/pipes/frequencyadverbpipe';
         RouterModule,
         FormsModule,
         NgbModule,
-        DragDropModule,
-        QuillModule
+        DragDropModule
     ],
     declarations: [
         MainComponent,
@@ -148,7 +145,6 @@ import { FrequencyAdverb } from './common/pipes/frequencyadverbpipe';
         QuestionnaireGenerateSummariesComponent,
         SurveyComponent,
         FrequencyAdverb,
-        //SpyOnDirective,
         AnswerSelectComponent,
         AnswerModalComponent,
         CategorySelectComponent,
@@ -254,7 +250,6 @@ import { FrequencyAdverb } from './common/pipes/frequencyadverbpipe';
         QuestionnaireGenerateSummariesComponent,
         SurveyComponent,
         FrequencyAdverb,
-        //SpyOnDirective,
         AnswerSelectComponent,
         AnswerModalComponent,
         CategorySelectComponent,

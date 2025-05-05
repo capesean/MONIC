@@ -8,10 +8,10 @@ import { Enum } from '../../common/models/enums.model';
     selector: 'log-frame-select',
     templateUrl: './logframe.select.component.html',
     providers: [{
-            provide: NG_VALUE_ACCESSOR,
-            useExisting: forwardRef(() => LogFrameSelectComponent),
-            multi: true
-        }],
+        provide: NG_VALUE_ACCESSOR,
+        useExisting: forwardRef(() => LogFrameSelectComponent),
+        multi: true
+    }],
     host: { 'class': 'app-select' },
     standalone: false
 })

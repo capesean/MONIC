@@ -9,10 +9,10 @@ import { LogFrame } from '../../common/models/logframe.model';
     selector: 'log-frame-row-select',
     templateUrl: './logframerow.select.component.html',
     providers: [{
-            provide: NG_VALUE_ACCESSOR,
-            useExisting: forwardRef(() => LogFrameRowSelectComponent),
-            multi: true
-        }],
+        provide: NG_VALUE_ACCESSOR,
+        useExisting: forwardRef(() => LogFrameRowSelectComponent),
+        multi: true
+    }],
     host: { 'class': 'app-select' },
     standalone: false
 })

@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
-import { AppDate, DateSearchOptions, DateSearchResponse } from '../models/date.model';
+import { Date, DateSearchOptions, DateSearchResponse } from '../models/date.model';
 import { SearchQuery, PagingHeaders } from '../models/http.model';
 
 @Injectable({ providedIn: 'root' })
@@ -19,18 +19,18 @@ export class DateService extends SearchQuery {
             .pipe(
                 map(response => {
                     const headers = JSON.parse(response.headers.get("x-pagination")) as PagingHeaders;
-                    const dates = response.body as AppDate[];
+                    const dates = response.body as Date[];
                     return { dates: dates, headers: headers };
                 })
             );
     }
 
-    get(dateId: string): Observable<AppDate> {
-        return this.http.get<AppDate>(`${environment.baseApiUrl}dates/${dateId}`);
+    get(dateId: string): Observable<Date> {
+        return this.http.get<Date>(`${environment.baseApiUrl}dates/${dateId}`);
     }
 
-    save(date: AppDate): Observable<AppDate> {
-        return this.http.post<AppDate>(`${environment.baseApiUrl}dates/${date.dateId}`, date);
+    save(date: Date): Observable<Date> {
+        return this.http.post<Date>(`${environment.baseApiUrl}dates/${date.dateId}`, date);
     }
 
     delete(dateId: string): Observable<void> {

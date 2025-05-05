@@ -9,10 +9,10 @@ import { Project } from '../../common/models/project.model';
     selector: 'milestone-select',
     templateUrl: './milestone.select.component.html',
     providers: [{
-            provide: NG_VALUE_ACCESSOR,
-            useExisting: forwardRef(() => MilestoneSelectComponent),
-            multi: true
-        }],
+        provide: NG_VALUE_ACCESSOR,
+        useExisting: forwardRef(() => MilestoneSelectComponent),
+        multi: true
+    }],
     host: { 'class': 'app-select' },
     standalone: false
 })

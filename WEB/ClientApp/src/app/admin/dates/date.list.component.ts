@@ -4,7 +4,7 @@ import { Subject, Subscription } from 'rxjs';
 import { ToastrService } from 'ngx-toastr';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { PagingHeaders } from '../../common/models/http.model';
-import { DateSearchOptions, DateSearchResponse, AppDate as Date } from '../../common/models/date.model';
+import { DateSearchOptions, DateSearchResponse, Date } from '../../common/models/date.model';
 import { Enum, Enums } from '../../common/models/enums.model';
 import { FadeThenShrink } from '../../common/animations/fadethenshrink';
 import { ErrorService } from '../../common/services/error.service';

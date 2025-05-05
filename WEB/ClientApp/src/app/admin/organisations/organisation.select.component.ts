@@ -8,10 +8,10 @@ import { Enum } from '../../common/models/enums.model';
     selector: 'organisation-select',
     templateUrl: './organisation.select.component.html',
     providers: [{
-            provide: NG_VALUE_ACCESSOR,
-            useExisting: forwardRef(() => OrganisationSelectComponent),
-            multi: true
-        }],
+        provide: NG_VALUE_ACCESSOR,
+        useExisting: forwardRef(() => OrganisationSelectComponent),
+        multi: true
+    }],
     host: { 'class': 'app-select' },
     standalone: false
 })

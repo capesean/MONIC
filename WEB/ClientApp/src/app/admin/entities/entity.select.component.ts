@@ -10,10 +10,10 @@ import { Organisation } from '../../common/models/organisation.model';
     selector: 'entity-select',
     templateUrl: './entity.select.component.html',
     providers: [{
-            provide: NG_VALUE_ACCESSOR,
-            useExisting: forwardRef(() => EntitySelectComponent),
-            multi: true
-        }],
+        provide: NG_VALUE_ACCESSOR,
+        useExisting: forwardRef(() => EntitySelectComponent),
+        multi: true
+    }],
     host: { 'class': 'app-select' },
     standalone: false
 })

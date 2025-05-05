@@ -97,7 +97,6 @@ import { TokenListComponent } from './admin/tokens/token.list.component';
 import { TokenEditComponent } from './admin/tokens/token.edit.component';
 import { UserListComponent } from './admin/users/user.list.component';
 import { UserEditComponent } from './admin/users/user.edit.component';
-//import { QuillModule } from 'ngx-quill';
 import { NgxEchartsModule } from 'ngx-echarts';
 
 @NgModule({
@@ -200,11 +199,7 @@ import { NgxEchartsModule } from 'ngx-echarts';
         RouterModule.forChild(GeneratedRoutes),
         NgbModule,
         DragDropModule,
-        SharedModule,
-        NgxEchartsModule.forRoot({
-            echarts: () => import('echarts')
-        }),
-        //QuillModule
+        SharedModule
     ]
 })
 export class GeneratedModule { }
