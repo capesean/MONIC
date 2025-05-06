@@ -538,7 +538,7 @@
 
                                     <div class="col-xl-6" *ngIf="analysisResults.chartOptions">
 
-                                        <div echarts class="h-500px mb-4"></div>
+                                        <div echarts [options]="analysisResults.chartOptions" class="h-500px mb-4"></div>
 
                                     </div>
 

@@ -18,6 +18,7 @@ import { CurrencyPipe, DecimalPipe, PercentPipe } from '@angular/common';
 import { NgHttpLoaderComponent, pendingRequestsInterceptor$ } from 'ng-http-loader';
 import { QuillModule } from 'ngx-quill';
 import { QuillConfigModule } from 'ngx-quill/config';
+import { NgxEchartsModule } from 'ngx-echarts';
 
 @NgModule({
     declarations: [
@@ -35,6 +36,9 @@ import { QuillConfigModule } from 'ngx-quill/config';
             extendedTimeOut: 5000,
             progressBar: true,
             preventDuplicates: true
+        }),
+        NgxEchartsModule.forRoot({
+            echarts: () => import('echarts')
         }),
         QuillModule.forRoot(),
         QuillConfigModule.forRoot({

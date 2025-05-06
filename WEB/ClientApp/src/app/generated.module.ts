@@ -199,7 +199,8 @@ import { NgxEchartsModule } from 'ngx-echarts';
         RouterModule.forChild(GeneratedRoutes),
         NgbModule,
         DragDropModule,
-        SharedModule
+        SharedModule,
+        NgxEchartsModule,
     ]
 })
 export class GeneratedModule { }

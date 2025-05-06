@@ -33,7 +33,7 @@ import { QuestionnairesComponent } from './questionnaire/questionnaires.componen
 import { DatumStatusModalComponent } from './forms/datumstatus.modal.component';
 import { AddIndicatorsPermissionModal } from './admin/users/addindicatorpermissions.modal';
 import { DataReviewModalComponent } from './forms/datareview.modal';
-import { NgxEchartsModule } from 'ngx-echarts';
+//import { NgxEchartsModule } from 'ngx-echarts';
 import { IndicatorLineChartComponent } from './common/widgets/indicator.linechart.component';
 import { IndicatorBarChartComponent } from './common/widgets/indicator.barchart.component';
 import { IndicatorMapComponent } from './common/widgets/indicator.map.component';
@@ -52,6 +52,7 @@ import { FolderComponent } from './folder/folder.component';
 import { FolderViewComponent } from './common/components/folderview.component';
 import { FolderShortcutComponent } from './common/widgets/folder.shortcut.component';
 import { FolderShortcutSettingsComponent } from './common/widgets/folder.shortcut.settings.component';
+import { NgxEchartsModule } from 'ngx-echarts';
 
 @NgModule({
     imports: [
@@ -64,9 +65,7 @@ import { FolderShortcutSettingsComponent } from './common/widgets/folder.shortcu
         StrongPasswordModule,
         //NgxGraphModule,
         //NgxChartsModule,
-        NgxEchartsModule.forRoot({
-            echarts: () => import('echarts')
-        }),
+        NgxEchartsModule,
         GoogleMapsModule
     ],
     declarations: [

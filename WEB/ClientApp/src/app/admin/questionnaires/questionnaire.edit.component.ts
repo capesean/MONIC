@@ -36,10 +36,11 @@ import { QuestionSummaryService } from '../../common/services/questionsummary.se
 import { QuestionSummary } from '../../common/models/questionsummary.model';
 import { OptionValueSearchOptions, OptionValueSearchResponse } from '../../common/models/optionvalue.model';
 import { OptionValueService } from '../../common/services/optionvalue.service';
+import { EChartsCoreOption } from 'echarts/core';
 
 class AnalysisResults {
     questionSummary: QuestionSummary;
-    chartOptions: EChartsOption;
+    chartOptions: EChartsCoreOption;
     showAnswers = false;
     answers: AnalysisAnswer[] = [];
     editing = false;
