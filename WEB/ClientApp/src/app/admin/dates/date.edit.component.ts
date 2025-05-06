@@ -7,13 +7,12 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ConfirmModalComponent, ConfirmModalOptions } from '../../common/components/confirm.component';
 import { PagingHeaders } from '../../common/models/http.model';
-import { AppDate as Date } from '../../common/models/date.model';
 import { Enum, Enums, DateTypes } from '../../common/models/enums.model';
 import { FadeThenShrink } from '../../common/animations/fadethenshrink';
 import { BreadcrumbService } from '../../common/services/breadcrumb.service';
 import { ErrorService } from '../../common/services/error.service';
 import { DateService } from '../../common/services/date.service';
-import { DateSearchOptions, DateSearchResponse } from '../../common/models/date.model';
+import { DateSearchOptions, DateSearchResponse, AppDate } from '../../common/models/date.model';
 import { Response, ResponseSearchOptions, ResponseSearchResponse } from '../../common/models/response.model';
 import { ResponseService } from '../../common/services/response.service';
 
@@ -25,7 +24,7 @@ import { ResponseService } from '../../common/services/response.service';
 })
 export class DateEditComponent implements OnInit {
 
-    public date: Date = new Date();
+    public date: AppDate = new AppDate();
     public isNew = true;
     public dateTypes: Enum[] = Enums.DateTypes;
     public dateTypeYear = Enums.DateTypes[DateTypes.Year];
@@ -33,12 +32,12 @@ export class DateEditComponent implements OnInit {
 
     public datesInQuarterSearchOptions = new DateSearchOptions();
     public datesInQuarterHeaders = new PagingHeaders();
-    public datesInQuarter: Date[] = [];
+    public datesInQuarter: AppDate[] = [];
     public showDatesInQuarterSearch = false;
 
     public datesInYearSearchOptions = new DateSearchOptions();
     public datesInYearHeaders = new PagingHeaders();
-    public datesInYear: Date[] = [];
+    public datesInYear: AppDate[] = [];
     public showDatesInYearSearch = false;
 
     public responsesSearchOptions = new ResponseSearchOptions();
@@ -174,11 +173,11 @@ export class DateEditComponent implements OnInit {
 
     }
 
-    goToDateInQuarter(date: Date): void {
+    goToDateInQuarter(date: AppDate): void {
         this.router.navigate([date.dateId], { relativeTo: this.route });
     }
 
-    deleteDateInQuarter(date: Date, event: MouseEvent): void {
+    deleteDateInQuarter(date: AppDate, event: MouseEvent): void {
         event.stopPropagation();
 
         let modalRef = this.modalService.open(ConfirmModalComponent, { centered: true });
@@ -242,11 +241,11 @@ export class DateEditComponent implements OnInit {
 
     }
 
-    goToDateInYear(date: Date): void {
+    goToDateInYear(date: AppDate): void {
         this.router.navigate([date.dateId], { relativeTo: this.route });
     }
 
-    deleteDateInYear(date: Date, event: MouseEvent): void {
+    deleteDateInYear(date: AppDate, event: MouseEvent): void {
         event.stopPropagation();
 
         let modalRef = this.modalService.open(ConfirmModalComponent, { centered: true });

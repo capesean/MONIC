@@ -12,8 +12,8 @@ export class AppDate {
     dateType: DateTypes;
     quarterId: string;
     yearId: string;
-    openFrom: Date;
-    openTo: Date;
+    openFrom: AppDate;
+    openTo: AppDate;
     sortOrder: number;
     quarter: AppDate;
     year: AppDate;

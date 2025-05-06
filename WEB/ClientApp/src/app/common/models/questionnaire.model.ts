@@ -1,5 +1,5 @@
 import { SearchOptions, PagingHeaders } from './http.model';
-import { Date } from './date.model';
+import { AppDate } from './date.model';
 import { EntityType } from './entitytype.model';
 import { DateTypes } from './enums.model';
 import { Response } from './response.model';
@@ -21,7 +21,7 @@ export class Questionnaire {
     useSubmit: boolean;
     submitOnCompletion: boolean;
     disableEntry: boolean;
-    date: Date;
+    date: AppDate;
     entityType: EntityType;
 
     responses: Response[];

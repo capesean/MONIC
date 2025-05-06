@@ -7,7 +7,7 @@ import { PagingHeaders } from '../../common/models/http.model';
 import { ErrorService } from '../../common/services/error.service';
 import { Questionnaire } from '../../common/models/questionnaire.model';
 import { Entity } from '../../common/models/entity.model';
-import { Date } from '../../common/models/date.model';
+import { AppDate } from '../../common/models/date.model';
 
 @NgComponent({
     selector: 'response-modal',
@@ -35,7 +35,7 @@ export class ResponseModalComponent implements OnInit {
     @Input() title = this.multiple ? "Select responses" : "Select a response";
     @Input() questionnaire: Questionnaire;
     @Input() entity: Entity;
-    @Input() date: Date;
+    @Input() date: AppDate;
 
     constructor(
         private modalService: NgbModal,

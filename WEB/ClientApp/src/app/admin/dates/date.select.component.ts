@@ -1,7 +1,7 @@
 import { Component as NgComponent, OnInit, forwardRef, ViewChild, Input, EventEmitter, Output } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { DateModalComponent } from './date.modal.component';
-import { Date } from '../../common/models/date.model';
+import { AppDate } from '../../common/models/date.model';
 import { Enum } from '../../common/models/enums.model';
 
 @NgComponent({
@@ -17,16 +17,16 @@ import { Enum } from '../../common/models/enums.model';
 })
 export class DateSelectComponent implements OnInit, ControlValueAccessor {
 
-    @Input() date: Date;
-    @Input() dates: Date[] = [];
-    @Output() dateChange = new EventEmitter<Date>();
-    @Output() datesChange = new EventEmitter<Date[]>();
+    @Input() date: AppDate;
+    @Input() dates: AppDate[] = [];
+    @Output() dateChange = new EventEmitter<AppDate>();
+    @Output() datesChange = new EventEmitter<AppDate[]>();
     @Input() canRemoveFilters = false;
     @Input() multiple = false;
     @Input() showAddNew = false;
     @Input() dateType: Enum;
-    @Input() quarter: Date;
-    @Input() year: Date;
+    @Input() quarter: AppDate;
+    @Input() year: AppDate;
     @Input() isOpen: boolean;
     @Input() hasOpened: boolean;
 
@@ -61,16 +61,16 @@ export class DateSelectComponent implements OnInit, ControlValueAccessor {
         this.disabled = isDisabled;
     }
 
-    changed(date: Date | Date[]) {
+    changed(date: AppDate | AppDate[]) {
         if (this.disabled) return;
         if (this.multiple) {
-            this.writeValue(date ? (date as Date[]).map(o => o.dateId) : null);
-            this.dates = (date as Date[]);
-            this.datesChange.emit((date as Date[]));
+            this.writeValue(date ? (date as AppDate[]).map(o => o.dateId) : null);
+            this.dates = (date as AppDate[]);
+            this.datesChange.emit((date as AppDate[]));
         } else {
-            this.writeValue(date ? (date as Date).dateId : null);
-            this.date = (date as Date);
-            this.dateChange.emit((date as Date));
+            this.writeValue(date ? (date as AppDate).dateId : null);
+            this.date = (date as AppDate);
+            this.dateChange.emit((date as AppDate));
         }
     }
 
