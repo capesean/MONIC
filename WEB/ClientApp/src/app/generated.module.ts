@@ -200,7 +200,7 @@ import { NgxEchartsModule } from 'ngx-echarts';
         NgbModule,
         DragDropModule,
         SharedModule,
-        NgxEchartsModule,
+        NgxEchartsModule
     ]
 })
 export class GeneratedModule { }
