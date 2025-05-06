@@ -1,6 +1,6 @@
 import { SearchOptions, PagingHeaders } from './http.model';
 import { DataReview } from './datareview.model';
-import { AppDate as LocalDate } from './date.model';
+import { AppDate } from './date.model';
 import { Entity } from './entity.model';
 import { Indicator } from './indicator.model';
 import { DateTypes } from './enums.model';import { DataReviewLink } from './datareviewlink.model';
@@ -23,7 +23,7 @@ export class Datum {
     rejectReview: DataReview;
     submitReview: DataReview;
     verifyReview: DataReview;
-    date: LocalDate;
+    date: AppDate;
     entity: Entity;
     indicator: Indicator;
 

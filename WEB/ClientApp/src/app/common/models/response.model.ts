@@ -1,5 +1,5 @@
 import { SearchOptions, PagingHeaders } from './http.model';
-import { AppDate as MonicDate } from './date.model';
+import { AppDate } from './date.model';
 import { Entity } from './entity.model';
 import { Questionnaire } from './questionnaire.model';
 import { User } from './user.model';
@@ -21,7 +21,7 @@ export class Response {
     submittedOnUtc: Date;
     submittedById: string;
     submitted: boolean;
-    date: MonicDate;
+    date: AppDate;
     entity: Entity;
     questionnaire: Questionnaire;
     submittedBy: User;

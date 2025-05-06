@@ -1,7 +1,7 @@
 import { Component as NgComponent, OnInit } from '@angular/core';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { CdkDragDrop, CdkDragStart, moveItemInArray } from '@angular/cdk/drag-drop';
-import { DateSearchOptions, DateSearchResponse, AppDate as Date } from '../../common/models/date.model';
+import { DateSearchOptions, DateSearchResponse, AppDate } from '../../common/models/date.model';
 import { DateService } from '../../common/services/date.service';
 import { PagingHeaders } from '../../common/models/http.model';
 import { ErrorService } from '../../common/services/error.service';
@@ -17,7 +17,7 @@ export class DateSortComponent implements OnInit {
 
     public headers: PagingHeaders = new PagingHeaders();
     private bodyElement: HTMLElement = document.body;
-    public dates: Date[];
+    public dates: AppDate[];
     public dateTypes: Enum[] = Enums.DateTypes;
 
     constructor(
