@@ -14,7 +14,6 @@ import { ErrorService } from '../../common/services/error.service';
 export class ProjectModalComponent implements OnInit {
 
     public modal: NgbModalRef;
-    public selectedItems: Project[] = [];
     public headers: PagingHeaders = new PagingHeaders();
     public searchOptions: ProjectSearchOptions = new ProjectSearchOptions();
     public projects: Project[];
@@ -23,6 +22,7 @@ export class ProjectModalComponent implements OnInit {
     @ViewChild('content') content: TemplateRef<unknown>;
     @Output() change: EventEmitter<Project> = new EventEmitter<Project>();
     @Output() changes: EventEmitter<Project[]> = new EventEmitter<Project[]>();
+    @Input() selectedItems: Project[] = [];
     @Input() canRemoveFilters = false;
     @Input() multiple = false;
     @Input() showAddNew = false;

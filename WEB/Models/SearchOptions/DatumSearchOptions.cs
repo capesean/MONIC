@@ -22,7 +22,5 @@ namespace WEB.Models
 
         public DateType? DateType { get; set; }
 
-        public Guid[] EntityIds { get; set; }
-
     }
 }

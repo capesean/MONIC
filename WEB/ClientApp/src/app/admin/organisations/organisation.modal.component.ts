@@ -14,7 +14,6 @@ import { ErrorService } from '../../common/services/error.service';
 export class OrganisationModalComponent implements OnInit {
 
     public modal: NgbModalRef;
-    public selectedItems: Organisation[] = [];
     public headers: PagingHeaders = new PagingHeaders();
     public searchOptions: OrganisationSearchOptions = new OrganisationSearchOptions();
     public organisations: Organisation[];
@@ -23,6 +22,7 @@ export class OrganisationModalComponent implements OnInit {
     @ViewChild('content') content: TemplateRef<unknown>;
     @Output() change: EventEmitter<Organisation> = new EventEmitter<Organisation>();
     @Output() changes: EventEmitter<Organisation[]> = new EventEmitter<Organisation[]>();
+    @Input() selectedItems: Organisation[] = [];
     @Input() canRemoveFilters = false;
     @Input() multiple = false;
     @Input() showAddNew = false;

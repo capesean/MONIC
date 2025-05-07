@@ -15,7 +15,6 @@ import { Milestone } from '../../common/models/milestone.model';
 export class TaskModalComponent implements OnInit {
 
     public modal: NgbModalRef;
-    public selectedItems: Task[] = [];
     public headers: PagingHeaders = new PagingHeaders();
     public searchOptions: TaskSearchOptions = new TaskSearchOptions();
     public tasks: Task[];
@@ -24,6 +23,7 @@ export class TaskModalComponent implements OnInit {
     @ViewChild('content') content: TemplateRef<unknown>;
     @Output() change: EventEmitter<Task> = new EventEmitter<Task>();
     @Output() changes: EventEmitter<Task[]> = new EventEmitter<Task[]>();
+    @Input() selectedItems: Task[] = [];
     @Input() canRemoveFilters = false;
     @Input() multiple = false;
     @Input() showAddNew = false;

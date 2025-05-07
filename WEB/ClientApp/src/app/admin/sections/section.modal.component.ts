@@ -15,7 +15,6 @@ import { Questionnaire } from '../../common/models/questionnaire.model';
 export class SectionModalComponent implements OnInit {
 
     public modal: NgbModalRef;
-    public selectedItems: Section[] = [];
     public headers: PagingHeaders = new PagingHeaders();
     public searchOptions: SectionSearchOptions = new SectionSearchOptions();
     public sections: Section[];
@@ -24,6 +23,7 @@ export class SectionModalComponent implements OnInit {
     @ViewChild('content') content: TemplateRef<unknown>;
     @Output() change: EventEmitter<Section> = new EventEmitter<Section>();
     @Output() changes: EventEmitter<Section[]> = new EventEmitter<Section[]>();
+    @Input() selectedItems: Section[] = [];
     @Input() canRemoveFilters = false;
     @Input() multiple = false;
     @Input() showAddNew = false;

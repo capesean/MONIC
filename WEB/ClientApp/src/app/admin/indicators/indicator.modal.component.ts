@@ -19,7 +19,6 @@ import { Category } from '../../common/models/category.model';
 export class IndicatorModalComponent implements OnInit {
 
     public modal: NgbModalRef;
-    public selectedItems: Indicator[] = [];
     public headers: PagingHeaders = new PagingHeaders();
     public searchOptions: IndicatorSearchOptions = new IndicatorSearchOptions();
     public indicators: Indicator[];
@@ -31,6 +30,7 @@ export class IndicatorModalComponent implements OnInit {
     @ViewChild('content') content: TemplateRef<unknown>;
     @Output() change: EventEmitter<Indicator> = new EventEmitter<Indicator>();
     @Output() changes: EventEmitter<Indicator[]> = new EventEmitter<Indicator[]>();
+    @Input() selectedItems: Indicator[] = [];
     @Input() canRemoveFilters = false;
     @Input() multiple = false;
     @Input() showAddNew = false;

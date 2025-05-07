@@ -15,7 +15,6 @@ import { Enum, Enums } from '../../common/models/enums.model';
 export class DateModalComponent implements OnInit {
 
     public modal: NgbModalRef;
-    public selectedItems: AppDate[] = [];
     public headers: PagingHeaders = new PagingHeaders();
     public searchOptions: DateSearchOptions = new DateSearchOptions();
     public dates: AppDate[];
@@ -25,6 +24,7 @@ export class DateModalComponent implements OnInit {
     @ViewChild('content') content: TemplateRef<unknown>;
     @Output() change: EventEmitter<AppDate> = new EventEmitter<AppDate>();
     @Output() changes: EventEmitter<AppDate[]> = new EventEmitter<AppDate[]>();
+    @Input() selectedItems: AppDate[] = [];
     @Input() canRemoveFilters = false;
     @Input() multiple = false;
     @Input() showAddNew = false;

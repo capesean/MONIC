@@ -14,7 +14,6 @@ import { ErrorService } from '../../common/services/error.service';
 export class EntityTypeModalComponent implements OnInit {
 
     public modal: NgbModalRef;
-    public selectedItems: EntityType[] = [];
     public headers: PagingHeaders = new PagingHeaders();
     public searchOptions: EntityTypeSearchOptions = new EntityTypeSearchOptions();
     public entityTypes: EntityType[];
@@ -23,6 +22,7 @@ export class EntityTypeModalComponent implements OnInit {
     @ViewChild('content') content: TemplateRef<unknown>;
     @Output() change: EventEmitter<EntityType> = new EventEmitter<EntityType>();
     @Output() changes: EventEmitter<EntityType[]> = new EventEmitter<EntityType[]>();
+    @Input() selectedItems: EntityType[] = [];
     @Input() canRemoveFilters = false;
     @Input() multiple = false;
     @Input() showAddNew = false;

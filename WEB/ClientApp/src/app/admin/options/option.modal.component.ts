@@ -15,7 +15,6 @@ import { Field } from '../../common/models/field.model';
 export class OptionModalComponent implements OnInit {
 
     public modal: NgbModalRef;
-    public selectedItems: Option[] = [];
     public headers: PagingHeaders = new PagingHeaders();
     public searchOptions: OptionSearchOptions = new OptionSearchOptions();
     public options: Option[];
@@ -24,6 +23,7 @@ export class OptionModalComponent implements OnInit {
     @ViewChild('content') content: TemplateRef<unknown>;
     @Output() change: EventEmitter<Option> = new EventEmitter<Option>();
     @Output() changes: EventEmitter<Option[]> = new EventEmitter<Option[]>();
+    @Input() selectedItems: Option[] = [];
     @Input() canRemoveFilters = false;
     @Input() multiple = false;
     @Input() showAddNew = false;

@@ -17,7 +17,6 @@ import { AppDate } from '../../common/models/date.model';
 export class ResponseModalComponent implements OnInit {
 
     public modal: NgbModalRef;
-    public selectedItems: Response[] = [];
     public headers: PagingHeaders = new PagingHeaders();
     public searchOptions: ResponseSearchOptions = new ResponseSearchOptions();
     public responses: Response[];
@@ -26,6 +25,7 @@ export class ResponseModalComponent implements OnInit {
     @ViewChild('content') content: TemplateRef<unknown>;
     @Output() change: EventEmitter<Response> = new EventEmitter<Response>();
     @Output() changes: EventEmitter<Response[]> = new EventEmitter<Response[]>();
+    @Input() selectedItems: Response[] = [];
     @Input() canRemoveFilters = false;
     @Input() multiple = false;
     @Input() showAddNew = false;

@@ -14,7 +14,6 @@ import { ErrorService } from '../../common/services/error.service';
 export class CategoryModalComponent implements OnInit {
 
     public modal: NgbModalRef;
-    public selectedItems: Category[] = [];
     public headers: PagingHeaders = new PagingHeaders();
     public searchOptions: CategorySearchOptions = new CategorySearchOptions();
     public categories: Category[];
@@ -23,6 +22,7 @@ export class CategoryModalComponent implements OnInit {
     @ViewChild('content') content: TemplateRef<unknown>;
     @Output() change: EventEmitter<Category> = new EventEmitter<Category>();
     @Output() changes: EventEmitter<Category[]> = new EventEmitter<Category[]>();
+    @Input() selectedItems: Category[] = [];
     @Input() canRemoveFilters = false;
     @Input() multiple = false;
     @Input() showAddNew = false;

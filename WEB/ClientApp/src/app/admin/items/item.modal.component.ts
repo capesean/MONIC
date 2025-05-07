@@ -15,7 +15,6 @@ import { Enum, Enums } from '../../common/models/enums.model';
 export class ItemModalComponent implements OnInit {
 
     public modal: NgbModalRef;
-    public selectedItems: Item[] = [];
     public headers: PagingHeaders = new PagingHeaders();
     public searchOptions: ItemSearchOptions = new ItemSearchOptions();
     public items: Item[];
@@ -25,6 +24,7 @@ export class ItemModalComponent implements OnInit {
     @ViewChild('content') content: TemplateRef<unknown>;
     @Output() change: EventEmitter<Item> = new EventEmitter<Item>();
     @Output() changes: EventEmitter<Item[]> = new EventEmitter<Item[]>();
+    @Input() selectedItems: Item[] = [];
     @Input() canRemoveFilters = false;
     @Input() multiple = false;
     @Input() showAddNew = false;

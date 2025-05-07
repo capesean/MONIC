@@ -15,7 +15,6 @@ import { Item } from '../../common/models/item.model';
 export class DocumentModalComponent implements OnInit {
 
     public modal: NgbModalRef;
-    public selectedItems: Document[] = [];
     public headers: PagingHeaders = new PagingHeaders();
     public searchOptions: DocumentSearchOptions = new DocumentSearchOptions();
     public documents: Document[];
@@ -24,6 +23,7 @@ export class DocumentModalComponent implements OnInit {
     @ViewChild('content') content: TemplateRef<unknown>;
     @Output() change: EventEmitter<Document> = new EventEmitter<Document>();
     @Output() changes: EventEmitter<Document[]> = new EventEmitter<Document[]>();
+    @Input() selectedItems: Document[] = [];
     @Input() canRemoveFilters = false;
     @Input() multiple = false;
     @Input() showAddNew = false;

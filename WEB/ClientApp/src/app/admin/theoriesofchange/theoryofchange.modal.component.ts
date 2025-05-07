@@ -14,7 +14,6 @@ import { ErrorService } from '../../common/services/error.service';
 export class TheoryOfChangeModalComponent implements OnInit {
 
     public modal: NgbModalRef;
-    public selectedItems: TheoryOfChange[] = [];
     public headers: PagingHeaders = new PagingHeaders();
     public searchOptions: TheoryOfChangeSearchOptions = new TheoryOfChangeSearchOptions();
     public theoriesOfChange: TheoryOfChange[];
@@ -23,6 +22,7 @@ export class TheoryOfChangeModalComponent implements OnInit {
     @ViewChild('content') content: TemplateRef<unknown>;
     @Output() change: EventEmitter<TheoryOfChange> = new EventEmitter<TheoryOfChange>();
     @Output() changes: EventEmitter<TheoryOfChange[]> = new EventEmitter<TheoryOfChange[]>();
+    @Input() selectedItems: TheoryOfChange[] = [];
     @Input() canRemoveFilters = false;
     @Input() multiple = false;
     @Input() showAddNew = false;

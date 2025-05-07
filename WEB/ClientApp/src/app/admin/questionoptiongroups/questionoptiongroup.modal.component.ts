@@ -14,7 +14,6 @@ import { ErrorService } from '../../common/services/error.service';
 export class QuestionOptionGroupModalComponent implements OnInit {
 
     public modal: NgbModalRef;
-    public selectedItems: QuestionOptionGroup[] = [];
     public headers: PagingHeaders = new PagingHeaders();
     public searchOptions: QuestionOptionGroupSearchOptions = new QuestionOptionGroupSearchOptions();
     public questionOptionGroups: QuestionOptionGroup[];
@@ -23,6 +22,7 @@ export class QuestionOptionGroupModalComponent implements OnInit {
     @ViewChild('content') content: TemplateRef<unknown>;
     @Output() change: EventEmitter<QuestionOptionGroup> = new EventEmitter<QuestionOptionGroup>();
     @Output() changes: EventEmitter<QuestionOptionGroup[]> = new EventEmitter<QuestionOptionGroup[]>();
+    @Input() selectedItems: QuestionOptionGroup[] = [];
     @Input() canRemoveFilters = false;
     @Input() multiple = false;
     @Input() showAddNew = false;

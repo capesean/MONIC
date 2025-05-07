@@ -16,7 +16,6 @@ import { EntityType } from '../../common/models/entitytype.model';
 export class QuestionnaireModalComponent implements OnInit {
 
     public modal: NgbModalRef;
-    public selectedItems: Questionnaire[] = [];
     public headers: PagingHeaders = new PagingHeaders();
     public searchOptions: QuestionnaireSearchOptions = new QuestionnaireSearchOptions();
     public questionnaires: Questionnaire[];
@@ -26,6 +25,7 @@ export class QuestionnaireModalComponent implements OnInit {
     @ViewChild('content') content: TemplateRef<unknown>;
     @Output() change: EventEmitter<Questionnaire> = new EventEmitter<Questionnaire>();
     @Output() changes: EventEmitter<Questionnaire[]> = new EventEmitter<Questionnaire[]>();
+    @Input() selectedItems: Questionnaire[] = [];
     @Input() canRemoveFilters = false;
     @Input() multiple = false;
     @Input() showAddNew = false;

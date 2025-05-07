@@ -16,7 +16,6 @@ import { User } from '../../common/models/user.model';
 export class DataReviewModalComponent implements OnInit {
 
     public modal: NgbModalRef;
-    public selectedItems: DataReview[] = [];
     public headers: PagingHeaders = new PagingHeaders();
     public searchOptions: DataReviewSearchOptions = new DataReviewSearchOptions();
     public dataReviews: DataReview[];
@@ -27,6 +26,7 @@ export class DataReviewModalComponent implements OnInit {
     @ViewChild('content') content: TemplateRef<unknown>;
     @Output() change: EventEmitter<DataReview> = new EventEmitter<DataReview>();
     @Output() changes: EventEmitter<DataReview[]> = new EventEmitter<DataReview[]>();
+    @Input() selectedItems: DataReview[] = [];
     @Input() canRemoveFilters = false;
     @Input() multiple = false;
     @Input() showAddNew = false;

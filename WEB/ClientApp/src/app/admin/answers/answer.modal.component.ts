@@ -16,7 +16,6 @@ import { Question } from '../../common/models/question.model';
 export class AnswerModalComponent implements OnInit {
 
     public modal: NgbModalRef;
-    public selectedItems: Answer[] = [];
     public headers: PagingHeaders = new PagingHeaders();
     public searchOptions: AnswerSearchOptions = new AnswerSearchOptions();
     public answers: Answer[];
@@ -25,6 +24,7 @@ export class AnswerModalComponent implements OnInit {
     @ViewChild('content') content: TemplateRef<unknown>;
     @Output() change: EventEmitter<Answer> = new EventEmitter<Answer>();
     @Output() changes: EventEmitter<Answer[]> = new EventEmitter<Answer[]>();
+    @Input() selectedItems: Answer[] = [];
     @Input() canRemoveFilters = false;
     @Input() multiple = false;
     @Input() showAddNew = false;

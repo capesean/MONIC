@@ -15,7 +15,6 @@ import { Project } from '../../common/models/project.model';
 export class MilestoneModalComponent implements OnInit {
 
     public modal: NgbModalRef;
-    public selectedItems: Milestone[] = [];
     public headers: PagingHeaders = new PagingHeaders();
     public searchOptions: MilestoneSearchOptions = new MilestoneSearchOptions();
     public milestones: Milestone[];
@@ -24,6 +23,7 @@ export class MilestoneModalComponent implements OnInit {
     @ViewChild('content') content: TemplateRef<unknown>;
     @Output() change: EventEmitter<Milestone> = new EventEmitter<Milestone>();
     @Output() changes: EventEmitter<Milestone[]> = new EventEmitter<Milestone[]>();
+    @Input() selectedItems: Milestone[] = [];
     @Input() canRemoveFilters = false;
     @Input() multiple = false;
     @Input() showAddNew = false;

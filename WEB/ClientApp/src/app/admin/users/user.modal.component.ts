@@ -17,7 +17,6 @@ import { Organisation } from '../../common/models/organisation.model';
 export class UserModalComponent implements OnInit {
 
     public modal: NgbModalRef;
-    public selectedItems: User[] = [];
     public headers: PagingHeaders = new PagingHeaders();
     public searchOptions: UserSearchOptions = new UserSearchOptions();
     public users: User[];
@@ -26,6 +25,7 @@ export class UserModalComponent implements OnInit {
     @ViewChild('content') content: TemplateRef<unknown>;
     @Output() change: EventEmitter<User> = new EventEmitter<User>();
     @Output() changes: EventEmitter<User[]> = new EventEmitter<User[]>();
+    @Input() selectedItems: User[] = [];
     @Input() canRemoveFilters = false;
     @Input() multiple = false;
     @Input() showAddNew = false;

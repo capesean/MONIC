@@ -16,7 +16,6 @@ import { User } from '../../common/models/user.model';
 export class FolderContentModalComponent implements OnInit {
 
     public modal: NgbModalRef;
-    public selectedItems: FolderContent[] = [];
     public headers: PagingHeaders = new PagingHeaders();
     public searchOptions: FolderContentSearchOptions = new FolderContentSearchOptions();
     public folderContents: FolderContent[];
@@ -25,6 +24,7 @@ export class FolderContentModalComponent implements OnInit {
     @ViewChild('content') content: TemplateRef<unknown>;
     @Output() change: EventEmitter<FolderContent> = new EventEmitter<FolderContent>();
     @Output() changes: EventEmitter<FolderContent[]> = new EventEmitter<FolderContent[]>();
+    @Input() selectedItems: FolderContent[] = [];
     @Input() canRemoveFilters = false;
     @Input() multiple = false;
     @Input() showAddNew = false;

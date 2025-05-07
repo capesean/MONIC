@@ -16,7 +16,6 @@ import { Group } from '../../common/models/group.model';
 export class FieldModalComponent implements OnInit {
 
     public modal: NgbModalRef;
-    public selectedItems: Field[] = [];
     public headers: PagingHeaders = new PagingHeaders();
     public searchOptions: FieldSearchOptions = new FieldSearchOptions();
     public fields: Field[];
@@ -27,6 +26,7 @@ export class FieldModalComponent implements OnInit {
     @ViewChild('content') content: TemplateRef<unknown>;
     @Output() change: EventEmitter<Field> = new EventEmitter<Field>();
     @Output() changes: EventEmitter<Field[]> = new EventEmitter<Field[]>();
+    @Input() selectedItems: Field[] = [];
     @Input() canRemoveFilters = false;
     @Input() multiple = false;
     @Input() showAddNew = false;
