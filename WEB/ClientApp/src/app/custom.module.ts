@@ -6,8 +6,7 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { DragDropModule } from '@angular/cdk/drag-drop';
 import { SharedModule } from './shared.module';
 import { StrongPasswordModule } from './common/zxcvbn/strong-password.module';
-//import { NgxGraphModule } from '@swimlane/ngx-graph';
-//import { NgxChartsModule } from '@swimlane/ngx-charts';
+import { NgxGraphModule } from '@swimlane/ngx-graph';
 import { HomeComponent } from './home/home.component';
 import { AccountComponent } from './account/account.component';
 import { ErrorsComponent } from './error/errors.component';
@@ -17,8 +16,7 @@ import { DataEntryComponent } from './forms/dataentry.component';
 import { TheoriesOfChangeComponent } from './theoryofchange/theoriesofchange';
 import { TheoryOfChangeComponentModal } from './theoryofchange/theoryofchangecomponent.modal';
 import { TheoryOfChangeRelationshipModal } from './theoryofchange/theoryofchangerelationship.modal';
-// removed because ngx-graph is not supported
-//import { TheoryOfChangeComponent } from './theoryofchange/theoryofchange';
+import { TheoryOfChangeComponent } from './theoryofchange/theoryofchange';
 import { LogFramesComponent } from './logframe/logframes.component';
 import { LogFrameComponent } from './logframe/logframe.component';
 import { LogFrameRowViewComponent } from './logframe/logframe.row.component';
@@ -33,7 +31,6 @@ import { QuestionnairesComponent } from './questionnaire/questionnaires.componen
 import { DatumStatusModalComponent } from './forms/datumstatus.modal.component';
 import { AddIndicatorsPermissionModal } from './admin/users/addindicatorpermissions.modal';
 import { DataReviewModalComponent } from './forms/datareview.modal';
-//import { NgxEchartsModule } from 'ngx-echarts';
 import { IndicatorLineChartComponent } from './common/widgets/indicator.linechart.component';
 import { IndicatorBarChartComponent } from './common/widgets/indicator.barchart.component';
 import { IndicatorMapComponent } from './common/widgets/indicator.map.component';
@@ -63,8 +60,7 @@ import { NgxEchartsModule } from 'ngx-echarts';
         DragDropModule,
         SharedModule,
         StrongPasswordModule,
-        //NgxGraphModule,
-        //NgxChartsModule,
+        NgxGraphModule,
         NgxEchartsModule,
         GoogleMapsModule
     ],
@@ -76,7 +72,7 @@ import { NgxEchartsModule } from 'ngx-echarts';
         SetupComponent,
         DataEntryComponent,
         TheoriesOfChangeComponent,
-        //TheoryOfChangeComponent,
+        TheoryOfChangeComponent,
         TheoryOfChangeComponentModal,
         TheoryOfChangeRelationshipModal,
         LogFramesComponent,

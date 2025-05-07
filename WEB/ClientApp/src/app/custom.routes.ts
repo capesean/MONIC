@@ -7,7 +7,7 @@ import { SetupComponent } from './setup/setup.component';
 import { AccountComponent } from './account/account.component';
 import { DataEntryComponent } from './forms/dataentry.component';
 import { TheoriesOfChangeComponent } from './theoryofchange/theoriesofchange';
-//import { TheoryOfChangeComponent } from './theoryofchange/theoryofchange';
+import { TheoryOfChangeComponent } from './theoryofchange/theoryofchange';
 import { LogFramesComponent } from './logframe/logframes.component';
 import { LogFrameComponent } from './logframe/logframe.component';
 import { GanttsComponent } from './gantt/gantts.component';
@@ -64,18 +64,18 @@ export const CustomRoutes: Route[] = [
             breadcrumb: 'Theories of Change',
             menu: 'home'
         },
-        //children: [
-        //    {
-        //        path: ':theoryOfChangeId',
-        //        component: TheoryOfChangeComponent,
-        //        canActivate: [AccessGuard],
-        //        canActivateChild: [AccessGuard],
-        //        data: {
-        //            breadcrumb: 'Add Theory of Change',
-        //            menu: 'home'
-        //        }
-        //    }
-        //]
+        children: [
+            {
+                path: ':theoryOfChangeId',
+                component: TheoryOfChangeComponent,
+                canActivate: [AccessGuard],
+                canActivateChild: [AccessGuard],
+                data: {
+                    breadcrumb: 'Add Theory of Change',
+                    menu: 'home'
+                }
+            }
+        ]
     },
     {
         path: 'logframe',

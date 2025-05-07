@@ -64,10 +64,10 @@ export class TheoryOfChangeComponentModal extends ItemComponent implements OnIni
             // clone to avoid cancelled changes affecting source page
             this.component = { ...component };
             //this.component.children = [...component.children];
+            this.componentIndicatorSearchOptions.componentId = component.componentId;
         }
         this.setItem(this.component, { itemType: ItemTypes.Component, itemId: this.component.componentId } as Item);
         this.searchDocuments();
-        this.componentIndicatorSearchOptions.componentId = component.componentId;
         this.componentIndicatorSearchOptions.includeParents = true;
         this.searchComponentIndicators();
     }
