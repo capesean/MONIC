@@ -40,8 +40,6 @@
     "ngx-toastr": "^19.0.0",
     "oidc-client": "^1.11.5",
     "parchment": "^3.0.0",
-    "primeicons": "^7.0.0",
-    "primeng": "19.1.2",
     "quill": "^2.0.2",
     "run-script-os": "^1.1.6",
     "rxjs": "7.8.2",
