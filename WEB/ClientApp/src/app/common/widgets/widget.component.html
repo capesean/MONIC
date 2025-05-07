@@ -54,7 +54,7 @@
 
         <ng-container *ngIf="error">
             <div class="spinContainer">
-                <div class="alert alert-warning text-center">
+                <div class="alert alert-warning text-center cursor-pointer" (click)="openSettings()">
                     <i class="fa fa-triangle-exclamation me-2"></i>The widget needs to be configured
                 </div>
             </div>

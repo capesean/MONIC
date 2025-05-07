@@ -2,7 +2,7 @@ import { Component as NgComponent, OnInit } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { ToastrService } from 'ngx-toastr';
-import { Entity } from '../models/entity.model';
+import { Entity, EntitySearchOptions } from '../models/entity.model';
 import { Enums, WidgetTypes } from '../models/enums.model';
 import { Indicator } from '../models/indicator.model';
 import { IndicatorLineChartSettings } from '../models/widget.model';
@@ -23,7 +23,7 @@ export class IndicatorLineChartSettingsComponent implements OnInit {
     public dateTypes = Enums.DateTypes;
 
     public indicator: Indicator;
-    public entity: Entity;
+    public entities: Entity[] = [];
 
     constructor(
         private errorService: ErrorService,
@@ -38,8 +38,8 @@ export class IndicatorLineChartSettingsComponent implements OnInit {
     ngOnInit(): void {
         if (this.settings.indicatorId)
             this.indicatorService.get(this.settings.indicatorId).subscribe(o => this.indicator = o);
-        if (this.settings.entityId)
-            this.entityService.get(this.settings.entityId).subscribe(o => this.entity = o);
+        if (this.settings.entityIds && this.settings.entityIds.length)
+            this.entityService.search({ pageSize: 0, entityIds: this.settings.entityIds } as EntitySearchOptions).subscribe(o => this.entities = o.entities);
     }
 
     save(form: NgForm): void {

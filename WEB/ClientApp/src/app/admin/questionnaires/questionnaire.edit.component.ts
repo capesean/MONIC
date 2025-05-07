@@ -464,7 +464,7 @@ export class QuestionnaireEditComponent implements OnInit, OnDestroy {
 
                     this.analysisResults.chartOptions = {
                         grid: {
-                            left: 40,
+                            left: 50,
                             right: 10,
                             top: 10,
                             bottom: 100

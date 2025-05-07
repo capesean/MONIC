@@ -1,6 +1,6 @@
 <form id="setup" name="setup" (submit)="submit(form)" class="form-auth pb-5 setup" novalidate #form="ngForm" [ngClass]="{ 'was-validated': form.submitted }">
 
-    <fieldset>
+    <fieldset class="row gy-0">
 
         <div class="text-center my-5">
             <img src="/assets/images/logo.png" alt="LOGIN" />
@@ -8,7 +8,7 @@
 
         <h1 class="my-2 text-center">Setup</h1>
 
-        <div class="col-12 mb-4">
+        <div class="col-12">
             <div class="form-group" [ngClass]="{ 'is-invalid': firstName.invalid }">
 
                 <label for="firstName">
@@ -28,7 +28,7 @@
             </div>
         </div>
 
-        <div class="col-12 mb-4">
+        <div class="col-12">
             <div class="form-group" [ngClass]="{ 'is-invalid': lastName.invalid }">
 
                 <label for="lastName">
@@ -48,7 +48,7 @@
             </div>
         </div>
 
-        <div class="col-12 mb-4">
+        <div class="col-12">
             <div class="form-group" [ngClass]="{ 'is-invalid': email.invalid }">
 
                 <label for="email">
@@ -72,7 +72,7 @@
             </div>
         </div>
 
-        <div class="col-12 mb-4">
+        <div class="col-12">
             <div class="form-group" [ngClass]="{ 'is-invalid': password.invalid }">
 
                 <label for="password">
@@ -92,7 +92,7 @@
             </div>
         </div>
 
-        <div class="d-grid mt-4">
+        <div class="d-grid my-5">
             <button id="authButton" type="submit" class="btn btn-lg btn-primary" value="init">Run Setup</button>
         </div>
 

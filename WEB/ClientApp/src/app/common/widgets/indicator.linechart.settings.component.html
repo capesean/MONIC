@@ -8,7 +8,7 @@
 
         <fieldset class="group">
 
-            <div class="row g-3">
+            <div class="row g-0">
 
                 <div class="col-sm-12">
                     <div class="form-group" [ngClass]="{ 'is-invalid': indicatorId.invalid }">
@@ -17,7 +17,7 @@
                             Indicator:
                         </label>
 
-                        <indicator-select id="indicatorId" name="indicatorId" [(indicator)]="indicator" [(ngModel)]="settings.indicatorId" #indicatorId="ngModel" required [entityType]="entity?.entityType"></indicator-select>
+                        <indicator-select id="indicatorId" name="indicatorId" [(indicator)]="indicator" [(ngModel)]="settings.indicatorId" #indicatorId="ngModel" required></indicator-select>
 
                         <div *ngIf="indicatorId.errors?.required" class="invalid-feedback">
                             Indicator is required
@@ -27,16 +27,16 @@
                 </div>
 
                 <div class="col-sm-12">
-                    <div class="form-group" [ngClass]="{ 'is-invalid': entityId.invalid }">
+                    <div class="form-group" [ngClass]="{ 'is-invalid': entityIds.invalid }">
 
-                        <label for="entityId">
-                            Entity:
+                        <label for="entityIds">
+                            Entities:
                         </label>
 
-                        <entity-select id="entityId" name="entityId" [(entity)]="entity" [(ngModel)]="settings.entityId" #entityId="ngModel" required [entityType]="indicator?.entityType"></entity-select>
+                        <entity-select id="entityIds" name="entityIds" [(entities)]="entities" [(ngModel)]="settings.entityIds" #entityIds="ngModel" required [entityType]="indicator?.entityType" [multiple]="true"></entity-select>
 
-                        <div *ngIf="entityId.errors?.required" class="invalid-feedback">
-                            Entity is required
+                        <div *ngIf="entityIds.errors?.required" class="invalid-feedback">
+                            An entity is required
                         </div>
 
                     </div>

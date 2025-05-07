@@ -34,7 +34,7 @@ export class IndicatorBarChartSettings extends WidgetSettings {
 
 export class IndicatorLineChartSettings extends WidgetSettings {
     indicatorId: string;
-    entityId: string;
+    entityIds: string[] = [];
     dateType: DateTypes;
 }
 

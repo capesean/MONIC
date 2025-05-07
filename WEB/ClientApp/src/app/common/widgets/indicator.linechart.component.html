@@ -1,5 +1,5 @@
-<div echarts [options]="chartOptions" *ngIf="data && data.length"></div>
+<div echarts [options]="chartOptions" *ngIf="!noData && !hasError"></div>
 
-<div class="alert alert-info text-center" *ngIf="data && !data.length">
+<div class="alert alert-info text-center" *ngIf="noData">
     <i class="fa fa-triangle-exclamation me-2"></i>There is no data for this widget
 </div>

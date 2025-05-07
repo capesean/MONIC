@@ -637,3 +637,8 @@ table.table-hover > tbody > tr:hover > td {
 .dropdown .dropdown-toggle::after {
     padding-left: 1em;
 }
+
+body#setup {
+    background-color: rgb(14, 34, 56);
+    padding-top: 50px;
+}

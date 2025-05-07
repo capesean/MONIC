@@ -1,3 +1,8 @@
+body#setup {
+    background-color: rgb(141 160 203);
+    padding-top: 20px;
+}
+
 form#setup {
     width: 420px;
     max-width: 95%;

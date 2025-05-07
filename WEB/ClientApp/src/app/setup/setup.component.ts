@@ -1,4 +1,4 @@
-import { Component, Inject, OnInit } from '@angular/core';
+import { Component, Inject, OnInit, ViewEncapsulation } from '@angular/core';
 import { ToastrService } from 'ngx-toastr';
 import { NgForm } from '@angular/forms';
 import { Router } from '@angular/router';
@@ -12,7 +12,8 @@ import { DOCUMENT } from '@angular/common';
     selector: 'setup',
     templateUrl: './setup.component.html',
     styleUrls: ['./setup.css'],
-    standalone: false
+    standalone: false,
+    encapsulation: ViewEncapsulation.None
 })
 export class SetupComponent implements OnInit {
 

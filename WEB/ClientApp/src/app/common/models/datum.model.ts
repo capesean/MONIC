@@ -37,6 +37,7 @@ export class Datum {
 export class DatumSearchOptions extends SearchOptions {
     indicatorId: string;
     entityId: string;
+    entityIds: string[];
     dateId: string;
     aggregated: boolean;
     submitDataReviewId: string;

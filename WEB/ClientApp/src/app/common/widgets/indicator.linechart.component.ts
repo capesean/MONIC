@@ -1,14 +1,11 @@
 import { Component as NgComponent, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { LineSeriesOption, SeriesOption } from 'echarts/types/dist/echarts';
 import { EChartsOption } from 'echarts/types/dist/shared';
+import { map } from 'rxjs';
 import { forkJoin } from 'rxjs';
-import { Datum, DatumSearchOptions } from '../models/datum.model';
-import { Entity } from '../models/entity.model';
-import { Indicator } from '../models/indicator.model';
 import { IndicatorLineChartSettings, Widget } from '../models/widget.model';
-import { DatumService } from '../services/datum.service';
-import { EntityService } from '../services/entity.service';
-import { IndicatorService } from '../services/indicator.service';
 import { UtilitiesService } from '../services/utilities.service';
+import { WidgetService } from '../services/widget.service';
 
 @NgComponent({
     selector: 'app-indicator-line-chart',
@@ -31,15 +28,11 @@ export class IndicatorLineChartComponent implements OnInit, Widget {
 
     public chartOptions: EChartsOption;
 
-    public indicator: Indicator;
-    public entity: Entity;
-
-    public data: Datum[];
+    public noData = false;
+    public hasError = false;
 
     constructor(
-        private datumService: DatumService,
-        private indicatorService: IndicatorService,
-        private entityService: EntityService,
+        private widgetService: WidgetService,
         private utilitiesService: UtilitiesService
     ) {
     }
@@ -49,100 +42,92 @@ export class IndicatorLineChartComponent implements OnInit, Widget {
 
     load(): void {
 
-        if (!this._settings.indicatorId || !this._settings.entityId) {
+        if (!this._settings.indicatorId || !this._settings.entityIds || !this._settings.entityIds.length) {
             this.loading.emit(false);
             this.error.emit(true);
+            this.hasError = true;
             return;
         }
 
-        forkJoin({
-            data: this.datumService.search({
-                pageSize: 0, // todo: how to handle lots of data?
-                includeParents: true,
-                indicatorId: this._settings.indicatorId,
-                entityId: this._settings.entityId,
-                dateType: this._settings.dateType
-            } as DatumSearchOptions),
-            indicator: this.indicatorService.get(this._settings.indicatorId),
-            entity: this.entityService.get(this._settings.entityId)
-        }).subscribe({
-            next: response => {
+        this.widgetService.load(this._settings.indicatorId, this._settings.entityIds, this._settings.dateType)
+            .subscribe({
+                next: response => {
 
-                this.indicator = response.indicator;
-                this.entity = response.entity;
+                    this.noData = response.data.length === 0;
 
-                this.title.emit(response.indicator.name);
-                this.subtitle.emit(response.entity.name);
+                    this.title.emit(response.indicator.name);
+                    this.subtitle.emit(response.entities[0].name + (response.entities.length === 1 ? "" : ` and ${response.entities.length} more`));
 
-                response.data.data.sort((a, b) => a.date.sortOrder - b.date.sortOrder);
-                this.data = response.data.data;
 
-                const xCategories: string[] = [];
-                const values: number[] = [];
-                const formatter = this.utilitiesService.getFormatter(response.indicator);
+                    const xCategories: string[] = [];
+                    const formatter = this.utilitiesService.getFormatter(response.indicator);
 
-                response.data.data.forEach(datum => {
-                    xCategories.push(datum.date.code);
-                    values.push(datum.value);
-                });
+                    const series: LineSeriesOption[] = [];
 
-                this.chartOptions = {
-                    grid: {
-                        left: 40,
-                        right: 10,
-                        top: 10,
-                        bottom: 50
-                    },
-                    xAxis: {
-                        type: 'category',
-                        data: xCategories,
-                        axisLabel: {
-                            fontSize: 8,
-                            rotate: 90,
+                    response.dates.forEach(date => {
+                        xCategories.push(date.code);
+                    });
 
-                        }
-                    },
-                    yAxis: {
-                        type: 'value',
-                        axisLabel: {
-                            formatter: formatter,
-                            fontSize: 8
+                    response.entities.forEach(entity => {
+                        const serie = { data: [], type: 'line', name: entity.name } as LineSeriesOption;
+                        // todo: not optimal
+                        response.dates.forEach(date => {
+                            serie.data.push(response.data.find(o => o.entityId === entity.entityId && o.dateId === date.dateId));
+                        });
+
+                        series.push(serie);
+                    });
+
+                    this.chartOptions = {
+                        grid: {
+                            left: 50,
+                            right: 10,
+                            top: 10,
+                            bottom: 50
                         },
+                        xAxis: {
+                            type: 'category',
+                            data: xCategories,
+                            axisLabel: {
+                                fontSize: 8,
+                                rotate: 90,
 
-                    },
-                    series: [
-                        {
-                            name: `${response.indicator.code}: ${response.entity.name}`,
-                            data: values,
-                            type: 'line',
-                            showBackground: false
-                        }
-                    ],
-                    tooltip: {
-                        trigger: 'axis',
-                        textStyle: {
-                            fontSize: 10
-                        },
-                        axisPointer: {
-                            type: 'cross',
-                            crossStyle: {
-                                color: 'red'
-                            },
-                            label: {
-                                formatter: formatter
                             }
                         },
-                        valueFormatter: formatter
-                    }
-                } as EChartsOption;
+                        yAxis: {
+                            type: 'value',
+                            axisLabel: {
+                                formatter: formatter,
+                                fontSize: 8
+                            },
 
-                this.error.emit(false);
-                this.loading.emit(false);
-            },
-            error: () => {
-                this.loading.emit(false);
-                this.error.emit(true);
-            }
-        });
+                        },
+                        series: series,
+                        tooltip: {
+                            trigger: 'axis',
+                            textStyle: {
+                                fontSize: 10
+                            },
+                            axisPointer: {
+                                type: 'cross',
+                                crossStyle: {
+                                    color: 'red'
+                                },
+                                label: {
+                                    formatter: formatter
+                                }
+                            },
+                            valueFormatter: formatter
+                        }
+                    } as EChartsOption;
+
+                    this.error.emit(false);
+                    this.loading.emit(false);
+                },
+                error: () => {
+                    this.loading.emit(false);
+                    this.error.emit(true);
+                }
+            });
     }
 }

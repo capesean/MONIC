@@ -17,7 +17,6 @@ import { Roles } from '../../common/models/enums.model';
 export class EntityModalComponent implements OnInit {
 
     public modal: NgbModalRef;
-    public selectedItems: Entity[] = [];
     public headers: PagingHeaders = new PagingHeaders();
     public searchOptions: EntitySearchOptions = new EntitySearchOptions();
     public entities: Entity[];
@@ -26,6 +25,7 @@ export class EntityModalComponent implements OnInit {
     @ViewChild('content') content: TemplateRef<unknown>;
     @Output() change: EventEmitter<Entity> = new EventEmitter<Entity>();
     @Output() changes: EventEmitter<Entity[]> = new EventEmitter<Entity[]>();
+    @Input() selectedItems: Entity[] = [];
     @Input() canRemoveFilters = false;
     @Input() multiple = false;
     @Input() showAddNew = false;
