@@ -12,11 +12,11 @@
 
             <div class="card-body mb-4">
 
-                <form id="formGeoJSON" name="formGeoJSON" (submit)="uploadGeoJSON(formGeoJSON)" novalidate #formGeoJSON="ngForm" [ngClass]="{ 'was-validated': formGeoJSON.submitted }">
+                <form id="formGeoJSON" name="formGeoJSON" (ngSubmit)="uploadGeoJSON(formGeoJSON)" novalidate #formGeoJSON="ngForm" [ngClass]="{ 'was-validated': formGeoJSON.submitted }">
 
                     <fieldset>
 
-                        <div class="row g-3">
+                        <div class="row g-0">
 
                             <div class="col-12">
                                 <div class="form-group" [ngClass]="{ 'is-invalid': entityTypeId.invalid }">
@@ -54,6 +54,8 @@
 
                     </fieldset>
 
+                    <button type="submit" class="btn btn-outline-primary ms-2">Import<i class="fas fa-cloud-upload ms-1"></i></button>
+
                 </form>
 
             </div>
@@ -82,7 +84,7 @@
 
                     <fieldset>
 
-                        <div class="row g-3">
+                        <div class="row g-0">
 
                             <div class="col-12">
                                 <div class="form-group" [ngClass]="{ 'is-invalid': csvFileName.invalid }">
@@ -132,7 +134,7 @@
 
                     <fieldset>
 
-                        <div class="row g-3">
+                        <div class="row g-0">
 
                             <div class="col-12">
                                 <div class="form-group" [ngClass]="{ 'is-invalid': indicatorIds.invalid }">

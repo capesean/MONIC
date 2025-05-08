@@ -19,26 +19,6 @@
                 <div class="row g-3">
 
                     <div class="col-sm-6 col-md-4">
-                        <div class="form-group" [ngClass]="{ 'is-invalid': code.invalid }">
-
-                            <label for="code">
-                                Code:
-                            </label>
-
-                            <input id="code" name="code" class="form-control" type="text" [(ngModel)]="subcategory.code" #code="ngModel" required maxlength="15" />
-
-                            <div *ngIf="code.errors?.required" class="invalid-feedback">
-                                Code is required
-                            </div>
-
-                            <div *ngIf="code.errors?.maxlength" class="invalid-feedback">
-                                Code must be at most 15 characters long
-                            </div>
-
-                        </div>
-                    </div>
-
-                    <div class="col-sm-6 col-md-4">
                         <div class="form-group" [ngClass]="{ 'is-invalid': name.invalid }">
 
                             <label for="name">
@@ -53,6 +33,26 @@
 
                             <div *ngIf="name.errors?.maxlength" class="invalid-feedback">
                                 Subcategory must be at most 100 characters long
+                            </div>
+
+                        </div>
+                    </div>
+
+                    <div class="col-sm-6 col-md-4 col-lg-3 col-xl-2">
+                        <div class="form-group" [ngClass]="{ 'is-invalid': code.invalid }">
+
+                            <label for="code">
+                                Code:
+                            </label>
+
+                            <input id="code" name="code" class="form-control" type="text" [(ngModel)]="subcategory.code" #code="ngModel" required maxlength="15" />
+
+                            <div *ngIf="code.errors?.required" class="invalid-feedback">
+                                Code is required
+                            </div>
+
+                            <div *ngIf="code.errors?.maxlength" class="invalid-feedback">
+                                Code must be at most 15 characters long
                             </div>
 
                         </div>
@@ -107,6 +107,7 @@
                         <div class="card-header-title">
                             <h4>Indicators</h4>
                             <div>
+                                <i class="fa fa-fw ms-1 fa-plus cursor-pointer" ngbTooltip="Add Indicator" [routerLink]="['/indicators', 'add']" [queryParams]="{ subcategoryId: subcategory.subcategoryId }"></i>
                                 <i class="fa fa-fw ms-1 fa-search cursor-pointer" (click)="showIndicatorsSearch=!showIndicatorsSearch" ngbTooltip="Toggle search options"></i>
                             </div>
                         </div>

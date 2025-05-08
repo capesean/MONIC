@@ -40,7 +40,7 @@
                             </div>
                         </div>
 
-                        <div class="col-sm-6 col-md-4">
+                        <div class="col-sm-6 col-md-4 col-xl-3 col-xl-2">
                             <div class="form-group" [ngClass]="{ 'is-invalid': code.invalid }">
 
                                 <label for="code">
@@ -129,15 +129,15 @@
                             <table class="table table-hover table-striped table-nowrap mb-0 align-middle">
                                 <thead class="thead-light">
                                     <tr>
-                                        <th>Code</th>
                                         <th>Subcategory</th>
+                                        <th>Code</th>
                                         <th class="w-20px text-center"><i class="fas fa-times text-danger cursor-pointer" (click)="deleteSubcategories()" ngbTooltip="Delete all subcategories" container="body" placement="left"></i></th>
                                     </tr>
                                 </thead>
                                 <tbody class="list cursor-pointer">
                                     <tr *ngFor="let subcategory of subcategories" (click)="goToSubcategory(subcategory)">
-                                        <td>{{ subcategory.code }}</td>
                                         <td>{{ subcategory.name }}</td>
+                                        <td>{{ subcategory.code }}</td>
                                         <td class="text-center"><i class="fas fa-times cursor-pointer p-1 text-danger" (click)="deleteSubcategory(subcategory, $event)"></i></td>
                                     </tr>
                                 </tbody>

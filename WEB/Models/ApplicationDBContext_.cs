@@ -235,12 +235,12 @@ namespace WEB.Models
                 .HasName("PK_SkipLogicOption");
 
             modelBuilder.Entity<Subcategory>()
-                .HasIndex(o => o.Code)
-                .HasDatabaseName("IX_Subcategory_Code")
-                .IsUnique();
-            modelBuilder.Entity<Subcategory>()
                 .HasIndex(o => new { o.CategoryId, o.Name })
                 .HasDatabaseName("IX_Subcategory_Name")
+                .IsUnique();
+            modelBuilder.Entity<Subcategory>()
+                .HasIndex(o => o.Code)
+                .HasDatabaseName("IX_Subcategory_Code")
                 .IsUnique();
 
             modelBuilder.Entity<Task>()

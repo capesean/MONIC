@@ -19,6 +19,7 @@ import { AppService } from '../../common/services/app.service';
 import { DocumentService } from '../../common/services/document.service';
 import { Item } from '../../common/models/item.model';
 import { AppSettings } from '../../common/models/appsettings.model';
+import { SubcategoryService } from '../../common/services/subcategory.service';
 
 @Component({
     selector: 'indicator-edit',
@@ -70,7 +71,8 @@ export class IndicatorEditComponent extends ItemComponent implements OnInit {
         protected errorService: ErrorService,
         protected cdref: ChangeDetectorRef,
         protected appService: AppService,
-        protected documentService: DocumentService
+        protected documentService: DocumentService,
+        private subcategoryService: SubcategoryService,
     ) {
         super(appService, errorService, cdref, documentService, modalService);
     }
@@ -90,8 +92,14 @@ export class IndicatorEditComponent extends ItemComponent implements OnInit {
             }
             else {
                 this.indicator.indicatorStatus = IndicatorStatuses.Enabled;
-                //this.indicator.subcategoryId = this.route.snapshot.parent.params.subcategoryId;
                 this.setItem(this.indicator, { itemType: ItemTypes.Indicator, itemId: this.indicator.indicatorId } as Item);
+                if (this.route.snapshot.queryParams["subcategoryId"] !== undefined) {
+                    this.subcategoryService.get(this.route.snapshot.queryParams["subcategoryId"])
+                        .subscribe(subcategory => {
+                            this.indicator.subcategoryId = subcategory.subcategoryId;
+                            this.indicator.subcategory = subcategory;
+                        });
+                }
             }
 
         });

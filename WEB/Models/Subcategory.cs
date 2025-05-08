@@ -13,11 +13,11 @@ namespace WEB.Models
         [Required]
         public Guid CategoryId { get; set; }
 
-        [Required(AllowEmptyStrings = true), MaxLength(15)]
-        public string Code { get; set; }
-
         [Required(AllowEmptyStrings = true), MaxLength(100)]
         public string Name { get; set; }
+
+        [Required(AllowEmptyStrings = true), MaxLength(15)]
+        public string Code { get; set; }
 
         [Required]
         public bool DataEntrySubtotal { get; set; }

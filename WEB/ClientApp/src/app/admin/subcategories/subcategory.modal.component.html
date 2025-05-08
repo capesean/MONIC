@@ -45,16 +45,16 @@
                     <tr>
                         <th class="text-center w-20px" *ngIf="multiple"><i class="fas fa-fw cursor-pointer" [ngClass]="{ 'fa-check-square': allSelected, 'fa-square': !allSelected }" (click)="toggleAll()"></i></th>
                         <th *ngIf="!category">Category</th>
-                        <th>Code</th>
                         <th>Subcategory</th>
+                        <th>Code</th>
                     </tr>
                 </thead>
                 <tbody class="cursor-pointer">
                     <tr *ngFor="let subcategory of subcategories" (click)="select(subcategory)" [ngClass]="{ 'table-info': isSelected(subcategory) }">
                         <td *ngIf="multiple" class="text-center"><i [ngClass]="{ 'fa-check-square': isSelected(subcategory), 'fa-square': !isSelected(subcategory) }" class="fas fa-fw"></i></td>
                         <td *ngIf="!category">{{ subcategory.category.name }}</td>
-                        <td>{{ subcategory.code }}</td>
                         <td>{{ subcategory.name }}</td>
+                        <td>{{ subcategory.code }}</td>
                     </tr>
                 </tbody>
             </table>
