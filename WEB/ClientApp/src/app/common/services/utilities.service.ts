@@ -16,11 +16,11 @@ export class UtilitiesService {
     }
 
     getHeight(size: WidgetSizes): number {
-        if (size === WidgetSizes.ExtraSmall) return 150;
-        else if (size === WidgetSizes.Small) return 250;
-        else if (size === WidgetSizes.Medium) return 350;
-        else if (size === WidgetSizes.Large) return 450;
-        else if (size === WidgetSizes.ExtraLarge) return 550;
+        if (size === WidgetSizes.ExtraSmall) return 250;
+        else if (size === WidgetSizes.Small) return 350;
+        else if (size === WidgetSizes.Medium) return 450;
+        else if (size === WidgetSizes.Large) return 550;
+        else if (size === WidgetSizes.ExtraLarge) return 650;
         throw "Invalid size in getHeight";
     }
 

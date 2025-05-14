@@ -1,5 +1,5 @@
 <div *ngIf="apiLoaded | async">
-    <google-map #map (mapInitialized)="onMapReady($event)" [height]="height" width="100%" [zoom]="3"></google-map>
+    <google-map #map (mapInitialized)="onMapReady($event)" [height]="height" width="100%" [zoom]="zoom" [center]="center"></google-map>
 </div>
 
 <div class="alert alert-info text-center" *ngIf="!geoJson && loaded">

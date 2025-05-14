@@ -42,6 +42,9 @@ export class IndicatorMapComponent implements OnInit, Widget {
         this.load();
     }
 
+    public zoom = 1;
+    public center: google.maps.LatLngLiteral = { lat: 0, lng: 0 };
+
     public height = 200;
     public chartOptions: EChartsOption;
 
@@ -195,6 +198,11 @@ export class IndicatorMapComponent implements OnInit, Widget {
 
         // run in the angular context for access to controller
         this.zone.run(() => this.mapReady.next(map));
+
+        setTimeout(() => {
+            map.setZoom(this.zoom);
+            map.panTo(this.center);
+        }, 1000);
 
     }
 

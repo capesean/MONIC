@@ -55,7 +55,7 @@ export class IndicatorLineChartComponent implements OnInit, Widget {
 
                     this.noData = response.data.length === 0;
 
-                    this.title.emit(response.indicator.name);
+                    this.title.emit(`${response.indicator.code}: ${response.indicator.name}`);
                     this.subtitle.emit(response.entities[0].name + (response.entities.length === 1 ? "" : ` and ${response.entities.length} more`));
 
 
