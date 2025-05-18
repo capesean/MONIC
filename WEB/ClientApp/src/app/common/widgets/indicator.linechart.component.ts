@@ -49,7 +49,7 @@ export class IndicatorLineChartComponent implements OnInit, Widget {
             return;
         }
 
-        this.widgetService.load(this._settings.indicatorId, this._settings.entityIds, this._settings.dateType)
+        this.widgetService.load1(this._settings.indicatorId, this._settings.entityIds, this._settings.dateType)
             .subscribe({
                 next: response => {
 

@@ -1,12 +1,11 @@
+using Azure;
+using Azure.AI.OpenAI;
+using Azure.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using OpenAI;
-using OpenAI.Managers;
-using OpenAI.ObjectModels.RequestModels;
 using WEB.Models;
 using WEB.Reports.Excel;
 using WEB.Reports.PDF;
-
 
 namespace WEB.Controllers
 {
@@ -60,7 +59,7 @@ namespace WEB.Controllers
             if (questionnaire == null)
                 return NotFound();
 
-            Response response = null;
+            WEB.Models.Response response = null;
             if (responseId.HasValue)
             {
                 response = await CurrentUser.GetPermittedResponsesQuery()
@@ -122,10 +121,24 @@ namespace WEB.Controllers
 
             if (string.IsNullOrWhiteSpace(dbSettings.ChatGPTAPIKey)) return BadRequest("The ChatGPT API Key is missing");
 
-            var gpt = new OpenAIService(new OpenAiOptions()
+            AzureOpenAIClientOptions azureOptions = new()
             {
-                ApiKey = dbSettings.ChatGPTAPIKey
-            });
+                Audience = AzureOpenAIAudience.AzureGovernment,
+            };
+
+            var aoaiclient = new AzureOpenAIClient(
+                new Uri("https://sean-map4tkmq-eastus2.cognitiveservices.azure.com/"),
+                new AzureKeyCredential("2Zy3SvZng910SIWQ3IrODe8Tg1X3IU5eqKQBApNlSLaUf8Eh8ZEvJQQJ99BEACHYHv6XJ3w3AAAAACOGpQ7j"),
+                azureOptions
+                );
+
+            var chatClient = aoaiclient.GetChatClient("o4-mini-2");
+
+            var requestOptions = new OpenAI.Chat.ChatCompletionOptions()
+            {
+                MaxOutputTokenCount = 10000,
+            };
+
 
             var answers = await db.Answers
                 .Include(o => o.AnswerOptions)
@@ -135,18 +148,18 @@ namespace WEB.Controllers
 
             if (!answers.Any()) return BadRequest($"There are no answers for question {question.Code}");
 
-            var chatCompletionCreateRequest = new ChatCompletionCreateRequest()
-            {
-                Messages = null,
-                Model = OpenAI.ObjectModels.Models.Gpt_4o,
-                MaxTokens = generateSummariesModel.MaxTokens,
-                N = 1,
-                Temperature = generateSummariesModel.Temperature
-            };
+            //var chatCompletionCreateRequest = new Azure.AI.OpenAI.ChatCompletionCreateRequest()
+            //{
+            //    Messages = null,
+            //    Model = OpenAI.ObjectModels.Models.Gpt_4o,
+            //    MaxTokens = generateSummariesModel.MaxTokens,
+            //    N = 1,
+            //    Temperature = generateSummariesModel.Temperature
+            //};
 
-            var messages = new List<ChatMessage>();
+            var messages = new List<OpenAI.Chat.ChatMessage>();
             foreach (var message in generateSummariesModel.SystemMessage.Replace(Environment.NewLine, "\n").Split("\n"))
-                if (!string.IsNullOrWhiteSpace(message)) messages.Add(ChatMessage.FromSystem(message));
+                if (!string.IsNullOrWhiteSpace(message)) messages.Add(OpenAI.Chat.ChatMessage.CreateSystemMessage(message));
 
 
             if (question.QuestionType == QuestionType.Multiline || question.QuestionType == QuestionType.Text)
@@ -163,21 +176,21 @@ namespace WEB.Controllers
                     .Replace("[{answers}]", answerList);
                 // todo: multiline text answers could be on multiple lines, meaning the answer splits across chatmessages.
                 foreach (var message in generateSummariesModel.TextPrompt.Split("\n"))
-                    if (!string.IsNullOrWhiteSpace(message)) messages.Add(ChatMessage.FromUser(message));
+                    if (!string.IsNullOrWhiteSpace(message)) messages.Add(OpenAI.Chat.ChatMessage.CreateUserMessage(message));
             }
             else if (question.QuestionType == QuestionType.OptionList)
             {
                 var answerList = string.Empty;
 
-                var options = await db.QuestionOptions
+                var questionOptions = await db.QuestionOptions
                     .Where(o => o.QuestionOptionGroupId == question.QuestionOptionGroupId)
                     .ToDictionaryAsync(o => o.QuestionOptionId);
 
                 var counter = 1;
-                foreach (var option in options.Values.OrderBy(o => o.SortOrder))
+                foreach (var questionOption in questionOptions.Values.OrderBy(o => o.SortOrder))
                 {
-                    var optionCount = answers.Count(o => o.AnswerOptions.Any(ao => ao.QuestionOptionId == option.QuestionOptionId));
-                    answerList += $"Option {counter++}: {option.Label} - {optionCount} {questionnaire.EntityType.Plural.ToLowerInvariant()} selected this option.\n";
+                    var optionCount = answers.Count(o => o.AnswerOptions.Any(ao => ao.QuestionOptionId == questionOption.QuestionOptionId));
+                    answerList += $"Option {counter++}: {questionOption.Label} - {optionCount} {questionnaire.EntityType.Plural.ToLowerInvariant()} selected this option.\n";
                 }
 
                 generateSummariesModel.OptionListPrompt = generateSummariesModel.OptionListPrompt
@@ -188,25 +201,28 @@ namespace WEB.Controllers
                     .Replace("[{optionsAndCounts}]", answerList);
 
                 foreach (var message in generateSummariesModel.OptionListPrompt.Split("\n"))
-                    if (!string.IsNullOrWhiteSpace(message)) messages.Add(ChatMessage.FromUser(message));
+                    if (!string.IsNullOrWhiteSpace(message)) messages.Add(OpenAI.Chat.ChatMessage.CreateUserMessage(message));
             }
             else
                 throw new Exception("Invalid question type");
 
-            chatCompletionCreateRequest.Messages = messages;
+            //chatCompletionCreateRequest.Messages = messages;
+            var options = new OpenAI.Chat.ChatCompletionOptions();
 
-            var completionResult = await gpt.ChatCompletion.CreateCompletion(chatCompletionCreateRequest);
+            var completionResult = await chatClient.CompleteChatAsync(messages, options);
 
-            if (!completionResult.Successful)
-            {
-                if (completionResult.Error == null)
-                {
-                    throw new Exception("Unknown Error");
-                }
-                return BadRequest($"{completionResult.Error.Code}: {completionResult.Error.Message}");
-            }
+            //var completionResult = await gpt.ChatCompletion.CreateCompletion(chatCompletionCreateRequest);
 
-            questionSummary.Summary = completionResult.Choices.First().Message.Content;
+            //if (!completionResult.suc)
+            //{
+            //    if (completionResult.Error == null)
+            //    {
+            //        throw new Exception("Unknown Error");
+            //    }
+            //    return BadRequest($"{completionResult.Error.Code}: {completionResult.Error.Message}");
+            //}
+
+            questionSummary.Summary = completionResult.Value.Content.First().Text;
 
             await db.SaveChangesAsync();
 

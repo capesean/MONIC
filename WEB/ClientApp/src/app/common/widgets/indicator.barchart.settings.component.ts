@@ -3,6 +3,7 @@ import { NgForm } from '@angular/forms';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { ToastrService } from 'ngx-toastr';
 import { AppDate } from '../models/date.model';
+import { EntityType } from '../models/entitytype.model';
 import { Enums, WidgetTypes } from '../models/enums.model';
 import { Indicator } from '../models/indicator.model';
 import { IndicatorBarChartSettings } from '../models/widget.model';
@@ -23,6 +24,7 @@ export class IndicatorBarChartSettingsComponent implements OnInit {
     public widgetSizes = Enums.WidgetSizes;
 
     public indicator: Indicator;
+    public entityType: EntityType;
     public date: AppDate;
 
     constructor(

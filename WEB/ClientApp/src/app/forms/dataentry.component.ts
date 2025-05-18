@@ -10,8 +10,8 @@ import { Datum, DataEntryDatum } from '../common/models/datum.model';
 import { DateService } from '../common/services/date.service';
 import { EntityService } from '../common/services/entity.service';
 import { forkJoin, Observable, of, throwError } from 'rxjs';
-import { Entity, EntitySearchOptions } from '../common/models/entity.model';
-import { AppDate as myDate, DateSearchOptions } from '../common/models/date.model';
+import { Entity } from '../common/models/entity.model';
+import { AppDate as myDate } from '../common/models/date.model';
 import { catchError, share } from 'rxjs/operators';
 import { PendingRequestsInterceptorConfigurer } from 'ng-http-loader';
 import { Organisation } from '../common/models/organisation.model';
@@ -22,7 +22,6 @@ import { CategoryRow, IndicatorRow, IndicatorRowState, SubcategoryRow } from '..
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { DatumStatusModalComponent } from './datumstatus.modal.component';
 import { DataReviewModalComponent } from './datareview.modal';
-import { environment } from '../../environments/environment';
 import { AppSettings } from '../common/models/appsettings.model';
 import { AppService } from '../common/services/app.service';
 
@@ -426,8 +425,7 @@ export class DataEntryComponent implements OnInit, AfterViewInit {
             else if (this.options.permissionType === PermissionTypes.Approve && datum.approved) row.checked = true;
         })
 
-        console.error("todo: fix accordion");
-        //setTimeout(() => this.accordion.expandAll());
+        setTimeout(() => this.accordion.expandAll());
     }
 
     close() {

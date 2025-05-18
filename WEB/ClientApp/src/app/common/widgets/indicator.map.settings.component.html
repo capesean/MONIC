@@ -42,6 +42,22 @@
                     </div>
                 </div>
 
+                <div class="col-12">
+                    <div class="form-group" [ngClass]="{ 'is-invalid': entityTypeId.invalid }">
+
+                        <label for="entityTypeId">
+                            Entity Type:
+                        </label>
+
+                        <entity-type-select id="entityTypeId" name="entityTypeId" [(entityType)]="entityType" [(ngModel)]="settings.entityTypeId" #entityTypeId="ngModel" required></entity-type-select>
+
+                        <div *ngIf="entityTypeId.errors?.required" class="invalid-feedback">
+                            Entity Type is required
+                        </div>
+
+                    </div>
+                </div>
+
                 <div class="col-sm-12">
                     <div class="form-group" [ngClass]="{ 'is-invalid': minColor.invalid }">
 

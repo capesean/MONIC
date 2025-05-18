@@ -4,13 +4,10 @@ import { EChartsOption } from 'echarts/types/dist/shared';
 import { combineLatest, forkJoin } from 'rxjs';
 import { Datum, DatumSearchOptions } from '../models/datum.model';
 import { AppDate } from '../models/date.model';
-import { DatumService } from '../services/datum.service';
-import { IndicatorService } from '../services/indicator.service';
 import { FeatureCollection, Polygon, MultiPolygon } from 'geojson';
 import { HttpClient } from '@angular/common/http';
 import { environment } from '../../../environments/environment';
 import { Indicator } from '../models/indicator.model';
-import { DateService } from '../services/date.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ConfirmModalComponent, ConfirmModalOptions } from '../components/confirm.component';
 import { IndicatorMapSettings, Widget } from '../models/widget.model';
@@ -20,7 +17,7 @@ import { UtilitiesService } from '../services/utilities.service';
 import { Subject } from 'rxjs';
 import { ViewChild } from '@angular/core';
 import { IndicatorMapInfoWindowComponent } from './indicator.map.infowindow.component';
-import { ToastrService } from 'ngx-toastr';
+import { WidgetService } from '../services/widget.service';
 
 @NgComponent({
     selector: 'app-indicator-map',
@@ -67,15 +64,12 @@ export class IndicatorMapComponent implements OnInit, Widget {
     public datum: Datum;
 
     constructor(
-        private datumService: DatumService,
-        private dateService: DateService,
-        private indicatorService: IndicatorService,
         private http: HttpClient,
         private modalService: NgbModal,
         private mapService: GoogleMapsApiService,
         private utilitiesService: UtilitiesService,
         private zone: NgZone,
-        private toastr: ToastrService
+        private widgetService: WidgetService
     ) {
         // configure map when ready
         this.mapReady.subscribe(map => {
@@ -111,7 +105,7 @@ export class IndicatorMapComponent implements OnInit, Widget {
 
     public load(): void {
 
-        if (!this._settings.indicatorId || !this._settings.dateId) {
+        if (!this._settings.indicatorId || !this._settings.dateId || !this._settings.entityTypeId) {
             this.loading.emit(false);
             this.error.emit(true);
             return;
@@ -120,42 +114,27 @@ export class IndicatorMapComponent implements OnInit, Widget {
         this.loading.emit(true);
 
         forkJoin({
-            data: this.datumService.search({
-                pageSize: 0, // todo: how to handle lots of data?
-                includeParents: true,
-                indicatorId: this._settings.indicatorId,
-                dateId: this._settings.dateId
-            } as DatumSearchOptions),
-            indicator: this.indicatorService.get(this._settings.indicatorId),
-            date: this.dateService.get(this._settings.dateId)
+            widget: this.widgetService.load2(this._settings.indicatorId, this._settings.entityTypeId, this._settings.dateId),
+            geoJson: this.http.get<FeatureCollection>(`${environment.baseUrl}assets/geojson/${this._settings.entityTypeId}.json`, { observe: 'response' })
         }).subscribe({
             next: response => {
 
-                // TODO: this filter is to fix that data could be aggregated up (e.g. population for munic->district->province) but the relevant data should only be at the indicator level - although could allow user to select entity type?
-                this.data = response.data.data.filter(o => o.entity.entityTypeId === response.indicator.entityTypeId);
-                this.indicator = response.indicator;
-                this.date = response.date;
+                this.data = response.widget.data;
+                this.indicator = response.widget.indicator;
+                this.date = response.widget.date;
 
-                this.title.emit(response.indicator.name);
-                this.subtitle.emit(response.date.name);
+                this.title.emit(this.indicator.name);
+                this.subtitle.emit(this.date.name);
+
+                this.indicator.entityType = response.widget.entityType;
+                this.data.forEach(datum => {
+                    datum.entity = response.widget.entities.find(o => o.entityId === datum.entityId);
+                    datum.date = this.date;
+                });
 
                 // these need cacheing?
-                this.http.get<FeatureCollection>(`${environment.baseUrl}assets/geojson/${response.indicator.entityTypeId}.json`, { observe: 'response' })
-                    .subscribe({
-                        next: geoJson => {
-                            this.geoJson = geoJson.body;
-                            this.geoJsonReady.next(this.geoJson)
-                        },
-                        error: err => {
-                            if (err.status === 404) {
-                                this.loading.emit(false);
-                                this.toastr.error(`No geojson found for entity type: ${response.indicator.entityType.name}`);
-                                // todo: this should emit an error description?
-                                this.error.emit(true);
-                            }
-                        },
-                        complete: () => this.loaded = true
-                    });
+                this.geoJson = response.geoJson.body;
+                this.geoJsonReady.next(this.geoJson)
 
                 const values = this.data.filter(o => o.value != null).map(o => o.value);
                 this.max = Math.max(...values);
@@ -199,10 +178,11 @@ export class IndicatorMapComponent implements OnInit, Widget {
         // run in the angular context for access to controller
         this.zone.run(() => this.mapReady.next(map));
 
-        setTimeout(() => {
-            map.setZoom(this.zoom);
-            map.panTo(this.center);
-        }, 1000);
+        // let the geojson zoom & pan the map
+        //setTimeout(() => {
+        //    map.setZoom(this.zoom);
+        //    map.panTo(this.center);
+        //}, 1000);
 
     }
 

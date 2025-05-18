@@ -21,27 +21,27 @@
 
     <div class="card-body">
 
-        <ng-container *ngIf="settings?.widgetType===widgetTypes.IndicatorMap">
+        <ng-container *ngIf="!error && settings?.widgetType===widgetTypes.IndicatorMap">
             <app-indicator-map #indicatorMap [settings]="$any(settings)" (loading)="loading=$event" (title)="title=$event" (subtitle)="subtitle=$event" (error)="error=$event"></app-indicator-map>
         </ng-container>
 
-        <ng-container *ngIf="settings?.widgetType===widgetTypes.IndicatorLineChart">
+        <ng-container *ngIf="!error && settings?.widgetType===widgetTypes.IndicatorLineChart">
             <app-indicator-line-chart #indicatorLineChart [settings]="$any(settings)" (loading)="loading=$event" (title)="title=$event" (subtitle)="subtitle=$event" (error)="error=$event"></app-indicator-line-chart>
         </ng-container>
 
-        <ng-container *ngIf="settings?.widgetType===widgetTypes.IndicatorBarChart">
+        <ng-container *ngIf="!error && settings?.widgetType===widgetTypes.IndicatorBarChart">
             <app-indicator-bar-chart #indicatorBarChart [settings]="$any(settings)" (loading)="loading=$event" (title)="title=$event" (subtitle)="subtitle=$event" (error)="error=$event"></app-indicator-bar-chart>
         </ng-container>
 
-        <ng-container *ngIf="settings?.widgetType===widgetTypes.IndicatorPieChart">
+        <ng-container *ngIf="!error && settings?.widgetType===widgetTypes.IndicatorPieChart">
             <app-indicator-pie-chart #indicatorPieChart [settings]="$any(settings)" (loading)="loading=$event" (title)="title=$event" (subtitle)="subtitle=$event" (error)="error=$event"></app-indicator-pie-chart>
         </ng-container>
 
-        <ng-container *ngIf="settings?.widgetType===widgetTypes.QuestionnaireBarChart">
+        <ng-container *ngIf="!error && settings?.widgetType===widgetTypes.QuestionnaireBarChart">
             <app-questionnaire-bar-chart #questionnaireBarChart [settings]="$any(settings)" (loading)="loading=$event" (title)="title=$event" (subtitle)="subtitle=$event" (error)="error=$event"></app-questionnaire-bar-chart>
         </ng-container>
 
-        <ng-container *ngIf="settings?.widgetType===widgetTypes.FolderShortcut">
+        <ng-container *ngIf="!error && settings?.widgetType===widgetTypes.FolderShortcut">
             <app-folder-shortcut #folderShortcut [settings]="$any(settings)" (loading)="loading=$event" (title)="title=$event" (subtitle)="subtitle=$event" (error)="error=$event"></app-folder-shortcut>
         </ng-container>
 

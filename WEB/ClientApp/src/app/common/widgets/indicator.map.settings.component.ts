@@ -10,6 +10,7 @@ import { IndicatorService } from '../services/indicator.service';
 import { DateService } from '../services/date.service';
 import { Enums, WidgetTypes } from '../models/enums.model';
 import { IndicatorMapSettings } from '../models/widget.model';
+import { EntityType } from '../models/entitytype.model';
 
 @NgComponent({
     selector: 'app-indicator-map-settings',
@@ -24,6 +25,7 @@ export class IndicatorMapSettingsComponent implements OnInit {
 
     public date: AppDate;
     public indicator: Indicator;
+    public entityType: EntityType;
 
     constructor(
         private errorService: ErrorService,

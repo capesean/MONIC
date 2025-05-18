@@ -107,121 +107,124 @@
                 <i class="fas fa-exclamation-triangle me-2"></i>There are no indicators for this combination of entity type and date, or you do not the permissions to access them
             </div>
 
-            <div ngbAccordion #accordion="ngbAccordion" *ngFor="let categoryRow of categoryRows">
+            <div ngbAccordion #accordion="ngbAccordion">
 
-                <div ngbAccordionItem>
+                <div ngbAccordionItem *ngFor="let categoryRow of categoryRows">
                     <h2 ngbAccordionHeader>
                         <button ngbAccordionButton>{{categoryRow.category.name}}</button>
                     </h2>
-                </div>
-                <div ngbAccordionCollapse>
-                    <div ngbAccordionBody>
+                    <div ngbAccordionCollapse>
+                        <div ngbAccordionBody>
 
-                        <div *ngFor="let subcategoryRow of categoryRow.subcategoryRows" class="subcategorybox mb-4">
+                            <div *ngIf="false">
 
-                            <h5>{{subcategoryRow.subcategory.name}}</h5>
+                                <div *ngFor="let subcategoryRow of categoryRow.subcategoryRows" class="subcategorybox mb-4">
 
-                            <div class="subcategory mb-4">
+                                    <h5>{{subcategoryRow.subcategory.name}}</h5>
 
-                                <!--header-->
-                                <div class="d-none d-md-flex align-items-center header">
-                                    <div class="col">
-                                        <div class="d-flex align-items-center px-2 py-2">
-                                            <div class="col-md-6 col-xl-8 text-muted">
-                                                Indicator
-                                            </div>
-                                            <div class="col-md-3 col-xl-2 text-center text-muted">
-                                                Value
-                                            </div>
-                                            <div class="col-md-3 col-xl-2 text-center text-muted">
-                                                Note
-                                            </div>
-                                        </div>
-                                    </div>
+                                    <div class="subcategory mb-4">
 
-                                    <!--todo: if not using submit/verify/approve globally, this column should be removed-->
-                                    <div class="col col-icon text-center text-muted" ngbTooltip="Status" container="body">
-                                        <i class="fa fa-fw fa-circle-info"></i>
-                                    </div>
-
-                                    <!--todo: add back: -->
-                                    <div class="col col-icon text-center" *ngIf="showSubmitCol" ngbTooltip="Submit" container="body">
-                                        <i class="fa fa-fw fa-floppy-disk" (click)="selectSubcategory(subcategoryRow, 2)" [ngClass]="{ 'text-muted': options.permissionType !== 2, 'cursor-pointer': options.permissionType === 2 }"></i>
-                                    </div>
-
-                                    <div class="col col-icon text-center" *ngIf="showVerifyCol" ngbTooltip="Verify" container="body">
-                                        <i class="fa fa-fw fa-clipboard-check" (click)="selectSubcategory(subcategoryRow, 3)" [ngClass]="{ 'text-muted': options.permissionType !== 3, 'cursor-pointer': options.permissionType === 3 }"></i>
-                                    </div>
-
-                                    <div class="col col-icon text-center" *ngIf="showApproveCol" ngbTooltip="Approve" container="body">
-                                        <i class="fa fa-fw fa-lock" (click)="selectSubcategory(subcategoryRow, 4)" [ngClass]="{ 'text-muted': options.permissionType !== 4, 'cursor-pointer': options.permissionType === 4 }"></i>
-                                    </div>
-
-                                </div>
-
-                                <!--indicator row-->
-                                <div class="indicatorRow d-md-flex align-items-center flex-column flex-md-row indicator mb-2 p-2 mb-md-0 p-md-0" *ngFor="let indicatorRow of subcategoryRow.indicatorRows" [ngClass]="{ 'changed': indicatorRow.changed }">
-                                    <div class="col">
-                                        <!--todo: if not using submit/verify/approve, this column isn't needed (see above)-->
-                                        <div class="d-md-flex align-items-center flex-column flex-md-row px-0 py-0 px-md-2 py-md-1">
-                                            <div class="col-md-6 col-xl-8">
-                                                {{indicatorRow.indicator.name}} <small class="text-muted">({{indicatorRow.indicator.code}})</small>
+                                        <!--header-->
+                                        <div class="d-none d-md-flex align-items-center header">
+                                            <div class="col">
+                                                <div class="d-flex align-items-center px-2 py-2">
+                                                    <div class="col-md-6 col-xl-8 text-muted">
+                                                        Indicator
+                                                    </div>
+                                                    <div class="col-md-3 col-xl-2 text-center text-muted">
+                                                        Value
+                                                    </div>
+                                                    <div class="col-md-3 col-xl-2 text-center text-muted">
+                                                        Note
+                                                    </div>
+                                                </div>
                                             </div>
 
-                                            <!--value-->
-                                            <div class="col-md-3 col-xl-2 px-0 px-md-1 py-1">
-                                                <small class="text-muted d-md-none text-tiny">Value:</small>
-                                                <input type="number" class="form-control" [(ngModel)]="indicatorRow.datum.value"
-                                                       placeholder="{{indicatorRow.units}}" name="indicator-{{indicatorRow.indicator.indicatorId}}-value"
-                                                       id="indicator-{{indicatorRow.indicator.indicatorId}}-value"
-                                                       [disabled]="!indicatorRow.canEdit" step="any"
-                                                       (ngModelChange)="setChanged(indicatorRow)" />
+                                            <!--todo: if not using submit/verify/approve globally, this column should be removed-->
+                                            <div class="col col-icon text-center text-muted" ngbTooltip="Status" container="body">
+                                                <i class="fa fa-fw fa-circle-info"></i>
                                             </div>
 
-                                            <!--note-->
-                                            <div class="col-md-3 col-xl-2 px-0 px-md-1 py-1">
-                                                <small class="text-muted d-md-none text-tiny">Note:</small>
-                                                <input type="text" class="form-control" [(ngModel)]="indicatorRow.datum.note" placeholder="Note"
-                                                       name="indicator-{{indicatorRow.indicator.indicatorId}}-note"
-                                                       id="indicator-{{indicatorRow.indicator.indicatorId}}-note"
-                                                       [disabled]="!indicatorRow.canEdit || indicatorRow.indicator.disableNote" maxlength="250"
-                                                       (ngModelChange)="setChanged(indicatorRow)" />
+                                            <!--todo: add back: -->
+                                            <div class="col col-icon text-center" *ngIf="showSubmitCol" ngbTooltip="Submit" container="body">
+                                                <i class="fa fa-fw fa-floppy-disk" (click)="selectSubcategory(subcategoryRow, 2)" [ngClass]="{ 'text-muted': options.permissionType !== 2, 'cursor-pointer': options.permissionType === 2 }"></i>
+                                            </div>
+
+                                            <div class="col col-icon text-center" *ngIf="showVerifyCol" ngbTooltip="Verify" container="body">
+                                                <i class="fa fa-fw fa-clipboard-check" (click)="selectSubcategory(subcategoryRow, 3)" [ngClass]="{ 'text-muted': options.permissionType !== 3, 'cursor-pointer': options.permissionType === 3 }"></i>
+                                            </div>
+
+                                            <div class="col col-icon text-center" *ngIf="showApproveCol" ngbTooltip="Approve" container="body">
+                                                <i class="fa fa-fw fa-lock" (click)="selectSubcategory(subcategoryRow, 4)" [ngClass]="{ 'text-muted': options.permissionType !== 4, 'cursor-pointer': options.permissionType === 4 }"></i>
                                             </div>
 
                                         </div>
+
+                                        <!--indicator row-->
+                                        <div class="indicatorRow d-md-flex align-items-center flex-column flex-md-row indicator mb-2 p-2 mb-md-0 p-md-0" *ngFor="let indicatorRow of subcategoryRow.indicatorRows" [ngClass]="{ 'changed': indicatorRow.changed }">
+                                            <div class="col">
+                                                <!--todo: if not using submit/verify/approve, this column isn't needed (see above)-->
+                                                <div class="d-md-flex align-items-center flex-column flex-md-row px-0 py-0 px-md-2 py-md-1">
+                                                    <div class="col-md-6 col-xl-8">
+                                                        {{indicatorRow.indicator.name}} <small class="text-muted">({{indicatorRow.indicator.code}})</small>
+                                                    </div>
+
+                                                    <!--value-->
+                                                    <div class="col-md-3 col-xl-2 px-0 px-md-1 py-1">
+                                                        <small class="text-muted d-md-none text-tiny">Value:</small>
+                                                        <input type="number" class="form-control" [(ngModel)]="indicatorRow.datum.value"
+                                                               placeholder="{{indicatorRow.units}}" name="indicator-{{indicatorRow.indicator.indicatorId}}-value"
+                                                               id="indicator-{{indicatorRow.indicator.indicatorId}}-value"
+                                                               [disabled]="!indicatorRow.canEdit" step="any"
+                                                               (ngModelChange)="setChanged(indicatorRow)" />
+                                                    </div>
+
+                                                    <!--note-->
+                                                    <div class="col-md-3 col-xl-2 px-0 px-md-1 py-1">
+                                                        <small class="text-muted d-md-none text-tiny">Note:</small>
+                                                        <input type="text" class="form-control" [(ngModel)]="indicatorRow.datum.note" placeholder="Note"
+                                                               name="indicator-{{indicatorRow.indicator.indicatorId}}-note"
+                                                               id="indicator-{{indicatorRow.indicator.indicatorId}}-note"
+                                                               [disabled]="!indicatorRow.canEdit || indicatorRow.indicator.disableNote" maxlength="250"
+                                                               (ngModelChange)="setChanged(indicatorRow)" />
+                                                    </div>
+
+                                                </div>
+                                            </div>
+
+                                            <!--status icon-->
+                                            <div class="col col-icon text-center py-1">
+                                                <i class="fa fa-fw fa-circle-info cursor-pointer" (click)="showRowStatus(indicatorRow)" [ngbTooltip]="getStatusTooltip(indicatorRow)" [ngClass]="{ 'text-danger': indicatorRow.datum.rejected }"></i>
+                                            </div>
+
+                                            <!--submit checkbox-->
+                                            <div class="col col-icon text-center py-1" *ngIf="showSubmitCol">
+                                                <i class="fa fa-fw" [ngClass]="getSubmitClass(indicatorRow)"
+                                                   (click)="checkClick(indicatorRow)"></i>
+                                            </div>
+
+                                            <!--verify checkbox-->
+                                            <div class="col col-icon text-center py-1" *ngIf="showVerifyCol">
+                                                <i class="fa fa-fw" [ngClass]="getVerifyClass(indicatorRow)"
+                                                   (click)="checkClick(indicatorRow)"></i>
+                                            </div>
+
+                                            <!--approve checkbox-->
+                                            <div class="col col-icon text-center py-1" *ngIf="showApproveCol">
+                                                <i class="fa fa-fw" [ngClass]="getApproveClass(indicatorRow)"
+                                                   (click)="checkClick(indicatorRow)"></i>
+                                            </div>
+
+                                        </div>
+
                                     </div>
 
-                                    <!--status icon-->
-                                    <div class="col col-icon text-center py-1">
-                                        <i class="fa fa-fw fa-circle-info cursor-pointer" (click)="showRowStatus(indicatorRow)" [ngbTooltip]="getStatusTooltip(indicatorRow)" [ngClass]="{ 'text-danger': indicatorRow.datum.rejected }"></i>
-                                    </div>
-
-                                    <!--submit checkbox-->
-                                    <div class="col col-icon text-center py-1" *ngIf="showSubmitCol">
-                                        <i class="fa fa-fw" [ngClass]="getSubmitClass(indicatorRow)"
-                                           (click)="checkClick(indicatorRow)"></i>
-                                    </div>
-
-                                    <!--verify checkbox-->
-                                    <div class="col col-icon text-center py-1" *ngIf="showVerifyCol">
-                                        <i class="fa fa-fw" [ngClass]="getVerifyClass(indicatorRow)"
-                                           (click)="checkClick(indicatorRow)"></i>
-                                    </div>
-
-                                    <!--approve checkbox-->
-                                    <div class="col col-icon text-center py-1" *ngIf="showApproveCol">
-                                        <i class="fa fa-fw" [ngClass]="getApproveClass(indicatorRow)"
-                                           (click)="checkClick(indicatorRow)"></i>
-                                    </div>
+                                    <!--todo: row totals like rura? or remove totals settings on subcategory.?-->
 
                                 </div>
 
                             </div>
-
-                            <!--todo: row totals like rura? or remove totals settings on subcategory.?-->
-
-                        </div>
-
+                        </div> 
                     </div>
                 </div>
 
