@@ -10,14 +10,20 @@ namespace WEB.Controllers
         {
             //var hasGlobalEdit = CurrentUser.HasElementPermission(db, this.userManager, PermissionType.Edit, PermissionCheckType.Global);
 
-            var noIndicators = indicatorIds == null || !indicatorIds.Any();
-            var noEntities = entityIds == null || !entityIds.Any();
-            var noDates = dateIds == null || !dateIds.Any();
+            var isAdmin = CurrentUser.IsInRole(Models.Roles.Administrator);
+
+            var permittedEntityIds = await db.Entities
+                .Where(o => o.EntityPermissions.Any(ep => ep.UserId == CurrentUser.Id) || isAdmin)
+                .Select(o => o.EntityId)
+                .ToListAsync();
+
+            var noIndicators = indicatorIds == null || indicatorIds.Length == 0;
+            var noEntities = entityIds == null || entityIds.Length == 0;
+            var noDates = dateIds == null || dateIds.Length == 0;
 
             var query = from en in db.Entities
                         from @in in db.Indicators
                         from dt in db.Dates
-                        join ep in db.EntityPermissions on en.EntityId equals ep.EntityId
                         join d in db.Data on new
                         {
                             @in.IndicatorId,
@@ -33,10 +39,7 @@ namespace WEB.Controllers
                         into temp
                         from datum in temp.DefaultIfEmpty()
                         where
-                           // user must have entity permission
-                           // todo: handle admin users?
-                           // todo: should lower-level users be able to see higher level stats?
-                           ep.UserId == CurrentUser.Id
+                            permittedEntityIds.Contains(en.EntityId)
                            // entity is not disabled
                            && !en.Disabled
 
@@ -66,7 +69,7 @@ namespace WEB.Controllers
                         {
                             status =
                                 // is this right?
-                               datum.IndicatorId == Guid.Empty ? "Missing" :
+                               datum == null ? "Missing" :
                                datum.Approved ? "Approved" :
                                datum.Verified ? "Verified" :
                                datum.Submitted ? "Submitted" :
