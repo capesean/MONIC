@@ -11,19 +11,11 @@
 
             <fieldset>
 
-                <div class="alert alert-info alert-dismissible" *ngIf="showFilters && optionList!=undefined">Filtered by option list: {{optionList.name}}<button type="button" class="btn-close" data-bs-dismiss="alert" (click)="searchOptions.optionListId=undefined;optionList=undefined;runSearch();" *ngIf="canRemoveFilters"></button></div>
-
                 <div class="row gx-3">
 
                     <div class="col-sm-6 col-md-6 col-lg-4">
                         <div class="form-group">
-                            <input type="search" ngbAutofocus name="q" id="q" [(ngModel)]="searchOptions.q" max="100" class="form-control" placeholder="Search options" autocomplete="off" />
-                        </div>
-                    </div>
-
-                    <div class="col-sm-6 col-md-6 col-lg-4" *ngIf="!optionList">
-                        <div class="form-group">
-                            <option-list-select id="optionListId" name="optionListId" [(ngModel)]="searchOptions.optionListId"></option-list-select>
+                            <input type="search" ngbAutofocus name="q" id="q" [(ngModel)]="searchOptions.q" max="100" class="form-control" placeholder="Search option lists" autocomplete="off" />
                         </div>
                     </div>
 
@@ -44,15 +36,13 @@
                 <thead class="thead-light">
                     <tr>
                         <th class="text-center w-20px" *ngIf="multiple"><i class="fas fa-fw cursor-pointer" [ngClass]="{ 'fa-check-square': allSelected, 'fa-square': !allSelected }" (click)="toggleAll()"></i></th>
-                        <th *ngIf="!optionList">Option List</th>
                         <th>Name</th>
                     </tr>
                 </thead>
                 <tbody class="cursor-pointer">
-                    <tr *ngFor="let option of options" (click)="select(option)" [ngClass]="{ 'table-info': isSelected(option) }">
-                        <td *ngIf="multiple" class="text-center"><i [ngClass]="{ 'fa-check-square': isSelected(option), 'fa-square': !isSelected(option) }" class="fas fa-fw"></i></td>
-                        <td *ngIf="!optionList">{{ option.optionList.name }}</td>
-                        <td>{{ option.name }}</td>
+                    <tr *ngFor="let optionList of optionLists" (click)="select(optionList)" [ngClass]="{ 'table-info': isSelected(optionList) }">
+                        <td *ngIf="multiple" class="text-center"><i [ngClass]="{ 'fa-check-square': isSelected(optionList), 'fa-square': !isSelected(optionList) }" class="fas fa-fw"></i></td>
+                        <td>{{ optionList.name }}</td>
                     </tr>
                 </tbody>
             </table>

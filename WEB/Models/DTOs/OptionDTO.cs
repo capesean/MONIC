@@ -9,7 +9,7 @@ namespace WEB.Models
         public Guid OptionId { get; set; }
 
         [Required]
-        public Guid FieldId { get; set; }
+        public Guid OptionListId { get; set; }
 
         [DisplayFormat(ConvertEmptyStringToNull = false), MaxLength(2000)]
         public string Name { get; set; }
@@ -17,7 +17,7 @@ namespace WEB.Models
         [Required]
         public int SortOrder { get; set; }
 
-        public FieldDTO Field { get; set; }
+        public OptionListDTO OptionList { get; set; }
 
         public virtual List<ItemOptionDTO> ItemOptions { get; set; } = new List<ItemOptionDTO>();
 
@@ -32,13 +32,13 @@ namespace WEB.Models
             var optionDTO = new OptionDTO();
 
             optionDTO.OptionId = option.OptionId;
-            optionDTO.FieldId = option.FieldId;
+            optionDTO.OptionListId = option.OptionListId;
             optionDTO.Name = option.Name;
             optionDTO.SortOrder = option.SortOrder;
 
             if (includeParents)
             {
-                optionDTO.Field = Create(option.Field);
+                optionDTO.OptionList = Create(option.OptionList);
             }
 
             if (includeChildren)
@@ -52,7 +52,7 @@ namespace WEB.Models
 
         public static void Hydrate(Option option, OptionDTO optionDTO)
         {
-            option.FieldId = optionDTO.FieldId;
+            option.OptionListId = optionDTO.OptionListId;
             option.Name = optionDTO.Name;
             option.SortOrder = optionDTO.SortOrder;
         }

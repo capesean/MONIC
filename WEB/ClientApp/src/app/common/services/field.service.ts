@@ -41,8 +41,4 @@ export class FieldService extends SearchQuery {
         return this.http.post<void>(`${environment.baseApiUrl}fields/sort`, ids);
     }
 
-    deleteOptions(fieldId: string): Observable<void> {
-        return this.http.delete<void>(`${environment.baseApiUrl}fields/${fieldId}/options`);
-    }
-
 }

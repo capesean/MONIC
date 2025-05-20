@@ -17,7 +17,7 @@ export class OptionSortComponent implements OnInit {
     public headers: PagingHeaders = new PagingHeaders();
     private bodyElement: HTMLElement = document.body;
     public options: Option[];
-    public fieldId: string;
+    public optionListId: string;
 
     constructor(
         public modal: NgbActiveModal,
@@ -28,7 +28,7 @@ export class OptionSortComponent implements OnInit {
     }
 
     ngOnInit(): void {
-        this.optionService.search({ fieldId: this.fieldId, pageSize: 0, includeParents: true } as OptionSearchOptions)
+        this.optionService.search({ optionListId: this.optionListId, pageSize: 0, includeParents: true } as OptionSearchOptions)
             .subscribe({
                 next: response => this.options = response.options,
                 error: err => this.errorService.handleError(err, "Options", "Load")
@@ -47,7 +47,7 @@ export class OptionSortComponent implements OnInit {
     }
 
     close() {
-        this.optionService.sort(this.fieldId, this.options.map(o => o.optionId))
+        this.optionService.sort(this.optionListId, this.options.map(o => o.optionId))
             .subscribe({
                 next: () => {
                     this.modal.close();

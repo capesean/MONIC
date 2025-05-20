@@ -36,7 +36,7 @@ export class OptionEditComponent implements OnInit {
         this.route.params.subscribe(params => {
 
             const optionId = params["optionId"];
-            this.option.fieldId = this.route.snapshot.parent.params.fieldId;
+            this.option.optionListId = this.route.snapshot.parent.params.optionListId;
             this.isNew = optionId === "add";
 
             if (!this.isNew) {

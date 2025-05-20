@@ -22,12 +22,12 @@ namespace WEB.Controllers
             if (searchOptions.IncludeParents)
             {
                 results = results.Include(o => o.Group);
+                results = results.Include(o => o.OptionList);
             }
 
             if (searchOptions.IncludeChildren)
             {
                 results = results.Include(o => o.ItemFields);
-                results = results.Include(o => o.Options);
             }
 
             if (!string.IsNullOrWhiteSpace(searchOptions.q))
@@ -49,6 +49,7 @@ namespace WEB.Controllers
         {
             var field = await db.Fields
                 .Include(o => o.Group)
+                .Include(o => o.OptionList)
                 .FirstOrDefaultAsync(o => o.FieldId == fieldId);
 
             if (field == null)
@@ -107,8 +108,6 @@ namespace WEB.Controllers
 
             using (var transactionScope = Utilities.General.CreateTransactionScope())
             {
-                await db.Options.Where(o => o.FieldId == field.FieldId).ExecuteDeleteAsync();
-
                 await db.ItemFields.Where(o => o.FieldId == field.FieldId).ExecuteDeleteAsync();
 
                 db.Entry(field).State = EntityState.Deleted;
@@ -135,21 +134,6 @@ namespace WEB.Controllers
             }
 
             await db.SaveChangesAsync();
-
-            return Ok();
-        }
-
-        [HttpDelete("{fieldId:Guid}/options"), AuthorizeRoles(Roles.Administrator)]
-        public async Task<IActionResult> DeleteOptions(Guid fieldId)
-        {
-            using (var transactionScope = Utilities.General.CreateTransactionScope())
-            {
-                await db.ItemOptions.Where(o => o.Option.FieldId == fieldId).ExecuteDeleteAsync();
-
-                await db.Options.Where(o => o.FieldId == fieldId).ExecuteDeleteAsync();
-
-                transactionScope.Complete();
-            }
 
             return Ok();
         }

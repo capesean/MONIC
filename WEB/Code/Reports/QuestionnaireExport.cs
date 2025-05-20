@@ -112,8 +112,10 @@ namespace WEB.Reports.Excel
             var useAverageRow = questions.Any(o => o.QuestionType == QuestionType.OptionList && o.OptionListType != OptionListType.Checkboxes && optionGroups[o.QuestionOptionGroupId.Value].QuestionOptions.Any() && optionGroups[o.QuestionOptionGroupId.Value].QuestionOptions.All(qo => qo.Value.HasValue));
 
             var fields = await db.Fields
-                .Include(o => o.Options)
                 .Where(o => fieldIds.Contains(o.FieldId) && o.Entity)
+                .ToListAsync();
+
+            var options = await db.Options
                 .ToListAsync();
 
             var itemFields = await db.ItemFields
@@ -124,15 +126,15 @@ namespace WEB.Reports.Excel
                 .GroupBy(o => o.FieldId)
                 .ToDictionary(o => o.Key, o => o.ToDictionary(x => x.ItemId));
 
-            var optionValues = await db.ItemOptions
+            var itemOptions = await db.ItemOptions
                 .Include(o => o.Option)
                 .Where(o => entityIds.Contains(o.ItemId))
                 .ToListAsync();
 
             // Dictionary<fieldId, Dictionary<entityId, List<optionValue>>>
-            var optionValueLookup = optionValues
-                .GroupBy(o => o.Option.FieldId)
-                .ToDictionary(o => o.Key, o => o.GroupBy(x => x.ItemId).ToDictionary(x => x.Key, y => y.ToList()));
+            //var optionValueLookup = itemOptions
+            //    .GroupBy(o => o.Option.FieldId)
+            //    .ToDictionary(o => o.Key, o => o.GroupBy(x => x.ItemId).ToDictionary(x => x.Key, y => y.ToList()));
             #endregion
 
             byte[] bytes;
@@ -226,10 +228,15 @@ namespace WEB.Reports.Excel
                             ws.Cells[row, col++].Value = itemFieldLookup.GetValueOrDefault(field.FieldId)?.GetValueOrDefault(response.EntityId)?.Value ?? null;
                         else if (field.FieldType == FieldType.Picklist)
                         {
-                            // todo: will need a col for each option...
+                            // todo: for multiple, will need a column for each option...
                             if (field.Multiple) throw new Exception("Not implemented");
-                            var optionValue = optionValueLookup.GetValueOrDefault(field.FieldId)?.GetValueOrDefault(response.EntityId)?.Single();
-                            ws.Cells[row, col++].Value = optionValue == null ? null : field.Options.Single(o => o.OptionId == optionValue.OptionId).Name;
+
+                            // not the most efficient way to do this...
+                            var optionsForThisField = options.Where(o => o.OptionListId == field.OptionListId).ToList();
+
+                            var selectedOptionForThisEntity = optionsForThisField.SingleOrDefault(o => itemOptions.Any(io => io.ItemId == response.EntityId));
+
+                            ws.Cells[row, col++].Value = selectedOptionForThisEntity == null ? null : selectedOptionForThisEntity.Name;
                         }
                         else
                             throw new NotImplementedException();

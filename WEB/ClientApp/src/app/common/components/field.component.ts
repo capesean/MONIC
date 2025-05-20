@@ -2,10 +2,7 @@ import { Component, OnInit, Input, EventEmitter, ChangeDetectorRef, Output, View
 import { ControlValueAccessor, NG_VALUE_ACCESSOR, Validator, AbstractControl, ValidationErrors, NG_VALIDATORS, NgModel } from "@angular/forms";
 import { FieldTypes } from '../models/enums.model';
 import { Field } from '../models/field.model';
-//import { File } from './../models/file.model';
 import { Option } from '../models/option.model';
-import { DownloadService } from "../services/download.service";
-import { ErrorService } from "../services/error.service";
 
 enum ControlTypes {
     checkbox = 0,
@@ -15,8 +12,6 @@ enum ControlTypes {
     select = 4,
     textbox = 5,
     textArea = 6,
-    //fileInput = 7,
-    //date = 8
 }
 
 @Component({
@@ -52,14 +47,12 @@ export class FieldComponent implements OnInit, ControlValueAccessor, Validator {
     @ViewChild("select") select: NgModel;
     @ViewChild("textbox") textbox: NgModel;
     @ViewChild("textArea") textArea: NgModel;
-//    @ViewChild("fileInput") fileInput: any;
 
     @Input() set field(field: Field) {
         this._field = field;
         this.setData();
     }
     @Output() isValid: EventEmitter<boolean> = new EventEmitter<boolean>();
-    //@Input() file: File;
     @Input() itemFields = new Map<string, string | string[] | Date | boolean>();
 
     constructor(

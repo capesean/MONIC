@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Identity;
 using WEB.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.EntityFrameworkCore;
+using OfficeOpenXml.Table.PivotTable;
 
 namespace WEB.Controllers
 {
@@ -44,7 +45,7 @@ namespace WEB.Controllers
         public async Task<IActionResult> GetFieldData()
         {
             var fields = await db.Fields
-                .Include(o => o.Options)
+                .Include(o => o.OptionList)
                 .OrderBy(o => o.SortOrder)
                 .ToListAsync();
 
@@ -52,21 +53,29 @@ namespace WEB.Controllers
                 .OrderBy(o => o.SortOrder)
                 .ToListAsync();
 
-            // add a blank option to unselect the selected value
-            foreach (var field in fields)
+            var fieldData = new FieldData
             {
-                if (field.FieldType == FieldType.Picklist && !field.Multiple && !field.Required && !field.RadioCheckbox)
-                    field.Options = field.Options.Prepend(new Option { FieldId = field.FieldId, OptionId = Guid.Empty, Name = string.Empty, SortOrder = -1 }).ToList();
-                field.Options = field.Options.OrderBy(o => o.SortOrder).ToList();
+                Fields = [.. fields.Select(o => ModelFactory.Create(o))],
+                Groups = [.. groups.Select(o => ModelFactory.Create(o))]
+            };
+
+            // add a blank option to unselect the selected value
+            foreach (var field in fieldData.Fields)
+            {
+                if (field.FieldType == FieldType.Picklist)
+                {
+                    var options = await db.Options.Where(o => o.OptionListId == field.OptionListId)
+                        .OrderBy(o => o.SortOrder)
+                        .ToListAsync();
+
+                    if (!field.Multiple && !field.Required && !field.RadioCheckbox)
+                        options.Insert(0, new Option { OptionListId = field.OptionListId.Value, OptionId = Guid.Empty, Name = string.Empty, SortOrder = -1 });
+
+                    field.OptionList.Options = [.. options.Select(o => ModelFactory.Create(o))];
+                }
             }
 
-            return Ok(
-                new FieldData
-                {
-                    Fields = fields.Select(o => ModelFactory.Create(o)).ToList(),
-                    Groups = groups.Select(o => ModelFactory.Create(o)).ToList()
-                }
-            );
+            return Ok(fieldData);
         }
 
         public class FieldData

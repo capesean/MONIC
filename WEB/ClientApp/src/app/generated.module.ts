@@ -62,6 +62,8 @@ import { MilestoneListComponent } from './admin/milestones/milestone.list.compon
 import { MilestoneEditComponent } from './admin/milestones/milestone.edit.component';
 import { OptionListComponent } from './admin/options/option.list.component';
 import { OptionEditComponent } from './admin/options/option.edit.component';
+import { OptionListListComponent } from './admin/optionlists/optionlist.list.component';
+import { OptionListEditComponent } from './admin/optionlists/optionlist.edit.component';
 import { OrganisationListComponent } from './admin/organisations/organisation.list.component';
 import { OrganisationEditComponent } from './admin/organisations/organisation.edit.component';
 import { ProjectListComponent } from './admin/projects/project.list.component';
@@ -157,6 +159,8 @@ import { NgxEchartsModule } from 'ngx-echarts';
         MilestoneEditComponent,
         OptionListComponent,
         OptionEditComponent,
+        OptionListListComponent,
+        OptionListEditComponent,
         OrganisationListComponent,
         OrganisationEditComponent,
         ProjectListComponent,

@@ -1,3 +1,6 @@
+using Org.BouncyCastle.Tls;
+using System.Threading.Tasks;
+
 namespace WEB.Models
 {
     public class FieldsDTO
@@ -33,8 +36,9 @@ namespace WEB.Models
                 {
                     if (field.FieldType == FieldType.Picklist)
                     {
+                        var optionIds = db.Options.Where(o => o.OptionListId == field.OptionListId).Select(o => o.OptionId).ToHashSet();
 
-                        if (!ItemOptions.Any(o => options.Where(opt => opt.FieldId == field.FieldId).Any(opt => opt.OptionId == o.OptionId)))
+                        if (!ItemOptions.Any(o => optionIds.Contains(o.OptionId)))
                         {
                             error = $"No value provided for {field.Name}";
                             return false;

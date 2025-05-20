@@ -66,6 +66,8 @@ import { MilestoneSortComponent } from './admin/milestones/milestone.sort.compon
 import { OptionSelectComponent } from './admin/options/option.select.component';
 import { OptionModalComponent } from './admin/options/option.modal.component';
 import { OptionSortComponent } from './admin/options/option.sort.component';
+import { OptionListSelectComponent } from './admin/optionlists/optionlist.select.component';
+import { OptionListModalComponent } from './admin/optionlists/optionlist.modal.component';
 import { OrganisationSelectComponent } from './admin/organisations/organisation.select.component';
 import { OrganisationModalComponent } from './admin/organisations/organisation.modal.component';
 import { ProjectSelectComponent } from './admin/projects/project.select.component';
@@ -191,6 +193,8 @@ import { FrequencyAdverb } from './common/pipes/frequencyadverbpipe';
         OptionSelectComponent,
         OptionModalComponent,
         OptionSortComponent,
+        OptionListSelectComponent,
+        OptionListModalComponent,
         OrganisationSelectComponent,
         OrganisationModalComponent,
         ProjectSelectComponent,
@@ -296,6 +300,8 @@ import { FrequencyAdverb } from './common/pipes/frequencyadverbpipe';
         OptionSelectComponent,
         OptionModalComponent,
         OptionSortComponent,
+        OptionListSelectComponent,
+        OptionListModalComponent,
         OrganisationSelectComponent,
         OrganisationModalComponent,
         ProjectSelectComponent,

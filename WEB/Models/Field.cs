@@ -67,12 +67,15 @@ namespace WEB.Models
         [Required]
         public short Rows { get; set; }
 
-        public virtual ICollection<Option> Options { get; set; } = new List<Option>();
+        public Guid? OptionListId { get; set; }
 
         public virtual ICollection<ItemField> ItemFields { get; set; } = new List<ItemField>();
 
         [ForeignKey("GroupId")]
         public virtual Group Group { get; set; }
+
+        [ForeignKey("OptionListId")]
+        public virtual OptionList OptionList { get; set; }
 
         public Field()
         {

@@ -34,6 +34,7 @@ namespace WEB.Models
         public DbSet<LogFrameRowIndicator> LogFrameRowIndicators { get; set; }
         public DbSet<Milestone> Milestones { get; set; }
         public DbSet<Option> Options { get; set; }
+        public DbSet<OptionList> OptionLists { get; set; }
         public DbSet<Organisation> Organisations { get; set; }
         public DbSet<Project> Projects { get; set; }
         public DbSet<Question> Questions { get; set; }
@@ -188,8 +189,13 @@ namespace WEB.Models
                 .IsUnique();
 
             modelBuilder.Entity<Option>()
-                .HasIndex(o => new { o.FieldId, o.Name })
+                .HasIndex(o => new { o.OptionListId, o.Name })
                 .HasDatabaseName("IX_Option_Name")
+                .IsUnique();
+
+            modelBuilder.Entity<OptionList>()
+                .HasIndex(o => o.Name)
+                .HasDatabaseName("IX_OptionList_Name")
                 .IsUnique();
 
             modelBuilder.Entity<Organisation>()

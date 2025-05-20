@@ -28,7 +28,7 @@
 
                 <div class="col-sm-6 col-md-5 col-xl-4">
                     <div class="form-group">
-                        <field-select id="fieldId" name="fieldId" [(ngModel)]="searchOptions.fieldId"></field-select>
+                        <option-list-select id="optionListId" name="optionListId" [(ngModel)]="searchOptions.optionListId"></option-list-select>
                     </div>
                 </div>
 
@@ -49,13 +49,13 @@
         <table class="table table-hover table-striped table-nowrap mb-0 align-middle">
             <thead class="thead-light">
                 <tr>
-                    <th>Field</th>
+                    <th>Option List</th>
                     <th>Name</th>
                 </tr>
             </thead>
             <tbody class="list cursor-pointer">
                 <tr *ngFor="let option of options" (click)="goToOption(option)">
-                    <td>{{ option.field.name }}</td>
+                    <td>{{ option.optionList.name }}</td>
                     <td>{{ option.name }}</td>
                 </tr>
             </tbody>

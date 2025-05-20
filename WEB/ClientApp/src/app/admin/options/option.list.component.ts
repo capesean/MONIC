@@ -71,7 +71,7 @@ export class OptionListComponent implements OnInit {
     }
 
     goToOption(option: Option): void {
-        this.router.navigate(["/fields", option.field.fieldId, "options", option.optionId]);
+        this.router.navigate(["/optionlists", option.optionList.optionListId, "options", option.optionId]);
     }
 }
 

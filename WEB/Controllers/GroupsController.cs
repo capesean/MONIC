@@ -125,8 +125,6 @@ namespace WEB.Controllers
         {
             using (var transactionScope = Utilities.General.CreateTransactionScope())
             {
-                await db.Options.Where(o => o.Field.GroupId == groupId).ExecuteDeleteAsync();
-
                 await db.ItemFields.Where(o => o.Field.GroupId == groupId).ExecuteDeleteAsync();
 
                 await db.Fields.Where(o => o.GroupId == groupId).ExecuteDeleteAsync();

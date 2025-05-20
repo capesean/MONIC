@@ -9,14 +9,14 @@
         <thead class="thead-light">
             <tr>
                 <th class="text-center w-20px"><i class="fas fa-sort"></i></th>
-                <th>Field</th>
+                <th>Option List</th>
                 <th>Name</th>
             </tr>
         </thead>
         <tbody cdkDropList (cdkDropListDropped)="drop($event)" class="cursor-grab">
             <tr *ngFor="let option of options" cdkDrag cdkDragHandle (cdkDragStarted)="dragStart($event)">
                 <td class="text-center"><i class="fas fa-sort"></i></td>
-                <td>{{ option.field.name }}</td>
+                <td>{{ option.optionList.name }}</td>
                 <td>{{ option.name }}</td>
             </tr>
         </tbody>

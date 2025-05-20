@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using WEB.Models;
 
@@ -11,9 +12,11 @@ using WEB.Models;
 namespace WEB.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250520132243_AddOptionLists")]
+    partial class AddOptionLists
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -917,9 +920,6 @@ namespace WEB.Migrations
                         .HasMaxLength(2000)
                         .HasColumnType("nvarchar(2000)");
 
-                    b.Property<Guid?>("OptionListId")
-                        .HasColumnType("uniqueidentifier");
-
                     b.Property<bool>("Organisation")
                         .HasColumnType("bit");
 
@@ -952,8 +952,6 @@ namespace WEB.Migrations
                     b.HasIndex("Name")
                         .IsUnique()
                         .HasDatabaseName("IX_Field_Name");
-
-                    b.HasIndex("OptionListId");
 
                     b.ToTable("Fields");
                 });
@@ -1348,12 +1346,15 @@ namespace WEB.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
+                    b.Property<Guid>("FieldId")
+                        .HasColumnType("uniqueidentifier");
+
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasMaxLength(2000)
                         .HasColumnType("nvarchar(2000)");
 
-                    b.Property<Guid>("OptionListId")
+                    b.Property<Guid?>("OptionListId")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<int>("SortOrder")
@@ -1361,9 +1362,12 @@ namespace WEB.Migrations
 
                     b.HasKey("OptionId");
 
+                    b.HasIndex("FieldId");
+
                     b.HasIndex("OptionListId", "Name")
                         .IsUnique()
-                        .HasDatabaseName("IX_Option_Name");
+                        .HasDatabaseName("IX_Option_Name")
+                        .HasFilter("[OptionListId] IS NOT NULL");
 
                     b.ToTable("Options");
                 });
@@ -2450,14 +2454,7 @@ namespace WEB.Migrations
                         .HasForeignKey("GroupId")
                         .OnDelete(DeleteBehavior.Restrict);
 
-                    b.HasOne("WEB.Models.OptionList", "OptionList")
-                        .WithMany("Fields")
-                        .HasForeignKey("OptionListId")
-                        .OnDelete(DeleteBehavior.Restrict);
-
                     b.Navigation("Group");
-
-                    b.Navigation("OptionList");
                 });
 
             modelBuilder.Entity("WEB.Models.Folder", b =>
@@ -2634,11 +2631,18 @@ namespace WEB.Migrations
 
             modelBuilder.Entity("WEB.Models.Option", b =>
                 {
+                    b.HasOne("WEB.Models.Field", "Field")
+                        .WithMany("Options")
+                        .HasForeignKey("FieldId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
                     b.HasOne("WEB.Models.OptionList", "OptionList")
                         .WithMany("Options")
                         .HasForeignKey("OptionListId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
+                        .OnDelete(DeleteBehavior.Restrict);
+
+                    b.Navigation("Field");
 
                     b.Navigation("OptionList");
                 });
@@ -2984,6 +2988,8 @@ namespace WEB.Migrations
             modelBuilder.Entity("WEB.Models.Field", b =>
                 {
                     b.Navigation("ItemFields");
+
+                    b.Navigation("Options");
                 });
 
             modelBuilder.Entity("WEB.Models.Folder", b =>
@@ -3046,8 +3052,6 @@ namespace WEB.Migrations
 
             modelBuilder.Entity("WEB.Models.OptionList", b =>
                 {
-                    b.Navigation("Fields");
-
                     b.Navigation("Options");
                 });
 

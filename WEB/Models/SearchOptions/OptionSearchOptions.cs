@@ -4,7 +4,7 @@ namespace WEB.Models
     {
         public string q { get; set; }
 
-        public Guid? FieldId { get; set; }
+        public Guid? OptionListId { get; set; }
 
     }
 }

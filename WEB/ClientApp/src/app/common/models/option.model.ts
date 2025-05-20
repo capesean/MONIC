@@ -1,13 +1,13 @@
 import { SearchOptions, PagingHeaders } from './http.model';
-import { Field } from './field.model';
+import { OptionList } from './optionlist.model';
 import { ItemOption } from './itemoption.model';
 
 export class Option {
     optionId: string;
-    fieldId: string;
+    optionListId: string;
     name: string;
     sortOrder: number;
-    field: Field;
+    optionList: OptionList;
 
     itemOptions: ItemOption[];
 
@@ -19,7 +19,7 @@ export class Option {
 
 export class OptionSearchOptions extends SearchOptions {
     q: string;
-    fieldId: string;
+    optionListId: string;
 }
 
 export class OptionSearchResponse {

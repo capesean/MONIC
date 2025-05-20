@@ -56,6 +56,8 @@ import { MilestoneListComponent } from './admin/milestones/milestone.list.compon
 import { MilestoneEditComponent } from './admin/milestones/milestone.edit.component';
 import { OptionListComponent } from './admin/options/option.list.component';
 import { OptionEditComponent } from './admin/options/option.edit.component';
+import { OptionListListComponent } from './admin/optionlists/optionlist.list.component';
+import { OptionListEditComponent } from './admin/optionlists/optionlist.edit.component';
 import { OrganisationListComponent } from './admin/organisations/organisation.list.component';
 import { OrganisationEditComponent } from './admin/organisations/organisation.edit.component';
 import { ProjectListComponent } from './admin/projects/project.list.component';
@@ -383,20 +385,7 @@ export const GeneratedRoutes: Route[] = [
                     menu: 'admin',
                     submenu: 'fields',
                     breadcrumb: 'Add Field'
-                },
-                children: [
-                    {
-                        path: 'options/:optionId',
-                        component: OptionEditComponent,
-                        canActivate: [AccessGuard],
-                        canActivateChild: [AccessGuard],
-                        data: {
-                            menu: 'admin',
-                            submenu: 'options',
-                            breadcrumb: 'Add Option'
-                        }
-                    }
-                ]
+                }
             }
         ]
     },
@@ -719,6 +708,41 @@ export const GeneratedRoutes: Route[] = [
             submenu: 'options',
             breadcrumb: 'Options'
         }
+    },
+    {
+        path: 'optionlists',
+        canActivate: [AccessGuard],
+        canActivateChild: [AccessGuard],
+        component: OptionListListComponent,
+        data: {
+            submenu: 'optionLists',
+            breadcrumb: 'Option Lists'
+        },
+        children: [
+            {
+                path: ':optionListId',
+                component: OptionListEditComponent,
+                canActivate: [AccessGuard],
+                canActivateChild: [AccessGuard],
+                data: {
+                    menu: '',
+                    submenu: 'optionLists',
+                    breadcrumb: 'Add Option List'
+                },
+                children: [
+                    {
+                        path: 'options/:optionId',
+                        component: OptionEditComponent,
+                        canActivate: [AccessGuard],
+                        canActivateChild: [AccessGuard],
+                        data: {
+                            submenu: 'options',
+                            breadcrumb: 'Add Option'
+                        }
+                    }
+                ]
+            }
+        ]
     },
     {
         path: 'organisations',

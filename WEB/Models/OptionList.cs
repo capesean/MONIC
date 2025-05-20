@@ -5,28 +5,21 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace WEB.Models
 {
-    public class Option
+    public class OptionList
     {
         [Key, Required]
-        public Guid OptionId { get; set; }
-
-        [Required]
         public Guid OptionListId { get; set; }
 
-        [Required(AllowEmptyStrings = true), MaxLength(2000)]
+        [Required(AllowEmptyStrings = true), MaxLength(50)]
         public string Name { get; set; }
 
-        [Required]
-        public int SortOrder { get; set; }
+        public virtual ICollection<Option> Options { get; set; } = new List<Option>();
 
-        public virtual ICollection<ItemOption> ItemOptions { get; set; } = new List<ItemOption>();
+        public virtual ICollection<Field> Fields { get; set; } = new List<Field>();
 
-        [ForeignKey("OptionListId")]
-        public virtual OptionList OptionList { get; set; }
-
-        public Option()
+        public OptionList()
         {
-            OptionId = Guid.NewGuid();
+            OptionListId = Guid.NewGuid();
         }
 
         public override string ToString()
@@ -38,14 +31,14 @@ namespace WEB.Models
         {
             if (obj == null || GetType() != obj.GetType()) return false;
 
-            Option other = (Option)obj;
+            OptionList other = (OptionList)obj;
 
-            return OptionId == other.OptionId;
+            return OptionListId == other.OptionListId;
         }
 
         public override int GetHashCode()
         {
-            return OptionId.GetHashCode();
+            return OptionListId.GetHashCode();
         }
     }
 }

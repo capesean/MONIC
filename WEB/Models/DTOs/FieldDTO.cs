@@ -67,11 +67,13 @@ namespace WEB.Models
         [Required]
         public short Rows { get; set; }
 
+        public Guid? OptionListId { get; set; }
+
         public GroupDTO Group { get; set; }
 
-        public virtual List<ItemFieldDTO> ItemFields { get; set; } = new List<ItemFieldDTO>();
+        public OptionListDTO OptionList { get; set; }
 
-        public virtual List<OptionDTO> Options { get; set; } = new List<OptionDTO>();
+        public virtual List<ItemFieldDTO> ItemFields { get; set; } = new List<ItemFieldDTO>();
 
     }
 
@@ -104,21 +106,19 @@ namespace WEB.Models
             fieldDTO.MultiLine = field.MultiLine;
             fieldDTO.GroupId = field.GroupId;
             fieldDTO.Rows = field.Rows;
+            fieldDTO.OptionListId = field.OptionListId;
 
             if (includeParents)
             {
                 fieldDTO.Group = Create(field.Group);
+                fieldDTO.OptionList = Create(field.OptionList);
             }
 
             if (includeChildren)
             {
                 foreach (var itemField in field.ItemFields)
                     fieldDTO.ItemFields.Add(Create(itemField));
-                foreach (var itemOption in field.Options)
-                    fieldDTO.Options.Add(Create(itemOption));
             }
-
-            fieldDTO.Options = field.Options.Select(o => Create(o, false)).ToList();
 
             return fieldDTO;
         }
@@ -145,6 +145,7 @@ namespace WEB.Models
             field.MultiLine = fieldDTO.MultiLine;
             field.GroupId = fieldDTO.GroupId;
             field.Rows = fieldDTO.Rows;
+            field.OptionListId = fieldDTO.OptionListId;
         }
     }
 }

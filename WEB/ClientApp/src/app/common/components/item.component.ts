@@ -117,7 +117,7 @@ export abstract class ItemComponent {
                      */
 
                     // first: get an array of the optionIds for this field
-                    const optionIds = field.options.map(o => o.optionId);
+                    const optionIds = field.optionList.options.map(o => o.optionId);
                     let value = undefined as string | string[];
 
                     if (field.multiple) {
@@ -133,17 +133,23 @@ export abstract class ItemComponent {
                     this.itemFields.set(field.fieldId, value);
 
                 } else if (field.fieldType === FieldTypes.Date) {
+
                     const value = itemObject.itemFields.find(o => o.fieldId === field.fieldId)?.value;
                     this.itemFields.set(field.fieldId, value ? new Date(value) : undefined);
+
                 } else if (field.fieldType === FieldTypes.Text) {
+
                     this.itemFields.set(field.fieldId, itemObject.itemFields.find(o => o.fieldId === field.fieldId)?.value);
+
                 } else if (field.fieldType === FieldTypes.YesNo) {
+
                     this.itemFields.set(field.fieldId, itemObject.itemFields.find(o => o.fieldId === field.fieldId)?.value === "Yes");
                     //} else if (field.fieldType === FieldTypes.File) {
                     //    let file = this.organisation.files.find(o => o.fieldId === field.fieldId);
                     //    if (!file) file = { organisationId: this.organisation.id, fieldId: field.fieldId } as File;
                     //    this.itemFields.set(field.fieldId, file;
                     //    this.files[field.fieldId] = file;
+
                 } else {
                     throw "Unhandled field in setFields";
                 }

@@ -37,8 +37,8 @@ export class OptionService extends SearchQuery {
         return this.http.delete<void>(`${environment.baseApiUrl}options/${optionId}`);
     }
 
-    sort(fieldId: string, ids: string[]): Observable<void> {
-        return this.http.post<void>(`${environment.baseApiUrl}options/sort?fieldid=${fieldId}`, ids);
+    sort(optionListId: string, ids: string[]): Observable<void> {
+        return this.http.post<void>(`${environment.baseApiUrl}options/sort?optionlistid=${optionListId}`, ids);
     }
 
 }

@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using WEB.Models;
 
@@ -11,9 +12,11 @@ using WEB.Models;
 namespace WEB.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250520133011_FieldOptionListLink")]
+    partial class FieldOptionListLink
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -1348,6 +1351,9 @@ namespace WEB.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
+                    b.Property<Guid>("FieldId")
+                        .HasColumnType("uniqueidentifier");
+
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasMaxLength(2000)
@@ -1360,6 +1366,8 @@ namespace WEB.Migrations
                         .HasColumnType("int");
 
                     b.HasKey("OptionId");
+
+                    b.HasIndex("FieldId");
 
                     b.HasIndex("OptionListId", "Name")
                         .IsUnique()
@@ -2634,11 +2642,19 @@ namespace WEB.Migrations
 
             modelBuilder.Entity("WEB.Models.Option", b =>
                 {
+                    b.HasOne("WEB.Models.Field", "Field")
+                        .WithMany("Options")
+                        .HasForeignKey("FieldId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
                     b.HasOne("WEB.Models.OptionList", "OptionList")
                         .WithMany("Options")
                         .HasForeignKey("OptionListId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
+
+                    b.Navigation("Field");
 
                     b.Navigation("OptionList");
                 });
@@ -2984,6 +3000,8 @@ namespace WEB.Migrations
             modelBuilder.Entity("WEB.Models.Field", b =>
                 {
                     b.Navigation("ItemFields");
+
+                    b.Navigation("Options");
                 });
 
             modelBuilder.Entity("WEB.Models.Folder", b =>

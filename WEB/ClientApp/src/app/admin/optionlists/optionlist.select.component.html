@@ -1,0 +1,8 @@
+<div class="input-group" [ngClass]="{ 'disabled': disabled }">
+    <input name="optionList" placeholder="{{placeholder}}" (click)="click()" type="text" tabindex="-1" class="form-control cursor-pointer app-select-input" readonly value="{{getLabel()}}" [disabled]="disabled" />
+    <button type="button" class="btn btn-secondary" (click)="click(true)" *ngIf="!disabled">
+        <i class="fas fa-fw" [ngClass]="{ 'fa-search': !optionList && !optionLists?.length, 'fa-times': !!optionList || !!optionLists?.length }"></i>
+    </button>
+</div>
+
+<option-list-modal #modal (change)="changed($event)" (changes)="changed($event)" [multiple]="multiple" [canRemoveFilters]="canRemoveFilters" [showAddNew]="showAddNew" [title]="placeholder" [selectedItems]="optionLists"></option-list-modal>
