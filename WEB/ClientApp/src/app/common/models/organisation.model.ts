@@ -2,8 +2,8 @@ import { SearchOptions, PagingHeaders } from './http.model';
 import { Entity } from './entity.model';
 import { User } from './user.model';
 import { IHasFields } from './ihasfields.model';
-import { ItemField } from './itemfield.model';
 import { ItemOption } from './itemoption.model';
+import { ItemField } from './itemfield.model';
 
 export class Organisation implements IHasFields {
     organisationId: string;

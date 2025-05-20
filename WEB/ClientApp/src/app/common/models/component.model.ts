@@ -5,8 +5,8 @@ import { Relationship } from './relationship.model';
 import { LogFrameRowComponent } from './logframerowcomponent.model';
 import { TheoryOfChangeComponent } from './theoryofchangecomponent.model';
 import { IHasFields } from './ihasfields.model';
-import { ItemOption } from './itemoption.model';
 import { ItemField } from './itemfield.model';
+import { ItemOption } from './itemoption.model';
 
 export class Component implements IHasFields {
     componentId: string;

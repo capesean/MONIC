@@ -1,8 +1,8 @@
 import { SearchOptions, PagingHeaders } from './http.model';
 import { Component } from './component.model';
 import { TheoryOfChange } from './theoryofchange.model';
-import { IHasFields } from './ihasfields.model';
 import { ItemField } from './itemfield.model';
+import { IHasFields } from './ihasfields.model';
 import { ItemOption } from './itemoption.model';
 
 export class Relationship implements IHasFields {
