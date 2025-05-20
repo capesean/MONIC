@@ -7,9 +7,9 @@
         <div class="card-header">
 
             <div class="card-header-title">
-                <h4>Field Values</h4>
+                <h4>Item Fields</h4>
                 <div>
-                    <i class="fa fa-fw ms-1 fa-plus cursor-pointer" ngbTooltip="Add Field Value" [routerLink]="['./', 'add']"></i>
+                    <i class="fa fa-fw ms-1 fa-plus cursor-pointer" ngbTooltip="Add Item Field" [routerLink]="['./', 'add']"></i>
                     <i class="fa fa-fw ms-1 fa-search cursor-pointer" ngbTooltip="Toggle search options" (click)="showSearchOptions = !showSearchOptions"></i>
                 </div>
             </div>
@@ -24,7 +24,7 @@
 
                     <div class="col-sm-6 col-md-4 col-lg-3">
                         <div class="form-group">
-                            <input type="search" name="q" id="q" [(ngModel)]="searchOptions.q" max="100" class="form-control" placeholder="Search field values" />
+                            <input type="search" name="q" id="q" [(ngModel)]="searchOptions.q" max="100" class="form-control" placeholder="Search item fields" />
                         </div>
                     </div>
 
@@ -63,10 +63,10 @@
                     </tr>
                 </thead>
                 <tbody class="list cursor-pointer">
-                    <tr *ngFor="let fieldValue of fieldValues" (click)="goToFieldValue(fieldValue)">
-                        <td>{{ fieldValue.item.itemId }}</td>
-                        <td>{{ fieldValue.field.name }}</td>
-                        <td>{{ fieldValue.value }}</td>
+                    <tr *ngFor="let itemField of itemFields" (click)="goToItemField(itemField)">
+                        <td>{{ itemField.item.itemId }}</td>
+                        <td>{{ itemField.field.name }}</td>
+                        <td>{{ itemField.value }}</td>
                     </tr>
                 </tbody>
             </table>

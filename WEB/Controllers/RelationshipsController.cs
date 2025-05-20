@@ -48,7 +48,7 @@ namespace WEB.Controllers
                 return NotFound();
 
             var item = await db.Items
-               .Include(o => o.FieldValues)
+               .Include(o => o.ItemFields)
                .Include(o => o.ItemOptions)
                .FirstOrDefaultAsync(o => o.ItemId == relationshipId);
 
@@ -86,7 +86,7 @@ namespace WEB.Controllers
 
             ModelFactory.Hydrate(relationship, relationshipDTO);
 
-            await ItemFunctions.HydrateFieldsAsync(db, relationship.RelationshipId, relationshipDTO.FieldValues, relationshipDTO.ItemOptions);
+            await ItemFunctions.HydrateFieldsAsync(db, relationship.RelationshipId, relationshipDTO.ItemFields, relationshipDTO.ItemOptions);
 
             await db.SaveChangesAsync();
 

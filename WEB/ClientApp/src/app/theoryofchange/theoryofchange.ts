@@ -242,7 +242,7 @@ export class TheoryOfChangeComponent implements OnInit {
                     modalRef.result.then(
                         (result: boolean) => {
                             if (result) {
-                                // edit existing relationship. load first to get fieldvalues, etc.
+                                // edit existing relationship. load first to get field values, etc.
                                 this.relationshipService.get(relationship.relationshipId)
                                     .subscribe(lr => this.openRelationshipModal(lr));
                             } else {

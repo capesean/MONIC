@@ -28,8 +28,6 @@ import { EntityTypeListComponent } from './admin/entitytypes/entitytype.list.com
 import { EntityTypeEditComponent } from './admin/entitytypes/entitytype.edit.component';
 import { FieldListComponent } from './admin/fields/field.list.component';
 import { FieldEditComponent } from './admin/fields/field.edit.component';
-import { FieldValueListComponent } from './admin/fieldvalues/fieldvalue.list.component';
-import { FieldValueEditComponent } from './admin/fieldvalues/fieldvalue.edit.component';
 import { FolderListComponent } from './admin/folders/folder.list.component';
 import { FolderEditComponent } from './admin/folders/folder.edit.component';
 import { FolderContentListComponent } from './admin/foldercontents/foldercontent.list.component';
@@ -42,6 +40,8 @@ import { IndicatorPermissionListComponent } from './admin/indicatorpermissions/i
 import { IndicatorPermissionEditComponent } from './admin/indicatorpermissions/indicatorpermission.edit.component';
 import { ItemListComponent } from './admin/items/item.list.component';
 import { ItemEditComponent } from './admin/items/item.edit.component';
+import { ItemFieldListComponent } from './admin/itemfields/itemfield.list.component';
+import { ItemFieldEditComponent } from './admin/itemfields/itemfield.edit.component';
 import { ItemOptionListComponent } from './admin/itemoptions/itemoption.list.component';
 import { ItemOptionEditComponent } from './admin/itemoptions/itemoption.edit.component';
 import { LogFrameListComponent } from './admin/logframes/logframe.list.component';
@@ -401,30 +401,6 @@ export const GeneratedRoutes: Route[] = [
         ]
     },
     {
-        path: 'fieldvalues',
-        canActivate: [AccessGuard],
-        canActivateChild: [AccessGuard],
-        component: FieldValueListComponent,
-        data: {
-            menu: 'admin',
-            submenu: 'fieldValues',
-            breadcrumb: 'Field Values'
-        },
-        children: [
-            {
-                path: ':itemId/:fieldId',
-                component: FieldValueEditComponent,
-                canActivate: [AccessGuard],
-                canActivateChild: [AccessGuard],
-                data: {
-                    menu: 'admin',
-                    submenu: 'fieldValues',
-                    breadcrumb: 'Add Field Value'
-                }
-            }
-        ]
-    },
-    {
         path: 'folders',
         canActivate: [AccessGuard],
         canActivateChild: [AccessGuard],
@@ -577,6 +553,30 @@ export const GeneratedRoutes: Route[] = [
                         }
                     }
                 ]
+            }
+        ]
+    },
+    {
+        path: 'itemfields',
+        canActivate: [AccessGuard],
+        canActivateChild: [AccessGuard],
+        component: ItemFieldListComponent,
+        data: {
+            menu: 'admin',
+            submenu: 'itemFields',
+            breadcrumb: 'Item Fields'
+        },
+        children: [
+            {
+                path: ':itemId/:fieldId',
+                component: ItemFieldEditComponent,
+                canActivate: [AccessGuard],
+                canActivateChild: [AccessGuard],
+                data: {
+                    menu: 'admin',
+                    submenu: 'itemFields',
+                    breadcrumb: 'Add Item Field'
+                }
             }
         ]
     },

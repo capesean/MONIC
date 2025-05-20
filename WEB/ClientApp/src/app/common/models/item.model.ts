@@ -1,7 +1,7 @@
 import { SearchOptions, PagingHeaders } from './http.model';
 import { ItemTypes } from './enums.model';
 import { Document } from './document.model';
-import { FieldValue } from './fieldvalue.model';
+import { ItemField } from './itemfield.model';
 import { ItemOption } from './itemoption.model';
 
 export class Item {
@@ -9,13 +9,13 @@ export class Item {
     itemType: ItemTypes;
 
     documents: Document[];
-    fieldValues: FieldValue[];
+    itemFields: ItemField[];
     itemOptions: ItemOption[];
 
     constructor() {
         this.itemId = "00000000-0000-0000-0000-000000000000";
         this.documents = [];
-        this.fieldValues = [];
+        this.itemFields = [];
         this.itemOptions = [];
     }
 }

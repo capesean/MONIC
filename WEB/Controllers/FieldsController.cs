@@ -26,7 +26,7 @@ namespace WEB.Controllers
 
             if (searchOptions.IncludeChildren)
             {
-                results = results.Include(o => o.FieldValues);
+                results = results.Include(o => o.ItemFields);
                 results = results.Include(o => o.Options);
             }
 
@@ -109,7 +109,7 @@ namespace WEB.Controllers
             {
                 await db.Options.Where(o => o.FieldId == field.FieldId).ExecuteDeleteAsync();
 
-                await db.FieldValues.Where(o => o.FieldId == field.FieldId).ExecuteDeleteAsync();
+                await db.ItemFields.Where(o => o.FieldId == field.FieldId).ExecuteDeleteAsync();
 
                 db.Entry(field).State = EntityState.Deleted;
 

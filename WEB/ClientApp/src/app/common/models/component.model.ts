@@ -5,8 +5,8 @@ import { Relationship } from './relationship.model';
 import { LogFrameRowComponent } from './logframerowcomponent.model';
 import { TheoryOfChangeComponent } from './theoryofchangecomponent.model';
 import { IHasFields } from './ihasfields.model';
-import { FieldValue } from './fieldvalue.model';
 import { ItemOption } from './itemoption.model';
+import { ItemField } from './itemfield.model';
 
 export class Component implements IHasFields {
     componentId: string;
@@ -23,7 +23,7 @@ export class Component implements IHasFields {
     logFrameRowComponents: LogFrameRowComponent[];
     relationshipsAsTarget: Relationship[];
     theoryOfChangeComponents: TheoryOfChangeComponent[];
-    fieldValues: FieldValue[] = [];
+    itemFields: ItemField[] = [];
     itemOptions: ItemOption[] = [];
 
     constructor() {

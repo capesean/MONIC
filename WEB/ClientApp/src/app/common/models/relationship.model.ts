@@ -1,8 +1,8 @@
 import { SearchOptions, PagingHeaders } from './http.model';
 import { Component } from './component.model';
 import { TheoryOfChange } from './theoryofchange.model';
-import { FieldValue } from './fieldvalue.model';
 import { IHasFields } from './ihasfields.model';
+import { ItemField } from './itemfield.model';
 import { ItemOption } from './itemoption.model';
 
 export class Relationship implements IHasFields {
@@ -14,7 +14,7 @@ export class Relationship implements IHasFields {
     sourceComponent: Component;
     targetComponent: Component;
     theoryOfChange: TheoryOfChange;
-    fieldValues: FieldValue[] = [];
+    itemFields: ItemField[] = [];
     itemOptions: ItemOption[] = [];
 
     constructor() {

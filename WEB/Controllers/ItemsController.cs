@@ -22,7 +22,7 @@ namespace WEB.Controllers
             if (searchOptions.IncludeChildren)
             {
                 results = results.Include(o => o.Documents);
-                results = results.Include(o => o.FieldValues);
+                results = results.Include(o => o.ItemFields);
                 results = results.Include(o => o.ItemOptions);
             }
 
@@ -91,8 +91,8 @@ namespace WEB.Controllers
             if (item == null)
                 return NotFound();
 
-            if (await db.FieldValues.AnyAsync(o => o.ItemId == item.ItemId))
-                return BadRequest("Unable to delete the item as it has related field values");
+            if (await db.ItemFields.AnyAsync(o => o.ItemId == item.ItemId))
+                return BadRequest("Unable to delete the item as it has related fields");
 
             if (await db.ItemOptions.AnyAsync(o => o.ItemId == item.ItemId))
                 return BadRequest("Unable to delete the item as it has related options");

@@ -2,7 +2,7 @@ import { SearchOptions, PagingHeaders } from './http.model';
 import { Entity } from './entity.model';
 import { User } from './user.model';
 import { IHasFields } from './ihasfields.model';
-import { FieldValue } from './fieldvalue.model';
+import { ItemField } from './itemfield.model';
 import { ItemOption } from './itemoption.model';
 
 export class Organisation implements IHasFields {
@@ -12,7 +12,7 @@ export class Organisation implements IHasFields {
 
     entities: Entity[];
     users: User[];
-    fieldValues: FieldValue[] = [];
+    itemFields: ItemField[] = [];
     itemOptions: ItemOption[] = [];
 
     constructor() {

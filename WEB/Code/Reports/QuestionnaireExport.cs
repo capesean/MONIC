@@ -116,12 +116,11 @@ namespace WEB.Reports.Excel
                 .Where(o => fieldIds.Contains(o.FieldId) && o.Entity)
                 .ToListAsync();
 
-            var fieldValues = await db.FieldValues
+            var itemFields = await db.ItemFields
                 .Where(o => entityIds.Contains(o.ItemId))
                 .ToListAsync();
 
-            // Dictionary<fieldId, Dictionary<entityId, fieldValue>>
-            var fieldValueLookup = fieldValues
+            var itemFieldLookup = itemFields
                 .GroupBy(o => o.FieldId)
                 .ToDictionary(o => o.Key, o => o.ToDictionary(x => x.ItemId));
 
@@ -224,7 +223,7 @@ namespace WEB.Reports.Excel
                     foreach (var field in fields)
                     {
                         if (field.FieldType == FieldType.Text)
-                            ws.Cells[row, col++].Value = fieldValueLookup.GetValueOrDefault(field.FieldId)?.GetValueOrDefault(response.EntityId)?.Value ?? null;
+                            ws.Cells[row, col++].Value = itemFieldLookup.GetValueOrDefault(field.FieldId)?.GetValueOrDefault(response.EntityId)?.Value ?? null;
                         else if (field.FieldType == FieldType.Picklist)
                         {
                             // todo: will need a col for each option...

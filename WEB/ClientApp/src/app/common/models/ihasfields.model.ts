@@ -1,7 +1,7 @@
-import { FieldValue } from "./fieldvalue.model";
+import { ItemField } from "./itemfield.model";
 import { ItemOption } from "./itemoption.model";
 
 export interface IHasFields {
-    fieldValues: FieldValue[];
+    itemFields: ItemField[];
     itemOptions: ItemOption[];
 }

@@ -1,6 +1,7 @@
 import { SearchOptions, PagingHeaders } from './http.model';
 import { EntityType } from './entitytype.model';
 import { Subcategory } from './subcategory.model';
+import { User } from './user.model';
 import { AggregationTypes, DataTypes, DateTypes, IndicatorStatuses, IndicatorTypes } from './enums.model';
 import { Datum } from './datum.model';
 import { IndicatorPermission } from './indicatorpermission.model';
@@ -8,7 +9,7 @@ import { LogFrameRowIndicator } from './logframerowindicator.model';
 import { Token } from './token.model';
 import { ComponentIndicator } from './componentindicator.model';
 import { IHasFields } from './ihasfields.model';
-import { FieldValue } from './fieldvalue.model';
+import { ItemField } from './itemfield.model';
 import { ItemOption } from './itemoption.model';
 
 export class Indicator implements IHasFields {
@@ -38,7 +39,7 @@ export class Indicator implements IHasFields {
     sourceTokens: Token[];
     componentIndicators: ComponentIndicator[];
     tokens: Token[];
-    fieldValues: FieldValue[] = [];
+    itemFields: ItemField[] = [];
     itemOptions: ItemOption[] = [];
 
     constructor() {

@@ -1,7 +1,7 @@
 import { SearchOptions, PagingHeaders } from './http.model';
 import { Group } from './group.model';
 import { FieldTypes, Sizes } from './enums.model';
-import { FieldValue } from './fieldvalue.model';
+import { ItemField } from './itemfield.model';
 import { Option } from './option.model';
 
 export class Field {
@@ -28,14 +28,14 @@ export class Field {
     rows: number;
     group: Group;
 
-    fieldValues: FieldValue[];
+    itemFields: ItemField[];
     options: Option[];
 
     constructor() {
         this.fieldId = "00000000-0000-0000-0000-000000000000";
         this.size = 1;
         this.rows = 5;
-        this.fieldValues = [];
+        this.itemFields = [];
         this.options = [];
     }
 }

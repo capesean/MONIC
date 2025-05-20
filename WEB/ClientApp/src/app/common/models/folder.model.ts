@@ -1,7 +1,7 @@
 import { SearchOptions, PagingHeaders } from './http.model';
 import { FolderContent } from './foldercontent.model';
 import { IHasFields } from './ihasfields.model';
-import { FieldValue } from './fieldvalue.model';
+import { ItemField } from './itemfield.model';
 import { ItemOption } from './itemoption.model';
 
 export class Folder implements IHasFields {
@@ -14,7 +14,7 @@ export class Folder implements IHasFields {
 
     subfolders: Folder[];
     folderContents: FolderContent[];
-    fieldValues: FieldValue[] = [];
+    itemFields: ItemField[] = [];
     itemOptions: ItemOption[] = [];
 
     constructor() {

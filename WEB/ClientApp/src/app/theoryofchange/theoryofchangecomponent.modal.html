@@ -115,7 +115,7 @@
                 <ng-container *ngFor="let field of fields | groupPipe : null">
 
                     <!--[(file)]="files[field.fieldId]" (downloadClicked)="download($event)"-->
-                    <field [field]="field" id="{{field.fieldId}}" name="{{field.fieldId}}" [ngModel]="fieldValues.get(field.fieldId)" (ngModelChange)="fieldValues.set(field.fieldId, $event)" [fieldValues]="fieldValues" class="{{field | fieldSizePipe}}"></field>
+                    <field [field]="field" id="{{field.fieldId}}" name="{{field.fieldId}}" [ngModel]="itemFields.get(field.fieldId)" (ngModelChange)="itemFields.set(field.fieldId, $event)" [itemFields]="itemFields" class="{{field | fieldSizePipe}}"></field>
 
                 </ng-container>
 
@@ -134,7 +134,7 @@
                     <ng-container *ngFor="let field of fields | groupPipe : group.groupId">
 
                         <!--[(file)]="files[field.fieldId]" (downloadClicked)="download($event)"-->
-                        <field [field]="field" id="{{field.fieldId}}" name="{{field.fieldId}}" [ngModel]="fieldValues.get(field.fieldId)" (ngModelChange)="fieldValues.set(field.fieldId, $event)" [fieldValues]="fieldValues" class="{{field | fieldSizePipe}}"></field>
+                        <field [field]="field" id="{{field.fieldId}}" name="{{field.fieldId}}" [ngModel]="itemFields.get(field.fieldId)" (ngModelChange)="itemFields.set(field.fieldId, $event)" [itemFields]="itemFields" class="{{field | fieldSizePipe}}"></field>
 
                     </ng-container>
 

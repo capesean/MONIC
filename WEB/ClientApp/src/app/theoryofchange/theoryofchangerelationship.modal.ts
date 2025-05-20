@@ -50,7 +50,7 @@ export class TheoryOfChangeRelationshipModal extends ItemComponent implements On
             this.relationship.sourceComponentId = sourceComponent.componentId;
             this.relationship.targetComponent = targetComponent;
             this.relationship.targetComponentId = targetComponent.componentId;
-            this.relationship.fieldValues = [];
+            this.relationship.itemFields = [];
             this.relationship.itemOptions = [];
         } else {
             this.isNew = false;

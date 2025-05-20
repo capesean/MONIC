@@ -7,9 +7,9 @@ import { EntityPermission } from './entitypermission.model';
 import { Response } from './response.model';
 import { User } from './user.model';
 import { IHasFields } from './ihasfields.model';
-import { FieldValue } from './fieldvalue.model';
-import { Roles } from './enums.model';
+import { ItemField } from './itemfield.model';
 import { ItemOption } from './itemoption.model';
+import { Roles } from './enums.model';
 
 export class Entity implements IHasFields {
     entityId: string;
@@ -28,7 +28,7 @@ export class Entity implements IHasFields {
     entityPermissions: EntityPermission[];
     responses: Response[];
     affiliatedUsers: User[];
-    fieldValues: FieldValue[] = [];
+    itemFields: ItemField[] = [];
     itemOptions: ItemOption[] = [];
 
     constructor() {

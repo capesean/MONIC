@@ -7,7 +7,7 @@
         <div class="card-header">
 
             <div class="card-header-title">
-                <h4>Field Value</h4>
+                <h4>Item Field</h4>
             </div>
 
         </div>
@@ -25,7 +25,7 @@
                                 Item:
                             </label>
 
-                            <item-select id="itemId" name="itemId" [(item)]="fieldValue.item" [(ngModel)]="fieldValue.itemId" #itemId="ngModel" required></item-select>
+                            <item-select id="itemId" name="itemId" [(item)]="itemField.item" [(ngModel)]="itemField.itemId" #itemId="ngModel" required></item-select>
 
                             <div *ngIf="itemId.errors?.required" class="invalid-feedback">
                                 Item is required
@@ -41,7 +41,7 @@
                                 Field:
                             </label>
 
-                            <field-select id="fieldId" name="fieldId" [(field)]="fieldValue.field" [(ngModel)]="fieldValue.fieldId" #fieldId="ngModel" required (ngModelChange)="changeBreadcrumb()"></field-select>
+                            <field-select id="fieldId" name="fieldId" [(field)]="itemField.field" [(ngModel)]="itemField.fieldId" #fieldId="ngModel" required (ngModelChange)="changeBreadcrumb()"></field-select>
 
                             <div *ngIf="fieldId.errors?.required" class="invalid-feedback">
                                 Field is required
@@ -57,7 +57,7 @@
                                 Value:
                             </label>
 
-                            <textarea id="value" name="value" class="form-control" rows="5" [(ngModel)]="fieldValue.value" #value="ngModel"></textarea>
+                            <textarea id="value" name="value" class="form-control" rows="5" [(ngModel)]="itemField.value" #value="ngModel"></textarea>
 
                         </div>
                     </div>

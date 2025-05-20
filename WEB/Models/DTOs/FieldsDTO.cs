@@ -2,7 +2,7 @@ namespace WEB.Models
 {
     public class FieldsDTO
     {
-        public List<FieldValueDTO> FieldValues { get; set; }
+        public List<ItemFieldDTO> ItemFields { get; set; }
 
         public List<ItemOptionDTO> ItemOptions { get; set; }
 
@@ -11,7 +11,7 @@ namespace WEB.Models
         public void AddFields(Item item)
         {
             if (item == null) return;
-            FieldValues = item.FieldValues.Select(o => ModelFactory.Create(o, false)).ToList();
+            ItemFields = item.ItemFields.Select(o => ModelFactory.Create(o, false)).ToList();
             ItemOptions = item.ItemOptions.Select(o => ModelFactory.Create(o, false)).ToList();
         }
 
@@ -42,7 +42,7 @@ namespace WEB.Models
                     }
                     else
                     {
-                        if (!FieldValues.Any(o => o.FieldId == field.FieldId))
+                        if (!ItemFields.Any(o => o.FieldId == field.FieldId))
                         {
                             error = $"No value provided for {field.Name}";
                             return false;
@@ -52,10 +52,10 @@ namespace WEB.Models
 
                 if (field.FieldType == FieldType.Text && field.IsUnique)
                 {
-                    var fieldValue = FieldValues.FirstOrDefault(o => o.FieldId == field.FieldId);
-                    if (fieldValue != null && !string.IsNullOrWhiteSpace(fieldValue.Value))
+                    var itemField = ItemFields.FirstOrDefault(o => o.FieldId == field.FieldId);
+                    if (itemField != null && !string.IsNullOrWhiteSpace(itemField.Value))
                     {
-                        if (db.FieldValues.Any(o => o.FieldId == field.FieldId && o.Value == fieldValue.Value && o.ItemId != fieldValue.ItemId))
+                        if (db.ItemFields.Any(o => o.FieldId == field.FieldId && o.Value == itemField.Value && o.ItemId != itemField.ItemId))
                         {
                             error = $"Value for {field.Name} is not unique";
                             return false;

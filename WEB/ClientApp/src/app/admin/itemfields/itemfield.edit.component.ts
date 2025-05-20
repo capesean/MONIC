@@ -5,19 +5,19 @@ import { NgForm } from '@angular/forms';
 import { HttpErrorResponse } from '@angular/common/http';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ConfirmModalComponent, ConfirmModalOptions } from '../../common/components/confirm.component';
-import { FieldValue } from '../../common/models/fieldvalue.model';
+import { ItemField } from '../../common/models/itemfield.model';
 import { BreadcrumbService } from '../../common/services/breadcrumb.service';
 import { ErrorService } from '../../common/services/error.service';
-import { FieldValueService } from '../../common/services/fieldvalue.service';
+import { ItemFieldService } from '../../common/services/itemfield.service';
 
 @NgComponent({
-    selector: 'fieldvalue-edit',
-    templateUrl: './fieldvalue.edit.component.html',
+    selector: 'itemfield-edit',
+    templateUrl: './itemfield.edit.component.html',
     standalone: false
 })
-export class FieldValueEditComponent implements OnInit {
+export class ItemFieldEditComponent implements OnInit {
 
-    public fieldValue: FieldValue = new FieldValue();
+    public itemField: ItemField = new ItemField();
     public isNew = true;
 
     constructor(
@@ -26,7 +26,7 @@ export class FieldValueEditComponent implements OnInit {
         private toastr: ToastrService,
         private breadcrumbService: BreadcrumbService,
         private modalService: NgbModal,
-        private fieldValueService: FieldValueService,
+        private itemFieldService: ItemFieldService,
         private errorService: ErrorService
     ) {
     }
@@ -41,9 +41,9 @@ export class FieldValueEditComponent implements OnInit {
 
             if (!this.isNew) {
 
-                this.fieldValue.itemId = itemId;
-                this.fieldValue.fieldId = fieldId;
-                this.loadFieldValue();
+                this.itemField.itemId = itemId;
+                this.itemField.fieldId = fieldId;
+                this.loadItemField();
 
             }
 
@@ -51,16 +51,16 @@ export class FieldValueEditComponent implements OnInit {
 
     }
 
-    private loadFieldValue(): void {
+    private loadItemField(): void {
 
-        this.fieldValueService.get(this.fieldValue.itemId, this.fieldValue.fieldId)
+        this.itemFieldService.get(this.itemField.itemId, this.itemField.fieldId)
             .subscribe({
-                next: fieldValue => {
-                    this.fieldValue = fieldValue;
+                next: itemField => {
+                    this.itemField = itemField;
                     this.changeBreadcrumb();
                 },
                 error: err => {
-                    this.errorService.handleError(err, "Field Value", "Load");
+                    this.errorService.handleError(err, "Item Field", "Load");
                     if (err instanceof HttpErrorResponse && err.status === 404)
                         this.router.navigate(["../../"], { relativeTo: this.route });
                 }
@@ -77,14 +77,14 @@ export class FieldValueEditComponent implements OnInit {
 
         }
 
-        this.fieldValueService.save(this.fieldValue)
+        this.itemFieldService.save(this.itemField)
             .subscribe({
-                next: fieldValue => {
-                    this.toastr.success("The field value has been saved", "Save Field Value");
-                    if (this.isNew) this.router.navigate(["../", fieldValue.itemId, fieldValue.fieldId], { relativeTo: this.route });
+                next: itemField => {
+                    this.toastr.success("The item field has been saved", "Save Item Field");
+                    if (this.isNew) this.router.navigate(["../", itemField.itemId, itemField.fieldId], { relativeTo: this.route });
                 },
                 error: err => {
-                    this.errorService.handleError(err, "Field Value", "Save");
+                    this.errorService.handleError(err, "Item Field", "Save");
                 }
             });
 
@@ -93,18 +93,18 @@ export class FieldValueEditComponent implements OnInit {
     delete(): void {
 
         let modalRef = this.modalService.open(ConfirmModalComponent, { centered: true });
-        (modalRef.componentInstance as ConfirmModalComponent).options = { title: "Delete Field Value", text: "Are you sure you want to delete this field value?", deleteStyle: true, ok: "Delete" } as ConfirmModalOptions;
+        (modalRef.componentInstance as ConfirmModalComponent).options = { title: "Delete Item Field", text: "Are you sure you want to delete this item field?", deleteStyle: true, ok: "Delete" } as ConfirmModalOptions;
         modalRef.result.then(
             () => {
 
-                this.fieldValueService.delete(this.fieldValue.itemId, this.fieldValue.fieldId)
+                this.itemFieldService.delete(this.itemField.itemId, this.itemField.fieldId)
                     .subscribe({
                         next: () => {
-                            this.toastr.success("The field value has been deleted", "Delete Field Value");
+                            this.toastr.success("The item field has been deleted", "Delete Item Field");
                             this.router.navigate(["../../"], { relativeTo: this.route });
                         },
                         error: err => {
-                            this.errorService.handleError(err, "Field Value", "Delete");
+                            this.errorService.handleError(err, "Item Field", "Delete");
                         }
                     });
 
@@ -112,7 +112,7 @@ export class FieldValueEditComponent implements OnInit {
     }
 
     changeBreadcrumb(): void {
-        this.breadcrumbService.changeBreadcrumb(this.route.snapshot, this.fieldValue.fieldId ? this.fieldValue.field?.name?.substring(0, 25) : "(new field value)");
+        this.breadcrumbService.changeBreadcrumb(this.route.snapshot, this.itemField.fieldId ? this.itemField.field?.name?.substring(0, 25) : "(new item field)");
     }
 
 }

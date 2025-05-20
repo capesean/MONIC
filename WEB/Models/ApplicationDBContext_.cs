@@ -20,13 +20,13 @@ namespace WEB.Models
         public DbSet<EntityPermission> EntityPermissions { get; set; }
         public DbSet<EntityType> EntityTypes { get; set; }
         public DbSet<Field> Fields { get; set; }
-        public DbSet<FieldValue> FieldValues { get; set; }
         public DbSet<Folder> Folders { get; set; }
         public DbSet<FolderContent> FolderContents { get; set; }
         public DbSet<Group> Groups { get; set; }
         public DbSet<Indicator> Indicators { get; set; }
         public DbSet<IndicatorPermission> IndicatorPermissions { get; set; }
         public DbSet<Item> Items { get; set; }
+        public DbSet<ItemField> ItemFields { get; set; }
         public DbSet<ItemOption> ItemOptions { get; set; }
         public DbSet<LogFrame> LogFrames { get; set; }
         public DbSet<LogFrameRow> LogFrameRows { get; set; }
@@ -142,10 +142,6 @@ namespace WEB.Models
                 .HasDatabaseName("IX_Field_Name")
                 .IsUnique();
 
-            modelBuilder.Entity<FieldValue>()
-                .HasKey(o => new { o.ItemId, o.FieldId })
-                .HasName("PK_FieldValue");
-
             modelBuilder.Entity<FolderContent>()
                 .HasIndex(o => new { o.FolderId, o.Name })
                 .HasDatabaseName("IX_FolderContent_Name")
@@ -164,6 +160,10 @@ namespace WEB.Models
                 .HasIndex(o => o.Code)
                 .HasDatabaseName("IX_Indicator_Code")
                 .IsUnique();
+
+            modelBuilder.Entity<ItemField>()
+                .HasKey(o => new { o.ItemId, o.FieldId })
+                .HasName("PK_ItemField");
 
             modelBuilder.Entity<ItemOption>()
                 .HasKey(o => new { o.ItemId, o.OptionId })

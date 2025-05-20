@@ -60,12 +60,10 @@ export class FieldComponent implements OnInit, ControlValueAccessor, Validator {
     }
     @Output() isValid: EventEmitter<boolean> = new EventEmitter<boolean>();
     //@Input() file: File;
-    @Input() fieldValues = new Map<string, string | string[] | Date | boolean>();
+    @Input() itemFields = new Map<string, string | string[] | Date | boolean>();
 
     constructor(
-        private cdref: ChangeDetectorRef,
-        private errorService: ErrorService,
-        private downloadService: DownloadService
+        private cdref: ChangeDetectorRef
     ) {
     }
 

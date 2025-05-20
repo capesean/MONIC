@@ -10,14 +10,14 @@ using WEB.Models;
 namespace WEB.Controllers
 {
     [Route("api/[Controller]"), Authorize]
-    public class FieldValuesController : BaseApiController
+    public class ItemFieldsController : BaseApiController
     {
-        public FieldValuesController(IDbContextFactory<ApplicationDbContext> dbFactory, UserManager<User> um, AppSettings appSettings) : base(dbFactory, um, appSettings) { }
+        public ItemFieldsController(IDbContextFactory<ApplicationDbContext> dbFactory, UserManager<User> um, AppSettings appSettings) : base(dbFactory, um, appSettings) { }
 
         [HttpGet, AuthorizeRoles(Roles.Administrator)]
-        public async Task<IActionResult> Search([FromQuery] FieldValueSearchOptions searchOptions)
+        public async Task<IActionResult> Search([FromQuery] ItemFieldSearchOptions searchOptions)
         {
-            IQueryable<FieldValue> results = db.FieldValues;
+            IQueryable<ItemField> results = db.ItemFields;
 
             if (searchOptions.IncludeParents)
             {
@@ -39,60 +39,60 @@ namespace WEB.Controllers
         [HttpGet("{itemId:Guid}/{fieldId:Guid}"), AuthorizeRoles(Roles.Administrator)]
         public async Task<IActionResult> Get(Guid itemId, Guid fieldId)
         {
-            var fieldValue = await db.FieldValues
+            var itemField = await db.ItemFields
                 .Include(o => o.Field)
                 .Include(o => o.Item)
                 .FirstOrDefaultAsync(o => o.ItemId == itemId && o.FieldId == fieldId);
 
-            if (fieldValue == null)
+            if (itemField == null)
                 return NotFound();
 
-            return Ok(ModelFactory.Create(fieldValue));
+            return Ok(ModelFactory.Create(itemField));
         }
 
         [HttpPost("{itemId:Guid}/{fieldId:Guid}"), AuthorizeRoles(Roles.Administrator)]
-        public async Task<IActionResult> Save(Guid itemId, Guid fieldId, [FromBody] FieldValueDTO fieldValueDTO)
+        public async Task<IActionResult> Save(Guid itemId, Guid fieldId, [FromBody] ItemFieldDTO itemFieldDTO)
         {
             if (!ModelState.IsValid) return BadRequest(ModelState);
 
-            if (fieldValueDTO.ItemId != itemId || fieldValueDTO.FieldId != fieldId) return BadRequest("Id mismatch");
+            if (itemFieldDTO.ItemId != itemId || itemFieldDTO.FieldId != fieldId) return BadRequest("Id mismatch");
 
-            var fieldValue = await db.FieldValues
-                .FirstOrDefaultAsync(o => o.ItemId == fieldValueDTO.ItemId && o.FieldId == fieldValueDTO.FieldId);
+            var itemField = await db.ItemFields
+                .FirstOrDefaultAsync(o => o.ItemId == itemFieldDTO.ItemId && o.FieldId == itemFieldDTO.FieldId);
 
-            var isNew = fieldValue == null;
+            var isNew = itemField == null;
 
             if (isNew)
             {
-                fieldValue = new FieldValue();
+                itemField = new ItemField();
 
-                fieldValue.ItemId = fieldValueDTO.ItemId;
-                fieldValue.FieldId = fieldValueDTO.FieldId;
+                itemField.ItemId = itemFieldDTO.ItemId;
+                itemField.FieldId = itemFieldDTO.FieldId;
 
-                db.Entry(fieldValue).State = EntityState.Added;
+                db.Entry(itemField).State = EntityState.Added;
             }
             else
             {
-                db.Entry(fieldValue).State = EntityState.Modified;
+                db.Entry(itemField).State = EntityState.Modified;
             }
 
-            ModelFactory.Hydrate(fieldValue, fieldValueDTO);
+            ModelFactory.Hydrate(itemField, itemFieldDTO);
 
             await db.SaveChangesAsync();
 
-            return await Get(fieldValue.ItemId, fieldValue.FieldId);
+            return await Get(itemField.ItemId, itemField.FieldId);
         }
 
         [HttpDelete("{itemId:Guid}/{fieldId:Guid}"), AuthorizeRoles(Roles.Administrator)]
         public async Task<IActionResult> Delete(Guid itemId, Guid fieldId)
         {
-            var fieldValue = await db.FieldValues
+            var itemField = await db.ItemFields
                 .FirstOrDefaultAsync(o => o.ItemId == itemId && o.FieldId == fieldId);
 
-            if (fieldValue == null)
+            if (itemField == null)
                 return NotFound();
 
-            db.Entry(fieldValue).State = EntityState.Deleted;
+            db.Entry(itemField).State = EntityState.Deleted;
 
             await db.SaveChangesAsync();
 

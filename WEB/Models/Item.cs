@@ -13,7 +13,7 @@ namespace WEB.Models
         [Required]
         public ItemType ItemType { get; set; }
 
-        public virtual ICollection<FieldValue> FieldValues { get; set; } = new List<FieldValue>();
+        public virtual ICollection<ItemField> ItemFields { get; set; } = new List<ItemField>();
 
         public virtual ICollection<ItemOption> ItemOptions { get; set; } = new List<ItemOption>();
 

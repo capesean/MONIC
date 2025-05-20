@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace WEB.Models
 {
-    public class FieldValue
+    public class ItemField
     {
         [Required]
         public Guid ItemId { get; set; }
@@ -20,7 +20,7 @@ namespace WEB.Models
         [ForeignKey("ItemId")]
         public virtual Item Item { get; set; }
 
-        public FieldValue()
+        public ItemField()
         {
         }
 
@@ -33,7 +33,7 @@ namespace WEB.Models
         {
             if (obj == null || GetType() != obj.GetType()) return false;
 
-            FieldValue other = (FieldValue)obj;
+            ItemField other = (ItemField)obj;
 
             return ItemId == other.ItemId && FieldId == other.FieldId;
         }

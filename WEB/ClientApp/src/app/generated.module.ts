@@ -34,8 +34,6 @@ import { EntityTypeListComponent } from './admin/entitytypes/entitytype.list.com
 import { EntityTypeEditComponent } from './admin/entitytypes/entitytype.edit.component';
 import { FieldListComponent } from './admin/fields/field.list.component';
 import { FieldEditComponent } from './admin/fields/field.edit.component';
-import { FieldValueListComponent } from './admin/fieldvalues/fieldvalue.list.component';
-import { FieldValueEditComponent } from './admin/fieldvalues/fieldvalue.edit.component';
 import { FolderListComponent } from './admin/folders/folder.list.component';
 import { FolderEditComponent } from './admin/folders/folder.edit.component';
 import { FolderContentListComponent } from './admin/foldercontents/foldercontent.list.component';
@@ -48,6 +46,8 @@ import { IndicatorPermissionListComponent } from './admin/indicatorpermissions/i
 import { IndicatorPermissionEditComponent } from './admin/indicatorpermissions/indicatorpermission.edit.component';
 import { ItemListComponent } from './admin/items/item.list.component';
 import { ItemEditComponent } from './admin/items/item.edit.component';
+import { ItemFieldListComponent } from './admin/itemfields/itemfield.list.component';
+import { ItemFieldEditComponent } from './admin/itemfields/itemfield.edit.component';
 import { ItemOptionListComponent } from './admin/itemoptions/itemoption.list.component';
 import { ItemOptionEditComponent } from './admin/itemoptions/itemoption.edit.component';
 import { LogFrameListComponent } from './admin/logframes/logframe.list.component';
@@ -129,8 +129,6 @@ import { NgxEchartsModule } from 'ngx-echarts';
         EntityTypeEditComponent,
         FieldListComponent,
         FieldEditComponent,
-        FieldValueListComponent,
-        FieldValueEditComponent,
         FolderListComponent,
         FolderEditComponent,
         FolderContentListComponent,
@@ -143,6 +141,8 @@ import { NgxEchartsModule } from 'ngx-echarts';
         IndicatorPermissionEditComponent,
         ItemListComponent,
         ItemEditComponent,
+        ItemFieldListComponent,
+        ItemFieldEditComponent,
         ItemOptionListComponent,
         ItemOptionEditComponent,
         LogFrameListComponent,

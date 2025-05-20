@@ -2,21 +2,21 @@ import { Component as NgComponent, OnInit, OnDestroy } from '@angular/core';
 import { Router, ActivatedRoute, NavigationEnd } from '@angular/router';
 import { Subject, Subscription } from 'rxjs';
 import { PagingHeaders } from '../../common/models/http.model';
-import { FieldValueSearchOptions, FieldValueSearchResponse, FieldValue } from '../../common/models/fieldvalue.model';
+import { ItemFieldSearchOptions, ItemFieldSearchResponse, ItemField } from '../../common/models/itemfield.model';
 import { FadeThenShrink } from '../../common/animations/fadethenshrink';
 import { ErrorService } from '../../common/services/error.service';
-import { FieldValueService } from '../../common/services/fieldvalue.service';
+import { ItemFieldService } from '../../common/services/itemfield.service';
 
 @NgComponent({
-    selector: 'fieldvalue-list',
-    templateUrl: './fieldvalue.list.component.html',
+    selector: 'itemfield-list',
+    templateUrl: './itemfield.list.component.html',
     animations: [FadeThenShrink],
     standalone: false
 })
-export class FieldValueListComponent implements OnInit, OnDestroy {
+export class ItemFieldListComponent implements OnInit, OnDestroy {
 
-    public fieldValues: FieldValue[] = [];
-    public searchOptions = new FieldValueSearchOptions();
+    public itemFields: ItemField[] = [];
+    public searchOptions = new ItemFieldSearchOptions();
     public showSearchOptions = false;
     public headers = new PagingHeaders();
     private routerSubscription: Subscription;
@@ -25,7 +25,7 @@ export class FieldValueListComponent implements OnInit, OnDestroy {
         public route: ActivatedRoute,
         private router: Router,
         private errorService: ErrorService,
-        private fieldValueService: FieldValueService
+        private itemFieldService: ItemFieldService
     ) {
     }
 
@@ -43,21 +43,21 @@ export class FieldValueListComponent implements OnInit, OnDestroy {
         this.routerSubscription.unsubscribe();
     }
 
-    runSearch(pageIndex = 0): Subject<FieldValueSearchResponse> {
+    runSearch(pageIndex = 0): Subject<ItemFieldSearchResponse> {
 
         this.searchOptions.pageIndex = pageIndex;
 
-        const subject = new Subject<FieldValueSearchResponse>();
+        const subject = new Subject<ItemFieldSearchResponse>();
 
-        this.fieldValueService.search(this.searchOptions)
+        this.itemFieldService.search(this.searchOptions)
             .subscribe({
                 next: response => {
                     subject.next(response);
-                    this.fieldValues = response.fieldValues;
+                    this.itemFields = response.itemFields;
                     this.headers = response.headers;
                 },
                 error: err => {
-                    this.errorService.handleError(err, "Field Values", "Load");
+                    this.errorService.handleError(err, "Item Fields", "Load");
                 }
             });
 
@@ -65,8 +65,8 @@ export class FieldValueListComponent implements OnInit, OnDestroy {
 
     }
 
-    goToFieldValue(fieldValue: FieldValue): void {
-        this.router.navigate([fieldValue.itemId, fieldValue.fieldId], { relativeTo: this.route });
+    goToItemField(itemField: ItemField): void {
+        this.router.navigate([itemField.itemId, itemField.fieldId], { relativeTo: this.route });
     }
 }
 

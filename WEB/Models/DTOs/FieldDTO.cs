@@ -69,7 +69,7 @@ namespace WEB.Models
 
         public GroupDTO Group { get; set; }
 
-        public virtual List<FieldValueDTO> FieldValues { get; set; } = new List<FieldValueDTO>();
+        public virtual List<ItemFieldDTO> ItemFields { get; set; } = new List<ItemFieldDTO>();
 
         public virtual List<OptionDTO> Options { get; set; } = new List<OptionDTO>();
 
@@ -112,10 +112,10 @@ namespace WEB.Models
 
             if (includeChildren)
             {
-                foreach (var fieldValue in field.FieldValues)
-                    fieldDTO.FieldValues.Add(Create(fieldValue));
-                foreach (var option in field.Options)
-                    fieldDTO.Options.Add(Create(option));
+                foreach (var itemField in field.ItemFields)
+                    fieldDTO.ItemFields.Add(Create(itemField));
+                foreach (var itemOption in field.Options)
+                    fieldDTO.Options.Add(Create(itemOption));
             }
 
             fieldDTO.Options = field.Options.Select(o => Create(o, false)).ToList();

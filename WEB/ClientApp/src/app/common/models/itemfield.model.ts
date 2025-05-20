@@ -2,7 +2,7 @@ import { SearchOptions, PagingHeaders } from './http.model';
 import { Field } from './field.model';
 import { Item } from './item.model';
 
-export class FieldValue {
+export class ItemField {
     itemId: string;
     fieldId: string;
     value: string;
@@ -13,13 +13,13 @@ export class FieldValue {
     }
 }
 
-export class FieldValueSearchOptions extends SearchOptions {
+export class ItemFieldSearchOptions extends SearchOptions {
     q: string;
     itemId: string;
     fieldId: string;
 }
 
-export class FieldValueSearchResponse {
-    fieldValues: FieldValue[] = [];
+export class ItemFieldSearchResponse {
+    itemFields: ItemField[] = [];
     headers: PagingHeaders;
 }

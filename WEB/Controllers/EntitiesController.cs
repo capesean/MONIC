@@ -81,7 +81,7 @@ namespace WEB.Controllers
             else if (!CurrentUser.HasEntityPermission(entity.EntityId)) return Forbid();
 
             var item = await db.Items
-               .Include(o => o.FieldValues)
+               .Include(o => o.ItemFields)
                .Include(o => o.ItemOptions)
                .FirstOrDefaultAsync(o => o.ItemId == entityId);
 
@@ -147,7 +147,7 @@ namespace WEB.Controllers
 
             ModelFactory.Hydrate(entity, entityDTO, isNew);
 
-            await ItemFunctions.HydrateFieldsAsync(db, entity.EntityId, entityDTO.FieldValues, entityDTO.ItemOptions);
+            await ItemFunctions.HydrateFieldsAsync(db, entity.EntityId, entityDTO.ItemFields, entityDTO.ItemOptions);
 
             if (!CurrentUser.IsInRole(Roles.Administrator)) entity.OrganisationId = CurrentUser.OrganisationId.Value;
 

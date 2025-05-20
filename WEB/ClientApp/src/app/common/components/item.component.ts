@@ -6,7 +6,7 @@ import { IHasFields } from '../models/ihasfields.model';
 import { NgForm } from '@angular/forms';
 import { ErrorService } from '../services/error.service';
 import { AsyncSubject, Subject } from 'rxjs';
-import { FieldValue } from '../models/fieldvalue.model';
+import { ItemField } from '../models/itemfield.model';
 import moment from 'moment';
 import { DocumentService } from '../services/document.service';
 import { PagingHeaders } from '../models/http.model';
@@ -31,8 +31,8 @@ export abstract class ItemComponent {
     public groups: Group[] = [];
     public fields: Field[] = [];
 
-    // the values for fields, selected options, etc. will be stored in this fieldValues property
-    public fieldValues = new Map<string, string | string[] | Date | boolean>();
+    // the values for fields, selected options, etc. will be stored in this itemfields property
+    public itemFields = new Map<string, string | string[] | Date | boolean>();
 
     // for displaying the documents tab
     public documentSearchOptions = new DocumentSearchOptions();
@@ -85,7 +85,7 @@ export abstract class ItemComponent {
 
         /*
          * setItem() is called when the item has been loaded from the API
-         * it populates the .fieldValues array with the values for fields, options, etc.
+         * it populates the .itemfields array with the values for fields, options, etc.
          * it requires the fields & options to be loaded first, so that is the first step
          */
 
@@ -97,22 +97,22 @@ export abstract class ItemComponent {
         // load & filter/prepare the groups, fields & options
         this.prepareFields(item.itemType).subscribe(() => {
 
-            // extract the field values from userOptions and userFields into the fieldValues dictionary,
+            // extract the field values from userOptions and userFields into the itemfields dictionary,
             // which is used for binding the ngModels
             if (!this.fields || !this.fields.length) return;
 
             // in case the parent has been created but the item record is missing, then the loaded parent won't have the arrays
-            if (itemObject.fieldValues == undefined) itemObject.fieldValues = [];
+            if (itemObject.itemFields == undefined) itemObject.itemFields = [];
             if (itemObject.itemOptions == undefined) itemObject.itemOptions = [];
 
-            this.fieldValues = new Map<string, string>();
+            this.itemFields = new Map<string, string>();
             this.fields.forEach(field => {
                 
                 if (field.fieldType === FieldTypes.Picklist) {
                     /*
                      * the selected options are stored in the item's .optionValues array.
-                     * the <field> control binds to the .fieldValues property of this ItemComponent
-                     * therefore we need to 'convert' the item's .optionValue(s) to this ItemComponent's .fieldValues
+                     * the <field> control binds to the .itemfields property of this ItemComponent
+                     * therefore we need to 'convert' the item's .optionValue(s) to this ItemComponent's .itemfields
                      * 
                      */
 
@@ -129,20 +129,20 @@ export abstract class ItemComponent {
                         value = itemObject.itemOptions.find(o => optionIds.indexOf(o.optionId) >= 0)?.optionId;
                     }
 
-                    // store the selectedOptionId(s) in this ItemComponent's .fieldValues property
-                    this.fieldValues.set(field.fieldId, value);
+                    // store the selectedOptionId(s) in this ItemComponent's .itemfields property
+                    this.itemFields.set(field.fieldId, value);
 
                 } else if (field.fieldType === FieldTypes.Date) {
-                    const value = itemObject.fieldValues.find(o => o.fieldId === field.fieldId)?.value;
-                    this.fieldValues.set(field.fieldId, value ? new Date(value) : undefined);
+                    const value = itemObject.itemFields.find(o => o.fieldId === field.fieldId)?.value;
+                    this.itemFields.set(field.fieldId, value ? new Date(value) : undefined);
                 } else if (field.fieldType === FieldTypes.Text) {
-                    this.fieldValues.set(field.fieldId, itemObject.fieldValues.find(o => o.fieldId === field.fieldId)?.value);
+                    this.itemFields.set(field.fieldId, itemObject.itemFields.find(o => o.fieldId === field.fieldId)?.value);
                 } else if (field.fieldType === FieldTypes.YesNo) {
-                    this.fieldValues.set(field.fieldId, itemObject.fieldValues.find(o => o.fieldId === field.fieldId)?.value === "Yes");
+                    this.itemFields.set(field.fieldId, itemObject.itemFields.find(o => o.fieldId === field.fieldId)?.value === "Yes");
                     //} else if (field.fieldType === FieldTypes.File) {
                     //    let file = this.organisation.files.find(o => o.fieldId === field.fieldId);
                     //    if (!file) file = { organisationId: this.organisation.id, fieldId: field.fieldId } as File;
-                    //    this.fieldValues.set(field.fieldId, file;
+                    //    this.itemFields.set(field.fieldId, file;
                     //    this.files[field.fieldId] = file;
                 } else {
                     throw "Unhandled field in setFields";
@@ -179,17 +179,17 @@ export abstract class ItemComponent {
 
     protected getData(itemObject: IHasFields) {
 
-        // extract the field values from the this.fieldValues dictionary into the fieldValues/optionValues/etc. to save via the API
+        // extract the field values from the this.itemfields dictionary into the itemFields/itemOptions/etc. to save via the API
 
-        itemObject.fieldValues = [];
+        itemObject.itemFields = [];
         itemObject.itemOptions = [];
         //this.item.files = [];
 
         this.fields.forEach(field => {
 
-            const value = this.fieldValues.get(field.fieldId);
+            const value = this.itemFields.get(field.fieldId);
 
-            // there is no value stored in this.fieldValues for this field, so no need to add it to any array (fieldValues/optionValues/etc.)
+            // there is no value stored in this.itemFields for this field, so no need to add it to any array (itemFields/optionValues/etc.)
             if (!value || (Array.isArray(value) && (value as string[]).length === 0)) return;
 
             if (field.fieldType === FieldTypes.Picklist) {
@@ -198,11 +198,11 @@ export abstract class ItemComponent {
                 // push the selected value into the optionValues array
                 else itemObject.itemOptions.push({ itemId: this.item.itemId, optionId: value } as ItemOption);
             } else if (field.fieldType === FieldTypes.Date) {
-                itemObject.fieldValues.push({ itemId: this.item.itemId, fieldId: field.fieldId, value: moment(value as string).format("DD MMMM YYYY") } as FieldValue);
+                itemObject.itemFields.push({ itemId: this.item.itemId, fieldId: field.fieldId, value: moment(value as string).format("DD MMMM YYYY") } as ItemField);
             } else if (field.fieldType === FieldTypes.Text) {
-                itemObject.fieldValues.push({ itemId: this.item.itemId, fieldId: field.fieldId, value: value } as FieldValue);
+                itemObject.itemFields.push({ itemId: this.item.itemId, fieldId: field.fieldId, value: value } as ItemField);
             } else if (field.fieldType === FieldTypes.YesNo) {
-                itemObject.fieldValues.push({ itemId: this.item.itemId, fieldId: field.fieldId, value: value === true ? "Yes" : "No" } as FieldValue);
+                itemObject.itemFields.push({ itemId: this.item.itemId, fieldId: field.fieldId, value: value === true ? "Yes" : "No" } as ItemField);
                 //} else if (field.fieldType === FieldTypes.File) {
                 //    const file = this.files[field.fieldId];
                 //    if (file.fileContents) item.files.push(file);

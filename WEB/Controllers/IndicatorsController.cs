@@ -68,7 +68,7 @@ namespace WEB.Controllers
                 return NotFound();
 
             var item = await db.Items
-               .Include(o => o.FieldValues)
+               .Include(o => o.ItemFields)
                .Include(o => o.ItemOptions)
                .FirstOrDefaultAsync(o => o.ItemId == indicatorId);
 
@@ -136,7 +136,7 @@ namespace WEB.Controllers
 
             ModelFactory.Hydrate(indicator, indicatorDTO, isNew);
 
-            await ItemFunctions.HydrateFieldsAsync(db, indicator.IndicatorId, indicatorDTO.FieldValues, indicatorDTO.ItemOptions);
+            await ItemFunctions.HydrateFieldsAsync(db, indicator.IndicatorId, indicatorDTO.ItemFields, indicatorDTO.ItemOptions);
 
             await db.SaveChangesAsync();
 
