@@ -48,6 +48,8 @@ import { IndicatorPermissionListComponent } from './admin/indicatorpermissions/i
 import { IndicatorPermissionEditComponent } from './admin/indicatorpermissions/indicatorpermission.edit.component';
 import { ItemListComponent } from './admin/items/item.list.component';
 import { ItemEditComponent } from './admin/items/item.edit.component';
+import { ItemOptionListComponent } from './admin/itemoptions/itemoption.list.component';
+import { ItemOptionEditComponent } from './admin/itemoptions/itemoption.edit.component';
 import { LogFrameListComponent } from './admin/logframes/logframe.list.component';
 import { LogFrameEditComponent } from './admin/logframes/logframe.edit.component';
 import { LogFrameRowListComponent } from './admin/logframerows/logframerow.list.component';
@@ -60,8 +62,6 @@ import { MilestoneListComponent } from './admin/milestones/milestone.list.compon
 import { MilestoneEditComponent } from './admin/milestones/milestone.edit.component';
 import { OptionListComponent } from './admin/options/option.list.component';
 import { OptionEditComponent } from './admin/options/option.edit.component';
-import { OptionValueListComponent } from './admin/optionvalues/optionvalue.list.component';
-import { OptionValueEditComponent } from './admin/optionvalues/optionvalue.edit.component';
 import { OrganisationListComponent } from './admin/organisations/organisation.list.component';
 import { OrganisationEditComponent } from './admin/organisations/organisation.edit.component';
 import { ProjectListComponent } from './admin/projects/project.list.component';
@@ -143,6 +143,8 @@ import { NgxEchartsModule } from 'ngx-echarts';
         IndicatorPermissionEditComponent,
         ItemListComponent,
         ItemEditComponent,
+        ItemOptionListComponent,
+        ItemOptionEditComponent,
         LogFrameListComponent,
         LogFrameEditComponent,
         LogFrameRowListComponent,
@@ -155,8 +157,6 @@ import { NgxEchartsModule } from 'ngx-echarts';
         MilestoneEditComponent,
         OptionListComponent,
         OptionEditComponent,
-        OptionValueListComponent,
-        OptionValueEditComponent,
         OrganisationListComponent,
         OrganisationEditComponent,
         ProjectListComponent,

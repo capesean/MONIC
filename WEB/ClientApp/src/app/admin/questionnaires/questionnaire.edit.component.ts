@@ -34,9 +34,9 @@ import { Observable } from 'rxjs';
 import { of } from 'rxjs';
 import { QuestionSummaryService } from '../../common/services/questionsummary.service';
 import { QuestionSummary } from '../../common/models/questionsummary.model';
-import { OptionValueSearchOptions, OptionValueSearchResponse } from '../../common/models/optionvalue.model';
-import { OptionValueService } from '../../common/services/optionvalue.service';
 import { EChartsCoreOption } from 'echarts/core';
+import { ItemOptionService } from '../../common/services/itemoption.service';
+import { ItemOptionSearchOptions, ItemOptionSearchResponse } from '../../common/models/itemoption.model';
 
 class AnalysisResults {
     questionSummary: QuestionSummary;
@@ -100,7 +100,7 @@ export class QuestionnaireEditComponent implements OnInit, OnDestroy {
         private answerService: AnswerService,
         private questionOptionService: QuestionOptionService,
         private questionSummaryService: QuestionSummaryService,
-        private optionValueService: OptionValueService
+        private itemOptionService: ItemOptionService
     ) {
     }
 
@@ -411,20 +411,20 @@ export class QuestionnaireEditComponent implements OnInit, OnDestroy {
             answerSearchResults: this.answerService.search({ pageSize: 0, questionId: this.analysisOptions.questionId, includeChildren: true } as AnswerSearchOptions),
             responseSearchResults: this.responseService.search({ pageSize: 0, questionnaireId: this.questionnaire.questionnaireId, includeParents: true } as ResponseSearchOptions),
             questionOptionResults: of(undefined),
-            optionValueSearchResults: of(undefined)
+            itemOptionSearchResults: of(undefined)
         } as {
             questionSummary: Observable<QuestionSummary>,
             answerSearchResults: Observable<AnswerSearchResponse>,
             questionOptionResults: Observable<QuestionOptionSearchResponse>,
             responseSearchResults: Observable<ResponseSearchResponse>,
-            optionValueSearchResults: Observable<OptionValueSearchResponse>
+            itemOptionSearchResults: Observable<ItemOptionSearchResponse>
         };
 
         if (this.analysisOptions.question.questionType === QuestionTypes.OptionList && this.analysisOptions.question.questionOptionGroupId)
             apiCalls.questionOptionResults = this.questionOptionService.search({ pageSize: 0, questionOptionGroupId: this.analysisOptions.question.questionOptionGroupId } as QuestionOptionSearchOptions);
 
         if (this.analysisOptions.optionId)
-            apiCalls.optionValueSearchResults = this.optionValueService.search({ pageSize: 0, optionId: this.analysisOptions.optionId } as OptionValueSearchOptions);
+            apiCalls.itemOptionSearchResults = this.itemOptionService.search({ pageSize: 0, optionId: this.analysisOptions.optionId } as ItemOptionSearchOptions);
 
         forkJoin(apiCalls).subscribe({
             next: data => {
@@ -450,7 +450,7 @@ export class QuestionnaireEditComponent implements OnInit, OnDestroy {
                                     const response = data.responseSearchResults.responses.find(o => o.responseId === answer.responseId);
 
                                     // skip if filtering by an option
-                                    if (this.analysisOptions.optionId && !data.optionValueSearchResults.optionValues.find(o => o.itemId === response.entityId))
+                                    if (this.analysisOptions.optionId && !data.itemOptionSearchResults.itemOptions.find(o => o.itemId === response.entityId))
                                         continue;
 
                                     this.analysisResults.answers.push({ entity: response.entity.shortName, entityCode: response.entity.code, value: questionOption.label } as AnalysisAnswer);
@@ -508,7 +508,7 @@ export class QuestionnaireEditComponent implements OnInit, OnDestroy {
                         const response = data.responseSearchResults.responses.find(o => o.responseId === answer.responseId);
 
                         // skip if filtering by an option
-                        if (this.analysisOptions.optionId && !data.optionValueSearchResults.optionValues.find(o => o.itemId === response.entityId))
+                        if (this.analysisOptions.optionId && !data.itemOptionSearchResults.itemOptions.find(o => o.itemId === response.entityId))
                             continue;
 
                         this.analysisResults.answers.push({ entity: response.entity.shortName, entityCode: response.entity.code, value: answer.value } as AnalysisAnswer);

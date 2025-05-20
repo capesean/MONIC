@@ -15,8 +15,8 @@ import { ErrorService } from '../../common/services/error.service';
 import { ItemService } from '../../common/services/item.service';
 import { Document, DocumentSearchOptions, DocumentSearchResponse } from '../../common/models/document.model';
 import { DocumentService } from '../../common/services/document.service';
-import { OptionValue, OptionValueSearchOptions, OptionValueSearchResponse } from '../../common/models/optionvalue.model';
-import { OptionValueService } from '../../common/services/optionvalue.service';
+import { ItemOption, ItemOptionSearchOptions, ItemOptionSearchResponse } from '../../common/models/itemoption.model';
+import { ItemOptionService } from '../../common/services/itemoption.service';
 
 @NgComponent({
     selector: 'item-edit',
@@ -31,10 +31,10 @@ export class ItemEditComponent implements OnInit, OnDestroy {
     private routerSubscription: Subscription;
     public itemTypes: Enum[] = Enums.ItemTypes;
 
-    public optionValuesSearchOptions = new OptionValueSearchOptions();
-    public optionValuesHeaders = new PagingHeaders();
-    public optionValues: OptionValue[] = [];
-    public showOptionValuesSearch = false;
+    public itemOptionsSearchOptions = new ItemOptionSearchOptions();
+    public itemOptionsHeaders = new PagingHeaders();
+    public itemOptions: ItemOption[] = [];
+    public showItemOptionsSearch = false;
 
     public documentsSearchOptions = new DocumentSearchOptions();
     public documentsHeaders = new PagingHeaders();
@@ -49,7 +49,7 @@ export class ItemEditComponent implements OnInit, OnDestroy {
         private modalService: NgbModal,
         private itemService: ItemService,
         private documentService: DocumentService,
-        private optionValueService: OptionValueService,
+        private itemOptionService: ItemOptionService,
         private errorService: ErrorService
     ) {
     }
@@ -66,9 +66,9 @@ export class ItemEditComponent implements OnInit, OnDestroy {
                 this.item.itemId = itemId;
                 this.loadItem();
 
-                this.optionValuesSearchOptions.itemId = itemId;
-                this.optionValuesSearchOptions.includeParents = true;
-                this.searchOptionValues();
+                this.itemOptionsSearchOptions.itemId = itemId;
+                this.itemOptionsSearchOptions.includeParents = true;
+                this.searchItemOptions();
 
                 this.documentsSearchOptions.itemId = itemId;
                 this.documentsSearchOptions.includeParents = true;
@@ -158,21 +158,21 @@ export class ItemEditComponent implements OnInit, OnDestroy {
         this.breadcrumbService.changeBreadcrumb(this.route.snapshot, this.item.itemId !== undefined ? this.item.itemId.substring(0, 25) : "(new item)");
     }
 
-    searchOptionValues(pageIndex = 0): Subject<OptionValueSearchResponse> {
+    searchItemOptions(pageIndex = 0): Subject<ItemOptionSearchResponse> {
 
-        this.optionValuesSearchOptions.pageIndex = pageIndex;
+        this.itemOptionsSearchOptions.pageIndex = pageIndex;
 
-        const subject = new Subject<OptionValueSearchResponse>()
+        const subject = new Subject<ItemOptionSearchResponse>()
 
-        this.optionValueService.search(this.optionValuesSearchOptions)
+        this.itemOptionService.search(this.itemOptionsSearchOptions)
             .subscribe({
                 next: response => {
                     subject.next(response);
-                    this.optionValues = response.optionValues;
-                    this.optionValuesHeaders = response.headers;
+                    this.itemOptions = response.itemOptions;
+                    this.itemOptionsHeaders = response.headers;
                 },
                 error: err => {
-                    this.errorService.handleError(err, "Option Values", "Load");
+                    this.errorService.handleError(err, "Options", "Load");
                 }
             });
 
@@ -180,46 +180,46 @@ export class ItemEditComponent implements OnInit, OnDestroy {
 
     }
 
-    goToOptionValue(optionValue: OptionValue): void {
-        this.router.navigate(["/optionvalues", optionValue.itemId, optionValue.optionId]);
+    goToOption(itemOption: ItemOption): void {
+        this.router.navigate(["/itemoptions", itemOption.itemId, itemOption.optionId]);
     }
 
-    deleteOptionValue(optionValue: OptionValue, event: MouseEvent): void {
+    deleteOption(itemOption: ItemOption, event: MouseEvent): void {
         event.stopPropagation();
 
         let modalRef = this.modalService.open(ConfirmModalComponent, { centered: true });
-        (modalRef.componentInstance as ConfirmModalComponent).options = { title: "Delete Option Value", text: "Are you sure you want to delete this option value?", deleteStyle: true, ok: "Delete" } as ConfirmModalOptions;
+        (modalRef.componentInstance as ConfirmModalComponent).options = { title: "Delete Item Option", text: "Are you sure you want to delete this item option?", deleteStyle: true, ok: "Delete" } as ConfirmModalOptions;
         modalRef.result.then(
             () => {
 
-                this.optionValueService.delete(optionValue.itemId, optionValue.optionId)
+                this.itemOptionService.delete(itemOption.itemId, itemOption.optionId)
                     .subscribe({
                         next: () => {
-                            this.toastr.success("The option value has been deleted", "Delete Option Value");
-                            this.searchOptionValues(this.optionValuesHeaders.pageIndex);
+                            this.toastr.success("The item option has been deleted", "Delete Item Option");
+                            this.searchItemOptions(this.itemOptionsHeaders.pageIndex);
                         },
                         error: err => {
-                            this.errorService.handleError(err, "Option Value", "Delete");
+                            this.errorService.handleError(err, "Item Option", "Delete");
                         }
                     });
 
             }, () => { });
     }
 
-    deleteOptionValues(): void {
+    deleteItemOptions(): void {
         let modalRef = this.modalService.open(ConfirmModalComponent, { centered: true });
-        (modalRef.componentInstance as ConfirmModalComponent).options = { title: "Delete Option Values", text: "Are you sure you want to delete all the option values?", deleteStyle: true, ok: "Delete" } as ConfirmModalOptions;
+        (modalRef.componentInstance as ConfirmModalComponent).options = { title: "Delete Options", text: "Are you sure you want to delete all the options?", deleteStyle: true, ok: "Delete" } as ConfirmModalOptions;
         modalRef.result.then(
             () => {
 
-                this.itemService.deleteOptionValues(this.item.itemId)
+                this.itemService.deleteItemOptions(this.item.itemId)
                     .subscribe({
                         next: () => {
-                            this.toastr.success("The option values have been deleted", "Delete Option Values");
-                            this.searchOptionValues();
+                            this.toastr.success("The options have been deleted", "Delete Options");
+                            this.searchItemOptions();
                         },
                         error: err => {
-                            this.errorService.handleError(err, "Option Values", "Delete");
+                            this.errorService.handleError(err, "Options", "Delete");
                         }
                     });
             }, () => { });

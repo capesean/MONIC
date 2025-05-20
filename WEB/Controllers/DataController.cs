@@ -62,8 +62,8 @@ namespace WEB.Controllers
                 return Forbid();
 
             var datum = await db.Data
-                .Include(o => o.Date)
                 .Include(o => o.Entity)
+                .Include(o => o.Date)
                 .Include(o => o.SubmitReview.User)
                 .Include(o => o.VerifyReview.User)
                 .Include(o => o.ApproveReview.User)

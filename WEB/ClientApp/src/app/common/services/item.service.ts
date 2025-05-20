@@ -37,8 +37,8 @@ export class ItemService extends SearchQuery {
         return this.http.delete<void>(`${environment.baseApiUrl}items/${itemId}`);
     }
 
-    deleteOptionValues(itemId: string): Observable<void> {
-        return this.http.delete<void>(`${environment.baseApiUrl}items/${itemId}/optionvalues`);
+    deleteItemOptions(itemId: string): Observable<void> {
+        return this.http.delete<void>(`${environment.baseApiUrl}items/${itemId}/itemoptions`);
     }
 
     deleteDocuments(itemId: string): Observable<void> {

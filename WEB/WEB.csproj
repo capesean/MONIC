@@ -35,6 +35,10 @@
 			<PrivateAssets>all</PrivateAssets>
 			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
 		</PackageReference>
+		<PackageReference Include="Microsoft.TypeScript.MSBuild" Version="5.8.3">
+		  <PrivateAssets>all</PrivateAssets>
+		  <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+		</PackageReference>
 		<PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
 		<PackageReference Include="OpenIddict.EntityFrameworkCore" Version="5.7.0" />
 		<PackageReference Include="OpenIddict.Server" Version="5.7.0" />
@@ -134,6 +138,7 @@
 		<None Remove="ClientApp\src\assets\images\emaillogo.png" />
 		<None Remove="ClientApp\src\assets\images\reportlogo.png" />
 		<None Remove="ClientApp\src\app\common\models\download.model.ts" />
+		<None Remove="ClientApp\tsconfig.json" />
 	</ItemGroup>
 
 
@@ -166,6 +171,7 @@
 			<ExcludeFromSingleFile>true</ExcludeFromSingleFile>
 			<CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
 		</Content>
+		<Content Include="ClientApp\tsconfig.json" />
 	</ItemGroup>
 
 	<ItemGroup>

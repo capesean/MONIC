@@ -59,7 +59,7 @@
 
             <ng-container ngbNavItem>
 
-                <a ngbNavLink>Option Values</a>
+                <a ngbNavLink>Options</a>
 
                 <ng-template ngbNavContent>
 
@@ -68,23 +68,23 @@
                         <div class="card-header">
 
                             <div class="card-header-title">
-                                <h4>Option Values</h4>
+                                <h4>Options</h4>
                                 <div>
-                                    <i class="fa fa-fw ms-1 fa-search cursor-pointer" (click)="showOptionValuesSearch=!showOptionValuesSearch" ngbTooltip="Toggle search options"></i>
+                                    <i class="fa fa-fw ms-1 fa-search cursor-pointer" (click)="showItemOptionsSearch=!showItemOptionsSearch" ngbTooltip="Toggle search options"></i>
                                 </div>
                             </div>
 
                         </div>
 
-                        <div class="card-body" *ngIf="showOptionValuesSearch" @FadeThenShrink>
+                        <div class="card-body" *ngIf="showItemOptionsSearch" @FadeThenShrink>
 
-                            <form id="formSearchOptionValues" (submit)="searchOptionValues(0)" novalidate>
+                            <form id="formSearchItemOptions" (submit)="searchItemOptions(0)" novalidate>
 
                                 <div class="row g-2">
 
                                     <div class="col-sm-6 col-md-4 col-lg-4 col-xl-3">
                                         <div class="form-group">
-                                            <option-select id="optionId" name="optionId" [(ngModel)]="optionValuesSearchOptions.optionId"></option-select>
+                                            <option-select id="optionId" name="optionId" [(ngModel)]="itemOptionsSearchOptions.optionId"></option-select>
                                         </div>
                                     </div>
 
@@ -106,13 +106,13 @@
                                 <thead class="thead-light">
                                     <tr>
                                         <th>Option</th>
-                                        <th class="w-20px text-center"><i class="fas fa-times text-danger cursor-pointer" (click)="deleteOptionValues()" ngbTooltip="Delete all option values" container="body" placement="left"></i></th>
+                                        <th class="w-20px text-center"><i class="fas fa-times text-danger cursor-pointer" (click)="deleteItemOptions()" ngbTooltip="Delete all options" container="body" placement="left"></i></th>
                                     </tr>
                                 </thead>
                                 <tbody class="list cursor-pointer">
-                                    <tr *ngFor="let optionValue of optionValues" (click)="goToOptionValue(optionValue)">
-                                        <td>{{ optionValue.option.name }}</td>
-                                        <td class="text-center"><i class="fas fa-times cursor-pointer p-1 text-danger" (click)="deleteOptionValue(optionValue, $event)"></i></td>
+                                    <tr *ngFor="let itemOption of itemOptions" (click)="goToOption(itemOption)">
+                                        <td>{{ itemOption.option.name }}</td>
+                                        <td class="text-center"><i class="fas fa-times cursor-pointer p-1 text-danger" (click)="deleteOption(itemOption, $event)"></i></td>
                                     </tr>
                                 </tbody>
                             </table>
@@ -120,7 +120,7 @@
                         </div>
 
                         <div class="card-footer">
-                            <pager [headers]="optionValuesHeaders" (pageChanged)="searchOptionValues($event)"></pager>
+                            <pager [headers]="itemOptionsHeaders" (pageChanged)="searchItemOptions($event)"></pager>
                         </div>
 
                     </div>

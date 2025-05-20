@@ -4,7 +4,7 @@ namespace WEB.Models
 {
     public static class ItemFunctions
     {
-        public static async System.Threading.Tasks.Task HydrateFieldsAsync(ApplicationDbContext db, Guid itemId, ICollection<FieldValueDTO> newFieldValues, ICollection<OptionValueDTO> newOptionValues)
+        public static async System.Threading.Tasks.Task HydrateFieldsAsync(ApplicationDbContext db, Guid itemId, ICollection<FieldValueDTO> newFieldValues, ICollection<ItemOptionDTO> itemOptions)
         {
             DeleteFields(db, itemId);
 
@@ -22,14 +22,14 @@ namespace WEB.Models
                 db.Entry(new FieldValue { ItemId = itemId, FieldId = fieldValue.FieldId, Value = fieldValue.Value }).State = EntityState.Added;
             }
 
-            foreach (var optionValue in newOptionValues)
+            foreach (var itemOption in itemOptions)
             {
                 // this is the 'unselect' option set in the authorization.profile controller
-                if (optionValue.OptionId == Guid.Empty) continue;
+                if (itemOption.OptionId == Guid.Empty) continue;
 
                 // validation checks here: multiple
 
-                db.Entry(new OptionValue { ItemId = itemId, OptionId = optionValue.OptionId }).State = EntityState.Added;
+                db.Entry(new ItemOption { ItemId = itemId, OptionId = itemOption.OptionId }).State = EntityState.Added;
             }
 
             //foreach (var fileDTO in organisationDTO.Files)
@@ -59,8 +59,8 @@ namespace WEB.Models
             foreach (var userField in db.FieldValues.Where(o => o.ItemId == itemId).ToList())
                 db.Entry(userField).State = EntityState.Deleted;
 
-            foreach (var userOption in db.OptionValues.Where(o => o.ItemId == itemId).ToList())
-                db.Entry(userOption).State = EntityState.Deleted;
+            foreach (var itemOption in db.ItemOptions.Where(o => o.ItemId == itemId).ToList())
+                db.Entry(itemOption).State = EntityState.Deleted;
 
             if (deleteItem)
             {

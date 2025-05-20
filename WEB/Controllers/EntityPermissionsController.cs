@@ -37,8 +37,8 @@ namespace WEB.Controllers
         public async Task<IActionResult> Get(Guid entityPermissionId)
         {
             var entityPermission = await db.EntityPermissions
-                .Include(o => o.User)
                 .Include(o => o.Entity)
+                .Include(o => o.User)
                 .FirstOrDefaultAsync(o => o.EntityPermissionId == entityPermissionId);
 
             if (entityPermission == null)

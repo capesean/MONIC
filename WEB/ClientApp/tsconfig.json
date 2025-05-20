@@ -8,7 +8,7 @@
         "outDir": "./dist/out-tsc", // where compiled JS goes
 
         // ————— Module & target —————
-        "target": "ES2015",
+        "target": "ES2022",
         "module": "ES2022",
         "moduleResolution": "node",
         "lib": [ "ES2022", "ES2015", "DOM" ],
@@ -31,7 +31,7 @@
         // ————— misc —————
         "sourceMap": true,
         "declaration": false,
-        "useDefineForClassFields": true,
+        "useDefineForClassFields": false,
         "allowJs": true,
         "types": []
     },

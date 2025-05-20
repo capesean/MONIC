@@ -2,21 +2,21 @@ import { Component as NgComponent, OnInit, OnDestroy } from '@angular/core';
 import { Router, ActivatedRoute, NavigationEnd } from '@angular/router';
 import { Subject, Subscription } from 'rxjs';
 import { PagingHeaders } from '../../common/models/http.model';
-import { OptionValueSearchOptions, OptionValueSearchResponse, OptionValue } from '../../common/models/optionvalue.model';
+import { ItemOptionSearchOptions, ItemOptionSearchResponse, ItemOption } from '../../common/models/itemoption.model';
 import { FadeThenShrink } from '../../common/animations/fadethenshrink';
 import { ErrorService } from '../../common/services/error.service';
-import { OptionValueService } from '../../common/services/optionvalue.service';
+import { ItemOptionService } from '../../common/services/itemoption.service';
 
 @NgComponent({
-    selector: 'optionvalue-list',
-    templateUrl: './optionvalue.list.component.html',
+    selector: 'itemoption-list',
+    templateUrl: './itemoption.list.component.html',
     animations: [FadeThenShrink],
     standalone: false
 })
-export class OptionValueListComponent implements OnInit, OnDestroy {
+export class ItemOptionListComponent implements OnInit, OnDestroy {
 
-    public optionValues: OptionValue[] = [];
-    public searchOptions = new OptionValueSearchOptions();
+    public itemOptions: ItemOption[] = [];
+    public searchOptions = new ItemOptionSearchOptions();
     public showSearchOptions = false;
     public headers = new PagingHeaders();
     private routerSubscription: Subscription;
@@ -25,7 +25,7 @@ export class OptionValueListComponent implements OnInit, OnDestroy {
         public route: ActivatedRoute,
         private router: Router,
         private errorService: ErrorService,
-        private optionValueService: OptionValueService
+        private itemOptionService: ItemOptionService
     ) {
     }
 
@@ -43,21 +43,21 @@ export class OptionValueListComponent implements OnInit, OnDestroy {
         this.routerSubscription.unsubscribe();
     }
 
-    runSearch(pageIndex = 0): Subject<OptionValueSearchResponse> {
+    runSearch(pageIndex = 0): Subject<ItemOptionSearchResponse> {
 
         this.searchOptions.pageIndex = pageIndex;
 
-        const subject = new Subject<OptionValueSearchResponse>();
+        const subject = new Subject<ItemOptionSearchResponse>();
 
-        this.optionValueService.search(this.searchOptions)
+        this.itemOptionService.search(this.searchOptions)
             .subscribe({
                 next: response => {
                     subject.next(response);
-                    this.optionValues = response.optionValues;
+                    this.itemOptions = response.itemOptions;
                     this.headers = response.headers;
                 },
                 error: err => {
-                    this.errorService.handleError(err, "Option Values", "Load");
+                    this.errorService.handleError(err, "Item Options", "Load");
                 }
             });
 
@@ -65,8 +65,8 @@ export class OptionValueListComponent implements OnInit, OnDestroy {
 
     }
 
-    goToOptionValue(optionValue: OptionValue): void {
-        this.router.navigate([optionValue.itemId, optionValue.optionId], { relativeTo: this.route });
+    goToItemOption(itemOption: ItemOption): void {
+        this.router.navigate([itemOption.itemId, itemOption.optionId], { relativeTo: this.route });
     }
 }
 

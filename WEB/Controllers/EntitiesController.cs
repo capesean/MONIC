@@ -82,7 +82,7 @@ namespace WEB.Controllers
 
             var item = await db.Items
                .Include(o => o.FieldValues)
-               .Include(o => o.OptionValues)
+               .Include(o => o.ItemOptions)
                .FirstOrDefaultAsync(o => o.ItemId == entityId);
 
             var entityDTO = ModelFactory.Create(entity, true, false, item);
@@ -147,7 +147,7 @@ namespace WEB.Controllers
 
             ModelFactory.Hydrate(entity, entityDTO, isNew);
 
-            await ItemFunctions.HydrateFieldsAsync(db, entity.EntityId, entityDTO.FieldValues, entityDTO.OptionValues);
+            await ItemFunctions.HydrateFieldsAsync(db, entity.EntityId, entityDTO.FieldValues, entityDTO.ItemOptions);
 
             if (!CurrentUser.IsInRole(Roles.Administrator)) entity.OrganisationId = CurrentUser.OrganisationId.Value;
 

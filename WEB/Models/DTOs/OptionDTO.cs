@@ -19,7 +19,7 @@ namespace WEB.Models
 
         public FieldDTO Field { get; set; }
 
-        public virtual List<OptionValueDTO> OptionValues { get; set; } = new List<OptionValueDTO>();
+        public virtual List<ItemOptionDTO> ItemOptions { get; set; } = new List<ItemOptionDTO>();
 
     }
 
@@ -43,8 +43,8 @@ namespace WEB.Models
 
             if (includeChildren)
             {
-                foreach (var optionValue in option.OptionValues)
-                    optionDTO.OptionValues.Add(Create(optionValue));
+                foreach (var itemOption in option.ItemOptions)
+                    optionDTO.ItemOptions.Add(Create(itemOption));
             }
 
             return optionDTO;

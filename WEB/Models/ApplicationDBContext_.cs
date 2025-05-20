@@ -27,13 +27,13 @@ namespace WEB.Models
         public DbSet<Indicator> Indicators { get; set; }
         public DbSet<IndicatorPermission> IndicatorPermissions { get; set; }
         public DbSet<Item> Items { get; set; }
+        public DbSet<ItemOption> ItemOptions { get; set; }
         public DbSet<LogFrame> LogFrames { get; set; }
         public DbSet<LogFrameRow> LogFrameRows { get; set; }
         public DbSet<LogFrameRowComponent> LogFrameRowComponents { get; set; }
         public DbSet<LogFrameRowIndicator> LogFrameRowIndicators { get; set; }
         public DbSet<Milestone> Milestones { get; set; }
         public DbSet<Option> Options { get; set; }
-        public DbSet<OptionValue> OptionValues { get; set; }
         public DbSet<Organisation> Organisations { get; set; }
         public DbSet<Project> Projects { get; set; }
         public DbSet<Question> Questions { get; set; }
@@ -165,6 +165,10 @@ namespace WEB.Models
                 .HasDatabaseName("IX_Indicator_Code")
                 .IsUnique();
 
+            modelBuilder.Entity<ItemOption>()
+                .HasKey(o => new { o.ItemId, o.OptionId })
+                .HasName("PK_ItemOption");
+
             modelBuilder.Entity<LogFrame>()
                 .HasIndex(o => o.Name)
                 .HasDatabaseName("IX_LogFrame_Name")
@@ -187,10 +191,6 @@ namespace WEB.Models
                 .HasIndex(o => new { o.FieldId, o.Name })
                 .HasDatabaseName("IX_Option_Name")
                 .IsUnique();
-
-            modelBuilder.Entity<OptionValue>()
-                .HasKey(o => new { o.ItemId, o.OptionId })
-                .HasName("PK_OptionValue");
 
             modelBuilder.Entity<Organisation>()
                 .HasIndex(o => o.Name)

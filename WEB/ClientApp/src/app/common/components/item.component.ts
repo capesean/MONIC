@@ -7,7 +7,6 @@ import { NgForm } from '@angular/forms';
 import { ErrorService } from '../services/error.service';
 import { AsyncSubject, Subject } from 'rxjs';
 import { FieldValue } from '../models/fieldvalue.model';
-import { OptionValue } from '../models/optionvalue.model';
 import moment from 'moment';
 import { DocumentService } from '../services/document.service';
 import { PagingHeaders } from '../models/http.model';
@@ -16,6 +15,7 @@ import { DocumentManageComponent } from '../../admin/documents/document.manage.c
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { Item } from '../models/item.model';
 import { AppService } from '../services/app.service';
+import { ItemOption } from '../models/itemoption.model';
 
 @Component({
     template: '',
@@ -103,7 +103,7 @@ export abstract class ItemComponent {
 
             // in case the parent has been created but the item record is missing, then the loaded parent won't have the arrays
             if (itemObject.fieldValues == undefined) itemObject.fieldValues = [];
-            if (itemObject.optionValues == undefined) itemObject.optionValues = [];
+            if (itemObject.itemOptions == undefined) itemObject.itemOptions = [];
 
             this.fieldValues = new Map<string, string>();
             this.fields.forEach(field => {
@@ -122,11 +122,11 @@ export abstract class ItemComponent {
 
                     if (field.multiple) {
                         //  find all (.filter) the item's options for this field (i.e. in the optionIds array) and convert those to an array of selectedOptionIds
-                        value = itemObject.optionValues.filter(o => optionIds.indexOf(o.optionId) >= 0).map(o => o.optionId);
+                        value = itemObject.itemOptions.filter(o => optionIds.indexOf(o.optionId) >= 0).map(o => o.optionId);
                     }
                     else {
                         //  find the first (.find) item's option for this field (i.e. in the optionIds array) and get the optionId
-                        value = itemObject.optionValues.find(o => optionIds.indexOf(o.optionId) >= 0)?.optionId;
+                        value = itemObject.itemOptions.find(o => optionIds.indexOf(o.optionId) >= 0)?.optionId;
                     }
 
                     // store the selectedOptionId(s) in this ItemComponent's .fieldValues property
@@ -182,7 +182,7 @@ export abstract class ItemComponent {
         // extract the field values from the this.fieldValues dictionary into the fieldValues/optionValues/etc. to save via the API
 
         itemObject.fieldValues = [];
-        itemObject.optionValues = [];
+        itemObject.itemOptions = [];
         //this.item.files = [];
 
         this.fields.forEach(field => {
@@ -194,9 +194,9 @@ export abstract class ItemComponent {
 
             if (field.fieldType === FieldTypes.Picklist) {
                 // push each of the values into the optionValues array
-                if (field.multiple) (value as string[]).forEach(o => itemObject.optionValues.push({ itemId: this.item.itemId, optionId: o } as OptionValue))
+                if (field.multiple) (value as string[]).forEach(o => itemObject.itemOptions.push({ itemId: this.item.itemId, optionId: o } as ItemOption))
                 // push the selected value into the optionValues array
-                else itemObject.optionValues.push({ itemId: this.item.itemId, optionId: value } as OptionValue);
+                else itemObject.itemOptions.push({ itemId: this.item.itemId, optionId: value } as ItemOption);
             } else if (field.fieldType === FieldTypes.Date) {
                 itemObject.fieldValues.push({ itemId: this.item.itemId, fieldId: field.fieldId, value: moment(value as string).format("DD MMMM YYYY") } as FieldValue);
             } else if (field.fieldType === FieldTypes.Text) {

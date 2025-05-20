@@ -19,7 +19,7 @@ namespace WEB.Models
         [Required]
         public int SortOrder { get; set; }
 
-        public virtual ICollection<OptionValue> OptionValues { get; set; } = new List<OptionValue>();
+        public virtual ICollection<ItemOption> ItemOptions { get; set; } = new List<ItemOption>();
 
         [ForeignKey("FieldId")]
         public virtual Field Field { get; set; }

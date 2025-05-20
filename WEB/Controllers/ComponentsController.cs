@@ -49,7 +49,7 @@ namespace WEB.Controllers
 
             var item = await db.Items
                .Include(o => o.FieldValues)
-               .Include(o => o.OptionValues)
+               .Include(o => o.ItemOptions)
                .FirstOrDefaultAsync(o => o.ItemId == componentId);
 
             return Ok(ModelFactory.Create(component, true, false, item));
@@ -94,7 +94,7 @@ namespace WEB.Controllers
 
             ModelFactory.Hydrate(component, componentDTO);
 
-            await ItemFunctions.HydrateFieldsAsync(db, component.ComponentId, componentDTO.FieldValues, componentDTO.OptionValues);
+            await ItemFunctions.HydrateFieldsAsync(db, component.ComponentId, componentDTO.FieldValues, componentDTO.ItemOptions);
 
             await db.SaveChangesAsync();
 

@@ -52,7 +52,7 @@ namespace WEB.Controllers
 
             var item = await db.Items
                .Include(o => o.FieldValues)
-               .Include(o => o.OptionValues)
+               .Include(o => o.ItemOptions)
                .FirstOrDefaultAsync(o => o.ItemId == folderId);
 
             var organisationDTO = ModelFactory.Create(folder, true, false, item);
@@ -92,7 +92,7 @@ namespace WEB.Controllers
                 db.Entry(folder).State = EntityState.Modified;
             }
 
-            await ItemFunctions.HydrateFieldsAsync(db, folder.FolderId, folderDTO.FieldValues, folderDTO.OptionValues);
+            await ItemFunctions.HydrateFieldsAsync(db, folder.FolderId, folderDTO.FieldValues, folderDTO.ItemOptions);
 
             ModelFactory.Hydrate(folder, folderDTO);
 

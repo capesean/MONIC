@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace WEB.Models
 {
-    public class OptionValue
+    public class ItemOption
     {
         [Required]
         public Guid ItemId { get; set; }
@@ -18,7 +18,7 @@ namespace WEB.Models
         [ForeignKey("OptionId")]
         public virtual Option Option { get; set; }
 
-        public OptionValue()
+        public ItemOption()
         {
         }
 
@@ -31,7 +31,7 @@ namespace WEB.Models
         {
             if (obj == null || GetType() != obj.GetType()) return false;
 
-            OptionValue other = (OptionValue)obj;
+            ItemOption other = (ItemOption)obj;
 
             return ItemId == other.ItemId && OptionId == other.OptionId;
         }

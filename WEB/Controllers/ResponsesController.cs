@@ -47,8 +47,8 @@ namespace WEB.Controllers
             var response = await CurrentUser.GetPermittedResponsesQuery()
                 .Include(o => o.Questionnaire)
                 .Include(o => o.Date)
-                .Include(o => o.SubmittedBy)
                 .Include(o => o.Entity.EntityType)
+                .Include(o => o.SubmittedBy)
                 .FirstOrDefaultAsync(o => o.ResponseId == responseId);
 
             if (response == null)

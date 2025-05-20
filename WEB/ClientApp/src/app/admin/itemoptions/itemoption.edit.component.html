@@ -7,7 +7,7 @@
         <div class="card-header">
 
             <div class="card-header-title">
-                <h4>Option Value</h4>
+                <h4>Item Option</h4>
             </div>
 
         </div>
@@ -25,7 +25,7 @@
                                 Item:
                             </label>
 
-                            <item-select id="itemId" name="itemId" [(item)]="optionValue.item" [(ngModel)]="optionValue.itemId" #itemId="ngModel" required></item-select>
+                            <item-select id="itemId" name="itemId" [(item)]="itemOption.item" [(ngModel)]="itemOption.itemId" #itemId="ngModel" required></item-select>
 
                             <div *ngIf="itemId.errors?.required" class="invalid-feedback">
                                 Item is required
@@ -41,7 +41,7 @@
                                 Option:
                             </label>
 
-                            <option-select id="optionId" name="optionId" [(option)]="optionValue.option" [(ngModel)]="optionValue.optionId" #optionId="ngModel" required (ngModelChange)="changeBreadcrumb()"></option-select>
+                            <option-select id="optionId" name="optionId" [(option)]="itemOption.option" [(ngModel)]="itemOption.optionId" #optionId="ngModel" required (ngModelChange)="changeBreadcrumb()"></option-select>
 
                             <div *ngIf="optionId.errors?.required" class="invalid-feedback">
                                 Option is required

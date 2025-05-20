@@ -1,6 +1,6 @@
 import { SearchOptions, PagingHeaders } from './http.model';
 import { Field } from './field.model';
-import { OptionValue } from './optionvalue.model';
+import { ItemOption } from './itemoption.model';
 
 export class Option {
     optionId: string;
@@ -9,11 +9,11 @@ export class Option {
     sortOrder: number;
     field: Field;
 
-    optionValues: OptionValue[];
+    itemOptions: ItemOption[];
 
     constructor() {
         this.optionId = "00000000-0000-0000-0000-000000000000";
-        this.optionValues = [];
+        this.itemOptions = [];
     }
 }
 

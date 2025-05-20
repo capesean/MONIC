@@ -2,8 +2,8 @@ import { SearchOptions, PagingHeaders } from './http.model';
 import { Entity } from './entity.model';
 import { User } from './user.model';
 import { IHasFields } from './ihasfields.model';
-import { OptionValue } from './optionvalue.model';
 import { FieldValue } from './fieldvalue.model';
+import { ItemOption } from './itemoption.model';
 
 export class Organisation implements IHasFields {
     organisationId: string;
@@ -13,7 +13,7 @@ export class Organisation implements IHasFields {
     entities: Entity[];
     users: User[];
     fieldValues: FieldValue[] = [];
-    optionValues: OptionValue[] = [];
+    itemOptions: ItemOption[] = [];
 
     constructor() {
         this.organisationId = "00000000-0000-0000-0000-000000000000";

@@ -2,7 +2,7 @@ import { SearchOptions, PagingHeaders } from './http.model';
 import { ItemTypes } from './enums.model';
 import { Document } from './document.model';
 import { FieldValue } from './fieldvalue.model';
-import { OptionValue } from './optionvalue.model';
+import { ItemOption } from './itemoption.model';
 
 export class Item {
     itemId: string;
@@ -10,13 +10,13 @@ export class Item {
 
     documents: Document[];
     fieldValues: FieldValue[];
-    optionValues: OptionValue[];
+    itemOptions: ItemOption[];
 
     constructor() {
         this.itemId = "00000000-0000-0000-0000-000000000000";
         this.documents = [];
         this.fieldValues = [];
-        this.optionValues = [];
+        this.itemOptions = [];
     }
 }
 

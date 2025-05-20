@@ -8,8 +8,8 @@ import { Response } from './response.model';
 import { User } from './user.model';
 import { IHasFields } from './ihasfields.model';
 import { FieldValue } from './fieldvalue.model';
-import { OptionValue } from './optionvalue.model';
 import { Roles } from './enums.model';
+import { ItemOption } from './itemoption.model';
 
 export class Entity implements IHasFields {
     entityId: string;
@@ -29,7 +29,7 @@ export class Entity implements IHasFields {
     responses: Response[];
     affiliatedUsers: User[];
     fieldValues: FieldValue[] = [];
-    optionValues: OptionValue[] = [];
+    itemOptions: ItemOption[] = [];
 
     constructor() {
         this.entityId = "00000000-0000-0000-0000-000000000000";

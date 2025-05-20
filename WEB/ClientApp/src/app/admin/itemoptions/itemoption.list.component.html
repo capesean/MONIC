@@ -7,9 +7,9 @@
         <div class="card-header">
 
             <div class="card-header-title">
-                <h4>Option Values</h4>
+                <h4>Item Options</h4>
                 <div>
-                    <i class="fa fa-fw ms-1 fa-plus cursor-pointer" ngbTooltip="Add Option Value" [routerLink]="['./', 'add']"></i>
+                    <i class="fa fa-fw ms-1 fa-plus cursor-pointer" ngbTooltip="Add Item Option" [routerLink]="['./', 'add']"></i>
                     <i class="fa fa-fw ms-1 fa-search cursor-pointer" ngbTooltip="Toggle search options" (click)="showSearchOptions = !showSearchOptions"></i>
                 </div>
             </div>
@@ -56,9 +56,9 @@
                     </tr>
                 </thead>
                 <tbody class="list cursor-pointer">
-                    <tr *ngFor="let optionValue of optionValues" (click)="goToOptionValue(optionValue)">
-                        <td>{{ optionValue.item.itemId }}</td>
-                        <td>{{ optionValue.option.name }}</td>
+                    <tr *ngFor="let itemOption of itemOptions" (click)="goToItemOption(itemOption)">
+                        <td>{{ itemOption.item.itemId }}</td>
+                        <td>{{ itemOption.option.name }}</td>
                     </tr>
                 </tbody>
             </table>

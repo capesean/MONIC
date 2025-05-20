@@ -144,7 +144,7 @@ namespace WEB.Controllers
         {
             using (var transactionScope = Utilities.General.CreateTransactionScope())
             {
-                await db.OptionValues.Where(o => o.Option.FieldId == fieldId).ExecuteDeleteAsync();
+                await db.ItemOptions.Where(o => o.Option.FieldId == fieldId).ExecuteDeleteAsync();
 
                 await db.Options.Where(o => o.FieldId == fieldId).ExecuteDeleteAsync();
 

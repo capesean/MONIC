@@ -2,7 +2,7 @@ import { SearchOptions, PagingHeaders } from './http.model';
 import { Item } from './item.model';
 import { Option } from './option.model';
 
-export class OptionValue {
+export class ItemOption {
     itemId: string;
     optionId: string;
     item: Item;
@@ -12,12 +12,12 @@ export class OptionValue {
     }
 }
 
-export class OptionValueSearchOptions extends SearchOptions {
+export class ItemOptionSearchOptions extends SearchOptions {
     itemId: string;
     optionId: string;
 }
 
-export class OptionValueSearchResponse {
-    optionValues: OptionValue[] = [];
+export class ItemOptionSearchResponse {
+    itemOptions: ItemOption[] = [];
     headers: PagingHeaders;
 }

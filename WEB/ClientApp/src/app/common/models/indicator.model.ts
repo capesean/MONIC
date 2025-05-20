@@ -1,7 +1,6 @@
 import { SearchOptions, PagingHeaders } from './http.model';
 import { EntityType } from './entitytype.model';
 import { Subcategory } from './subcategory.model';
-import { User } from './user.model';
 import { AggregationTypes, DataTypes, DateTypes, IndicatorStatuses, IndicatorTypes } from './enums.model';
 import { Datum } from './datum.model';
 import { IndicatorPermission } from './indicatorpermission.model';
@@ -10,7 +9,7 @@ import { Token } from './token.model';
 import { ComponentIndicator } from './componentindicator.model';
 import { IHasFields } from './ihasfields.model';
 import { FieldValue } from './fieldvalue.model';
-import { OptionValue } from './optionvalue.model';
+import { ItemOption } from './itemoption.model';
 
 export class Indicator implements IHasFields {
     indicatorId: string;
@@ -40,7 +39,7 @@ export class Indicator implements IHasFields {
     componentIndicators: ComponentIndicator[];
     tokens: Token[];
     fieldValues: FieldValue[] = [];
-    optionValues: OptionValue[] = [];
+    itemOptions: ItemOption[] = [];
 
     constructor() {
         this.indicatorId = "00000000-0000-0000-0000-000000000000";

@@ -1,6 +1,6 @@
 namespace WEB.Models
 {
-    public class OptionValueSearchOptions : SearchOptions
+    public class ItemOptionSearchOptions : SearchOptions
     {
         public Guid? ItemId { get; set; }
 

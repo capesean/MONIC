@@ -4,7 +4,7 @@ namespace WEB.Models
     {
         public List<FieldValueDTO> FieldValues { get; set; }
 
-        public List<OptionValueDTO> OptionValues { get; set; }
+        public List<ItemOptionDTO> ItemOptions { get; set; }
 
         //public List<FileDTO> Files { get; set; }
 
@@ -12,7 +12,7 @@ namespace WEB.Models
         {
             if (item == null) return;
             FieldValues = item.FieldValues.Select(o => ModelFactory.Create(o, false)).ToList();
-            OptionValues = item.OptionValues.Select(o => ModelFactory.Create(o, false)).ToList();
+            ItemOptions = item.ItemOptions.Select(o => ModelFactory.Create(o, false)).ToList();
         }
 
         public bool ValidateFields(ApplicationDbContext db, ItemType itemType, out string error)
@@ -34,7 +34,7 @@ namespace WEB.Models
                     if (field.FieldType == FieldType.Picklist)
                     {
 
-                        if (!OptionValues.Any(o => options.Where(opt => opt.FieldId == field.FieldId).Any(opt => opt.OptionId == o.OptionId)))
+                        if (!ItemOptions.Any(o => options.Where(opt => opt.FieldId == field.FieldId).Any(opt => opt.OptionId == o.OptionId)))
                         {
                             error = $"No value provided for {field.Name}";
                             return false;

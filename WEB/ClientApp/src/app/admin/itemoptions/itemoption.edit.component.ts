@@ -5,19 +5,19 @@ import { NgForm } from '@angular/forms';
 import { HttpErrorResponse } from '@angular/common/http';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ConfirmModalComponent, ConfirmModalOptions } from '../../common/components/confirm.component';
-import { OptionValue } from '../../common/models/optionvalue.model';
+import { ItemOption } from '../../common/models/itemoption.model';
 import { BreadcrumbService } from '../../common/services/breadcrumb.service';
 import { ErrorService } from '../../common/services/error.service';
-import { OptionValueService } from '../../common/services/optionvalue.service';
+import { ItemOptionService } from '../../common/services/itemoption.service';
 
 @NgComponent({
-    selector: 'optionvalue-edit',
-    templateUrl: './optionvalue.edit.component.html',
+    selector: 'itemoption-edit',
+    templateUrl: './itemoption.edit.component.html',
     standalone: false
 })
-export class OptionValueEditComponent implements OnInit {
+export class ItemOptionEditComponent implements OnInit {
 
-    public optionValue: OptionValue = new OptionValue();
+    public itemOption: ItemOption = new ItemOption();
     public isNew = true;
 
     constructor(
@@ -26,7 +26,7 @@ export class OptionValueEditComponent implements OnInit {
         private toastr: ToastrService,
         private breadcrumbService: BreadcrumbService,
         private modalService: NgbModal,
-        private optionValueService: OptionValueService,
+        private itemOptionService: ItemOptionService,
         private errorService: ErrorService
     ) {
     }
@@ -41,9 +41,9 @@ export class OptionValueEditComponent implements OnInit {
 
             if (!this.isNew) {
 
-                this.optionValue.itemId = itemId;
-                this.optionValue.optionId = optionId;
-                this.loadOptionValue();
+                this.itemOption.itemId = itemId;
+                this.itemOption.optionId = optionId;
+                this.loadItemOption();
 
             }
 
@@ -51,16 +51,16 @@ export class OptionValueEditComponent implements OnInit {
 
     }
 
-    private loadOptionValue(): void {
+    private loadItemOption(): void {
 
-        this.optionValueService.get(this.optionValue.itemId, this.optionValue.optionId)
+        this.itemOptionService.get(this.itemOption.itemId, this.itemOption.optionId)
             .subscribe({
-                next: optionValue => {
-                    this.optionValue = optionValue;
+                next: itemOption => {
+                    this.itemOption = itemOption;
                     this.changeBreadcrumb();
                 },
                 error: err => {
-                    this.errorService.handleError(err, "Option Value", "Load");
+                    this.errorService.handleError(err, "Item Option", "Load");
                     if (err instanceof HttpErrorResponse && err.status === 404)
                         this.router.navigate(["../../"], { relativeTo: this.route });
                 }
@@ -77,14 +77,14 @@ export class OptionValueEditComponent implements OnInit {
 
         }
 
-        this.optionValueService.save(this.optionValue)
+        this.itemOptionService.save(this.itemOption)
             .subscribe({
-                next: optionValue => {
-                    this.toastr.success("The option value has been saved", "Save Option Value");
-                    if (this.isNew) this.router.navigate(["../", optionValue.itemId, optionValue.optionId], { relativeTo: this.route });
+                next: itemOption => {
+                    this.toastr.success("The item option has been saved", "Save Item Option");
+                    if (this.isNew) this.router.navigate(["../", itemOption.itemId, itemOption.optionId], { relativeTo: this.route });
                 },
                 error: err => {
-                    this.errorService.handleError(err, "Option Value", "Save");
+                    this.errorService.handleError(err, "Item Option", "Save");
                 }
             });
 
@@ -93,18 +93,18 @@ export class OptionValueEditComponent implements OnInit {
     delete(): void {
 
         let modalRef = this.modalService.open(ConfirmModalComponent, { centered: true });
-        (modalRef.componentInstance as ConfirmModalComponent).options = { title: "Delete Option Value", text: "Are you sure you want to delete this option value?", deleteStyle: true, ok: "Delete" } as ConfirmModalOptions;
+        (modalRef.componentInstance as ConfirmModalComponent).options = { title: "Delete Item Option", text: "Are you sure you want to delete this item option?", deleteStyle: true, ok: "Delete" } as ConfirmModalOptions;
         modalRef.result.then(
             () => {
 
-                this.optionValueService.delete(this.optionValue.itemId, this.optionValue.optionId)
+                this.itemOptionService.delete(this.itemOption.itemId, this.itemOption.optionId)
                     .subscribe({
                         next: () => {
-                            this.toastr.success("The option value has been deleted", "Delete Option Value");
+                            this.toastr.success("The item option has been deleted", "Delete Item Option");
                             this.router.navigate(["../../"], { relativeTo: this.route });
                         },
                         error: err => {
-                            this.errorService.handleError(err, "Option Value", "Delete");
+                            this.errorService.handleError(err, "Item Option", "Delete");
                         }
                     });
 
@@ -112,7 +112,7 @@ export class OptionValueEditComponent implements OnInit {
     }
 
     changeBreadcrumb(): void {
-        this.breadcrumbService.changeBreadcrumb(this.route.snapshot, this.optionValue.optionId ? this.optionValue.option?.name?.substring(0, 25) : "(new option value)");
+        this.breadcrumbService.changeBreadcrumb(this.route.snapshot, this.itemOption.optionId ? this.itemOption.option?.name?.substring(0, 25) : "(new item option)");
     }
 
 }
