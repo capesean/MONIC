@@ -318,6 +318,74 @@
 
         <ng-container ngbNavItem>
 
+            <a ngbNavLink>Aggregation Children</a>
+
+            <ng-template ngbNavContent>
+
+                <div class="card card-list">
+
+                    <div class="card-header">
+
+                        <div class="card-header-title">
+                            <h4>Aggregation Children</h4>
+                        </div>
+
+                    </div>
+
+                    <div class="card-body" *ngIf="showResponsesSearch" @FadeThenShrink>
+
+                        <form id="formSearchChildEntities" (submit)="searchChildEntities(0)" novalidate>
+
+                            <div class="row g-3">
+
+                                <div class="col-sm-6 col-md-4 col-lg-4 col-xl-3">
+                                    <div class="form-group">
+                                        <entity-select id="childEntityId" name="childEntityId" [(ngModel)]="childEntitiesSearchOptions.childEntityId"></entity-select>
+                                    </div>
+                                </div>
+
+                            </div>
+
+                        </form>
+
+                        <div class="mb-3">
+                            <button *ngIf="!showChildEntitiesSearch" type="button" class="btn btn-outline-secondary me-2 mb-1" (click)="showChildEntitiesSearch=true">Filter<i class="fas fa-filter ms-2"></i></button>
+                            <button *ngIf="showChildEntitiesSearch" form="formSearchChildEntities" type="submit" class="btn btn-outline-primary me-2 mb-1">Search<i class="fas fa-search ms-2"></i></button>
+                        </div>
+
+                    </div>
+
+                    <div class="table-responsive">
+
+                        <table class="table table-hover table-striped table-nowrap mb-0 align-middle">
+                            <thead class="thead-light">
+                                <tr>
+                                    <th>Child Entity</th>
+                                    <th>Child Type</th>
+                                </tr>
+                            </thead>
+                            <tbody class="list cursor-pointer">
+                                <tr *ngFor="let entityLink of childEntities" (click)="goToEntityLink(entityLink)">
+                                    <td>{{ entityLink.childEntity.name }}</td>
+                                    <td>{{ entityLink.childEntity.entityType.name }}</td>
+                                </tr>
+                            </tbody>
+                        </table>
+
+                    </div>
+
+                    <div class="card-footer">
+                        <pager [headers]="childEntitiesHeaders" (pageChanged)="searchChildEntities($event)"></pager>
+                    </div>
+
+                </div>
+
+            </ng-template>
+
+        </ng-container>
+
+        <ng-container ngbNavItem>
+
             <a ngbNavLink>Responses</a>
 
             <ng-template ngbNavContent>
@@ -388,74 +456,6 @@
 
                     <div class="card-footer">
                         <pager [headers]="responsesHeaders" (pageChanged)="searchResponses($event)"></pager>
-                    </div>
-
-                </div>
-
-            </ng-template>
-
-        </ng-container>
-
-        <ng-container ngbNavItem>
-
-            <a ngbNavLink>Aggregation Children</a>
-
-            <ng-template ngbNavContent>
-
-                <div class="card card-list">
-
-                    <div class="card-header">
-
-                        <div class="card-header-title">
-                            <h4>Aggregation Children</h4>
-                        </div>
-
-                    </div>
-
-                    <div class="card-body" *ngIf="showResponsesSearch" @FadeThenShrink>
-
-                        <form id="formSearchChildEntities" (submit)="searchChildEntities(0)" novalidate>
-
-                            <div class="row g-3">
-
-                                <div class="col-sm-6 col-md-4 col-lg-4 col-xl-3">
-                                    <div class="form-group">
-                                        <entity-select id="childEntityId" name="childEntityId" [(ngModel)]="childEntitiesSearchOptions.childEntityId"></entity-select>
-                                    </div>
-                                </div>
-
-                            </div>
-
-                        </form>
-
-                        <div class="mb-3">
-                            <button *ngIf="!showChildEntitiesSearch" type="button" class="btn btn-outline-secondary me-2 mb-1" (click)="showChildEntitiesSearch=true">Filter<i class="fas fa-filter ms-2"></i></button>
-                            <button *ngIf="showChildEntitiesSearch" form="formSearchChildEntities" type="submit" class="btn btn-outline-primary me-2 mb-1">Search<i class="fas fa-search ms-2"></i></button>
-                        </div>
-
-                    </div>
-
-                    <div class="table-responsive">
-
-                        <table class="table table-hover table-striped table-nowrap mb-0 align-middle">
-                            <thead class="thead-light">
-                                <tr>
-                                    <th>Child Entity</th>
-                                    <th>Child Type</th>
-                                </tr>
-                            </thead>
-                            <tbody class="list cursor-pointer">
-                                <tr *ngFor="let entityLink of childEntities" (click)="goToEntityLink(entityLink)">
-                                    <td>{{ entityLink.childEntity.name }}</td>
-                                    <td>{{ entityLink.childEntity.entityType.name }}</td>
-                                </tr>
-                            </tbody>
-                        </table>
-
-                    </div>
-
-                    <div class="card-footer">
-                        <pager [headers]="childEntitiesHeaders" (pageChanged)="searchChildEntities($event)"></pager>
                     </div>
 
                 </div>
