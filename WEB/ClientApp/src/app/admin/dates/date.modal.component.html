@@ -15,7 +15,7 @@
                 <div class="alert alert-info alert-dismissible" *ngIf="showFilters && quarter!=undefined">Filtered by quarter: {{quarter.name}}<button type="button" class="btn-close" data-bs-dismiss="alert" (click)="searchOptions.quarterId=undefined;quarter=undefined;runSearch();" *ngIf="canRemoveFilters"></button></div>
                 <div class="alert alert-info alert-dismissible" *ngIf="showFilters && year!=undefined">Filtered by year: {{year.name}}<button type="button" class="btn-close" data-bs-dismiss="alert" (click)="searchOptions.yearId=undefined;year=undefined;runSearch();" *ngIf="canRemoveFilters"></button></div>
 
-                <div class="row g-3">
+                <div class="row gx-3">
 
                     <div class="col-sm-6 col-md-6 col-lg-4">
                         <div class="form-group">

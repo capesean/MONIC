@@ -16,7 +16,7 @@
 
             <fieldset class="group">
 
-                <div class="row g-3">
+                <div class="row gx-3">
 
                     <div class="col-sm-6 col-md-4">
                         <div class="form-group" [ngClass]="{ 'is-invalid': name.invalid }">
@@ -140,7 +140,7 @@
 
                     <legend>{{group.name}}</legend>
 
-                    <div class="row g-3">
+                    <div class="row gx-3">
 
                         <ng-container *ngFor="let field of fields | groupPipe : group.groupId">
 
@@ -336,7 +336,7 @@
 
                         <form id="formSearchChildEntities" (submit)="searchChildEntities(0)" novalidate>
 
-                            <div class="row g-3">
+                            <div class="row gx-3">
 
                                 <div class="col-sm-6 col-md-4 col-lg-4 col-xl-3">
                                     <div class="form-group">

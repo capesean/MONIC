@@ -14,7 +14,7 @@
                 <div class="alert alert-info alert-dismissible" *ngIf="checkQuestion!=undefined">Filtered by check question: {{checkQuestion.code}}<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close" (click)="searchOptions.checkQuestionId=undefined;checkQuestion=undefined;runSearch();" *ngIf="canRemoveFilters"></button></div>
                 <div class="alert alert-info alert-dismissible" *ngIf="questionOption!=undefined">Filtered by question option: {{questionOption.label}}<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close" (click)="searchOptions.questionOptionId=undefined;questionOption=undefined;runSearch();" *ngIf="canRemoveFilters"></button></div>
 
-                <div class="row g-3">
+                <div class="row gx-3">
 
                     <div class="col-sm-6 col-md-6 col-lg-4" *ngIf="!checkQuestion">
                         <div class="form-group">

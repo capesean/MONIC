@@ -14,7 +14,7 @@
                 <div class="alert alert-info alert-dismissible" *ngIf="showFilters && response!=undefined">Filtered by response: {{response.questionnaireId}}<button type="button" class="btn-close" data-bs-dismiss="alert" (click)="searchOptions.responseId=undefined;response=undefined;runSearch();" *ngIf="canRemoveFilters"></button></div>
                 <div class="alert alert-info alert-dismissible" *ngIf="showFilters && question!=undefined">Filtered by question: {{question.code}}<button type="button" class="btn-close" data-bs-dismiss="alert" (click)="searchOptions.questionId=undefined;question=undefined;runSearch();" *ngIf="canRemoveFilters"></button></div>
 
-                <div class="row g-3">
+                <div class="row gx-3">
 
                     <div class="col-sm-6 col-md-6 col-lg-4">
                         <div class="form-group">

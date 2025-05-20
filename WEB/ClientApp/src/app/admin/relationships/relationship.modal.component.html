@@ -15,7 +15,7 @@
                 <div class="alert alert-info alert-dismissible" *ngIf="showFilters && sourceComponent!=undefined">Filtered by source component: {{sourceComponent.name}}<button type="button" class="btn-close" data-bs-dismiss="alert" (click)="searchOptions.sourceComponentId=undefined;sourceComponent=undefined;runSearch();" *ngIf="canRemoveFilters"></button></div>
                 <div class="alert alert-info alert-dismissible" *ngIf="showFilters && targetComponent!=undefined">Filtered by target component: {{targetComponent.name}}<button type="button" class="btn-close" data-bs-dismiss="alert" (click)="searchOptions.targetComponentId=undefined;targetComponent=undefined;runSearch();" *ngIf="canRemoveFilters"></button></div>
 
-                <div class="row g-3">
+                <div class="row gx-3">
 
                     <div class="col-sm-6 col-md-6 col-lg-4" *ngIf="!theoryOfChange">
                         <div class="form-group">

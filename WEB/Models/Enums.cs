@@ -25,7 +25,8 @@ namespace WEB.Models
     {
         Currency,
         Number,
-        Percent
+        Percent,
+        Option
     }
 
     public enum DateType
@@ -228,6 +229,8 @@ namespace WEB.Models
                     return "Number";
                 case DataType.Percent:
                     return "Percent";
+                case DataType.Option:
+                    return "Option";
                 default:
                     return null;
             }

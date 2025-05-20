@@ -15,7 +15,7 @@
                 <div class="alert alert-info alert-dismissible" *ngIf="showFilters && entity!=undefined">Filtered by affiliated entity: {{entity.name}}<button type="button" class="btn-close" data-bs-dismiss="alert" (click)="searchOptions.affiliatedEntityId=undefined;entity=undefined;runSearch();" *ngIf="canRemoveFilters"></button></div>
                 <div class="alert alert-info alert-dismissible" *ngIf="showFilters && organisation!=undefined">Filtered by organisation: {{organisation.name}}<button type="button" class="btn-close" data-bs-dismiss="alert" (click)="searchOptions.organisationId=undefined;organisation=undefined;runSearch();" *ngIf="canRemoveFilters"></button></div>
 
-                <div class="row g-3">
+                <div class="row gx-3">
 
                     <div class="col-sm-6 col-md-6 col-lg-4">
                         <div class="form-group">

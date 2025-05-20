@@ -7,7 +7,7 @@
 
     <form id="formGenerateSummaries" name="formGenerateSummaries" (submit)="submit(formGenerateSummaries)" novalidate #formGenerateSummaries="ngForm" [ngClass]="{ 'was-validated': formGenerateSummaries.submitted }">
 
-        <div class="row g-3">
+        <div class="row gx-3">
 
             <div class="col-sm-12 col-md-6 col-lg-8 col-xl-9">
                 <div class="form-group" [ngClass]="{ 'is-invalid': questionnaireId.invalid }">
@@ -83,7 +83,7 @@
 
                 <form id="formConfiguration" name="formConfiguration" novalidate #formConfiguration="ngForm" class="was-validated">
 
-                    <div class="row g-3">
+                    <div class="row gx-3">
 
                         <div class="col-sm-6 col-md-4 col-lg-3 col-xl-2">
                             <div class="form-group" [ngClass]="{ 'is-invalid': maxTokens.invalid }">

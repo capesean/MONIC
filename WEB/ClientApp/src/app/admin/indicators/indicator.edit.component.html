@@ -16,7 +16,7 @@
 
             <fieldset class="group">
 
-                <div class="row g-3">
+                <div class="row gx-3">
 
                     <div class="col-sm-12 col-md-8 col-lg-6 col-xl-6">
                         <div class="form-group" [ngClass]="{ 'is-invalid': name.invalid }">
@@ -76,7 +76,7 @@
 
                 </div>
 
-                <div class="row g-3">
+                <div class="row gx-3">
 
                     <div class="col-sm-6 col-md-4 col-lg-3 col-xl-2">
                         <div class="form-group" [ngClass]="{ 'is-invalid': indicatorType.invalid }">
@@ -168,7 +168,7 @@
 
                 </div>
 
-                <div class="row g-3" *ngIf="appSettings?.useSubmit || appSettings?.useVerify || appSettings?.useApprove">
+                <div class="row gx-3" *ngIf="appSettings?.useSubmit || appSettings?.useVerify || appSettings?.useApprove">
 
                     <div class="col-sm-6 col-md-4 col-lg-3 col-xl-2" *ngIf="appSettings?.useSubmit">
                         <div class="form-group" [ngClass]="{ 'is-invalid': requiresSubmit.invalid }">
@@ -223,7 +223,7 @@
 
                 </div>
 
-                <div class="row g-3">
+                <div class="row gx-3">
 
                     <div class="col-sm-6 col-md-4 col-lg-3 col-xl-2">
                         <div class="form-group" [ngClass]="{ 'is-invalid': dataType.invalid }">
@@ -313,7 +313,7 @@
 
                     <legend>{{group.name}}</legend>
 
-                    <div class="row g-3">
+                    <div class="row gx-3">
 
                         <ng-container *ngFor="let field of fields | groupPipe : group.groupId">
 

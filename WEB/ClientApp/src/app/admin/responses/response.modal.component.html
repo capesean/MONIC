@@ -15,7 +15,7 @@
                 <div class="alert alert-info alert-dismissible" *ngIf="showFilters && entity!=undefined">Filtered by entity: {{entity.name}}<button type="button" class="btn-close" data-bs-dismiss="alert" (click)="searchOptions.entityId=undefined;entity=undefined;runSearch();" *ngIf="canRemoveFilters"></button></div>
                 <div class="alert alert-info alert-dismissible" *ngIf="showFilters && date!=undefined">Filtered by date: {{date.name}}<button type="button" class="btn-close" data-bs-dismiss="alert" (click)="searchOptions.dateId=undefined;date=undefined;runSearch();" *ngIf="canRemoveFilters"></button></div>
 
-                <div class="row g-3">
+                <div class="row gx-3">
 
                     <div class="col-sm-6 col-md-6 col-lg-4" *ngIf="!questionnaire">
                         <div class="form-group">

@@ -25,7 +25,8 @@ export enum ComponentTypes {
 export enum DataTypes {
     Currency,
     Number,
-    Percent
+    Percent,
+    Option
 }
 
 export enum DateTypes {
@@ -185,7 +186,8 @@ export class Enums {
      static DataTypes: Enum[] = [
         { value: 0, name: 'Currency', label: 'Currency' },
         { value: 1, name: 'Number', label: 'Number' },
-        { value: 2, name: 'Percent', label: 'Percent' }
+        { value: 2, name: 'Percent', label: 'Percent' },
+        { value: 3, name: 'Option', label: 'Option' }
      ]
 
      static DateTypes: Enum[] = [

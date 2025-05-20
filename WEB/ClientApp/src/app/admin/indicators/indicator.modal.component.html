@@ -19,7 +19,7 @@
                 <div class="alert alert-info alert-dismissible" *ngIf="showFilters && frequency!=undefined">Filtered by frequency: {{frequency.label}}<button type="button" class="btn-close" data-bs-dismiss="alert" (click)="searchOptions.frequency=undefined;frequency=undefined;runSearch();" *ngIf="canRemoveFilters"></button></div>
                 <div class="alert alert-info alert-dismissible" *ngIf="showFilters && createdBy!=undefined">Filtered by created by: {{createdBy.fullName}}<button type="button" class="btn-close" data-bs-dismiss="alert" (click)="searchOptions.createdById=undefined;createdBy=undefined;runSearch();" *ngIf="canRemoveFilters"></button></div>
 
-                <div class="row g-3">
+                <div class="row gx-3">
 
                     <div class="col-sm-6 col-md-6 col-lg-4">
                         <div class="form-group">
