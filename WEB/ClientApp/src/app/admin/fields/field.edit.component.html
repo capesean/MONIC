@@ -56,6 +56,22 @@
                         </div>
                     </div>
 
+                    <div class="col-sm-6 col-md-4" *ngIf="field.fieldType === 2">
+                        <div class="form-group" [ngClass]="{ 'is-invalid': optionListId.invalid }">
+
+                            <label for="optionListId">
+                                Option List:
+                            </label>
+
+                            <option-list-select id="optionListId" name="optionListId" [(optionList)]="field.optionList" [(ngModel)]="field.optionListId" #optionListId="ngModel" [required]></option-list-select>
+
+                            <div *ngIf="optionListId.errors?.required" class="invalid-feedback">
+                                Option List is required
+                            </div>
+
+                        </div>
+                    </div>
+
                     <div class="col-sm-6 col-md-4">
                         <div class="form-group" [ngClass]="{ 'is-invalid': organisation.invalid }">
 
@@ -325,18 +341,6 @@
                             <div *ngIf="rows.errors?.required" class="invalid-feedback">
                                 Rows is required
                             </div>
-
-                        </div>
-                    </div>
-
-                    <div class="col-sm-6 col-md-4">
-                        <div class="form-group" [ngClass]="{ 'is-invalid': optionListId.invalid }">
-
-                            <label for="optionListId">
-                                Option List:
-                            </label>
-
-                            <option-list-select id="optionListId" name="optionListId" [(optionList)]="field.optionList" [(ngModel)]="field.optionListId" #optionListId="ngModel"></option-list-select>
 
                         </div>
                     </div>

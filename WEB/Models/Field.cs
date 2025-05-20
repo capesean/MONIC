@@ -16,6 +16,8 @@ namespace WEB.Models
         [Required]
         public FieldType FieldType { get; set; }
 
+        public Guid? OptionListId { get; set; }
+
         [Required]
         public bool Organisation { get; set; }
 
@@ -66,8 +68,6 @@ namespace WEB.Models
 
         [Required]
         public short Rows { get; set; }
-
-        public Guid? OptionListId { get; set; }
 
         public virtual ICollection<ItemField> ItemFields { get; set; } = new List<ItemField>();
 

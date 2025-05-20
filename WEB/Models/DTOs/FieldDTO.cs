@@ -16,6 +16,8 @@ namespace WEB.Models
         [Required]
         public FieldType FieldType { get; set; }
 
+        public Guid? OptionListId { get; set; }
+
         [Required]
         public bool Organisation { get; set; }
 
@@ -67,8 +69,6 @@ namespace WEB.Models
         [Required]
         public short Rows { get; set; }
 
-        public Guid? OptionListId { get; set; }
-
         public GroupDTO Group { get; set; }
 
         public OptionListDTO OptionList { get; set; }
@@ -88,6 +88,7 @@ namespace WEB.Models
             fieldDTO.FieldId = field.FieldId;
             fieldDTO.Name = field.Name;
             fieldDTO.FieldType = field.FieldType;
+            fieldDTO.OptionListId = field.OptionListId;
             fieldDTO.Organisation = field.Organisation;
             fieldDTO.Entity = field.Entity;
             fieldDTO.Indicator = field.Indicator;
@@ -106,7 +107,6 @@ namespace WEB.Models
             fieldDTO.MultiLine = field.MultiLine;
             fieldDTO.GroupId = field.GroupId;
             fieldDTO.Rows = field.Rows;
-            fieldDTO.OptionListId = field.OptionListId;
 
             if (includeParents)
             {
@@ -127,6 +127,7 @@ namespace WEB.Models
         {
             field.Name = fieldDTO.Name;
             if (isNew) field.FieldType = fieldDTO.FieldType;
+            field.OptionListId = fieldDTO.OptionListId;
             field.Organisation = fieldDTO.Organisation;
             field.Entity = fieldDTO.Entity;
             field.Indicator = fieldDTO.Indicator;
@@ -145,7 +146,6 @@ namespace WEB.Models
             field.MultiLine = fieldDTO.MultiLine;
             field.GroupId = fieldDTO.GroupId;
             field.Rows = fieldDTO.Rows;
-            field.OptionListId = fieldDTO.OptionListId;
         }
     }
 }

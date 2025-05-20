@@ -8,6 +8,7 @@ export class Field {
     fieldId: string;
     name: string;
     fieldType: FieldTypes;
+    optionListId: string;
     organisation: boolean;
     entity: boolean;
     indicator: boolean;
@@ -26,7 +27,6 @@ export class Field {
     multiLine: boolean;
     groupId: string;
     rows: number;
-    optionListId: string;
     group: Group;
     optionList: OptionList;
 
