@@ -18,7 +18,9 @@ namespace WEB.Controllers
         [HttpGet("documents/{documentId:Guid}")]
         public async Task<IActionResult> DownloadDocument(Guid documentId)
         {
-            var document = await db.Documents.FirstOrDefaultAsync(o => o.DocumentId == documentId);
+            var document = await db.Documents
+                .Include(o => o.DocumentContent)
+                .FirstOrDefaultAsync(o => o.DocumentId == documentId);
             if (document == null) return NotFound();
 
             var item = await db.Items.FirstOrDefaultAsync(o => o.ItemId == document.ItemId);

@@ -8,7 +8,9 @@
         </ol>
     </nav>
 
-    <ng-container *ngIf="!crumb.folderView.subfolders.length && !crumb.folderView.folderContents.length">
+    <div class="alert text-dark bg-light-monic my-6" *ngIf="crumb.folderView.folder?.description as description">{{description}}</div>
+
+    <ng-container *ngIf="false && !crumb.folderView.subfolders.length && !crumb.folderView.folderContents.length">
 
         <div class="card card-primary">
 
@@ -24,7 +26,7 @@
 
     </ng-container>
 
-    <div class="card" *ngIf="crumb.folderView.subfolders.length">
+    <div class="card border-gray-600" *ngIf="crumb.folderView.subfolders.length">
 
         <div class="card-body" *ngIf="crumbs.length">
 
@@ -35,8 +37,6 @@
         </div>
 
     </div>
-
-    <div class="alert text-dark bg-light-monic mb-6" *ngIf="crumb.folderView.folder?.description as description">{{description}}</div>
 
     <div class="card card-primary" *ngIf="crumb.folderView.folderContents.length">
 

@@ -13,7 +13,7 @@ export class HomeComponent implements OnInit {
 
     public profile: ProfileModel;
     public widgetTypes = Enums.WidgetTypes;
-
+    public test: string;
     constructor(
         private authService: AuthService
     ) {
