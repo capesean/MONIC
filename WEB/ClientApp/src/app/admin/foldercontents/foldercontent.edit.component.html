@@ -45,7 +45,7 @@
                                 Html:
                             </label>
 
-                            <quill-editor name="html" id="html" [(ngModel)]="folderContent.html" theme="snow" #html="ngModel"></quill-editor>
+                            <quill-editor name="html" id="html" [(ngModel)]="folderContent.html" #html="ngModel"></quill-editor>
 
                             <div *ngIf="html.errors?.required" class="invalid-feedback">
                                 Html is required

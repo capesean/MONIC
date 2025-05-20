@@ -38,7 +38,6 @@
                            (ngModelChange)="checkboxChanged(option, $event)"
                            #multipleCheckbox="ngModel"
                            [required]="_field.required" />
-                    <!--todo: required!-->
                     <label class="form-check-label" for="{{option.optionId}}">{{option.name}}</label>
                 </div>
 
@@ -54,7 +53,7 @@
 
     <ng-container *ngIf="controlType === 2">
 
-        <div class="form-group" [ngClass]="{ 'is-invalid': multipleSelect?.invalid }">
+        <div class="form-group" [ngClass]="{ 'is-invalid': select?.invalid }">
 
             <label for="{{controlName}}">
                 {{_field.name}}: <span *ngIf="_field.required" class="mandatory">*</span>
@@ -65,11 +64,11 @@
                     class="form-select"
                     [(ngModel)]="value"
                     [required]="_field.required"
-                    #multipleSelect="ngModel">
+                    #select="ngModel">
                 <option *ngFor="let option of _field.options" [ngValue]="option.optionId">{{ option.name }}</option>
             </select>
 
-            <div *ngIf="multipleSelect.errors?.required" class="invalid-feedback">
+            <div *ngIf="select.errors?.required" class="invalid-feedback">
                 {{_field.name}} is required
             </div>
 

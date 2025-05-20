@@ -86,6 +86,9 @@ namespace WEB.Controllers
                 if (component == null)
                     return NotFound();
 
+                if (!await db.Items.AnyAsync(o => o.ItemId == component.ComponentId))
+                    db.Entry(new Item { ItemId = component.ComponentId, ItemType = ItemType.Entity }).State = EntityState.Added;
+
                 db.Entry(component).State = EntityState.Modified;
             }
 

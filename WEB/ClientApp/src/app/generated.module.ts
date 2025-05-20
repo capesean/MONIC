@@ -98,7 +98,6 @@ import { TokenEditComponent } from './admin/tokens/token.edit.component';
 import { UserListComponent } from './admin/users/user.list.component';
 import { UserEditComponent } from './admin/users/user.edit.component';
 import { NgxEchartsModule } from 'ngx-echarts';
-import { QuillConfigModule, QuillModule } from 'ngx-quill';
 
 @NgModule({
     declarations: [
@@ -201,41 +200,7 @@ import { QuillConfigModule, QuillModule } from 'ngx-quill';
         NgbModule,
         DragDropModule,
         SharedModule,
-        NgxEchartsModule,
-        QuillModule.forRoot(),
-        QuillConfigModule.forRoot({
-            modules: {
-                //blotFormatter: BlotFormatter,
-                'toolbar': {
-                    container: [
-                        // toggled buttons
-                        ['bold', 'italic', 'underline', 'strike'],
-                        ['blockquote', 'code-block'],
-
-                        // custom button values
-                        [{ 'header': 1 }, { 'header': 2 }],
-                        [{ 'list': 'ordered' }, { 'list': 'bullet' }],
-                        // superscript/subscript
-                        [{ 'script': 'sub' }, { 'script': 'super' }],
-                        // outdent/indent
-                        [{ 'indent': '-1' }, { 'indent': '+1' }],
-                        // text direction
-                        [{ 'direction': 'rtl' }],
-                        // custom dropdown
-                        [{ 'size': ['small', false, 'large', 'huge'] }],
-                        [{ 'header': [1, 2, 3, 4, 5, 6, false] }],
-                        // dropdown with defaults from theme
-                        [{ 'color': [] as string[] }, { 'background': [] as string[] }],
-                        [{ 'font': [] as string[] }],
-                        [{ 'align': [] as string[] }],
-                        // remove formatting button
-                        ['clean'],
-                        // link and image, video
-                        ['link', 'image', 'video']
-                    ]
-                }
-            }
-        }),
+        NgxEchartsModule
     ]
 })
 export class GeneratedModule { }

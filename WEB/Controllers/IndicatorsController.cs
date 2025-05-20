@@ -125,6 +125,9 @@ namespace WEB.Controllers
                 if (indicator == null)
                     return NotFound();
 
+                if (!await db.Items.AnyAsync(o => o.ItemId == indicator.IndicatorId))
+                    db.Entry(new Item { ItemId = indicator.IndicatorId, ItemType = ItemType.Entity }).State = EntityState.Added;
+
                 indicator.LastSavedDateUtc = DateTime.UtcNow;
                 indicator.LastSavedById = CurrentUser.Id;
 

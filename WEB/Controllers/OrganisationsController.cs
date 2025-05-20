@@ -95,6 +95,9 @@ namespace WEB.Controllers
                 if (organisation == null)
                     return NotFound();
 
+                if (!await db.Items.AnyAsync(o => o.ItemId == organisation.OrganisationId))
+                    db.Entry(new Item { ItemId = organisation.OrganisationId, ItemType = ItemType.Entity }).State = EntityState.Added;
+
                 db.Entry(organisation).State = EntityState.Modified;
             }
 

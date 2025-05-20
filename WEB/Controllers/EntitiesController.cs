@@ -137,6 +137,9 @@ namespace WEB.Controllers
                 if (entity == null)
                     return NotFound();
 
+                if (!await db.Items.AnyAsync(o => o.ItemId == entity.EntityId))
+                    db.Entry(new Item { ItemId = entity.EntityId, ItemType = ItemType.Entity }).State = EntityState.Added;
+
                 db.Entry(entity).State = EntityState.Modified;
             }
 
@@ -183,7 +186,7 @@ namespace WEB.Controllers
 
                 ItemFunctions.DeleteFields(db, entityId, true);
 
-            db.Entry(entity).State = EntityState.Deleted;
+                db.Entry(entity).State = EntityState.Deleted;
 
                 await db.SaveChangesAsync();
 

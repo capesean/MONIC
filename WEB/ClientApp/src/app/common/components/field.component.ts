@@ -129,6 +129,7 @@ export class FieldComponent implements OnInit, ControlValueAccessor, Validator {
     setDisabledState?(isDisabled: boolean): void { }
 
     validate(): ValidationErrors {
+        
         if (this.controlType === ControlTypes.checkbox) return this.checkbox?.errors;
         if (this.controlType === ControlTypes.multipleSelect) return this.multipleSelect?.errors;
         if (this.controlType === ControlTypes.radioButton) return this.radioButton?.errors;

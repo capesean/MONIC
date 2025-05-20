@@ -33,9 +33,6 @@ export class Field {
 
     constructor() {
         this.fieldId = "00000000-0000-0000-0000-000000000000";
-        this.organisation = true;
-        this.entity = true;
-        this.indicator = true;
         this.size = 1;
         this.rows = 5;
         this.fieldValues = [];

@@ -101,8 +101,13 @@ export abstract class ItemComponent {
             // which is used for binding the ngModels
             if (!this.fields || !this.fields.length) return;
 
+            // in case the parent has been created but the item record is missing, then the loaded parent won't have the arrays
+            if (itemObject.fieldValues == undefined) itemObject.fieldValues = [];
+            if (itemObject.optionValues == undefined) itemObject.optionValues = [];
+
             this.fieldValues = new Map<string, string>();
             this.fields.forEach(field => {
+                
                 if (field.fieldType === FieldTypes.Picklist) {
                     /*
                      * the selected options are stored in the item's .optionValues array.
