@@ -24,6 +24,7 @@ namespace WEB.Controllers
                 results = results.Include(o => o.CreatedBy);
                 results = results.Include(o => o.Subcategory.Category);
                 results = results.Include(o => o.EntityType);
+                results = results.Include(o => o.OptionList);
             }
 
             if (searchOptions.IncludeChildren)
@@ -61,6 +62,7 @@ namespace WEB.Controllers
             var indicator = await db.Indicators
                 .Include(o => o.Subcategory.Category)
                 .Include(o => o.EntityType)
+                .Include(o => o.OptionList)
                 .Include(o => o.CreatedBy)
                 .FirstOrDefaultAsync(o => o.IndicatorId == indicatorId);
 

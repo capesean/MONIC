@@ -1,5 +1,6 @@
 import { SearchOptions, PagingHeaders } from './http.model';
 import { EntityType } from './entitytype.model';
+import { OptionList } from './optionlist.model';
 import { Subcategory } from './subcategory.model';
 import { User } from './user.model';
 import { AggregationTypes, DataTypes, DateTypes, IndicatorStatuses, IndicatorTypes } from './enums.model';
@@ -28,9 +29,11 @@ export class Indicator implements IHasFields {
     frequency: DateTypes;
     dateAggregationType: AggregationTypes;
     dataType: DataTypes;
+    optionListId: string;
     decimalPlaces: number;
     sortOrder: number;
     entityType: EntityType;
+    optionList: OptionList;
     subcategory: Subcategory;
 
     data: Datum[];

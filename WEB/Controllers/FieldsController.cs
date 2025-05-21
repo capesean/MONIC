@@ -68,7 +68,7 @@ namespace WEB.Controllers
             if (await db.Fields.AnyAsync(o => o.Name == fieldDTO.Name && o.FieldId != fieldDTO.FieldId))
                 return BadRequest("Name already exists.");
 
-            if (fieldDTO.FieldType == FieldType.OptionList && fieldDTO.OptionListId == null) return BadRequest("Picklist fields must have an option list");
+            if (fieldDTO.FieldType == FieldType.OptionList&& fieldDTO.OptionListId == null) return BadRequest("Option List fields must have an option list");
 
             if (fieldDTO.FieldType != FieldType.OptionList) fieldDTO.OptionListId = null;
 

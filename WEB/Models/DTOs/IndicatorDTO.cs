@@ -50,6 +50,8 @@ namespace WEB.Models
         [Required]
         public DataType DataType { get; set; }
 
+        public Guid? OptionListId { get; set; }
+
         [Required]
         public byte DecimalPlaces { get; set; }
 
@@ -57,6 +59,8 @@ namespace WEB.Models
         public int SortOrder { get; set; }
 
         public EntityTypeDTO EntityType { get; set; }
+
+        public OptionListDTO OptionList { get; set; }
 
         public SubcategoryDTO Subcategory { get; set; }
 
@@ -97,12 +101,14 @@ namespace WEB.Models
             indicatorDTO.Frequency = indicator.Frequency;
             indicatorDTO.DateAggregationType = indicator.DateAggregationType;
             indicatorDTO.DataType = indicator.DataType;
+            indicatorDTO.OptionListId = indicator.OptionListId;
             indicatorDTO.DecimalPlaces = indicator.DecimalPlaces;
             indicatorDTO.SortOrder = indicator.SortOrder;
 
             if (includeParents)
             {
                 indicatorDTO.EntityType = Create(indicator.EntityType);
+                indicatorDTO.OptionList = Create(indicator.OptionList);
                 indicatorDTO.Subcategory = Create(indicator.Subcategory);
             }
 
@@ -143,6 +149,7 @@ namespace WEB.Models
             if (isNew) indicator.Frequency = indicatorDTO.Frequency;
             if (isNew) indicator.DateAggregationType = indicatorDTO.DateAggregationType;
             indicator.DataType = indicatorDTO.DataType;
+            indicator.OptionListId = indicatorDTO.OptionListId;
             indicator.DecimalPlaces = indicatorDTO.DecimalPlaces;
             indicator.SortOrder = indicatorDTO.SortOrder;
         }

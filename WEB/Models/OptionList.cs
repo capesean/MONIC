@@ -17,6 +17,8 @@ namespace WEB.Models
 
         public virtual ICollection<Field> Fields { get; set; } = new List<Field>();
 
+        public virtual ICollection<Indicator> Indicators { get; set; } = new List<Indicator>();
+
         public OptionList()
         {
             OptionListId = Guid.NewGuid();

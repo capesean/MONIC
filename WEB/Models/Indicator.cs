@@ -52,6 +52,8 @@ namespace WEB.Models
         [Required]
         public DataType DataType { get; set; }
 
+        public Guid? OptionListId { get; set; }
+
         [Required]
         public byte DecimalPlaces { get; set; }
 
@@ -84,6 +86,9 @@ namespace WEB.Models
 
         [ForeignKey("EntityTypeId")]
         public virtual EntityType EntityType { get; set; }
+
+        [ForeignKey("OptionListId")]
+        public virtual OptionList OptionList { get; set; }
 
         [ForeignKey("SubcategoryId")]
         public virtual Subcategory Subcategory { get; set; }

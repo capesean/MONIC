@@ -266,7 +266,7 @@
                         </div>
                     </div>
 
-                    <div class="col-sm-6 col-md-4">
+                    <div class="col-sm-6 col-md-4" *ngIf="isOptionList()">
                         <div class="form-group" [ngClass]="{ 'is-invalid': multiple.invalid }">
 
                             <label for="multiple">

@@ -13,6 +13,8 @@ namespace WEB.Models
 
         public virtual List<FieldDTO> Fields { get; set; } = new List<FieldDTO>();
 
+        public virtual List<IndicatorDTO> Indicators { get; set; } = new List<IndicatorDTO>();
+
         public virtual List<OptionDTO> Options { get; set; } = new List<OptionDTO>();
 
     }
@@ -32,6 +34,8 @@ namespace WEB.Models
             {
                 foreach (var field in optionList.Fields)
                     optionListDTO.Fields.Add(Create(field));
+                foreach (var indicator in optionList.Indicators)
+                    optionListDTO.Indicators.Add(Create(indicator));
                 foreach (var option in optionList.Options)
                     optionListDTO.Options.Add(Create(option));
             }

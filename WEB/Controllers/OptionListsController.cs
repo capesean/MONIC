@@ -23,6 +23,7 @@ namespace WEB.Controllers
             {
                 results = results.Include(o => o.Fields);
                 results = results.Include(o => o.Options);
+                results = results.Include(o => o.Indicators);
             }
 
             if (!string.IsNullOrWhiteSpace(searchOptions.q))
@@ -96,6 +97,9 @@ namespace WEB.Controllers
 
             if (await db.Fields.AnyAsync(o => o.OptionListId == optionList.OptionListId))
                 return BadRequest("Unable to delete the option list as it has related fields");
+
+            if (await db.Indicators.AnyAsync(o => o.OptionListId == optionList.OptionListId))
+                return BadRequest("Unable to delete the option list as it has related indicators");
 
             db.Entry(optionList).State = EntityState.Deleted;
 
