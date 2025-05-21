@@ -191,7 +191,7 @@
                         </div>
                     </div>
 
-                    <div class="col-sm-6 col-md-4">
+                    <div class="col-sm-6 col-md-4" *ngIf="showUnique()">
                         <div class="form-group" [ngClass]="{ 'is-invalid': isUnique.invalid }">
 
                             <label for="isUnique">
@@ -226,7 +226,7 @@
                         </div>
                     </div>
 
-                    <div class="col-sm-6 col-md-4">
+                    <div class="col-sm-6 col-md-4" *ngIf="showLengths()">
                         <div class="form-group" [ngClass]="{ 'is-invalid': minLength.invalid }">
 
                             <label for="minLength">
@@ -238,7 +238,7 @@
                         </div>
                     </div>
 
-                    <div class="col-sm-6 col-md-4">
+                    <div class="col-sm-6 col-md-4" *ngIf="showLengths()">
                         <div class="form-group" [ngClass]="{ 'is-invalid': maxLength.invalid }">
 
                             <label for="maxLength">
@@ -250,7 +250,7 @@
                         </div>
                     </div>
 
-                    <div class="col-sm-6 col-md-4">
+                    <div class="col-sm-6 col-md-4" *ngIf="showRegex()">
                         <div class="form-group" [ngClass]="{ 'is-invalid': regEx.invalid }">
 
                             <label for="regEx">
@@ -283,7 +283,7 @@
                         </div>
                     </div>
 
-                    <div class="col-sm-6 col-md-4">
+                    <div class="col-sm-6 col-md-4" *ngIf="isPicklist()">
                         <div class="form-group" [ngClass]="{ 'is-invalid': radioCheckbox.invalid }">
 
                             <label for="radioCheckbox">
@@ -300,7 +300,7 @@
                         </div>
                     </div>
 
-                    <div class="col-sm-6 col-md-4">
+                    <div class="col-sm-6 col-md-4" *ngIf="showMultiLine()">
                         <div class="form-group" [ngClass]="{ 'is-invalid': multiLine.invalid }">
 
                             <label for="multiLine">
@@ -329,7 +329,7 @@
                         </div>
                     </div>
 
-                    <div class="col-sm-6 col-md-4">
+                    <div class="col-sm-6 col-md-4" *ngIf="field.fieldType === 0 && field.multiLine">
                         <div class="form-group" [ngClass]="{ 'is-invalid': rows.invalid }">
 
                             <label for="rows">

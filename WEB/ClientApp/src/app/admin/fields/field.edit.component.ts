@@ -23,8 +23,6 @@ export class FieldEditComponent implements OnInit {
     public fieldTypes: Enum[] = Enums.FieldTypes;
     public sizes: Enum[] = Enums.Sizes;
 
-    public showOptions = false;
-
     constructor(
         private router: Router,
         private route: ActivatedRoute,
@@ -61,7 +59,6 @@ export class FieldEditComponent implements OnInit {
                 next: field => {
                     this.field = field;
                     this.changeBreadcrumb();
-                    if (this.field.fieldType === FieldTypes.OptionList) this.showOptions = true;
                 },
                 error: err => {
                     this.errorService.handleError(err, "Field", "Load");
