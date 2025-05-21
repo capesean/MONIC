@@ -10,8 +10,8 @@ import { Datum, DataEntryDatum } from '../common/models/datum.model';
 import { DateService } from '../common/services/date.service';
 import { EntityService } from '../common/services/entity.service';
 import { forkJoin, Observable, of, throwError } from 'rxjs';
-import { Entity } from '../common/models/entity.model';
-import { AppDate as myDate } from '../common/models/date.model';
+import { Entity, EntitySearchOptions } from '../common/models/entity.model';
+import { DateSearchOptions, AppDate as myDate } from '../common/models/date.model';
 import { catchError, share } from 'rxjs/operators';
 import { PendingRequestsInterceptorConfigurer } from 'ng-http-loader';
 import { Organisation } from '../common/models/organisation.model';
@@ -24,6 +24,7 @@ import { DatumStatusModalComponent } from './datumstatus.modal.component';
 import { DataReviewModalComponent } from './datareview.modal';
 import { AppSettings } from '../common/models/appsettings.model';
 import { AppService } from '../common/services/app.service';
+import { Option } from '../common/models/option.model';
 
 @Component({
     selector: 'dataentry',
@@ -34,6 +35,7 @@ import { AppService } from '../common/services/app.service';
 export class DataEntryComponent implements OnInit, AfterViewInit {
 
     public options = { entityId: null as string, entity: null as Entity, dateId: null as string, date: null as myDate, permissionType: PermissionTypes.Edit };
+    public optionsMap: { [key: string]: Option[]; } = {};
     public loaded = false;
     public profile: ProfileModel;
     public categoryRows: CategoryRow[] = [];
@@ -130,14 +132,14 @@ export class DataEntryComponent implements OnInit, AfterViewInit {
         //if (window.location.hostname === "localhost") {
         //    forkJoin({
         //        dates: this.dateService.search({ pageSize: 1, isOpen: true } as DateSearchOptions),
-        //        entities: this.entityService.search({ pageSize: 1, role: Roles.Administrator, q: 'uganda' } as EntitySearchOptions)
+        //        entities: this.entityService.search({ pageSize: 1, role: Roles.Administrator } as EntitySearchOptions)
         //    }).subscribe({
         //        next: response => {
         //            this.options.date = response.dates.dates[0];
         //            this.options.dateId = response.dates.dates[0].dateId;
         //            this.options.entity = response.entities.entities[0];
         //            this.options.entityId = this.options.entity.entityId;
-        //            this.options.permissionType = PermissionTypes.Approve;
+        //            this.options.permissionType = PermissionTypes.Edit;
         //            setTimeout(() => this.load(this.form));
         //        },
         //        error: () => this.toastr.error("Failed to load some of the test data")
@@ -200,6 +202,7 @@ export class DataEntryComponent implements OnInit, AfterViewInit {
                 next: data => {
 
                     this.categoryRows = [];
+                    this.optionsMap = data.optionsMap;
                     this.setForm(data);
                     this.loaded = true;
 

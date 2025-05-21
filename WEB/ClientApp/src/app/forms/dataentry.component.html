@@ -176,7 +176,16 @@
                                                                placeholder="{{indicatorRow.units}}" name="indicator-{{indicatorRow.indicator.indicatorId}}-value"
                                                                id="indicator-{{indicatorRow.indicator.indicatorId}}-value"
                                                                [disabled]="!indicatorRow.canEdit" step="any"
-                                                               (ngModelChange)="setChanged(indicatorRow)" />
+                                                               (ngModelChange)="setChanged(indicatorRow)"
+                                                               *ngIf="indicatorRow.indicator.dataType !== 3" />
+                                                        <select class="form-select" [(ngModel)]="indicatorRow.datum.value"
+                                                                name="indicator-{{indicatorRow.indicator.indicatorId}}-value"
+                                                                id="indicator-{{indicatorRow.indicator.indicatorId}}-value"
+                                                                [disabled]="!indicatorRow.canEdit" step="any"
+                                                                (ngModelChange)="setChanged(indicatorRow)"
+                                                                *ngIf="indicatorRow.indicator.dataType === 3">
+                                                            <option *ngFor="let option of optionsMap[indicatorRow.indicator.optionListId]" [ngValue]="option.value">{{option.name}}</option>
+                                                        </select>
                                                     </div>
 
                                                     <!--note-->
@@ -224,7 +233,7 @@
                                 </div>
 
                             </div>
-                        </div> 
+                        </div>
                     </div>
                 </div>
 

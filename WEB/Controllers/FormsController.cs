@@ -36,6 +36,16 @@ namespace WEB.Controllers
 
             var indicatorIds = indicators.Select(o => o.IndicatorId).ToArray();
 
+            var optionListIds = indicators.Where(o => o.DataType == DataType.OptionList).Select(o => o.OptionListId).ToArray();
+
+            var optionsMap = (
+                await db.Options
+                    .Where(o => optionListIds.Contains(o.OptionListId))
+                    .ToListAsync()
+                )
+                .GroupBy(o => o.OptionListId)
+                .ToDictionary(o => o.Key, o => o.Select(x => ModelFactory.Create(x)));
+
             var data = (await db.Data
                 .Where(o => indicatorIds.Contains(o.IndicatorId) && o.EntityId == entityId && o.DateId == dateId)
                 .ToListAsync())
@@ -44,7 +54,8 @@ namespace WEB.Controllers
             return Ok(new
             {
                 indicators,
-                data
+                data,
+                optionsMap 
             });
         }
 

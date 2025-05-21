@@ -6,6 +6,8 @@ import { Datum, DataEntryDatum } from '../models/datum.model';
 import { Indicator } from '../models/indicator.model';
 import { PermissionTypes, ReviewStatuses } from '../models/enums.model';
 import { DataReview } from '../models/datareview.model';
+import { OptionList } from '../models/optionlist.model';
+import { Option } from '../models/option.model';
 
 @Injectable({ providedIn: 'root' })
 export class FormsService {
@@ -46,4 +48,5 @@ export class FormsService {
 export class DataEntryFormResponse {
     indicators: Indicator[];
     data: Datum[];
+    optionsMap: { [key: string]: Option[]; };
 }

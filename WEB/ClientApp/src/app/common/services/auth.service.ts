@@ -180,8 +180,6 @@ export class AuthService {
 
         Object.assign(data, { grant_type: grantType, scope: 'openid offline_access profile roles' });
 
-        alert("about to: on indicator screen, if data type = option LIST, then show option list selector. Rename field type enum to option list too.")
-
         const params = new URLSearchParams();
         Object.keys(data)
             .forEach(key => params.append(key, (<any>data)[key]));
@@ -262,6 +260,7 @@ export class AuthService {
         return this.isInRole$(Roles.Administrator).pipe(
             map(result => {
                 if (result) return true;
+                if (!this._profile) debugger;
                 return !!this._profile.indicatorPermissions.find(o => o.edit && (indicatorId === undefined || o.indicatorId === indicatorId));
             })
         );
@@ -318,6 +317,7 @@ export class AuthService {
                         if (result) {
                             return true;
                         }
+                        if (!this._profile) debugger;
                         return !!this._profile.indicatorPermissions.find(
                             o => o.approve && (indicatorId === undefined || o.indicatorId === indicatorId)
                         );
