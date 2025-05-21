@@ -26,7 +26,7 @@ export enum DataTypes {
     Currency,
     Number,
     Percent,
-    Option
+    OptionList
 }
 
 export enum DateTypes {
@@ -38,7 +38,7 @@ export enum DateTypes {
 export enum FieldTypes {
     Text,
     Date,
-    Picklist,
+    OptionList,
     File,
     YesNo
 }
@@ -187,7 +187,7 @@ export class Enums {
         { value: 0, name: 'Currency', label: 'Currency' },
         { value: 1, name: 'Number', label: 'Number' },
         { value: 2, name: 'Percent', label: 'Percent' },
-        { value: 3, name: 'Option', label: 'Option' }
+        { value: 3, name: 'OptionList', label: 'Option List' }
      ]
 
      static DateTypes: Enum[] = [
@@ -199,7 +199,7 @@ export class Enums {
      static FieldTypes: Enum[] = [
         { value: 0, name: 'Text', label: 'Text' },
         { value: 1, name: 'Date', label: 'Date' },
-        { value: 2, name: 'Picklist', label: 'Picklist' },
+        { value: 2, name: 'OptionList', label: 'Option List' },
         { value: 3, name: 'File', label: 'File' },
         { value: 4, name: 'YesNo', label: 'Yes/No' }
      ]

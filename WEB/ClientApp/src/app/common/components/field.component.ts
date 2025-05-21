@@ -72,10 +72,10 @@ export class FieldComponent implements OnInit, ControlValueAccessor, Validator {
         //else if (this._field.fieldType === FieldTypes.File) this.controlType === ControlTypes.fileInput;
         else if (this._field.fieldType === FieldTypes.Text && !this._field.multiLine) this.controlType = ControlTypes.textbox;
         else if (this._field.fieldType === FieldTypes.Text && this._field.multiLine) this.controlType = ControlTypes.textArea;
-        else if (this._field.fieldType === FieldTypes.Picklist && this._field.multiple && this._field.radioCheckbox) this.controlType = ControlTypes.multipleCheckbox;
-        else if (this._field.fieldType === FieldTypes.Picklist && this._field.multiple && !this._field.radioCheckbox) this.controlType = ControlTypes.select;
-        else if (this._field.fieldType === FieldTypes.Picklist && !this._field.multiple && this._field.radioCheckbox) this.controlType = ControlTypes.radioButton;
-        else if (this._field.fieldType === FieldTypes.Picklist && !this._field.multiple && !this._field.radioCheckbox) this.controlType = ControlTypes.multipleSelect;
+        else if (this._field.fieldType === FieldTypes.OptionList && this._field.multiple && this._field.radioCheckbox) this.controlType = ControlTypes.multipleCheckbox;
+        else if (this._field.fieldType === FieldTypes.OptionList && this._field.multiple && !this._field.radioCheckbox) this.controlType = ControlTypes.select;
+        else if (this._field.fieldType === FieldTypes.OptionList && !this._field.multiple && this._field.radioCheckbox) this.controlType = ControlTypes.radioButton;
+        else if (this._field.fieldType === FieldTypes.OptionList && !this._field.multiple && !this._field.radioCheckbox) this.controlType = ControlTypes.multipleSelect;
         else throw "Invalid control type";
 
         // input type=file label doesn't like it with dashes
@@ -103,7 +103,7 @@ export class FieldComponent implements OnInit, ControlValueAccessor, Validator {
     writeValue(obj: any): void {
         this._value = obj;
         // checkbox lists used the map to store values, populate this map
-        if (this._field.fieldType === FieldTypes.Picklist && this._field.multiple && this._field.radioCheckbox) {
+        if (this._field.fieldType === FieldTypes.OptionList && this._field.multiple && this._field.radioCheckbox) {
             if (obj) (obj as string[]).forEach(o => this.checkboxes.set(o, true));
         }
 

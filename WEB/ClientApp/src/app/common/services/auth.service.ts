@@ -180,6 +180,8 @@ export class AuthService {
 
         Object.assign(data, { grant_type: grantType, scope: 'openid offline_access profile roles' });
 
+        alert("about to: on indicator screen, if data type = option LIST, then show option list selector. Rename field type enum to option list too.")
+
         const params = new URLSearchParams();
         Object.keys(data)
             .forEach(key => params.append(key, (<any>data)[key]));

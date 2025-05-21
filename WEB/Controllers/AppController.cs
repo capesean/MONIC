@@ -62,7 +62,7 @@ namespace WEB.Controllers
             // add a blank option to unselect the selected value
             foreach (var field in fieldData.Fields)
             {
-                if (field.FieldType == FieldType.Picklist)
+                if (field.FieldType == FieldType.OptionList)
                 {
                     var options = await db.Options.Where(o => o.OptionListId == field.OptionListId)
                         .OrderBy(o => o.SortOrder)

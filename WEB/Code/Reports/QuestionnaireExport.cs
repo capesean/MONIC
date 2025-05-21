@@ -157,7 +157,7 @@ namespace WEB.Reports.Excel
                 foreach (var field in fields)
                 {
                     // todo: will need a col for each option...
-                    if (field.FieldType == FieldType.Picklist && field.Multiple) throw new HandledException("Multiple choice fields have not been implemented in the export");
+                    if (field.FieldType == FieldType.OptionList && field.Multiple) throw new HandledException("Multiple choice fields have not been implemented in the export");
                     ws.Cells[4, col++].Value = field.Name;
                 }
                 ws.Cells[4, col++].Value = "Created";
@@ -226,7 +226,7 @@ namespace WEB.Reports.Excel
                     {
                         if (field.FieldType == FieldType.Text)
                             ws.Cells[row, col++].Value = itemFieldLookup.GetValueOrDefault(field.FieldId)?.GetValueOrDefault(response.EntityId)?.Value ?? null;
-                        else if (field.FieldType == FieldType.Picklist)
+                        else if (field.FieldType == FieldType.OptionList)
                         {
                             // todo: for multiple, will need a column for each option...
                             if (field.Multiple) throw new Exception("Not implemented");

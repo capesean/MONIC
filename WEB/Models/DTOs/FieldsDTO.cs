@@ -34,7 +34,7 @@ namespace WEB.Models
             {
                 if (field.Required)
                 {
-                    if (field.FieldType == FieldType.Picklist)
+                    if (field.FieldType == FieldType.OptionList)
                     {
                         var optionIds = db.Options.Where(o => o.OptionListId == field.OptionListId).Select(o => o.OptionId).ToHashSet();
 

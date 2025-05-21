@@ -26,7 +26,7 @@ namespace WEB.Models
         Currency,
         Number,
         Percent,
-        Option
+        OptionList
     }
 
     public enum DateType
@@ -40,7 +40,7 @@ namespace WEB.Models
     {
         Text,
         Date,
-        Picklist,
+        OptionList,
         File,
         YesNo
     }
@@ -229,8 +229,8 @@ namespace WEB.Models
                     return "Number";
                 case DataType.Percent:
                     return "Percent";
-                case DataType.Option:
-                    return "Option";
+                case DataType.OptionList:
+                    return "Option List";
                 default:
                     return null;
             }
@@ -259,8 +259,8 @@ namespace WEB.Models
                     return "Text";
                 case FieldType.Date:
                     return "Date";
-                case FieldType.Picklist:
-                    return "Picklist";
+                case FieldType.OptionList:
+                    return "Option List";
                 case FieldType.File:
                     return "File";
                 case FieldType.YesNo:

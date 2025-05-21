@@ -108,7 +108,7 @@ export abstract class ItemComponent {
             this.itemFields = new Map<string, string>();
             this.fields.forEach(field => {
                 
-                if (field.fieldType === FieldTypes.Picklist) {
+                if (field.fieldType === FieldTypes.OptionList) {
                     /*
                      * the selected options are stored in the item's .optionValues array.
                      * the <field> control binds to the .itemfields property of this ItemComponent
@@ -198,7 +198,7 @@ export abstract class ItemComponent {
             // there is no value stored in this.itemFields for this field, so no need to add it to any array (itemFields/optionValues/etc.)
             if (!value || (Array.isArray(value) && (value as string[]).length === 0)) return;
 
-            if (field.fieldType === FieldTypes.Picklist) {
+            if (field.fieldType === FieldTypes.OptionList) {
                 // push each of the values into the optionValues array
                 if (field.multiple) (value as string[]).forEach(o => itemObject.itemOptions.push({ itemId: this.item.itemId, optionId: o } as ItemOption))
                 // push the selected value into the optionValues array

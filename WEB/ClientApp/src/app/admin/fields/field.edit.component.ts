@@ -61,7 +61,7 @@ export class FieldEditComponent implements OnInit {
                 next: field => {
                     this.field = field;
                     this.changeBreadcrumb();
-                    if (this.field.fieldType === FieldTypes.Picklist) this.showOptions = true;
+                    if (this.field.fieldType === FieldTypes.OptionList) this.showOptions = true;
                 },
                 error: err => {
                     this.errorService.handleError(err, "Field", "Load");
@@ -131,8 +131,8 @@ export class FieldEditComponent implements OnInit {
         return this.field && this.field.fieldType === FieldTypes.Text;
     }
 
-    isPicklist(): boolean {
-        return this.field && this.field.fieldType === FieldTypes.Picklist;
+    isOptionList(): boolean {
+        return this.field && this.field.fieldType === FieldTypes.OptionList;
     }
 
     showMultiLine(): boolean {
