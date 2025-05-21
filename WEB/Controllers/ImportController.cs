@@ -27,7 +27,10 @@ namespace WEB.Controllers
             }
             else
             {
-                await csvImport.ImportRecordsAsync(CurrentUser.Id, AppSettings);
+                if (!await csvImport.ImportRecordsAsync(CurrentUser.Id, AppSettings)){
+                    var errors = csvImport.GetErrors();
+                    return BadRequest(errors);
+                }
             }
 
             return Ok();

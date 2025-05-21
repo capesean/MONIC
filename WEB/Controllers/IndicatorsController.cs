@@ -101,6 +101,12 @@ namespace WEB.Controllers
             if (await db.Indicators.AnyAsync(o => o.Code == indicatorDTO.Code && o.IndicatorId != indicatorDTO.IndicatorId))
                 return BadRequest("Code already exists.");
 
+            if (indicatorDTO.DataType == DataType.OptionList && indicatorDTO.OptionListId == null)
+                return BadRequest("Option list is required for option list data type.");
+
+            if (indicatorDTO.DataType != DataType.Number) indicatorDTO.Units = string.Empty;
+            if (indicatorDTO.DataType == DataType.OptionList) indicatorDTO.DecimalPlaces = 0;
+
             var isNew = indicatorDTO.IndicatorId == Guid.Empty;
 
             Indicator indicator;
@@ -173,7 +179,7 @@ namespace WEB.Controllers
 
                 ItemFunctions.DeleteFields(db, indicatorId, true);
 
-            db.Entry(indicator).State = EntityState.Deleted;
+                db.Entry(indicator).State = EntityState.Deleted;
 
                 await db.SaveChangesAsync();
 

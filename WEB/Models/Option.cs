@@ -16,6 +16,8 @@ namespace WEB.Models
         [Required(AllowEmptyStrings = true), MaxLength(2000)]
         public string Name { get; set; }
 
+        public short? Value { get; set; }
+
         [Required]
         public int SortOrder { get; set; }
 

@@ -6,6 +6,7 @@ export class Option {
     optionId: string;
     optionListId: string;
     name: string;
+    value: number;
     sortOrder: number;
     optionList: OptionList;
 

@@ -14,6 +14,8 @@ namespace WEB.Models
         [DisplayFormat(ConvertEmptyStringToNull = false), MaxLength(2000)]
         public string Name { get; set; }
 
+        public short? Value { get; set; }
+
         [Required]
         public int SortOrder { get; set; }
 
@@ -34,6 +36,7 @@ namespace WEB.Models
             optionDTO.OptionId = option.OptionId;
             optionDTO.OptionListId = option.OptionListId;
             optionDTO.Name = option.Name;
+            optionDTO.Value = option.Value;
             optionDTO.SortOrder = option.SortOrder;
 
             if (includeParents)
@@ -54,6 +57,7 @@ namespace WEB.Models
         {
             option.OptionListId = optionDTO.OptionListId;
             option.Name = optionDTO.Name;
+            option.Value = optionDTO.Value;
             option.SortOrder = optionDTO.SortOrder;
         }
     }
