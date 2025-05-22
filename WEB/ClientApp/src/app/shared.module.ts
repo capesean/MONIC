@@ -109,6 +109,7 @@ import { QuestionnaireExportComponent } from './admin/questionnaires/questionnai
 import { QuestionnaireDownloadComponent } from './admin/questionnaires/questionnaire.download.component';
 import { QuestionnaireGenerateSummariesComponent } from './admin/questionnaires/questionnaire.generate.summaries.component';
 import { FrequencyAdverb } from './common/pipes/frequencyadverbpipe';
+import { QuillModule } from 'ngx-quill';
 
 @NgModule({
     imports: [
@@ -116,7 +117,8 @@ import { FrequencyAdverb } from './common/pipes/frequencyadverbpipe';
         RouterModule,
         FormsModule,
         NgbModule,
-        DragDropModule
+        DragDropModule,
+        QuillModule
     ],
     declarations: [
         MainComponent,
@@ -331,7 +333,8 @@ import { FrequencyAdverb } from './common/pipes/frequencyadverbpipe';
         TheoryOfChangeSelectComponent,
         TheoryOfChangeModalComponent,
         UserSelectComponent,
-        UserModalComponent
+        UserModalComponent,
+        QuillModule
     ]
 })
 export class SharedModule { }

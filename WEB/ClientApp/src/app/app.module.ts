@@ -16,8 +16,6 @@ import { SharedModule } from './shared.module';
 import { JsonDateInterceptor } from './common/interceptors/jsondate.interceptor';
 import { CurrencyPipe, DecimalPipe, PercentPipe } from '@angular/common';
 import { NgHttpLoaderComponent, pendingRequestsInterceptor$ } from 'ng-http-loader';
-import { QuillModule } from 'ngx-quill';
-import { QuillConfigModule } from 'ngx-quill/config';
 import { NgxEchartsModule } from 'ngx-echarts';
 
 @NgModule({
