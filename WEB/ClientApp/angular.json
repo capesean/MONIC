@@ -19,11 +19,12 @@
                     "options": {
                         "progress": false,
                         "outputPath": {
-                          "base": "dist"
+                            "base": "dist",
+                            "browser": ""
                         },
                         "index": "src/index.html",
                         "polyfills": [
-                          "src/polyfills.ts"
+                            "src/polyfills.ts"
                         ],
                         "tsConfig": "tsconfig.json",
                         "assets": [
@@ -51,6 +52,10 @@
                     },
                     "configurations": {
                         "production": {
+                            "outputPath": {
+                                "base": "dist",
+                                "browser": ""
+                            },
                             "budgets": [
                                 {
                                     "type": "initial",

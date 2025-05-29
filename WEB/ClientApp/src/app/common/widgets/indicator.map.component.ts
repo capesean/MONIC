@@ -41,8 +41,8 @@ export class IndicatorMapComponent implements OnInit, Widget {
 
     public zoom = 1;
     public center: google.maps.LatLngLiteral = { lat: 0, lng: 0 };
-
     public height = 200;
+
     public chartOptions: EChartsOption;
 
     public geoJson: FeatureCollection;

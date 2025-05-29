@@ -38,7 +38,6 @@ import { NgxEchartsModule } from 'ngx-echarts';
         NgxEchartsModule.forRoot({
             echarts: () => import('echarts')
         }),
-        
         BrowserAnimationsModule,
         NgHttpLoaderComponent,
         FormsModule,

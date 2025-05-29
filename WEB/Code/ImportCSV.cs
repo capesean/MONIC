@@ -69,7 +69,10 @@ namespace WEB.Import
                         var indicatorExists = indicators.TryGetValue(record.IndicatorCode, out Indicator indicator);
 
                         if (!indicatorExists)
+                        {
                             errors.Add(new ImportError(row, 1, "Invalid indicator code", record.IndicatorCode));
+                            continue;
+                        }
 
                         if (indicator.DataType == DataType.OptionList)
                         {

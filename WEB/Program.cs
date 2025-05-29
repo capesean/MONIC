@@ -54,7 +54,7 @@ if (appSettings.IsDevelopment)
         {
             // must match with the port in package.json -> scripts:start (also: appSettings.RootUrl - i.e. the front-end address)
             // and SpaProxyServerUrl in WEB.csproj
-            builder.WithOrigins("https://localhost:44410");
+            builder.WithOrigins("https://localhost:44410", "http://localhost:49823");
             builder.AllowAnyMethod();
             builder.AllowAnyHeader();
             builder.WithExposedHeaders("X-Pagination", "Content-Disposition");
