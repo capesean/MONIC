@@ -62,6 +62,9 @@ namespace WEB.Controllers
             if (await db.Options.AnyAsync(o => o.OptionListId == optionDTO.OptionListId && o.Name == optionDTO.Name && o.OptionId != optionDTO.OptionId))
                 return BadRequest("Name already exists on this Option List.");
 
+            if (optionDTO.Value.HasValue && await db.Options.AnyAsync(o => o.OptionListId == optionDTO.OptionListId && o.Value == optionDTO.Value && o.OptionId != optionDTO.OptionId))
+                return BadRequest("Value already exists on this Option List.");
+
             var isNew = optionDTO.OptionId == Guid.Empty;
 
             Option option;

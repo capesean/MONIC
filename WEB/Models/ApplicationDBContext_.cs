@@ -382,6 +382,8 @@ namespace WEB.Models
 
         public void AddNullableUniqueIndexes()
         {
+            Database.ExecuteSqlRaw($"DROP INDEX IF EXISTS IX_Options_OptionListId_Value ON Options;");
+            Database.ExecuteSqlRaw($"CREATE UNIQUE NONCLUSTERED INDEX IX_Options_OptionListId_Value ON Options(OptionListId, Value) WHERE Value IS NOT NULL;");
             CreateNullableUniqueIndex("Questionnaires", "PublicCode");
             CreateNullableUniqueIndex("Responses", "PublicCode");
         }
