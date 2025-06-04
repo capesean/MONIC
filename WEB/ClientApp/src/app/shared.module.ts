@@ -17,7 +17,6 @@ import { PageTitleComponent } from './common/components/pagetitle.component';
 import { SortIconComponent } from './common/components/sorticon.component';
 import { AppHasRoleDirective } from './common/directives/apphasrole';
 import { AppFileInputDirective } from './common/directives/appfileinput';
-import { SpyOnDirective } from './common/scroll-spy/spy-on.directive';
 import { BooleanPipe } from './common/pipes/booleanpipe';
 import { MomentPipe } from './common/pipes/momentpipe';
 import { FileSizePipe } from './common/pipes/filesizepipe';
@@ -49,7 +48,6 @@ import { UserModalComponent } from './users/user.modal.component';
         FileSizePipe,
         AppFileInputDirective,
         AppHasRoleDirective,
-        SpyOnDirective,
         UserSelectComponent,
         UserModalComponent
     ],
@@ -69,7 +67,6 @@ import { UserModalComponent } from './users/user.modal.component';
         FileSizePipe,
         AppFileInputDirective,
         AppHasRoleDirective,
-        SpyOnDirective,
         UserSelectComponent,
         UserModalComponent
     ]

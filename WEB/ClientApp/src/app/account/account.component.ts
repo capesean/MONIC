@@ -4,7 +4,6 @@ import { ToastrService } from 'ngx-toastr';
 import { ChangePasswordModel, PasswordRequirements } from '../common/models/auth.models';
 import { ProfileModel } from '../common/models/profile.models';
 import { AuthService } from '../common/services/auth.service';
-import { ScrollSpyService } from '../common/scroll-spy/scroll-spy.service';
 import { ErrorService } from '../common/services/error.service';
 
 @Component({
@@ -29,7 +28,7 @@ export class AccountComponent implements OnInit, AfterViewInit, OnDestroy {
 
     constructor(
         private toastr: ToastrService,
-        private spyService: ScrollSpyService,
+        private spyService: NgbScrollSpyService,
         private authService: AuthService,
         private errorService: ErrorService
     ) {
