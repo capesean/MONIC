@@ -1,6 +1,6 @@
 import { environment } from '../../../environments/environment';
 import { Injectable } from '@angular/core';
-import { HttpClient, } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { catchError, Observable, of, share, tap } from 'rxjs';
 import { AppSettings } from '../models/appsettings.model';
 import { ErrorService } from './error.service';

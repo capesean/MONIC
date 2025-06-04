@@ -1,6 +1,6 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { LOCALE_ID, NgModule } from '@angular/core';
-import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
+import { HTTP_INTERCEPTORS, provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
 import { RouterModule } from '@angular/router';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ToastrModule } from 'ngx-toastr';
@@ -17,10 +17,11 @@ import { SharedModule } from './shared.module';
 import { JsonDateInterceptor } from './common/interceptors/jsondate.interceptor';
 import { CurrencyPipe, DecimalPipe, PercentPipe } from '@angular/common';
 
-@NgModule({
-    imports: [
-        BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
-        HttpClientModule,
+@NgModule({ declarations: [
+        AppComponent,
+        NotFoundComponent
+    ],
+    bootstrap: [AppComponent], imports: [BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
         RouterModule.forRoot(AppRoutes, {}),
         ToastrModule.forRoot({
             closeButton: true,
@@ -34,13 +35,7 @@ import { CurrencyPipe, DecimalPipe, PercentPipe } from '@angular/common';
         BrowserAnimationsModule,
         FormsModule,
         NgbModule,
-        SharedModule
-    ],
-    declarations: [
-        AppComponent,
-        NotFoundComponent
-    ],
-    providers: [
+        SharedModule], providers: [
         { provide: HTTP_INTERCEPTORS, useClass: AuthoriseRequestInterceptor, multi: true },
         { provide: HTTP_INTERCEPTORS, useClass: UnauthorisedResponseInterceptor, multi: true },
         { provide: HTTP_INTERCEPTORS, useClass: JsonDateInterceptor, multi: true },
@@ -51,8 +46,7 @@ import { CurrencyPipe, DecimalPipe, PercentPipe } from '@angular/common';
         PercentPipe,
         DecimalPipe,
         CurrencyPipe,
-        { provide: LOCALE_ID, useValue: 'en-ZA' }
-    ],
-    bootstrap: [AppComponent]
-})
+        { provide: LOCALE_ID, useValue: 'en-ZA' },
+        provideHttpClient(withInterceptorsFromDi())
+    ] })
 export class AppModule { }

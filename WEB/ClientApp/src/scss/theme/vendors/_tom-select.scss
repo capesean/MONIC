@@ -27,7 +27,7 @@ $select-color-dropdown-border-top: mix($border-color, $body-bg, .8) !default;
 }
 
 
-@import "~tom-select/src/scss/tom-select.bootstrap5";
+@import "tom-select/src/scss/tom-select.bootstrap5";
 
 
 .#{$select-ns}-dropdown {
