@@ -18,6 +18,9 @@ namespace WEB.Models
 
         public short? Value { get; set; }
 
+        [MaxLength(7)]
+        public string Color { get; set; }
+
         [Required]
         public int SortOrder { get; set; }
 

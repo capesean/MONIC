@@ -4,6 +4,7 @@ main {
 
 body#app {
     min-height: 800px;
+    overflow-x: initial; /* else sticky-top doesn't work */
 }
 
 @media(min-width: 992px) {
@@ -305,10 +306,6 @@ nav.nav-tabs.nav ~ .tab-content {
 .was-validated .form-group.is-invalid .btn {
     background-color: #dc3545;
     border-color: #dc3545;
-}
-
-html {
-    overflow-y: scroll;
 }
 
 #questionLogic:hover .d-none {

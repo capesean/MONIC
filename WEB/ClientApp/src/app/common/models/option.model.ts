@@ -7,6 +7,7 @@ export class Option {
     optionListId: string;
     name: string;
     value: number;
+    color: string;
     sortOrder: number;
     optionList: OptionList;
 

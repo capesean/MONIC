@@ -16,6 +16,9 @@ namespace WEB.Models
 
         public short? Value { get; set; }
 
+        [MaxLength(7)]
+        public string Color { get; set; }
+
         [Required]
         public int SortOrder { get; set; }
 
@@ -37,6 +40,7 @@ namespace WEB.Models
             optionDTO.OptionListId = option.OptionListId;
             optionDTO.Name = option.Name;
             optionDTO.Value = option.Value;
+            optionDTO.Color = option.Color;
             optionDTO.SortOrder = option.SortOrder;
 
             if (includeParents)
@@ -58,6 +62,7 @@ namespace WEB.Models
             option.OptionListId = optionDTO.OptionListId;
             option.Name = optionDTO.Name;
             option.Value = optionDTO.Value;
+            option.Color = optionDTO.Color;
             option.SortOrder = optionDTO.SortOrder;
         }
     }

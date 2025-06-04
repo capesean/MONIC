@@ -4,8 +4,8 @@ import { ToastrService } from 'ngx-toastr';
 import { ChangePasswordModel, PasswordRequirements } from '../common/models/auth.models';
 import { ProfileModel } from '../common/models/profile.models';
 import { AuthService } from '../common/services/auth.service';
-import { ScrollSpyService } from '../common/scroll-spy/scroll-spy.service';
 import { ErrorService } from '../common/services/error.service';
+import { NgbScrollSpyService } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
     selector: 'app-account',
@@ -25,12 +25,9 @@ export class AccountComponent implements OnInit, AfterViewInit, OnDestroy {
 
     public activeTarget: string;
 
-    @ViewChild('basicInformationSection', { static: true }) basicInformationSection: ElementRef;
-    @ViewChild('passwordSection', { static: true }) passwordSection: ElementRef;
-
     constructor(
         private toastr: ToastrService,
-        private spyService: ScrollSpyService,
+        public spyService: NgbScrollSpyService,
         private authService: AuthService,
         private errorService: ErrorService
     ) {
@@ -42,12 +39,11 @@ export class AccountComponent implements OnInit, AfterViewInit, OnDestroy {
 
         this.authService.getPasswordRequirements().subscribe(o => this.passwordRequirements = o);
 
-        this.spyService.addTarget({ name: 'basicInformationSection', element: this.basicInformationSection });
-        this.spyService.addTarget({ name: 'passwordSection', element: this.passwordSection });
     }
 
     ngAfterViewInit(): void {
-        this.spyService.spy({ thresholdBottom: 250 });
+        this.spyService.start({
+            rootMargin: "-20px", fragments: ['basicInformationSection', 'passwordSection'] });
     }
 
     saveBasicInformation(form: NgForm): void {
@@ -112,7 +108,7 @@ export class AccountComponent implements OnInit, AfterViewInit, OnDestroy {
     }
 
     ngOnDestroy(): void {
-        this.spyService.stopSpying();
+        this.spyService.stop();
     }
 
     uploadPhoto($event: MouseEvent): void {

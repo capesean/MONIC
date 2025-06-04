@@ -26,7 +26,7 @@ import { NgxEchartsModule } from 'ngx-echarts';
     bootstrap: [AppComponent],
     imports: [
         BrowserModule,
-        RouterModule.forRoot(AppRoutes, { /*enableTracing:true*/ }),
+        RouterModule.forRoot(AppRoutes, { anchorScrolling: 'enabled' }),
         ToastrModule.forRoot({
             closeButton: true,
             positionClass: "toast-bottom-right",

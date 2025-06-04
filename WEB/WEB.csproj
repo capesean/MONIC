@@ -52,20 +52,122 @@
 
 	<ItemGroup>
 		<!-- Don't publish the SPA source files, but do show them in the project files list -->
+		<Compile Remove="ClientApp\.angular\**" />
 		<Compile Remove="ClientApp\dist\**" />
+		<Compile Remove="ClientApp\node_modules\**" />
 		<Compile Remove="wwwroot\**" />
 		<Content Remove="$(SpaRoot)**" />
+		<Content Remove="ClientApp\.angular\**" />
 		<Content Remove="ClientApp\dist\**" />
+		<Content Remove="ClientApp\node_modules\**" />
 		<Content Remove="wwwroot\**" />
+		<EmbeddedResource Remove="ClientApp\.angular\**" />
 		<EmbeddedResource Remove="ClientApp\dist\**" />
+		<EmbeddedResource Remove="ClientApp\node_modules\**" />
 		<EmbeddedResource Remove="wwwroot\**" />
 		<None Remove="$(SpaRoot)**" />
+		<None Remove="ClientApp\.angular\**" />
 		<None Remove="ClientApp\dist\**" />
+		<None Remove="ClientApp\node_modules\**" />
 		<None Remove="wwwroot\**" />
 		<None Include="$(SpaRoot)**" Exclude="$(SpaRoot)node_modules\**" />
 	</ItemGroup>
 
 	<ItemGroup>
+	  <TypeScriptCompile Remove="ClientApp\.angular\**" />
+	  <TypeScriptCompile Remove="ClientApp\node_modules\**" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<None Remove="ClientApp\.angular\cache\19.2.10\Monic\.tsbuildinfo" />
+		<None Remove="ClientApp\.angular\cache\19.2.10\Monic\angular-compiler.db" />
+		<None Remove="ClientApp\.angular\cache\19.2.10\Monic\angular-compiler.db-lock" />
+		<None Remove="ClientApp\.angular\cache\19.2.10\Monic\vite\deps\%40angular_animations.js" />
+		<None Remove="ClientApp\.angular\cache\19.2.10\Monic\vite\deps\%40angular_animations.js.map" />
+		<None Remove="ClientApp\.angular\cache\19.2.10\Monic\vite\deps\%40angular_cdk_clipboard.js" />
+		<None Remove="ClientApp\.angular\cache\19.2.10\Monic\vite\deps\%40angular_cdk_clipboard.js.map" />
+		<None Remove="ClientApp\.angular\cache\19.2.10\Monic\vite\deps\%40angular_cdk_drag-drop.js" />
+		<None Remove="ClientApp\.angular\cache\19.2.10\Monic\vite\deps\%40angular_cdk_drag-drop.js.map" />
+		<None Remove="ClientApp\.angular\cache\19.2.10\Monic\vite\deps\%40angular_common.js" />
+		<None Remove="ClientApp\.angular\cache\19.2.10\Monic\vite\deps\%40angular_common.js.map" />
+		<None Remove="ClientApp\.angular\cache\19.2.10\Monic\vite\deps\%40angular_common_http.js" />
+		<None Remove="ClientApp\.angular\cache\19.2.10\Monic\vite\deps\%40angular_common_http.js.map" />
+		<None Remove="ClientApp\.angular\cache\19.2.10\Monic\vite\deps\%40angular_core.js" />
+		<None Remove="ClientApp\.angular\cache\19.2.10\Monic\vite\deps\%40angular_core.js.map" />
+		<None Remove="ClientApp\.angular\cache\19.2.10\Monic\vite\deps\%40angular_forms.js" />
+		<None Remove="ClientApp\.angular\cache\19.2.10\Monic\vite\deps\%40angular_forms.js.map" />
+		<None Remove="ClientApp\.angular\cache\19.2.10\Monic\vite\deps\%40angular_google-maps.js" />
+		<None Remove="ClientApp\.angular\cache\19.2.10\Monic\vite\deps\%40angular_google-maps.js.map" />
+		<None Remove="ClientApp\.angular\cache\19.2.10\Monic\vite\deps\%40angular_platform-browser.js" />
+		<None Remove="ClientApp\.angular\cache\19.2.10\Monic\vite\deps\%40angular_platform-browser.js.map" />
+		<None Remove="ClientApp\.angular\cache\19.2.10\Monic\vite\deps\%40angular_platform-browser_animations.js" />
+		<None Remove="ClientApp\.angular\cache\19.2.10\Monic\vite\deps\%40angular_platform-browser_animations.js.map" />
+		<None Remove="ClientApp\.angular\cache\19.2.10\Monic\vite\deps\%40angular_router.js" />
+		<None Remove="ClientApp\.angular\cache\19.2.10\Monic\vite\deps\%40angular_router.js.map" />
+		<None Remove="ClientApp\.angular\cache\19.2.10\Monic\vite\deps\%40ng-bootstrap_ng-bootstrap.js" />
+		<None Remove="ClientApp\.angular\cache\19.2.10\Monic\vite\deps\%40ng-bootstrap_ng-bootstrap.js.map" />
+		<None Remove="ClientApp\.angular\cache\19.2.10\Monic\vite\deps\%40swimlane_ngx-graph.js" />
+		<None Remove="ClientApp\.angular\cache\19.2.10\Monic\vite\deps\%40swimlane_ngx-graph.js.map" />
+		<None Remove="ClientApp\.angular\cache\19.2.10\Monic\vite\deps\chunk-55CQQWN2.js" />
+		<None Remove="ClientApp\.angular\cache\19.2.10\Monic\vite\deps\chunk-55CQQWN2.js.map" />
+		<None Remove="ClientApp\.angular\cache\19.2.10\Monic\vite\deps\chunk-5KXDAEEK.js" />
+		<None Remove="ClientApp\.angular\cache\19.2.10\Monic\vite\deps\chunk-5KXDAEEK.js.map" />
+		<None Remove="ClientApp\.angular\cache\19.2.10\Monic\vite\deps\chunk-5TN2S6KM.js" />
+		<None Remove="ClientApp\.angular\cache\19.2.10\Monic\vite\deps\chunk-5TN2S6KM.js.map" />
+		<None Remove="ClientApp\.angular\cache\19.2.10\Monic\vite\deps\chunk-6XLJXPER.js" />
+		<None Remove="ClientApp\.angular\cache\19.2.10\Monic\vite\deps\chunk-6XLJXPER.js.map" />
+		<None Remove="ClientApp\.angular\cache\19.2.10\Monic\vite\deps\chunk-AIZRGZFI.js" />
+		<None Remove="ClientApp\.angular\cache\19.2.10\Monic\vite\deps\chunk-AIZRGZFI.js.map" />
+		<None Remove="ClientApp\.angular\cache\19.2.10\Monic\vite\deps\chunk-HM5YLMWO.js" />
+		<None Remove="ClientApp\.angular\cache\19.2.10\Monic\vite\deps\chunk-HM5YLMWO.js.map" />
+		<None Remove="ClientApp\.angular\cache\19.2.10\Monic\vite\deps\chunk-LLJXEGCI.js" />
+		<None Remove="ClientApp\.angular\cache\19.2.10\Monic\vite\deps\chunk-LLJXEGCI.js.map" />
+		<None Remove="ClientApp\.angular\cache\19.2.10\Monic\vite\deps\chunk-NNYHPYC6.js" />
+		<None Remove="ClientApp\.angular\cache\19.2.10\Monic\vite\deps\chunk-NNYHPYC6.js.map" />
+		<None Remove="ClientApp\.angular\cache\19.2.10\Monic\vite\deps\chunk-NW6VGWB7.js" />
+		<None Remove="ClientApp\.angular\cache\19.2.10\Monic\vite\deps\chunk-NW6VGWB7.js.map" />
+		<None Remove="ClientApp\.angular\cache\19.2.10\Monic\vite\deps\chunk-PW4SM5PZ.js" />
+		<None Remove="ClientApp\.angular\cache\19.2.10\Monic\vite\deps\chunk-PW4SM5PZ.js.map" />
+		<None Remove="ClientApp\.angular\cache\19.2.10\Monic\vite\deps\chunk-T27CJ7VR.js" />
+		<None Remove="ClientApp\.angular\cache\19.2.10\Monic\vite\deps\chunk-T27CJ7VR.js.map" />
+		<None Remove="ClientApp\.angular\cache\19.2.10\Monic\vite\deps\chunk-VMI3K6GE.js" />
+		<None Remove="ClientApp\.angular\cache\19.2.10\Monic\vite\deps\chunk-VMI3K6GE.js.map" />
+		<None Remove="ClientApp\.angular\cache\19.2.10\Monic\vite\deps\chunk-VULZ2R2H.js" />
+		<None Remove="ClientApp\.angular\cache\19.2.10\Monic\vite\deps\chunk-VULZ2R2H.js.map" />
+		<None Remove="ClientApp\.angular\cache\19.2.10\Monic\vite\deps\chunk-WD6C567C.js" />
+		<None Remove="ClientApp\.angular\cache\19.2.10\Monic\vite\deps\chunk-WD6C567C.js.map" />
+		<None Remove="ClientApp\.angular\cache\19.2.10\Monic\vite\deps\chunk-WY2VMIPC.js" />
+		<None Remove="ClientApp\.angular\cache\19.2.10\Monic\vite\deps\chunk-WY2VMIPC.js.map" />
+		<None Remove="ClientApp\.angular\cache\19.2.10\Monic\vite\deps\chunk-XQ2HCWDG.js" />
+		<None Remove="ClientApp\.angular\cache\19.2.10\Monic\vite\deps\chunk-XQ2HCWDG.js.map" />
+		<None Remove="ClientApp\.angular\cache\19.2.10\Monic\vite\deps\d3.js" />
+		<None Remove="ClientApp\.angular\cache\19.2.10\Monic\vite\deps\d3.js.map" />
+		<None Remove="ClientApp\.angular\cache\19.2.10\Monic\vite\deps\echarts.js" />
+		<None Remove="ClientApp\.angular\cache\19.2.10\Monic\vite\deps\echarts.js.map" />
+		<None Remove="ClientApp\.angular\cache\19.2.10\Monic\vite\deps\moment.js" />
+		<None Remove="ClientApp\.angular\cache\19.2.10\Monic\vite\deps\moment.js.map" />
+		<None Remove="ClientApp\.angular\cache\19.2.10\Monic\vite\deps\ng-http-loader.js" />
+		<None Remove="ClientApp\.angular\cache\19.2.10\Monic\vite\deps\ng-http-loader.js.map" />
+		<None Remove="ClientApp\.angular\cache\19.2.10\Monic\vite\deps\ngx-echarts.js" />
+		<None Remove="ClientApp\.angular\cache\19.2.10\Monic\vite\deps\ngx-echarts.js.map" />
+		<None Remove="ClientApp\.angular\cache\19.2.10\Monic\vite\deps\ngx-quill.js" />
+		<None Remove="ClientApp\.angular\cache\19.2.10\Monic\vite\deps\ngx-quill.js.map" />
+		<None Remove="ClientApp\.angular\cache\19.2.10\Monic\vite\deps\ngx-toastr.js" />
+		<None Remove="ClientApp\.angular\cache\19.2.10\Monic\vite\deps\ngx-toastr.js.map" />
+		<None Remove="ClientApp\.angular\cache\19.2.10\Monic\vite\deps\package.json" />
+		<None Remove="ClientApp\.angular\cache\19.2.10\Monic\vite\deps\quill-RRJGAMF2.js" />
+		<None Remove="ClientApp\.angular\cache\19.2.10\Monic\vite\deps\quill-RRJGAMF2.js.map" />
+		<None Remove="ClientApp\.angular\cache\19.2.10\Monic\vite\deps\rxjs.js" />
+		<None Remove="ClientApp\.angular\cache\19.2.10\Monic\vite\deps\rxjs.js.map" />
+		<None Remove="ClientApp\.angular\cache\19.2.10\Monic\vite\deps\rxjs_operators.js" />
+		<None Remove="ClientApp\.angular\cache\19.2.10\Monic\vite\deps\rxjs_operators.js.map" />
+		<None Remove="ClientApp\.angular\cache\19.2.10\Monic\vite\deps\tslib.js" />
+		<None Remove="ClientApp\.angular\cache\19.2.10\Monic\vite\deps\tslib.js.map" />
+		<None Remove="ClientApp\.angular\cache\19.2.10\Monic\vite\deps\zxcvbn.js" />
+		<None Remove="ClientApp\.angular\cache\19.2.10\Monic\vite\deps\zxcvbn.js.map" />
+		<None Remove="ClientApp\.angular\cache\19.2.10\Monic\vite\deps\_metadata.json" />
+		<None Remove="ClientApp\.angular\cache\19.2.10\Monic\vite\deps_ssr\package.json" />
+		<None Remove="ClientApp\.angular\cache\19.2.10\Monic\vite\deps_ssr\_metadata.json" />
 		<None Remove="ClientApp\dist\browser\assets\favicon.ico" />
 		<None Remove="ClientApp\dist\browser\assets\fonts\Roboto-Regular.ttf" />
 		<None Remove="ClientApp\dist\browser\assets\geojson\1a9fe048-22f6-4a87-9207-40e005a157f9.json" />
@@ -179,7 +281,6 @@
 	</ItemGroup>
 
 	<ItemGroup>
-		<Folder Include="ClientApp\src\app\common\scroll-spy\" />
 		<Folder Include="ClientApp\src\assets\geojson\" />
 		<Folder Include="Migrations\" />
 		<Folder Include="Properties\PublishProfiles\" />

@@ -179,7 +179,7 @@ namespace WEB.Controllers
 
                 ItemFunctions.DeleteFields(db, indicatorId, true);
 
-                db.Entry(indicator).State = EntityState.Deleted;
+            db.Entry(indicator).State = EntityState.Deleted;
 
                 await db.SaveChangesAsync();
 

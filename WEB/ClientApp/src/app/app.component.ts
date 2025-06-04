@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { NgHttpLoaderComponent, Spinkit } from 'ng-http-loader';
+import { Spinkit } from 'ng-http-loader';
 import { Observable } from 'rxjs';
 import { AuthStateModel } from './common/models/auth.models';
 import { AuthService } from './common/services/auth.service';
