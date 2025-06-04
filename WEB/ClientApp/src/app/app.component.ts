@@ -11,7 +11,8 @@ import { NgbModalConfig, NgbTooltipConfig } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
     selector: 'app-root',
-    templateUrl: './app.component.html'
+    templateUrl: './app.component.html',
+    standalone: false
 })
 export class AppComponent implements OnInit {
 

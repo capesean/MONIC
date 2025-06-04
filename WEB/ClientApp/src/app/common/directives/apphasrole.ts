@@ -3,7 +3,8 @@ import { AuthService } from "../services/auth.service";
 import { Subscription } from "rxjs";
 
 @Directive({
-    selector: '[appHasRole]'
+    selector: '[appHasRole]',
+    standalone: false
 })
 export class AppHasRoleDirective implements OnInit, OnDestroy {
 

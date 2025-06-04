@@ -3,8 +3,9 @@ import { ProfileModel } from '../common/models/profile.models';
 import { AuthService } from '../common/services/auth.service';
 
 @Component({
-  selector: 'app-home',
-  templateUrl: './home.component.html',
+    selector: 'app-home',
+    templateUrl: './home.component.html',
+    standalone: false
 })
 export class HomeComponent implements OnInit {
 

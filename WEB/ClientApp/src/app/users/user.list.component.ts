@@ -11,7 +11,8 @@ import { UserService } from '../common/services/user.service';
 @Component({
     selector: 'user-list',
     templateUrl: './user.list.component.html',
-    animations: [FadeThenShrink]
+    animations: [FadeThenShrink],
+    standalone: false
 })
 export class UserListComponent implements OnInit, OnDestroy {
 

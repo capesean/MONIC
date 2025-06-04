@@ -3,7 +3,8 @@ import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
     selector: 'app-confirm',
-    templateUrl: './confirm.component.html'
+    templateUrl: './confirm.component.html',
+    standalone: false
 })
 export class ConfirmModalComponent {
 

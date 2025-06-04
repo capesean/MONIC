@@ -2,7 +2,8 @@ import { Component, Input } from '@angular/core';
 
 @Component({
     selector: 'app-page-title',
-    templateUrl: './pagetitle.component.html'
+    templateUrl: './pagetitle.component.html',
+    standalone: false
 })
 export class PageTitleComponent {
     

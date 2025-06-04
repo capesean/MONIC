@@ -15,7 +15,9 @@ import { ControlValueAccessor, FormControl, NgControl, NgModel, NG_VALIDATORS, N
             provide: NG_VALIDATORS,
             multi: true,
             useExisting: ColorComponent
-        }]
+        }
+    ],
+    standalone: false
 })
 export class ColorComponent implements ControlValueAccessor, Validator {
 

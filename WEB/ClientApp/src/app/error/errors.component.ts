@@ -7,7 +7,8 @@ import { ErrorSearchOptions, ErrorSearchResponse, Error } from '../common/models
 
 @Component({
     selector: 'errors',
-    templateUrl: './errors.component.html'
+    templateUrl: './errors.component.html',
+    standalone: false
 })
 export class ErrorsComponent implements OnInit {
 

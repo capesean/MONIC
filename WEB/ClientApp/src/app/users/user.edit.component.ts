@@ -15,7 +15,8 @@ import { UserService } from '../common/services/user.service';
 
 @Component({
     selector: 'user-edit',
-    templateUrl: './user.edit.component.html'
+    templateUrl: './user.edit.component.html',
+    standalone: false
 })
 export class UserEditComponent implements OnInit {
 

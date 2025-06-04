@@ -9,7 +9,8 @@ import { Enum } from '../common/models/enums.model';
 
 @Component({
     selector: 'user-modal',
-    templateUrl: './user.modal.component.html'
+    templateUrl: './user.modal.component.html',
+    standalone: false
 })
 export class UserModalComponent implements OnInit {
 

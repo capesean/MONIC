@@ -7,7 +7,8 @@ import * as moment from 'moment';
 
 @Component({
     selector: 'error',
-    templateUrl: './error.component.html'
+    templateUrl: './error.component.html',
+    standalone: false
 })
 export class ErrorComponent implements OnInit {
 

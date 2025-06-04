@@ -3,7 +3,8 @@ import { DOCUMENT } from '@angular/common';
 
 @Component({
     selector: 'main-root',
-    templateUrl: './main.component.html'
+    templateUrl: './main.component.html',
+    standalone: false
 })
 export class MainComponent implements OnInit {
 

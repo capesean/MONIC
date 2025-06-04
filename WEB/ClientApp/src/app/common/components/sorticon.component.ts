@@ -3,7 +3,8 @@ import { SearchOptions } from '../models/http.model';
 
 @Component({
     selector: 'app-sort-icon',
-    templateUrl: './sorticon.component.html'
+    templateUrl: './sorticon.component.html',
+    standalone: false
 })
 export class SortIconComponent {
     

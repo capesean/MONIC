@@ -4,7 +4,8 @@ import * as zxcvbn from 'zxcvbn';
 @Component({
     selector: 'strength-meter',
     templateUrl: './strength-meter.component.html',
-    styleUrls: ['./strength-meter.component.css']
+    styleUrls: ['./strength-meter.component.css'],
+    standalone: false
 })
 export class StrengthMeterComponent implements OnInit, OnChanges {
 

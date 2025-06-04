@@ -12,6 +12,7 @@ import { DOCUMENT } from '@angular/common';
     selector: 'setup',
     templateUrl: './setup.component.html',
     styleUrls: ['./setup.css'],
+    standalone: false
 })
 export class SetupComponent implements OnInit {
 

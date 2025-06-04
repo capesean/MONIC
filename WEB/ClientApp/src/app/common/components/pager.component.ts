@@ -4,7 +4,8 @@ import { PagingHeaders } from './../models/http.model';
 @Component({
     selector: 'pager',
     templateUrl: './pager.component.html',
-    styleUrls: ['./pager.component.css']
+    styleUrls: ['./pager.component.css'],
+    standalone: false
 })
 export class PagerComponent {
 
