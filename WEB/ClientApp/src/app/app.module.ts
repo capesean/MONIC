@@ -1,11 +1,10 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { LOCALE_ID, NgModule } from '@angular/core';
-import { HTTP_INTERCEPTORS, provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
+import { HTTP_INTERCEPTORS, provideHttpClient, withInterceptors, withInterceptorsFromDi, withJsonpSupport } from '@angular/common/http';
 import { RouterModule } from '@angular/router';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ToastrModule } from 'ngx-toastr';
 import { AppRoutes } from './app.routes';
-import { NgHttpLoaderModule } from 'ng-http-loader';
 import { AppComponent } from './app.component';
 import { FormsModule } from '@angular/forms';
 import { NgbModule, NgbDateAdapter, NgbDateNativeAdapter, NgbTooltipConfig } from '@ng-bootstrap/ng-bootstrap';
@@ -15,14 +14,18 @@ import { AccessGuard } from './common/auth/auth.accessguard';
 import { AuthoriseRequestInterceptor, UnauthorisedResponseInterceptor } from './common/auth/auth.interceptors';
 import { SharedModule } from './shared.module';
 import { JsonDateInterceptor } from './common/interceptors/jsondate.interceptor';
+import { NgHttpLoaderComponent, pendingRequestsInterceptor$ } from 'ng-http-loader';
 import { CurrencyPipe, DecimalPipe, PercentPipe } from '@angular/common';
 
-@NgModule({ declarations: [
+@NgModule({
+    declarations: [
         AppComponent,
         NotFoundComponent
     ],
-    bootstrap: [AppComponent], imports: [BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
-        RouterModule.forRoot(AppRoutes, {}),
+    bootstrap: [AppComponent],
+    imports: [
+        BrowserModule,
+        RouterModule.forRoot(AppRoutes, { anchorScrolling: 'enabled' }),
         ToastrModule.forRoot({
             closeButton: true,
             positionClass: "toast-bottom-right",
@@ -31,11 +34,13 @@ import { CurrencyPipe, DecimalPipe, PercentPipe } from '@angular/common';
             progressBar: true,
             preventDuplicates: true
         }),
-        NgHttpLoaderModule.forRoot(),
         BrowserAnimationsModule,
+        NgHttpLoaderComponent,
         FormsModule,
         NgbModule,
-        SharedModule], providers: [
+        SharedModule
+    ],
+    providers: [
         { provide: HTTP_INTERCEPTORS, useClass: AuthoriseRequestInterceptor, multi: true },
         { provide: HTTP_INTERCEPTORS, useClass: UnauthorisedResponseInterceptor, multi: true },
         { provide: HTTP_INTERCEPTORS, useClass: JsonDateInterceptor, multi: true },
@@ -47,6 +52,7 @@ import { CurrencyPipe, DecimalPipe, PercentPipe } from '@angular/common';
         DecimalPipe,
         CurrencyPipe,
         { provide: LOCALE_ID, useValue: 'en-ZA' },
-        provideHttpClient(withInterceptorsFromDi())
-    ] })
+        provideHttpClient(withInterceptorsFromDi(), withJsonpSupport(), withInterceptors([pendingRequestsInterceptor$]))
+    ]
+})
 export class AppModule { }

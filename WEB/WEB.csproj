@@ -36,16 +36,52 @@
 
 	<ItemGroup>
 		<!-- Don't publish the SPA source files, but do show them in the project files list -->
+		<Compile Remove="ClientApp\.angular\**" />
+		<Compile Remove="ClientApp\dist\**" />
 		<Compile Remove="wwwroot\**" />
 		<Content Remove="$(SpaRoot)**" />
+		<Content Remove="ClientApp\.angular\**" />
+		<Content Remove="ClientApp\dist\**" />
 		<Content Remove="wwwroot\**" />
+		<EmbeddedResource Remove="ClientApp\.angular\**" />
+		<EmbeddedResource Remove="ClientApp\dist\**" />
 		<EmbeddedResource Remove="wwwroot\**" />
 		<None Remove="$(SpaRoot)**" />
+		<None Remove="ClientApp\.angular\**" />
+		<None Remove="ClientApp\dist\**" />
 		<None Remove="wwwroot\**" />
 		<None Include="$(SpaRoot)**" Exclude="$(SpaRoot)node_modules\**" />
 	</ItemGroup>
 
 	<ItemGroup>
+		<None Remove="ClientApp\.angular\cache\19.2.14\Website3\.tsbuildinfo" />
+		<None Remove="ClientApp\.angular\cache\19.2.14\Website3\angular-compiler.db" />
+		<None Remove="ClientApp\.angular\cache\19.2.14\Website3\angular-compiler.db-lock" />
+		<None Remove="ClientApp\dist\219.982a7e6ce4423f29.js" />
+		<None Remove="ClientApp\dist\329.3bb1539af03ed2cf.js" />
+		<None Remove="ClientApp\dist\3rdpartylicenses.txt" />
+		<None Remove="ClientApp\dist\667.40f79b4d57dd1548.js" />
+		<None Remove="ClientApp\dist\assets\favicon.ico" />
+		<None Remove="ClientApp\dist\assets\fonts\Roboto-Regular.ttf" />
+		<None Remove="ClientApp\dist\assets\images\emaillogo.png" />
+		<None Remove="ClientApp\dist\assets\images\logo.png" />
+		<None Remove="ClientApp\dist\assets\images\navbar-brand.png" />
+		<None Remove="ClientApp\dist\assets\images\reportlogo.png" />
+		<None Remove="ClientApp\dist\assets\templates\email.html" />
+		<None Remove="ClientApp\dist\common.b16ee92608ac9fd8.js" />
+		<None Remove="ClientApp\dist\fa-brands-400.0ad87b221b2a302b.woff2" />
+		<None Remove="ClientApp\dist\fa-brands-400.aaa8e2177da4fbb8.ttf" />
+		<None Remove="ClientApp\dist\fa-regular-400.0c4a336f909e1eaa.woff2" />
+		<None Remove="ClientApp\dist\fa-regular-400.f7cc78e99baa2bf5.ttf" />
+		<None Remove="ClientApp\dist\fa-solid-900.43a87668a828405a.ttf" />
+		<None Remove="ClientApp\dist\fa-solid-900.71ed02b437225dbb.woff2" />
+		<None Remove="ClientApp\dist\fa-v4compatibility.2484748dc83e00c0.ttf" />
+		<None Remove="ClientApp\dist\fa-v4compatibility.3d89958eb70dfc25.woff2" />
+		<None Remove="ClientApp\dist\index.html" />
+		<None Remove="ClientApp\dist\main.6bc269956f08dfcb.js" />
+		<None Remove="ClientApp\dist\polyfills.c43800a3a718ef4d.js" />
+		<None Remove="ClientApp\dist\runtime.08115c52f73039ac.js" />
+		<None Remove="ClientApp\dist\styles.dc6436ffa3c7a640.css" />
 		<None Remove="ClientApp\src\assets\images\emaillogo.png" />
 		<None Remove="ClientApp\src\assets\images\reportlogo.png" />
 	</ItemGroup>

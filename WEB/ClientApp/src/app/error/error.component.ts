@@ -3,7 +3,7 @@ import { ActivatedRoute } from '@angular/router';
 import { ErrorService } from '../common/services/error.service';
 import { Error, Exception } from '../common/models/error.model';
 import { BreadcrumbService } from '../common/services/breadcrumb.service';
-import * as moment from 'moment';
+import moment from 'moment';
 
 @Component({
     selector: 'error',
