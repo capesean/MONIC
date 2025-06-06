@@ -11,6 +11,9 @@ namespace WEB.Models
         [DisplayFormat(ConvertEmptyStringToNull = false), MaxLength(50)]
         public string Name { get; set; }
 
+        [MaxLength(7)]
+        public string Color { get; set; }
+
         public virtual List<FieldDTO> Fields { get; set; } = new List<FieldDTO>();
 
         public virtual List<IndicatorDTO> Indicators { get; set; } = new List<IndicatorDTO>();
@@ -29,6 +32,7 @@ namespace WEB.Models
 
             optionListDTO.OptionListId = optionList.OptionListId;
             optionListDTO.Name = optionList.Name;
+            optionListDTO.Color = optionList.Color;
 
             if (includeChildren)
             {
@@ -46,6 +50,7 @@ namespace WEB.Models
         public static void Hydrate(OptionList optionList, OptionListDTO optionListDTO)
         {
             optionList.Name = optionListDTO.Name;
+            optionList.Color = optionListDTO.Color;
         }
     }
 }

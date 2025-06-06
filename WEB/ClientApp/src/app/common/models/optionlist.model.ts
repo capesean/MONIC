@@ -6,6 +6,7 @@ import { Indicator } from './indicator.model';
 export class OptionList {
     optionListId: string;
     name: string;
+    color: string;
 
     fields: Field[];
     options: Option[];

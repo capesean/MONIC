@@ -40,6 +40,18 @@
                             </div>
                         </div>
 
+                        <div class="col-sm-6 col-md-4">
+                            <div class="form-group" [ngClass]="{ 'is-invalid': color.invalid }">
+
+                                <label for="color">
+                                    Color:
+                                </label>
+
+                                <app-color id="color" name="color" [(ngModel)]="optionList.color" #color="ngModel"></app-color>
+
+                            </div>
+                        </div>
+
                     </div>
 
                 </fieldset>

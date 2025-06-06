@@ -13,6 +13,9 @@ namespace WEB.Models
         [Required(AllowEmptyStrings = true), MaxLength(50)]
         public string Name { get; set; }
 
+        [MaxLength(7)]
+        public string Color { get; set; }
+
         public virtual ICollection<Option> Options { get; set; } = new List<Option>();
 
         public virtual ICollection<Field> Fields { get; set; } = new List<Field>();

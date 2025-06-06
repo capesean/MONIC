@@ -149,15 +149,20 @@ namespace WEB.Import
                 var dateId = dates[record.DateCode].DateId;
 
                 if (indicator.DataType == DataType.OptionList)
-                    if (!optionLookup[indicator.OptionListId.Value].ContainsKey(record.Value.HasValue ? (short)Convert.ToInt16(record.Value.Value) : short.MinValue))
-                        errors.Add(
-                            new ImportError(
-                                row,
-                                4,
-                                $"Invalid Option List value",
-                                Convert.ToString(record.Value)
-                            )
-                    );
+                {
+                    if (record.Value.HasValue || optionLookup[indicator.OptionListId.Value].ContainsKey(short.MinValue))
+                    {
+                        if (!optionLookup[indicator.OptionListId.Value].ContainsKey(record.Value.HasValue ? Convert.ToInt16(record.Value.Value) : short.MinValue))
+                            errors.Add(
+                                new ImportError(
+                                    row,
+                                    4,
+                                    $"Invalid Option List value",
+                                    Convert.ToString(record.Value)
+                                )
+                        );
+                    }
+                }
 
                 calculateElementIds.Add(indicatorId);
 

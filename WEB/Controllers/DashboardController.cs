@@ -16,10 +16,15 @@ namespace WEB.Controllers
         {
             var entities = await db.Entities.ToListAsync();
             var entityTypes = await db.EntityTypes.ToListAsync();
-            var indicators = await db.Indicators.ToListAsync();
+            var indicators = await db.Indicators
+                .Where(o => o.IndicatorStatus == IndicatorStatus.Enabled)
+                .OrderBy(o => o.Subcategory.Category.SortOrder)
+                .ThenBy(o => o.Subcategory.SortOrder)
+                .ThenBy(o => o.SortOrder)
+                .ToListAsync();
             var dates = await db.Dates.ToListAsync();
             // optimize!
-            var data = await db.Data.ToListAsync();
+            var data = await db.Data.Where(o => o.Indicator.IndicatorStatus == IndicatorStatus.Enabled).ToListAsync();
             //var data = await db.Data.Select(o => new { Entity = o.Entity.Code, Date = o.Date.Code, Indicator = o.Indicator.Code, o.Value }).ToListAsync();
             var categories = await db.Categories.ToListAsync();
             var subcategories = await db.Subcategories.ToListAsync();
@@ -27,7 +32,7 @@ namespace WEB.Controllers
             var fields = await db.Fields.ToListAsync();
             var itemFields = await db.ItemFields.ToListAsync();
             var options = await db.Options.ToListAsync();
-            var optionLists = await db.Options.ToListAsync();
+            var optionLists = await db.OptionLists.ToListAsync();
             var itemOptions = await db.ItemOptions.ToListAsync();
 
             return Ok(new
