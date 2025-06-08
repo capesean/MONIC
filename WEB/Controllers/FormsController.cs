@@ -55,7 +55,7 @@ namespace WEB.Controllers
             {
                 indicators,
                 data,
-                optionsMap 
+                optionsMap
             });
         }
 
@@ -100,6 +100,12 @@ namespace WEB.Controllers
 
                 if (indicator.IndicatorType != IndicatorType.Collected)
                     return BadRequest($"Indicator {indicator.Code} is not a Collected Indicator Type");
+
+                if (indicator.Minimum.HasValue && datumDTO.Value.HasValue && datumDTO.Value < indicator.Minimum)
+                    return BadRequest($"Value is below the minimum allowed for indicator {indicator.Code}");
+
+                if (indicator.Maximum.HasValue && datumDTO.Value.HasValue && datumDTO.Value > indicator.Maximum)
+                    return BadRequest($"Value is above the maximum allowed for indicator {indicator.Code}");
 
                 Datum datum = null;
 

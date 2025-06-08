@@ -50,7 +50,8 @@ export enum IndicatorStatuses {
 
 export enum IndicatorTypes {
     Collected,
-    Calculated
+    Calculated,
+    Group
 }
 
 export enum ItemTypes {
@@ -211,7 +212,8 @@ export class Enums {
 
      static IndicatorTypes: Enum[] = [
         { value: 0, name: 'Collected', label: 'Collected' },
-        { value: 1, name: 'Calculated', label: 'Calculated' }
+        { value: 1, name: 'Calculated', label: 'Calculated' },
+        { value: 2, name: 'Group', label: 'Group' }
      ]
 
      static ItemTypes: Enum[] = [

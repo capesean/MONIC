@@ -55,6 +55,10 @@ namespace WEB.Models
         [Required]
         public byte DecimalPlaces { get; set; }
 
+        public decimal? Minimum { get; set; }
+
+        public decimal? Maximum { get; set; }
+
         [Required]
         public int SortOrder { get; set; }
 
@@ -103,6 +107,8 @@ namespace WEB.Models
             indicatorDTO.DataType = indicator.DataType;
             indicatorDTO.OptionListId = indicator.OptionListId;
             indicatorDTO.DecimalPlaces = indicator.DecimalPlaces;
+            indicatorDTO.Minimum = indicator.Minimum;
+            indicatorDTO.Maximum = indicator.Maximum;
             indicatorDTO.SortOrder = indicator.SortOrder;
 
             if (includeParents)
@@ -151,6 +157,8 @@ namespace WEB.Models
             indicator.DataType = indicatorDTO.DataType;
             indicator.OptionListId = indicatorDTO.OptionListId;
             indicator.DecimalPlaces = indicatorDTO.DecimalPlaces;
+            indicator.Minimum = indicatorDTO.Minimum;
+            indicator.Maximum = indicatorDTO.Maximum;
             indicator.SortOrder = indicatorDTO.SortOrder;
         }
     }

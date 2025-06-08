@@ -221,6 +221,23 @@
                         </div>
                     </div>
 
+                    <div class="col-sm-6 col-md-4">
+                        <div class="form-group" [ngClass]="{ 'is-invalid': disableNote.invalid }">
+
+                            <label for="disableNote">
+                                Disable Note:
+                            </label>
+
+                            <div class="form-check">
+                                <input id="disableNote" name="disableNote" class="form-check-input" type="checkbox" [(ngModel)]="indicator.disableNote" #disableNote="ngModel" />
+                                <label class="form-check-label" for="disableNote">
+                                    Disable Note
+                                </label>
+                            </div>
+
+                        </div>
+                    </div>
+
                 </div>
 
                 <div class="row gx-3">
@@ -295,19 +312,26 @@
                         </div>
                     </div>
 
-                    <div class="col-sm-6 col-md-4">
-                        <div class="form-group" [ngClass]="{ 'is-invalid': disableNote.invalid }">
+                    <div class="col-sm-6 col-md-4 col-lg-3 col-xl-2">
+                        <div class="form-group" [ngClass]="{ 'is-invalid': minimum.invalid }">
 
-                            <label for="disableNote">
-                                Disable Note:
+                            <label for="value">
+                                Minimum:
                             </label>
 
-                            <div class="form-check">
-                                <input id="disableNote" name="disableNote" class="form-check-input" type="checkbox" [(ngModel)]="indicator.disableNote" #disableNote="ngModel" />
-                                <label class="form-check-label" for="disableNote">
-                                    Disable Note
-                                </label>
-                            </div>
+                            <input id="minimum" name="minimum" class="form-control" type="number" [(ngModel)]="indicator.minimum" #minimum="ngModel" step="any" />
+
+                        </div>
+                    </div>
+
+                    <div class="col-sm-6 col-md-4 col-lg-3 col-xl-2">
+                        <div class="form-group" [ngClass]="{ 'is-invalid': maximum.invalid }">
+
+                            <label for="value">
+                                Maximum:
+                            </label>
+
+                            <input id="maximum" name="maximum" class="form-control" type="number" [(ngModel)]="indicator.maximum" #maximum="ngModel" step="any" />
 
                         </div>
                     </div>

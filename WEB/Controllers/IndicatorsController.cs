@@ -104,6 +104,9 @@ namespace WEB.Controllers
             if (indicatorDTO.DataType == DataType.OptionList && indicatorDTO.OptionListId == null)
                 return BadRequest("Option list is required for option list data type.");
 
+            if (indicatorDTO.Minimum.HasValue && indicatorDTO.Maximum.HasValue && indicatorDTO.Minimum > indicatorDTO.Maximum)
+                return BadRequest("Minimum value cannot be greater than maximum value.");
+
             if (indicatorDTO.DataType != DataType.Number) indicatorDTO.Units = string.Empty;
             if (indicatorDTO.DataType == DataType.OptionList) indicatorDTO.DecimalPlaces = 0;
 

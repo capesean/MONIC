@@ -57,6 +57,12 @@ namespace WEB.Models
         [Required]
         public byte DecimalPlaces { get; set; }
 
+        [Column(TypeName = "decimal(20, 8)")]
+        public decimal? Minimum { get; set; }
+
+        [Column(TypeName = "decimal(20, 8)")]
+        public decimal? Maximum { get; set; }
+
         [Required]
         public DateTime CreatedDateUtc { get; set; }
 

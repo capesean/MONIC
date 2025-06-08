@@ -31,6 +31,8 @@ export class Indicator implements IHasFields {
     dataType: DataTypes;
     optionListId: string;
     decimalPlaces: number;
+    minimum: number;
+    maximum: number;
     sortOrder: number;
     entityType: EntityType;
     optionList: OptionList;

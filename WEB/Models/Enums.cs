@@ -54,7 +54,8 @@ namespace WEB.Models
     public enum IndicatorType
     {
         Collected,
-        Calculated
+        Calculated,
+        Group
     }
 
     public enum ItemType
@@ -291,6 +292,8 @@ namespace WEB.Models
                     return "Collected";
                 case IndicatorType.Calculated:
                     return "Calculated";
+                case IndicatorType.Group:
+                    return "Group";
                 default:
                     return null;
             }

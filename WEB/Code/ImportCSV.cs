@@ -99,6 +99,13 @@ namespace WEB.Import
                             // todo: if indicators have date applicability:
                             //if (!indicator.IndicatorDates.Any(o => o.DateId == date.DateId))
                             //    errors.Add(new ImportError(row, 3, "Indicator is not applicable on this Date", null));
+
+                            if (indicator.Minimum.HasValue && record.Value.HasValue && record.Value < indicator.Minimum)
+                                errors.Add(new ImportError(row, 4, "Value is below the minimum allowed for indicator", $"{indicator.Code} ({indicator.Minimum})"));
+
+                            if (indicator.Maximum.HasValue && record.Value.HasValue && record.Value > indicator.Maximum)
+                                errors.Add(new ImportError(row, 4, "Value is above the maximum allowed for indicator", $"{indicator.Code} ({indicator.Maximum})"));
+
                         }
 
                     }
