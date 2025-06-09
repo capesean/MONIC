@@ -183,8 +183,8 @@
                         <table class="table table-hover table-striped table-nowrap mb-0 align-middle">
                             <thead class="thead-light">
                                 <tr>
-                                    <th>Name</th>
                                     <th>Code</th>
+                                    <th>Name</th>
                                     <th>Indicator Type</th>
                                     <th>Frequency</th>
                                     <th class="w-20px text-center"><i class="fas fa-times text-danger cursor-pointer" (click)="deleteIndicators()" ngbTooltip="Delete all indicators" container="body" placement="left"></i></th>
@@ -192,8 +192,8 @@
                             </thead>
                             <tbody class="list cursor-pointer">
                                 <tr *ngFor="let indicator of indicators" (click)="goToIndicator(indicator)">
-                                    <td>{{ indicator.name }}</td>
                                     <td>{{ indicator.code }}</td>
+                                    <td>{{ indicator.name }}</td>
                                     <td>{{ indicatorTypes[indicator.indicatorType].label }}</td>
                                     <td>{{ dateTypes[indicator.frequency].label }}</td>
                                     <td class="text-center"><i class="fas fa-times cursor-pointer p-1 text-danger" (click)="deleteIndicator(indicator, $event)"></i></td>

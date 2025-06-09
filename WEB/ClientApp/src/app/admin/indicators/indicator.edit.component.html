@@ -336,6 +336,18 @@
                         </div>
                     </div>
 
+                    <div class="col-sm-6 col-md-4 col-lg-3 col-xl-2">
+                        <div class="form-group" [ngClass]="{ 'is-invalid': color.invalid }">
+
+                            <label for="color">
+                                Color:
+                            </label>
+
+                            <app-color id="color" name="color" [(ngModel)]="indicator.color" #color="ngModel"></app-color>
+
+                        </div>
+                    </div>
+
                     <ng-container *ngFor="let field of fields | groupPipe : null">
 
                         <!--[(file)]="files[field.fieldId]" (downloadClicked)="download($event)"-->

@@ -33,6 +33,7 @@ export class Indicator implements IHasFields {
     decimalPlaces: number;
     minimum: number;
     maximum: number;
+    color: string;
     groupingIndicatorId: string;
     sortOrder: number;
     entityType: EntityType;
