@@ -137,6 +137,22 @@ namespace WEB.Controllers
                 if (indicator == null)
                     return NotFound();
 
+                if (indicatorDTO.GroupingIndicatorId.HasValue)
+                {
+                    if (indicator.GroupingIndicatorId.HasValue && indicator.GroupingIndicatorId != indicatorDTO.GroupingIndicatorId)
+                        return BadRequest("This indicator is already a member of another group");
+
+                    var groupingIndicator = await db.Indicators
+                        .FirstOrDefaultAsync(o => o.IndicatorId == indicatorDTO.GroupingIndicatorId.Value);
+                    if (groupingIndicator == null) return NotFound("Grouping indicator not found");
+
+                    if (groupingIndicator.IndicatorType != IndicatorType.Group)
+                        return BadRequest("Grouping indicator must be of type Group");
+
+                    if (groupingIndicator.Frequency != indicatorDTO.Frequency)
+                        return BadRequest("Grouping indicator frequency must match the member indicator frequency");
+                }
+
                 if (!await db.Items.AnyAsync(o => o.ItemId == indicator.IndicatorId))
                     db.Entry(new Item { ItemId = indicator.IndicatorId, ItemType = ItemType.Entity }).State = EntityState.Added;
 
@@ -148,7 +164,8 @@ namespace WEB.Controllers
 
             ModelFactory.Hydrate(indicator, indicatorDTO, isNew);
 
-            await ItemFunctions.HydrateFieldsAsync(db, indicator.IndicatorId, indicatorDTO.ItemFields, indicatorDTO.ItemOptions);
+            if (indicatorDTO.ItemFields != null || indicatorDTO.ItemOptions != null)
+                await ItemFunctions.HydrateFieldsAsync(db, indicator.IndicatorId, indicatorDTO.ItemFields, indicatorDTO.ItemOptions);
 
             await db.SaveChangesAsync();
 
