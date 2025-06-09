@@ -32,6 +32,7 @@ export class IndicatorSelectComponent implements OnInit, ControlValueAccessor {
     @Input() indicatorStatus: Enum;
     @Input() entityType: EntityType;
     @Input() frequency: Enum;
+    @Input() groupingIndicator: Indicator;
     @Input() createdBy: User;
 
     disabled = false;

@@ -17,6 +17,7 @@
                 <div class="alert alert-info alert-dismissible" *ngIf="showFilters && indicatorStatus!=undefined">Filtered by status: {{indicatorStatus.label}}<button type="button" class="btn-close" data-bs-dismiss="alert" (click)="searchOptions.indicatorStatus=undefined;indicatorStatus=undefined;runSearch();" *ngIf="canRemoveFilters"></button></div>
                 <div class="alert alert-info alert-dismissible" *ngIf="showFilters && entityType!=undefined">Filtered by entity type: {{entityType.name}}<button type="button" class="btn-close" data-bs-dismiss="alert" (click)="searchOptions.entityTypeId=undefined;entityType=undefined;runSearch();" *ngIf="canRemoveFilters"></button></div>
                 <div class="alert alert-info alert-dismissible" *ngIf="showFilters && frequency!=undefined">Filtered by frequency: {{frequency.label}}<button type="button" class="btn-close" data-bs-dismiss="alert" (click)="searchOptions.frequency=undefined;frequency=undefined;runSearch();" *ngIf="canRemoveFilters"></button></div>
+                <div class="alert alert-info alert-dismissible" *ngIf="showFilters && groupingIndicator!=undefined">Filtered by grouping indicator: {{groupingIndicator.name}}<button type="button" class="btn-close" data-bs-dismiss="alert" (click)="searchOptions.groupingIndicatorId=undefined;groupingIndicator=undefined;runSearch();" *ngIf="canRemoveFilters"></button></div>
                 <div class="alert alert-info alert-dismissible" *ngIf="showFilters && createdBy!=undefined">Filtered by created by: {{createdBy.fullName}}<button type="button" class="btn-close" data-bs-dismiss="alert" (click)="searchOptions.createdById=undefined;createdBy=undefined;runSearch();" *ngIf="canRemoveFilters"></button></div>
 
                 <div class="row gx-3">
@@ -55,6 +56,12 @@
                         <select id="frequency" name="frequency" [(ngModel)]="searchOptions.frequency" #frequency="ngModel" class="form-select">
                             <option *ngFor="let dateType of dateTypes" [ngValue]="dateType.value">{{ dateType.label }}</option>
                         </select>
+                    </div>
+
+                    <div class="col-sm-6 col-md-6 col-lg-4" *ngIf="!groupingIndicator">
+                        <div class="form-group">
+                            <indicator-select id="groupingIndicatorId" name="groupingIndicatorId" [(ngModel)]="searchOptions.groupingIndicatorId"></indicator-select>
+                        </div>
                     </div>
 
                     <div class="col-sm-6 col-md-6 col-lg-4" *ngIf="!createdBy">

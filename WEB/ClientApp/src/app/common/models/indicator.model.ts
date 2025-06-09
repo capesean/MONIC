@@ -33,8 +33,10 @@ export class Indicator implements IHasFields {
     decimalPlaces: number;
     minimum: number;
     maximum: number;
+    groupingIndicatorId: string;
     sortOrder: number;
     entityType: EntityType;
+    groupingIndicator: Indicator;
     optionList: OptionList;
     subcategory: Subcategory;
 
@@ -44,6 +46,7 @@ export class Indicator implements IHasFields {
     sourceTokens: Token[];
     componentIndicators: ComponentIndicator[];
     tokens: Token[];
+    memberIndicators: Indicator[];
     itemFields: ItemField[] = [];
     itemOptions: ItemOption[] = [];
 
@@ -58,6 +61,7 @@ export class Indicator implements IHasFields {
         this.sourceTokens = [];
         this.componentIndicators = [];
         this.tokens = [];
+        this.memberIndicators = [];
     }
 }
 
@@ -69,6 +73,7 @@ export class IndicatorSearchOptions extends SearchOptions {
     indicatorStatus: IndicatorStatuses;
     entityTypeId: string;
     frequency: DateTypes;
+    groupingIndicatorId: string;
     createdById: string;
 }
 

@@ -5,7 +5,7 @@ import { NgForm } from '@angular/forms';
 import { HttpErrorResponse } from '@angular/common/http';
 import { BreadcrumbService } from '../../common/services/breadcrumb.service';
 import { ErrorService } from '../../common/services/error.service';
-import { Indicator } from '../../common/models/indicator.model';
+import { Indicator, IndicatorSearchOptions, IndicatorSearchResponse } from '../../common/models/indicator.model';
 import { Token, TokenSearchOptions } from '../../common/models/token.model';
 import { IndicatorService } from '../../common/services/indicator.service';
 import { Enum, Enums, OperatorTypes, TokenTypes, ParenthesisTypes, IndicatorStatuses, IndicatorTypes, ItemTypes, AggregationTypes, } from '../../common/models/enums.model';
@@ -20,6 +20,8 @@ import { DocumentService } from '../../common/services/document.service';
 import { Item } from '../../common/models/item.model';
 import { AppSettings } from '../../common/models/appsettings.model';
 import { SubcategoryService } from '../../common/services/subcategory.service';
+import { PagingHeaders } from '../../common/models/http.model';
+import { Subject } from 'rxjs';
 
 @Component({
     selector: 'indicator-edit',
@@ -57,8 +59,14 @@ export class IndicatorEditComponent extends ItemComponent implements OnInit {
     private helpModal: NgbModalRef;
     public appSettings: AppSettings;
 
+    public memberIndicatorsSearchOptions = new IndicatorSearchOptions();
+    public memberIndicatorsHeaders = new PagingHeaders();
+    public memberIndicators: Indicator[] = [];
+    public showMemberIndicatorsSearch = false;
+
     @ViewChild('helpModal') helpContent: TemplateRef<any>;
     @ViewChild('indicatorModal') indicatorModal: IndicatorModalComponent;
+    @ViewChild('memberIndicatorModal') memberIndicatorModal: IndicatorModalComponent;
 
     constructor(
         private router: Router,
@@ -88,6 +96,7 @@ export class IndicatorEditComponent extends ItemComponent implements OnInit {
 
                 this.indicator.indicatorId = indicatorId;
                 this.loadIndicator();
+                this.searchMemberIndicators();
 
             }
             else {
@@ -471,6 +480,85 @@ export class IndicatorEditComponent extends ItemComponent implements OnInit {
     closeHelpModal(): void {
         this.helpModal.dismiss();
     }
+
+    searchMemberIndicators(pageIndex = 0): Subject<IndicatorSearchResponse> {
+
+        this.memberIndicatorsSearchOptions.pageIndex = pageIndex;
+        this.memberIndicatorsSearchOptions.includeParents = true;
+        this.memberIndicatorsSearchOptions.groupingIndicatorId = this.indicator.indicatorId;
+
+        const subject = new Subject<IndicatorSearchResponse>()
+
+        this.indicatorService.search(this.memberIndicatorsSearchOptions)
+            .subscribe({
+                next: response => {
+                    subject.next(response);
+                    this.memberIndicators = response.indicators;
+                    this.memberIndicatorsHeaders = response.headers;
+                },
+                error: err => {
+                    this.errorService.handleError(err, "Member Indicators", "Load");
+                }
+            });
+
+        return subject;
+
+    }
+
+    addMemberIndicator() {
+        this.memberIndicatorModal.open()
+            .result.then(indicator => {
+                if (indicator.indicatorId === this.indicator.indicatorId) {
+                    this.toastr.error("Indicators cannot be grouped into themselves");
+                    return;
+                }
+                if (indicator.indicatorType === IndicatorTypes.Group) {
+                    this.toastr.error("Grouped indicators cannot be added to other indicator groups");
+                    return;
+                }
+                if (indicator.groupingIndicatorId && indicator.groupingIndicatorId !== this.indicator.indicatorId) {
+                    this.toastr.error("This indicator is already a member of another group");
+                    return;
+                }
+                if (indicator.frequency != this.indicator.frequency) {
+                    this.toastr.error("Grouping indicator frequency must match the member indicator frequency");
+                    return;
+                }
+
+                indicator.groupingIndicatorId = this.indicator.indicatorId;
+                this.indicatorService.save(indicator)
+                    .subscribe({
+                        next: () => {
+                            this.toastr.success("The member indicator has been added.", "Member Indicator");
+                            this.searchMemberIndicators();
+                        },
+                        error: err => this.errorService.handleError(err, "Member Indicator", "Add")
+                    });
+            });
+    }
+
+    removeGroupedIndicator(indicator: Indicator) {
+        let modalRef = this.modalService.open(ConfirmModalComponent, { centered: true });
+        (modalRef.componentInstance as ConfirmModalComponent).options = {
+            title: "Remove Grouped Indicator",
+            text: `Are you sure you want to remove the indicator <strong>${indicator.name}</strong> from this group?`,
+            deleteStyle: true,
+            ok: "Remove"
+        } as ConfirmModalOptions;
+        modalRef.result.then(() => {
+            indicator.groupingIndicatorId = undefined;
+            this.indicatorService.save(indicator)
+                .subscribe({
+                    next: () => {
+                        this.toastr.success("The grouped indicator has been removed.", "Remove Grouped Indicator");
+                        this.searchMemberIndicators();
+                    },
+                    error: err => this.errorService.handleError(err, "Grouped Indicator", "Remove")
+                });
+        }, () => { });
+
+    }
+
 }
 
 class LocalToken extends Token {

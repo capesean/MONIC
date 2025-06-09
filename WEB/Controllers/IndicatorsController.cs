@@ -25,6 +25,7 @@ namespace WEB.Controllers
                 results = results.Include(o => o.Subcategory.Category);
                 results = results.Include(o => o.EntityType);
                 results = results.Include(o => o.OptionList);
+                results = results.Include(o => o.GroupingIndicator);
             }
 
             if (searchOptions.IncludeChildren)
@@ -35,6 +36,7 @@ namespace WEB.Controllers
                 results = results.Include(o => o.SourceTokens);
                 results = results.Include(o => o.ComponentIndicators);
                 results = results.Include(o => o.Tokens);
+                results = results.Include(o => o.MemberIndicators);
             }
 
             if (!string.IsNullOrWhiteSpace(searchOptions.q))
@@ -46,6 +48,7 @@ namespace WEB.Controllers
             if (searchOptions.IndicatorStatus.HasValue) results = results.Where(o => o.IndicatorStatus == searchOptions.IndicatorStatus);
             if (searchOptions.EntityTypeId.HasValue) results = results.Where(o => o.EntityTypeId == searchOptions.EntityTypeId);
             if (searchOptions.Frequency.HasValue) results = results.Where(o => o.Frequency == searchOptions.Frequency);
+            if (searchOptions.GroupingIndicatorId.HasValue) results = results.Where(o => o.GroupingIndicatorId == searchOptions.GroupingIndicatorId);
             if (searchOptions.CreatedById.HasValue) results = results.Where(o => o.CreatedById == searchOptions.CreatedById);
 
             results = results.OrderBy(o => o.Subcategory.Category.SortOrder).ThenBy(o => o.Subcategory.SortOrder).ThenBy(o => o.SortOrder).ThenBy(o => o.Name);
@@ -64,6 +67,7 @@ namespace WEB.Controllers
                 .Include(o => o.EntityType)
                 .Include(o => o.OptionList)
                 .Include(o => o.CreatedBy)
+                .Include(o => o.GroupingIndicator)
                 .FirstOrDefaultAsync(o => o.IndicatorId == indicatorId);
 
             if (indicator == null)
@@ -104,11 +108,17 @@ namespace WEB.Controllers
             if (indicatorDTO.DataType == DataType.OptionList && indicatorDTO.OptionListId == null)
                 return BadRequest("Option list is required for option list data type.");
 
-            if (indicatorDTO.Minimum.HasValue && indicatorDTO.Maximum.HasValue && indicatorDTO.Minimum > indicatorDTO.Maximum)
-                return BadRequest("Minimum value cannot be greater than maximum value.");
-
             if (indicatorDTO.DataType != DataType.Number) indicatorDTO.Units = string.Empty;
             if (indicatorDTO.DataType == DataType.OptionList) indicatorDTO.DecimalPlaces = 0;
+
+            if (indicatorDTO.GroupingIndicatorId.HasValue)
+            {
+                if (indicatorDTO.GroupingIndicatorId == indicatorDTO.IndicatorId)
+                    return BadRequest("Indicators cannot be grouped into themselves.");
+
+                if (indicatorDTO.IndicatorType == IndicatorType.Group)
+                    return BadRequest("Grouped indicators cannot be added to other indicator groups.");
+            }
 
             var isNew = indicatorDTO.IndicatorId == Guid.Empty;
 
@@ -136,6 +146,22 @@ namespace WEB.Controllers
                 if (indicator == null)
                     return NotFound();
 
+                if (indicatorDTO.GroupingIndicatorId.HasValue)
+                {
+                    if (indicator.GroupingIndicatorId.HasValue && indicator.GroupingIndicatorId != indicatorDTO.GroupingIndicatorId)
+                        return BadRequest("This indicator is already a member of another group");
+
+                    var groupingIndicator = await db.Indicators
+                        .FirstOrDefaultAsync(o => o.IndicatorId == indicatorDTO.GroupingIndicatorId.Value);
+                    if (groupingIndicator == null) return NotFound("Grouping indicator not found");
+
+                    if (groupingIndicator.IndicatorType != IndicatorType.Group)
+                        return BadRequest("Grouping indicator must be of type Group");
+
+                    if (groupingIndicator.Frequency != indicatorDTO.Frequency)
+                        return BadRequest("Grouping indicator frequency must match the member indicator frequency");
+                }
+
                 if (!await db.Items.AnyAsync(o => o.ItemId == indicator.IndicatorId))
                     db.Entry(new Item { ItemId = indicator.IndicatorId, ItemType = ItemType.Entity }).State = EntityState.Added;
 
@@ -147,7 +173,8 @@ namespace WEB.Controllers
 
             ModelFactory.Hydrate(indicator, indicatorDTO, isNew);
 
-            await ItemFunctions.HydrateFieldsAsync(db, indicator.IndicatorId, indicatorDTO.ItemFields, indicatorDTO.ItemOptions);
+            if (indicatorDTO.ItemFields != null || indicatorDTO.ItemOptions != null)
+                await ItemFunctions.HydrateFieldsAsync(db, indicator.IndicatorId, indicatorDTO.ItemFields, indicatorDTO.ItemOptions);
 
             await db.SaveChangesAsync();
 
@@ -172,6 +199,9 @@ namespace WEB.Controllers
             if (await db.ComponentIndicators.AnyAsync(o => o.IndicatorId == indicator.IndicatorId))
                 return BadRequest("Unable to delete the indicator as it has related component indicators");
 
+            if (await db.Indicators.AnyAsync(o => o.GroupingIndicatorId == indicator.IndicatorId))
+                return BadRequest("Unable to delete the indicator as it has related member indicators");
+
             using (var transactionScope = Utilities.General.CreateTransactionScope())
             {
                 await db.Tokens.Where(o => o.IndicatorId == indicator.IndicatorId).ExecuteDeleteAsync();
@@ -182,7 +212,7 @@ namespace WEB.Controllers
 
                 ItemFunctions.DeleteFields(db, indicatorId, true);
 
-            db.Entry(indicator).State = EntityState.Deleted;
+                db.Entry(indicator).State = EntityState.Deleted;
 
                 await db.SaveChangesAsync();
 

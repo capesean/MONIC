@@ -59,10 +59,14 @@ namespace WEB.Models
 
         public decimal? Maximum { get; set; }
 
+        public Guid? GroupingIndicatorId { get; set; }
+
         [Required]
         public int SortOrder { get; set; }
 
         public EntityTypeDTO EntityType { get; set; }
+
+        public IndicatorDTO GroupingIndicator { get; set; }
 
         public OptionListDTO OptionList { get; set; }
 
@@ -71,6 +75,8 @@ namespace WEB.Models
         public virtual List<ComponentIndicatorDTO> ComponentIndicators { get; set; } = new List<ComponentIndicatorDTO>();
 
         public virtual List<DatumDTO> Data { get; set; } = new List<DatumDTO>();
+
+        public virtual List<IndicatorDTO> MemberIndicators { get; set; } = new List<IndicatorDTO>();
 
         public virtual List<IndicatorPermissionDTO> IndicatorPermissions { get; set; } = new List<IndicatorPermissionDTO>();
 
@@ -109,11 +115,13 @@ namespace WEB.Models
             indicatorDTO.DecimalPlaces = indicator.DecimalPlaces;
             indicatorDTO.Minimum = indicator.Minimum;
             indicatorDTO.Maximum = indicator.Maximum;
+            indicatorDTO.GroupingIndicatorId = indicator.GroupingIndicatorId;
             indicatorDTO.SortOrder = indicator.SortOrder;
 
             if (includeParents)
             {
                 indicatorDTO.EntityType = Create(indicator.EntityType);
+                indicatorDTO.GroupingIndicator = Create(indicator.GroupingIndicator);
                 indicatorDTO.OptionList = Create(indicator.OptionList);
                 indicatorDTO.Subcategory = Create(indicator.Subcategory);
             }
@@ -128,6 +136,8 @@ namespace WEB.Models
                     indicatorDTO.IndicatorPermissions.Add(Create(indicatorPermission));
                 foreach (var logFrameRowIndicator in indicator.LogFrameRowIndicators)
                     indicatorDTO.LogFrameRowIndicators.Add(Create(logFrameRowIndicator));
+                foreach (var memberIndicator in indicator.MemberIndicators)
+                    indicatorDTO.MemberIndicators.Add(Create(memberIndicator));
                 foreach (var sourceToken in indicator.SourceTokens)
                     indicatorDTO.SourceTokens.Add(Create(sourceToken));
                 foreach (var token in indicator.Tokens)
@@ -159,6 +169,7 @@ namespace WEB.Models
             indicator.DecimalPlaces = indicatorDTO.DecimalPlaces;
             indicator.Minimum = indicatorDTO.Minimum;
             indicator.Maximum = indicatorDTO.Maximum;
+            indicator.GroupingIndicatorId = indicatorDTO.GroupingIndicatorId;
             indicator.SortOrder = indicatorDTO.SortOrder;
         }
     }

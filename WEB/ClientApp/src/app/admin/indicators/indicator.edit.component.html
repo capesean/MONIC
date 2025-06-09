@@ -168,7 +168,7 @@
 
                 </div>
 
-                <div class="row gx-3" *ngIf="appSettings?.useSubmit || appSettings?.useVerify || appSettings?.useApprove">
+                <div class="row gx-3" *ngIf="indicator.indicatorType === 0 && (appSettings?.useSubmit || appSettings?.useVerify || appSettings?.useApprove)">
 
                     <div class="col-sm-6 col-md-4 col-lg-3 col-xl-2" *ngIf="appSettings?.useSubmit">
                         <div class="form-group" [ngClass]="{ 'is-invalid': requiresSubmit.invalid }">
@@ -469,7 +469,7 @@
                         <div class="card-header-title">
                             <h4>Documents</h4>
                             <div>
-                                <i class="fa fa-fw ms-1 fa-plus cursor-pointer" ngbTooltip="Add Component Indicators" (click)="showDocumentManageModal()"></i>
+                                <i class="fa fa-fw ms-1 fa-plus cursor-pointer" ngbTooltip="Add Documents" (click)="showDocumentManageModal()"></i>
                                 <i class="fa fa-fw ms-1 fa-search cursor-pointer" (click)="showDocumentsSearch=!showDocumentsSearch" ngbTooltip="Toggle search options"></i>
                             </div>
                         </div>
@@ -525,6 +525,130 @@
 
             </ng-template>
 
+            <ng-container ngbNavItem *ngIf="indicator.indicatorType === 2">
+
+                <a ngbNavLink>Grouped Indicators</a>
+
+                <ng-template ngbNavContent>
+
+                    <div class="card card-list">
+
+                        <div class="card-header">
+
+                            <div class="card-header-title">
+                                <h4>Grouped Indicators</h4>
+                                <div>
+                                    <i class="fa fa-fw ms-1 fa-plus cursor-pointer" ngbTooltip="Add Member Indicator" (click)="addMemberIndicator()"></i>
+                                    <i class="fa fa-fw ms-1 fa-search cursor-pointer" (click)="showMemberIndicatorsSearch=!showMemberIndicatorsSearch" ngbTooltip="Toggle search options"></i>
+                                </div>
+                            </div>
+
+                        </div>
+
+                        <div class="card-body" *ngIf="showMemberIndicatorsSearch" @FadeThenShrink>
+
+                            <form id="formSearchMemberIndicators" (submit)="searchMemberIndicators(0)" novalidate>
+
+                                <div class="row g-2">
+
+                                    <div class="col-sm-6 col-md-5 col-lg-4 col-xl-3">
+                                        <div class="form-group">
+                                            <input type="search" name="q" id="q" [(ngModel)]="memberIndicatorsSearchOptions.q" max="100" class="form-control" placeholder="Search member indicators" />
+                                        </div>
+                                    </div>
+
+                                    <div class="col-sm-6 col-md-4 col-lg-4 col-xl-3">
+                                        <div class="form-group">
+                                            <subcategory-select id="subcategoryId" name="subcategoryId" [(ngModel)]="memberIndicatorsSearchOptions.subcategoryId"></subcategory-select>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-sm-6 col-md-4 col-lg-4 col-xl-3">
+                                        <div class="form-group">
+                                            <select id="indicatorType" name="indicatorType" [(ngModel)]="memberIndicatorsSearchOptions.indicatorType" #indicatorType="ngModel" class="form-select">
+                                                <option [ngValue]="undefined" disabled>Indicator Type</option>
+                                                <option *ngFor="let indicatorType of indicatorTypes" [ngValue]="indicatorType.value">{{ indicatorType.label }}</option>
+                                            </select>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-sm-6 col-md-4 col-lg-4 col-xl-3">
+                                        <div class="form-group">
+                                            <select id="indicatorStatus" name="indicatorStatus" [(ngModel)]="memberIndicatorsSearchOptions.indicatorStatus" #indicatorStatus="ngModel" class="form-select">
+                                                <option [ngValue]="undefined" disabled>Status</option>
+                                                <option *ngFor="let indicatorStatus of indicatorStatuses" [ngValue]="indicatorStatus.value">{{ indicatorStatus.label }}</option>
+                                            </select>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-sm-6 col-md-4 col-lg-4 col-xl-3">
+                                        <div class="form-group">
+                                            <entity-type-select id="entityTypeId" name="entityTypeId" [(ngModel)]="memberIndicatorsSearchOptions.entityTypeId"></entity-type-select>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-sm-6 col-md-4 col-lg-4 col-xl-3">
+                                        <div class="form-group">
+                                            <select id="frequency" name="frequency" [(ngModel)]="memberIndicatorsSearchOptions.frequency" #frequency="ngModel" class="form-select">
+                                                <option [ngValue]="undefined" disabled>Frequency</option>
+                                                <option *ngFor="let dateType of dateTypes" [ngValue]="dateType.value">{{ dateType.label }}</option>
+                                            </select>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-sm-6 col-md-4 col-lg-4 col-xl-3">
+                                        <div class="form-group">
+                                            <user-select id="createdById" name="createdById" [(ngModel)]="memberIndicatorsSearchOptions.createdById"></user-select>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-sm-3 col-md-3 col-lg-3 col-xl-2">
+                                        <div class="form-group">
+                                            <button type="submit" class="btn btn-outline-primary me-2 mb-1">Search<i class="fas fa-search ms-2"></i></button>
+                                        </div>
+                                    </div>
+
+                                </div>
+
+                            </form>
+
+                        </div>
+
+                        <div class="table-responsive">
+
+                            <table class="table table-hover table-striped table-nowrap mb-0 align-middle">
+                                <thead class="thead-light">
+                                    <tr>
+                                        <th>Category</th>
+                                        <th>Subcategory</th>
+                                        <th>Code</th>
+                                        <th>Name</th>
+                                        <th class="w-20px text-center"><i class="fas fa-times"></i></th>
+                                    </tr>
+                                </thead>
+                                <tbody class="list">
+                                    <tr *ngFor="let indicator of memberIndicators">
+                                        <td>{{ indicator.subcategory.category.name }}</td>
+                                        <td>{{ indicator.subcategory.name }}</td>
+                                        <td>{{ indicator.code }}</td>
+                                        <td>{{ indicator.name }}</td>
+                                        <td class="text-center"><i class="fas fa-times cursor-pointer p-1 text-danger" (click)="removeGroupedIndicator(indicator)"></i></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+
+                        </div>
+
+                        <div class="card-footer">
+                            <pager [headers]="memberIndicatorsHeaders" (pageChanged)="searchMemberIndicators($event)"></pager>
+                        </div>
+
+                    </div>
+
+                </ng-template>
+
+            </ng-container>
+
         </ng-container>
 
     </nav>
@@ -567,3 +691,4 @@
 </ng-template>
 
 <indicator-modal #indicatorModal (change)="changeIndicator($event)" [canRemoveFilters]="false" [frequency]="dateTypes[indicator.frequency]" [indicatorType]="indicatorTypesCollected"></indicator-modal>
+<indicator-modal #memberIndicatorModal [canRemoveFilters]="false" [frequency]="dateTypes[indicator.frequency]"></indicator-modal>

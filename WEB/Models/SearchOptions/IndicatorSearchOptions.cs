@@ -16,6 +16,8 @@ namespace WEB.Models
 
         public DateType? Frequency { get; set; }
 
+        public Guid? GroupingIndicatorId { get; set; }
+
         public Guid? CreatedById { get; set; }
 
     }

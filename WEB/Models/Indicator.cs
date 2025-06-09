@@ -63,6 +63,8 @@ namespace WEB.Models
         [Column(TypeName = "decimal(20, 8)")]
         public decimal? Maximum { get; set; }
 
+        public Guid? GroupingIndicatorId { get; set; }
+
         [Required]
         public DateTime CreatedDateUtc { get; set; }
 
@@ -90,8 +92,13 @@ namespace WEB.Models
 
         public virtual ICollection<ComponentIndicator> ComponentIndicators { get; set; } = new List<ComponentIndicator>();
 
+        public virtual ICollection<Indicator> MemberIndicators { get; set; } = new List<Indicator>();
+
         [ForeignKey("EntityTypeId")]
         public virtual EntityType EntityType { get; set; }
+
+        [ForeignKey("GroupingIndicatorId")]
+        public virtual Indicator GroupingIndicator { get; set; }
 
         [ForeignKey("OptionListId")]
         public virtual OptionList OptionList { get; set; }

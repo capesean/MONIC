@@ -144,6 +144,9 @@ namespace WEB.Controllers
             if (await db.ComponentIndicators.AnyAsync(o => o.Indicator.SubcategoryId == subcategoryId))
                 return BadRequest("Unable to delete the indicators as there are related component indicators");
 
+            if (await db.Indicators.AnyAsync(o => o.GroupingIndicator.SubcategoryId == subcategoryId))
+                return BadRequest("Unable to delete the indicators as there are related indicators");
+
             using (var transactionScope = Utilities.General.CreateTransactionScope())
             {
                 await db.Tokens.Where(o => o.Indicator.SubcategoryId == subcategoryId).ExecuteDeleteAsync();
