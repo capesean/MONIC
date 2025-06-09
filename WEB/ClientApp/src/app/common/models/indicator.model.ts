@@ -46,7 +46,7 @@ export class Indicator implements IHasFields {
     sourceTokens: Token[];
     componentIndicators: ComponentIndicator[];
     tokens: Token[];
-    memberIndicators: Indicator[];
+    groupIndicators: Indicator[];
     itemFields: ItemField[] = [];
     itemOptions: ItemOption[] = [];
 
@@ -61,7 +61,7 @@ export class Indicator implements IHasFields {
         this.sourceTokens = [];
         this.componentIndicators = [];
         this.tokens = [];
-        this.memberIndicators = [];
+        this.groupIndicators = [];
     }
 }
 

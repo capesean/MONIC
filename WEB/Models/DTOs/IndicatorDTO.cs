@@ -76,7 +76,7 @@ namespace WEB.Models
 
         public virtual List<DatumDTO> Data { get; set; } = new List<DatumDTO>();
 
-        public virtual List<IndicatorDTO> MemberIndicators { get; set; } = new List<IndicatorDTO>();
+        public virtual List<IndicatorDTO> GroupIndicators { get; set; } = new List<IndicatorDTO>();
 
         public virtual List<IndicatorPermissionDTO> IndicatorPermissions { get; set; } = new List<IndicatorPermissionDTO>();
 
@@ -132,12 +132,12 @@ namespace WEB.Models
                     indicatorDTO.ComponentIndicators.Add(Create(componentIndicator));
                 foreach (var datum in indicator.Data)
                     indicatorDTO.Data.Add(Create(datum));
+                foreach (var groupIndicator in indicator.GroupIndicators)
+                    indicatorDTO.GroupIndicators.Add(Create(groupIndicator));
                 foreach (var indicatorPermission in indicator.IndicatorPermissions)
                     indicatorDTO.IndicatorPermissions.Add(Create(indicatorPermission));
                 foreach (var logFrameRowIndicator in indicator.LogFrameRowIndicators)
                     indicatorDTO.LogFrameRowIndicators.Add(Create(logFrameRowIndicator));
-                foreach (var memberIndicator in indicator.MemberIndicators)
-                    indicatorDTO.MemberIndicators.Add(Create(memberIndicator));
                 foreach (var sourceToken in indicator.SourceTokens)
                     indicatorDTO.SourceTokens.Add(Create(sourceToken));
                 foreach (var token in indicator.Tokens)

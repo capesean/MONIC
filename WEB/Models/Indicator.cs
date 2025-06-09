@@ -92,7 +92,7 @@ namespace WEB.Models
 
         public virtual ICollection<ComponentIndicator> ComponentIndicators { get; set; } = new List<ComponentIndicator>();
 
-        public virtual ICollection<Indicator> MemberIndicators { get; set; } = new List<Indicator>();
+        public virtual ICollection<Indicator> GroupIndicators { get; set; } = new List<Indicator>();
 
         [ForeignKey("EntityTypeId")]
         public virtual EntityType EntityType { get; set; }

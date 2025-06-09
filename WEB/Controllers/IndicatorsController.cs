@@ -36,7 +36,7 @@ namespace WEB.Controllers
                 results = results.Include(o => o.SourceTokens);
                 results = results.Include(o => o.ComponentIndicators);
                 results = results.Include(o => o.Tokens);
-                results = results.Include(o => o.MemberIndicators);
+                results = results.Include(o => o.GroupIndicators);
             }
 
             if (!string.IsNullOrWhiteSpace(searchOptions.q))
@@ -111,15 +111,6 @@ namespace WEB.Controllers
             if (indicatorDTO.DataType != DataType.Number) indicatorDTO.Units = string.Empty;
             if (indicatorDTO.DataType == DataType.OptionList) indicatorDTO.DecimalPlaces = 0;
 
-            if (indicatorDTO.GroupingIndicatorId.HasValue)
-            {
-                if (indicatorDTO.GroupingIndicatorId == indicatorDTO.IndicatorId)
-                    return BadRequest("Indicators cannot be grouped into themselves.");
-
-                if (indicatorDTO.IndicatorType == IndicatorType.Group)
-                    return BadRequest("Grouped indicators cannot be added to other indicator groups.");
-            }
-
             var isNew = indicatorDTO.IndicatorId == Guid.Empty;
 
             Indicator indicator;
@@ -146,22 +137,6 @@ namespace WEB.Controllers
                 if (indicator == null)
                     return NotFound();
 
-                if (indicatorDTO.GroupingIndicatorId.HasValue)
-                {
-                    if (indicator.GroupingIndicatorId.HasValue && indicator.GroupingIndicatorId != indicatorDTO.GroupingIndicatorId)
-                        return BadRequest("This indicator is already a member of another group");
-
-                    var groupingIndicator = await db.Indicators
-                        .FirstOrDefaultAsync(o => o.IndicatorId == indicatorDTO.GroupingIndicatorId.Value);
-                    if (groupingIndicator == null) return NotFound("Grouping indicator not found");
-
-                    if (groupingIndicator.IndicatorType != IndicatorType.Group)
-                        return BadRequest("Grouping indicator must be of type Group");
-
-                    if (groupingIndicator.Frequency != indicatorDTO.Frequency)
-                        return BadRequest("Grouping indicator frequency must match the member indicator frequency");
-                }
-
                 if (!await db.Items.AnyAsync(o => o.ItemId == indicator.IndicatorId))
                     db.Entry(new Item { ItemId = indicator.IndicatorId, ItemType = ItemType.Entity }).State = EntityState.Added;
 
@@ -173,8 +148,7 @@ namespace WEB.Controllers
 
             ModelFactory.Hydrate(indicator, indicatorDTO, isNew);
 
-            if (indicatorDTO.ItemFields != null || indicatorDTO.ItemOptions != null)
-                await ItemFunctions.HydrateFieldsAsync(db, indicator.IndicatorId, indicatorDTO.ItemFields, indicatorDTO.ItemOptions);
+            await ItemFunctions.HydrateFieldsAsync(db, indicator.IndicatorId, indicatorDTO.ItemFields, indicatorDTO.ItemOptions);
 
             await db.SaveChangesAsync();
 
@@ -200,7 +174,7 @@ namespace WEB.Controllers
                 return BadRequest("Unable to delete the indicator as it has related component indicators");
 
             if (await db.Indicators.AnyAsync(o => o.GroupingIndicatorId == indicator.IndicatorId))
-                return BadRequest("Unable to delete the indicator as it has related member indicators");
+                return BadRequest("Unable to delete the indicator as it has related group indicators");
 
             using (var transactionScope = Utilities.General.CreateTransactionScope())
             {
@@ -212,7 +186,7 @@ namespace WEB.Controllers
 
                 ItemFunctions.DeleteFields(db, indicatorId, true);
 
-                db.Entry(indicator).State = EntityState.Deleted;
+            db.Entry(indicator).State = EntityState.Deleted;
 
                 await db.SaveChangesAsync();
 

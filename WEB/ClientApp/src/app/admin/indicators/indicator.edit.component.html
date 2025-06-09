@@ -538,34 +538,34 @@
                             <div class="card-header-title">
                                 <h4>Grouped Indicators</h4>
                                 <div>
-                                    <i class="fa fa-fw ms-1 fa-plus cursor-pointer" ngbTooltip="Add Member Indicator" (click)="addMemberIndicator()"></i>
-                                    <i class="fa fa-fw ms-1 fa-search cursor-pointer" (click)="showMemberIndicatorsSearch=!showMemberIndicatorsSearch" ngbTooltip="Toggle search options"></i>
+                                    <i class="fa fa-fw ms-1 fa-plus cursor-pointer" ngbTooltip="Add Group Indicator" (click)="addGroupIndicator()"></i>
+                                    <i class="fa fa-fw ms-1 fa-search cursor-pointer" (click)="showGroupIndicatorsSearch=!showGroupIndicatorsSearch" ngbTooltip="Toggle search options"></i>
                                 </div>
                             </div>
 
                         </div>
 
-                        <div class="card-body" *ngIf="showMemberIndicatorsSearch" @FadeThenShrink>
+                        <div class="card-body" *ngIf="showGroupIndicatorsSearch" @FadeThenShrink>
 
-                            <form id="formSearchMemberIndicators" (submit)="searchMemberIndicators(0)" novalidate>
+                            <form id="formSearchGroupIndicators" (submit)="searchGroupIndicators(0)" novalidate>
 
                                 <div class="row g-2">
 
                                     <div class="col-sm-6 col-md-5 col-lg-4 col-xl-3">
                                         <div class="form-group">
-                                            <input type="search" name="q" id="q" [(ngModel)]="memberIndicatorsSearchOptions.q" max="100" class="form-control" placeholder="Search member indicators" />
+                                            <input type="search" name="q" id="q" [(ngModel)]="groupIndicatorsSearchOptions.q" max="100" class="form-control" placeholder="Search group indicators" />
                                         </div>
                                     </div>
 
                                     <div class="col-sm-6 col-md-4 col-lg-4 col-xl-3">
                                         <div class="form-group">
-                                            <subcategory-select id="subcategoryId" name="subcategoryId" [(ngModel)]="memberIndicatorsSearchOptions.subcategoryId"></subcategory-select>
+                                            <subcategory-select id="subcategoryId" name="subcategoryId" [(ngModel)]="groupIndicatorsSearchOptions.subcategoryId"></subcategory-select>
                                         </div>
                                     </div>
 
                                     <div class="col-sm-6 col-md-4 col-lg-4 col-xl-3">
                                         <div class="form-group">
-                                            <select id="indicatorType" name="indicatorType" [(ngModel)]="memberIndicatorsSearchOptions.indicatorType" #indicatorType="ngModel" class="form-select">
+                                            <select id="indicatorType" name="indicatorType" [(ngModel)]="groupIndicatorsSearchOptions.indicatorType" #indicatorType="ngModel" class="form-select">
                                                 <option [ngValue]="undefined" disabled>Indicator Type</option>
                                                 <option *ngFor="let indicatorType of indicatorTypes" [ngValue]="indicatorType.value">{{ indicatorType.label }}</option>
                                             </select>
@@ -574,7 +574,7 @@
 
                                     <div class="col-sm-6 col-md-4 col-lg-4 col-xl-3">
                                         <div class="form-group">
-                                            <select id="indicatorStatus" name="indicatorStatus" [(ngModel)]="memberIndicatorsSearchOptions.indicatorStatus" #indicatorStatus="ngModel" class="form-select">
+                                            <select id="indicatorStatus" name="indicatorStatus" [(ngModel)]="groupIndicatorsSearchOptions.indicatorStatus" #indicatorStatus="ngModel" class="form-select">
                                                 <option [ngValue]="undefined" disabled>Status</option>
                                                 <option *ngFor="let indicatorStatus of indicatorStatuses" [ngValue]="indicatorStatus.value">{{ indicatorStatus.label }}</option>
                                             </select>
@@ -583,13 +583,13 @@
 
                                     <div class="col-sm-6 col-md-4 col-lg-4 col-xl-3">
                                         <div class="form-group">
-                                            <entity-type-select id="entityTypeId" name="entityTypeId" [(ngModel)]="memberIndicatorsSearchOptions.entityTypeId"></entity-type-select>
+                                            <entity-type-select id="entityTypeId" name="entityTypeId" [(ngModel)]="groupIndicatorsSearchOptions.entityTypeId"></entity-type-select>
                                         </div>
                                     </div>
 
                                     <div class="col-sm-6 col-md-4 col-lg-4 col-xl-3">
                                         <div class="form-group">
-                                            <select id="frequency" name="frequency" [(ngModel)]="memberIndicatorsSearchOptions.frequency" #frequency="ngModel" class="form-select">
+                                            <select id="frequency" name="frequency" [(ngModel)]="groupIndicatorsSearchOptions.frequency" #frequency="ngModel" class="form-select">
                                                 <option [ngValue]="undefined" disabled>Frequency</option>
                                                 <option *ngFor="let dateType of dateTypes" [ngValue]="dateType.value">{{ dateType.label }}</option>
                                             </select>
@@ -598,7 +598,7 @@
 
                                     <div class="col-sm-6 col-md-4 col-lg-4 col-xl-3">
                                         <div class="form-group">
-                                            <user-select id="createdById" name="createdById" [(ngModel)]="memberIndicatorsSearchOptions.createdById"></user-select>
+                                            <user-select id="createdById" name="createdById" [(ngModel)]="groupIndicatorsSearchOptions.createdById"></user-select>
                                         </div>
                                     </div>
 
@@ -627,7 +627,7 @@
                                     </tr>
                                 </thead>
                                 <tbody class="list">
-                                    <tr *ngFor="let indicator of memberIndicators">
+                                    <tr *ngFor="let indicator of groupIndicators">
                                         <td>{{ indicator.subcategory.category.name }}</td>
                                         <td>{{ indicator.subcategory.name }}</td>
                                         <td>{{ indicator.code }}</td>
@@ -640,7 +640,7 @@
                         </div>
 
                         <div class="card-footer">
-                            <pager [headers]="memberIndicatorsHeaders" (pageChanged)="searchMemberIndicators($event)"></pager>
+                            <pager [headers]="groupIndicatorsHeaders" (pageChanged)="searchGroupIndicators($event)"></pager>
                         </div>
 
                     </div>
@@ -691,4 +691,4 @@
 </ng-template>
 
 <indicator-modal #indicatorModal (change)="changeIndicator($event)" [canRemoveFilters]="false" [frequency]="dateTypes[indicator.frequency]" [indicatorType]="indicatorTypesCollected"></indicator-modal>
-<indicator-modal #memberIndicatorModal [canRemoveFilters]="false" [frequency]="dateTypes[indicator.frequency]"></indicator-modal>
+<indicator-modal #groupIndicatorModal [canRemoveFilters]="false" [frequency]="dateTypes[indicator.frequency]"></indicator-modal>

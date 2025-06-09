@@ -91,8 +91,8 @@ export class IndicatorService extends SearchQuery {
         return this.http.delete<void>(`${environment.baseApiUrl}indicators/${indicatorId}/componentindicators`);
     }
 
-    deleteMemberIndicators(indicatorId: string): Observable<void> {
-        return this.http.delete<void>(`${environment.baseApiUrl}indicators/${indicatorId}/memberindicators`);
+    deleteGroupIndicators(indicatorId: string): Observable<void> {
+        return this.http.delete<void>(`${environment.baseApiUrl}indicators/${indicatorId}/groupindicators`);
     }
 
 }

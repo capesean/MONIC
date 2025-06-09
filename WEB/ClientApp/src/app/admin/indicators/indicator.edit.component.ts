@@ -59,14 +59,14 @@ export class IndicatorEditComponent extends ItemComponent implements OnInit {
     private helpModal: NgbModalRef;
     public appSettings: AppSettings;
 
-    public memberIndicatorsSearchOptions = new IndicatorSearchOptions();
-    public memberIndicatorsHeaders = new PagingHeaders();
-    public memberIndicators: Indicator[] = [];
-    public showMemberIndicatorsSearch = false;
+    public groupIndicatorsSearchOptions = new IndicatorSearchOptions();
+    public groupIndicatorsHeaders = new PagingHeaders();
+    public groupIndicators: Indicator[] = [];
+    public showGroupIndicatorsSearch = false;
 
     @ViewChild('helpModal') helpContent: TemplateRef<any>;
     @ViewChild('indicatorModal') indicatorModal: IndicatorModalComponent;
-    @ViewChild('memberIndicatorModal') memberIndicatorModal: IndicatorModalComponent;
+    @ViewChild('groupIndicatorModal') groupIndicatorModal: IndicatorModalComponent;
 
     constructor(
         private router: Router,
@@ -96,7 +96,7 @@ export class IndicatorEditComponent extends ItemComponent implements OnInit {
 
                 this.indicator.indicatorId = indicatorId;
                 this.loadIndicator();
-                this.searchMemberIndicators();
+                this.searchGroupIndicators();
 
             }
             else {
@@ -481,23 +481,23 @@ export class IndicatorEditComponent extends ItemComponent implements OnInit {
         this.helpModal.dismiss();
     }
 
-    searchMemberIndicators(pageIndex = 0): Subject<IndicatorSearchResponse> {
+    searchGroupIndicators(pageIndex = 0): Subject<IndicatorSearchResponse> {
 
-        this.memberIndicatorsSearchOptions.pageIndex = pageIndex;
-        this.memberIndicatorsSearchOptions.includeParents = true;
-        this.memberIndicatorsSearchOptions.groupingIndicatorId = this.indicator.indicatorId;
+        this.groupIndicatorsSearchOptions.pageIndex = pageIndex;
+        this.groupIndicatorsSearchOptions.includeParents = true;
+        this.groupIndicatorsSearchOptions.groupingIndicatorId = this.indicator.indicatorId;
 
         const subject = new Subject<IndicatorSearchResponse>()
 
-        this.indicatorService.search(this.memberIndicatorsSearchOptions)
+        this.indicatorService.search(this.groupIndicatorsSearchOptions)
             .subscribe({
                 next: response => {
                     subject.next(response);
-                    this.memberIndicators = response.indicators;
-                    this.memberIndicatorsHeaders = response.headers;
+                    this.groupIndicators = response.indicators;
+                    this.groupIndicatorsHeaders = response.headers;
                 },
                 error: err => {
-                    this.errorService.handleError(err, "Member Indicators", "Load");
+                    this.errorService.handleError(err, "Group Indicators", "Load");
                 }
             });
 
@@ -505,8 +505,8 @@ export class IndicatorEditComponent extends ItemComponent implements OnInit {
 
     }
 
-    addMemberIndicator() {
-        this.memberIndicatorModal.open()
+    addGroupIndicator() {
+        this.groupIndicatorModal.open()
             .result.then(indicator => {
                 if (indicator.indicatorId === this.indicator.indicatorId) {
                     this.toastr.error("Indicators cannot be grouped into themselves");
@@ -521,7 +521,7 @@ export class IndicatorEditComponent extends ItemComponent implements OnInit {
                     return;
                 }
                 if (indicator.frequency != this.indicator.frequency) {
-                    this.toastr.error("Grouping indicator frequency must match the member indicator frequency");
+                    this.toastr.error("Grouping indicator frequency must match the group indicator frequency");
                     return;
                 }
 
@@ -529,10 +529,10 @@ export class IndicatorEditComponent extends ItemComponent implements OnInit {
                 this.indicatorService.save(indicator)
                     .subscribe({
                         next: () => {
-                            this.toastr.success("The member indicator has been added.", "Member Indicator");
-                            this.searchMemberIndicators();
+                            this.toastr.success("The indicator has been added to the group.", "Group Indicator");
+                            this.searchGroupIndicators();
                         },
-                        error: err => this.errorService.handleError(err, "Member Indicator", "Add")
+                        error: err => this.errorService.handleError(err, "Group Indicator", "Add")
                     });
             });
     }
@@ -551,7 +551,7 @@ export class IndicatorEditComponent extends ItemComponent implements OnInit {
                 .subscribe({
                     next: () => {
                         this.toastr.success("The grouped indicator has been removed.", "Remove Grouped Indicator");
-                        this.searchMemberIndicators();
+                        this.searchGroupIndicators();
                     },
                     error: err => this.errorService.handleError(err, "Grouped Indicator", "Remove")
                 });
