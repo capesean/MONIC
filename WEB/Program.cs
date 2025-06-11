@@ -45,19 +45,30 @@ builder.Services.AddControllersWithViews(options => options.Filters.Add(typeof(A
  */
 
 // from: https://medium.com/@saravananganesan/how-to-breaking-asp-net-core-with-angular-project-into-frontend-and-backend-a3b3fd084b25
-var MyAllowedSpecificOrigins = "_allowSpecificOrigins";
+var policyName = "_dashboard";
 if (appSettings.IsDevelopment)
 {
     builder.Services.AddCors(options =>
     {
-        options.AddPolicy(name: MyAllowedSpecificOrigins, builder =>
+        options.AddPolicy(name: policyName, builder =>
         {
             // must match with the port in package.json -> scripts:start (also: appSettings.RootUrl - i.e. the front-end address)
             // and SpaProxyServerUrl in WEB.csproj
-            builder.WithOrigins("https://localhost:44410", "http://localhost:49823", "https://uhc2030dashboard.monic.tech");
+            builder.WithOrigins("https://localhost:44410", "http://localhost:49823");
             builder.AllowAnyMethod();
             builder.AllowAnyHeader();
             builder.WithExposedHeaders("X-Pagination", "Content-Disposition");
+        });
+    });
+}
+else
+{
+    builder.Services.AddCors(options =>
+    {
+        options.AddPolicy(name: policyName, builder =>
+        {
+            builder.WithOrigins("https://uhc2030dashboard.monic.tech");
+            builder.WithMethods("GET", "HEAD");
         });
     });
 }
@@ -164,14 +175,7 @@ else
     app.UseDeveloperExceptionPage();
 }
 
-if (appSettings.IsDevelopment)
-{
-    app.UseCors(MyAllowedSpecificOrigins);
-    //app.UseCors(x => x
-    //         .AllowAnyOrigin()
-    //         .AllowAnyMethod()
-    //         .AllowAnyHeader());
-}
+app.UseCors(policyName);
 
 app.UseHttpsRedirection();
 app.UseStaticFiles();
