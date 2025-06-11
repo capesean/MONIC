@@ -11,7 +11,7 @@ namespace WEB.Models
         [Required]
         public Guid SubcategoryId { get; set; }
 
-        [DisplayFormat(ConvertEmptyStringToNull = false), MaxLength(250)]
+        [DisplayFormat(ConvertEmptyStringToNull = false), MaxLength(500)]
         public string Name { get; set; }
 
         [DisplayFormat(ConvertEmptyStringToNull = false), MaxLength(20)]

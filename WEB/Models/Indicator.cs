@@ -13,7 +13,7 @@ namespace WEB.Models
         [Required]
         public Guid SubcategoryId { get; set; }
 
-        [Required(AllowEmptyStrings = true), MaxLength(250)]
+        [Required(AllowEmptyStrings = true), MaxLength(500)]
         public string Name { get; set; }
 
         [Required(AllowEmptyStrings = true), MaxLength(20)]

@@ -25,7 +25,7 @@
                                 Name:
                             </label>
 
-                            <input type="text" id="name" name="name" [(ngModel)]="indicator.name" #name="ngModel" class="form-control" required (ngModelChange)="changeBreadcrumb()" maxlength="250" />
+                            <input type="text" id="name" name="name" [(ngModel)]="indicator.name" #name="ngModel" class="form-control" required (ngModelChange)="changeBreadcrumb()" maxlength="500" />
 
                             <div *ngIf="name.errors?.required" class="invalid-feedback">
                                 Name is required

@@ -305,6 +305,9 @@
 	</ItemGroup>
 
 	<ItemGroup>
+		<Content Update="appsettings.monic-uhc2030.json">
+		  <CopyToPublishDirectory>Never</CopyToPublishDirectory>
+		</Content>
 		<Content Update="appsettings.monic-migsa.json">
 			<CopyToPublishDirectory>Never</CopyToPublishDirectory>
 		</Content>
