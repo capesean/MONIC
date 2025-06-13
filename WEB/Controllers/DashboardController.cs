@@ -24,8 +24,8 @@ namespace WEB.Controllers
                 .ToListAsync();
             var dates = await db.Dates.ToListAsync();
             // optimize!
-            var data = await db.Data.Where(o => o.Indicator.IndicatorStatus == IndicatorStatus.Enabled).ToListAsync();
-            //var data = await db.Data.Select(o => new { Entity = o.Entity.Code, Date = o.Date.Code, Indicator = o.Indicator.Code, o.Value }).ToListAsync();
+            //var data = await db.Data.Where(o => o.Indicator.IndicatorStatus == IndicatorStatus.Enabled).ToListAsync();
+            var data = await db.Data.Select(o => new { e = o.Entity.Code, d = o.Date.Code, i = o.Indicator.Code, o.Value }).ToListAsync();
             var categories = await db.Categories.ToListAsync();
             var subcategories = await db.Subcategories.ToListAsync();
             var entityLinks = await db.EntityLinks.ToListAsync();
@@ -41,7 +41,8 @@ namespace WEB.Controllers
                 entityTypes = entityTypes.Select(o => ModelFactory.Create(o)),
                 indicators = indicators.Select(o => ModelFactory.Create(o)),
                 dates = dates.Select(o => ModelFactory.Create(o)),
-                data = data.Select(o => ModelFactory.Create(o)),
+                //data = data.Select(o => ModelFactory.Create(o)),
+                data,
                 categories = categories.Select(o => ModelFactory.Create(o)),
                 subcategories = subcategories.Select(o => ModelFactory.Create(o)),
                 entityLinks = entityLinks.Select(o => ModelFactory.Create(o)),
