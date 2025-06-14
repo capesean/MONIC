@@ -118,6 +118,8 @@ namespace AuthorizationServer.Controllers
                     Scopes.Roles
                 }.Intersect(request.GetScopes()));
 
+                CleanupExpiredTokensForUser(user.Id);
+
                 // Returning a SignInResult will ask OpenIddict to issue the appropriate access/identity tokens.
                 return SignIn(principal, OpenIddictServerAspNetCoreDefaults.AuthenticationScheme);
             }
@@ -188,6 +190,8 @@ namespace AuthorizationServer.Controllers
                     Scopes.OfflineAccess,
                     Scopes.Roles
                 }.Intersect(request.GetScopes()));
+
+                CleanupExpiredTokensForUser(user.Id);
 
                 // Returning a SignInResult will ask OpenIddict to issue the appropriate access/identity tokens.
                 return SignIn(principal, OpenIddictServerAspNetCoreDefaults.AuthenticationScheme);
@@ -328,5 +332,22 @@ namespace AuthorizationServer.Controllers
             return Ok(opts.Value.Password);
         }
 
+        private void CleanupExpiredTokensForUser(Guid userId)
+        {
+            System.Threading.Tasks.Task.Run(async () =>
+            {
+                await using var db = await _dbFactory.CreateDbContextAsync();
+
+                await db.Database.ExecuteSqlRawAsync(@"
+                    delete from OpenIddictTokens
+                    where (ExpirationDate < getdate() or Status = 'Redeemed')
+                      and Subject = {0}", userId);
+
+                await db.Database.ExecuteSqlRawAsync(@"
+                    delete from OpenIddictAuthorizations
+                    where id not in (select authorizationid from OpenIddictTokens)
+                      and Subject = {0}", userId);
+            });
+        }
     }
 }
