@@ -23,17 +23,19 @@ namespace WEB.Controllers
                 .ThenBy(o => o.SortOrder)
                 .ToListAsync();
             var dates = await db.Dates.ToListAsync();
-            // optimize!
-            //var data = await db.Data.Where(o => o.Indicator.IndicatorStatus == IndicatorStatus.Enabled).ToListAsync();
-            var data = await db.Data.Select(o => new { e = o.Entity.Code, d = o.Date.Code, i = o.Indicator.Code, o.Value }).ToListAsync();
+
+            var itemIds = entities.Select(o => o.EntityId).Union(indicators.Select(o => o.IndicatorId));
+
+            var data = await db.Data.Where(o => o.Indicator.IndicatorStatus == IndicatorStatus.Enabled).Select(o => new { e = o.Entity.Code, d = o.Date.Code, i = o.Indicator.Code, o.Value }).ToListAsync();
             var categories = await db.Categories.ToListAsync();
             var subcategories = await db.Subcategories.ToListAsync();
             var entityLinks = await db.EntityLinks.ToListAsync();
-            var fields = await db.Fields.ToListAsync();
-            var itemFields = await db.ItemFields.ToListAsync();
-            var options = await db.Options.ToListAsync();
-            var optionLists = await db.OptionLists.ToListAsync();
-            var itemOptions = await db.ItemOptions.ToListAsync();
+            var fields = await db.Fields.Where(o => o.OptionList.Name != "Life Expectancy at Birth").OrderBy(o => o.SortOrder).ToListAsync();
+            var options = await db.Options.Where(o => o.OptionList.Name != "Life Expectancy at Birth").ToListAsync();
+            var optionLists = await db.OptionLists.Where(o => o.Name != "Life Expectancy at Birth").ToListAsync();
+
+            var itemFields = await db.ItemFields.Where(o => itemIds.Contains(o.ItemId)).ToListAsync();
+            var itemOptions = await db.ItemOptions.Where(o => itemIds.Contains(o.ItemId) && o.Option.OptionList.Name != "Life Expectancy at Birth").ToListAsync();
 
             return Ok(new
             {
@@ -41,7 +43,6 @@ namespace WEB.Controllers
                 entityTypes = entityTypes.Select(o => ModelFactory.Create(o)),
                 indicators = indicators.Select(o => ModelFactory.Create(o)),
                 dates = dates.Select(o => ModelFactory.Create(o)),
-                //data = data.Select(o => ModelFactory.Create(o)),
                 data,
                 categories = categories.Select(o => ModelFactory.Create(o)),
                 subcategories = subcategories.Select(o => ModelFactory.Create(o)),

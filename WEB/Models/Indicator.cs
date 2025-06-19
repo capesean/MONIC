@@ -63,6 +63,9 @@ namespace WEB.Models
         [Column(TypeName = "decimal(20, 8)")]
         public decimal? Maximum { get; set; }
 
+        [MaxLength(25)]
+        public string ShortLabel { get; set; }
+
         [MaxLength(7)]
         public string Color { get; set; }
 

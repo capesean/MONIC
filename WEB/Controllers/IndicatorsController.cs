@@ -108,7 +108,7 @@ namespace WEB.Controllers
             if (indicatorDTO.DataType == DataType.OptionList && indicatorDTO.OptionListId == null)
                 return BadRequest("Option list is required for option list data type.");
 
-            if (indicatorDTO.DataType != DataType.Number) indicatorDTO.Units = string.Empty;
+            if (indicatorDTO.DataType == DataType.OptionList) indicatorDTO.Units = string.Empty;
             if (indicatorDTO.DataType == DataType.OptionList) indicatorDTO.DecimalPlaces = 0;
 
             var isNew = indicatorDTO.IndicatorId == Guid.Empty;

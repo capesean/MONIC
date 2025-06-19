@@ -59,6 +59,9 @@ namespace WEB.Models
 
         public decimal? Maximum { get; set; }
 
+        [MaxLength(25)]
+        public string ShortLabel { get; set; }
+
         [MaxLength(7)]
         public string Color { get; set; }
 
@@ -118,6 +121,7 @@ namespace WEB.Models
             indicatorDTO.DecimalPlaces = indicator.DecimalPlaces;
             indicatorDTO.Minimum = indicator.Minimum;
             indicatorDTO.Maximum = indicator.Maximum;
+            indicatorDTO.ShortLabel = indicator.ShortLabel;
             indicatorDTO.Color = indicator.Color;
             indicatorDTO.GroupingIndicatorId = indicator.GroupingIndicatorId;
             indicatorDTO.SortOrder = indicator.SortOrder;
@@ -173,6 +177,7 @@ namespace WEB.Models
             indicator.DecimalPlaces = indicatorDTO.DecimalPlaces;
             indicator.Minimum = indicatorDTO.Minimum;
             indicator.Maximum = indicatorDTO.Maximum;
+            indicator.ShortLabel = indicatorDTO.ShortLabel;
             indicator.Color = indicatorDTO.Color;
             indicator.GroupingIndicatorId = indicatorDTO.GroupingIndicatorId;
             indicator.SortOrder = indicatorDTO.SortOrder;

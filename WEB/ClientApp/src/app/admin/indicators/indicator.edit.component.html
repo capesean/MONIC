@@ -292,7 +292,7 @@
                         </div>
                     </div>
 
-                    <div class="col-sm-6 col-md-4 col-lg-3 col-xl-2">
+                    <div class="col-sm-6 col-md-4 col-lg-3 col-xl-2" *ngIf="indicator.dataType !== 3">
                         <div class="form-group" [ngClass]="{ 'is-invalid': units.invalid }">
 
                             <label for="units">
@@ -332,6 +332,22 @@
                             </label>
 
                             <input id="maximum" name="maximum" class="form-control" type="number" [(ngModel)]="indicator.maximum" #maximum="ngModel" step="any" />
+
+                        </div>
+                    </div>
+
+                    <div class="col-sm-6 col-md-4">
+                        <div class="form-group" [ngClass]="{ 'is-invalid': shortLabel.invalid }">
+
+                            <label for="shortLabel">
+                                Short Label:
+                            </label>
+
+                            <input id="shortLabel" name="shortLabel" class="form-control" type="text" [(ngModel)]="indicator.shortLabel" #shortLabel="ngModel" maxlength="25" />
+
+                            <div *ngIf="shortLabel.errors?.maxlength" class="invalid-feedback">
+                                Short Label must be at most 25 characters long
+                            </div>
 
                         </div>
                     </div>
