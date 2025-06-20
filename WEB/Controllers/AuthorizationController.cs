@@ -355,7 +355,7 @@ namespace AuthorizationServer.Controllers
                     SELECT 1 FROM OpenIddictTokens t
                     WHERE t.AuthorizationId = a.Id)
                   AND a.CreationDate < DATEADD(minute, -5, GETUTCDATE())
-                  ANDa.Subject      = {0}",
+                  AND a.Subject      = {0}",
             userId);
         }
     }
