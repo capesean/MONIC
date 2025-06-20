@@ -122,7 +122,7 @@ namespace AuthorizationServer.Controllers
                 user.LastLoginDate = DateTime.UtcNow;
                 await userManager.UpdateAsync(user);
 
-                CleanupExpiredTokensForUser(user.Id);
+                await CleanupExpiredTokensForUserAsync(user.Id);
 
                 // Returning a SignInResult will ask OpenIddict to issue the appropriate access/identity tokens.
                 return SignIn(principal, OpenIddictServerAspNetCoreDefaults.AuthenticationScheme);
@@ -195,7 +195,7 @@ namespace AuthorizationServer.Controllers
                     Scopes.Roles
                 }.Intersect(request.GetScopes()));
 
-                CleanupExpiredTokensForUser(user.Id);
+                await CleanupExpiredTokensForUserAsync(user.Id);
 
                 // Returning a SignInResult will ask OpenIddict to issue the appropriate access/identity tokens.
                 return SignIn(principal, OpenIddictServerAspNetCoreDefaults.AuthenticationScheme);
@@ -336,22 +336,27 @@ namespace AuthorizationServer.Controllers
             return Ok(opts.Value.Password);
         }
 
-        private void CleanupExpiredTokensForUser(Guid userId)
+        private async System.Threading.Tasks.Task CleanupExpiredTokensForUserAsync(Guid userId)
         {
-            System.Threading.Tasks.Task.Run(async () =>
-            {
-                await using var db = await _dbFactory.CreateDbContextAsync();
+            await using var db = await _dbFactory.CreateDbContextAsync();
 
-                await db.Database.ExecuteSqlRawAsync(@"
-                    delete from OpenIddictTokens
-                    where (ExpirationDate < getdate() or Status = 'Redeemed')
-                      and Subject = {0}", userId);
+            // Tokens: expired/redeemed AND older than the grace period
+            await db.Database.ExecuteSqlRawAsync(@"
+                DELETE FROM OpenIddictTokens
+                WHERE (ExpirationDate < GETUTCDATE() OR Status = 'Redeemed')
+                  AND CreationDate  < DATEADD(minute, -5, GETUTCDATE())
+                  AND Subject       = {0}
+            ", userId);
 
-                await db.Database.ExecuteSqlRawAsync(@"
-                    delete from OpenIddictAuthorizations
-                    where id not in (select authorizationid from OpenIddictTokens)
-                      and Subject = {0}", userId);
-            });
+            // Authorizations: orphaned AND older than the grace period
+            await db.Database.ExecuteSqlRawAsync(@"
+                DELETE a FROM OpenIddictAuthorizations a
+                WHERE NOT EXISTS (
+                    SELECT 1 FROM OpenIddictTokens t
+                    WHERE t.AuthorizationId = a.Id)
+                  AND a.CreationDate < DATEADD(minute, -5, GETUTCDATE())
+                  ANDa.Subject      = {0}",
+            userId);
         }
     }
 }
