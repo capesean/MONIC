@@ -29,6 +29,7 @@ namespace WEB.Controllers
             {
                 results = results.Include(o => o.DatesInQuarter);
                 results = results.Include(o => o.DatesInYear);
+                results = results.Include(o => o.IndicatorDates);
                 results = results.Include(o => o.DefaultDateQuestionnaires);
                 results = results.Include(o => o.QuestionSummaries);
                 results = results.Include(o => o.Responses);
@@ -139,6 +140,9 @@ namespace WEB.Controllers
             if (await db.Questionnaires.AnyAsync(o => o.DefaultDateId == date.DateId))
                 return BadRequest("Unable to delete the date as it has related default date questionnaires");
 
+            if (await db.IndicatorDates.AnyAsync(o => o.DateId == date.DateId))
+                return BadRequest("Unable to delete the date as it has related indicator dates");
+
             using (var transactionScope = Utilities.General.CreateTransactionScope())
             {
                 await db.QuestionSummaries.Where(o => o.DateId == date.DateId).ExecuteDeleteAsync();
@@ -186,6 +190,9 @@ namespace WEB.Controllers
             if (await db.Questionnaires.AnyAsync(o => o.Date.QuarterId == dateId))
                 return BadRequest("Unable to delete the dates in quarter as there are related questionnaires");
 
+            if (await db.IndicatorDates.AnyAsync(o => o.Date.QuarterId == dateId))
+                return BadRequest("Unable to delete the dates in quarter as there are related indicator dates");
+
             using (var transactionScope = Utilities.General.CreateTransactionScope())
             {
                 await db.QuestionSummaries.Where(o => o.Date.DateId == dateId).ExecuteDeleteAsync();
@@ -212,6 +219,9 @@ namespace WEB.Controllers
 
             if (await db.Questionnaires.AnyAsync(o => o.Date.YearId == dateId))
                 return BadRequest("Unable to delete the dates in year as there are related questionnaires");
+
+            if (await db.IndicatorDates.AnyAsync(o => o.Date.YearId == dateId))
+                return BadRequest("Unable to delete the dates in year as there are related indicator dates");
 
             using (var transactionScope = Utilities.General.CreateTransactionScope())
             {

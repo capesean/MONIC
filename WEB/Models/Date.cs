@@ -44,6 +44,8 @@ namespace WEB.Models
 
         public virtual ICollection<QuestionSummary> QuestionSummaries { get; set; } = new List<QuestionSummary>();
 
+        public virtual ICollection<IndicatorDate> IndicatorDates { get; set; } = new List<IndicatorDate>();
+
         [ForeignKey("QuarterId")]
         public virtual Date Quarter { get; set; }
 

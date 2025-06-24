@@ -155,6 +155,8 @@ namespace WEB.Controllers
 
                 await db.IndicatorPermissions.Where(o => o.Indicator.SubcategoryId == subcategoryId).ExecuteDeleteAsync();
 
+                await db.IndicatorDates.Where(o => o.Indicator.SubcategoryId == subcategoryId).ExecuteDeleteAsync();
+
                 foreach (var indicator in db.Indicators.Where(o => o.SubcategoryId == subcategoryId).ToList())
             {
                 ItemFunctions.DeleteFields(db, indicator.IndicatorId, true);

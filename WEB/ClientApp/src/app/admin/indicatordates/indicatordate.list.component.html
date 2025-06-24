@@ -1,0 +1,70 @@
+<app-page-title></app-page-title>
+
+<div class="card card-list">
+
+    <div class="card-header">
+
+        <div class="card-header-title">
+            <h4>Indicator Dates</h4>
+            <div>
+                <i class="fa fa-fw ms-1 fa-search cursor-pointer" ngbTooltip="Toggle search options" (click)="showSearchOptions = !showSearchOptions"></i>
+            </div>
+        </div>
+
+    </div>
+
+    <div class="card-body" *ngIf="showSearchOptions" @FadeThenShrink>
+
+        <form (submit)="runSearch(0)" novalidate>
+
+            <div class="row g-2">
+
+                <div class="col-sm-6 col-md-5 col-xl-4">
+                    <div class="form-group">
+                        <indicator-select id="indicatorId" name="indicatorId" [(ngModel)]="searchOptions.indicatorId"></indicator-select>
+                    </div>
+                </div>
+
+                <div class="col-sm-6 col-md-5 col-xl-4">
+                    <div class="form-group">
+                        <date-select id="dateId" name="dateId" [(ngModel)]="searchOptions.dateId"></date-select>
+                    </div>
+                </div>
+
+                <div class="col-sm-3 col-md-3 col-lg-3 col-xl-2">
+                    <div class="form-group">
+                        <button type="submit" class="btn btn-outline-primary me-2 mb-1">Search<i class="fas fa-search ms-2"></i></button>
+                    </div>
+                </div>
+
+            </div>
+
+        </form>
+
+    </div>
+
+    <div class="table-responsive">
+
+        <table class="table table-hover table-striped table-nowrap mb-0 align-middle">
+            <thead class="thead-light">
+                <tr>
+                    <th>Indicator</th>
+                    <th>Date</th>
+                </tr>
+            </thead>
+            <tbody class="list cursor-pointer">
+                <tr *ngFor="let indicatorDate of indicatorDates" (click)="goToIndicatorDate(indicatorDate)">
+                    <td>{{ indicatorDate.indicator.name }}</td>
+                    <td>{{ indicatorDate.date.name }}</td>
+                </tr>
+            </tbody>
+        </table>
+
+    </div>
+
+    <div class="card-footer">
+        <pager [headers]="headers" (pageChanged)="runSearch($event)"></pager>
+    </div>
+
+</div>
+

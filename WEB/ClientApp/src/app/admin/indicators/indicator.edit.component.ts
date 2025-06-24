@@ -22,6 +22,10 @@ import { AppSettings } from '../../common/models/appsettings.model';
 import { SubcategoryService } from '../../common/services/subcategory.service';
 import { PagingHeaders } from '../../common/models/http.model';
 import { Subject } from 'rxjs';
+import { IndicatorDate, IndicatorDateSearchOptions, IndicatorDateSearchResponse } from '../../common/models/indicatordate.model';
+import { IndicatorDateService } from '../../common/services/indicatordate.service';
+import { AppDate } from '../../common/models/date.model';
+import { DateModalComponent } from '../dates/date.modal.component';
 
 @Component({
     selector: 'indicator-edit',
@@ -64,9 +68,15 @@ export class IndicatorEditComponent extends ItemComponent implements OnInit {
     public groupIndicators: Indicator[] = [];
     public showGroupIndicatorsSearch = false;
 
+    public indicatorDatesSearchOptions = new IndicatorDateSearchOptions();
+    public indicatorDatesHeaders = new PagingHeaders();
+    public indicatorDates: IndicatorDate[] = [];
+    public showIndicatorDatesSearch = false;
+
     @ViewChild('helpModal') helpContent: TemplateRef<any>;
     @ViewChild('indicatorModal') indicatorModal: IndicatorModalComponent;
     @ViewChild('groupIndicatorModal') groupIndicatorModal: IndicatorModalComponent;
+    @ViewChild('dateModal') dateModal: DateModalComponent;
 
     constructor(
         private router: Router,
@@ -81,6 +91,7 @@ export class IndicatorEditComponent extends ItemComponent implements OnInit {
         protected appService: AppService,
         protected documentService: DocumentService,
         private subcategoryService: SubcategoryService,
+        private indicatorDateService: IndicatorDateService
     ) {
         super(appService, errorService, cdref, documentService, modalService);
     }
@@ -96,7 +107,14 @@ export class IndicatorEditComponent extends ItemComponent implements OnInit {
 
                 this.indicator.indicatorId = indicatorId;
                 this.loadIndicator();
+
+                this.groupIndicatorsSearchOptions.groupingIndicatorId = this.indicator.indicatorId;
+                this.groupIndicatorsSearchOptions.includeParents = true;
                 this.searchGroupIndicators();
+
+                this.indicatorDatesSearchOptions.indicatorId = indicatorId;
+                this.indicatorDatesSearchOptions.includeParents = true;
+                this.searchIndicatorDates();
 
             }
             else {
@@ -484,8 +502,6 @@ export class IndicatorEditComponent extends ItemComponent implements OnInit {
     searchGroupIndicators(pageIndex = 0): Subject<IndicatorSearchResponse> {
 
         this.groupIndicatorsSearchOptions.pageIndex = pageIndex;
-        this.groupIndicatorsSearchOptions.includeParents = true;
-        this.groupIndicatorsSearchOptions.groupingIndicatorId = this.indicator.indicatorId;
 
         const subject = new Subject<IndicatorSearchResponse>()
 
@@ -557,6 +573,51 @@ export class IndicatorEditComponent extends ItemComponent implements OnInit {
                 });
         }, () => { });
 
+    }
+
+    searchIndicatorDates(pageIndex = 0): Subject<IndicatorDateSearchResponse> {
+
+        this.indicatorDatesSearchOptions.pageIndex = pageIndex;
+
+        const subject = new Subject<IndicatorDateSearchResponse>()
+
+        this.indicatorDateService.search(this.indicatorDatesSearchOptions)
+            .subscribe({
+                next: response => {
+                    subject.next(response);
+                    this.indicatorDates = response.indicatorDates;
+                    this.indicatorDatesHeaders = response.headers;
+                },
+                error: err => {
+                    this.errorService.handleError(err, "Indicator Dates", "Load");
+                }
+            });
+
+        return subject;
+
+    }
+
+    goToIndicatorDate(indicatorDate: IndicatorDate): void {
+        this.router.navigate(["indicatordates", indicatorDate.dateId], { relativeTo: this.route });
+    }
+
+    addIndicatorDates(): void {
+        this.dateModal.open();
+    }
+
+    changeDate(dates: AppDate[]): void {
+        if (!dates.length) return;
+        const dateIdList = dates.map(o => o.dateId);
+        this.indicatorService.saveIndicatorDates(this.indicator.indicatorId, dateIdList)
+            .subscribe({
+                next: () => {
+                    this.toastr.success("The indicator dates have been saved", "Save Indicator Dates");
+                    this.searchIndicatorDates(this.indicatorDatesHeaders.pageIndex);
+                },
+                error: err => {
+                    this.errorService.handleError(err, "Indicator Dates", "Save");
+                }
+            });
     }
 
 }

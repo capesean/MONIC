@@ -38,6 +38,9 @@ namespace WEB.Models
         public bool RequiresApprove { get; set; }
 
         [Required]
+        public bool UseIndicatorDates { get; set; }
+
+        [Required]
         public bool DisableNote { get; set; }
 
         [Required]
@@ -99,6 +102,8 @@ namespace WEB.Models
         public virtual ICollection<ComponentIndicator> ComponentIndicators { get; set; } = new List<ComponentIndicator>();
 
         public virtual ICollection<Indicator> GroupIndicators { get; set; } = new List<Indicator>();
+
+        public virtual ICollection<IndicatorDate> IndicatorDates { get; set; } = new List<IndicatorDate>();
 
         [ForeignKey("EntityTypeId")]
         public virtual EntityType EntityType { get; set; }

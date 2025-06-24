@@ -28,6 +28,7 @@ namespace WEB.Controllers
                     && o.EntityTypeId == entityTypeId
                     && o.IndicatorType == IndicatorType.Collected
                     )
+                .Where(o => !o.UseIndicatorDates || o.IndicatorDates.Any(d => d.DateId == dateId))
                 .OrderBy(o => o.Subcategory.Category.SortOrder)
                 .ThenBy(o => o.Subcategory.SortOrder)
                 .ThenBy(o => o.SortOrder)
@@ -100,6 +101,9 @@ namespace WEB.Controllers
 
                 if (indicator.IndicatorType != IndicatorType.Collected)
                     return BadRequest($"Indicator {indicator.Code} is not a Collected Indicator Type");
+
+                if (indicator.UseIndicatorDates && !await db.IndicatorDates.Where(o => o.IndicatorId == indicator.IndicatorId && o.DateId == dateId).AnyAsync())
+                    return BadRequest($"Indicator {indicator.Code} is not collected on this date");
 
                 if (indicator.Minimum.HasValue && datumDTO.Value.HasValue && datumDTO.Value < indicator.Minimum)
                     return BadRequest($"Value is below the minimum allowed for indicator {indicator.Code}");

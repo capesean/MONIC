@@ -221,6 +221,23 @@
                         </div>
                     </div>
 
+                    <div class="col-sm-6 col-md-4 col-lg-3 col-xl-2">
+                        <div class="form-group" [ngClass]="{ 'is-invalid': useIndicatorDates.invalid }">
+
+                            <label for="useIndicatorDates">
+                                Use Specific Dates:
+                            </label>
+
+                            <div class="form-check">
+                                <input id="useIndicatorDates" name="useIndicatorDates" class="form-check-input" type="checkbox" [(ngModel)]="indicator.useIndicatorDates" #useIndicatorDates="ngModel" />
+                                <label class="form-check-label" for="useIndicatorDates">
+                                    Use Specific Dates
+                                </label>
+                            </div>
+
+                        </div>
+                    </div>
+
                     <div class="col-sm-6 col-md-4">
                         <div class="form-group" [ngClass]="{ 'is-invalid': disableNote.invalid }">
 
@@ -679,11 +696,84 @@
 
         </ng-container>
 
+        <ng-container ngbNavItem *ngIf="indicator.useIndicatorDates">
+
+            <a ngbNavLink>Indicator Dates</a>
+
+            <ng-template ngbNavContent>
+
+                <div class="card card-list">
+
+                    <div class="card-header">
+
+                        <div class="card-header-title">
+                            <h4>Indicator Dates</h4>
+                            <div>
+                                <i class="fa fa-fw ms-1 fa-plus cursor-pointer" ngbTooltip="Add Indicator Dates" (click)="addIndicatorDates()"></i>
+                                <i class="fa fa-fw ms-1 fa-search cursor-pointer" (click)="showIndicatorDatesSearch=!showIndicatorDatesSearch" ngbTooltip="Toggle search options"></i>
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <div class="card-body" *ngIf="showIndicatorDatesSearch" @FadeThenShrink>
+
+                        <form id="formSearchIndicatorDates" (submit)="searchIndicatorDates(0)" novalidate>
+
+                            <div class="row g-2">
+
+                                <div class="col-sm-6 col-md-4 col-lg-4 col-xl-3">
+                                    <div class="form-group">
+                                        <date-select id="dateId" name="dateId" [(ngModel)]="indicatorDatesSearchOptions.dateId"></date-select>
+                                    </div>
+                                </div>
+
+                                <div class="col-sm-3 col-md-3 col-lg-3 col-xl-2">
+                                    <div class="form-group">
+                                        <button type="submit" class="btn btn-outline-primary me-2 mb-1">Search<i class="fas fa-search ms-2"></i></button>
+                                    </div>
+                                </div>
+
+                            </div>
+
+                        </form>
+
+                    </div>
+
+                    <div class="table-responsive">
+
+                        <table class="table table-hover table-striped table-nowrap mb-0 align-middle">
+                            <thead class="thead-light">
+                                <tr>
+                                    <th>Date</th>
+                                </tr>
+                            </thead>
+                            <tbody class="list cursor-pointer">
+                                <tr *ngFor="let indicatorDate of indicatorDates" (click)="goToIndicatorDate(indicatorDate)">
+                                    <td>{{ indicatorDate.date.name }}</td>
+                                </tr>
+                            </tbody>
+                        </table>
+
+                    </div>
+
+                    <div class="card-footer">
+                        <pager [headers]="indicatorDatesHeaders" (pageChanged)="searchIndicatorDates($event)"></pager>
+                    </div>
+
+                </div>
+
+            </ng-template>
+
+        </ng-container>
+
     </nav>
 
     <div [ngbNavOutlet]="nav" class="mt-1"></div>
 
 </ng-container>
+
+<date-modal #dateModal (changes)="changeDate($event)" [multiple]="true"></date-modal>
 
 <ng-template #helpModal let-modal>
     <div class="modal-header">

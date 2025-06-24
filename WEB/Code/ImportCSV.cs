@@ -51,6 +51,8 @@ namespace WEB.Import
                         )
                 );
 
+            var indicatorDateCodes = new Dictionary<Guid, HashSet<string>>();
+
             using (var ms = new MemoryStream(fileContents))
             using (var stream = new StreamReader(ms))
             using (var csv = new CsvReader(stream, config))
@@ -97,8 +99,14 @@ namespace WEB.Import
                                 errors.Add(new ImportError(row, 3, "Date (type) mismatch with Reporting Frequency", null));
 
                             // todo: if indicators have date applicability:
-                            //if (!indicator.IndicatorDates.Any(o => o.DateId == date.DateId))
-                            //    errors.Add(new ImportError(row, 3, "Indicator is not applicable on this Date", null));
+                            if (indicator.UseIndicatorDates)
+                            {
+                                if (!indicatorDateCodes.ContainsKey(indicator.IndicatorId))
+                                    indicatorDateCodes.Add(indicator.IndicatorId, [.. db.IndicatorDates.Where(o => o.IndicatorId == indicator.IndicatorId).Select(o => o.Date.Code)]);
+
+                                if (!indicatorDateCodes[indicator.IndicatorId].Contains(record.DateCode))
+                                    errors.Add(new ImportError(row, 3, "Indicator is not applicable on this Date", null));
+                            }
 
                             if (indicator.Minimum.HasValue && record.Value.HasValue && record.Value < indicator.Minimum)
                                 errors.Add(new ImportError(row, 4, "Value is below the minimum allowed for indicator", $"{indicator.Code} ({indicator.Minimum})"));

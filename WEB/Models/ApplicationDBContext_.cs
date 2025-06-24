@@ -24,6 +24,7 @@ namespace WEB.Models
         public DbSet<FolderContent> FolderContents { get; set; }
         public DbSet<Group> Groups { get; set; }
         public DbSet<Indicator> Indicators { get; set; }
+        public DbSet<IndicatorDate> IndicatorDates { get; set; }
         public DbSet<IndicatorPermission> IndicatorPermissions { get; set; }
         public DbSet<Item> Items { get; set; }
         public DbSet<ItemField> ItemFields { get; set; }
@@ -161,6 +162,10 @@ namespace WEB.Models
                 .HasIndex(o => o.Code)
                 .HasDatabaseName("IX_Indicator_Code")
                 .IsUnique();
+
+            modelBuilder.Entity<IndicatorDate>()
+                .HasKey(o => new { o.IndicatorId, o.DateId })
+                .HasName("PK_IndicatorDate");
 
             modelBuilder.Entity<ItemField>()
                 .HasKey(o => new { o.ItemId, o.FieldId })

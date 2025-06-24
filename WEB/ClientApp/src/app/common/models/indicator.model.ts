@@ -9,6 +9,7 @@ import { IndicatorPermission } from './indicatorpermission.model';
 import { LogFrameRowIndicator } from './logframerowindicator.model';
 import { Token } from './token.model';
 import { ComponentIndicator } from './componentindicator.model';
+import { IndicatorDate } from './indicatordate.model';
 import { IHasFields } from './ihasfields.model';
 import { ItemField } from './itemfield.model';
 import { ItemOption } from './itemoption.model';
@@ -24,6 +25,7 @@ export class Indicator implements IHasFields {
     requiresSubmit: boolean;
     requiresVerify: boolean;
     requiresApprove: boolean;
+    useIndicatorDates: boolean;
     disableNote: boolean;
     entityTypeId: string;
     frequency: DateTypes;
@@ -47,6 +49,7 @@ export class Indicator implements IHasFields {
     logFrameRowIndicators: LogFrameRowIndicator[];
     sourceTokens: Token[];
     componentIndicators: ComponentIndicator[];
+    indicatorDates: IndicatorDate[];
     tokens: Token[];
     groupIndicators: Indicator[];
     itemFields: ItemField[] = [];
@@ -62,6 +65,7 @@ export class Indicator implements IHasFields {
         this.logFrameRowIndicators = [];
         this.sourceTokens = [];
         this.componentIndicators = [];
+        this.indicatorDates = [];
         this.tokens = [];
         this.groupIndicators = [];
     }

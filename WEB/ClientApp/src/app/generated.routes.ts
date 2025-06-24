@@ -36,6 +36,8 @@ import { GroupListComponent } from './admin/groups/group.list.component';
 import { GroupEditComponent } from './admin/groups/group.edit.component';
 import { IndicatorListComponent } from './admin/indicators/indicator.list.component';
 import { IndicatorEditComponent } from './admin/indicators/indicator.edit.component';
+import { IndicatorDateListComponent } from './admin/indicatordates/indicatordate.list.component';
+import { IndicatorDateEditComponent } from './admin/indicatordates/indicatordate.edit.component';
 import { IndicatorPermissionListComponent } from './admin/indicatorpermissions/indicatorpermission.list.component';
 import { IndicatorPermissionEditComponent } from './admin/indicatorpermissions/indicatorpermission.edit.component';
 import { ItemListComponent } from './admin/items/item.list.component';
@@ -480,9 +482,32 @@ export const GeneratedRoutes: Route[] = [
                     menu: 'admin',
                     submenu: 'indicators',
                     breadcrumb: 'Add Indicator'
-                }
+                },
+                children: [
+                    {
+                        path: 'indicatordates/:dateId',
+                        component: IndicatorDateEditComponent,
+                        canActivate: [AccessGuard],
+                        canActivateChild: [AccessGuard],
+                        data: {
+                            menu: 'admin',
+                            submenu: 'indicatorDates',
+                            breadcrumb: 'Add Indicator Date'
+                        }
+                    }
+                ]
             }
         ]
+    },
+    {
+        path: 'indicatordates',
+        canActivate: [AccessGuard],
+        canActivateChild: [AccessGuard],
+        component: IndicatorDateListComponent,
+        data: {
+            submenu: 'indicatorDates',
+            breadcrumb: 'Indicator Dates'
+        }
     },
     {
         path: 'indicatorpermissions',

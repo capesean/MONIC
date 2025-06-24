@@ -35,6 +35,7 @@ namespace WEB.Controllers
                 results = results.Include(o => o.LogFrameRowIndicators);
                 results = results.Include(o => o.SourceTokens);
                 results = results.Include(o => o.ComponentIndicators);
+                results = results.Include(o => o.IndicatorDates);
                 results = results.Include(o => o.Tokens);
                 results = results.Include(o => o.GroupIndicators);
             }
@@ -201,6 +202,8 @@ namespace WEB.Controllers
 
                 await db.IndicatorPermissions.Where(o => o.IndicatorId == indicator.IndicatorId).ExecuteDeleteAsync();
 
+                await db.IndicatorDates.Where(o => o.IndicatorId == indicator.IndicatorId).ExecuteDeleteAsync();
+
                 ItemFunctions.DeleteFields(db, indicatorId, true);
 
             db.Entry(indicator).State = EntityState.Deleted;
@@ -225,6 +228,29 @@ namespace WEB.Controllers
             {
                 db.Entry(indicator).State = EntityState.Modified;
                 indicator.SortOrder = Array.IndexOf(sortedIds, indicator.IndicatorId);
+            }
+
+            await db.SaveChangesAsync();
+
+            return Ok();
+        }
+
+        [HttpPost("{indicatorId:Guid}/indicatordates"), AuthorizeRoles(Roles.Administrator)]
+        public async Task<IActionResult> SaveIndicatorDates(Guid indicatorId, [FromBody] Guid[] dateIds)
+        {
+            if (!ModelState.IsValid) return BadRequest(ModelState);
+
+            var indicatorDates = await db.IndicatorDates
+                .Where(o => o.IndicatorId == indicatorId)
+                .ToListAsync();
+
+            foreach (var dateId in dateIds)
+            {
+                if (!indicatorDates.Any(o => o.DateId == dateId))
+                {
+                    var indicatorDate = new IndicatorDate { IndicatorId = indicatorId, DateId = dateId };
+                    db.Entry(indicatorDate).State = EntityState.Added;
+                }
             }
 
             await db.SaveChangesAsync();

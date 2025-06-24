@@ -24,7 +24,9 @@ namespace WEB.Controllers
                 .ToListAsync();
             var dates = await db.Dates.ToListAsync();
 
-            var itemIds = entities.Select(o => o.EntityId).Union(indicators.Select(o => o.IndicatorId));
+            var indicatorIds = indicators.Select(o => o.IndicatorId);
+
+            var itemIds = entities.Select(o => o.EntityId).Union(indicatorIds);
 
             var data = await db.Data.Where(o => o.Indicator.IndicatorStatus == IndicatorStatus.Enabled).Select(o => new { e = o.Entity.Code, d = o.Date.Code, i = o.Indicator.Code, o.Value }).ToListAsync();
             var categories = await db.Categories.ToListAsync();
@@ -33,7 +35,7 @@ namespace WEB.Controllers
             var fields = await db.Fields.Where(o => o.OptionList.Name != "Life Expectancy at Birth").OrderBy(o => o.SortOrder).ToListAsync();
             var options = await db.Options.Where(o => o.OptionList.Name != "Life Expectancy at Birth").ToListAsync();
             var optionLists = await db.OptionLists.Where(o => o.Name != "Life Expectancy at Birth").ToListAsync();
-
+            var indicatorDates = await db.IndicatorDates.Where(o => indicatorIds.Contains(o.IndicatorId)).ToListAsync();
             var itemFields = await db.ItemFields.Where(o => itemIds.Contains(o.ItemId)).ToListAsync();
             var itemOptions = await db.ItemOptions.Where(o => itemIds.Contains(o.ItemId) && o.Option.OptionList.Name != "Life Expectancy at Birth").ToListAsync();
 
@@ -48,9 +50,10 @@ namespace WEB.Controllers
                 subcategories = subcategories.Select(o => ModelFactory.Create(o)),
                 entityLinks = entityLinks.Select(o => ModelFactory.Create(o)),
                 fields = fields.Select(o => ModelFactory.Create(o)),
-                itemFields = itemFields.Select(o => ModelFactory.Create(o)),
                 options = options.Select(o => ModelFactory.Create(o)),
                 optionLists = optionLists.Select(o => ModelFactory.Create(o)),
+                indicatorDates = indicatorDates.Select(o => ModelFactory.Create(o)),
+                itemFields = itemFields.Select(o => ModelFactory.Create(o)),
                 itemOptions = itemOptions.Select(o => ModelFactory.Create(o))
             });
         }

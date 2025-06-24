@@ -1,5 +1,6 @@
 import { SearchOptions, PagingHeaders } from './http.model';
 import { DateTypes } from './enums.model';
+import { IndicatorDate } from './indicatordate.model';
 import { Questionnaire } from './questionnaire.model';
 import { QuestionSummary } from './questionsummary.model';
 import { Response } from './response.model';
@@ -20,6 +21,7 @@ export class AppDate {
 
     datesInQuarter: AppDate[];
     datesInYear: AppDate[];
+    indicatorDates: IndicatorDate[];
     defaultDateQuestionnaires: Questionnaire[];
     questionSummaries: QuestionSummary[];
     responses: Response[];
@@ -29,6 +31,7 @@ export class AppDate {
         this.dateId = "00000000-0000-0000-0000-000000000000";
         this.datesInQuarter = [];
         this.datesInYear = [];
+        this.indicatorDates = [];
         this.defaultDateQuestionnaires = [];
         this.questionSummaries = [];
         this.responses = [];

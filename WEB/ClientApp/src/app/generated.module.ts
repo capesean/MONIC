@@ -42,6 +42,8 @@ import { GroupListComponent } from './admin/groups/group.list.component';
 import { GroupEditComponent } from './admin/groups/group.edit.component';
 import { IndicatorListComponent } from './admin/indicators/indicator.list.component';
 import { IndicatorEditComponent } from './admin/indicators/indicator.edit.component';
+import { IndicatorDateListComponent } from './admin/indicatordates/indicatordate.list.component';
+import { IndicatorDateEditComponent } from './admin/indicatordates/indicatordate.edit.component';
 import { IndicatorPermissionListComponent } from './admin/indicatorpermissions/indicatorpermission.list.component';
 import { IndicatorPermissionEditComponent } from './admin/indicatorpermissions/indicatorpermission.edit.component';
 import { ItemListComponent } from './admin/items/item.list.component';
@@ -139,6 +141,8 @@ import { NgxEchartsModule } from 'ngx-echarts';
         GroupEditComponent,
         IndicatorListComponent,
         IndicatorEditComponent,
+        IndicatorDateListComponent,
+        IndicatorDateEditComponent,
         IndicatorPermissionListComponent,
         IndicatorPermissionEditComponent,
         ItemListComponent,

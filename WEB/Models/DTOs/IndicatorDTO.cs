@@ -36,6 +36,9 @@ namespace WEB.Models
         public bool RequiresApprove { get; set; }
 
         [Required]
+        public bool UseIndicatorDates { get; set; }
+
+        [Required]
         public bool DisableNote { get; set; }
 
         [Required]
@@ -84,6 +87,8 @@ namespace WEB.Models
 
         public virtual List<IndicatorDTO> GroupIndicators { get; set; } = new List<IndicatorDTO>();
 
+        public virtual List<IndicatorDateDTO> IndicatorDates { get; set; } = new List<IndicatorDateDTO>();
+
         public virtual List<IndicatorPermissionDTO> IndicatorPermissions { get; set; } = new List<IndicatorPermissionDTO>();
 
         public virtual List<LogFrameRowIndicatorDTO> LogFrameRowIndicators { get; set; } = new List<LogFrameRowIndicatorDTO>();
@@ -112,6 +117,7 @@ namespace WEB.Models
             indicatorDTO.RequiresSubmit = indicator.RequiresSubmit;
             indicatorDTO.RequiresVerify = indicator.RequiresVerify;
             indicatorDTO.RequiresApprove = indicator.RequiresApprove;
+            indicatorDTO.UseIndicatorDates = indicator.UseIndicatorDates;
             indicatorDTO.DisableNote = indicator.DisableNote;
             indicatorDTO.EntityTypeId = indicator.EntityTypeId;
             indicatorDTO.Frequency = indicator.Frequency;
@@ -142,6 +148,8 @@ namespace WEB.Models
                     indicatorDTO.Data.Add(Create(datum));
                 foreach (var groupIndicator in indicator.GroupIndicators)
                     indicatorDTO.GroupIndicators.Add(Create(groupIndicator));
+                foreach (var indicatorDate in indicator.IndicatorDates)
+                    indicatorDTO.IndicatorDates.Add(Create(indicatorDate));
                 foreach (var indicatorPermission in indicator.IndicatorPermissions)
                     indicatorDTO.IndicatorPermissions.Add(Create(indicatorPermission));
                 foreach (var logFrameRowIndicator in indicator.LogFrameRowIndicators)
@@ -168,6 +176,7 @@ namespace WEB.Models
             indicator.RequiresSubmit = indicatorDTO.RequiresSubmit;
             indicator.RequiresVerify = indicatorDTO.RequiresVerify;
             indicator.RequiresApprove = indicatorDTO.RequiresApprove;
+            indicator.UseIndicatorDates = indicatorDTO.UseIndicatorDates;
             indicator.DisableNote = indicatorDTO.DisableNote;
             if (isNew) indicator.EntityTypeId = indicatorDTO.EntityTypeId;
             if (isNew) indicator.Frequency = indicatorDTO.Frequency;

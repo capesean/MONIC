@@ -40,6 +40,8 @@ namespace WEB.Models
 
         public virtual List<DatumDTO> Data { get; set; } = new List<DatumDTO>();
 
+        public virtual List<IndicatorDateDTO> IndicatorDates { get; set; } = new List<IndicatorDateDTO>();
+
         public virtual List<QuestionnaireDTO> DefaultDateQuestionnaires { get; set; } = new List<QuestionnaireDTO>();
 
         public virtual List<QuestionSummaryDTO> QuestionSummaries { get; set; } = new List<QuestionSummaryDTO>();
@@ -82,6 +84,8 @@ namespace WEB.Models
                     dateDTO.DatesInYear.Add(Create(dateInYear));
                 foreach (var questionnaire in date.DefaultDateQuestionnaires)
                     dateDTO.DefaultDateQuestionnaires.Add(Create(questionnaire));
+                foreach (var indicatorDate in date.IndicatorDates)
+                    dateDTO.IndicatorDates.Add(Create(indicatorDate));
                 foreach (var questionSummary in date.QuestionSummaries)
                     dateDTO.QuestionSummaries.Add(Create(questionSummary));
                 foreach (var response in date.Responses)
