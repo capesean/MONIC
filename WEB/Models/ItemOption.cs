@@ -10,6 +10,9 @@ namespace WEB.Models
         public Guid ItemId { get; set; }
 
         [Required]
+        public Guid FieldId { get; set; }
+
+        [Required]
         public Guid OptionId { get; set; }
 
         [ForeignKey("ItemId")]
@@ -20,6 +23,7 @@ namespace WEB.Models
 
         public ItemOption()
         {
+            FieldId = Guid.NewGuid();
         }
 
         public override string ToString()
@@ -33,13 +37,14 @@ namespace WEB.Models
 
             ItemOption other = (ItemOption)obj;
 
-            return ItemId == other.ItemId && OptionId == other.OptionId;
+            return ItemId == other.ItemId && FieldId == other.FieldId && OptionId == other.OptionId;
         }
 
         public override int GetHashCode()
         {
             int hash = 17;
             hash = hash * 23 + ItemId.GetHashCode();
+            hash = hash * 23 + FieldId.GetHashCode();
             hash = hash * 23 + OptionId.GetHashCode();
             return hash;
         }

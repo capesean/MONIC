@@ -25,16 +25,16 @@ export class ItemOptionService extends SearchQuery {
             );
     }
 
-    get(itemId: string, optionId: string): Observable<ItemOption> {
-        return this.http.get<ItemOption>(`${environment.baseApiUrl}itemoptions/${itemId}/${optionId}`);
+    get(itemId: string, fieldId: string, optionId: string): Observable<ItemOption> {
+        return this.http.get<ItemOption>(`${environment.baseApiUrl}itemoptions/${itemId}/${fieldId}/${optionId}`);
     }
 
     save(itemOption: ItemOption): Observable<ItemOption> {
-        return this.http.post<ItemOption>(`${environment.baseApiUrl}itemoptions/${itemOption.itemId}/${itemOption.optionId}`, itemOption);
+        return this.http.post<ItemOption>(`${environment.baseApiUrl}itemoptions/${itemOption.itemId}/${itemOption.fieldId}/${itemOption.optionId}`, itemOption);
     }
 
-    delete(itemId: string, optionId: string): Observable<void> {
-        return this.http.delete<void>(`${environment.baseApiUrl}itemoptions/${itemId}/${optionId}`);
+    delete(itemId: string, fieldId: string, optionId: string): Observable<void> {
+        return this.http.delete<void>(`${environment.baseApiUrl}itemoptions/${itemId}/${fieldId}/${optionId}`);
     }
 
 }

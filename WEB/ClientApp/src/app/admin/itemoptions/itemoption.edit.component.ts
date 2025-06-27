@@ -36,12 +36,14 @@ export class ItemOptionEditComponent implements OnInit {
         this.route.params.subscribe(params => {
 
             const itemId = params["itemId"];
+            const fieldId = params["fieldId"];
             const optionId = params["optionId"];
-            this.isNew = itemId === "add" && optionId === "add";
+            this.isNew = itemId === "add" && fieldId === "add" && optionId === "add";
 
             if (!this.isNew) {
 
                 this.itemOption.itemId = itemId;
+                this.itemOption.fieldId = fieldId;
                 this.itemOption.optionId = optionId;
                 this.loadItemOption();
 
@@ -53,7 +55,7 @@ export class ItemOptionEditComponent implements OnInit {
 
     private loadItemOption(): void {
 
-        this.itemOptionService.get(this.itemOption.itemId, this.itemOption.optionId)
+        this.itemOptionService.get(this.itemOption.itemId, this.itemOption.fieldId, this.itemOption.optionId)
             .subscribe({
                 next: itemOption => {
                     this.itemOption = itemOption;
@@ -62,7 +64,7 @@ export class ItemOptionEditComponent implements OnInit {
                 error: err => {
                     this.errorService.handleError(err, "Item Option", "Load");
                     if (err instanceof HttpErrorResponse && err.status === 404)
-                        this.router.navigate(["../../"], { relativeTo: this.route });
+                        this.router.navigate(["../../../"], { relativeTo: this.route });
                 }
             });
 
@@ -81,7 +83,7 @@ export class ItemOptionEditComponent implements OnInit {
             .subscribe({
                 next: itemOption => {
                     this.toastr.success("The item option has been saved", "Save Item Option");
-                    if (this.isNew) this.router.navigate(["../", itemOption.itemId, itemOption.optionId], { relativeTo: this.route });
+                    if (this.isNew) this.router.navigate(["../", itemOption.itemId, itemOption.fieldId, itemOption.optionId], { relativeTo: this.route });
                 },
                 error: err => {
                     this.errorService.handleError(err, "Item Option", "Save");
@@ -97,11 +99,11 @@ export class ItemOptionEditComponent implements OnInit {
         modalRef.result.then(
             () => {
 
-                this.itemOptionService.delete(this.itemOption.itemId, this.itemOption.optionId)
+                this.itemOptionService.delete(this.itemOption.itemId, this.itemOption.fieldId, this.itemOption.optionId)
                     .subscribe({
                         next: () => {
                             this.toastr.success("The item option has been deleted", "Delete Item Option");
-                            this.router.navigate(["../../"], { relativeTo: this.route });
+                            this.router.navigate(["../../../"], { relativeTo: this.route });
                         },
                         error: err => {
                             this.errorService.handleError(err, "Item Option", "Delete");

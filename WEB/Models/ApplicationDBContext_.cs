@@ -172,7 +172,7 @@ namespace WEB.Models
                 .HasName("PK_ItemField");
 
             modelBuilder.Entity<ItemOption>()
-                .HasKey(o => new { o.ItemId, o.OptionId })
+                .HasKey(o => new { o.ItemId, o.FieldId, o.OptionId })
                 .HasName("PK_ItemOption");
 
             modelBuilder.Entity<LogFrame>()

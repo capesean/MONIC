@@ -35,6 +35,22 @@
                     </div>
 
                     <div class="col-sm-6 col-md-4">
+                        <div class="form-group" [ngClass]="{ 'is-invalid': fieldId.invalid }">
+
+                            <label for="fieldId">
+                                Field:
+                            </label>
+
+                            <input id="fieldId" name="fieldId" class="form-control" type="text" [(ngModel)]="itemOption.fieldId" #fieldId="ngModel" required />
+
+                            <div *ngIf="fieldId.errors?.required" class="invalid-feedback">
+                                Field is required
+                            </div>
+
+                        </div>
+                    </div>
+
+                    <div class="col-sm-6 col-md-4">
                         <div class="form-group" [ngClass]="{ 'is-invalid': optionId.invalid }">
 
                             <label for="optionId">

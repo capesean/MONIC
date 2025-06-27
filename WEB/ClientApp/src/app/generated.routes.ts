@@ -606,7 +606,7 @@ export const GeneratedRoutes: Route[] = [
         },
         children: [
             {
-                path: ':itemId/:optionId',
+                path: ':itemId/:fieldId/:optionId',
                 component: ItemOptionEditComponent,
                 canActivate: [AccessGuard],
                 canActivateChild: [AccessGuard],

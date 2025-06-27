@@ -38,6 +38,9 @@ namespace WEB.Models
         public bool RequiresApprove { get; set; }
 
         [Required]
+        public bool LowerIsBetter { get; set; }
+
+        [Required]
         public bool UseIndicatorDates { get; set; }
 
         [Required]

@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using WEB.Models;
 
@@ -11,9 +12,11 @@ using WEB.Models;
 namespace WEB.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250627063031_ItemOptionField")]
+    partial class ItemOptionField
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -1254,13 +1257,13 @@ namespace WEB.Migrations
                     b.Property<Guid>("ItemId")
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<Guid>("FieldId")
-                        .HasColumnType("uniqueidentifier");
-
                     b.Property<Guid>("OptionId")
                         .HasColumnType("uniqueidentifier");
 
-                    b.HasKey("ItemId", "FieldId", "OptionId")
+                    b.Property<Guid?>("FieldId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("ItemId", "OptionId")
                         .HasName("PK_ItemOption");
 
                     b.HasIndex("OptionId");

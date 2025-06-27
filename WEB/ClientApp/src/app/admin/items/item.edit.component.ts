@@ -181,7 +181,7 @@ export class ItemEditComponent implements OnInit, OnDestroy {
     }
 
     goToOption(itemOption: ItemOption): void {
-        this.router.navigate(["/itemoptions", itemOption.itemId, itemOption.optionId]);
+        this.router.navigate(["/itemoptions", itemOption.itemId, itemOption.fieldId, itemOption.optionId]);
     }
 
     deleteOption(itemOption: ItemOption, event: MouseEvent): void {
@@ -192,7 +192,7 @@ export class ItemEditComponent implements OnInit, OnDestroy {
         modalRef.result.then(
             () => {
 
-                this.itemOptionService.delete(itemOption.itemId, itemOption.optionId)
+                this.itemOptionService.delete(itemOption.itemId, itemOption.fieldId, itemOption.optionId)
                     .subscribe({
                         next: () => {
                             this.toastr.success("The item option has been deleted", "Delete Item Option");

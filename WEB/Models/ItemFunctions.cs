@@ -29,7 +29,7 @@ namespace WEB.Models
 
                 // validation checks here: multiple
 
-                db.Entry(new ItemOption { ItemId = itemId, OptionId = itemOption.OptionId }).State = EntityState.Added;
+                db.Entry(new ItemOption { ItemId = itemId, FieldId = itemOption.FieldId, OptionId = itemOption.OptionId }).State = EntityState.Added;
             }
 
             //foreach (var fileDTO in organisationDTO.Files)

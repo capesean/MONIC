@@ -66,7 +66,7 @@ export class ItemOptionListComponent implements OnInit, OnDestroy {
     }
 
     goToItemOption(itemOption: ItemOption): void {
-        this.router.navigate([itemOption.itemId, itemOption.optionId], { relativeTo: this.route });
+        this.router.navigate([itemOption.itemId, itemOption.fieldId, itemOption.optionId], { relativeTo: this.route });
     }
 }
 

@@ -9,6 +9,9 @@ namespace WEB.Models
         public Guid ItemId { get; set; }
 
         [Required]
+        public Guid FieldId { get; set; }
+
+        [Required]
         public Guid OptionId { get; set; }
 
         public ItemDTO Item { get; set; }
@@ -26,6 +29,7 @@ namespace WEB.Models
             var itemOptionDTO = new ItemOptionDTO();
 
             itemOptionDTO.ItemId = itemOption.ItemId;
+            itemOptionDTO.FieldId = itemOption.FieldId;
             itemOptionDTO.OptionId = itemOption.OptionId;
 
             if (includeParents)

@@ -4,6 +4,7 @@ import { Option } from './option.model';
 
 export class ItemOption {
     itemId: string;
+    fieldId: string;
     optionId: string;
     item: Item;
     option: Option;

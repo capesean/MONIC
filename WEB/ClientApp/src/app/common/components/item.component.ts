@@ -122,11 +122,11 @@ export abstract class ItemComponent {
 
                     if (field.multiple) {
                         //  find all (.filter) the item's options for this field (i.e. in the optionIds array) and convert those to an array of selectedOptionIds
-                        value = itemObject.itemOptions.filter(o => optionIds.indexOf(o.optionId) >= 0).map(o => o.optionId);
+                        value = itemObject.itemOptions.filter(o => o.fieldId === field.fieldId && optionIds.indexOf(o.optionId) >= 0).map(o => o.optionId);
                     }
                     else {
                         //  find the first (.find) item's option for this field (i.e. in the optionIds array) and get the optionId
-                        value = itemObject.itemOptions.find(o => optionIds.indexOf(o.optionId) >= 0)?.optionId;
+                        value = itemObject.itemOptions.find(o => o.fieldId === field.fieldId && optionIds.indexOf(o.optionId) >= 0)?.optionId;
                     }
 
                     // store the selectedOptionId(s) in this ItemComponent's .itemfields property
@@ -200,9 +200,9 @@ export abstract class ItemComponent {
 
             if (field.fieldType === FieldTypes.OptionList) {
                 // push each of the values into the optionValues array
-                if (field.multiple) (value as string[]).forEach(o => itemObject.itemOptions.push({ itemId: this.item.itemId, optionId: o } as ItemOption))
+                if (field.multiple) (value as string[]).forEach(o => itemObject.itemOptions.push({ itemId: this.item.itemId, fieldId: field.fieldId, optionId: o } as ItemOption))
                 // push the selected value into the optionValues array
-                else itemObject.itemOptions.push({ itemId: this.item.itemId, optionId: value } as ItemOption);
+                else itemObject.itemOptions.push({ itemId: this.item.itemId, fieldId: field.fieldId, optionId: value } as ItemOption);
             } else if (field.fieldType === FieldTypes.Date) {
                 itemObject.itemFields.push({ itemId: this.item.itemId, fieldId: field.fieldId, value: moment(value as string).format("DD MMMM YYYY") } as ItemField);
             } else if (field.fieldType === FieldTypes.Text) {

@@ -36,6 +36,9 @@ namespace WEB.Models
         public bool RequiresApprove { get; set; }
 
         [Required]
+        public bool LowerIsBetter { get; set; }
+
+        [Required]
         public bool UseIndicatorDates { get; set; }
 
         [Required]
@@ -117,6 +120,7 @@ namespace WEB.Models
             indicatorDTO.RequiresSubmit = indicator.RequiresSubmit;
             indicatorDTO.RequiresVerify = indicator.RequiresVerify;
             indicatorDTO.RequiresApprove = indicator.RequiresApprove;
+            indicatorDTO.LowerIsBetter = indicator.LowerIsBetter;
             indicatorDTO.UseIndicatorDates = indicator.UseIndicatorDates;
             indicatorDTO.DisableNote = indicator.DisableNote;
             indicatorDTO.EntityTypeId = indicator.EntityTypeId;
@@ -176,6 +180,7 @@ namespace WEB.Models
             indicator.RequiresSubmit = indicatorDTO.RequiresSubmit;
             indicator.RequiresVerify = indicatorDTO.RequiresVerify;
             indicator.RequiresApprove = indicatorDTO.RequiresApprove;
+            indicator.LowerIsBetter = indicatorDTO.LowerIsBetter;
             indicator.UseIndicatorDates = indicatorDTO.UseIndicatorDates;
             indicator.DisableNote = indicatorDTO.DisableNote;
             if (isNew) indicator.EntityTypeId = indicatorDTO.EntityTypeId;

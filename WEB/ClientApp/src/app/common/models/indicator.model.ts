@@ -25,6 +25,7 @@ export class Indicator implements IHasFields {
     requiresSubmit: boolean;
     requiresVerify: boolean;
     requiresApprove: boolean;
+    lowerIsBetter: boolean;
     useIndicatorDates: boolean;
     disableNote: boolean;
     entityTypeId: string;

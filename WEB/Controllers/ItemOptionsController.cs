@@ -28,18 +28,18 @@ namespace WEB.Controllers
             if (searchOptions.ItemId.HasValue) results = results.Where(o => o.ItemId == searchOptions.ItemId);
             if (searchOptions.OptionId.HasValue) results = results.Where(o => o.OptionId == searchOptions.OptionId);
 
-            results = results.OrderBy(o => o.ItemId).ThenBy(o => o.OptionId);
+            results = results.OrderBy(o => o.ItemId).ThenBy(o => o.FieldId).ThenBy(o => o.OptionId);
 
             return Ok((await GetPaginatedResponse(results, searchOptions)).Select(o => ModelFactory.Create(o, searchOptions.IncludeParents, searchOptions.IncludeChildren)));
         }
 
-        [HttpGet("{itemId:Guid}/{optionId:Guid}"), AuthorizeRoles(Roles.Administrator)]
-        public async Task<IActionResult> Get(Guid itemId, Guid optionId)
+        [HttpGet("{itemId:Guid}/{fieldId:Guid}/{optionId:Guid}"), AuthorizeRoles(Roles.Administrator)]
+        public async Task<IActionResult> Get(Guid itemId, Guid fieldId, Guid optionId)
         {
             var itemOption = await db.ItemOptions
                 .Include(o => o.Item)
                 .Include(o => o.Option)
-                .FirstOrDefaultAsync(o => o.ItemId == itemId && o.OptionId == optionId);
+                .FirstOrDefaultAsync(o => o.ItemId == itemId && o.FieldId == fieldId && o.OptionId == optionId);
 
             if (itemOption == null)
                 return NotFound();
@@ -47,15 +47,15 @@ namespace WEB.Controllers
             return Ok(ModelFactory.Create(itemOption));
         }
 
-        [HttpPost("{itemId:Guid}/{optionId:Guid}"), AuthorizeRoles(Roles.Administrator)]
-        public async Task<IActionResult> Save(Guid itemId, Guid optionId, [FromBody] ItemOptionDTO itemOptionDTO)
+        [HttpPost("{itemId:Guid}/{fieldId:Guid}/{optionId:Guid}"), AuthorizeRoles(Roles.Administrator)]
+        public async Task<IActionResult> Save(Guid itemId, Guid fieldId, Guid optionId, [FromBody] ItemOptionDTO itemOptionDTO)
         {
             if (!ModelState.IsValid) return BadRequest(ModelState);
 
-            if (itemOptionDTO.ItemId != itemId || itemOptionDTO.OptionId != optionId) return BadRequest("Id mismatch");
+            if (itemOptionDTO.ItemId != itemId || itemOptionDTO.FieldId != fieldId || itemOptionDTO.OptionId != optionId) return BadRequest("Id mismatch");
 
             var itemOption = await db.ItemOptions
-                .FirstOrDefaultAsync(o => o.ItemId == itemOptionDTO.ItemId && o.OptionId == itemOptionDTO.OptionId);
+                .FirstOrDefaultAsync(o => o.ItemId == itemOptionDTO.ItemId && o.FieldId == itemOptionDTO.FieldId && o.OptionId == itemOptionDTO.OptionId);
 
             var isNew = itemOption == null;
 
@@ -64,6 +64,7 @@ namespace WEB.Controllers
                 itemOption = new ItemOption();
 
                 itemOption.ItemId = itemOptionDTO.ItemId;
+                itemOption.FieldId = itemOptionDTO.FieldId;
                 itemOption.OptionId = itemOptionDTO.OptionId;
 
                 db.Entry(itemOption).State = EntityState.Added;
@@ -77,14 +78,14 @@ namespace WEB.Controllers
 
             await db.SaveChangesAsync();
 
-            return await Get(itemOption.ItemId, itemOption.OptionId);
+            return await Get(itemOption.ItemId, itemOption.FieldId, itemOption.OptionId);
         }
 
-        [HttpDelete("{itemId:Guid}/{optionId:Guid}"), AuthorizeRoles(Roles.Administrator)]
-        public async Task<IActionResult> Delete(Guid itemId, Guid optionId)
+        [HttpDelete("{itemId:Guid}/{fieldId:Guid}/{optionId:Guid}"), AuthorizeRoles(Roles.Administrator)]
+        public async Task<IActionResult> Delete(Guid itemId, Guid fieldId, Guid optionId)
         {
             var itemOption = await db.ItemOptions
-                .FirstOrDefaultAsync(o => o.ItemId == itemId && o.OptionId == optionId);
+                .FirstOrDefaultAsync(o => o.ItemId == itemId && o.FieldId == fieldId && o.OptionId == optionId);
 
             if (itemOption == null)
                 return NotFound();
