@@ -70,7 +70,7 @@ namespace WEB.Models
         public decimal? Maximum { get; set; }
 
         [MaxLength(25)]
-        public string ShortLabel { get; set; }
+        public string ShortName { get; set; }
 
         [MaxLength(7)]
         public string Color { get; set; }

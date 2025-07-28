@@ -371,16 +371,16 @@
                     </div>
 
                     <div class="col-sm-6 col-md-4">
-                        <div class="form-group" [ngClass]="{ 'is-invalid': shortLabel.invalid }">
+                        <div class="form-group" [ngClass]="{ 'is-invalid': shortName.invalid }">
 
-                            <label for="shortLabel">
-                                Short Label:
+                            <label for="shortName">
+                                Short Name:
                             </label>
 
-                            <input id="shortLabel" name="shortLabel" class="form-control" type="text" [(ngModel)]="indicator.shortLabel" #shortLabel="ngModel" maxlength="25" />
+                            <input id="shortName" name="shortName" class="form-control" type="text" [(ngModel)]="indicator.shortName" #shortName="ngModel" maxlength="25" />
 
-                            <div *ngIf="shortLabel.errors?.maxlength" class="invalid-feedback">
-                                Short Label must be at most 25 characters long
+                            <div *ngIf="shortName.errors?.maxlength" class="invalid-feedback">
+                                Short Name must be at most 25 characters long
                             </div>
 
                         </div>
