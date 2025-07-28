@@ -37,6 +37,7 @@ export class Indicator implements IHasFields {
     minimum: number;
     maximum: number;
     shortName: string;
+    label: string;
     color: string;
     groupingIndicatorId: string;
     sortOrder: number;
