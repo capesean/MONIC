@@ -528,10 +528,10 @@ export class IndicatorEditComponent extends ItemComponent implements OnInit {
                     this.toastr.error("Indicators cannot be grouped into themselves");
                     return;
                 }
-                if (indicator.indicatorType === IndicatorTypes.Group) {
-                    this.toastr.error("Grouped indicators cannot be added to other indicator groups");
-                    return;
-                }
+                //if (indicator.indicatorType === IndicatorTypes.Group) {
+                //    this.toastr.error("Grouped indicators cannot be added to other indicator groups");
+                //    return;
+                //}
                 if (indicator.groupingIndicatorId && indicator.groupingIndicatorId !== this.indicator.indicatorId) {
                     this.toastr.error("This indicator is already a member of another group");
                     return;

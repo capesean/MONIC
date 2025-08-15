@@ -17,7 +17,7 @@ namespace WEB.Controllers
             var entities = await db.Entities.ToListAsync();
             var entityTypes = await db.EntityTypes.ToListAsync();
             var indicators = await db.Indicators
-                .Where(o => o.IndicatorStatus == IndicatorStatus.Enabled)
+                //.Where(o => o.IndicatorStatus == IndicatorStatus.Enabled)
                 .OrderBy(o => o.Subcategory.Category.SortOrder)
                 .ThenBy(o => o.Subcategory.SortOrder)
                 .ThenBy(o => o.SortOrder)
@@ -28,16 +28,16 @@ namespace WEB.Controllers
 
             var itemIds = entities.Select(o => o.EntityId).Union(indicatorIds);
 
-            var data = await db.Data.Where(o => o.Indicator.IndicatorStatus == IndicatorStatus.Enabled).Select(o => new { e = o.Entity.Code, d = o.Date.Code, i = o.Indicator.Code, o.Value }).ToListAsync();
+            var data = await db.Data.Select(o => new { e = o.Entity.Code, d = o.Date.Code, i = o.Indicator.Code, o.Value }).ToListAsync();
             var categories = await db.Categories.ToListAsync();
             var subcategories = await db.Subcategories.ToListAsync();
             var entityLinks = await db.EntityLinks.ToListAsync();
-            var fields = await db.Fields.Where(o => o.OptionList.Name != "Life Expectancy at Birth").OrderBy(o => o.SortOrder).ToListAsync();
-            var options = await db.Options.Where(o => o.OptionList.Name != "Life Expectancy at Birth").ToListAsync();
-            var optionLists = await db.OptionLists.Where(o => o.Name != "Life Expectancy at Birth").ToListAsync();
+            var fields = await db.Fields.OrderBy(o => o.SortOrder).ToListAsync();
+            var options = await db.Options.ToListAsync();
+            var optionLists = await db.OptionLists.ToListAsync();
             var indicatorDates = await db.IndicatorDates.Where(o => indicatorIds.Contains(o.IndicatorId)).ToListAsync();
             var itemFields = await db.ItemFields.Where(o => itemIds.Contains(o.ItemId)).ToListAsync();
-            var itemOptions = await db.ItemOptions.Where(o => itemIds.Contains(o.ItemId) && o.Option.OptionList.Name != "Life Expectancy at Birth").ToListAsync();
+            var itemOptions = await db.ItemOptions.Where(o => itemIds.Contains(o.ItemId)).ToListAsync();
 
             return Ok(new
             {
