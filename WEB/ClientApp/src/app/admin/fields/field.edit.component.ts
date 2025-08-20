@@ -10,6 +10,7 @@ import { Enum, Enums, FieldTypes } from '../../common/models/enums.model';
 import { BreadcrumbService } from '../../common/services/breadcrumb.service';
 import { ErrorService } from '../../common/services/error.service';
 import { FieldService } from '../../common/services/field.service';
+import { AppService } from '../../common/services/app.service';
 
 @NgComponent({
     selector: 'field-edit',
@@ -30,7 +31,8 @@ export class FieldEditComponent implements OnInit {
         private breadcrumbService: BreadcrumbService,
         private modalService: NgbModal,
         private fieldService: FieldService,
-        private errorService: ErrorService
+        private errorService: ErrorService,
+        private appService: AppService
     ) {
     }
 
@@ -82,6 +84,7 @@ export class FieldEditComponent implements OnInit {
             .subscribe({
                 next: field => {
                     this.toastr.success("The field has been saved", "Save Field");
+                    this.appService.getFieldData(true).subscribe();
                     if (this.isNew) this.router.navigate(["../", field.fieldId], { relativeTo: this.route });
                 },
                 error: err => {
@@ -102,6 +105,7 @@ export class FieldEditComponent implements OnInit {
                     .subscribe({
                         next: () => {
                             this.toastr.success("The field has been deleted", "Delete Field");
+                            this.appService.getFieldData(true).subscribe();
                             this.router.navigate(["../"], { relativeTo: this.route });
                         },
                         error: err => {

@@ -37,6 +37,9 @@ namespace WEB.Models
         public bool Folder { get; set; }
 
         [Required]
+        public bool Category { get; set; }
+
+        [Required]
         public bool Required { get; set; }
 
         [Required]
@@ -95,6 +98,7 @@ namespace WEB.Models
             fieldDTO.Component = field.Component;
             fieldDTO.Relationship = field.Relationship;
             fieldDTO.Folder = field.Folder;
+            fieldDTO.Category = field.Category;
             fieldDTO.Required = field.Required;
             fieldDTO.IsUnique = field.IsUnique;
             fieldDTO.Size = field.Size;
@@ -134,6 +138,7 @@ namespace WEB.Models
             field.Component = fieldDTO.Component;
             field.Relationship = fieldDTO.Relationship;
             field.Folder = fieldDTO.Folder;
+            field.Category = fieldDTO.Category;
             field.Required = fieldDTO.Required;
             field.IsUnique = fieldDTO.IsUnique;
             field.Size = fieldDTO.Size;

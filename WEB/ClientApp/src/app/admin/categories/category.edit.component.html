@@ -60,9 +60,37 @@
                             </div>
                         </div>
 
+                        <ng-container *ngFor="let field of fields | groupPipe : null">
+
+                            <!--[(file)]="files[field.fieldId]" (downloadClicked)="download($event)"-->
+                            <field [field]="field" id="{{field.fieldId}}" name="{{field.fieldId}}" [ngModel]="itemFields.get(field.fieldId)" (ngModelChange)="itemFields.set(field.fieldId, $event)" [itemFields]="itemFields" class="{{field | fieldSizePipe}}"></field>
+
+                        </ng-container>
+
                     </div>
 
                 </fieldset>
+
+                <ng-container *ngFor="let group of groups">
+
+                    <fieldset class="group">
+
+                        <legend>{{group.name}}</legend>
+
+                        <div class="row gx-3">
+
+                            <ng-container *ngFor="let field of fields | groupPipe : group.groupId">
+
+                                <!--[(file)]="files[field.fieldId]" (downloadClicked)="download($event)"-->
+                                <field [field]="field" id="{{field.fieldId}}" name="{{field.fieldId}}" [ngModel]="itemFields.get(field.fieldId)" (ngModelChange)="itemFields.set(field.fieldId, $event)" [itemFields]="itemFields" class="{{field | fieldSizePipe}}"></field>
+
+                            </ng-container>
+
+                        </div>
+
+                    </fieldset>
+
+                </ng-container>
 
             </div>
 
@@ -147,6 +175,77 @@
 
                         <div class="card-footer">
                             <pager [headers]="subcategoriesHeaders" (pageChanged)="searchSubcategories($event)"></pager>
+                        </div>
+
+                    </div>
+
+                </ng-template>
+
+            </ng-container>
+
+            <ng-container ngbNavItem>
+
+                <a ngbNavLink>Documents</a>
+
+                <ng-template ngbNavContent>
+
+                    <div class="card card-list">
+
+                        <div class="card-header">
+
+                            <div class="card-header-title">
+                                <h4>Documents</h4>
+                                <div>
+                                    <i class="fa fa-fw ms-1 fa-plus cursor-pointer" ngbTooltip="Add Document" (click)="showDocumentManageModal()"></i>
+                                    <i class="fa fa-fw ms-1 fa-search cursor-pointer" (click)="showDocumentsSearch=!showDocumentsSearch" ngbTooltip="Toggle search options"></i>
+                                </div>
+                            </div>
+
+                        </div>
+
+                        <div class="card-body" *ngIf="showDocumentsSearch" @FadeThenShrink>
+
+                            <form id="formSearchDocuments" (submit)="searchDocuments(0)" novalidate>
+
+                                <div class="row g-2">
+
+                                    <div class="col-sm-6 col-md-4 col-lg-3">
+                                        <div class="form-group">
+                                            <input type="search" name="q" id="q" [(ngModel)]="documentSearchOptions.q" max="100" class="form-control" placeholder="Search documents" />
+                                        </div>
+                                    </div>
+
+                                    <div class="col-sm-3 col-md-3 col-lg-3 col-xl-2">
+                                        <div class="form-group">
+                                            <button type="submit" class="btn btn-outline-primary me-2 mb-1">Search<i class="fas fa-search ms-2"></i></button>
+                                        </div>
+                                    </div>
+
+                                </div>
+
+                            </form>
+
+                        </div>
+
+                        <div class="table-responsive">
+
+                            <table class="table table-hover table-striped table-nowrap mb-0 align-middle">
+                                <thead class="thead-light">
+                                    <tr>
+                                        <th>Name</th>
+                                    </tr>
+                                </thead>
+                                <tbody class="list cursor-pointer">
+                                    <tr *ngFor="let document of documents" (click)="goToDocument(document)">
+                                        <td>{{ document.fileName }}</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+
+                        </div>
+
+                        <div class="card-footer">
+                            <pager [headers]="documentHeaders" (pageChanged)="searchDocuments($event)"></pager>
                         </div>
 
                     </div>

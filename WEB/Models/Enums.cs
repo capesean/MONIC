@@ -66,7 +66,8 @@ namespace WEB.Models
         Component,
         Relationship,
         Answer,
-        Folder
+        Folder,
+        Category
     }
 
     public enum LogFrameRowType
@@ -317,6 +318,8 @@ namespace WEB.Models
                     return "Answer";
                 case ItemType.Folder:
                     return "Folder";
+                case ItemType.Category:
+                    return "Category";
                 default:
                     return null;
             }

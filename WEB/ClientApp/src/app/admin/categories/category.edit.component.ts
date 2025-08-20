@@ -1,4 +1,4 @@
-import { Component as NgComponent, OnInit, OnDestroy } from '@angular/core';
+import { Component as NgComponent, OnInit, OnDestroy, ChangeDetectorRef } from '@angular/core';
 import { Router, ActivatedRoute, NavigationEnd } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { NgForm } from '@angular/forms';
@@ -15,6 +15,12 @@ import { CategoryService } from '../../common/services/category.service';
 import { Subcategory, SubcategorySearchOptions, SubcategorySearchResponse } from '../../common/models/subcategory.model';
 import { SubcategoryService } from '../../common/services/subcategory.service';
 import { SubcategorySortComponent } from '../subcategories/subcategory.sort.component';
+import { AppService } from '../../common/services/app.service';
+import { ItemComponent } from '../../common/components/item.component';
+import { DocumentService } from '../../common/services/document.service';
+import { FieldValueMapperService } from '../../common/services/field-value-mapper.service';
+import { Item } from '../../common/models/item.model';
+import { ItemTypes } from '../../common/models/enums.model';
 
 @NgComponent({
     selector: 'category-edit',
@@ -22,7 +28,7 @@ import { SubcategorySortComponent } from '../subcategories/subcategory.sort.comp
     animations: [FadeThenShrink],
     standalone: false
 })
-export class CategoryEditComponent implements OnInit, OnDestroy {
+export class CategoryEditComponent extends ItemComponent implements OnInit, OnDestroy {
 
     public category: Category = new Category();
     public isNew = true;
@@ -38,11 +44,16 @@ export class CategoryEditComponent implements OnInit, OnDestroy {
         public route: ActivatedRoute,
         private toastr: ToastrService,
         private breadcrumbService: BreadcrumbService,
-        private modalService: NgbModal,
+        protected modalService: NgbModal,
         private categoryService: CategoryService,
         private subcategoryService: SubcategoryService,
-        private errorService: ErrorService
+        protected cdref: ChangeDetectorRef,
+        protected appService: AppService,
+        protected documentService: DocumentService,
+        protected fieldValueMapper: FieldValueMapperService,
+        protected errorService: ErrorService
     ) {
+        super(appService, errorService, cdref, documentService, modalService, fieldValueMapper);
     }
 
     ngOnInit(): void {
@@ -61,6 +72,11 @@ export class CategoryEditComponent implements OnInit, OnDestroy {
                 this.subcategoriesSearchOptions.includeParents = true;
                 this.searchSubcategories();
 
+            } else {
+                this.setItem(this.category, {
+                    itemType: ItemTypes.Relationship,
+                    itemId: this.category.categoryId
+                } as Item);
             }
 
             this.routerSubscription = this.router.events.subscribe(event => {
@@ -85,6 +101,11 @@ export class CategoryEditComponent implements OnInit, OnDestroy {
                 next: category => {
                     this.category = category;
                     this.changeBreadcrumb();
+                    this.setItem(this.category, {
+                        itemType: ItemTypes.Category,
+                        itemId: this.category.categoryId
+                    } as Item);
+                    this.searchDocuments();
                 },
                 error: err => {
                     this.errorService.handleError(err, "Category", "Load");
@@ -111,6 +132,12 @@ export class CategoryEditComponent implements OnInit, OnDestroy {
                     if (this.isNew) {
                         this.ngOnDestroy();
                         this.router.navigate(["../", category.categoryId], { relativeTo: this.route });
+                    } else {
+                        this.category = category;
+                        this.setItem(this.category, {
+                            itemType: ItemTypes.Category,
+                            itemId: this.category.categoryId
+                        } as Item);
                     }
                 },
                 error: err => {

@@ -61,7 +61,8 @@ export enum ItemTypes {
     Component,
     Relationship,
     Answer,
-    Folder
+    Folder,
+    Category
 }
 
 export enum LogFrameRowTypes {
@@ -223,7 +224,8 @@ export class Enums {
         { value: 3, name: 'Component', label: 'Component' },
         { value: 4, name: 'Relationship', label: 'Relationship' },
         { value: 5, name: 'Answer', label: 'Answer' },
-        { value: 6, name: 'Folder', label: 'Folder' }
+        { value: 6, name: 'Folder', label: 'Folder' },
+        { value: 7, name: 'Category', label: 'Category' }
      ]
 
      static LogFrameRowTypes: Enum[] = [

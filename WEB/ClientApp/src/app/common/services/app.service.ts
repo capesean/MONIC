@@ -47,10 +47,10 @@ export class AppService {
     }
 
     private _fieldData$: AsyncSubject<FieldData>;
-    public getFieldData(): AsyncSubject<FieldData> {
+    public getFieldData(refresh = false): AsyncSubject<FieldData> {
 
         // todo: getProfile should be like this?
-        if (!this._fieldData$) {
+        if (!this._fieldData$ || refresh) {
             this._fieldData$ = new AsyncSubject<FieldData>();
             this.http
                 .get<FieldData>(`${environment.baseApiUrl}app/fielddata`)

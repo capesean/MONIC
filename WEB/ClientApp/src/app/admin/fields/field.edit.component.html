@@ -175,6 +175,23 @@
                     </div>
 
                     <div class="col-sm-6 col-md-4">
+                        <div class="form-group" [ngClass]="{ 'is-invalid': category.invalid }">
+
+                            <label for="category">
+                                Category:
+                            </label>
+
+                            <div class="form-check">
+                                <input id="category" name="category" class="form-check-input" type="checkbox" [(ngModel)]="field.category" #category="ngModel" />
+                                <label class="form-check-label" for="category">
+                                    Category
+                                </label>
+                            </div>
+
+                        </div>
+                    </div>
+
+                    <div class="col-sm-6 col-md-4">
                         <div class="form-group" [ngClass]="{ 'is-invalid': required.invalid }">
 
                             <label for="required">

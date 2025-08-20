@@ -15,6 +15,7 @@ export class Field {
     component: boolean;
     relationship: boolean;
     folder: boolean;
+    category: boolean;
     required: boolean;
     isUnique: boolean;
     size: Sizes;

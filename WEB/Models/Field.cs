@@ -37,6 +37,9 @@ namespace WEB.Models
         public bool Folder { get; set; }
 
         [Required]
+        public bool Category { get; set; }
+
+        [Required]
         public bool Required { get; set; }
 
         [Required]
