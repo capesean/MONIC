@@ -2,7 +2,7 @@
     <button type="button" class="input-group-text btn btn-outline-secondary" [disabled]="disabled" (click)="picker.click()"><i class="fa fa-eye-dropper"></i></button>
     <input type="color" [(ngModel)]="hex" #picker (ngModelChange)="writeValue(hex)" [disabled]="disabled" />
     <div class="p-2 palette-container cursor-pointer" (click)="picker.click()">
-        <div [style.backgroundColor]="bg" [ngClass]="{ 'transparent': !hex }" [ngbTooltip]="hex ? hex : 'Transparent'"></div>
+        <div  [style.backgroundColor]="bg" [ngClass]="{ 'transparent': !hex }" [ngbTooltip]="hex ? hex : 'Transparent'"></div>
     </div>
     <button type="button" class="input-group-text btn btn-outline-secondary" (click)="clear()" [disabled]="!hex || disabled" ngbTooltip="Clear (remove) the selected color" container="body"><i class="fa fa-times"></i></button>
 </div>

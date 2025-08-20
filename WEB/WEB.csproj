@@ -243,6 +243,11 @@
 		<None Remove="ClientApp\tsconfig.json" />
 	</ItemGroup>
 
+	<ItemGroup>
+	  <TypeScriptCompile Remove="ClientApp\src\app\common\models\fieldvalue.model.ts" />
+	  <TypeScriptCompile Remove="ClientApp\src\app\common\services\field-value-mapper.service.ts" />
+	</ItemGroup>
+
 
 	<ItemGroup>
 		<Content Include="ClientApp\src\assets\favicon.ico">

@@ -38,6 +38,7 @@ export class ColorComponent implements ControlValueAccessor, Validator {
 
     writeValue(val: any): void {
         this.hex = val;
+        if (!this.hex) this.hex = null;
         this.bg = val ? val + " !important" : undefined;
         this.propagateChange(val);
     }

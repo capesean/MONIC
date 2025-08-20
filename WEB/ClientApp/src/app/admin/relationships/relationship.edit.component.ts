@@ -15,6 +15,7 @@ import { DocumentService } from '../../common/services/document.service';
 import { ItemTypes } from '../../common/models/enums.model';
 import { Item } from '../../common/models/item.model';
 import { FadeThenShrink } from '../../common/animations/fadethenshrink';
+import { FieldValueMapperService } from '../../common/services/field-value-mapper.service';
 
 @NgComponent({
     selector: 'relationship-edit',
@@ -37,9 +38,10 @@ export class RelationshipEditComponent extends ItemComponent implements OnInit {
         protected errorService: ErrorService,
         protected cdref: ChangeDetectorRef,
         protected appService: AppService,
-        protected documentService: DocumentService
+        protected documentService: DocumentService,
+        protected fieldValueMapper: FieldValueMapperService
     ) {
-        super(appService, errorService, cdref, documentService, modalService);
+        super(appService, errorService, cdref, documentService, modalService, fieldValueMapper);
     }
 
     ngOnInit(): void {
@@ -51,26 +53,29 @@ export class RelationshipEditComponent extends ItemComponent implements OnInit {
             this.isNew = relationshipId === "add";
 
             if (!this.isNew) {
-
                 this.relationship.relationshipId = relationshipId;
                 this.loadRelationship();
-
             } else {
-                this.setItem(this.relationship, { itemType: ItemTypes.Relationship, itemId: this.relationship.relationshipId } as Item);
+                this.setItem(this.relationship, {
+                    itemType: ItemTypes.Relationship,
+                    itemId: this.relationship.relationshipId
+                } as Item);
             }
-
         });
-
     }
 
     private loadRelationship(): void {
-
         this.relationshipService.get(this.relationship.relationshipId)
             .subscribe({
                 next: relationship => {
                     this.relationship = relationship;
                     this.changeBreadcrumb();
-                    this.setItem(this.relationship, { itemType: ItemTypes.Relationship, itemId: this.relationship.relationshipId } as Item);
+
+                    this.setItem(this.relationship, {
+                        itemType: ItemTypes.Relationship,
+                        itemId: this.relationship.relationshipId
+                    } as Item);
+
                     this.searchDocuments();
                 },
                 error: err => {
@@ -97,38 +102,45 @@ export class RelationshipEditComponent extends ItemComponent implements OnInit {
             .subscribe({
                 next: relationship => {
                     this.toastr.success("The relationship has been saved", "Save Relationship");
-                    if (this.isNew) this.router.navigate(["../", relationship.relationshipId], { relativeTo: this.route });
-                    else {
+                    if (this.isNew) {
+                        this.router.navigate(["../", relationship.relationshipId], { relativeTo: this.route });
+                    } else {
                         this.relationship = relationship;
-                        this.setItem(this.relationship, { itemType: ItemTypes.Relationship, itemId: this.relationship.relationshipId } as Item);
+                        this.setItem(this.relationship, {
+                            itemType: ItemTypes.Relationship,
+                            itemId: this.relationship.relationshipId
+                        } as Item);
                     }
                 },
                 error: err => {
                     this.errorService.handleError(err, "Relationship", "Save");
                 }
             });
-
     }
 
     delete(): void {
 
         let modalRef = this.modalService.open(ConfirmModalComponent, { centered: true });
-        (modalRef.componentInstance as ConfirmModalComponent).options = { title: "Delete Relationship", text: "Are you sure you want to delete this relationship?", deleteStyle: true, ok: "Delete" } as ConfirmModalOptions;
-        modalRef.result.then(
-            () => {
+        (modalRef.componentInstance as ConfirmModalComponent).options = {
+            title: "Delete Relationship",
+            text: "Are you sure you want to delete this relationship?",
+            deleteStyle: true,
+            ok: "Delete"
+        } as ConfirmModalOptions;
 
-                this.relationshipService.delete(this.relationship.relationshipId)
-                    .subscribe({
-                        next: () => {
-                            this.toastr.success("The relationship has been deleted", "Delete Relationship");
-                            this.router.navigate(["../../"], { relativeTo: this.route });
-                        },
-                        error: err => {
-                            this.errorService.handleError(err, "Relationship", "Delete");
-                        }
-                    });
+        modalRef.result.then(() => {
+            this.relationshipService.delete(this.relationship.relationshipId)
+                .subscribe({
+                    next: () => {
+                        this.toastr.success("The relationship has been deleted", "Delete Relationship");
+                        this.router.navigate(["../../"], { relativeTo: this.route });
+                    },
+                    error: err => {
+                        this.errorService.handleError(err, "Relationship", "Delete");
+                    }
+                });
 
-            }, () => { });
+        }, () => { });
     }
 
     changeBreadcrumb(): void {

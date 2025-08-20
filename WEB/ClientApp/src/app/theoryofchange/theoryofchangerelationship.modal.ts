@@ -13,6 +13,7 @@ import { ConfirmModalComponent, ConfirmModalOptions } from '../common/components
 import { Relationship } from '../common/models/relationship.model';
 import { RelationshipService } from '../common/services/relationship.service';
 import { Component } from '../common/models/component.model';
+import { FieldValueMapperService } from '../common/services/field-value-mapper.service';
 
 @NgComponent({
     selector: 'theoryofchangerelationship-modal',
@@ -33,9 +34,10 @@ export class TheoryOfChangeRelationshipModal extends ItemComponent implements On
         protected modalService: NgbModal,
         protected cdref: ChangeDetectorRef,
         protected appService: AppService,
-        protected documentService: DocumentService
+        protected documentService: DocumentService,
+        protected fieldValueMapper: FieldValueMapperService
     ) {
-        super(appService, errorService, cdref, documentService, modalService);
+        super(appService, errorService, cdref, documentService, modalService, fieldValueMapper);
     }
 
     ngOnInit(): void {

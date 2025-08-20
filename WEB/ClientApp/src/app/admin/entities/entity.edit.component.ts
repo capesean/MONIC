@@ -24,6 +24,7 @@ import { AppService } from '../../common/services/app.service';
 import { ItemComponent } from '../../common/components/item.component';
 import { DocumentService } from '../../common/services/document.service';
 import { Item } from '../../common/models/item.model';
+import { FieldValueMapperService } from '../../common/services/field-value-mapper.service';
 
 @NgComponent({
     selector: 'entity-edit',
@@ -75,9 +76,10 @@ export class EntityEditComponent extends ItemComponent implements OnInit {
         protected errorService: ErrorService,
         protected cdref: ChangeDetectorRef,
         protected appService: AppService,
-        protected documentService: DocumentService
+        protected documentService: DocumentService,
+        protected fieldValueMapper: FieldValueMapperService
     ) {
-        super(appService, errorService, cdref, documentService, modalService);
+        super(appService, errorService, cdref, documentService, modalService, fieldValueMapper);
     }
 
     ngOnInit(): void {

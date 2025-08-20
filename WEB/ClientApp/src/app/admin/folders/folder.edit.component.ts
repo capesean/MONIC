@@ -20,6 +20,7 @@ import { AppService } from '../../common/services/app.service';
 import { DocumentService } from '../../common/services/document.service';
 import { ItemTypes } from '../../common/models/enums.model';
 import { Item } from '../../common/models/item.model';
+import { FieldValueMapperService } from '../../common/services/field-value-mapper.service';
 
 @NgComponent({
     selector: 'folder-edit',
@@ -54,9 +55,10 @@ export class FolderEditComponent extends ItemComponent implements OnInit, OnDest
         protected errorService: ErrorService,
         protected cdref: ChangeDetectorRef,
         protected appService: AppService,
-        protected documentService: DocumentService
+        protected documentService: DocumentService,
+        protected fieldValueMapper: FieldValueMapperService
     ) {
-        super(appService, errorService, cdref, documentService, modalService);
+        super(appService, errorService, cdref, documentService, modalService, fieldValueMapper);
     }
 
     ngOnInit(): void {

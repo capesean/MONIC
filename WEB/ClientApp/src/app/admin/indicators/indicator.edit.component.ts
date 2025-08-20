@@ -26,6 +26,7 @@ import { IndicatorDate, IndicatorDateSearchOptions, IndicatorDateSearchResponse 
 import { IndicatorDateService } from '../../common/services/indicatordate.service';
 import { AppDate } from '../../common/models/date.model';
 import { DateModalComponent } from '../dates/date.modal.component';
+import { FieldValueMapperService } from '../../common/services/field-value-mapper.service';
 
 @Component({
     selector: 'indicator-edit',
@@ -90,10 +91,11 @@ export class IndicatorEditComponent extends ItemComponent implements OnInit {
         protected cdref: ChangeDetectorRef,
         protected appService: AppService,
         protected documentService: DocumentService,
+        protected fieldValueMapper: FieldValueMapperService,
         private subcategoryService: SubcategoryService,
         private indicatorDateService: IndicatorDateService
     ) {
-        super(appService, errorService, cdref, documentService, modalService);
+        super(appService, errorService, cdref, documentService, modalService, fieldValueMapper);
     }
 
     ngOnInit(): void {
