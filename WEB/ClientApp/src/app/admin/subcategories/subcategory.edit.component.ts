@@ -1,22 +1,27 @@
-import { Component as NgComponent, OnInit, OnDestroy } from '@angular/core';
+import { Component as NgComponent, OnInit, ChangeDetectorRef, OnDestroy } from '@angular/core';
 import { Router, ActivatedRoute, NavigationEnd } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { NgForm } from '@angular/forms';
 import { Subject, Subscription } from 'rxjs';
 import { HttpErrorResponse } from '@angular/common/http';
-import { BreadcrumbService } from '../../common/services/breadcrumb.service';
-import { ErrorService } from '../../common/services/error.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ConfirmModalComponent, ConfirmModalOptions } from '../../common/components/confirm.component';
 import { PagingHeaders } from '../../common/models/http.model';
 import { Subcategory } from '../../common/models/subcategory.model';
-import { SubcategoryService } from '../../common/services/subcategory.service';
 import { Enum, Enums } from '../../common/models/enums.model';
 import { FadeThenShrink } from '../../common/animations/fadethenshrink';
+import { BreadcrumbService } from '../../common/services/breadcrumb.service';
+import { ErrorService } from '../../common/services/error.service';
+import { SubcategoryService } from '../../common/services/subcategory.service';
 import { Indicator, IndicatorSearchOptions, IndicatorSearchResponse } from '../../common/models/indicator.model';
 import { IndicatorService } from '../../common/services/indicator.service';
+import { AppService } from '../../common/services/app.service';
+import { ItemComponent } from '../../common/components/item.component';
+import { DocumentService } from '../../common/services/document.service';
+import { FieldValueMapperService } from '../../common/services/field-value-mapper.service';
+import { Item } from '../../common/models/item.model';
+import { ItemTypes } from '../../common/models/enums.model';
 import { IndicatorSortComponent } from '../indicators/indicator.sort.component';
-import { trigger, transition, style, animate } from '@angular/animations';
 
 @NgComponent({
     selector: 'subcategory-edit',
@@ -24,14 +29,14 @@ import { trigger, transition, style, animate } from '@angular/animations';
     animations: [FadeThenShrink],
     standalone: false
 })
-export class SubcategoryEditComponent implements OnInit, OnDestroy {
+export class SubcategoryEditComponent extends ItemComponent implements OnInit, OnDestroy {
 
     public subcategory: Subcategory = new Subcategory();
     public isNew = true;
     private routerSubscription: Subscription;
-    public indicatorTypes: Enum[] = Enums.IndicatorTypes;
     public indicatorStatuses: Enum[] = Enums.IndicatorStatuses;
     public dateTypes: Enum[] = Enums.DateTypes;
+    public indicatorTypes: Enum[] = Enums.IndicatorTypes;
 
     public indicatorsSearchOptions = new IndicatorSearchOptions();
     public indicatorsHeaders = new PagingHeaders();
@@ -40,14 +45,19 @@ export class SubcategoryEditComponent implements OnInit, OnDestroy {
 
     constructor(
         private router: Router,
-        public route: ActivatedRoute,
+        private route: ActivatedRoute,
         private toastr: ToastrService,
         private breadcrumbService: BreadcrumbService,
-        private modalService: NgbModal,
+        protected modalService: NgbModal,
         private subcategoryService: SubcategoryService,
         private indicatorService: IndicatorService,
-        private errorService: ErrorService
+        protected cdref: ChangeDetectorRef,
+        protected appService: AppService,
+        protected documentService: DocumentService,
+        protected fieldValueMapper: FieldValueMapperService,
+        protected errorService: ErrorService
     ) {
+        super(appService, errorService, cdref, documentService, modalService, fieldValueMapper);
     }
 
     ngOnInit(): void {
@@ -58,7 +68,12 @@ export class SubcategoryEditComponent implements OnInit, OnDestroy {
             this.subcategory.categoryId = this.route.snapshot.parent.params.categoryId;
             this.isNew = subcategoryId === "add";
 
-            if (!this.isNew) {
+            if (this.isNew) {
+                this.setItem(this.subcategory, {
+                    itemType: ItemTypes.Subcategory,
+                    itemId: this.subcategory.subcategoryId
+                } as Item);
+            } else {
 
                 this.subcategory.subcategoryId = subcategoryId;
                 this.loadSubcategory();
@@ -91,6 +106,11 @@ export class SubcategoryEditComponent implements OnInit, OnDestroy {
                 next: subcategory => {
                     this.subcategory = subcategory;
                     this.changeBreadcrumb();
+                    this.setItem(this.subcategory, {
+                        itemType: ItemTypes.Subcategory,
+                        itemId: this.subcategory.subcategoryId
+                    } as Item);
+                    this.searchDocuments();
                 },
                 error: err => {
                     this.errorService.handleError(err, "Subcategory", "Load");
@@ -117,6 +137,12 @@ export class SubcategoryEditComponent implements OnInit, OnDestroy {
                     if (this.isNew) {
                         this.ngOnDestroy();
                         this.router.navigate(["../", subcategory.subcategoryId], { relativeTo: this.route });
+                    } else {
+                        this.subcategory = subcategory;
+                        this.setItem(this.subcategory, {
+                            itemType: ItemTypes.Subcategory,
+                            itemId: this.subcategory.subcategoryId
+                        } as Item);
                     }
                 },
                 error: err => {
@@ -144,7 +170,7 @@ export class SubcategoryEditComponent implements OnInit, OnDestroy {
                         }
                     });
 
-        }, () => { });
+            }, () => { });
     }
 
     changeBreadcrumb(): void {

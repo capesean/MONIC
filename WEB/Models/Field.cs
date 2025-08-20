@@ -40,6 +40,9 @@ namespace WEB.Models
         public bool Category { get; set; }
 
         [Required]
+        public bool Subcategory { get; set; }
+
+        [Required]
         public bool Required { get; set; }
 
         [Required]

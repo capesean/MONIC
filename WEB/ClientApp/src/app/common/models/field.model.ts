@@ -16,6 +16,7 @@ export class Field {
     relationship: boolean;
     folder: boolean;
     category: boolean;
+    subcategory: boolean;
     required: boolean;
     isUnique: boolean;
     size: Sizes;

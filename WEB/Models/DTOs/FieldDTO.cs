@@ -40,6 +40,9 @@ namespace WEB.Models
         public bool Category { get; set; }
 
         [Required]
+        public bool Subcategory { get; set; }
+
+        [Required]
         public bool Required { get; set; }
 
         [Required]
@@ -99,6 +102,7 @@ namespace WEB.Models
             fieldDTO.Relationship = field.Relationship;
             fieldDTO.Folder = field.Folder;
             fieldDTO.Category = field.Category;
+            fieldDTO.Subcategory = field.Subcategory;
             fieldDTO.Required = field.Required;
             fieldDTO.IsUnique = field.IsUnique;
             fieldDTO.Size = field.Size;
@@ -139,6 +143,7 @@ namespace WEB.Models
             field.Relationship = fieldDTO.Relationship;
             field.Folder = fieldDTO.Folder;
             field.Category = fieldDTO.Category;
+            field.Subcategory = fieldDTO.Subcategory;
             field.Required = fieldDTO.Required;
             field.IsUnique = fieldDTO.IsUnique;
             field.Size = fieldDTO.Size;

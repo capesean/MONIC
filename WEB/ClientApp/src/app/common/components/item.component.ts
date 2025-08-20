@@ -58,6 +58,7 @@ export abstract class ItemComponent {
                         if (itemType === ItemTypes.Relationship) return o.relationship;
                         if (itemType === ItemTypes.Folder) return o.folder;
                         if (itemType === ItemTypes.Category) return o.category;
+                        if (itemType === ItemTypes.Subcategory) return o.subcategory;
                         throw new Error("Invalid itemType in setItem");
                     });
                     this.groups = fieldData.groups.filter(o =>
