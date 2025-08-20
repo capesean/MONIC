@@ -87,7 +87,7 @@ namespace WEB.Controllers
                     return NotFound();
 
                 if (!await db.Items.AnyAsync(o => o.ItemId == folder.FolderId))
-                    db.Entry(new Item { ItemId = folder.FolderId, ItemType = ItemType.Entity }).State = EntityState.Added;
+                    db.Entry(new Item { ItemId = folder.FolderId, ItemType = ItemType.Folder }).State = EntityState.Added;
 
                 db.Entry(folder).State = EntityState.Modified;
             }

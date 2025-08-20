@@ -102,6 +102,7 @@ namespace WEB.Controllers
             if (relationship == null)
                 return NotFound();
 
+            ItemFunctions.DeleteDocuments(db, relationshipId);
             ItemFunctions.DeleteFields(db, relationshipId, true);
 
             db.Entry(relationship).State = EntityState.Deleted;

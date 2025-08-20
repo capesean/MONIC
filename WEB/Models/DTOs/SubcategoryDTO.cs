@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace WEB.Models
 {
-    public class SubcategoryDTO
+    public class SubcategoryDTO : FieldsDTO
     {
         [Required]
         public Guid SubcategoryId { get; set; }
@@ -31,7 +31,7 @@ namespace WEB.Models
 
     public static partial class ModelFactory
     {
-        public static SubcategoryDTO Create(Subcategory subcategory, bool includeParents = true, bool includeChildren = false)
+        public static SubcategoryDTO Create(Subcategory subcategory, bool includeParents = true, bool includeChildren = false, Item item = null)
         {
             if (subcategory == null) return null;
 
@@ -54,6 +54,8 @@ namespace WEB.Models
                 foreach (var indicator in subcategory.Indicators)
                     subcategoryDTO.Indicators.Add(Create(indicator));
             }
+
+            subcategoryDTO.AddFields(item);
 
             return subcategoryDTO;
         }

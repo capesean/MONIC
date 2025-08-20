@@ -87,7 +87,7 @@ namespace WEB.Controllers
                     return NotFound();
 
                 if (!await db.Items.AnyAsync(o => o.ItemId == component.ComponentId))
-                    db.Entry(new Item { ItemId = component.ComponentId, ItemType = ItemType.Entity }).State = EntityState.Added;
+                    db.Entry(new Item { ItemId = component.ComponentId, ItemType = ItemType.Component }).State = EntityState.Added;
 
                 db.Entry(component).State = EntityState.Modified;
             }
@@ -123,9 +123,10 @@ namespace WEB.Controllers
 
                 await db.ComponentIndicators.Where(o => o.ComponentId == component.ComponentId).ExecuteDeleteAsync();
 
+                ItemFunctions.DeleteDocuments(db, componentId);
                 ItemFunctions.DeleteFields(db, componentId, true);
 
-            db.Entry(component).State = EntityState.Deleted;
+                db.Entry(component).State = EntityState.Deleted;
 
                 await db.SaveChangesAsync();
 

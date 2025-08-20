@@ -1,10 +1,10 @@
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Linq;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.EntityFrameworkCore;
 using WEB.Models;
 
 namespace WEB.Controllers
@@ -41,7 +41,12 @@ namespace WEB.Controllers
             if (category == null)
                 return NotFound();
 
-            return Ok(ModelFactory.Create(category));
+            var item = await db.Items
+               .Include(o => o.ItemFields)
+               .Include(o => o.ItemOptions)
+               .FirstOrDefaultAsync(o => o.ItemId == categoryId);
+
+            return Ok(ModelFactory.Create(category, true, false, item));
         }
 
         [HttpPost("{categoryId:Guid}"), AuthorizeRoles(Roles.Administrator)]
@@ -66,6 +71,8 @@ namespace WEB.Controllers
 
                 categoryDTO.SortOrder = (await db.Categories.MaxAsync(o => (int?)o.SortOrder) ?? 0) + 1;
 
+                db.Entry(new Item { ItemId = category.CategoryId, ItemType = ItemType.Category }).State = EntityState.Added;
+
                 db.Entry(category).State = EntityState.Added;
             }
             else
@@ -76,10 +83,16 @@ namespace WEB.Controllers
                 if (category == null)
                     return NotFound();
 
+                if (!await db.Items.AnyAsync(o => o.ItemId == category.CategoryId))
+                    db.Entry(new Item { ItemId = category.CategoryId, ItemType = ItemType.Category }).State = EntityState.Added;
+
                 db.Entry(category).State = EntityState.Modified;
             }
 
             ModelFactory.Hydrate(category, categoryDTO);
+
+            if (categoryDTO.ItemFields != null || categoryDTO.ItemOptions != null)
+                await ItemFunctions.HydrateFieldsAsync(db, category.CategoryId, categoryDTO.ItemFields, categoryDTO.ItemOptions);
 
             await db.SaveChangesAsync();
 
@@ -100,7 +113,17 @@ namespace WEB.Controllers
 
             db.Entry(category).State = EntityState.Deleted;
 
-            await db.SaveChangesAsync();
+            using (var transactionScope = Utilities.General.CreateTransactionScope())
+            {
+                ItemFunctions.DeleteDocuments(db, categoryId);
+                ItemFunctions.DeleteFields(db, categoryId, true);
+
+                db.Entry(category).State = EntityState.Deleted;
+
+                await db.SaveChangesAsync();
+
+                transactionScope.Complete();
+            }
 
             return Ok();
         }
@@ -129,7 +152,20 @@ namespace WEB.Controllers
             if (await db.Indicators.AnyAsync(o => o.Subcategory.CategoryId == categoryId))
                 return BadRequest("Unable to delete the subcategories as there are related indicators");
 
-            await db.Subcategories.Where(o => o.CategoryId == categoryId).ExecuteDeleteAsync();
+            using (var transactionScope = Utilities.General.CreateTransactionScope())
+            {
+                foreach (var subcategory in db.Subcategories.Where(o => o.CategoryId == categoryId).ToList())
+                {
+                    ItemFunctions.DeleteDocuments(db, subcategory.SubcategoryId);
+                    ItemFunctions.DeleteFields(db, subcategory.SubcategoryId, true);
+                }
+
+                await db.Subcategories.Where(o => o.CategoryId == categoryId).ExecuteDeleteAsync();
+
+                await db.SaveChangesAsync();
+
+                transactionScope.Complete();
+            }
 
             return Ok();
         }

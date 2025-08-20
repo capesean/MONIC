@@ -96,7 +96,7 @@ namespace WEB.Controllers
                     return NotFound();
 
                 if (!await db.Items.AnyAsync(o => o.ItemId == organisation.OrganisationId))
-                    db.Entry(new Item { ItemId = organisation.OrganisationId, ItemType = ItemType.Entity }).State = EntityState.Added;
+                    db.Entry(new Item { ItemId = organisation.OrganisationId, ItemType = ItemType.Organisation }).State = EntityState.Added;
 
                 db.Entry(organisation).State = EntityState.Modified;
             }
@@ -125,6 +125,7 @@ namespace WEB.Controllers
             if (await db.Users.AnyAsync(o => o.OrganisationId == organisation.OrganisationId))
                 return BadRequest("Unable to delete the organisation as it has related users");
 
+            ItemFunctions.DeleteDocuments(db, organisationId);
             ItemFunctions.DeleteFields(db, organisationId, true);
 
             db.Entry(organisation).State = EntityState.Deleted;
@@ -157,15 +158,14 @@ namespace WEB.Controllers
                 await db.EntityPermissions.Where(o => o.Entity.OrganisationId == organisationId).ExecuteDeleteAsync();
 
                 foreach (var entity in db.Entities.Where(o => o.OrganisationId == organisationId).ToList())
-            {
-                ItemFunctions.DeleteFields(db, entity.EntityId, true);
-            }
+                {
+                    ItemFunctions.DeleteDocuments(db, entity.EntityId);
+                    ItemFunctions.DeleteFields(db, entity.EntityId, true);
+                }
 
-            await db.Entities.Where(o => o.OrganisationId == organisationId).ExecuteDeleteAsync();
+                await db.Entities.Where(o => o.OrganisationId == organisationId).ExecuteDeleteAsync();
 
-            await db.SaveChangesAsync();
-
-            transactionScope.Complete();
+                await db.SaveChangesAsync();
 
                 transactionScope.Complete();
             }

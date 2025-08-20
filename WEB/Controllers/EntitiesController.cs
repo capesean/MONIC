@@ -184,9 +184,10 @@ namespace WEB.Controllers
             {
                 await db.EntityPermissions.Where(o => o.EntityId == entity.EntityId).ExecuteDeleteAsync();
 
+                ItemFunctions.DeleteDocuments(db, entityId);
                 ItemFunctions.DeleteFields(db, entityId, true);
 
-            db.Entry(entity).State = EntityState.Deleted;
+                db.Entry(entity).State = EntityState.Deleted;
 
                 await db.SaveChangesAsync();
 

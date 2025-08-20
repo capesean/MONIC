@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace WEB.Models
 {
-    public class CategoryDTO
+    public class CategoryDTO : FieldsDTO
     {
         [Required]
         public Guid CategoryId { get; set; }
@@ -23,7 +23,7 @@ namespace WEB.Models
 
     public static partial class ModelFactory
     {
-        public static CategoryDTO Create(Category category, bool includeParents = true, bool includeChildren = false)
+        public static CategoryDTO Create(Category category, bool includeParents = true, bool includeChildren = false, Item item = null)
         {
             if (category == null) return null;
 
@@ -39,6 +39,8 @@ namespace WEB.Models
                 foreach (var subcategory in category.Subcategories)
                     categoryDTO.Subcategories.Add(Create(subcategory));
             }
+
+            categoryDTO.AddFields(item);
 
             return categoryDTO;
         }

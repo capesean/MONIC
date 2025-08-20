@@ -49,7 +49,12 @@ namespace WEB.Controllers
             if (subcategory == null)
                 return NotFound();
 
-            return Ok(ModelFactory.Create(subcategory));
+            var item = await db.Items
+               .Include(o => o.ItemFields)
+               .Include(o => o.ItemOptions)
+               .FirstOrDefaultAsync(o => o.ItemId == subcategoryId);
+
+            return Ok(ModelFactory.Create(subcategory, true, false, item));
         }
 
         [HttpPost("{subcategoryId:Guid}"), AuthorizeRoles(Roles.Administrator)]
@@ -74,6 +79,8 @@ namespace WEB.Controllers
 
                 subcategoryDTO.SortOrder = (await db.Subcategories.Where(o => o.CategoryId == subcategoryDTO.CategoryId).MaxAsync(o => (int?)o.SortOrder) ?? 0) + 1;
 
+                db.Entry(new Item { ItemId = subcategory.SubcategoryId, ItemType = ItemType.Subcategory }).State = EntityState.Added;
+
                 db.Entry(subcategory).State = EntityState.Added;
             }
             else
@@ -84,10 +91,16 @@ namespace WEB.Controllers
                 if (subcategory == null)
                     return NotFound();
 
+                if (!await db.Items.AnyAsync(o => o.ItemId == subcategory.SubcategoryId))
+                    db.Entry(new Item { ItemId = subcategory.SubcategoryId, ItemType = ItemType.Subcategory }).State = EntityState.Added;
+
                 db.Entry(subcategory).State = EntityState.Modified;
             }
 
             ModelFactory.Hydrate(subcategory, subcategoryDTO);
+
+            if (subcategoryDTO.ItemFields != null || subcategoryDTO.ItemOptions != null)
+                await ItemFunctions.HydrateFieldsAsync(db, subcategory.SubcategoryId, subcategoryDTO.ItemFields, subcategoryDTO.ItemOptions);
 
             await db.SaveChangesAsync();
 
@@ -108,7 +121,17 @@ namespace WEB.Controllers
 
             db.Entry(subcategory).State = EntityState.Deleted;
 
-            await db.SaveChangesAsync();
+            using (var transactionScope = Utilities.General.CreateTransactionScope())
+            {
+                ItemFunctions.DeleteDocuments(db, subcategoryId);
+                ItemFunctions.DeleteFields(db, subcategoryId, true);
+
+                db.Entry(subcategory).State = EntityState.Deleted;
+
+                await db.SaveChangesAsync();
+
+                transactionScope.Complete();
+            }
 
             return Ok();
         }
@@ -158,13 +181,14 @@ namespace WEB.Controllers
                 await db.IndicatorDates.Where(o => o.Indicator.SubcategoryId == subcategoryId).ExecuteDeleteAsync();
 
                 foreach (var indicator in db.Indicators.Where(o => o.SubcategoryId == subcategoryId).ToList())
-            {
-                ItemFunctions.DeleteFields(db, indicator.IndicatorId, true);
-            }
+                {
+                    ItemFunctions.DeleteDocuments(db, indicator.IndicatorId);
+                    ItemFunctions.DeleteFields(db, indicator.IndicatorId, true);
+                }
 
-            await db.Indicators.Where(o => o.SubcategoryId == subcategoryId).ExecuteDeleteAsync();
+                await db.Indicators.Where(o => o.SubcategoryId == subcategoryId).ExecuteDeleteAsync();
 
-            await db.SaveChangesAsync();
+                await db.SaveChangesAsync();
 
                 transactionScope.Complete();
             }

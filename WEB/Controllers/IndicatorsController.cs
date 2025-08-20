@@ -155,7 +155,7 @@ namespace WEB.Controllers
                 }
 
                 if (!await db.Items.AnyAsync(o => o.ItemId == indicator.IndicatorId))
-                    db.Entry(new Item { ItemId = indicator.IndicatorId, ItemType = ItemType.Entity }).State = EntityState.Added;
+                    db.Entry(new Item { ItemId = indicator.IndicatorId, ItemType = ItemType.Indicator }).State = EntityState.Added;
 
                 indicator.LastSavedDateUtc = DateTime.UtcNow;
                 indicator.LastSavedById = CurrentUser.Id;
@@ -204,9 +204,10 @@ namespace WEB.Controllers
 
                 await db.IndicatorDates.Where(o => o.IndicatorId == indicator.IndicatorId).ExecuteDeleteAsync();
 
+                ItemFunctions.DeleteDocuments(db, indicatorId);
                 ItemFunctions.DeleteFields(db, indicatorId, true);
 
-            db.Entry(indicator).State = EntityState.Deleted;
+                db.Entry(indicator).State = EntityState.Deleted;
 
                 await db.SaveChangesAsync();
 

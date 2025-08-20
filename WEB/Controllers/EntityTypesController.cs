@@ -154,15 +154,14 @@ namespace WEB.Controllers
                 await db.EntityPermissions.Where(o => o.Entity.EntityTypeId == entityTypeId).ExecuteDeleteAsync();
 
                 foreach (var entity in db.Entities.Where(o => o.EntityTypeId == entityTypeId).ToList())
-            {
-                ItemFunctions.DeleteFields(db, entity.EntityId, true);
-            }
+                {
+                    ItemFunctions.DeleteDocuments(db, entity.EntityId);
+                    ItemFunctions.DeleteFields(db, entity.EntityId, true);
+                }
 
-            await db.Entities.Where(o => o.EntityTypeId == entityTypeId).ExecuteDeleteAsync();
+                await db.Entities.Where(o => o.EntityTypeId == entityTypeId).ExecuteDeleteAsync();
 
-            await db.SaveChangesAsync();
-
-            transactionScope.Complete();
+                await db.SaveChangesAsync();
 
                 transactionScope.Complete();
             }
