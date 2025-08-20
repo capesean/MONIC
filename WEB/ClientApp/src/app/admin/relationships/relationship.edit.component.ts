@@ -14,8 +14,8 @@ import { AppService } from '../../common/services/app.service';
 import { DocumentService } from '../../common/services/document.service';
 import { ItemTypes } from '../../common/models/enums.model';
 import { Item } from '../../common/models/item.model';
-import { FadeThenShrink } from '../../common/animations/fadethenshrink';
 import { FieldValueMapperService } from '../../common/services/field-value-mapper.service';
+import { FadeThenShrink } from '../../common/animations/fadethenshrink';
 
 @NgComponent({
     selector: 'relationship-edit',
@@ -53,29 +53,32 @@ export class RelationshipEditComponent extends ItemComponent implements OnInit {
             this.isNew = relationshipId === "add";
 
             if (!this.isNew) {
+
                 this.relationship.relationshipId = relationshipId;
                 this.loadRelationship();
+
             } else {
                 this.setItem(this.relationship, {
                     itemType: ItemTypes.Relationship,
                     itemId: this.relationship.relationshipId
                 } as Item);
             }
+
         });
+
     }
 
     private loadRelationship(): void {
+
         this.relationshipService.get(this.relationship.relationshipId)
             .subscribe({
                 next: relationship => {
                     this.relationship = relationship;
                     this.changeBreadcrumb();
-
                     this.setItem(this.relationship, {
                         itemType: ItemTypes.Relationship,
                         itemId: this.relationship.relationshipId
                     } as Item);
-
                     this.searchDocuments();
                 },
                 error: err => {
@@ -116,31 +119,28 @@ export class RelationshipEditComponent extends ItemComponent implements OnInit {
                     this.errorService.handleError(err, "Relationship", "Save");
                 }
             });
+
     }
 
     delete(): void {
 
         let modalRef = this.modalService.open(ConfirmModalComponent, { centered: true });
-        (modalRef.componentInstance as ConfirmModalComponent).options = {
-            title: "Delete Relationship",
-            text: "Are you sure you want to delete this relationship?",
-            deleteStyle: true,
-            ok: "Delete"
-        } as ConfirmModalOptions;
+        (modalRef.componentInstance as ConfirmModalComponent).options = { title: "Delete Relationship", text: "Are you sure you want to delete this relationship?", deleteStyle: true, ok: "Delete" } as ConfirmModalOptions;
+        modalRef.result.then(
+            () => {
 
-        modalRef.result.then(() => {
-            this.relationshipService.delete(this.relationship.relationshipId)
-                .subscribe({
-                    next: () => {
-                        this.toastr.success("The relationship has been deleted", "Delete Relationship");
-                        this.router.navigate(["../../"], { relativeTo: this.route });
-                    },
-                    error: err => {
-                        this.errorService.handleError(err, "Relationship", "Delete");
-                    }
-                });
+                this.relationshipService.delete(this.relationship.relationshipId)
+                    .subscribe({
+                        next: () => {
+                            this.toastr.success("The relationship has been deleted", "Delete Relationship");
+                            this.router.navigate(["../../"], { relativeTo: this.route });
+                        },
+                        error: err => {
+                            this.errorService.handleError(err, "Relationship", "Delete");
+                        }
+                    });
 
-        }, () => { });
+            }, () => { });
     }
 
     changeBreadcrumb(): void {
