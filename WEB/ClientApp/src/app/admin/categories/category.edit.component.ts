@@ -63,7 +63,12 @@ export class CategoryEditComponent extends ItemComponent implements OnInit, OnDe
             const categoryId = params["categoryId"];
             this.isNew = categoryId === "add";
 
-            if (!this.isNew) {
+            if (this.isNew) {
+                this.setItem(this.category, {
+                    itemType: ItemTypes.Category,
+                    itemId: this.category.categoryId
+                } as Item);
+            } else {
 
                 this.category.categoryId = categoryId;
                 this.loadCategory();
@@ -72,11 +77,6 @@ export class CategoryEditComponent extends ItemComponent implements OnInit, OnDe
                 this.subcategoriesSearchOptions.includeParents = true;
                 this.searchSubcategories();
 
-            } else {
-                this.setItem(this.category, {
-                    itemType: ItemTypes.Relationship,
-                    itemId: this.category.categoryId
-                } as Item);
             }
 
             this.routerSubscription = this.router.events.subscribe(event => {

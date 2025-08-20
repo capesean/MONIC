@@ -1,8 +1,8 @@
 import { SearchOptions, PagingHeaders } from './http.model';
+import { Subcategory } from './subcategory.model';
 import { IHasFields } from './ihasfields.model';
 import { ItemField } from './itemfield.model';
 import { ItemOption } from './itemoption.model';
-import { Subcategory } from './subcategory.model';
 
 export class Category implements IHasFields {
     categoryId: string;
