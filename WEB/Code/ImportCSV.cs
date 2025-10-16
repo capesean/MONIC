@@ -153,7 +153,7 @@ namespace WEB.Import
 
             var calculateElementIds = new HashSet<Guid>();
 
-            var row = 0;
+            var row = 1;
             foreach (var record in records)
             {
                 row++;
