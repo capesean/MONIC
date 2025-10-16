@@ -68,8 +68,8 @@ export class FieldComponent implements OnInit, ControlValueAccessor, Validator {
 
     setData(): void {
 
-        if (this._field.fieldType === FieldTypes.YesNo) this.controlType === ControlTypes.checkbox;
-        //else if (this._field.fieldType === FieldTypes.File) this.controlType === ControlTypes.fileInput;
+        if (this._field.fieldType === FieldTypes.YesNo) this.controlType = ControlTypes.checkbox;
+        //else if (this._field.fieldType === FieldTypes.File) this.controlType = ControlTypes.fileInput;
         else if (this._field.fieldType === FieldTypes.Text && !this._field.multiLine) this.controlType = ControlTypes.textbox;
         else if (this._field.fieldType === FieldTypes.Text && this._field.multiLine) this.controlType = ControlTypes.textArea;
         else if (this._field.fieldType === FieldTypes.OptionList && this._field.multiple && this._field.radioCheckbox) this.controlType = ControlTypes.multipleCheckbox;

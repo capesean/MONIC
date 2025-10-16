@@ -125,6 +125,8 @@ export class CategoryEditComponent extends ItemComponent implements OnInit, OnDe
 
         }
 
+        this.getData(this.category);
+
         this.categoryService.save(this.category)
             .subscribe({
                 next: category => {
