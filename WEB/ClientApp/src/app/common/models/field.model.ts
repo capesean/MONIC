@@ -3,6 +3,7 @@ import { Group } from './group.model';
 import { OptionList } from './optionlist.model';
 import { FieldTypes, Sizes } from './enums.model';
 import { ItemField } from './itemfield.model';
+import { ItemOption } from './itemoption.model';
 
 export class Field {
     fieldId: string;
@@ -33,12 +34,14 @@ export class Field {
     optionList: OptionList;
 
     itemFields: ItemField[];
+    itemOptions: ItemOption[];
 
     constructor() {
         this.fieldId = "00000000-0000-0000-0000-000000000000";
         this.size = 1;
         this.rows = 5;
         this.itemFields = [];
+        this.itemOptions = [];
     }
 }
 

@@ -81,6 +81,8 @@ namespace WEB.Models
 
         public virtual List<ItemFieldDTO> ItemFields { get; set; } = new List<ItemFieldDTO>();
 
+        public virtual List<ItemOptionDTO> ItemOptions { get; set; } = new List<ItemOptionDTO>();
+
     }
 
     public static partial class ModelFactory
@@ -126,6 +128,8 @@ namespace WEB.Models
             {
                 foreach (var itemField in field.ItemFields)
                     fieldDTO.ItemFields.Add(Create(itemField));
+                foreach (var itemOption in field.ItemOptions)
+                    fieldDTO.ItemOptions.Add(Create(itemOption));
             }
 
             return fieldDTO;

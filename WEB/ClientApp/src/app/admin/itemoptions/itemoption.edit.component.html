@@ -41,7 +41,7 @@
                                 Field:
                             </label>
 
-                            <input id="fieldId" name="fieldId" class="form-control" type="text" [(ngModel)]="itemOption.fieldId" #fieldId="ngModel" required />
+                            <field-select id="fieldId" name="fieldId" [(field)]="itemOption.field" [(ngModel)]="itemOption.fieldId" #fieldId="ngModel" required></field-select>
 
                             <div *ngIf="fieldId.errors?.required" class="invalid-feedback">
                                 Field is required

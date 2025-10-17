@@ -28,6 +28,7 @@ namespace WEB.Controllers
             if (searchOptions.IncludeChildren)
             {
                 results = results.Include(o => o.ItemFields);
+                results = results.Include(o => o.ItemOptions);
             }
 
             if (!string.IsNullOrWhiteSpace(searchOptions.q))
@@ -113,6 +114,8 @@ namespace WEB.Controllers
             using (var transactionScope = Utilities.General.CreateTransactionScope())
             {
                 await db.ItemFields.Where(o => o.FieldId == field.FieldId).ExecuteDeleteAsync();
+
+                await db.ItemOptions.Where(o => o.FieldId == field.FieldId).ExecuteDeleteAsync();
 
                 db.Entry(field).State = EntityState.Deleted;
 

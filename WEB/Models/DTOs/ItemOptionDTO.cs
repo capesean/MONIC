@@ -14,6 +14,8 @@ namespace WEB.Models
         [Required]
         public Guid OptionId { get; set; }
 
+        public FieldDTO Field { get; set; }
+
         public ItemDTO Item { get; set; }
 
         public OptionDTO Option { get; set; }
@@ -34,6 +36,7 @@ namespace WEB.Models
 
             if (includeParents)
             {
+                itemOptionDTO.Field = Create(itemOption.Field);
                 itemOptionDTO.Item = Create(itemOption.Item);
                 itemOptionDTO.Option = Create(itemOption.Option);
             }

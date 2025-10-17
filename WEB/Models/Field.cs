@@ -77,6 +77,8 @@ namespace WEB.Models
 
         public virtual ICollection<ItemField> ItemFields { get; set; } = new List<ItemField>();
 
+        public virtual ICollection<ItemOption> ItemOptions { get; set; } = new List<ItemOption>();
+
         [ForeignKey("GroupId")]
         public virtual Group Group { get; set; }
 

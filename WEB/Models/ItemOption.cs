@@ -15,6 +15,9 @@ namespace WEB.Models
         [Required]
         public Guid OptionId { get; set; }
 
+        [ForeignKey("FieldId")]
+        public virtual Field Field { get; set; }
+
         [ForeignKey("ItemId")]
         public virtual Item Item { get; set; }
 
@@ -23,7 +26,6 @@ namespace WEB.Models
 
         public ItemOption()
         {
-            FieldId = Guid.NewGuid();
         }
 
         public override string ToString()

@@ -23,6 +23,7 @@ namespace WEB.Controllers
             {
                 results = results.Include(o => o.Option);
                 results = results.Include(o => o.Item);
+                results = results.Include(o => o.Field);
             }
 
             if (searchOptions.ItemId.HasValue) results = results.Where(o => o.ItemId == searchOptions.ItemId);
@@ -37,6 +38,7 @@ namespace WEB.Controllers
         public async Task<IActionResult> Get(Guid itemId, Guid fieldId, Guid optionId)
         {
             var itemOption = await db.ItemOptions
+                .Include(o => o.Field)
                 .Include(o => o.Item)
                 .Include(o => o.Option)
                 .FirstOrDefaultAsync(o => o.ItemId == itemId && o.FieldId == fieldId && o.OptionId == optionId);
