@@ -38,6 +38,11 @@ export class FieldModalComponent implements OnInit {
     @Input() organisation: boolean;
     @Input() entity: boolean;
     @Input() indicator: boolean;
+    @Input() component: boolean;
+    @Input() relationship: boolean;
+    @Input() folder: boolean;
+    @Input() category: boolean;
+    @Input() subcategory: boolean;
     @Input() group: Group;
 
     constructor(
@@ -57,6 +62,11 @@ export class FieldModalComponent implements OnInit {
         this.searchOptions.organisation = this.organisation;
         this.searchOptions.entity = this.entity;
         this.searchOptions.indicator = this.indicator;
+        this.searchOptions.component = this.component;
+        this.searchOptions.relationship = this.relationship;
+        this.searchOptions.folder = this.folder;
+        this.searchOptions.category = this.category;
+        this.searchOptions.subcategory = this.subcategory;
         this.searchOptions.groupId = this.group?.groupId;
         this.modal = this.modalService.open(this.content, { size: 'xl', centered: true, scrollable: false });
         this.runSearch();

@@ -51,6 +51,11 @@ export class FieldSearchOptions extends SearchOptions {
     organisation: boolean;
     entity: boolean;
     indicator: boolean;
+    component: boolean;
+    relationship: boolean;
+    folder: boolean;
+    category: boolean;
+    subcategory: boolean;
     groupId: string;
 }
 

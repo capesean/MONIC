@@ -12,6 +12,16 @@ namespace WEB.Models
 
         public bool? Indicator { get; set; }
 
+        public bool? Component { get; set; }
+
+        public bool? Relationship { get; set; }
+
+        public bool? Folder { get; set; }
+
+        public bool? Category { get; set; }
+
+        public bool? Subcategory { get; set; }
+
         public Guid? GroupId { get; set; }
 
     }

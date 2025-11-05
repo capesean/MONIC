@@ -29,6 +29,11 @@ export class FieldSelectComponent implements OnInit, ControlValueAccessor {
     @Input() organisation: boolean;
     @Input() entity: boolean;
     @Input() indicator: boolean;
+    @Input() component: boolean;
+    @Input() relationship: boolean;
+    @Input() folder: boolean;
+    @Input() category: boolean;
+    @Input() subcategory: boolean;
     @Input() group: Group;
 
     disabled = false;

@@ -68,6 +68,56 @@
                         </div>
                     </div>
 
+                    <div class="col-sm-6 col-md-4 col-xl-3">
+                        <div class="form-group">
+                            <select id="component" name="component" [(ngModel)]="searchOptions.component" #component="ngModel" class="form-select">
+                                <option [ngValue]="undefined">Component: Any</option>
+                                <option [ngValue]="true">Component: Yes</option>
+                                <option [ngValue]="false">Component: No</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="col-sm-6 col-md-4 col-xl-3">
+                        <div class="form-group">
+                            <select id="relationship" name="relationship" [(ngModel)]="searchOptions.relationship" #relationship="ngModel" class="form-select">
+                                <option [ngValue]="undefined">Relationship: Any</option>
+                                <option [ngValue]="true">Relationship: Yes</option>
+                                <option [ngValue]="false">Relationship: No</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="col-sm-6 col-md-4 col-xl-3">
+                        <div class="form-group">
+                            <select id="folder" name="folder" [(ngModel)]="searchOptions.folder" #folder="ngModel" class="form-select">
+                                <option [ngValue]="undefined">Folder: Any</option>
+                                <option [ngValue]="true">Folder: Yes</option>
+                                <option [ngValue]="false">Folder: No</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="col-sm-6 col-md-4 col-xl-3">
+                        <div class="form-group">
+                            <select id="category" name="category" [(ngModel)]="searchOptions.category" #category="ngModel" class="form-select">
+                                <option [ngValue]="undefined">Category: Any</option>
+                                <option [ngValue]="true">Category: Yes</option>
+                                <option [ngValue]="false">Category: No</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="col-sm-6 col-md-4 col-xl-3">
+                        <div class="form-group">
+                            <select id="subcategory" name="subcategory" [(ngModel)]="searchOptions.subcategory" #subcategory="ngModel" class="form-select">
+                                <option [ngValue]="undefined">Subcategory: Any</option>
+                                <option [ngValue]="true">Subcategory: Yes</option>
+                                <option [ngValue]="false">Subcategory: No</option>
+                            </select>
+                        </div>
+                    </div>
+
                     <div class="col-sm-6 col-md-5 col-xl-4">
                         <div class="form-group">
                             <group-select id="groupId" name="groupId" [(ngModel)]="searchOptions.groupId"></group-select>

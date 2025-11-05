@@ -38,6 +38,11 @@ namespace WEB.Controllers
             if (searchOptions.Organisation.HasValue) results = results.Where(o => o.Organisation == searchOptions.Organisation);
             if (searchOptions.Entity.HasValue) results = results.Where(o => o.Entity == searchOptions.Entity);
             if (searchOptions.Indicator.HasValue) results = results.Where(o => o.Indicator == searchOptions.Indicator);
+            if (searchOptions.Component.HasValue) results = results.Where(o => o.Component == searchOptions.Component);
+            if (searchOptions.Relationship.HasValue) results = results.Where(o => o.Relationship == searchOptions.Relationship);
+            if (searchOptions.Folder.HasValue) results = results.Where(o => o.Folder == searchOptions.Folder);
+            if (searchOptions.Category.HasValue) results = results.Where(o => o.Category == searchOptions.Category);
+            if (searchOptions.Subcategory.HasValue) results = results.Where(o => o.Subcategory == searchOptions.Subcategory);
             if (searchOptions.GroupId.HasValue) results = results.Where(o => o.GroupId == searchOptions.GroupId);
 
             results = results.OrderBy(o => o.Group.SortOrder).ThenBy(o => o.SortOrder);
