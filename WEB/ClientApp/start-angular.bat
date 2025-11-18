@@ -9,6 +9,7 @@
 :: note: to decouple the webserver from visual studio launch (eg. F5), edit the project file and comment out: <SpaProxyLaunchCommand>npm start</SpaProxyLaunchCommand>
 
 :: use this commant to generate the .pem and .pfx files:
+:: -- it will create the files for the project name as in the package.json file. this must match the values in the nr serve line below:
 ::npm run prestart
 
 ng serve --port 44401 --ssl --ssl-cert %APPDATA%\\ASP.NET\\https\\website3.pem --ssl-key %APPDATA%\\ASP.NET\\https\\website3.key
