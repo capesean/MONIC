@@ -1,154 +1,72 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk.Web">
 
-	<PropertyGroup>
-		<TargetFramework>net8.0-windows</TargetFramework>
-		<Nullable>disable</Nullable>
-		<IsPackable>false</IsPackable>
-		<SpaRoot>ClientApp\</SpaRoot>
-		<SpaProxyServerUrl>https://localhost:44401</SpaProxyServerUrl>
-		<!--this next line, plus the ASPNETCORE_HOSTINGSTARTUPASSEMBLIES in launchSettings, will allow the SPA to run in the same process as the server-->
-		<SpaProxyLaunchCommand>npm start</SpaProxyLaunchCommand>
-		<ImplicitUsings>enable</ImplicitUsings>
-	</PropertyGroup>
+  <PropertyGroup>
+    <TargetFramework>net8.0-windows</TargetFramework>
+    <Nullable>disable</Nullable>
+    <IsPackable>false</IsPackable>
+    <SpaRoot>ClientApp\</SpaRoot>
+    <SpaProxyServerUrl>https://localhost:44401</SpaProxyServerUrl>
+    <SpaProxyLaunchCommand>npm start</SpaProxyLaunchCommand>
+    <ImplicitUsings>enable</ImplicitUsings>
+  </PropertyGroup>
 
-	<ItemGroup>
-		<PackageReference Include="Azure.Extensions.AspNetCore.DataProtection.Blobs" Version="1.3.4" />
-		<PackageReference Include="iTextSharp.LGPLv2.Core" Version="3.4.20" />
-		<PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="8.0.6" />
-		<PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="8.0.6" />
-		<PackageReference Include="Microsoft.AspNetCore.SpaProxy" Version="8.0.6" />
-		<PackageReference Include="Microsoft.EntityFrameworkCore.Proxies" Version="8.0.6" />
-		<PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="8.0.6" />
-		<PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="8.0.6">
-			<PrivateAssets>all</PrivateAssets>
-			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-		</PackageReference>
-		<PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
-		<PackageReference Include="OpenIddict.EntityFrameworkCore" Version="5.7.0" />
-		<PackageReference Include="OpenIddict.Server" Version="5.7.0" />
-		<PackageReference Include="OpenIddict.Server.AspNetCore" Version="5.7.0" />
-		<PackageReference Include="OpenIddict.Server.DataProtection" Version="5.7.0" />
-		<PackageReference Include="OpenIddict.Validation" Version="5.7.0" />
-		<PackageReference Include="OpenIddict.Validation.AspNetCore" Version="5.7.0" />
-		<PackageReference Include="OpenIddict.Validation.DataProtection" Version="5.7.0" />
-		<PackageReference Include="OpenIddict.Validation.ServerIntegration" Version="5.7.0" />
-	</ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="Azure.Extensions.AspNetCore.DataProtection.Blobs" Version="1.3.4" />
+    <PackageReference Include="iTextSharp.LGPLv2.Core" Version="3.4.20" />
+    <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="8.0.6" />
+    <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="8.0.6" />
+    <PackageReference Include="Microsoft.AspNetCore.SpaProxy" Version="8.0.6" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Proxies" Version="8.0.6" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="8.0.6" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="8.0.6">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
+    <PackageReference Include="OpenIddict.EntityFrameworkCore" Version="5.7.0" />
+    <PackageReference Include="OpenIddict.Server" Version="5.7.0" />
+    <PackageReference Include="OpenIddict.Server.AspNetCore" Version="5.7.0" />
+    <PackageReference Include="OpenIddict.Server.DataProtection" Version="5.7.0" />
+    <PackageReference Include="OpenIddict.Validation" Version="5.7.0" />
+    <PackageReference Include="OpenIddict.Validation.AspNetCore" Version="5.7.0" />
+    <PackageReference Include="OpenIddict.Validation.DataProtection" Version="5.7.0" />
+    <PackageReference Include="OpenIddict.Validation.ServerIntegration" Version="5.7.0" />
+  </ItemGroup>
 
-	<ItemGroup>
-		<!-- Don't publish the SPA source files, but do show them in the project files list -->
-		<Compile Remove="ClientApp\.angular\**" />
-		<Compile Remove="ClientApp\dist\**" />
-		<Compile Remove="wwwroot\**" />
-		<Content Remove="$(SpaRoot)**" />
-		<Content Remove="ClientApp\.angular\**" />
-		<Content Remove="ClientApp\dist\**" />
-		<Content Remove="wwwroot\**" />
-		<EmbeddedResource Remove="ClientApp\.angular\**" />
-		<EmbeddedResource Remove="ClientApp\dist\**" />
-		<EmbeddedResource Remove="wwwroot\**" />
-		<None Remove="$(SpaRoot)**" />
-		<None Remove="ClientApp\.angular\**" />
-		<None Remove="ClientApp\dist\**" />
-		<None Remove="wwwroot\**" />
-		<None Include="$(SpaRoot)**" Exclude="$(SpaRoot)node_modules\**" />
-	</ItemGroup>
+  <ItemGroup>
+    <None Include="ClientApp\**" 
+          Exclude="ClientApp\node_modules\**;ClientApp\dist\**;ClientApp\.angular\**" />
+  </ItemGroup>
 
-	<ItemGroup>
-		<None Remove="ClientApp\.angular\cache\19.2.14\Website3\.tsbuildinfo" />
-		<None Remove="ClientApp\.angular\cache\19.2.14\Website3\angular-compiler.db" />
-		<None Remove="ClientApp\.angular\cache\19.2.14\Website3\angular-compiler.db-lock" />
-		<None Remove="ClientApp\dist\219.982a7e6ce4423f29.js" />
-		<None Remove="ClientApp\dist\329.3bb1539af03ed2cf.js" />
-		<None Remove="ClientApp\dist\3rdpartylicenses.txt" />
-		<None Remove="ClientApp\dist\667.40f79b4d57dd1548.js" />
-		<None Remove="ClientApp\dist\assets\favicon.ico" />
-		<None Remove="ClientApp\dist\assets\fonts\Roboto-Regular.ttf" />
-		<None Remove="ClientApp\dist\assets\images\emaillogo.png" />
-		<None Remove="ClientApp\dist\assets\images\logo.png" />
-		<None Remove="ClientApp\dist\assets\images\navbar-brand.png" />
-		<None Remove="ClientApp\dist\assets\images\reportlogo.png" />
-		<None Remove="ClientApp\dist\assets\templates\email.html" />
-		<None Remove="ClientApp\dist\common.b16ee92608ac9fd8.js" />
-		<None Remove="ClientApp\dist\fa-brands-400.0ad87b221b2a302b.woff2" />
-		<None Remove="ClientApp\dist\fa-brands-400.aaa8e2177da4fbb8.ttf" />
-		<None Remove="ClientApp\dist\fa-regular-400.0c4a336f909e1eaa.woff2" />
-		<None Remove="ClientApp\dist\fa-regular-400.f7cc78e99baa2bf5.ttf" />
-		<None Remove="ClientApp\dist\fa-solid-900.43a87668a828405a.ttf" />
-		<None Remove="ClientApp\dist\fa-solid-900.71ed02b437225dbb.woff2" />
-		<None Remove="ClientApp\dist\fa-v4compatibility.2484748dc83e00c0.ttf" />
-		<None Remove="ClientApp\dist\fa-v4compatibility.3d89958eb70dfc25.woff2" />
-		<None Remove="ClientApp\dist\index.html" />
-		<None Remove="ClientApp\dist\main.6bc269956f08dfcb.js" />
-		<None Remove="ClientApp\dist\polyfills.c43800a3a718ef4d.js" />
-		<None Remove="ClientApp\dist\runtime.08115c52f73039ac.js" />
-		<None Remove="ClientApp\dist\styles.dc6436ffa3c7a640.css" />
-		<None Remove="ClientApp\src\assets\images\emaillogo.png" />
-		<None Remove="ClientApp\src\assets\images\reportlogo.png" />
-	</ItemGroup>
+  <ItemGroup>
+    <None Include="compilerconfig.json" />
+  </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Migrations\" />
+  </ItemGroup>
 
-	<ItemGroup>
-		<Content Include="ClientApp\src\assets\favicon.ico">
-			<ExcludeFromSingleFile>true</ExcludeFromSingleFile>
-			<CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
-		</Content>
-		<Content Include="ClientApp\src\assets\fonts\Roboto-Regular.ttf">
-			<ExcludeFromSingleFile>true</ExcludeFromSingleFile>
-			<CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
-		</Content>
-		<Content Include="ClientApp\src\assets\images\emaillogo.png">
-		  <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
-		  <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
-		</Content>
-		<Content Include="ClientApp\src\assets\images\reportlogo.png">
-			<ExcludeFromSingleFile>true</ExcludeFromSingleFile>
-			<CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
-		</Content>
-		<Content Include="ClientApp\src\assets\images\logo.png">
-			<ExcludeFromSingleFile>true</ExcludeFromSingleFile>
-			<CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
-		</Content>
-		<Content Include="ClientApp\src\assets\images\navbar-brand.png">
-			<ExcludeFromSingleFile>true</ExcludeFromSingleFile>
-			<CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
-		</Content>
-		<Content Include="ClientApp\src\assets\templates\email.html">
-			<ExcludeFromSingleFile>true</ExcludeFromSingleFile>
-			<CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
-		</Content>
-	</ItemGroup>
+  <Target Name="DebugEnsureNodeEnv" BeforeTargets="Build" Condition=" '$(Configuration)' == 'Debug' And !Exists('$(SpaRoot)node_modules') ">
+    <Exec Command="node --version" ContinueOnError="true">
+      <Output TaskParameter="ExitCode" PropertyName="ErrorCode" />
+    </Exec>
+    <Error Condition="'$(ErrorCode)' != '0'" Text="Node.js is required to build and run this project." />
+    <Message Importance="high" Text="Restoring dependencies using 'npm'. This may take several minutes..." />
+    <Exec WorkingDirectory="$(SpaRoot)" Command="npm install" />
+  </Target>
 
-	<ItemGroup>
-		<None Include="compilerconfig.json" />
-	</ItemGroup>
+  <Target Name="PublishRunWebpack" AfterTargets="ComputeFilesToPublish">
+    <Exec WorkingDirectory="$(SpaRoot)" Command="npm install" />
+    <Exec WorkingDirectory="$(SpaRoot)" Command="npm run build -- --configuration production" />
 
-	<ItemGroup>
-		<Folder Include="Migrations\" />
-	</ItemGroup>
+    <ItemGroup>
+      <DistFiles Include="$(SpaRoot)dist\**; $(SpaRoot)dist-server\**" />
+      <ResolvedFileToPublish Include="@(DistFiles->'%(FullPath)')" Exclude="@(ResolvedFileToPublish)">
+        <RelativePath>wwwroot\%(RecursiveDir)%(FileName)%(Extension)</RelativePath>
+        <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+        <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+      </ResolvedFileToPublish>
+    </ItemGroup>
+  </Target>
 
-	<Target Name="DebugEnsureNodeEnv" BeforeTargets="Build" Condition=" '$(Configuration)' == 'Debug' And !Exists('$(SpaRoot)node_modules') ">
-		<!-- Ensure Node.js is installed -->
-		<Exec Command="node --version" ContinueOnError="true">
-			<Output TaskParameter="ExitCode" PropertyName="ErrorCode" />
-		</Exec>
-		<Error Condition="'$(ErrorCode)' != '0'" Text="Node.js is required to build and run this project. To continue, please install Node.js from https://nodejs.org/, and then restart your command prompt or IDE." />
-		<Message Importance="high" Text="Restoring dependencies using 'npm'. This may take several minutes..." />
-		<Exec WorkingDirectory="$(SpaRoot)" Command="npm install" />
-	</Target>
-
-	<Target Name="PublishRunWebpack" AfterTargets="ComputeFilesToPublish">
-		<!-- As part of publishing, ensure the JS resources are freshly built in production mode -->
-		<Exec WorkingDirectory="$(SpaRoot)" Command="npm install" />
-		<Exec WorkingDirectory="$(SpaRoot)" Command="npm run build -- --configuration production" />
-		
-		<!-- Include the newly-built files in the publish output -->
-		<ItemGroup>
-			<DistFiles Include="$(SpaRoot)dist\**; $(SpaRoot)dist-server\**" />
-			<ResolvedFileToPublish Include="@(DistFiles->'%(FullPath)')" Exclude="@(ResolvedFileToPublish)">
-				<RelativePath>wwwroot\%(RecursiveDir)%(FileName)%(Extension)</RelativePath>
-				<CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
-				<ExcludeFromSingleFile>true</ExcludeFromSingleFile>
-			</ResolvedFileToPublish>
-		</ItemGroup>
-	</Target>
 </Project>
