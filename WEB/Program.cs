@@ -24,7 +24,7 @@ if (appSettings.UseAzureDataProtection)
      */
 
     builder.Services.AddDataProtection()
-                .PersistKeysToAzureBlobStorage(appSettings.Azure.DataProtection.ConnectionString, appSettings.Azure.DataProtection.ContainerName, "dataprotectionkeys.xml");
+                .PersistKeysToAzureBlobStorage(appSettings.AzureSettings.DataProtection.ConnectionString, appSettings.AzureSettings.DataProtection.ContainerName, "dataprotectionkeys.xml");
 }
 
 // todo: this is not correct - find out a better way to get correct path

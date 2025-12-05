@@ -43,7 +43,8 @@ export class AccountComponent implements OnInit, AfterViewInit, OnDestroy {
 
     ngAfterViewInit(): void {
         this.spyService.start({
-            rootMargin: "-20px", fragments: ['basicInformationSection', 'passwordSection'] });
+            rootMargin: "-20px", fragments: ['basicInformationSection', 'passwordSection']
+        });
     }
 
     saveBasicInformation(form: NgForm): void {

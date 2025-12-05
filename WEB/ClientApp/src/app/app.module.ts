@@ -14,9 +14,9 @@ import { AccessGuard } from './common/auth/auth.accessguard';
 import { AuthoriseRequestInterceptor, UnauthorisedResponseInterceptor } from './common/auth/auth.interceptors';
 import { SharedModule } from './shared.module';
 import { JsonDateInterceptor } from './common/interceptors/jsondate.interceptor';
-import { CurrencyPipe, DecimalPipe, PercentPipe } from '@angular/common';
 import { NgHttpLoaderComponent, pendingRequestsInterceptor$ } from 'ng-http-loader';
-import { NgxEchartsModule } from 'ngx-echarts';
+import { CurrencyPipe, DecimalPipe, PercentPipe } from '@angular/common';
+wimport { NgxEchartsModule } from 'ngx-echarts';
 
 @NgModule({
     declarations: [

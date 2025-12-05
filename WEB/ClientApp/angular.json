@@ -48,6 +48,8 @@
                             "moment",
                             "zxcvbn"
                         ],
+                        "allowedCommonJsDependencies": [ "moment" ],
+                        "scripts": [],
                         "browser": "src/main.ts"
                     },
                     "configurations": {
@@ -106,5 +108,8 @@
                 }
             }
         }
+    },
+    "cli": {
+      "analytics": false
     }
 }

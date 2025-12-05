@@ -16,6 +16,9 @@
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development",
         // comment out this line to prevent visual studio run/debug from launching the spa/angular app
+        // also comment out from the project file: <SpaProxyLaunchCommand>npm start</SpaProxyLaunchCommand>
+        // note that running the angular app with this method will also generate the .pem/.key files using the localhost certificate 
+        //  - assuming you've already run: dotnet dev-certs hpps --trust 
         //"ASPNETCORE_HOSTINGSTARTUPASSEMBLIES": "Microsoft.AspNetCore.SpaProxy"
       }
     },

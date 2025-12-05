@@ -3,22 +3,22 @@
     "compileOnSave": false,
 
     "compilerOptions": {
-        // ————— Pathing & output —————
+        // ����� Pathing & output �����
         "baseUrl": "./", // root for module resolution
         "outDir": "./dist/out-tsc", // where compiled JS goes
 
-        // ————— Module & target —————
+        // ����� Module & target �����
         "target": "ES2022",
         "module": "ES2022",
         "moduleResolution": "node",
         "lib": [ "ES2022", "ES2015", "DOM" ],
 
-        // ————— Decorators & metadata —————
+        // ����� Decorators & metadata �����
         "experimentalDecorators": true,
         "emitDecoratorMetadata": true,
         "importHelpers": true,
 
-        // ————— Interop & strictness —————
+        // ����� Interop & strictness �����
         "esModuleInterop": true,
         "allowSyntheticDefaultImports": true,
         "forceConsistentCasingInFileNames": true,
@@ -28,12 +28,10 @@
         "noImplicitReturns": true,
         "noFallthroughCasesInSwitch": true,
 
-        // ————— misc —————
+        // ����� misc �����
         "sourceMap": true,
         "declaration": false,
-        "useDefineForClassFields": false,
-        "allowJs": true,
-        "types": []
+        "useDefineForClassFields": false
     },
 
     "angularCompilerOptions": {
