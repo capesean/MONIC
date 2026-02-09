@@ -48,9 +48,9 @@ namespace WEB.Controllers
                 .Select(o =>
                     new CSVRow
                     {
-                        IndicatorCode = o.Indicator.Code,
-                        EntityCode = o.Entity.Code,
-                        DateCode = o.Date.Code,
+                        Indicator = o.Indicator.Code,
+                        Entity = o.Entity.Code,
+                        Date = o.Date.Code,
                         Value = o.Value,
                         Note = o.Note
                     }

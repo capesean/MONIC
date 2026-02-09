@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, TemplateRef, ViewChild } from '@angular/core';
 import { ToastrService } from 'ngx-toastr';
 import { NgForm } from '@angular/forms';
 import { ErrorService } from '../common/services/error.service';
@@ -141,5 +141,9 @@ export class ToolsComponent implements OnInit {
                 }
             });
 
+    }
+
+    openModal(content: TemplateRef<any>) {
+        this.modalService.open(content, { ariaLabelledBy: 'modal-basic-title', size: 'lg' });
     }
 }

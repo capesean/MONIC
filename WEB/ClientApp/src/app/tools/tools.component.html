@@ -54,8 +54,6 @@
 
                     </fieldset>
 
-                    <button type="submit" class="btn btn-outline-primary ms-2">Import<i class="fas fa-cloud-upload ms-1"></i></button>
-
                 </form>
 
             </div>
@@ -111,6 +109,7 @@
             </div>
 
             <div class="card-footer text-end">
+                <button type="button" class="btn btn-outline-info ms-2" (click)="openModal(csvImportHelp)">Help<i class="fas fa-question-circle ms-1"></i></button>
                 <button type="submit" form="formImportCSV" class="btn btn-outline-primary ms-2">Import<i class="fas fa-cloud-upload ms-1"></i></button>
             </div>
 
@@ -230,5 +229,22 @@
     </div>
     <div class="modal-footer">
         <button type="submit" form="formSettings" class="btn btn-outline-secondary" (click)="modal.dismiss()">Close</button>
+    </div>
+</ng-template>
+
+<ng-template #csvImportHelp let-modal>
+    <div class="modal-header">
+        <h4 class="modal-title" id="modal-basic-title">Help: Import CSV File</h4>
+        <button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss()"></button>
+    </div>
+    <div class="modal-body">
+        <p class="mb-2">The CSV file should contain the following headers:</p>
+        <ul>
+            <li><strong>Indicator</strong>: The values in this column should match the code of the indicator.</li>
+            <li><strong>Entity</strong>: The values in this column should match the code of the entity.</li>
+            <li><strong>Date</strong>: The values in this column should match the code of the date.</li>
+            <li><strong>Value</strong>: The values in this column should represent the value for the given combination of indicator, entity and date. <em>(Blank values are allowed)</em></li>
+            <li><strong>Note</strong>: The values in this column will be stored in the note column for this data point. <em>(Blank values are allowed)</em></li>
+        </ul>
     </div>
 </ng-template>

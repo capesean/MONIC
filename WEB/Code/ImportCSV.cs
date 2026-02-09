@@ -68,11 +68,11 @@ namespace WEB.Import
                     {
                         row++;
 
-                        var indicatorExists = indicators.TryGetValue(record.IndicatorCode, out Indicator indicator);
+                        var indicatorExists = indicators.TryGetValue(record.Indicator, out Indicator indicator);
 
                         if (!indicatorExists)
                         {
-                            errors.Add(new ImportError(row, 1, "Invalid indicator code", record.IndicatorCode));
+                            errors.Add(new ImportError(row, 1, "Invalid indicator code", record.Indicator));
                             continue;
                         }
 
@@ -84,13 +84,13 @@ namespace WEB.Import
                                 errors.Add(new ImportError(row, 1, "Option List has multiple options with the same value", null));
                         }
 
-                        if (!entities.ContainsKey(record.EntityCode))
-                            errors.Add(new ImportError(row, 2, "Invalid entity code", record.EntityCode));
+                        if (!entities.ContainsKey(record.Entity))
+                            errors.Add(new ImportError(row, 2, "Invalid entity code", record.Entity));
 
-                        var dateExists = dates.TryGetValue(record.DateCode, out Date date);
+                        var dateExists = dates.TryGetValue(record.Date, out Date date);
 
                         if (!dateExists)
-                            errors.Add(new ImportError(row, 3, "Invalid date code", record.DateCode));
+                            errors.Add(new ImportError(row, 3, "Invalid date code", record.Date));
 
                         if (dateExists && indicatorExists)
                         {
@@ -104,7 +104,7 @@ namespace WEB.Import
                                 if (!indicatorDateCodes.ContainsKey(indicator.IndicatorId))
                                     indicatorDateCodes.Add(indicator.IndicatorId, [.. db.IndicatorDates.Where(o => o.IndicatorId == indicator.IndicatorId).Select(o => o.Date.Code)]);
 
-                                if (!indicatorDateCodes[indicator.IndicatorId].Contains(record.DateCode))
+                                if (!indicatorDateCodes[indicator.IndicatorId].Contains(record.Date))
                                     errors.Add(new ImportError(row, 3, "Indicator is not applicable on this Date", null));
                             }
 
@@ -128,7 +128,7 @@ namespace WEB.Import
                 }
             }
 
-            var countCheck = records.GroupBy(o => new { o.EntityCode, o.IndicatorCode, o.DateCode })
+            var countCheck = records.GroupBy(o => new { o.Entity, o.Indicator, o.Date })
                 .Select(o =>
                 new
                 {
@@ -139,7 +139,7 @@ namespace WEB.Import
 
             var duplicate = countCheck.FirstOrDefault(o => o.Count > 1);
 
-            if (duplicate != null) errors.Add(new ImportError(null, null, "Duplicate record", $"{duplicate.Key.IndicatorCode}/{duplicate.Key.EntityCode}/{duplicate.Key.DateCode}"));
+            if (duplicate != null) errors.Add(new ImportError(null, null, "Duplicate record", $"{duplicate.Key.Indicator}/{duplicate.Key.Entity}/{duplicate.Key.Date}"));
 
             if (errors.Count == 0 && records.Count == 0) errors.Add(new ImportError(null, null, "No records to import", null));
 
@@ -158,10 +158,10 @@ namespace WEB.Import
             {
                 row++;
 
-                var indicator = indicators[record.IndicatorCode];
+                var indicator = indicators[record.Indicator];
                 var indicatorId = indicator.IndicatorId;
-                var entityId = entities[record.EntityCode].EntityId;
-                var dateId = dates[record.DateCode].DateId;
+                var entityId = entities[record.Entity].EntityId;
+                var dateId = dates[record.Date].DateId;
 
                 if (indicator.DataType == DataType.OptionList)
                 {
@@ -227,13 +227,13 @@ namespace WEB.Import
             var calculation = new Calculation(db, appSettings, userId);
             foreach (var indicator in indicatorsToCalculate)
             {
-                var recordsToCalculate = records.Where(o => indicator.Tokens.Any(t => t.SourceIndicatorId == indicators[o.IndicatorCode].IndicatorId));
+                var recordsToCalculate = records.Where(o => indicator.Tokens.Any(t => t.SourceIndicatorId == indicators[o.Indicator].IndicatorId));
                 foreach (var record in recordsToCalculate)
                 {
                     await calculation.CalculateAsync(
                         indicator,
-                        [entities[record.EntityCode].EntityId],
-                        [dates[record.DateCode].DateId]
+                        [entities[record.Entity].EntityId],
+                        [dates[record.Date].DateId]
                         );
                 }
             }
@@ -265,9 +265,9 @@ namespace WEB.Import
 
         public class CSVRow
         {
-            public string IndicatorCode { get; set; }
-            public string EntityCode { get; set; }
-            public string DateCode { get; set; }
+            public string Indicator { get; set; }
+            public string Entity { get; set; }
+            public string Date { get; set; }
             public decimal? Value { get; set; }
             public string Note { get; set; }
         }
