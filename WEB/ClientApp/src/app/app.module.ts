@@ -16,7 +16,7 @@ import { SharedModule } from './shared.module';
 import { JsonDateInterceptor } from './common/interceptors/jsondate.interceptor';
 import { NgHttpLoaderComponent, pendingRequestsInterceptor$ } from 'ng-http-loader';
 import { CurrencyPipe, DecimalPipe, PercentPipe } from '@angular/common';
-wimport { NgxEchartsModule } from 'ngx-echarts';
+import { NgxEchartsModule } from 'ngx-echarts';
 
 @NgModule({
     declarations: [
