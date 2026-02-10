@@ -50,6 +50,7 @@ import { FolderViewComponent } from './common/components/folderview.component';
 import { FolderShortcutComponent } from './common/widgets/folder.shortcut.component';
 import { FolderShortcutSettingsComponent } from './common/widgets/folder.shortcut.settings.component';
 import { NgxEchartsModule } from 'ngx-echarts';
+import { ChartComponent } from './charts/chart.component';
 
 @NgModule({
     imports: [
@@ -104,7 +105,8 @@ import { NgxEchartsModule } from 'ngx-echarts';
         FolderComponent,
         FolderViewComponent,
         FolderShortcutComponent,
-        FolderShortcutSettingsComponent
+        FolderShortcutSettingsComponent,
+        ChartComponent
     ],
     exports: [
         GanttComponent,

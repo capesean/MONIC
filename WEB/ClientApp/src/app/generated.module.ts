@@ -12,6 +12,8 @@ import { AnswerOptionListComponent } from './admin/answeroptions/answeroption.li
 import { AnswerOptionEditComponent } from './admin/answeroptions/answeroption.edit.component';
 import { CategoryListComponent } from './admin/categories/category.list.component';
 import { CategoryEditComponent } from './admin/categories/category.edit.component';
+import { ChartListComponent } from './admin/charts/chart.list.component';
+import { ChartEditComponent } from './admin/charts/chart.edit.component';
 import { ComponentListComponent } from './admin/components/component.list.component';
 import { ComponentEditComponent } from './admin/components/component.edit.component';
 import { ComponentIndicatorListComponent } from './admin/componentindicators/componentindicator.list.component';
@@ -111,6 +113,8 @@ import { NgxEchartsModule } from 'ngx-echarts';
         AnswerOptionEditComponent,
         CategoryListComponent,
         CategoryEditComponent,
+        ChartListComponent,
+        ChartEditComponent,
         ComponentListComponent,
         ComponentEditComponent,
         ComponentIndicatorListComponent,

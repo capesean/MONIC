@@ -4,7 +4,7 @@
 </div>
 <div class="modal-body">
 
-    <form id="formSettings" name="formSettings" (submit)="save(form)" #form="ngForm">
+    <form id="formSettings" name="formSettings" (submit)="save(form)" #form="ngForm" [ngClass]="{ 'was-validated': form.submitted }">
 
         <fieldset class="group">
 

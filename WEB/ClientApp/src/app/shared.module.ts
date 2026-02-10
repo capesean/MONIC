@@ -25,6 +25,8 @@ import { AnswerModalComponent } from './admin/answers/answer.modal.component';
 import { CategorySelectComponent } from './admin/categories/category.select.component';
 import { CategoryModalComponent } from './admin/categories/category.modal.component';
 import { CategorySortComponent } from './admin/categories/category.sort.component';
+import { ChartSelectComponent } from './admin/charts/chart.select.component';
+import { ChartModalComponent } from './admin/charts/chart.modal.component';
 import { ComponentSelectComponent } from './admin/components/component.select.component';
 import { ComponentModalComponent } from './admin/components/component.modal.component';
 import { ComponentSortComponent } from './admin/components/component.sort.component';
@@ -154,6 +156,8 @@ import { QuillModule } from 'ngx-quill';
         CategorySelectComponent,
         CategoryModalComponent,
         CategorySortComponent,
+        ChartSelectComponent,
+        ChartModalComponent,
         ComponentSelectComponent,
         ComponentModalComponent,
         ComponentSortComponent,
@@ -261,6 +265,8 @@ import { QuillModule } from 'ngx-quill';
         CategorySelectComponent,
         CategoryModalComponent,
         CategorySortComponent,
+        ChartSelectComponent,
+        ChartModalComponent,
         ComponentSelectComponent,
         ComponentModalComponent,
         ComponentSortComponent,

@@ -1,0 +1,71 @@
+<app-page-title></app-page-title>
+
+<form id="form" name="form" (submit)="save(form)" novalidate #form="ngForm" [ngClass]="{ 'was-validated': form.submitted }">
+
+    <div class="card card-edit">
+
+        <div class="card-header">
+
+            <div class="card-header-title">
+                <h4>Chart</h4>
+            </div>
+
+        </div>
+
+        <div class="card-body">
+
+            <fieldset class="group">
+
+                <div class="row gx-3">
+
+                    <div class="col-sm-6 col-md-4">
+                        <div class="form-group" [ngClass]="{ 'is-invalid': name.invalid }">
+
+                            <label for="name">
+                                Name:
+                            </label>
+
+                            <input id="name" name="name" class="form-control" type="text" [(ngModel)]="chart.name" #name="ngModel" required (ngModelChange)="changeBreadcrumb()" maxlength="200" />
+
+                            <div *ngIf="name.errors?.required" class="invalid-feedback">
+                                Name is required
+                            </div>
+
+                            <div *ngIf="name.errors?.maxlength" class="invalid-feedback">
+                                Name must be at most 200 characters long
+                            </div>
+
+                        </div>
+                    </div>
+
+                    <div class="col-sm-6 col-md-4">
+                        <div class="form-group" [ngClass]="{ 'is-invalid': settings.invalid }">
+
+                            <label for="settings">
+                                Settings:
+                            </label>
+
+                            <textarea id="settings" name="settings" class="form-control" rows="5" [(ngModel)]="chart.settings" #settings="ngModel" required></textarea>
+
+                            <div *ngIf="settings.errors?.required" class="invalid-feedback">
+                                Settings is required
+                            </div>
+
+                        </div>
+                    </div>
+
+                </div>
+
+            </fieldset>
+
+        </div>
+
+    </div>
+
+    <div class="mb-4">
+        <button type="submit" class="btn btn-outline-success me-2 mb-1">Save<i class="fas fa-check ms-2"></i></button>
+        <button type="button" *ngIf="!isNew" class="btn btn-outline-danger me-2 mb-1" (click)="delete()">Delete<i class="fas fa-times ms-2"></i></button>
+    </div>
+
+</form>
+

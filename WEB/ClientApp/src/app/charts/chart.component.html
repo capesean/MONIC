@@ -1,0 +1,120 @@
+<app-page-title></app-page-title>
+
+<form id="form" name="form" novalidate #form="ngForm" [ngClass]="{ 'was-validated': form.submitted }">
+
+    <div class="card card-edit">
+
+        <div class="card-header">
+
+            <div class="card-header-title">
+                <h4>Chart Settings</h4>
+            </div>
+
+        </div>
+
+        <div class="card-body">
+
+            <fieldset class="group">
+
+                <div class="row gx-3">
+
+                    <div class="col-sm-6 col-md-4">
+                        <div class="form-group" [ngClass]="{ 'is-invalid': indicatorId.invalid }">
+
+                            <label for="indicatorId">
+                                Indicator:
+                            </label>
+
+                            <indicator-select id="indicatorId" name="indicatorId" [(indicator)]="settingsObjects.indicator" [(ngModel)]="settings.indicatorId" #indicatorId="ngModel" required (ngModelChange)="settingChanged()"></indicator-select>
+
+                            <div *ngIf="indicatorId.errors?.required" class="invalid-feedback">
+                                Indicator is required
+                            </div>
+
+                        </div>
+                    </div>
+
+                    <div class="col-sm-6 col-md-4">
+                        <div class="form-group" [ngClass]="{ 'is-invalid': barColor.invalid }">
+
+                            <label for="barColor">
+                                Bar Color:
+                            </label>
+
+                            <div class="input-group">
+                                <input id="barColor" name="barColor" type="color" class="form-control" [(ngModel)]="settings.barColor" #barColor="ngModel" (ngModelChange)="settingChanged()" />
+                                <button type="button" class="btn btn-secondary" (click)="settings.barColor=undefined;settingChanged()"><i class="fa fa-times"></i></button>
+                            </div>
+
+                        </div>
+                    </div>
+
+                    <div class="col-sm-6 col-md-4">
+                        <div class="form-group" [ngClass]="{ 'is-invalid': yAxisFontSize.invalid }">
+
+                            <label for="yAxisFontSize">
+                                Y-Axis Font Size:
+                            </label>
+
+                            <input id="yAxisFontSize" name="yAxisFontSize" type="number" class="form-control" [(ngModel)]="settings.yAxisFontSize" #yAxisFontSize="ngModel" (ngModelChange)="settingChanged()" />
+
+                        </div>
+                    </div>
+
+                    <div class="col-sm-6 col-md-4">
+                        <div class="form-group" [ngClass]="{ 'is-invalid': xAxisFontSize.invalid }">
+
+                            <label for="xAxisFontSize">
+                                X-Axis Font Size:
+                            </label>
+
+                            <input id="xAxisFontSize" name="xAxisFontSize" type="number" class="form-control" [(ngModel)]="settings.xAxisFontSize" #xAxisFontSize="ngModel" (ngModelChange)="settingChanged()" />
+
+                        </div>
+                    </div>
+
+                    <div class="col-sm-6 col-md-4">
+                        <div class="form-group" [ngClass]="{ 'is-invalid': xAxisRotation.invalid }">
+
+                            <label for="xAxisRotation">
+                                X-Axis Font Size:
+                            </label>
+
+                            <input id="xAxisRotation" name="xAxisRotation" type="number" class="form-control" [(ngModel)]="settings.xAxisRotation" #xAxisRotation="ngModel" (ngModelChange)="settingChanged()" />
+
+                        </div>
+                    </div>
+
+                </div>
+
+            </fieldset>
+
+        </div>
+
+    </div>
+
+    <div class="mb-4">
+        <button type="submit" class="btn btn-outline-success me-2 mb-1">Save<i class="fas fa-check ms-2"></i></button>
+    </div>
+
+</form>
+
+<div class="card card-edit" *ngIf="options">
+
+    <div class="card-header">
+
+        <div class="card-header-title">
+            <h4>Chart</h4>
+        </div>
+
+    </div>
+
+    <div class="card-body">
+
+        <div echarts [options]="options"></div>
+
+    </div>
+
+</div>
+
+

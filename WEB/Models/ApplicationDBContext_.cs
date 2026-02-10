@@ -7,6 +7,7 @@ namespace WEB.Models
         public DbSet<Answer> Answers { get; set; }
         public DbSet<AnswerOption> AnswerOptions { get; set; }
         public DbSet<Category> Categories { get; set; }
+        public DbSet<Chart> Charts { get; set; }
         public DbSet<Component> Components { get; set; }
         public DbSet<ComponentIndicator> ComponentIndicators { get; set; }
         public DbSet<DataReview> DataReviews { get; set; }
@@ -72,6 +73,11 @@ namespace WEB.Models
             modelBuilder.Entity<Category>()
                 .HasIndex(o => o.Code)
                 .HasDatabaseName("IX_Category_Code")
+                .IsUnique();
+
+            modelBuilder.Entity<Chart>()
+                .HasIndex(o => o.Name)
+                .HasDatabaseName("IX_Chart_Name")
                 .IsUnique();
 
             modelBuilder.Entity<Component>()

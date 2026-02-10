@@ -639,3 +639,8 @@ body#setup {
     background-color: rgb(14, 34, 56);
     padding-top: 50px;
 }
+
+input[type=color].form-control {
+    height: calc(1.5em + 1.25rem + calc(var(--bs-border-width) * 2));
+    padding: 0.625rem;
+}

@@ -51,8 +51,25 @@
 	</ItemGroup>
 
   <ItemGroup>
-    <None Include="ClientApp\**" 
-          Exclude="ClientApp\node_modules\**;ClientApp\dist\**;ClientApp\.angular\**" />
+    <None Include="ClientApp\**" Exclude="ClientApp\node_modules\**;ClientApp\dist\**;ClientApp\.angular\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Remove="ClientApp\dist\**" />
+    <Compile Remove="ClientApp\node_modules\**" />
+    <Content Remove="ClientApp\dist\**" />
+    <Content Remove="ClientApp\node_modules\**" />
+    <EmbeddedResource Remove="ClientApp\dist\**" />
+    <EmbeddedResource Remove="ClientApp\node_modules\**" />
+    <None Remove="ClientApp\dist\**" />
+    <None Remove="ClientApp\node_modules\**" />
+    <TypeScriptCompile Remove="ClientApp\dist\**" />
+    <TypeScriptCompile Remove="ClientApp\node_modules\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <TypeScriptCompile Remove="ClientApp\src\app\charts\chart.component.ts" />
+    <TypeScriptCompile Remove="ClientApp\src\app\common\services\chart.service.ts" />
   </ItemGroup>
 
   <ItemGroup>

@@ -16,6 +16,7 @@ import { ToolsComponent } from './tools/tools.component';
 import { QuestionnairesComponent } from './questionnaire/questionnaires.component';
 import { QuestionnaireComponent } from './questionnaire/questionnaire.component';
 import { FolderComponent } from './folder/folder.component';
+import { ChartComponent } from './charts/chart.component';
 
 export const CustomRoutes: Route[] = [
     {
@@ -152,6 +153,17 @@ export const CustomRoutes: Route[] = [
         data: {
             breadcrumb: 'Tools',
             menu: 'admin'
+        },
+    },
+    {
+        path: 'chart',
+        canActivate: [AccessGuard],
+        canActivateChild: [AccessGuard],
+        component: ChartComponent,
+        pathMatch: 'full',
+        data: {
+            breadcrumb: 'Chart',
+            menu: 'home'
         },
     },
     {

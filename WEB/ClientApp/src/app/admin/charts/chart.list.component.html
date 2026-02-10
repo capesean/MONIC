@@ -1,0 +1,68 @@
+<ng-container *ngIf="route.children.length === 0">
+
+    <app-page-title></app-page-title>
+
+    <div class="card card-list">
+
+        <div class="card-header">
+
+            <div class="card-header-title">
+                <h4>Charts</h4>
+                <div>
+                    <i class="fa fa-fw ms-1 fa-plus cursor-pointer" ngbTooltip="Add Chart" [routerLink]="['./', 'add']"></i>
+                    <i class="fa fa-fw ms-1 fa-search cursor-pointer" ngbTooltip="Toggle search options" (click)="showSearchOptions = !showSearchOptions"></i>
+                </div>
+            </div>
+
+        </div>
+
+        <div class="card-body" *ngIf="showSearchOptions" @FadeThenShrink>
+
+            <form (submit)="runSearch(0)" novalidate>
+
+                <div class="row g-2">
+
+                    <div class="col-sm-6 col-md-4 col-lg-3">
+                        <div class="form-group">
+                            <input type="search" name="q" id="q" [(ngModel)]="searchOptions.q" max="100" class="form-control" placeholder="Search charts" />
+                        </div>
+                    </div>
+
+                    <div class="col-sm-3 col-md-3 col-lg-3 col-xl-2">
+                        <div class="form-group">
+                            <button type="submit" class="btn btn-outline-primary me-2 mb-1">Search<i class="fas fa-search ms-2"></i></button>
+                        </div>
+                    </div>
+
+                </div>
+
+            </form>
+
+        </div>
+
+        <div class="table-responsive">
+
+            <table class="table table-hover table-striped table-nowrap mb-0 align-middle">
+                <thead class="thead-light">
+                    <tr>
+                        <th>Name</th>
+                    </tr>
+                </thead>
+                <tbody class="list cursor-pointer">
+                    <tr *ngFor="let chart of charts" (click)="goToChart(chart)">
+                        <td>{{ chart.name }}</td>
+                    </tr>
+                </tbody>
+            </table>
+
+        </div>
+
+        <div class="card-footer">
+            <pager [headers]="headers" (pageChanged)="runSearch($event)"></pager>
+        </div>
+
+    </div>
+
+</ng-container>
+
+<router-outlet></router-outlet>
