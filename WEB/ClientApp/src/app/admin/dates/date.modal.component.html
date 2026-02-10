@@ -6,7 +6,7 @@
     </div>
     
     <div class="modal-body p-5" [ngClass]="{ 'mb-6': !showFooter }">
-
+        
         <form (submit)="runSearch()" novalidate>
 
             <fieldset>
@@ -24,9 +24,11 @@
                     </div>
 
                     <div class="col-sm-6 col-md-6 col-lg-4" *ngIf="!dateType">
-                        <select id="dateType" name="dateType" [(ngModel)]="searchOptions.dateType" #dateType="ngModel" class="form-select">
-                            <option *ngFor="let dateType of dateTypes" [ngValue]="dateType.value">{{ dateType.label }}</option>
-                        </select>
+                        <div class="form-group">
+                            <select id="dateType" name="dateType" [(ngModel)]="searchOptions.dateType" #dateType="ngModel" class="form-select">
+                                <option *ngFor="let dateType of dateTypes" [ngValue]="dateType.value">{{ dateType.label }}</option>
+                            </select>
+                        </div>
                     </div>
 
                     <div class="col-sm-6 col-md-6 col-lg-4" *ngIf="!quarter">

@@ -6,7 +6,7 @@
     </div>
     
     <div class="modal-body p-5" [ngClass]="{ 'mb-6': !showFooter }">
-
+        
         <form (submit)="runSearch()" novalidate>
 
             <fieldset>
@@ -31,9 +31,11 @@
                     </div>
 
                     <div class="col-sm-6 col-md-6 col-lg-4" *ngIf="!questionType">
-                        <select id="questionType" name="questionType" [(ngModel)]="searchOptions.questionType" #questionType="ngModel" class="form-select">
-                            <option *ngFor="let questionType of questionTypes" [ngValue]="questionType.value">{{ questionType.label }}</option>
-                        </select>
+                        <div class="form-group">
+                            <select id="questionType" name="questionType" [(ngModel)]="searchOptions.questionType" #questionType="ngModel" class="form-select">
+                                <option *ngFor="let questionType of questionTypes" [ngValue]="questionType.value">{{ questionType.label }}</option>
+                            </select>
+                        </div>
                     </div>
 
                     <div class="col-sm-6 col-md-6 col-lg-4" *ngIf="!questionOptionGroup">

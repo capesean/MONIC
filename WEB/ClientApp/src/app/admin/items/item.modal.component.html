@@ -6,7 +6,7 @@
     </div>
     
     <div class="modal-body p-5" [ngClass]="{ 'mb-6': !showFooter }">
-
+        
         <form (submit)="runSearch()" novalidate>
 
             <fieldset>
@@ -22,9 +22,11 @@
                     </div>
 
                     <div class="col-sm-6 col-md-6 col-lg-4" *ngIf="!itemType">
-                        <select id="itemType" name="itemType" [(ngModel)]="searchOptions.itemType" #itemType="ngModel" class="form-select">
-                            <option *ngFor="let itemType of itemTypes" [ngValue]="itemType.value">{{ itemType.label }}</option>
-                        </select>
+                        <div class="form-group">
+                            <select id="itemType" name="itemType" [(ngModel)]="searchOptions.itemType" #itemType="ngModel" class="form-select">
+                                <option *ngFor="let itemType of itemTypes" [ngValue]="itemType.value">{{ itemType.label }}</option>
+                            </select>
+                        </div>
                     </div>
 
                     <div class="col-sm-6 col-md-6 col-lg-4">
