@@ -39,7 +39,7 @@ export class UtilitiesService {
 
             if (indicator.dataType === DataTypes.Percent) return this.percentPipe.transform(value, `1.${indicator.decimalPlaces}-${indicator.decimalPlaces}`, this.locale);
             if (indicator.dataType === DataTypes.Number) return this.decimalPipe.transform(value, `1.${indicator.decimalPlaces}-${indicator.decimalPlaces}`, this.locale);
-            if (indicator.dataType === DataTypes.Currency) return this.currencyPipe.transform(value, `1.${indicator.decimalPlaces}-${indicator.decimalPlaces}`, this.locale);
+            if (indicator.dataType === DataTypes.Currency) return this.currencyPipe.transform(value, indicator.units, 'symbol', `1.${indicator.decimalPlaces}-${indicator.decimalPlaces}`, this.locale);
             throw "Unhandled Indicator.DataType";
         };
     }

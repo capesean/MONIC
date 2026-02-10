@@ -98,25 +98,58 @@ namespace WEB.Controllers
             var indicator = await db.Indicators
                 .FirstOrDefaultAsync(o => o.IndicatorId == chartSettings.IndicatorId);
 
-            var data = await db.Data
-                .Where(o => o.IndicatorId == chartSettings.IndicatorId)
-                .OrderByDescending(o => o.Date.SortOrder)
-                .GroupBy(o => o.EntityId)
-                .Select(o => o.First())
-                .ToListAsync();
+            if (indicator == null) return NotFound("Indicator not found.");
 
-            var indicator2 = chartSettings.IndicatorId2.HasValue ? await db.Indicators
-                .FirstOrDefaultAsync(o => o.IndicatorId == chartSettings.IndicatorId2) : null;
+            var indicators = new List<Indicator> { indicator };
 
-            var data2 = chartSettings.IndicatorId2.HasValue ? (await db.Data
-                .Where(o => o.IndicatorId == chartSettings.IndicatorId2)
-                .OrderByDescending(o => o.Date.SortOrder)
-                .GroupBy(o => o.EntityId)
-                .Select(o => o.First())
-                .ToListAsync()) : [];
+            List<Datum> data;
 
-            var entityIds = data.Select(o => o.EntityId).Union(data2.Select(o => o.EntityId)).Distinct().ToList();
-            var dateIds = data.Select(o => o.DateId).Union(data2.Select(o => o.DateId)).Distinct().ToList();
+            if (indicator.IndicatorType == IndicatorType.Group)
+            {
+                var groupedIndicators = await db.Indicators.Where(o => o.GroupingIndicatorId == indicator.IndicatorId).ToListAsync();
+
+                foreach (var gi in groupedIndicators)
+                    indicators.Add(gi);
+
+                // load for the grouped indicators
+                data = await db.Data
+                    .Where(o => o.Indicator.GroupingIndicatorId == chartSettings.IndicatorId)
+                    .OrderByDescending(o => o.Date.SortOrder)
+                    .GroupBy(o => new { o.EntityId, o.IndicatorId })
+                    .Select(o => o.First())
+                    .ToListAsync();
+            }
+            else
+            {
+                data = await db.Data
+                    .Where(o => o.IndicatorId == chartSettings.IndicatorId)
+                    .OrderByDescending(o => o.Date.SortOrder)
+                    .GroupBy(o => o.EntityId)
+                    .Select(o => o.First())
+                    .ToListAsync();
+            }
+
+            if (chartSettings.IndicatorId2.HasValue)
+            {
+                var indicator2 = await db.Indicators
+                    .FirstOrDefaultAsync(o => o.IndicatorId == chartSettings.IndicatorId2);
+
+                if (indicator2 == null) return NotFound("Indicator 2 not found.");
+
+                indicators.Add(indicator2);
+
+                var data2 = await db.Data
+                    .Where(o => o.IndicatorId == chartSettings.IndicatorId2)
+                    .OrderByDescending(o => o.Date.SortOrder)
+                    .GroupBy(o => o.EntityId)
+                    .Select(o => o.First())
+                    .ToListAsync();
+
+                data.AddRange(data2);
+            }
+
+            var entityIds = data.Select(o => o.EntityId).Distinct().ToList();
+            var dateIds = data.Select(o => o.DateId).Distinct().ToList();
 
             var entities = await db.Entities
                 .Where(o => entityIds.Contains(o.EntityId))
@@ -128,10 +161,10 @@ namespace WEB.Controllers
 
             return Ok(new
             {
-                indicator = ModelFactory.Create(indicator),
+                chartSettings.IndicatorId,
+                chartSettings.IndicatorId2,
+                indicators = indicators.Select(o => ModelFactory.Create(o)),
                 data = data.Select(o => ModelFactory.Create(o)),
-                indicator2 = ModelFactory.Create(indicator2),
-                data2 = data2.Select(o => ModelFactory.Create(o)),
                 entities = entities.Select(o => ModelFactory.Create(o)),
                 dates = dates.Select(o => ModelFactory.Create(o))
             });

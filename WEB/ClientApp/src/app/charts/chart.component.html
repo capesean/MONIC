@@ -9,7 +9,8 @@
             <div class="card-header-title">
                 <h4>Chart Settings</h4>
                 <div>
-                    <i class="fa fa-fw ms-1 fa-plus-circle cursor-pointer" ngbTooltip="Download as image" (click)="newChart()"></i>
+                    <i class="fa fa-fw ms-1 fa-folder-open cursor-pointer" ngbTooltip="Open an existing chart" (click)="chartModal.open()"></i>
+                    <i class="fa fa-fw ms-1 fa-plus-circle cursor-pointer" ngbTooltip="Create a new chart" (click)="newChart()"></i>
                 </div>
             </div>
 
@@ -322,7 +323,6 @@
 
     <div class="mb-6">
         <button type="submit" class="btn btn-outline-success me-2 mb-1">Save<i class="fas fa-check ms-2"></i></button>
-        <button type="button" class="btn btn-outline-primary me-2 mb-1" (click)="chartModal.open()">Load<i class="fas fa-folder-open ms-2"></i></button>
     </div>
 
 </form>

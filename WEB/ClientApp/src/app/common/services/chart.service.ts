@@ -48,10 +48,10 @@ export class ChartService extends SearchQuery {
 }
 
 export class ChartData {
-    indicator: Indicator;
+    indicatorId: string;
+    indicatorId2: string;
+    indicators: Indicator[];
     data: Datum[];
-    indicator2: Indicator;
-    data2: Datum[];
     entities: Entity[];
     dates: AppDate[];
 }

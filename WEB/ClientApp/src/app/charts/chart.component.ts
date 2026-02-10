@@ -1,6 +1,6 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { Indicator } from '../common/models/indicator.model';
-import { EChartsOption } from 'echarts/types/dist/echarts';
+import { BarSeriesOption, LineSeriesOption } from 'echarts/charts';
 import { UtilitiesService } from '../common/services/utilities.service';
 import { IndicatorService } from '../common/services/indicator.service';
 import { ChartData, ChartService } from '../common/services/chart.service';
@@ -11,6 +11,20 @@ import { ErrorService } from '../common/services/error.service';
 import { ActivatedRoute } from '@angular/router';
 import { BreadcrumbService } from '../common/services/breadcrumb.service';
 import { ChartModalComponent } from '../admin/charts/chart.modal.component';
+import { ComposeOption } from 'echarts/core';
+import { GridComponentOption, TooltipComponentOption, LegendComponentOption } from 'echarts/components';
+import { IndicatorTypes } from '../common/models/enums.model';
+import { Entity } from '../common/models/entity.model';
+import { AppDate } from '../common/models/date.model';
+import { Datum } from '../common/models/datum.model';
+
+type EChartsOption = ComposeOption<
+    | BarSeriesOption
+    | LineSeriesOption
+    | GridComponentOption
+    | TooltipComponentOption
+    | LegendComponentOption
+>;
 
 enum LegendPosition { None, Top, Bottom }
 
@@ -54,6 +68,18 @@ class Settings {
     }
 }
 
+class Data extends ChartData {
+    indicator: Indicator;
+    indicator2: Indicator;
+}
+
+class Row {
+    indicator: Indicator;
+    entity: Entity;
+    date: AppDate;
+    datum: Datum;
+}
+
 @Component({
     selector: 'chart',
     templateUrl: './chart.component.html',
@@ -70,7 +96,7 @@ export class ChartComponent implements OnInit {
         indicator2: undefined as Indicator
     }
 
-    public data: ChartData;
+    public data: Data;
 
     public options: EChartsOption;
 
@@ -174,7 +200,7 @@ export class ChartComponent implements OnInit {
 
         this.chartService.getData(this.settings.indicatorId, this.settings.indicatorId2).subscribe({
             next: data => {
-                this.data = data;
+                this.data = data as Data;
                 this.updateChart();
             },
             error: err => this.errorService.handleError(err, "Chart", "Load Data")
@@ -183,27 +209,114 @@ export class ChartComponent implements OnInit {
 
     updateChart() {
 
-        const hasSerie2 = this.settings.indicatorId2;
+        const hasSerie2 = !!this.data.indicatorId2;
+
+        this.data.indicator = this.data.indicators.find(o => o.indicatorId === this.data.indicatorId);
+        this.data.indicator2 = this.data.indicators.find(o => o.indicatorId === this.data.indicatorId2);
 
         const formatter = this.utilitiesService.getFormatter(this.data.indicator);
         const formatter2 = hasSerie2 ? this.utilitiesService.getFormatter(this.data.indicator2) : undefined;
 
-        const serie: { label: string, value?: number }[] = [];
-        const serie2: { label: string, value?: number }[] = [];
+        var rows: Row[] = [];
+        for (const datum of this.data.data) {
+            const indicator = this.data.indicators.find(i => i.indicatorId === datum.indicatorId);
+            const entity = this.data.entities.find(e => e.entityId === datum.entityId);
+            const date = this.data.dates.find(d => d.dateId === datum.dateId);
+            rows.push({ indicator, entity, date, datum });
+        }
+
+        const indicatorRows: { indicator: Indicator, rows: Row[] }[] = [];
+
+        if (this.data.indicator.indicatorType !== IndicatorTypes.Group) {
+            indicatorRows.push({
+                indicator: this.data.indicator,
+                rows: rows.filter(r => r.indicator.indicatorId === this.data.indicator.indicatorId)
+            });
+        } else {
+            for (const indicator of this.data.indicators) {
+                if (indicator.groupingIndicatorId === this.data.indicator.indicatorId) {
+                    indicatorRows.push({
+                        indicator: indicator,
+                        rows: rows.filter(r => r.indicator.indicatorId === indicator.indicatorId)
+                    });
+                }
+            }
+        }
+
+        const entityTotals = new Map<string, number>();
 
         for (const entity of this.data.entities) {
-            const datum = this.data.data.find(d => d.entityId === entity.entityId);
-            serie.push({ label: entity.name, value: datum?.value });
-            if (hasSerie2) {
-                const datum2 = this.data.data2.find(d => d.entityId === entity.entityId);
-                serie2.push({ label: entity.name, value: datum2?.value });
+            entityTotals.set(entity.entityId, 0);
+
+            for (const indicatorRow of indicatorRows) {
+                const row = indicatorRow.rows.find(d => d.entity.entityId === entity.entityId && d.indicator.indicatorId === indicatorRow.indicator.indicatorId);
+                //serie.serie.data.push(datum?.value);
+                entityTotals.set(entity.entityId, entityTotals.get(entity.entityId)! + (row?.datum?.value ?? 0));
             }
         }
 
         if (this.settings.xAxisSort === 'name') {
-            serie.sort((a, b) => a.label.localeCompare(b.label));
+            this.data.entities.sort((a, b) => a.name.localeCompare(b.name));
         } else if (this.settings.xAxisSort === 'value') {
-            serie.sort((a, b) => (b.value ?? 0) - (a.value ?? 0));
+            this.data.entities.sort((a, b) => entityTotals.get(b.entityId) - entityTotals.get(a.entityId));
+        }
+
+        const series: (BarSeriesOption | LineSeriesOption)[] = [];
+        for (const indicatorRow of indicatorRows) {
+            const bso = {} as BarSeriesOption;
+            bso.name = indicatorRow.indicator.shortName ?? indicatorRow.indicator.name;
+            bso.type = "bar";
+            bso.yAxisIndex = 0;
+
+            if (this.data.indicator.indicatorType === IndicatorTypes.Group) {
+                bso.stack = this.data.indicatorId;
+                if (this.settings.barColor) {
+                    bso.itemStyle = {
+                        color: this.settings.barColor
+                    };
+                }
+            } else {
+                bso.colorBy = this.settings.barColor ? undefined : "data";
+                bso.itemStyle = {
+                    color: this.settings.barColor
+                };
+            }
+
+            bso.data = [];
+            for (const entity of this.data.entities) {
+                const row = indicatorRow.rows.find(d => d.entity.entityId === entity.entityId);
+                bso.data.push(row?.datum?.value);
+            }
+
+            series.push(bso);
+        }
+
+        if (hasSerie2) {
+
+            const bso = {} as LineSeriesOption;
+
+            bso.name = this.data.indicator2.shortName ?? this.data.indicator2.name;
+            bso.type = "line";
+            bso.yAxisIndex = 1;
+
+            bso.lineStyle = {
+                color: this.settings.lineColor ?? 'black',
+                width: this.settings.lineWidth
+            };
+            bso.itemStyle = {
+                color: this.settings.lineColor ?? 'black'
+            };
+            bso.symbol = this.settings.lineMarker ? 'circle' : 'none';
+            bso.symbolSize = 14;
+
+            bso.data = [];
+            const indicator2Rows = rows.filter(r => r.indicator.indicatorId === this.data.indicatorId2);
+            for (const entity of this.data.entities) {
+                const row = indicator2Rows.find(o => o.entity.entityId === entity.entityId);
+                bso.data.push(row?.datum?.value);
+            }
+
+            series.push(bso);
         }
 
         this.options = {
@@ -215,7 +328,7 @@ export class ChartComponent implements OnInit {
             },
             xAxis: {
                 type: 'category',
-                data: serie.map(o => o.label),
+                data: this.data.entities.map(o => o.name),
                 axisLabel: {
                     fontSize: this.settings.xAxisFontSize,
                     rotate: this.settings.xAxisRotation,
@@ -235,7 +348,8 @@ export class ChartComponent implements OnInit {
                         nameGap: this.settings.yAxisTitleGap,
                         nameRotate: 90
                     })
-                },
+                }
+                ,
                 ...(hasSerie2 ? [{
                     type: 'value',
                     axisLabel: {
@@ -251,33 +365,7 @@ export class ChartComponent implements OnInit {
                     })
                 }] : [])
             ],
-            series: [
-                {
-                    name: this.data.indicator.shortName ?? this.data.indicator.name,
-                    type: "bar",
-                    yAxisIndex: 0,
-                    data: serie.map(o => o.value),
-                    colorBy: this.settings.barColor ? undefined : "data",
-                    itemStyle: {
-                        color: this.settings.barColor
-                    }
-                },
-                ...(hasSerie2 ? [{
-                    name: this.data.indicator2.shortName ?? this.data.indicator2.name,
-                    type: 'line',
-                    yAxisIndex: 1,
-                    data: serie2.map(o => o.value),
-                    lineStyle: {
-                        color: this.settings.lineColor ?? 'black',
-                        width: this.settings.lineWidth
-                    },
-                    itemStyle: {
-                        color: this.settings.lineColor ?? 'black'
-                    },
-                    symbol: this.settings.lineMarker ? 'circle' : 'none',
-                    symbolSize: 14
-                }] : [])
-            ],
+            series: series,
             legend: this.buildLegend(),
             tooltip: {
                 trigger: 'axis',
