@@ -8,6 +8,7 @@ import { SearchQuery, PagingHeaders } from '../models/http.model';
 import { Datum } from '../models/datum.model';
 import { Entity } from '../models/entity.model';
 import { AppDate } from '../models/date.model';
+import { Indicator } from '../models/indicator.model';
 
 @Injectable({ providedIn: 'root' })
 export class ChartService extends SearchQuery {
@@ -40,18 +41,17 @@ export class ChartService extends SearchQuery {
         return this.http.delete<void>(`${environment.baseApiUrl}charts/${chartId}`);
     }
 
-    getData(settings: ChartSettings): Observable<ChartData> {
-        return this.http.post<ChartData>(`${environment.baseApiUrl}charts/data`, settings);
+    getData(indicatorId: string, indicatorId2?: string): Observable<ChartData> {
+        return this.http.post<ChartData>(`${environment.baseApiUrl}charts/data`, { indicatorId, indicatorId2 });
     }
 
 }
 
-export class ChartSettings {
-    indicatorId: string;
-}
-
 export class ChartData {
+    indicator: Indicator;
     data: Datum[];
+    indicator2: Indicator;
+    data2: Datum[];
     entities: Entity[];
     dates: AppDate[];
 }

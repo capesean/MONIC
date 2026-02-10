@@ -1,6 +1,6 @@
 <app-page-title></app-page-title>
 
-<form id="form" name="form" novalidate #form="ngForm" [ngClass]="{ 'was-validated': form.submitted }">
+<form id="form" name="form" (submit)="save(form)" novalidate #form="ngForm" [ngClass]="{ 'was-validated': form.submitted }">
 
     <div class="card card-edit">
 
@@ -8,6 +8,9 @@
 
             <div class="card-header-title">
                 <h4>Chart Settings</h4>
+                <div>
+                    <i class="fa fa-fw ms-1 fa-plus-circle cursor-pointer" ngbTooltip="Download as image" (click)="newChart()"></i>
+                </div>
             </div>
 
         </div>
@@ -19,7 +22,27 @@
                 <div class="row gx-3">
 
                     <div class="col-sm-6 col-md-4">
-                        <div class="form-group" [ngClass]="{ 'is-invalid': indicatorId.invalid }">
+                        <div class="form-group">
+
+                            <label for="name">
+                                Name:
+                            </label>
+
+                            <input id="name" name="name" class="form-control" type="text" [(ngModel)]="chart.name" #name="ngModel" required (ngModelChange)="changeBreadcrumb()" maxlength="200" />
+
+                            <div *ngIf="name.errors?.required" class="invalid-feedback">
+                                Name is required
+                            </div>
+
+                            <div *ngIf="name.errors?.maxlength" class="invalid-feedback">
+                                Name must be at most 200 characters long
+                            </div>
+
+                        </div>
+                    </div>
+
+                    <div class="col-sm-6 col-md-4">
+                        <div class="form-group">
 
                             <label for="indicatorId">
                                 Indicator:
@@ -35,7 +58,7 @@
                     </div>
 
                     <div class="col-sm-6 col-md-4">
-                        <div class="form-group" [ngClass]="{ 'is-invalid': barColor.invalid }">
+                        <div class="form-group">
 
                             <label for="barColor">
                                 Bar Color:
@@ -50,7 +73,7 @@
                     </div>
 
                     <div class="col-sm-6 col-md-4">
-                        <div class="form-group" [ngClass]="{ 'is-invalid': yAxisFontSize.invalid }">
+                        <div class="form-group">
 
                             <label for="yAxisFontSize">
                                 Y-Axis Font Size:
@@ -62,7 +85,7 @@
                     </div>
 
                     <div class="col-sm-6 col-md-4">
-                        <div class="form-group" [ngClass]="{ 'is-invalid': xAxisFontSize.invalid }">
+                        <div class="form-group">
 
                             <label for="xAxisFontSize">
                                 X-Axis Font Size:
@@ -74,16 +97,220 @@
                     </div>
 
                     <div class="col-sm-6 col-md-4">
-                        <div class="form-group" [ngClass]="{ 'is-invalid': xAxisRotation.invalid }">
+                        <div class="form-group">
 
                             <label for="xAxisRotation">
-                                X-Axis Font Size:
+                                X-Axis Rotation:
                             </label>
 
                             <input id="xAxisRotation" name="xAxisRotation" type="number" class="form-control" [(ngModel)]="settings.xAxisRotation" #xAxisRotation="ngModel" (ngModelChange)="settingChanged()" />
 
                         </div>
                     </div>
+
+                    <div class="col-sm-12 col-md-4">
+                        <div class="form-group">
+
+                            <label for="xAxisSort" class="me-4">
+                                X-Axist Sort:
+                            </label>
+
+                            <div>
+                                <div class="form-check form-check-inline">
+                                    <input type="radio"
+                                           id="xAxisSortByName"
+                                           name="xAxisSort"
+                                           class="form-check-input"
+                                           [(ngModel)]="settings.xAxisSort"
+                                           #xAxisSortByName="ngModel"
+                                           [value]="'name'"
+                                           (ngModelChange)="settingChanged()" />
+                                    <label class="form-check-label" for="xAxisSortByName">Name</label>
+                                </div>
+                                <div class="form-check form-check-inline">
+                                    <input type="radio"
+                                           id="xAxisSortByValue"
+                                           name="xAxisSort"
+                                           class="form-check-input"
+                                           [(ngModel)]="settings.xAxisSort"
+                                           #xAxisSortByValue="ngModel"
+                                           [value]="'value'"
+                                           (ngModelChange)="settingChanged()" />
+                                    <label class="form-check-label" for="xAxisSortByValue">Value</label>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+
+                    <div class="col-sm-6 col-md-4">
+                        <div class="form-group">
+
+                            <label for="gridLeft">
+                                Grid Left:
+                            </label>
+
+                            <input id="gridLeft" name="gridLeft" type="number" class="form-control" [(ngModel)]="settings.gridLeft" #gridLeft="ngModel" (ngModelChange)="settingChanged()" />
+
+                        </div>
+                    </div>
+
+                    <div class="col-sm-6 col-md-4">
+                        <div class="form-group">
+
+                            <label for="gridRight">
+                                Grid Right:
+                            </label>
+
+                            <input id="gridRight" name="gridRight" type="number" class="form-control" [(ngModel)]="settings.gridRight" #gridRight="ngModel" (ngModelChange)="settingChanged()" />
+
+                        </div>
+                    </div>
+
+                    <div class="col-sm-6 col-md-4">
+                        <div class="form-group">
+
+                            <label for="gridTop">
+                                Grid Top:
+                            </label>
+
+                            <input id="gridTop" name="gridTop" type="number" class="form-control" [(ngModel)]="settings.gridTop" #gridTop="ngModel" (ngModelChange)="settingChanged()" />
+
+                        </div>
+                    </div>
+
+                    <div class="col-sm-6 col-md-4">
+                        <div class="form-group">
+
+                            <label for="gridBottom">
+                                Grid Bottom:
+                            </label>
+
+                            <input id="gridBottom" name="gridBottom" type="number" class="form-control" [(ngModel)]="settings.gridBottom" #gridBottom="ngModel" (ngModelChange)="settingChanged()" />
+
+                        </div>
+                    </div>
+
+                    <div class="col-sm-6 col-md-4">
+                        <div class="form-group">
+
+                            <label for="showYAxisTitle">
+                                Show Y-Axis Title:
+                            </label>
+
+                            <div class="form-check">
+                                <input id="showYAxisTitle" name="showYAxisTitle" class="form-check-input" type="checkbox" [(ngModel)]="settings.showYAxisTitle" #showYAxisTitle="ngModel" (ngModelChange)="settingChanged()" />
+                                <label class="form-check-label" for="showYAxisTitle">
+                                    Show Y-Axis Title
+                                </label>
+                            </div>
+
+                        </div>
+                    </div>
+
+                    <div class="col-sm-6 col-md-4">
+                        <div class="form-group">
+
+                            <label for="yAxisTitleGap">
+                                Y-Axis Title Gap:
+                            </label>
+
+                            <input id="yAxisTitleGap" name="yAxisTitleGap" type="number" class="form-control" [(ngModel)]="settings.yAxisTitleGap" #yAxisTitleGap="ngModel" (ngModelChange)="settingChanged()" />
+
+                        </div>
+                    </div>
+
+                    <div class="col-sm-6 col-md-4">
+                        <div class="form-group">
+
+                            <label for="height">
+                                Height:
+                            </label>
+
+                            <input id="height" name="height" type="number" class="form-control" [(ngModel)]="settings.height" #height="ngModel" (ngModelChange)="settingChanged()" />
+
+                        </div>
+                    </div>
+
+                    <div class="col-sm-6 col-md-4">
+                        <div class="form-group">
+
+                            <label for="indicatorId2">
+                                Secondary Indicator:
+                            </label>
+
+                            <indicator-select id="indicatorId2" name="indicatorId2" [(indicator)]="settingsObjects.indicator2" [(ngModel)]="settings.indicatorId2" #indicatorId2="ngModel" (ngModelChange)="settingChanged()"></indicator-select>
+
+                        </div>
+                    </div>
+
+                    <div class="col-sm-6 col-md-4">
+                        <div class="form-group">
+
+                            <label for="lineColor">
+                                Line Color:
+                            </label>
+
+                            <div class="input-group">
+                                <input id="lineColor" name="lineColor" type="color" class="form-control" [(ngModel)]="settings.lineColor" #lineColor="ngModel" (ngModelChange)="settingChanged()" />
+                                <button type="button" class="btn btn-secondary" (click)="settings.lineColor=undefined;settingChanged()"><i class="fa fa-times"></i></button>
+                            </div>
+
+                        </div>
+                    </div>
+
+                    <div class="col-sm-6 col-md-4">
+                        <div class="form-group">
+
+                            <label for="lineWidth">
+                                Line Width:
+                            </label>
+
+                            <input id="lineWidth" name="lineWidth" type="number" class="form-control" [(ngModel)]="settings.lineWidth" #lineWidth="ngModel" (ngModelChange)="settingChanged()" />
+
+                        </div>
+                    </div>
+
+                    <div class="col-sm-6 col-md-4">
+                        <div class="form-group">
+
+                            <label for="lineMarker">
+                                Line Marker:
+                            </label>
+
+                            <div class="form-check">
+                                <input id="lineMarker" name="lineMarker" class="form-check-input" type="checkbox" [(ngModel)]="settings.lineMarker" #lineMarker="ngModel" (ngModelChange)="settingChanged()" />
+                                <label class="form-check-label" for="lineMarker">
+                                    Line Marker
+                                </label>
+                            </div>
+
+                        </div>
+                    </div>
+
+                    <div class="col-sm-6 col-md-4">
+                        <div class="form-group">
+
+                            <label for="legendPosition">
+                                Legend Position:
+                            </label>
+
+                            <select id="legendPosition"
+                                    name="legendPosition"
+                                    class="form-select"
+                                    [(ngModel)]="settings.legendPosition"
+                                    #legendPosition="ngModel"
+                                    (ngModelChange)="settingChanged()">
+
+                                <option [ngValue]="LegendPosition.None">None</option>
+                                <option [ngValue]="LegendPosition.Top">Top</option>
+                                <option [ngValue]="LegendPosition.Bottom">Bottom</option>
+
+                            </select>
+
+                        </div>
+                    </div>
+
 
                 </div>
 
@@ -93,8 +320,9 @@
 
     </div>
 
-    <div class="mb-4">
+    <div class="mb-6">
         <button type="submit" class="btn btn-outline-success me-2 mb-1">Save<i class="fas fa-check ms-2"></i></button>
+        <button type="button" class="btn btn-outline-primary me-2 mb-1" (click)="chartModal.open()">Load<i class="fas fa-folder-open ms-2"></i></button>
     </div>
 
 </form>
@@ -105,16 +333,19 @@
 
         <div class="card-header-title">
             <h4>Chart</h4>
+            <div>
+                <i class="fa fa-fw ms-1 fa-cloud-download cursor-pointer" ngbTooltip="Download as image" (click)="downloadChart()"></i>
+            </div>
         </div>
 
     </div>
 
     <div class="card-body">
 
-        <div echarts [options]="options"></div>
+        <div echarts [options]="options" (chartInit)="onChartInit($event)" [style.height.px]="settings.height"></div>
 
     </div>
 
 </div>
 
-
+<chart-modal #chartModal (change)="loadChart($event)"></chart-modal>

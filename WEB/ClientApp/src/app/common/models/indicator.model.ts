@@ -59,6 +59,11 @@ export class Indicator implements IHasFields {
 
     constructor() {
         this.indicatorId = "00000000-0000-0000-0000-000000000000";
+        this.indicatorType = IndicatorTypes.Collected;
+        this.frequency = DateTypes.Year;
+        this.dateAggregationType = AggregationTypes.MostRecent;
+        this.dataType = DataTypes.Number;
+        this.decimalPlaces = 0;
         this.requiresSubmit = true;
         this.requiresVerify = true;
         this.requiresApprove = true;

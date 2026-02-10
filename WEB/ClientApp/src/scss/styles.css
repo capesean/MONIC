@@ -540,6 +540,10 @@ table.table-hover > tbody > tr:hover > td {
 
         .card.card-edit > .card-header .card-header-title {
             color: white;
+            display: flex;
+            flex-direction: row;
+            justify-content: space-between;
+            align-items: center;
         }
 
             .card.card-edit > .card-header .card-header-title h4 {

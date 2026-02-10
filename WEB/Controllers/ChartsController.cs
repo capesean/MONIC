@@ -95,6 +95,9 @@ namespace WEB.Controllers
         [HttpPost, Route("data")]
         public async Task<IActionResult> GetData(ChartSettings chartSettings)
         {
+            var indicator = await db.Indicators
+                .FirstOrDefaultAsync(o => o.IndicatorId == chartSettings.IndicatorId);
+
             var data = await db.Data
                 .Where(o => o.IndicatorId == chartSettings.IndicatorId)
                 .OrderByDescending(o => o.Date.SortOrder)
@@ -102,8 +105,18 @@ namespace WEB.Controllers
                 .Select(o => o.First())
                 .ToListAsync();
 
-            var entityIds = data.Select(o => o.EntityId).Distinct().ToList();
-            var dateIds = data.Select(o => o.DateId).Distinct().ToList();
+            var indicator2 = chartSettings.IndicatorId2.HasValue ? await db.Indicators
+                .FirstOrDefaultAsync(o => o.IndicatorId == chartSettings.IndicatorId2) : null;
+
+            var data2 = chartSettings.IndicatorId2.HasValue ? (await db.Data
+                .Where(o => o.IndicatorId == chartSettings.IndicatorId2)
+                .OrderByDescending(o => o.Date.SortOrder)
+                .GroupBy(o => o.EntityId)
+                .Select(o => o.First())
+                .ToListAsync()) : [];
+
+            var entityIds = data.Select(o => o.EntityId).Union(data2.Select(o => o.EntityId)).Distinct().ToList();
+            var dateIds = data.Select(o => o.DateId).Union(data2.Select(o => o.DateId)).Distinct().ToList();
 
             var entities = await db.Entities
                 .Where(o => entityIds.Contains(o.EntityId))
@@ -115,7 +128,10 @@ namespace WEB.Controllers
 
             return Ok(new
             {
+                indicator = ModelFactory.Create(indicator),
                 data = data.Select(o => ModelFactory.Create(o)),
+                indicator2 = ModelFactory.Create(indicator2),
+                data2 = data2.Select(o => ModelFactory.Create(o)),
                 entities = entities.Select(o => ModelFactory.Create(o)),
                 dates = dates.Select(o => ModelFactory.Create(o))
             });
@@ -125,5 +141,6 @@ namespace WEB.Controllers
     public class ChartSettings
     {
         public Guid IndicatorId { get; set; }
+        public Guid? IndicatorId2 { get; set; }
     }
 }

@@ -48,7 +48,6 @@ export class AppComponent implements OnInit {
             const titles = crumbs.filter(crumb => !!crumb.displayName)
                 .reduce((prev, curr) => { return `${curr.displayName} : ${prev}`; }, '') + environment.siteName;
             this.titleService.setTitle(titles ?? title);
-
         });
     }
 }
