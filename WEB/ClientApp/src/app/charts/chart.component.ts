@@ -17,6 +17,7 @@ import { IndicatorTypes } from '../common/models/enums.model';
 import { Entity } from '../common/models/entity.model';
 import { AppDate } from '../common/models/date.model';
 import { Datum } from '../common/models/datum.model';
+import { catchError, EMPTY, finalize, forkJoin, of, take, tap } from 'rxjs';
 
 type EChartsOption = ComposeOption<
     | BarSeriesOption
@@ -47,6 +48,8 @@ class Settings {
     lineWidth: number;
     lineMarker: boolean;
     legendPosition: LegendPosition;
+    stacked: boolean;
+    stacked100: boolean;
 
     constructor() {
         this.xAxisFontSize = 10;
@@ -65,6 +68,8 @@ class Settings {
         this.lineWidth = 5;
         this.lineMarker = true;
         this.legendPosition = LegendPosition.None;
+        this.stacked = true;
+        this.stacked100 = false;
     }
 }
 
@@ -78,6 +83,19 @@ class Row {
     entity: Entity;
     date: AppDate;
     datum: Datum;
+}
+
+type Id = string;
+
+function indexBy<T>(items: T[], key: (t: T) => Id): Map<Id, T> {
+    const m = new Map<Id, T>();
+    for (const it of items) m.set(key(it), it);
+    return m;
+}
+
+type RowKey = `${string}|${string}`; // indicatorId|entityId
+function makeRowKey(indicatorId: string, entityId: string): RowKey {
+    return `${indicatorId}|${entityId}`;
 }
 
 @Component({
@@ -107,6 +125,7 @@ export class ChartComponent implements OnInit {
     private echart!: any;
 
     LegendPosition = LegendPosition;
+    IndicatorTypes = IndicatorTypes;
 
     constructor(
         private utilitiesService: UtilitiesService,
@@ -124,7 +143,7 @@ export class ChartComponent implements OnInit {
         this.chart.name = "New Chart";
 
         if (window.location.hostname === 'localhost') {
-            this.chartService.search({} as any).subscribe(result => this.loadChart(result.charts[0]));
+            this.chartService.search({ q: 'STA' } as any).subscribe(result => this.loadChart(result.charts[0]));
         } else {
             this.setSettings(new Settings());
         }
@@ -168,26 +187,35 @@ export class ChartComponent implements OnInit {
 
     private setSettings(settings: Settings) {
         this.isInitializing = true;
-
         this.settings = settings;
 
-        if (settings.indicatorId) {
-            this.indicatorService.get(settings.indicatorId).subscribe(indicator => {
-                this.settingsObjects.indicator = indicator
+        this.settingsObjects.indicator = undefined as Indicator;
+        this.settingsObjects.indicator2 = undefined as Indicator;
 
-                this.loadData();
-
-                if (settings.indicatorId2) {
-                    this.indicatorService.get(settings.indicatorId2).subscribe(indicator2 => this.settingsObjects.indicator2 = indicator2);
-                    this.isInitializing = false;
-                } else {
-                    this.isInitializing = false;
-                }
-            });
-        } else {
+        if (!settings.indicatorId) {
             this.isInitializing = false;
+            return;
         }
 
+        const indicator1$ = this.indicatorService.get(settings.indicatorId).pipe(take(1));
+
+        const indicator2$ = settings.indicatorId2
+            ? this.indicatorService.get(settings.indicatorId2).pipe(take(1))
+            : of(undefined);
+
+        forkJoin({ indicator1: indicator1$, indicator2: indicator2$ })
+            .pipe(
+                tap(({ indicator1, indicator2 }) => {
+                    this.settingsObjects.indicator = indicator1;
+                    this.settingsObjects.indicator2 = indicator2 as Indicator | undefined;
+                }),
+                finalize(() => (this.isInitializing = false)),
+                catchError(err => {
+                    this.errorService.handleError(err, 'Chart', 'Load Settings');
+                    return EMPTY;
+                })
+            )
+            .subscribe(() => this.loadData());
     }
 
     settingChanged() {
@@ -200,6 +228,8 @@ export class ChartComponent implements OnInit {
 
         this.chartService.getData(this.settings.indicatorId, this.settings.indicatorId2).subscribe({
             next: data => {
+                // sort (desc) by the numerical .sortOrder field:
+                data.indicators.sort((a, b) => b.sortOrder - a.sortOrder);
                 this.data = data as Data;
                 this.updateChart();
             },
@@ -209,59 +239,85 @@ export class ChartComponent implements OnInit {
 
     updateChart() {
 
+        if (!this.data) return;
+
         const hasSerie2 = !!this.data.indicatorId2;
 
-        this.data.indicator = this.data.indicators.find(o => o.indicatorId === this.data.indicatorId);
-        this.data.indicator2 = this.data.indicators.find(o => o.indicatorId === this.data.indicatorId2);
+        const indicatorById = indexBy(this.data.indicators, i => i.indicatorId);
+        const entityById = indexBy(this.data.entities, e => e.entityId);
+        const dateById = indexBy(this.data.dates, d => d.dateId);
+
+        const rowByIndicatorEntity = new Map<RowKey, Row>();
+
+        const rows: Row[] = [];
+        for (const datum of this.data.data) {
+            const indicator = indicatorById.get(datum.indicatorId)!;
+            const entity = entityById.get(datum.entityId)!;
+            const date = dateById.get(datum.dateId)!;
+
+            if (!indicator || !entity || !date) continue;
+
+            const row: Row = { indicator, entity, date, datum };
+            rows.push(row);
+            rowByIndicatorEntity.set(makeRowKey(indicator.indicatorId, entity.entityId), row);
+        }
+
+        this.data.indicator = indicatorById.get(this.data.indicatorId)!;
+        this.data.indicator2 = hasSerie2 ? indicatorById.get(this.data.indicatorId2)! : undefined as any;
 
         const formatter = this.utilitiesService.getFormatter(this.data.indicator);
         const formatter2 = hasSerie2 ? this.utilitiesService.getFormatter(this.data.indicator2) : undefined;
 
-        var rows: Row[] = [];
-        for (const datum of this.data.data) {
-            const indicator = this.data.indicators.find(i => i.indicatorId === datum.indicatorId);
-            const entity = this.data.entities.find(e => e.entityId === datum.entityId);
-            const date = this.data.dates.find(d => d.dateId === datum.dateId);
-            rows.push({ indicator, entity, date, datum });
-        }
-
-        const indicatorRows: { indicator: Indicator, rows: Row[] }[] = [];
+        const indicatorRows: { indicator: Indicator; indicatorId: string }[] = [];
 
         if (this.data.indicator.indicatorType !== IndicatorTypes.Group) {
-            indicatorRows.push({
-                indicator: this.data.indicator,
-                rows: rows.filter(r => r.indicator.indicatorId === this.data.indicator.indicatorId)
-            });
+            indicatorRows.push({ indicator: this.data.indicator, indicatorId: this.data.indicator.indicatorId });
         } else {
-            for (const indicator of this.data.indicators) {
-                if (indicator.groupingIndicatorId === this.data.indicator.indicatorId) {
-                    indicatorRows.push({
-                        indicator: indicator,
-                        rows: rows.filter(r => r.indicator.indicatorId === indicator.indicatorId)
-                    });
+            for (const i of this.data.indicators) {
+                if (i.groupingIndicatorId === this.data.indicator.indicatorId) {
+                    indicatorRows.push({ indicator: i, indicatorId: i.indicatorId });
                 }
             }
         }
 
+        const isStacked100 =
+            this.settings.stacked100 &&
+            this.settings.stacked &&
+            this.data.indicator.indicatorType === IndicatorTypes.Group;
+
         const entityTotals = new Map<string, number>();
+        for (const e of this.data.entities) entityTotals.set(e.entityId, 0);
 
-        for (const entity of this.data.entities) {
-            entityTotals.set(entity.entityId, 0);
+        for (const e of this.data.entities) {
+            let total = 0;
+            for (const ir of indicatorRows) {
+                const row = rowByIndicatorEntity.get(makeRowKey(ir.indicatorId, e.entityId));
+                total += row?.datum?.value ?? 0;
+            }
+            entityTotals.set(e.entityId, total);
+        }
 
-            for (const indicatorRow of indicatorRows) {
-                const row = indicatorRow.rows.find(d => d.entity.entityId === entity.entityId && d.indicator.indicatorId === indicatorRow.indicator.indicatorId);
-                //serie.serie.data.push(datum?.value);
-                entityTotals.set(entity.entityId, entityTotals.get(entity.entityId)! + (row?.datum?.value ?? 0));
+        const entities = [...this.data.entities];
+        if (this.settings.xAxisSort === 'name') {
+            entities.sort((a, b) => a.name.localeCompare(b.name));
+        } else if (this.settings.xAxisSort === 'value') {
+            entities.sort((a, b) => (entityTotals.get(b.entityId)! - entityTotals.get(a.entityId)!));
+        }
+
+        const stackTotalsByEntity = new Map<string, number>();
+
+        if (isStacked100) {
+            for (const e of entities) {
+                let total = 0;
+                for (const ir of indicatorRows) {
+                    total += rowByIndicatorEntity.get(makeRowKey(ir.indicatorId, e.entityId))?.datum?.value ?? 0;
+                }
+                stackTotalsByEntity.set(e.entityId, total);
             }
         }
 
-        if (this.settings.xAxisSort === 'name') {
-            this.data.entities.sort((a, b) => a.name.localeCompare(b.name));
-        } else if (this.settings.xAxisSort === 'value') {
-            this.data.entities.sort((a, b) => entityTotals.get(b.entityId) - entityTotals.get(a.entityId));
-        }
-
         const series: (BarSeriesOption | LineSeriesOption)[] = [];
+
         for (const indicatorRow of indicatorRows) {
             const bso = {} as BarSeriesOption;
             bso.name = indicatorRow.indicator.shortName ?? indicatorRow.indicator.name;
@@ -269,54 +325,50 @@ export class ChartComponent implements OnInit {
             bso.yAxisIndex = 0;
 
             if (this.data.indicator.indicatorType === IndicatorTypes.Group) {
-                bso.stack = this.data.indicatorId;
-                if (this.settings.barColor) {
-                    bso.itemStyle = {
-                        color: this.settings.barColor
-                    };
-                }
+                if (this.settings.stacked) bso.stack = this.data.indicatorId;
+                bso.itemStyle = {
+                    color: this.settings.barColor ?? indicatorRow.indicator.color,
+                    borderColor: this.settings.barColor ?? indicatorRow.indicator.color
+                };
             } else {
                 bso.colorBy = this.settings.barColor ? undefined : "data";
                 bso.itemStyle = {
-                    color: this.settings.barColor
+                    color: this.settings.barColor,
+                    borderColor: this.settings.barColor ?? indicatorRow.indicator.color
                 };
             }
 
-            bso.data = [];
-            for (const entity of this.data.entities) {
-                const row = indicatorRow.rows.find(d => d.entity.entityId === entity.entityId);
-                bso.data.push(row?.datum?.value);
-            }
+            bso.data = entities.map(e => {
+                const raw = rowByIndicatorEntity.get(makeRowKey(indicatorRow.indicatorId, e.entityId))?.datum?.value ?? 0;
+
+                if (!isStacked100) return raw;
+
+                const total = stackTotalsByEntity.get(e.entityId) ?? 0;
+                return total === 0 ? 0 : (raw / total) * 100;
+            });
+
 
             series.push(bso);
         }
 
         if (hasSerie2) {
+            const lso = {} as LineSeriesOption;
+            lso.name = this.data.indicator2.shortName ?? this.data.indicator2.name;
+            lso.type = "line";
+            lso.yAxisIndex = 1;
 
-            const bso = {} as LineSeriesOption;
+            const color = this.settings.lineColor ?? 'black';
+            lso.lineStyle = { color, width: this.settings.lineWidth };
+            lso.itemStyle = { color };
+            lso.symbol = this.settings.lineMarker ? 'circle' : 'none';
+            lso.symbolSize = 14;
 
-            bso.name = this.data.indicator2.shortName ?? this.data.indicator2.name;
-            bso.type = "line";
-            bso.yAxisIndex = 1;
+            lso.data = entities.map(e => {
+                const row = rowByIndicatorEntity.get(makeRowKey(this.data.indicatorId2, e.entityId));
+                return row?.datum?.value;
+            });
 
-            bso.lineStyle = {
-                color: this.settings.lineColor ?? 'black',
-                width: this.settings.lineWidth
-            };
-            bso.itemStyle = {
-                color: this.settings.lineColor ?? 'black'
-            };
-            bso.symbol = this.settings.lineMarker ? 'circle' : 'none';
-            bso.symbolSize = 14;
-
-            bso.data = [];
-            const indicator2Rows = rows.filter(r => r.indicator.indicatorId === this.data.indicatorId2);
-            for (const entity of this.data.entities) {
-                const row = indicator2Rows.find(o => o.entity.entityId === entity.entityId);
-                bso.data.push(row?.datum?.value);
-            }
-
-            series.push(bso);
+            series.push(lso);
         }
 
         this.options = {
@@ -328,7 +380,7 @@ export class ChartComponent implements OnInit {
             },
             xAxis: {
                 type: 'category',
-                data: this.data.entities.map(o => o.name),
+                data: entities.map(o => o.name),
                 axisLabel: {
                     fontSize: this.settings.xAxisFontSize,
                     rotate: this.settings.xAxisRotation,
@@ -338,18 +390,18 @@ export class ChartComponent implements OnInit {
             yAxis: [
                 {
                     type: 'value',
+                    max: isStacked100 ? 100 : undefined,
                     axisLabel: {
-                        formatter: formatter,
+                        formatter: isStacked100 ? '{value}%' : formatter,
                         fontSize: this.settings.yAxisFontSize
                     },
                     ...(this.settings.showYAxisTitle && {
-                        name: this.data.indicator.name,
+                        name: isStacked100 ? 'Percent' : this.data.indicator.name,
                         nameLocation: 'middle',
                         nameGap: this.settings.yAxisTitleGap,
                         nameRotate: 90
                     })
-                }
-                ,
+                },
                 ...(hasSerie2 ? [{
                     type: 'value',
                     axisLabel: {
@@ -381,7 +433,7 @@ export class ChartComponent implements OnInit {
                         formatter: formatter
                     }
                 },
-                valueFormatter: formatter
+                valueFormatter: (v: any) => isStacked100 ? `${(+v).toFixed(1)}%` : formatter(v)
             }
         } as EChartsOption;
 
@@ -392,7 +444,7 @@ export class ChartComponent implements OnInit {
     }
 
     downloadChart() {
-        if (!this.chart) return;
+        if (!this.chart || !this.echart) return;
 
         const dataUrl = this.echart.getDataURL({
             type: 'png',

@@ -367,10 +367,6 @@ input[type=date]:not(.app-select-input):read-only {
     background-color: #EDEEF0 !important;
 }
 
-fieldset.group .form-check {
-    padding-top: 8px;
-}
-
 app-file .input-group * {
     cursor: pointer !important;
 }

@@ -37,10 +37,14 @@ export class UtilitiesService {
             else 
                 value = undefined;
 
+            if (value == null) return '';
+
             if (indicator.dataType === DataTypes.Percent) return this.percentPipe.transform(value, `1.${indicator.decimalPlaces}-${indicator.decimalPlaces}`, this.locale);
-            if (indicator.dataType === DataTypes.Number) return this.decimalPipe.transform(value, `1.${indicator.decimalPlaces}-${indicator.decimalPlaces}`, this.locale);
-            if (indicator.dataType === DataTypes.Currency) return this.currencyPipe.transform(value, indicator.units, 'symbol', `1.${indicator.decimalPlaces}-${indicator.decimalPlaces}`, this.locale);
-            throw "Unhandled Indicator.DataType";
+            return indicator.prefix + this.decimalPipe.transform(value, `1.${indicator.decimalPlaces}-${indicator.decimalPlaces}`, this.locale) + indicator.suffix;
+
+            //if (indicator.dataType === DataTypes.Number) return this.decimalPipe.transform(value, `1.${indicator.decimalPlaces}-${indicator.decimalPlaces}`, this.locale);
+            //if (indicator.dataType === DataTypes.Currency) return this.currencyPipe.transform(value, indicator.units, 'symbol', `1.${indicator.decimalPlaces}-${indicator.decimalPlaces}`, this.locale);
+            //throw "Unhandled Indicator.DataType";
         };
     }
 }

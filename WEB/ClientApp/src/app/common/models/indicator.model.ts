@@ -39,6 +39,8 @@ export class Indicator implements IHasFields {
     shortName: string;
     label: string;
     color: string;
+    prefix: string;
+    suffix: string;
     groupingIndicatorId: string;
     sortOrder: number;
     entityType: EntityType;

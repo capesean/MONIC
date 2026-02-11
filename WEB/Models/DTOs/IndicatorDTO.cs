@@ -74,6 +74,12 @@ namespace WEB.Models
         [MaxLength(7)]
         public string Color { get; set; }
 
+        [DisplayFormat(ConvertEmptyStringToNull = false), MaxLength(10)]
+        public string Prefix { get; set; }
+
+        [DisplayFormat(ConvertEmptyStringToNull = false), MaxLength(10)]
+        public string Suffix { get; set; }
+
         public Guid? GroupingIndicatorId { get; set; }
 
         [Required]
@@ -137,6 +143,8 @@ namespace WEB.Models
             indicatorDTO.ShortName = indicator.ShortName;
             indicatorDTO.Label = indicator.Label;
             indicatorDTO.Color = indicator.Color;
+            indicatorDTO.Prefix = indicator.Prefix;
+            indicatorDTO.Suffix = indicator.Suffix;
             indicatorDTO.GroupingIndicatorId = indicator.GroupingIndicatorId;
             indicatorDTO.SortOrder = indicator.SortOrder;
 
@@ -198,6 +206,8 @@ namespace WEB.Models
             indicator.ShortName = indicatorDTO.ShortName;
             indicator.Label = indicatorDTO.Label;
             indicator.Color = indicatorDTO.Color;
+            indicator.Prefix = indicatorDTO.Prefix;
+            indicator.Suffix = indicatorDTO.Suffix;
             indicator.GroupingIndicatorId = indicatorDTO.GroupingIndicatorId;
             indicator.SortOrder = indicatorDTO.SortOrder;
         }

@@ -4,5 +4,5 @@
     <div class="p-2 palette-container cursor-pointer" (click)="picker.click()">
         <div [style.backgroundColor]="bg" [ngClass]="{ 'transparent': !hex }" [ngbTooltip]="hex ? hex : 'Transparent'"></div>
     </div>
-    <button type="button" class="input-group-text btn btn-outline-secondary" (click)="clear()" [disabled]="!hex || disabled" ngbTooltip="Clear (remove) the selected color" container="body"><i class="fa fa-times"></i></button>
+    <button type="button" class="btn btn-secondary border-gray-400" [ngClass]="{ 'border-gray-600': !hex || disabled}" (click)="clear()" [disabled]="!hex || disabled" ngbTooltip="Clear (remove) the selected color" container="body"><i class="fa fa-times"></i></button>
 </div>

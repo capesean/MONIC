@@ -347,30 +347,38 @@
                     </div>
 
                     <div class="col-sm-6 col-md-4 col-lg-3 col-xl-2">
-                        <div class="form-group" [ngClass]="{ 'is-invalid': minimum.invalid }">
+                        <div class="form-group" [ngClass]="{ 'is-invalid': prefix.invalid }">
 
-                            <label for="value">
-                                Minimum:
+                            <label for="prefix">
+                                Prefix:
                             </label>
 
-                            <input id="minimum" name="minimum" class="form-control" type="number" [(ngModel)]="indicator.minimum" #minimum="ngModel" step="any" />
+                            <input id="prefix" name="prefix" class="form-control" type="text" [(ngModel)]="indicator.prefix" #prefix="ngModel" maxlength="10" />
+
+                            <div *ngIf="prefix.errors?.maxlength" class="invalid-feedback">
+                                Prefix must be at most 10 characters long
+                            </div>
 
                         </div>
                     </div>
 
                     <div class="col-sm-6 col-md-4 col-lg-3 col-xl-2">
-                        <div class="form-group" [ngClass]="{ 'is-invalid': maximum.invalid }">
+                        <div class="form-group" [ngClass]="{ 'is-invalid': suffix.invalid }">
 
-                            <label for="value">
-                                Maximum:
+                            <label for="suffix">
+                                Suffix:
                             </label>
 
-                            <input id="maximum" name="maximum" class="form-control" type="number" [(ngModel)]="indicator.maximum" #maximum="ngModel" step="any" />
+                            <input id="suffix" name="suffix" class="form-control" type="text" [(ngModel)]="indicator.suffix" #suffix="ngModel" maxlength="10" />
+
+                            <div *ngIf="suffix.errors?.maxlength" class="invalid-feedback">
+                                Suffix must be at most 10 characters long
+                            </div>
 
                         </div>
                     </div>
 
-                    <div class="col-sm-6 col-md-4">
+                    <div class="col-sm-6 col-md-5">
                         <div class="form-group" [ngClass]="{ 'is-invalid': shortName.invalid }">
 
                             <label for="shortName">
@@ -386,7 +394,7 @@
                         </div>
                     </div>
 
-                    <div class="col-sm-6 col-md-4">
+                    <div class="col-sm-6 col-md-5">
                         <div class="form-group" [ngClass]="{ 'is-invalid': label.invalid }">
 
                             <label for="label">
@@ -410,6 +418,30 @@
                             </label>
 
                             <app-color id="color" name="color" [(ngModel)]="indicator.color" #color="ngModel"></app-color>
+
+                        </div>
+                    </div>
+
+                    <div class="col-sm-6 col-md-4 col-lg-3 col-xl-2">
+                        <div class="form-group" [ngClass]="{ 'is-invalid': minimum.invalid }">
+
+                            <label for="value">
+                                Minimum:
+                            </label>
+
+                            <input id="minimum" name="minimum" class="form-control" type="number" [(ngModel)]="indicator.minimum" #minimum="ngModel" step="any" />
+
+                        </div>
+                    </div>
+
+                    <div class="col-sm-6 col-md-4 col-lg-3 col-xl-2">
+                        <div class="form-group" [ngClass]="{ 'is-invalid': maximum.invalid }">
+
+                            <label for="value">
+                                Maximum:
+                            </label>
+
+                            <input id="maximum" name="maximum" class="form-control" type="number" [(ngModel)]="indicator.maximum" #maximum="ngModel" step="any" />
 
                         </div>
                     </div>

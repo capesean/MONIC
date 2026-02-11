@@ -1,7 +1,8 @@
 <app-page-title></app-page-title>
-about to do: indicator.color, indicator.prefix, indicator.suffix (use these to format)<br />
-then: non-stacked group<br />
-then: two lines?<colgroup></colgroup>
+
+select (exclude) entities manually<br />
+change from grouped indicator to multi-select
+
 <form id="form" name="form" (submit)="save(form)" novalidate #form="ngForm" [ngClass]="{ 'was-validated': form.submitted }">
 
     <div class="card card-edit">
@@ -67,10 +68,7 @@ then: two lines?<colgroup></colgroup>
                                 Bar Color:
                             </label>
 
-                            <div class="input-group">
-                                <input id="barColor" name="barColor" type="color" class="form-control" [(ngModel)]="settings.barColor" #barColor="ngModel" (ngModelChange)="settingChanged()" />
-                                <button type="button" class="btn btn-secondary" (click)="settings.barColor=undefined;settingChanged()"><i class="fa fa-times"></i></button>
-                            </div>
+                            <app-color id="barColor" name="barColor" [(ngModel)]="settings.barColor" #barColor="ngModel" (ngModelChange)="settingChanged()"></app-color>
 
                         </div>
                     </div>
@@ -254,10 +252,7 @@ then: two lines?<colgroup></colgroup>
                                 Line Color:
                             </label>
 
-                            <div class="input-group">
-                                <input id="lineColor" name="lineColor" type="color" class="form-control" [(ngModel)]="settings.lineColor" #lineColor="ngModel" (ngModelChange)="settingChanged()" />
-                                <button type="button" class="btn btn-secondary" (click)="settings.lineColor=undefined;settingChanged()"><i class="fa fa-times"></i></button>
-                            </div>
+                            <app-color id="lineColor" name="lineColor" [(ngModel)]="settings.lineColor" #barColor="ngModel" (ngModelChange)="settingChanged()"></app-color>
 
                         </div>
                     </div>
@@ -314,6 +309,39 @@ then: two lines?<colgroup></colgroup>
                         </div>
                     </div>
 
+                    <div class="col-sm-6 col-md-4" *ngIf="settingsObjects?.indicator?.indicatorType === IndicatorTypes.Group">
+                        <div class="form-group">
+
+                            <label for="stacked">
+                                Stacked:
+                            </label>
+
+                            <div class="form-check">
+                                <input id="stacked" name="stacked" class="form-check-input" type="checkbox" [(ngModel)]="settings.stacked" #stacked="ngModel" (ngModelChange)="settingChanged()" />
+                                <label class="form-check-label" for="stacked">
+                                    Stacked
+                                </label>
+                            </div>
+
+                        </div>
+                    </div>
+
+                    <div class="col-sm-6 col-md-4" *ngIf="settingsObjects?.indicator?.indicatorType === IndicatorTypes.Group && settings.stacked">
+                        <div class="form-group">
+
+                            <label for="stacked100">
+                                Stacked as percentage:
+                            </label>
+
+                            <div class="form-check">
+                                <input id="stacked100" name="stacked100" class="form-check-input" type="checkbox" [(ngModel)]="settings.stacked100" #stacked100="ngModel" (ngModelChange)="settingChanged()" />
+                                <label class="form-check-label" for="stacked100">
+                                    Stacked as percentage
+                                </label>
+                            </div>
+
+                        </div>
+                    </div>
 
                 </div>
 

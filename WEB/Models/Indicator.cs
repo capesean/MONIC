@@ -78,6 +78,12 @@ namespace WEB.Models
         [MaxLength(7)]
         public string Color { get; set; }
 
+        [Required(AllowEmptyStrings = true), MaxLength(10)]
+        public string Prefix { get; set; }
+
+        [Required(AllowEmptyStrings = true), MaxLength(10)]
+        public string Suffix { get; set; }
+
         public Guid? GroupingIndicatorId { get; set; }
 
         [Required]
