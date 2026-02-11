@@ -1,370 +1,19 @@
-<app-page-title></app-page-title>
-
-select (exclude) entities manually<br />
+select (exclude) entities manually
+<br />
 change from grouped indicator to multi-select
 
-<form id="form" name="form" (submit)="save(form)" novalidate #form="ngForm" [ngClass]="{ 'was-validated': form.submitted }">
-
-    <div class="card card-edit">
-
-        <div class="card-header">
-
-            <div class="card-header-title">
-                <h4>Chart Settings</h4>
-                <div>
-                    <i class="fa fa-fw ms-1 fa-folder-open cursor-pointer" ngbTooltip="Open an existing chart" (click)="chartModal.open()"></i>
-                    <i class="fa fa-fw ms-1 fa-plus-circle cursor-pointer" ngbTooltip="Create a new chart" (click)="newChart()"></i>
-                </div>
-            </div>
-
-        </div>
-
-        <div class="card-body">
-
-            <fieldset class="group">
-
-                <div class="row gx-3">
-
-                    <div class="col-sm-6 col-md-4">
-                        <div class="form-group">
-
-                            <label for="name">
-                                Name:
-                            </label>
-
-                            <input id="name" name="name" class="form-control" type="text" [(ngModel)]="chart.name" #name="ngModel" required (ngModelChange)="changeBreadcrumb()" maxlength="200" />
-
-                            <div *ngIf="name.errors?.required" class="invalid-feedback">
-                                Name is required
-                            </div>
-
-                            <div *ngIf="name.errors?.maxlength" class="invalid-feedback">
-                                Name must be at most 200 characters long
-                            </div>
-
-                        </div>
-                    </div>
-
-                    <div class="col-sm-6 col-md-4">
-                        <div class="form-group">
-
-                            <label for="indicatorId">
-                                Indicator:
-                            </label>
-
-                            <indicator-select id="indicatorId" name="indicatorId" [(indicator)]="settingsObjects.indicator" [(ngModel)]="settings.indicatorId" #indicatorId="ngModel" required (ngModelChange)="settingChanged()"></indicator-select>
-
-                            <div *ngIf="indicatorId.errors?.required" class="invalid-feedback">
-                                Indicator is required
-                            </div>
-
-                        </div>
-                    </div>
-
-                    <div class="col-sm-6 col-md-4">
-                        <div class="form-group">
-
-                            <label for="barColor">
-                                Bar Color:
-                            </label>
-
-                            <app-color id="barColor" name="barColor" [(ngModel)]="settings.barColor" #barColor="ngModel" (ngModelChange)="settingChanged()"></app-color>
-
-                        </div>
-                    </div>
-
-                    <div class="col-sm-6 col-md-4">
-                        <div class="form-group">
-
-                            <label for="yAxisFontSize">
-                                Y-Axis Font Size:
-                            </label>
-
-                            <input id="yAxisFontSize" name="yAxisFontSize" type="number" class="form-control" [(ngModel)]="settings.yAxisFontSize" #yAxisFontSize="ngModel" (ngModelChange)="settingChanged()" />
-
-                        </div>
-                    </div>
-
-                    <div class="col-sm-6 col-md-4">
-                        <div class="form-group">
-
-                            <label for="xAxisFontSize">
-                                X-Axis Font Size:
-                            </label>
-
-                            <input id="xAxisFontSize" name="xAxisFontSize" type="number" class="form-control" [(ngModel)]="settings.xAxisFontSize" #xAxisFontSize="ngModel" (ngModelChange)="settingChanged()" />
-
-                        </div>
-                    </div>
-
-                    <div class="col-sm-6 col-md-4">
-                        <div class="form-group">
-
-                            <label for="xAxisRotation">
-                                X-Axis Rotation:
-                            </label>
-
-                            <input id="xAxisRotation" name="xAxisRotation" type="number" class="form-control" [(ngModel)]="settings.xAxisRotation" #xAxisRotation="ngModel" (ngModelChange)="settingChanged()" />
-
-                        </div>
-                    </div>
-
-                    <div class="col-sm-12 col-md-4">
-                        <div class="form-group">
-
-                            <label for="xAxisSort" class="me-4">
-                                X-Axist Sort:
-                            </label>
-
-                            <div>
-                                <div class="form-check form-check-inline">
-                                    <input type="radio"
-                                           id="xAxisSortByName"
-                                           name="xAxisSort"
-                                           class="form-check-input"
-                                           [(ngModel)]="settings.xAxisSort"
-                                           #xAxisSortByName="ngModel"
-                                           [value]="'name'"
-                                           (ngModelChange)="settingChanged()" />
-                                    <label class="form-check-label" for="xAxisSortByName">Name</label>
-                                </div>
-                                <div class="form-check form-check-inline">
-                                    <input type="radio"
-                                           id="xAxisSortByValue"
-                                           name="xAxisSort"
-                                           class="form-check-input"
-                                           [(ngModel)]="settings.xAxisSort"
-                                           #xAxisSortByValue="ngModel"
-                                           [value]="'value'"
-                                           (ngModelChange)="settingChanged()" />
-                                    <label class="form-check-label" for="xAxisSortByValue">Value</label>
-                                </div>
-                            </div>
-
-                        </div>
-                    </div>
-
-                    <div class="col-sm-6 col-md-4">
-                        <div class="form-group">
-
-                            <label for="gridLeft">
-                                Grid Left:
-                            </label>
-
-                            <input id="gridLeft" name="gridLeft" type="number" class="form-control" [(ngModel)]="settings.gridLeft" #gridLeft="ngModel" (ngModelChange)="settingChanged()" />
-
-                        </div>
-                    </div>
-
-                    <div class="col-sm-6 col-md-4">
-                        <div class="form-group">
-
-                            <label for="gridRight">
-                                Grid Right:
-                            </label>
-
-                            <input id="gridRight" name="gridRight" type="number" class="form-control" [(ngModel)]="settings.gridRight" #gridRight="ngModel" (ngModelChange)="settingChanged()" />
-
-                        </div>
-                    </div>
-
-                    <div class="col-sm-6 col-md-4">
-                        <div class="form-group">
-
-                            <label for="gridTop">
-                                Grid Top:
-                            </label>
-
-                            <input id="gridTop" name="gridTop" type="number" class="form-control" [(ngModel)]="settings.gridTop" #gridTop="ngModel" (ngModelChange)="settingChanged()" />
-
-                        </div>
-                    </div>
-
-                    <div class="col-sm-6 col-md-4">
-                        <div class="form-group">
-
-                            <label for="gridBottom">
-                                Grid Bottom:
-                            </label>
-
-                            <input id="gridBottom" name="gridBottom" type="number" class="form-control" [(ngModel)]="settings.gridBottom" #gridBottom="ngModel" (ngModelChange)="settingChanged()" />
-
-                        </div>
-                    </div>
-
-                    <div class="col-sm-6 col-md-4">
-                        <div class="form-group">
-
-                            <label for="showYAxisTitle">
-                                Show Y-Axis Title:
-                            </label>
-
-                            <div class="form-check">
-                                <input id="showYAxisTitle" name="showYAxisTitle" class="form-check-input" type="checkbox" [(ngModel)]="settings.showYAxisTitle" #showYAxisTitle="ngModel" (ngModelChange)="settingChanged()" />
-                                <label class="form-check-label" for="showYAxisTitle">
-                                    Show Y-Axis Title
-                                </label>
-                            </div>
-
-                        </div>
-                    </div>
-
-                    <div class="col-sm-6 col-md-4">
-                        <div class="form-group">
-
-                            <label for="yAxisTitleGap">
-                                Y-Axis Title Gap:
-                            </label>
-
-                            <input id="yAxisTitleGap" name="yAxisTitleGap" type="number" class="form-control" [(ngModel)]="settings.yAxisTitleGap" #yAxisTitleGap="ngModel" (ngModelChange)="settingChanged()" />
-
-                        </div>
-                    </div>
-
-                    <div class="col-sm-6 col-md-4">
-                        <div class="form-group">
-
-                            <label for="height">
-                                Height:
-                            </label>
-
-                            <input id="height" name="height" type="number" class="form-control" [(ngModel)]="settings.height" #height="ngModel" (ngModelChange)="settingChanged()" />
-
-                        </div>
-                    </div>
-
-                    <div class="col-sm-6 col-md-4">
-                        <div class="form-group">
-
-                            <label for="indicatorId2">
-                                Secondary Indicator:
-                            </label>
-
-                            <indicator-select id="indicatorId2" name="indicatorId2" [(indicator)]="settingsObjects.indicator2" [(ngModel)]="settings.indicatorId2" #indicatorId2="ngModel" (ngModelChange)="settingChanged()"></indicator-select>
-
-                        </div>
-                    </div>
-
-                    <div class="col-sm-6 col-md-4">
-                        <div class="form-group">
-
-                            <label for="lineColor">
-                                Line Color:
-                            </label>
-
-                            <app-color id="lineColor" name="lineColor" [(ngModel)]="settings.lineColor" #barColor="ngModel" (ngModelChange)="settingChanged()"></app-color>
-
-                        </div>
-                    </div>
-
-                    <div class="col-sm-6 col-md-4">
-                        <div class="form-group">
-
-                            <label for="lineWidth">
-                                Line Width:
-                            </label>
-
-                            <input id="lineWidth" name="lineWidth" type="number" class="form-control" [(ngModel)]="settings.lineWidth" #lineWidth="ngModel" (ngModelChange)="settingChanged()" />
-
-                        </div>
-                    </div>
-
-                    <div class="col-sm-6 col-md-4">
-                        <div class="form-group">
-
-                            <label for="lineMarker">
-                                Line Marker:
-                            </label>
-
-                            <div class="form-check">
-                                <input id="lineMarker" name="lineMarker" class="form-check-input" type="checkbox" [(ngModel)]="settings.lineMarker" #lineMarker="ngModel" (ngModelChange)="settingChanged()" />
-                                <label class="form-check-label" for="lineMarker">
-                                    Line Marker
-                                </label>
-                            </div>
-
-                        </div>
-                    </div>
-
-                    <div class="col-sm-6 col-md-4">
-                        <div class="form-group">
-
-                            <label for="legendPosition">
-                                Legend Position:
-                            </label>
-
-                            <select id="legendPosition"
-                                    name="legendPosition"
-                                    class="form-select"
-                                    [(ngModel)]="settings.legendPosition"
-                                    #legendPosition="ngModel"
-                                    (ngModelChange)="settingChanged()">
-
-                                <option [ngValue]="LegendPosition.None">None</option>
-                                <option [ngValue]="LegendPosition.Top">Top</option>
-                                <option [ngValue]="LegendPosition.Bottom">Bottom</option>
-
-                            </select>
-
-                        </div>
-                    </div>
-
-                    <div class="col-sm-6 col-md-4" *ngIf="settingsObjects?.indicator?.indicatorType === IndicatorTypes.Group">
-                        <div class="form-group">
-
-                            <label for="stacked">
-                                Stacked:
-                            </label>
-
-                            <div class="form-check">
-                                <input id="stacked" name="stacked" class="form-check-input" type="checkbox" [(ngModel)]="settings.stacked" #stacked="ngModel" (ngModelChange)="settingChanged()" />
-                                <label class="form-check-label" for="stacked">
-                                    Stacked
-                                </label>
-                            </div>
-
-                        </div>
-                    </div>
-
-                    <div class="col-sm-6 col-md-4" *ngIf="settingsObjects?.indicator?.indicatorType === IndicatorTypes.Group && settings.stacked">
-                        <div class="form-group">
-
-                            <label for="stacked100">
-                                Stacked as percentage:
-                            </label>
-
-                            <div class="form-check">
-                                <input id="stacked100" name="stacked100" class="form-check-input" type="checkbox" [(ngModel)]="settings.stacked100" #stacked100="ngModel" (ngModelChange)="settingChanged()" />
-                                <label class="form-check-label" for="stacked100">
-                                    Stacked as percentage
-                                </label>
-                            </div>
-
-                        </div>
-                    </div>
-
-                </div>
-
-            </fieldset>
-
-        </div>
-
-    </div>
-
-    <div class="mb-6">
-        <button type="submit" class="btn btn-outline-success me-2 mb-1">Save<i class="fas fa-check ms-2"></i></button>
-    </div>
-
-</form>
-
-<div class="card card-edit" *ngIf="options">
+<div class="card card-edit">
 
     <div class="card-header">
 
         <div class="card-header-title">
-            <h4>Chart</h4>
+            <h4>Chart<span *ngIf="!!chart?.name">: {{chart.name}}</span></h4>
             <div>
-                <i class="fa fa-fw ms-1 fa-cloud-download cursor-pointer" ngbTooltip="Download as image" (click)="downloadChart()"></i>
+                <i class="fa fa-fw ms-1 fa-plus cursor-pointer" ngbTooltip="Create a new chart" (click)="newChart()"></i>
+                <i class="fa fa-fw ms-1 fa-folder-open cursor-pointer ms-1" ngbTooltip="Open an existing chart" (click)="chartModal.open()"></i>
+                <i class="fa fa-fw ms-1 fa-cloud-download cursor-pointer ms-1" ngbTooltip="Download as image" (click)="downloadChart()" *ngIf="options"></i>
+                <i class="fa fa-fw ms-1 fa-gear cursor-pointer ms-1" ngbTooltip="Download as image" (click)="offCanvas(settingsPanel, 'end')" *ngIf="chart"></i>
+                <i class="fa fa-fw ms-1 fa-floppy-disk cursor-pointer ms-1" ngbTooltip="Save chart" (click)="saveChart()" *ngIf="chart"></i>
             </div>
         </div>
 
@@ -372,10 +21,447 @@ change from grouped indicator to multi-select
 
     <div class="card-body">
 
-        <div echarts [options]="options" (chartInit)="onChartInit($event)" [style.height.px]="settings.height"></div>
+        <div *ngIf="options" echarts [options]="options" (chartInit)="onChartInit($event)" [style.height.px]="settings.height"></div>
+
+        <div *ngIf="!options && !chart" class="alert alert-info cursor-pointer" (click)="newChart()">
+            Create a new chart to get started.
+        </div>
+
+        <div *ngIf="!options && chart" class="alert alert-info cursor-pointer" (click)="offCanvas(settingsPanel, 'end')">
+            Configure your chart settings to create the chart.
+        </div>
 
     </div>
 
 </div>
 
+<ng-template #settingsPanel let-offcanvas>
+
+    <div class="offcanvas-body p-0">
+
+        <form id="form" name="form" novalidate #form="ngForm" [ngClass]="{ 'was-validated': form.submitted }">
+
+            <div ngbAccordion [closeOthers]="true">
+
+                <div ngbAccordionItem [collapsed]="false">
+                    <h2 ngbAccordionHeader>
+                        <button ngbAccordionButton tabindex="-1">Data</button>
+                    </h2>
+                    <div ngbAccordionCollapse>
+                        <div ngbAccordionBody>
+                            <ng-template>
+
+                                <fieldset class="group">
+
+                                    <div class="row gx-3">
+
+                                        <div class="col-sm-12">
+                                            <div class="form-group">
+
+                                                <label for="name">
+                                                    Chart Name:
+                                                </label>
+
+                                                <input id="name" name="name" class="form-control" type="text" [(ngModel)]="chart.name" #name="ngModel" required (ngModelChange)="changeBreadcrumb()" maxlength="200" />
+
+                                                <div *ngIf="name.errors?.required" class="invalid-feedback">
+                                                    Name is required
+                                                </div>
+
+                                                <div *ngIf="name.errors?.maxlength" class="invalid-feedback">
+                                                    Name must be at most 200 characters long
+                                                </div>
+
+                                            </div>
+                                        </div>
+
+                                        <div class="col-12">
+                                            <div class="form-group">
+
+                                                <label for="indicatorId">
+                                                    Indicator:
+                                                </label>
+
+                                                <indicator-select id="indicatorId" name="indicatorId" [(indicator)]="settingsObjects.indicator" [(ngModel)]="settings.indicatorId" #indicatorId="ngModel" required (ngModelChange)="settingChanged()"></indicator-select>
+
+                                                <div *ngIf="indicatorId.errors?.required" class="invalid-feedback">
+                                                    Indicator is required
+                                                </div>
+
+                                            </div>
+                                        </div>
+
+                                        <div class="col-12">
+                                            <div class="form-group">
+
+                                                <label for="indicatorId2">
+                                                    Secondary Indicator:
+                                                </label>
+
+                                                <indicator-select id="indicatorId2" name="indicatorId2" [(indicator)]="settingsObjects.indicator2" [(ngModel)]="settings.indicatorId2" #indicatorId2="ngModel" (ngModelChange)="settingChanged()"></indicator-select>
+
+                                            </div>
+                                        </div>
+
+                                        <div class="col-12">
+                                            <div class="form-group">
+
+                                                <label for="entities">
+                                                    Entities:
+                                                </label>
+
+                                                <div class="w-100">
+                                                    <button id="entities" name="entities" class="btn w-100 btn-outline-secondary" (click)="entityModal.open()">Entities ({{settings.entityIds.length}} selected)</button>
+                                                </div>
+
+                                            </div>
+                                        </div>
+
+                                        <div class="col-6">
+                                            <div class="form-group">
+
+                                                <label for="xAxisSort" class="me-4">
+                                                    X-Axis Sort:
+                                                </label>
+
+                                                <div>
+                                                    <div class="form-check form-check-inline">
+                                                        <input type="radio"
+                                                               id="xAxisSortByName"
+                                                               name="xAxisSort"
+                                                               class="form-check-input"
+                                                               [(ngModel)]="settings.xAxisSort"
+                                                               #xAxisSortByName="ngModel"
+                                                               [value]="'name'"
+                                                               (ngModelChange)="settingChanged()" />
+                                                        <label class="form-check-label" for="xAxisSortByName">Name</label>
+                                                    </div>
+                                                    <div class="form-check form-check-inline">
+                                                        <input type="radio"
+                                                               id="xAxisSortByValue"
+                                                               name="xAxisSort"
+                                                               class="form-check-input"
+                                                               [(ngModel)]="settings.xAxisSort"
+                                                               #xAxisSortByValue="ngModel"
+                                                               [value]="'value'"
+                                                               (ngModelChange)="settingChanged()" />
+                                                        <label class="form-check-label" for="xAxisSortByValue">Value</label>
+                                                    </div>
+                                                </div>
+
+                                            </div>
+                                        </div>
+
+                                        <div class="col-6" *ngIf="settingsObjects?.indicator?.indicatorType === IndicatorTypes.Group">
+                                            <div class="form-group">
+
+                                                <label for="stackType">
+                                                    Stacked Type:
+                                                </label>
+
+                                                <select id="stackType"
+                                                        name="stackType"
+                                                        class="form-select"
+                                                        [(ngModel)]="settings.stackType"
+                                                        #stackType="ngModel"
+                                                        (ngModelChange)="settingChanged()">
+
+                                                    <option [ngValue]="StackTypes.None">None</option>
+                                                    <option [ngValue]="StackTypes.Normal">Stacked: Normal</option>
+                                                    <option [ngValue]="StackTypes.Percent">Stacked: Percentage</option>
+
+                                                </select>
+
+                                            </div>
+                                        </div>
+
+                                    </div>
+
+                                </fieldset>
+
+                            </ng-template>
+                        </div>
+                    </div>
+                </div>
+
+                <div ngbAccordionItem>
+                    <h2 ngbAccordionHeader>
+                        <button ngbAccordionButton tabindex="-1">Appearance</button>
+                    </h2>
+                    <div ngbAccordionCollapse>
+                        <div ngbAccordionBody>
+                            <ng-template>
+
+                                <fieldset class="group">
+
+                                    <div class="row gx-3">
+
+                                        <div class="col-6">
+                                            <div class="form-group">
+
+                                                <label for="barColor">
+                                                    Bar Color:
+                                                </label>
+
+                                                <app-color id="barColor" name="barColor" [(ngModel)]="settings.barColor" #barColor="ngModel" (ngModelChange)="settingChanged()"></app-color>
+
+                                            </div>
+                                        </div>
+
+                                        <div class="col-6">
+                                            <div class="form-group">
+
+                                                <label for="lineColor">
+                                                    Line Color:
+                                                </label>
+
+                                                <app-color id="lineColor" name="lineColor" [(ngModel)]="settings.lineColor" #barColor="ngModel" (ngModelChange)="settingChanged()"></app-color>
+
+                                            </div>
+                                        </div>
+
+                                        <div class="col-6">
+                                            <div class="form-group">
+
+                                                <label for="lineWidth">
+                                                    Line Width:
+                                                </label>
+
+                                                <input id="lineWidth" name="lineWidth" type="number" class="form-control" [(ngModel)]="settings.lineWidth" #lineWidth="ngModel" (ngModelChange)="settingChanged()" />
+
+                                            </div>
+                                        </div>
+
+                                        <div class="col-6">
+                                            <div class="form-group">
+
+                                                <label for="lineMarker">
+                                                    Line Marker:
+                                                </label>
+
+                                                <div class="form-check">
+                                                    <input id="lineMarker" name="lineMarker" class="form-check-input" type="checkbox" [(ngModel)]="settings.lineMarker" #lineMarker="ngModel" (ngModelChange)="settingChanged()" />
+                                                    <label class="form-check-label" for="lineMarker">
+                                                        Line Marker
+                                                    </label>
+                                                </div>
+
+                                            </div>
+                                        </div>
+
+                                        <div class="col-6">
+                                            <div class="form-group">
+
+                                                <label for="legendPosition">
+                                                    Legend Position:
+                                                </label>
+
+                                                <select id="legendPosition"
+                                                        name="legendPosition"
+                                                        class="form-select"
+                                                        [(ngModel)]="settings.legendPosition"
+                                                        #legendPosition="ngModel"
+                                                        (ngModelChange)="settingChanged()">
+
+                                                    <option [ngValue]="LegendPosition.None">None</option>
+                                                    <option [ngValue]="LegendPosition.Top">Top</option>
+                                                    <option [ngValue]="LegendPosition.Bottom">Bottom</option>
+
+                                                </select>
+
+                                            </div>
+                                        </div>
+
+                                    </div>
+
+                                </fieldset>
+
+                            </ng-template>
+                        </div>
+                    </div>
+                </div>
+
+                <div ngbAccordionItem>
+                    <h2 ngbAccordionHeader>
+                        <button ngbAccordionButton>Axes</button>
+                    </h2>
+                    <div ngbAccordionCollapse>
+                        <div ngbAccordionBody>
+                            <ng-template>
+
+                                <fieldset class="group">
+
+                                    <div class="row gx-3">
+
+                                        <div class="col-6">
+                                            <div class="form-group">
+
+                                                <label for="xAxisFontSize">
+                                                    X-Axis Font Size:
+                                                </label>
+
+                                                <input id="xAxisFontSize" name="xAxisFontSize" type="number" class="form-control" [(ngModel)]="settings.xAxisFontSize" #xAxisFontSize="ngModel" (ngModelChange)="settingChanged()" />
+
+                                            </div>
+                                        </div>
+
+                                        <div class="col-6">
+                                            <div class="form-group">
+
+                                                <label for="yAxisFontSize">
+                                                    Y-Axis Font Size:
+                                                </label>
+
+                                                <input id="yAxisFontSize" name="yAxisFontSize" type="number" class="form-control" [(ngModel)]="settings.yAxisFontSize" #yAxisFontSize="ngModel" (ngModelChange)="settingChanged()" />
+
+                                            </div>
+                                        </div>
+
+                                        <div class="col-6">
+                                            <div class="form-group">
+
+                                                <label for="xAxisRotation">
+                                                    X-Axis Rotation:
+                                                </label>
+
+                                                <input id="xAxisRotation" name="xAxisRotation" type="number" class="form-control" [(ngModel)]="settings.xAxisRotation" #xAxisRotation="ngModel" (ngModelChange)="settingChanged()" />
+
+                                            </div>
+                                        </div>
+
+                                        <div class="col-6">
+                                            <div class="form-group">
+
+                                                <label for="showYAxisTitle">
+                                                    Show Y-Axis Title:
+                                                </label>
+
+                                                <div class="form-check">
+                                                    <input id="showYAxisTitle" name="showYAxisTitle" class="form-check-input" type="checkbox" [(ngModel)]="settings.showYAxisTitle" #showYAxisTitle="ngModel" (ngModelChange)="settingChanged()" />
+                                                    <label class="form-check-label" for="showYAxisTitle">
+                                                        Show Y-Axis Title
+                                                    </label>
+                                                </div>
+
+                                            </div>
+                                        </div>
+
+                                        <div class="col-6">
+                                            <div class="form-group">
+
+                                                <label for="yAxisTitleGap">
+                                                    Y-Axis Title Gap:
+                                                </label>
+
+                                                <input id="yAxisTitleGap" name="yAxisTitleGap" type="number" class="form-control" [(ngModel)]="settings.yAxisTitleGap" #yAxisTitleGap="ngModel" (ngModelChange)="settingChanged()" />
+
+                                            </div>
+                                        </div>
+
+                                    </div>
+
+                                </fieldset>
+
+                            </ng-template>
+                        </div>
+                    </div>
+                </div>
+
+                <div ngbAccordionItem>
+                    <h2 ngbAccordionHeader>
+                        <button ngbAccordionButton>Layout</button>
+                    </h2>
+                    <div ngbAccordionCollapse>
+                        <div ngbAccordionBody>
+                            <ng-template>
+
+                                <fieldset class="group">
+
+                                    <div class="row gx-3">
+
+                                        <div class="col-6">
+                                            <div class="form-group">
+
+                                                <label for="height">
+                                                    Height:
+                                                </label>
+
+                                                <input id="height" name="height" type="number" class="form-control" [(ngModel)]="settings.height" #height="ngModel" (ngModelChange)="settingChanged()" />
+
+                                            </div>
+                                        </div>
+
+                                    </div>
+
+                                    <div class="row gx-3">
+
+                                        <div class="col-6">
+                                            <div class="form-group">
+
+                                                <label for="gridLeft">
+                                                    Grid Left:
+                                                </label>
+
+                                                <input id="gridLeft" name="gridLeft" type="number" class="form-control" [(ngModel)]="settings.gridLeft" #gridLeft="ngModel" (ngModelChange)="settingChanged()" />
+
+                                            </div>
+                                        </div>
+
+                                        <div class="col-6">
+                                            <div class="form-group">
+
+                                                <label for="gridRight">
+                                                    Grid Right:
+                                                </label>
+
+                                                <input id="gridRight" name="gridRight" type="number" class="form-control" [(ngModel)]="settings.gridRight" #gridRight="ngModel" (ngModelChange)="settingChanged()" />
+
+                                            </div>
+                                        </div>
+
+                                        <div class="col-6">
+                                            <div class="form-group">
+
+                                                <label for="gridTop">
+                                                    Grid Top:
+                                                </label>
+
+                                                <input id="gridTop" name="gridTop" type="number" class="form-control" [(ngModel)]="settings.gridTop" #gridTop="ngModel" (ngModelChange)="settingChanged()" />
+
+                                            </div>
+                                        </div>
+
+                                        <div class="col-6">
+                                            <div class="form-group">
+
+                                                <label for="gridBottom">
+                                                    Grid Bottom:
+                                                </label>
+
+                                                <input id="gridBottom" name="gridBottom" type="number" class="form-control" [(ngModel)]="settings.gridBottom" #gridBottom="ngModel" (ngModelChange)="settingChanged()" />
+
+                                            </div>
+                                        </div>
+
+                                    </div>
+
+                                </fieldset>
+
+                            </ng-template>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+            <button class="btn btn-outline-success mx-auto mt-5 d-block" (click)="saveChart()">Save</button>
+
+        </form>
+
+    </div>
+
+</ng-template>
+
 <chart-modal #chartModal (change)="loadChart($event)"></chart-modal>
+
+<entity-modal #entityModal (changes)="entitiesChanged($event)" [multiple]="true" [selectedItems]="settingsObjects.entities"></entity-modal>

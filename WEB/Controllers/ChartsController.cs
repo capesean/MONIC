@@ -114,6 +114,7 @@ namespace WEB.Controllers
                 // load for the grouped indicators
                 data = await db.Data
                     .Where(o => o.Indicator.GroupingIndicatorId == chartSettings.IndicatorId)
+                    .Where(o => chartSettings.EntityIds.Count() == 0 || chartSettings.EntityIds.Contains(o.EntityId))
                     .OrderByDescending(o => o.Date.SortOrder)
                     .GroupBy(o => new { o.EntityId, o.IndicatorId })
                     .Select(o => o.First())
@@ -123,6 +124,7 @@ namespace WEB.Controllers
             {
                 data = await db.Data
                     .Where(o => o.IndicatorId == chartSettings.IndicatorId)
+                    .Where(o => chartSettings.EntityIds.Count() == 0 || chartSettings.EntityIds.Contains(o.EntityId))
                     .OrderByDescending(o => o.Date.SortOrder)
                     .GroupBy(o => o.EntityId)
                     .Select(o => o.First())
@@ -140,6 +142,7 @@ namespace WEB.Controllers
 
                 var data2 = await db.Data
                     .Where(o => o.IndicatorId == chartSettings.IndicatorId2)
+                    .Where(o => chartSettings.EntityIds.Count() == 0 || chartSettings.EntityIds.Contains(o.EntityId))
                     .OrderByDescending(o => o.Date.SortOrder)
                     .GroupBy(o => o.EntityId)
                     .Select(o => o.First())
@@ -148,7 +151,7 @@ namespace WEB.Controllers
                 data.AddRange(data2);
             }
 
-            var entityIds = data.Select(o => o.EntityId).Distinct().ToList();
+            var entityIds = chartSettings.EntityIds.Count() == 0 ? data.Select(o => o.EntityId).Distinct().ToList() : chartSettings.EntityIds.ToList();
             var dateIds = data.Select(o => o.DateId).Distinct().ToList();
 
             var entities = await db.Entities
@@ -175,5 +178,6 @@ namespace WEB.Controllers
     {
         public Guid IndicatorId { get; set; }
         public Guid? IndicatorId2 { get; set; }
+        public Guid[] EntityIds { get; set; } = [];
     }
 }

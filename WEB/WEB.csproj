@@ -69,6 +69,7 @@
 
   <ItemGroup>
     <TypeScriptCompile Remove="ClientApp\src\app\charts\chart.component.ts" />
+    <TypeScriptCompile Remove="ClientApp\src\app\charts\chart.models.ts" />
     <TypeScriptCompile Remove="ClientApp\src\app\common\services\chart.service.ts" />
   </ItemGroup>
 

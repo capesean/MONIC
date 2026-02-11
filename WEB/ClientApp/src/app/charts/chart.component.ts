@@ -1,109 +1,29 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
 import { Indicator } from '../common/models/indicator.model';
 import { BarSeriesOption, LineSeriesOption } from 'echarts/charts';
 import { UtilitiesService } from '../common/services/utilities.service';
 import { IndicatorService } from '../common/services/indicator.service';
-import { ChartData, ChartService } from '../common/services/chart.service';
-import { NgForm } from '@angular/forms';
+import { ChartService } from '../common/services/chart.service';
 import { ToastrService } from 'ngx-toastr';
 import { Chart } from '../common/models/chart.model';
 import { ErrorService } from '../common/services/error.service';
 import { ActivatedRoute } from '@angular/router';
 import { BreadcrumbService } from '../common/services/breadcrumb.service';
 import { ChartModalComponent } from '../admin/charts/chart.modal.component';
-import { ComposeOption } from 'echarts/core';
-import { GridComponentOption, TooltipComponentOption, LegendComponentOption } from 'echarts/components';
 import { IndicatorTypes } from '../common/models/enums.model';
-import { Entity } from '../common/models/entity.model';
-import { AppDate } from '../common/models/date.model';
-import { Datum } from '../common/models/datum.model';
 import { catchError, EMPTY, finalize, forkJoin, of, take, tap } from 'rxjs';
-
-type EChartsOption = ComposeOption<
-    | BarSeriesOption
-    | LineSeriesOption
-    | GridComponentOption
-    | TooltipComponentOption
-    | LegendComponentOption
->;
-
-enum LegendPosition { None, Top, Bottom }
-
-class Settings {
-    indicatorId: string;
-    barColor: string;
-    yAxisFontSize: number;
-    xAxisFontSize: number;
-    xAxisRotation: number;
-    xAxisSort: string;
-    gridLeft: number;
-    gridRight: number;
-    gridTop: number;
-    gridBottom: number;
-    showYAxisTitle: boolean;
-    yAxisTitleGap: number;
-    height: number;
-    indicatorId2: string;
-    lineColor: string;
-    lineWidth: number;
-    lineMarker: boolean;
-    legendPosition: LegendPosition;
-    stacked: boolean;
-    stacked100: boolean;
-
-    constructor() {
-        this.xAxisFontSize = 10;
-        this.barColor = '#00BAC7';
-        this.xAxisRotation = 90;
-        this.yAxisFontSize = 10;
-        this.xAxisSort = 'name';
-        this.gridLeft = 80;
-        this.gridRight = 10;
-        this.gridTop = 10;
-        this.gridBottom = 75;
-        this.showYAxisTitle = true;
-        this.yAxisTitleGap = 50;
-        this.height = 500;
-        this.lineColor = '#fa9064';
-        this.lineWidth = 5;
-        this.lineMarker = true;
-        this.legendPosition = LegendPosition.None;
-        this.stacked = true;
-        this.stacked100 = false;
-    }
-}
-
-class Data extends ChartData {
-    indicator: Indicator;
-    indicator2: Indicator;
-}
-
-class Row {
-    indicator: Indicator;
-    entity: Entity;
-    date: AppDate;
-    datum: Datum;
-}
-
-type Id = string;
-
-function indexBy<T>(items: T[], key: (t: T) => Id): Map<Id, T> {
-    const m = new Map<Id, T>();
-    for (const it of items) m.set(key(it), it);
-    return m;
-}
-
-type RowKey = `${string}|${string}`; // indicatorId|entityId
-function makeRowKey(indicatorId: string, entityId: string): RowKey {
-    return `${indicatorId}|${entityId}`;
-}
+import { NgbOffcanvas } from '@ng-bootstrap/ng-bootstrap';
+import { EChartsOption, indexBy, LegendPosition, makeRowKey, Row, RowKey, Settings, Data, StackTypes } from './chart.models';
+import { Entity } from '../common/models/entity.model';
 
 @Component({
     selector: 'chart',
     templateUrl: './chart.component.html',
-    standalone: false
+    standalone: false,
+    styleUrl: './chart.component.css',
+    encapsulation: ViewEncapsulation.None
 })
-export class ChartComponent implements OnInit {
+export class ChartComponent implements OnInit, AfterViewInit {
 
     public chart: Chart;
 
@@ -111,7 +31,8 @@ export class ChartComponent implements OnInit {
 
     public settingsObjects = {
         indicator: undefined as Indicator,
-        indicator2: undefined as Indicator
+        indicator2: undefined as Indicator,
+        entities: [] as Entity[]
     }
 
     public data: Data;
@@ -121,11 +42,13 @@ export class ChartComponent implements OnInit {
     private isInitializing = false;
 
     @ViewChild('modal') chartModal: ChartModalComponent;
+    @ViewChild('settingsPanel') settingsPanel: any;
 
     private echart!: any;
 
     LegendPosition = LegendPosition;
     IndicatorTypes = IndicatorTypes;
+    StackTypes = StackTypes;
 
     constructor(
         private utilitiesService: UtilitiesService,
@@ -134,28 +57,40 @@ export class ChartComponent implements OnInit {
         private toastr: ToastrService,
         private errorService: ErrorService,
         private route: ActivatedRoute,
-        private breadcrumbService: BreadcrumbService
+        private breadcrumbService: BreadcrumbService,
+        private offcanvasService: NgbOffcanvas
     ) { }
 
     ngOnInit() {
+        this.changeBreadcrumb();
+    }
 
-        this.chart = new Chart();
-        this.chart.name = "New Chart";
-
+    ngAfterViewInit() {
         if (window.location.hostname === 'localhost') {
             this.chartService.search({ q: 'STA' } as any).subscribe(result => this.loadChart(result.charts[0]));
         } else {
             this.setSettings(new Settings());
         }
 
-        this.changeBreadcrumb();
     }
 
-    save(form: NgForm): void {
+    newChart() {
+        this.chart = new Chart();
+        this.chart.name = "New chart name";
+        this.data = undefined;
+        this.settingsObjects = {} as any;
+        this.setSettings(new Settings());
+        this.options = undefined;
+        this.changeBreadcrumb();
+        this.offCanvas(this.settingsPanel, 'end')
+    }
 
-        if (form.invalid) {
+    saveChart(): void {
 
-            this.toastr.error("The form has not been completed correctly.", "Form Error");
+        if (!this.chart.name) {
+
+            this.toastr.error("A chart name is required.", "Form Error");
+            this.offCanvas(this.settingsPanel, 'end')
             return;
 
         }
@@ -188,6 +123,9 @@ export class ChartComponent implements OnInit {
     private setSettings(settings: Settings) {
         this.isInitializing = true;
         this.settings = settings;
+
+        if (this.settings.stackType === undefined) this.settings.stackType = StackTypes.None;
+        if (this.settings.entityIds === undefined) this.settings.entityIds = [];
 
         this.settingsObjects.indicator = undefined as Indicator;
         this.settingsObjects.indicator2 = undefined as Indicator;
@@ -226,7 +164,7 @@ export class ChartComponent implements OnInit {
     loadData() {
         if (!this.settings.indicatorId) return;
 
-        this.chartService.getData(this.settings.indicatorId, this.settings.indicatorId2).subscribe({
+        this.chartService.getData(this.settings.indicatorId, this.settings.indicatorId2, this.settings.entityIds).subscribe({
             next: data => {
                 // sort (desc) by the numerical .sortOrder field:
                 data.indicators.sort((a, b) => b.sortOrder - a.sortOrder);
@@ -280,11 +218,6 @@ export class ChartComponent implements OnInit {
             }
         }
 
-        const isStacked100 =
-            this.settings.stacked100 &&
-            this.settings.stacked &&
-            this.data.indicator.indicatorType === IndicatorTypes.Group;
-
         const entityTotals = new Map<string, number>();
         for (const e of this.data.entities) entityTotals.set(e.entityId, 0);
 
@@ -306,7 +239,7 @@ export class ChartComponent implements OnInit {
 
         const stackTotalsByEntity = new Map<string, number>();
 
-        if (isStacked100) {
+        if (this.settings.stackType === StackTypes.Percent) {
             for (const e of entities) {
                 let total = 0;
                 for (const ir of indicatorRows) {
@@ -325,7 +258,7 @@ export class ChartComponent implements OnInit {
             bso.yAxisIndex = 0;
 
             if (this.data.indicator.indicatorType === IndicatorTypes.Group) {
-                if (this.settings.stacked) bso.stack = this.data.indicatorId;
+                if (this.settings.stackType !== StackTypes.None) bso.stack = this.data.indicatorId;
                 bso.itemStyle = {
                     color: this.settings.barColor ?? indicatorRow.indicator.color,
                     borderColor: this.settings.barColor ?? indicatorRow.indicator.color
@@ -341,7 +274,7 @@ export class ChartComponent implements OnInit {
             bso.data = entities.map(e => {
                 const raw = rowByIndicatorEntity.get(makeRowKey(indicatorRow.indicatorId, e.entityId))?.datum?.value ?? 0;
 
-                if (!isStacked100) return raw;
+                if (this.settings.stackType !== StackTypes.Percent) return raw;
 
                 const total = stackTotalsByEntity.get(e.entityId) ?? 0;
                 return total === 0 ? 0 : (raw / total) * 100;
@@ -390,13 +323,13 @@ export class ChartComponent implements OnInit {
             yAxis: [
                 {
                     type: 'value',
-                    max: isStacked100 ? 100 : undefined,
+                    max: this.settings.stackType === StackTypes.Percent ? 100 : undefined,
                     axisLabel: {
-                        formatter: isStacked100 ? '{value}%' : formatter,
+                        formatter: this.settings.stackType === StackTypes.Percent ? '{value}%' : formatter,
                         fontSize: this.settings.yAxisFontSize
                     },
                     ...(this.settings.showYAxisTitle && {
-                        name: isStacked100 ? 'Percent' : this.data.indicator.name,
+                        name: this.data.indicator.name,
                         nameLocation: 'middle',
                         nameGap: this.settings.yAxisTitleGap,
                         nameRotate: 90
@@ -433,14 +366,14 @@ export class ChartComponent implements OnInit {
                         formatter: formatter
                     }
                 },
-                valueFormatter: (v: any) => isStacked100 ? `${(+v).toFixed(1)}%` : formatter(v)
+                valueFormatter: (v: any) => this.settings.stackType === StackTypes.Percent ? `${(+v).toFixed(1)}%` : formatter(v)
             }
         } as EChartsOption;
 
     }
 
     changeBreadcrumb(): void {
-        this.breadcrumbService.changeBreadcrumb(this.route.snapshot, (this.chart.name || "(new chart)").substring(0, 25));
+        this.breadcrumbService.changeBreadcrumb(this.route.snapshot, (this.chart?.name || "(new chart)").substring(0, 25));
     }
 
     downloadChart() {
@@ -468,12 +401,11 @@ export class ChartComponent implements OnInit {
         }
     }
 
-    newChart() {
-        this.chart = new Chart();
-        this.data = undefined;
-        this.settingsObjects = {} as any;
-        this.setSettings(new Settings());
-        this.options = undefined;
+    public offCanvas(content: any, position: 'start' | 'end' | 'top' | 'bottom' = 'start') {
+        this.offcanvasService.open(content, { position: position });
     }
 
+    entitiesChanged(entities: Entity[]) {
+        this.settings.entityIds = entities.map(e => e.entityId);
+    }
 }
