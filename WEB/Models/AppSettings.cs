@@ -49,6 +49,7 @@
         {
             public string ConnectionString { get; set; }
             public string ContainerName { get; set; }
+            public string KeyVaultUri { get; set; }
         }
 
         public class DocumentsSettings
