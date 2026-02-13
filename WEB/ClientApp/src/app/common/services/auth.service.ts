@@ -22,6 +22,7 @@ export class AuthService {
 
     private _profile: ProfileModel;
     public roles$ = new BehaviorSubject<string[]>([]);
+    private settingsLoaded = false;
 
     constructor(
         private http: HttpClient,
@@ -40,8 +41,20 @@ export class AuthService {
     }
 
     init(): Observable<AuthTokenModel> {
-        return this.startupTokenRefresh()
-            .pipe(tap<AuthTokenModel>(() => this.scheduleRefresh()));
+        return this.startupTokenRefresh().pipe(
+            tap(() => this.scheduleRefresh()),
+            switchMap(tokens => (tokens ? this.ensureSettingsLoadedOnce().pipe(map(() => tokens)) : of(undefined)))
+        );
+    }
+
+    private ensureSettingsLoadedOnce(): Observable<void> {
+        if (this.settingsLoaded) return of(void 0);
+
+        // mark as loaded only on success (so failures can retry)
+        return this.appSettings.init().pipe(
+            tap(() => (this.settingsLoaded = true)),
+            map(() => void 0)
+        );
     }
 
     register(data: RegisterModel): Observable<Response> {
@@ -59,10 +72,7 @@ export class AuthService {
     login(user: LoginModel): Observable<void | AuthTokenModel> {
         return this.getTokens(user, 'password').pipe(
             tap(() => this.scheduleRefresh()),
-            switchMap(tokens => {
-                if (!tokens) return of(tokens);
-                return this.appSettings.init().pipe(map(() => tokens));
-            })
+            switchMap(tokens => (tokens ? this.ensureSettingsLoadedOnce().pipe(map(() => tokens)) : of(undefined)))
         );
     }
 
@@ -71,6 +81,7 @@ export class AuthService {
         this.refreshSubscription$?.unsubscribe();
         this.removeToken();
         this.clearProfile();
+        this.settingsLoaded = false;
         this.appSettings.clear();
     }
 
@@ -134,7 +145,7 @@ export class AuthService {
                         .pipe(catchError(err => {
                             // error attempting to refresh tokens: redirect to login
                             if (err.status === 0) {
-                                return of(undefined);
+                                return of(tokens);
                                 // do nothing: might not have an internet connection
                             } else if (window.location.pathname !== "/auth/login")
                                 this.router.navigate(["/auth/login"]);
@@ -202,24 +213,31 @@ export class AuthService {
         return of(this.retrieveTokens()).pipe(
             mergeMap((tokens: AuthTokenModel) => {
                 if (!tokens) {
-                    this.updateState({ authReady: true });
+                    this.updateState({ authReady: true, jwtToken: null, tokens: null });
                     return of(undefined);
                 }
 
                 const jwtToken: JwtTokenModel = this.decodeToken(tokens.id_token);
                 this.updateState({ tokens, jwtToken });
 
-                if (+tokens.expiration_date > new Date().getTime()) {
+                const notExpired = +tokens.expiration_date > Date.now();
+
+                // If token is still valid, DON'T refresh; just mark ready and return tokens
+                if (notExpired) {
                     this.updateState({ authReady: true });
+                    return of(tokens);
                 }
 
-                return this.refreshTokens();
+                // Expired: refresh from server
+                return this.refreshTokens().pipe(
+                    // If refresh fails/offline, treat as logged out
+                    catchError(err => {
+                        this.logout();
+                        this.updateState({ authReady: true });
+                        return throwError(() => err);
+                    })
+                );
             }),
-            switchMap(tokens =>
-                tokens
-                    ? this.appSettings.init().pipe(map(() => tokens))
-                    : of(tokens)
-            ),
             catchError(error => {
                 this.logout();
                 this.updateState({ authReady: true });
@@ -227,6 +245,7 @@ export class AuthService {
             })
         );
     }
+
 
     private scheduleRefresh(): void {
         this.refreshSubscription$ = this.tokens$

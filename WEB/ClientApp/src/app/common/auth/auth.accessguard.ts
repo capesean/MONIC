@@ -2,7 +2,7 @@ import { ActivatedRouteSnapshot, RouterStateSnapshot, Router, Params } from '@an
 import { Injectable } from '@angular/core';
 import { AuthService } from '../../common/services/auth.service';
 import { Observable } from 'rxjs';
-import { tap } from 'rxjs/operators';
+import { take, tap } from 'rxjs/operators';
 
 @Injectable()
 export class AccessGuard  {
@@ -27,6 +27,7 @@ export class AccessGuard  {
         // todo: send to login with returnUrl: https://www.tektutorialshub.com/angular/angular-canactivate-guard-example/
         return this.authService.loggedIn$
             .pipe(
+                take(1),
                 tap(loggedIn => {
                     if (!loggedIn) {
                         let url = state.url.startsWith("/auth") ? "" : state.url;
