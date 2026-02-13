@@ -10,7 +10,7 @@
   "profiles": {
     "Website3": {
       "commandName": "Project",
-      "launchBrowser": true,
+      "launchBrowser": false,
       // the url/port on which the api will run. matches with environment.ts
       "applicationUrl": "https://localhost:44501;http://localhost:5200",
       "environmentVariables": {

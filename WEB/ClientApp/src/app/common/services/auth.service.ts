@@ -2,11 +2,12 @@ import { HttpClient, HttpHeaders } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { Router } from "@angular/router";
 import { BehaviorSubject, interval, Observable, of, Subscription, throwError } from "rxjs";
-import { catchError, filter, first, map, mergeMap, share, switchMap, tap } from "rxjs/operators";
+import { catchError, filter, first, map, mergeMap, shareReplay, switchMap, tap } from "rxjs/operators";
 import { environment } from "../../../environments/environment";
 import { AuthStateModel, AuthTokenModel, ChangePasswordModel, JwtTokenModel, LoginModel, PasswordRequirements, RefreshGrantModel, RegisterModel, ResetModel, ResetPasswordModel } from "../models/auth.models";
 import { ProfileModel } from "../models/profile.models";
 import { Enums, Roles } from "../models/enums.model";
+import { AppSettingsService } from "./appsettings.service";
 
 @Injectable({ providedIn: 'root' })
 export class AuthService {
@@ -24,7 +25,8 @@ export class AuthService {
 
     constructor(
         private http: HttpClient,
-        private router: Router
+        private router: Router,
+        private appSettings: AppSettingsService
     ) {
         this._state$ = new BehaviorSubject<AuthStateModel>(this.initalState);
         this.state$ = this._state$.asObservable();
@@ -55,17 +57,21 @@ export class AuthService {
     }
 
     login(user: LoginModel): Observable<void | AuthTokenModel> {
-        return this.getTokens(user, 'password')
-            .pipe(tap(() => this.scheduleRefresh()));
+        return this.getTokens(user, 'password').pipe(
+            tap(() => this.scheduleRefresh()),
+            switchMap(tokens => {
+                if (!tokens) return of(tokens);
+                return this.appSettings.init().pipe(map(() => tokens));
+            })
+        );
     }
 
     logout(): void {
         this.updateState({ jwtToken: null, tokens: null });
-        if (this.refreshSubscription$) {
-            this.refreshSubscription$.unsubscribe();
-        }
+        this.refreshSubscription$?.unsubscribe();
         this.removeToken();
         this.clearProfile();
+        this.appSettings.clear();
     }
 
     clearProfile(): void {
@@ -193,13 +199,13 @@ export class AuthService {
     }
 
     private startupTokenRefresh(): Observable<AuthTokenModel> {
-
-        return of(this.retrieveTokens())
-            .pipe(mergeMap((tokens: AuthTokenModel) => {
+        return of(this.retrieveTokens()).pipe(
+            mergeMap((tokens: AuthTokenModel) => {
                 if (!tokens) {
                     this.updateState({ authReady: true });
                     return of(undefined);
                 }
+
                 const jwtToken: JwtTokenModel = this.decodeToken(tokens.id_token);
                 this.updateState({ tokens, jwtToken });
 
@@ -208,12 +214,18 @@ export class AuthService {
                 }
 
                 return this.refreshTokens();
-            }))
-            .pipe(catchError(error => {
+            }),
+            switchMap(tokens =>
+                tokens
+                    ? this.appSettings.init().pipe(map(() => tokens))
+                    : of(tokens)
+            ),
+            catchError(error => {
                 this.logout();
                 this.updateState({ authReady: true });
                 return throwError(() => error);
-            }));
+            })
+        );
     }
 
     private scheduleRefresh(): void {
@@ -238,7 +250,7 @@ export class AuthService {
         if (!this.profileGet$) {
             this.profileGet$ = this.http
                 .get<ProfileModel>(`${environment.baseApiUrl}profile`)
-                .pipe(share())
+                .pipe(shareReplay())
                 .pipe(tap(profile => {
                     this._profile = profile;
                     // clear the outstanding request

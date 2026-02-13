@@ -7,6 +7,7 @@ import { Settings } from '../common/models/settings.model';
 import { AppService } from '../common/services/app.service';
 import { ErrorService } from '../common/services/error.service';
 import { SettingsService } from '../common/services/settings.service';
+import { AppSettingsService } from '../common/services/appsettings.service';
 
 @Component({
     selector: 'settings-edit',
@@ -23,7 +24,8 @@ export class SettingsEditComponent implements OnInit {
         private toastr: ToastrService,
         private appService: AppService,
         private settingsService: SettingsService,
-        private errorService: ErrorService
+        private errorService: ErrorService,
+        private appSettingsService: AppSettingsService
     ) {
     }
 
@@ -60,9 +62,9 @@ export class SettingsEditComponent implements OnInit {
 
         this.settingsService.save(this.settings)
             .subscribe({
-                next: settings => {
+                next: () => {
                     this.toastr.success("The settings has been saved", "Save Settings");
-                    this.appService.getAppSettings(true).subscribe(); // refresh the appSettings
+                    this.appSettingsService.init(true).subscribe(); // refresh the appSettings
                 },
                 error: err => {
                     this.errorService.handleError(err, "Settings", "Save");
