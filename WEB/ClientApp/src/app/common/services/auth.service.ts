@@ -53,7 +53,7 @@ export class AuthService {
         // mark as loaded only on success (so failures can retry)
         return this.appSettings.init().pipe(
             tap(() => (this.settingsLoaded = true)),
-            map(() => void 0)
+            map((): void => undefined)
         );
     }
 
