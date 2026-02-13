@@ -97,7 +97,8 @@ export class AuthService {
         return this.http.post<void>(`${environment.baseApiUrl}authorization/changepassword`, changePassword);
     }
 
-    private isInRole(profileRoles: string[], rolesToCheck: string | string[] | Roles | Roles[]): boolean {
+    public isInRole(profileRoles: string[], rolesToCheck: string | string[] | Roles | Roles[]): boolean {
+        console.log(profileRoles, rolesToCheck);
         if (!profileRoles || !profileRoles.length) return false;
 
         // if user is admin, they have all/any roles
@@ -136,9 +137,8 @@ export class AuthService {
                 tokens => {
 
                     // if there is no token in local storage, redirect to login
-                    if (!tokens) {
+                    if (!tokens)
                         return of(undefined);
-                    }
 
                     // token has been retrieved from local storage, refresh from the endpoint
                     return this.getTokens({ refresh_token: tokens.refresh_token }, 'refresh_token')
@@ -150,8 +150,8 @@ export class AuthService {
                             } else if (window.location.pathname !== "/auth/login")
                                 this.router.navigate(["/auth/login"]);
 
-                            return throwError(() => 'Session Expired');
-
+                            // no tokens to return
+                            return of(undefined);
                         })
                         );
                 }
@@ -177,13 +177,19 @@ export class AuthService {
         localStorage.removeItem('auth-tokens');
     }
 
-    private updateState(newState: AuthStateModel): void {
+    private updateState(newState: Partial<AuthStateModel>): void {
         const previousState = this._state$.getValue();
-        this._state$.next(Object.assign({}, previousState, newState));
-        if (newState?.jwtToken) {
-            this.roles$.next(Array.isArray(newState.jwtToken.role) ? newState.jwtToken.role : [newState.jwtToken.role]);
-        } else {
-            this.roles$.next([]);
+        const merged = Object.assign({}, previousState, newState);
+        this._state$.next(merged);
+
+        // Only touch roles when jwtToken is explicitly updated
+        if ('jwtToken' in newState) {
+            const jt = merged.jwtToken;
+            if (jt?.role) {
+                this.roles$.next(Array.isArray(jt.role) ? jt.role : [jt.role]);
+            } else {
+                this.roles$.next([]);
+            }
         }
     }
 
@@ -224,7 +230,7 @@ export class AuthService {
 
                 // If token is still valid, DON'T refresh; just mark ready and return tokens
                 if (notExpired) {
-                    this.updateState({ authReady: true });
+                    this.updateState({ authReady: true, jwtToken });
                     return of(tokens);
                 }
 

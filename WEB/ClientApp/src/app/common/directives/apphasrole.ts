@@ -1,6 +1,7 @@
 import { Input, Directive, ElementRef, OnDestroy, OnInit } from "@angular/core";
 import { AuthService } from "../services/auth.service";
-import { Subscription } from "rxjs";
+import { BehaviorSubject, Subject, combineLatest } from "rxjs";
+import { distinctUntilChanged, map, startWith, takeUntil } from "rxjs/operators";
 
 @Directive({
     selector: '[appHasRole]',
@@ -8,25 +9,34 @@ import { Subscription } from "rxjs";
 })
 export class AppHasRoleDirective implements OnInit, OnDestroy {
 
-    @Input('appHasRole') roleName: string | string[];
+    private role$ = new BehaviorSubject<string | string[] | null>(null);
+    private destroy$ = new Subject<void>();
 
-    private subscription: Subscription = new Subscription();
+    @Input('appHasRole')
+    set appHasRole(value: string | string[]) {
+        this.role$.next(value);
+    }
 
     constructor(
         private authService: AuthService,
-        private elementRef: ElementRef
+        private elementRef: ElementRef<HTMLElement>
     ) {
     }
 
     ngOnInit() {
-        this.elementRef.nativeElement.style.display = 'none';
-        this.checkRole();
-    }
+        this.updateElementVisibility(false);
 
-    private checkRole() {
-        this.subscription = this.authService.isInRole$(this.roleName).subscribe(isAllowed => {
-            this.updateElementVisibility(isAllowed);
-        });
+        combineLatest([
+            this.authService.roles$.pipe(startWith(this.authService.roles$.value)),
+            this.role$
+        ]).pipe(
+            map(([roles, required]) => {
+                if (!required) return false;
+                return this.authService.isInRole(roles, required as any); // see note below
+            }),
+            distinctUntilChanged(),
+            takeUntil(this.destroy$)
+        ).subscribe(isAllowed => this.updateElementVisibility(isAllowed));
     }
 
     private updateElementVisibility(isVisible: boolean) {
@@ -34,6 +44,7 @@ export class AppHasRoleDirective implements OnInit, OnDestroy {
     }
 
     ngOnDestroy() {
-        if (this.subscription) this.subscription.unsubscribe();
+        this.destroy$.next();
+        this.destroy$.complete();
     }
 }
