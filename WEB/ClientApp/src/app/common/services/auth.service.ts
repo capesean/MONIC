@@ -98,7 +98,6 @@ export class AuthService {
     }
 
     public isInRole(profileRoles: string[], rolesToCheck: string | string[] | Roles | Roles[]): boolean {
-        console.log(profileRoles, rolesToCheck);
         if (!profileRoles || !profileRoles.length) return false;
 
         // if user is admin, they have all/any roles

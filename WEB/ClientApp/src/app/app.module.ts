@@ -54,12 +54,19 @@ export function initApp(auth: AuthService) {
         { provide: NgbDateAdapter, useClass: NgbDateNativeAdapter },
         AccessGuard,
         ErrorService,
-        NgbTooltipConfig,
         PercentPipe,
         DecimalPipe,
         CurrencyPipe,
         { provide: LOCALE_ID, useValue: 'en-ZA' },
-        provideHttpClient(withInterceptorsFromDi(), withJsonpSupport(), withInterceptors([pendingRequestsInterceptor$]))
+        provideHttpClient(withInterceptorsFromDi(), withJsonpSupport(), withInterceptors([pendingRequestsInterceptor$])),
+        {
+            provide: NgbTooltipConfig,
+            useFactory: () => {
+                const config = new NgbTooltipConfig();
+                config.container = 'body';
+                return config;
+            }
+        }
     ]
 })
 export class AppModule { }
