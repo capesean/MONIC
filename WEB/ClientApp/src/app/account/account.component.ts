@@ -35,7 +35,7 @@ export class AccountComponent implements OnInit, AfterViewInit, OnDestroy {
 
     ngOnInit(): void {
 
-        this.authService.getProfile().subscribe(o => this.profile = o);
+        this.profile = this.authService.profile;
 
         this.authService.getPasswordRequirements().subscribe(o => this.passwordRequirements = o);
 

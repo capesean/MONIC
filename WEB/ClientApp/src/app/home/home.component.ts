@@ -17,8 +17,7 @@ export class HomeComponent implements OnInit {
     }
 
     ngOnInit(): void {
-        this.authService.getProfile()
-            .subscribe(profile => this.profile = profile);
+        this.profile = this.authService.profile;
     }
 
 }

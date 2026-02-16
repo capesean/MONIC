@@ -130,32 +130,26 @@ export class AuthService {
         this.profileGet$ = undefined;
     }
 
-    getProfile(refresh?: boolean): Observable<ProfileModel> {
-        if (!refresh && this._profile) return of(this._profile);
+    get profile(): ProfileModel { return this._profile; }
 
+    refreshProfile(): Observable<ProfileModel> {
+        // if a request is currently outstanding, return that request
         if (!this.profileGet$) {
-            this.profileGet$ = this.http.get<ProfileModel>(`${environment.baseApiUrl}profile`).pipe(
-                tap(profile => {
+            this.profileGet$ = this.http
+                .get<ProfileModel>(`${environment.baseApiUrl}profile`)
+                .pipe(shareReplay())
+                .pipe(tap(profile => {
                     this._profile = profile;
-                }),
-                finalize(() => {
+                    // clear the outstanding request
                     this.profileGet$ = undefined;
-                }),
-                shareReplay({ bufferSize: 1, refCount: true })
-            );
+                }));
         }
-
-        return this.profileGet$.pipe(
-            catchError(err => {
-                if (err?.status === 401 || err?.status === 403) this.logout();
-                return throwError(() => err);
-            })
-        );
+        return this.profileGet$;
     }
 
     private ensureProfileLoadedOnce(forceRefresh: boolean): Observable<ProfileModel | null> {
         if (!this.isLoggedInSync) return of(null);
-        return this.getProfile(forceRefresh);
+        return this.refreshProfile();
     }
 
 
