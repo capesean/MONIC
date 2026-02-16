@@ -32,7 +32,7 @@
                         <div class="form-group">
                             <select id="roles" name="roles" class="form-select" [(ngModel)]="searchOptions.roleName">
                                 <option [value]="undefined">All roles</option>
-                                <option *ngFor="let role of roles" [ngValue]="role.name">{{role.name}}</option>
+                                <option *ngFor="let role of roles" [ngValue]="role.name">{{role.label}}</option>
                             </select>
                         </div>
                     </div>

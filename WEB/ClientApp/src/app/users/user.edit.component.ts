@@ -39,7 +39,9 @@ export class UserEditComponent implements OnInit {
 
     ngOnInit(): void {
 
-        this.profile = this.authService.profile;
+        this.authService.getProfile().subscribe(profile => {
+            this.profile = profile;
+        });
 
         this.route.params.subscribe(params => {
 
@@ -91,7 +93,7 @@ export class UserEditComponent implements OnInit {
                     else {
                         // reload profile if editing self
                         if (this.user.id === this.profile.userId)
-                            this.authService.refreshProfile().subscribe();
+                            this.authService.getProfile(true).subscribe();
                     }
                 },
                 error: err => {
