@@ -2,10 +2,10 @@ import { ActivatedRouteSnapshot, RouterStateSnapshot, Router, Params } from '@an
 import { Injectable } from '@angular/core';
 import { AuthService } from '../../common/services/auth.service';
 import { Observable } from 'rxjs';
-import { take, tap } from 'rxjs/operators';
+import { map, switchMap, take, tap } from 'rxjs/operators';
 
 @Injectable()
-export class AccessGuard  {
+export class AccessGuard {
 
     constructor(
         private authService: AuthService,
@@ -13,30 +13,28 @@ export class AccessGuard  {
     ) { }
 
     canActivateChild(childRoute: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<boolean> | Promise<boolean> | boolean {
-        // todo: if can't active, then go to login?
         return this.checkParents(childRoute, state);
     }
 
     canActivate(next: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<boolean> | Promise<boolean> | boolean {
-        // todo: if can't active, then go to login?
         return this.checkParents(next, state);
     }
 
-    private checkParents(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<boolean> | Promise<boolean> | boolean {
+    private checkParents(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<boolean> {
 
-        // todo: send to login with returnUrl: https://www.tektutorialshub.com/angular/angular-canactivate-guard-example/
-        return this.authService.loggedIn$
-            .pipe(
-                take(1),
-                tap(loggedIn => {
-                    if (!loggedIn) {
-                        let url = state.url.startsWith("/auth") ? "" : state.url;
-                        const queryParams = {} as Params;
-                        if (url && url !== "/") queryParams.path = encodeURIComponent(url);
-                        this.router.navigate(["/auth/login"], { queryParamsHandling: "merge", queryParams: queryParams });
-                    }
-                })
-            );
+        // Ensure the auth context is fully initialized BEFORE deciding.
+        return this.authService.initialize().pipe(
+            switchMap(() => this.authService.loggedIn$.pipe(take(1))),
+            tap(loggedIn => {
+                if (!loggedIn) {
+                    const url = state.url.startsWith("/auth") ? "" : state.url;
+                    const queryParams = {} as Params;
+                    if (url && url !== "/") queryParams.path = encodeURIComponent(url);
+                    this.router.navigate(["/auth/login"], { queryParamsHandling: "merge", queryParams });
+                }
+            }),
+            map(loggedIn => loggedIn)
+        );
     }
 
 }

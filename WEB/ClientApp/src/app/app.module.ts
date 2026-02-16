@@ -20,7 +20,7 @@ import { AuthService } from './common/services/auth.service';
 import { catchError, firstValueFrom, of } from 'rxjs';
 
 export function initApp(auth: AuthService) {
-    return () => firstValueFrom(auth.init().pipe(catchError(() => of(undefined))));
+    return () => firstValueFrom(auth.initialize());
 }
 
 @NgModule({

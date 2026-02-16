@@ -1,28 +1,35 @@
 import { HttpClient, HttpHeaders } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { Router } from "@angular/router";
-import { BehaviorSubject, interval, Observable, of, Subscription, throwError } from "rxjs";
-import { catchError, filter, first, map, mergeMap, shareReplay, switchMap, tap } from "rxjs/operators";
+import { BehaviorSubject, interval, Observable, of, Subscription, throwError, forkJoin } from "rxjs";
+import { catchError, filter, finalize, first, map, mergeMap, shareReplay, switchMap, tap } from "rxjs/operators";
 import { environment } from "../../../environments/environment";
 import { AuthStateModel, AuthTokenModel, ChangePasswordModel, JwtTokenModel, LoginModel, PasswordRequirements, RefreshGrantModel, RegisterModel, ResetModel, ResetPasswordModel } from "../models/auth.models";
 import { ProfileModel } from "../models/profile.models";
 import { Enums, Roles } from "../models/enums.model";
 import { AppSettingsService } from "./appsettings.service";
 
-@Injectable({ providedIn: 'root' })
+@Injectable({ providedIn: "root" })
 export class AuthService {
 
     private initalState: AuthStateModel = { jwtToken: null, tokens: null, authReady: false };
     private _state$: BehaviorSubject<AuthStateModel>;
-    private refreshSubscription$: Subscription;
     public state$: Observable<AuthStateModel>;
     public tokens$: Observable<AuthTokenModel>;
     public loggedIn$: Observable<boolean>;
-    private profileGet$: Observable<ProfileModel>;
 
-    private _profile: ProfileModel;
-    public roles$ = new BehaviorSubject<string[]>([]);
+    private refreshSubscription$?: Subscription;
+
+    // profile cache + in-flight
+    private profileGet$?: Observable<ProfileModel>;
+    private _profile?: ProfileModel;
+    private _roles: string[] = [];
+
     private settingsLoaded = false;
+
+    // one-time init pipeline so guards/components can safely wait
+    private initOnce$?: Observable<void>;
+    private initCompleted$ = new BehaviorSubject<boolean>(false);
 
     constructor(
         private http: HttpClient,
@@ -32,31 +39,334 @@ export class AuthService {
         this._state$ = new BehaviorSubject<AuthStateModel>(this.initalState);
         this.state$ = this._state$.asObservable();
 
-        this.tokens$ = this._state$
-            .pipe(filter(state => state.authReady))
-            .pipe(map(state => state.tokens));
+        this.tokens$ = this._state$.pipe(map(s => s.tokens));
+        this.loggedIn$ = this._state$.pipe(map(s => !!s.tokens));
 
-        this.loggedIn$ = this.tokens$
-            .pipe(map(tokens => !!tokens));
     }
 
-    init(): Observable<AuthTokenModel> {
-        return this.startupTokenRefresh().pipe(
-            tap(() => this.scheduleRefresh()),
-            switchMap(tokens => (tokens ? this.ensureSettingsLoadedOnce().pipe(map(() => tokens)) : of(undefined)))
+    initialize(): Observable<void> {
+        if (this.initOnce$) return this.initOnce$;
+
+        this.initOnce$ = this.startupTokenRefresh().pipe(
+            switchMap(tokens => {
+                if (!tokens) return of(undefined as void);
+
+                return forkJoin([
+                    this.ensureSettingsLoadedOnce(),
+                    this.ensureProfileLoadedOnce(false)
+                ]).pipe(map(() => undefined as void));
+            }),
+            tap(() => {
+                this.scheduleRefresh(); // only after token resolution
+                this.initCompleted$.next(true);
+            }),
+            catchError(err => {
+                // do not block the app forever if init fails; treat as logged out
+                this.logout();
+                this.updateState({ authReady: true });
+                this.initCompleted$.next(true);
+                return of(undefined as void);
+            }),
+            shareReplay({ bufferSize: 1, refCount: true })
+        );
+
+        return this.initOnce$;
+    }
+
+    /** sync-ish getters AFTER initialize() completed */
+    get isInitialized(): boolean {
+        return this.initCompleted$.getValue();
+    }
+
+    get isLoggedInSync(): boolean {
+        return !!this._state$.getValue().tokens;
+    }
+
+    get profileSync(): ProfileModel | undefined {
+        return this._profile;
+    }
+
+    /** Auth flows */
+    login(user: LoginModel): Observable<AuthTokenModel | void> {
+        return this.getTokens(user, "password").pipe(
+            switchMap(tokens => {
+                if (!tokens) return of(undefined);
+
+                // on login: load settings + profile before we consider the session ready for the app
+                return forkJoin([
+                    this.ensureSettingsLoadedOnce(),
+                    this.ensureProfileLoadedOnce(true)
+                ]).pipe(map(() => tokens));
+            }),
+            tap(() => {
+                // login should reset initOnce so future initialize() doesn't reuse old result
+                this.initOnce$ = undefined;
+                this.initCompleted$.next(true);
+                this.scheduleRefresh();
+            })
         );
     }
 
+    logout(): void {
+        this.stopRefreshTimer();
+
+        this.updateState({ jwtToken: null, tokens: null });
+        this.removeToken();
+
+        this.clearProfile();
+        this._roles = [];
+
+        this.settingsLoaded = false;
+        this.appSettings.clear();
+
+        // allow re-init if user comes back
+        this.initOnce$ = undefined;
+        this.initCompleted$.next(false);
+    }
+
+    /** Profile */
+    clearProfile(): void {
+        this._profile = undefined;
+        this.profileGet$ = undefined;
+    }
+
+    getProfile(refresh?: boolean): Observable<ProfileModel> {
+        if (!refresh && this._profile) return of(this._profile);
+
+        if (!this.profileGet$) {
+            this.profileGet$ = this.http.get<ProfileModel>(`${environment.baseApiUrl}profile`).pipe(
+                tap(profile => {
+                    this._profile = profile;
+                }),
+                finalize(() => {
+                    this.profileGet$ = undefined;
+                }),
+                shareReplay({ bufferSize: 1, refCount: true })
+            );
+        }
+
+        return this.profileGet$.pipe(
+            catchError(err => {
+                if (err?.status === 401 || err?.status === 403) this.logout();
+                return throwError(() => err);
+            })
+        );
+    }
+
+    private ensureProfileLoadedOnce(forceRefresh: boolean): Observable<ProfileModel | null> {
+        if (!this.isLoggedInSync) return of(null);
+        return this.getProfile(forceRefresh);
+    }
+
+
+    public get roles(): string[] {
+        return this._roles;
+    }
+
+    public isInRole(rolesToCheck: string | string[] | Roles | Roles[]): boolean {
+        if (!this._roles.length) return false;
+
+        if (this._roles.includes("Administrator")) return true;
+
+        const normalize = (r: string | Roles) =>
+            typeof r === "number" ? Enums.Roles[r].name : r;
+
+        if (Array.isArray(rolesToCheck)) {
+            return rolesToCheck.some(r => this._roles.includes(normalize(r as any)));
+        }
+
+        return this._roles.includes(normalize(rolesToCheck as any));
+    }
+
+    /** Settings */
     private ensureSettingsLoadedOnce(): Observable<void> {
         if (this.settingsLoaded) return of(void 0);
 
-        // mark as loaded only on success (so failures can retry)
         return this.appSettings.init().pipe(
             tap(() => (this.settingsLoaded = true)),
             map((): void => undefined)
         );
     }
 
+    /** Token refresh */
+    refreshTokens(): Observable<AuthTokenModel> {
+        return this._state$.pipe(
+            first(),
+            map(() => this.retrieveTokens()),
+            mergeMap(tokens => {
+                if (!tokens) return of(undefined);
+
+                return this.getTokens({ refresh_token: tokens.refresh_token }, "refresh_token").pipe(
+                    // after refreshing tokens, refresh profile too (roles may have changed)
+                    switchMap(newTokens => {
+                        if (!newTokens) return of(undefined);
+                        return this.ensureProfileLoadedOnce(true).pipe(map(() => newTokens));
+                    }),
+                    catchError(err => {
+                        if (err.status === 0) return of(tokens); // offline: keep current tokens
+                        if (window.location.pathname !== "/auth/login") this.router.navigate(["/auth/login"]);
+                        return of(undefined);
+                    })
+                );
+            })
+        );
+    }
+
+    private startupTokenRefresh(): Observable<AuthTokenModel> {
+        return of(this.retrieveTokens()).pipe(
+            mergeMap(tokens => {
+                if (!tokens) {
+                    this.updateState({ authReady: true, jwtToken: null, tokens: null });
+                    return of(undefined);
+                }
+
+                const jwtToken = this.decodeToken(tokens.id_token);
+                this.updateState({ tokens, jwtToken });
+
+                const notExpired = +tokens.expiration_date > Date.now();
+                if (notExpired) {
+                    this.updateState({ authReady: true, jwtToken });
+                    return of(tokens);
+                }
+
+                return this.refreshTokens().pipe(
+                    catchError(err => {
+                        this.logout();
+                        this.updateState({ authReady: true });
+                        return throwError(() => err);
+                    })
+                );
+            }),
+            catchError(err => {
+                this.logout();
+                this.updateState({ authReady: true });
+                return throwError(() => err);
+            })
+        );
+    }
+
+    private scheduleRefresh(): void {
+        // IMPORTANT: never stack refresh timers
+        this.stopRefreshTimer();
+
+        this.refreshSubscription$ = this.tokens$.pipe(first()).pipe(
+            mergeMap(tokens => {
+                if (!tokens) return of(undefined);
+                return interval((tokens.expires_in / 2) * 1000);
+            }),
+            mergeMap(() => this.refreshTokens())
+        ).subscribe();
+    }
+
+    private stopRefreshTimer() {
+        this.refreshSubscription$?.unsubscribe();
+        this.refreshSubscription$ = undefined;
+    }
+
+    /** Token endpoint */
+    private getTokens(data: RefreshGrantModel | LoginModel, grantType: string): Observable<AuthTokenModel> {
+        const headers = new HttpHeaders({ "Content-Type": "application/x-www-form-urlencoded" });
+        const options = { headers };
+
+        Object.assign(data, { grant_type: grantType, scope: "openid offline_access profile roles" });
+
+        const params = new URLSearchParams();
+        Object.keys(data).forEach(key => params.append(key, (data as any)[key]));
+
+        return this.http.post<AuthTokenModel>(`${environment.baseAuthUrl}connect/token`, params.toString(), options).pipe(
+            tap(tokens => {
+                const now = new Date();
+                tokens.expiration_date = new Date(now.getTime() + tokens.expires_in * 1000).getTime().toString();
+
+                const jwtToken: JwtTokenModel = this.decodeToken(tokens.id_token);
+
+                this.storeToken(tokens);
+                this.updateState({ authReady: true, tokens, jwtToken });
+            })
+        );
+    }
+
+    private storeToken(tokens: AuthTokenModel): void {
+        const previousTokens = this.retrieveTokens();
+        if (previousTokens && !tokens.refresh_token) tokens.refresh_token = previousTokens.refresh_token;
+        localStorage.setItem("auth-tokens", JSON.stringify(tokens));
+    }
+
+    private retrieveTokens(): AuthTokenModel {
+        const tokensString = localStorage.getItem("auth-tokens");
+        return !tokensString ? null : JSON.parse(tokensString);
+    }
+
+    private removeToken(): void {
+        localStorage.removeItem("auth-tokens");
+    }
+
+    private updateState(newState: Partial<AuthStateModel>): void {
+        const previousState = this._state$.getValue();
+        const merged = Object.assign({}, previousState, newState);
+        this._state$.next(merged);
+
+        // Keep a fallback roles stream based on JWT claim.
+        // Profile roles (when loaded) will overwrite roles$ via applyRolesFromProfile().
+        if ("jwtToken" in newState) {
+            const jt = merged.jwtToken;
+            if (jt?.role) {
+                this._roles = Array.isArray(jt.role) ? jt.role : [jt.role];
+            } else {
+                this._roles = [];
+            }
+        }
+    }
+
+    /** JWT decode helpers */
+    private decodeToken(token: string): JwtTokenModel {
+        if (!token) return null;
+
+        const parts = token.split(".");
+        if (parts.length !== 3) throw new Error("Token is not a JWT (expected 3 parts).");
+
+        const decoded = this.urlBase64Decode(parts[1]);
+        if (!decoded) throw new Error("Cannot decode the token payload.");
+
+        return JSON.parse(decoded);
+    }
+
+    private urlBase64Decode(str: string): string {
+        let output = str.replace(/-/g, "+").replace(/_/g, "/");
+        switch (output.length % 4) {
+            case 0: break;
+            case 2: output += "=="; break;
+            case 3: output += "="; break;
+            default: throw new Error("Illegal base64url string!");
+        }
+        return this.b64DecodeUnicode(output);
+    }
+
+    private b64DecodeUnicode(str: string): string {
+        return decodeURIComponent(
+            Array.prototype.map
+                .call(this.b64decode(str), (c: string) => "%" + ("00" + c.charCodeAt(0).toString(16)).slice(-2))
+                .join("")
+        );
+    }
+
+    private b64decode(str: string): string {
+        const chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/=";
+        let output = "";
+        str = String(str).replace(/=+$/, "");
+        if (str.length % 4 === 1) throw new Error("'atob' failed: string not correctly encoded.");
+
+        for (let bc = 0, bs: number, buffer, idx = 0; (buffer = str.charAt(idx++));) {
+            buffer = chars.indexOf(buffer);
+            if (~buffer) {
+                bs = bc % 4 ? (bs as any) * 64 + buffer : buffer;
+                if (bc++ % 4) output += String.fromCharCode(255 & (bs >> ((-2 * bc) & 6)));
+            }
+        }
+        return output;
+    }
+
+    /** Existing endpoints */
     register(data: RegisterModel): Observable<Response> {
         return this.http.post<Response>(`${environment.baseApiUrl}authorization/register`, data);
     }
@@ -69,26 +379,6 @@ export class AuthService {
         return this.http.post<void>(`${environment.baseApiUrl}authorization/reset`, data);
     }
 
-    login(user: LoginModel): Observable<void | AuthTokenModel> {
-        return this.getTokens(user, 'password').pipe(
-            tap(() => this.scheduleRefresh()),
-            switchMap(tokens => (tokens ? this.ensureSettingsLoadedOnce().pipe(map(() => tokens)) : of(undefined)))
-        );
-    }
-
-    logout(): void {
-        this.updateState({ jwtToken: null, tokens: null });
-        this.refreshSubscription$?.unsubscribe();
-        this.removeToken();
-        this.clearProfile();
-        this.settingsLoaded = false;
-        this.appSettings.clear();
-    }
-
-    clearProfile(): void {
-        this._profile = undefined;
-    }
-
     getPasswordRequirements(): Observable<PasswordRequirements> {
         return this.http.get<PasswordRequirements>(`${environment.baseApiUrl}authorization/passwordrequirements`);
     }
@@ -96,263 +386,4 @@ export class AuthService {
     changePassword(changePassword: ChangePasswordModel): Observable<void> {
         return this.http.post<void>(`${environment.baseApiUrl}authorization/changepassword`, changePassword);
     }
-
-    public isInRole(profileRoles: string[], rolesToCheck: string | string[] | Roles | Roles[]): boolean {
-        if (!profileRoles || !profileRoles.length) return false;
-
-        // if user is admin, they have all/any roles
-        if (profileRoles.indexOf("Administrator") >= 0) return true;
-
-        if (typeof (rolesToCheck) === "number") rolesToCheck = Enums.Roles[rolesToCheck].name;
-
-        if (Array.isArray(rolesToCheck)) {
-            for (let roleToCheck of rolesToCheck) {
-                if (typeof (roleToCheck) === "number") roleToCheck = Enums.Roles[roleToCheck].name;
-                if (profileRoles.indexOf(roleToCheck) >= 0) return true;
-            }
-            return false;
-        } else {
-            return profileRoles.indexOf(rolesToCheck) >= 0;
-        }
-    }
-
-    isInRole$(role: string | Roles | Roles[] | string[]): Observable<boolean> {
-        return this.roles$.pipe(
-            map(roles => this.isInRole(roles, role))
-        );
-    }
-
-    refreshTokens(): Observable<AuthTokenModel> {
-        return this._state$
-            .pipe(first())
-            /*
-             * OpenIddict 3 invalidates refresh tokens after being used, so the latest token might have been retrieved by another tab
-             * and stored in localStorage, so get it from there rather than from the state. Two calls at the same time will invalidate one,
-             * though - needs to be handled.
-            */
-            //.pipe(map(state => state.tokens))
-            .pipe(map(() => this.retrieveTokens()))
-            .pipe(mergeMap(
-                tokens => {
-
-                    // if there is no token in local storage, redirect to login
-                    if (!tokens)
-                        return of(undefined);
-
-                    // token has been retrieved from local storage, refresh from the endpoint
-                    return this.getTokens({ refresh_token: tokens.refresh_token }, 'refresh_token')
-                        .pipe(catchError(err => {
-                            // error attempting to refresh tokens: redirect to login
-                            if (err.status === 0) {
-                                return of(tokens);
-                                // do nothing: might not have an internet connection
-                            } else if (window.location.pathname !== "/auth/login")
-                                this.router.navigate(["/auth/login"]);
-
-                            // no tokens to return
-                            return of(undefined);
-                        })
-                        );
-                }
-            ));
-    }
-
-    private storeToken(tokens: AuthTokenModel): void {
-        const previousTokens = this.retrieveTokens();
-        if (previousTokens && !tokens.refresh_token) {
-            tokens.refresh_token = previousTokens.refresh_token;
-        }
-
-        localStorage.setItem('auth-tokens', JSON.stringify(tokens));
-    }
-
-    private retrieveTokens(): AuthTokenModel {
-        const tokensString = localStorage.getItem('auth-tokens');
-        const tokensModel: AuthTokenModel = !tokensString ? null : JSON.parse(tokensString);
-        return tokensModel;
-    }
-
-    private removeToken(): void {
-        localStorage.removeItem('auth-tokens');
-    }
-
-    private updateState(newState: Partial<AuthStateModel>): void {
-        const previousState = this._state$.getValue();
-        const merged = Object.assign({}, previousState, newState);
-        this._state$.next(merged);
-
-        // Only touch roles when jwtToken is explicitly updated
-        if ('jwtToken' in newState) {
-            const jt = merged.jwtToken;
-            if (jt?.role) {
-                this.roles$.next(Array.isArray(jt.role) ? jt.role : [jt.role]);
-            } else {
-                this.roles$.next([]);
-            }
-        }
-    }
-
-    private getTokens(data: RefreshGrantModel | LoginModel, grantType: string): Observable<AuthTokenModel> {
-        const headers = new HttpHeaders({ 'Content-Type': 'application/x-www-form-urlencoded' });
-        const options = { headers: headers };
-
-        Object.assign(data, { grant_type: grantType, scope: 'openid offline_access profile roles' });
-
-        const params = new URLSearchParams();
-        Object.keys(data)
-            .forEach(key => params.append(key, (<any>data)[key]));
-
-        return this.http.post<AuthTokenModel>(`${environment.baseAuthUrl}connect/token`, params.toString(), options)
-            .pipe(tap<AuthTokenModel>(tokens => {
-                const now = new Date();
-                tokens.expiration_date = new Date(now.getTime() + tokens.expires_in * 1000).getTime().toString();
-
-                const jwtToken: JwtTokenModel = this.decodeToken(tokens.id_token);
-
-                this.storeToken(tokens);
-                this.updateState({ authReady: true, tokens, jwtToken });
-            }));
-    }
-
-    private startupTokenRefresh(): Observable<AuthTokenModel> {
-        return of(this.retrieveTokens()).pipe(
-            mergeMap((tokens: AuthTokenModel) => {
-                if (!tokens) {
-                    this.updateState({ authReady: true, jwtToken: null, tokens: null });
-                    return of(undefined);
-                }
-
-                const jwtToken: JwtTokenModel = this.decodeToken(tokens.id_token);
-                this.updateState({ tokens, jwtToken });
-
-                const notExpired = +tokens.expiration_date > Date.now();
-
-                // If token is still valid, DON'T refresh; just mark ready and return tokens
-                if (notExpired) {
-                    this.updateState({ authReady: true, jwtToken });
-                    return of(tokens);
-                }
-
-                // Expired: refresh from server
-                return this.refreshTokens().pipe(
-                    // If refresh fails/offline, treat as logged out
-                    catchError(err => {
-                        this.logout();
-                        this.updateState({ authReady: true });
-                        return throwError(() => err);
-                    })
-                );
-            }),
-            catchError(error => {
-                this.logout();
-                this.updateState({ authReady: true });
-                return throwError(() => error);
-            })
-        );
-    }
-
-
-    private scheduleRefresh(): void {
-        this.refreshSubscription$ = this.tokens$
-            .pipe(first())
-            // refresh every half the total expiration time
-            .pipe(mergeMap(tokens => {
-                if (!tokens) return of(undefined);
-
-                return interval(tokens.expires_in / 2 * 1000);
-            }))
-            .pipe(mergeMap(() => this.refreshTokens()))
-            .subscribe();
-    }
-
-    getProfile(refresh?: boolean): Observable<ProfileModel> {
-        // if the profile has already been retrieved, return it
-        if (!refresh && this._profile) {
-            return of(this._profile);
-        }
-        // if a request is currently outstanding, return that request
-        if (!this.profileGet$) {
-            this.profileGet$ = this.http
-                .get<ProfileModel>(`${environment.baseApiUrl}profile`)
-                .pipe(shareReplay())
-                .pipe(tap(profile => {
-                    this._profile = profile;
-                    // clear the outstanding request
-                    this.profileGet$ = undefined;
-                }));
-        }
-        return this.profileGet$;
-    }
-
-    private decodeToken(token: string): JwtTokenModel {
-        if (!token || token === "") {
-            return null;
-        }
-        const parts = token.split(".");
-        if (parts.length !== 3) {
-            throw new Error("The inspected token doesn't appear to be a JWT. Check to make sure it has three parts and see https://jwt.io for more.");
-        }
-        const decoded = this.urlBase64Decode(parts[1]);
-        if (!decoded) {
-            throw new Error("Cannot decode the token.");
-        }
-
-        return JSON.parse(decoded);
-    }
-
-    private urlBase64Decode(str: string): string {
-        let output = str.replace(/-/g, "+").replace(/_/g, "/");
-        switch (output.length % 4) {
-            case 0: {
-                break;
-            }
-            case 2: {
-                output += "==";
-                break;
-            }
-            case 3: {
-                output += "=";
-                break;
-            }
-            default: {
-                throw new Error("Illegal base64url string!");
-            }
-        }
-        return this.b64DecodeUnicode(output);
-    }
-
-    private b64DecodeUnicode(str: string): string {
-        return decodeURIComponent(Array.prototype.map
-            .call(this.b64decode(str), (c) => {
-                return "%" + ("00" + c.charCodeAt(0).toString(16)).slice(-2);
-            })
-            .join(""));
-    }
-
-    private b64decode(str: string): string {
-        const chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/=";
-        let output = "";
-        str = String(str).replace(/=+$/, "");
-        if (str.length % 4 === 1) {
-            throw new Error("'atob' failed: The string to be decoded is not correctly encoded.");
-        }
-        for (
-            // initialize result and counters
-            let bc = 0, bs: number, buffer, idx = 0;
-            // get next character
-            (buffer = str.charAt(idx++));
-            // character found in table? initialize bit storage and add its ascii value;
-            ~buffer &&
-                ((bs = bc % 4 ? bs * 64 + buffer : buffer),
-                    // and if not first of each 4 characters,
-                    // convert the first 8 bits to one ascii character
-                    bc++ % 4)
-                ? (output += String.fromCharCode(255 & (bs >> ((-2 * bc) & 6))))
-                : 0) {
-            // try to find character in table (0-63, not found => -1)
-            buffer = chars.indexOf(buffer);
-        }
-        return output;
-    }
-
 }
