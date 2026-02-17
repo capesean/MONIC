@@ -2,7 +2,7 @@ import { HttpClient, HttpHeaders } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { Router } from "@angular/router";
 import { BehaviorSubject, interval, Observable, of, Subscription, throwError, forkJoin } from "rxjs";
-import { catchError, filter, finalize, first, map, mergeMap, shareReplay, switchMap, tap } from "rxjs/operators";
+import { catchError, first, map, mergeMap, shareReplay, switchMap, tap } from "rxjs/operators";
 import { environment } from "../../../environments/environment";
 import { AuthStateModel, AuthTokenModel, ChangePasswordModel, JwtTokenModel, LoginModel, PasswordRequirements, RefreshGrantModel, RegisterModel, ResetModel, ResetPasswordModel } from "../models/auth.models";
 import { ProfileModel } from "../models/profile.models";
@@ -197,7 +197,7 @@ export class AuthService {
                         return this.ensureProfileLoadedOnce(true).pipe(map(() => newTokens));
                     }),
                     catchError(err => {
-                        if (err.status === 0) return of(tokens); // offline: keep current tokens
+                        if (err.status === 0 || err.status >= 500) return of(tokens); // keep current tokens
                         if (window.location.pathname !== "/auth/login") this.router.navigate(["/auth/login"]);
                         return of(undefined);
                     })
@@ -240,15 +240,25 @@ export class AuthService {
     }
 
     private scheduleRefresh(): void {
-        // IMPORTANT: never stack refresh timers
         this.stopRefreshTimer();
 
         this.refreshSubscription$ = this.tokens$.pipe(first()).pipe(
             mergeMap(tokens => {
                 if (!tokens) return of(undefined);
-                return interval((tokens.expires_in / 2) * 1000);
-            }),
-            mergeMap(() => this.refreshTokens())
+
+                const expMs = Number(tokens.expiration_date);
+                const skewMs = 30_000; // refresh 30s early
+                const dueMs = Math.max(expMs - Date.now() - skewMs, 0);
+
+                // first refresh at "dueMs", then keep refreshing on a normal cadence
+                return interval(dueMs).pipe(
+                    first(),
+                    switchMap(() => this.refreshTokens()),
+                    switchMap(() => interval((tokens.expires_in / 2) * 1000).pipe(
+                        mergeMap(() => this.refreshTokens())
+                    ))
+                );
+            })
         ).subscribe();
     }
 
