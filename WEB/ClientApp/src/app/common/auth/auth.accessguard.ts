@@ -2,7 +2,7 @@ import { ActivatedRouteSnapshot, RouterStateSnapshot, Router, Params } from '@an
 import { Injectable } from '@angular/core';
 import { AuthService } from '../../common/services/auth.service';
 import { Observable } from 'rxjs';
-import { map, switchMap, take, tap } from 'rxjs/operators';
+import { filter, map, take, tap } from 'rxjs/operators';
 
 @Injectable()
 export class AccessGuard {
@@ -12,28 +12,31 @@ export class AccessGuard {
         private router: Router
     ) { }
 
-    canActivateChild(childRoute: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<boolean> | Promise<boolean> | boolean {
-        return this.checkParents(childRoute, state);
+    canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
+        return this.checkAccess(state);
     }
 
-    canActivate(next: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<boolean> | Promise<boolean> | boolean {
-        return this.checkParents(next, state);
+    canActivateChild(route: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
+        return this.checkAccess(state);
     }
 
-    private checkParents(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<boolean> {
-
-        // Ensure the auth context is fully initialized BEFORE deciding.
-        return this.authService.initialize().pipe(
-            switchMap(() => this.authService.loggedIn$.pipe(take(1))),
-            tap(loggedIn => {
-                if (!loggedIn) {
+    private checkAccess(state: RouterStateSnapshot): Observable<boolean> {
+        return this.authService.state$.pipe(
+            map(s => ({ ready: s.authReady, loggedIn: !!s.tokens })),
+            filter(x => x.ready),
+            take(1),
+            tap(x => {
+                if (!x.loggedIn) {
                     const url = state.url.startsWith("/auth") ? "" : state.url;
-                    const queryParams = {} as Params;
+                    const queryParams: Params = {};
                     if (url && url !== "/") queryParams.path = encodeURIComponent(url);
-                    this.router.navigate(["/auth/login"], { queryParamsHandling: "merge", queryParams });
+                    this.router.navigate(["/auth/login"], {
+                        queryParamsHandling: "merge",
+                        queryParams
+                    });
                 }
             }),
-            map(loggedIn => loggedIn)
+            map(x => x.loggedIn)
         );
     }
 

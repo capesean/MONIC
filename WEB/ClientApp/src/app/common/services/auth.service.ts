@@ -17,6 +17,7 @@ export class AuthService {
     public state$: Observable<AuthStateModel>;
     public tokens$: Observable<AuthTokenModel>;
     public loggedIn$: Observable<boolean>;
+    private refreshScheduled = false;
 
     private refreshSubscription$?: Subscription;
 
@@ -45,6 +46,7 @@ export class AuthService {
     }
 
     initialize(): Observable<void> {
+
         if (this.initOnce$) return this.initOnce$;
 
         this.initOnce$ = this.startupTokenRefresh().pipe(
@@ -57,18 +59,18 @@ export class AuthService {
                 ]).pipe(map(() => undefined as void));
             }),
             tap(() => {
-                this.scheduleRefresh(); // only after token resolution
+                this.scheduleRefresh();
                 this.initCompleted$.next(true);
             }),
             catchError(err => {
-                // do not block the app forever if init fails; treat as logged out
                 this.logout();
                 this.updateState({ authReady: true });
                 this.initCompleted$.next(true);
                 return of(undefined as void);
             }),
-            shareReplay({ bufferSize: 1, refCount: true })
+            shareReplay(1)
         );
+
 
         return this.initOnce$;
     }
@@ -108,6 +110,7 @@ export class AuthService {
     }
 
     logout(): void {
+        this.refreshScheduled = false;
         this.stopRefreshTimer();
 
         this.updateState({ jwtToken: null, tokens: null });
@@ -240,6 +243,9 @@ export class AuthService {
     }
 
     private scheduleRefresh(): void {
+        if (this.refreshScheduled) return;
+        this.refreshScheduled = true;
+
         this.stopRefreshTimer();
 
         this.refreshSubscription$ = this.tokens$.pipe(first()).pipe(
