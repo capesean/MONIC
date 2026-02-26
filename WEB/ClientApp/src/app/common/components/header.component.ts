@@ -32,7 +32,7 @@ export class HeaderComponent implements OnInit {
         private router: Router,
         private authService: AuthService
     ) {
-        this.authService.getProfile().subscribe(profile => this.profile = profile);
+        this.profile = this.authService.profile;
     }
 
     ngOnInit(): void {        

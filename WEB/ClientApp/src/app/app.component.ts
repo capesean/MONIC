@@ -37,11 +37,6 @@ export class AppComponent implements OnInit {
 
         this.authState$ = this.authService.state$;
 
-        // start the auth service (so tokens can be automatically refreshed)
-        this.authService
-            .init()
-            .subscribe();
-
         this.breadcrumbService.breadcrumbChanged.subscribe((crumbs) => {
 
             let title = environment.siteName;

@@ -9,12 +9,8 @@ import { AppSettings } from '../models/appsettings.model';
 @Injectable({ providedIn: 'root' })
 export class AppService {
 
-    private _appSettings: AppSettings;
-    private _getAppSettings: Observable<AppSettings>;
-
     constructor(
-        private http: HttpClient,
-        private errorService: ErrorService
+        private http: HttpClient
     ) {
     }
 

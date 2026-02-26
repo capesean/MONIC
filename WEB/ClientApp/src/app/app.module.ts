@@ -1,5 +1,5 @@
 import { BrowserModule } from '@angular/platform-browser';
-import { LOCALE_ID, NgModule } from '@angular/core';
+import { APP_INITIALIZER, LOCALE_ID, NgModule } from '@angular/core';
 import { HTTP_INTERCEPTORS, provideHttpClient, withInterceptors, withInterceptorsFromDi, withJsonpSupport } from '@angular/common/http';
 import { RouterModule } from '@angular/router';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -16,7 +16,13 @@ import { SharedModule } from './shared.module';
 import { JsonDateInterceptor } from './common/interceptors/jsondate.interceptor';
 import { NgHttpLoaderComponent, pendingRequestsInterceptor$ } from 'ng-http-loader';
 import { CurrencyPipe, DecimalPipe, PercentPipe } from '@angular/common';
+import { AuthService } from './common/services/auth.service';
+import { catchError, firstValueFrom, of } from 'rxjs';
 import { NgxEchartsModule } from 'ngx-echarts';
+
+export function initApp(auth: AuthService) {
+    return () => firstValueFrom(auth.initialize());
+}
 
 @NgModule({
     declarations: [
@@ -45,18 +51,26 @@ import { NgxEchartsModule } from 'ngx-echarts';
         SharedModule
     ],
     providers: [
+        { provide: APP_INITIALIZER, useFactory: initApp, deps: [AuthService], multi: true },
         { provide: HTTP_INTERCEPTORS, useClass: AuthoriseRequestInterceptor, multi: true },
         { provide: HTTP_INTERCEPTORS, useClass: UnauthorisedResponseInterceptor, multi: true },
         { provide: HTTP_INTERCEPTORS, useClass: JsonDateInterceptor, multi: true },
         { provide: NgbDateAdapter, useClass: NgbDateNativeAdapter },
         AccessGuard,
         ErrorService,
-        NgbTooltipConfig,
         PercentPipe,
         DecimalPipe,
         CurrencyPipe,
         { provide: LOCALE_ID, useValue: 'en-ZA' },
-        provideHttpClient(withInterceptorsFromDi(), withJsonpSupport(), withInterceptors([pendingRequestsInterceptor$]))
+        provideHttpClient(withInterceptorsFromDi(), withJsonpSupport(), withInterceptors([pendingRequestsInterceptor$])),
+        {
+            provide: NgbTooltipConfig,
+            useFactory: () => {
+                const config = new NgbTooltipConfig();
+                config.container = 'body';
+                return config;
+            }
+        }
     ]
 })
 export class AppModule { }

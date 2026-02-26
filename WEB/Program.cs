@@ -24,7 +24,9 @@ if (appSettings.UseAzureDataProtection)
      */
 
     builder.Services.AddDataProtection()
-                .PersistKeysToAzureBlobStorage(appSettings.AzureSettings.DataProtection.ConnectionString, appSettings.AzureSettings.DataProtection.ContainerName, "dataprotectionkeys.xml");
+        .SetApplicationName("WEB")
+        .PersistKeysToAzureBlobStorage(appSettings.AzureSettings.DataProtection.ConnectionString, appSettings.AzureSettings.DataProtection.ContainerName, "dataprotectionkeys.xml")
+        .ProtectKeysWithAzureKeyVault(new Uri(appSettings.AzureSettings.DataProtection.KeyVaultUri), new DefaultAzureCredential());
 }
 
 // todo: this is not correct - find out a better way to get correct path

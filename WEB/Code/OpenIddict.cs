@@ -22,7 +22,7 @@ namespace WEB
                 // Register the OpenIddict server handler.
                 .AddServer(options =>
                 {
-                    options.SetLogoutEndpointUris("/connect/logout")
+                    options.SetEndSessionEndpointUris("/connect/logout")
                             .SetTokenEndpointUris("/connect/token");
 
                     // Enable the flows

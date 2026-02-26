@@ -27,7 +27,7 @@ export class NavMenuComponent implements OnInit {
         private router: Router,
         private activatedRoute: ActivatedRoute
     ) {
-        this.authService.getProfile().subscribe(profile => this.profile = profile);
+        this.profile = this.authService.profile;
         let initialized = false;
 
         this.router
