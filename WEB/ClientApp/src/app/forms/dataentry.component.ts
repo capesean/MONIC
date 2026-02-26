@@ -25,6 +25,7 @@ import { DataReviewModalComponent } from './datareview.modal';
 import { AppSettings } from '../common/models/appsettings.model';
 import { AppService } from '../common/services/app.service';
 import { Option } from '../common/models/option.model';
+import { AppSettingsService } from '../common/services/appsettings.service';
 
 @Component({
     selector: 'dataentry',
@@ -69,7 +70,8 @@ export class DataEntryComponent implements OnInit, AfterViewInit {
         private entityService: EntityService,
         private route: ActivatedRoute,
         pendingRequestsInterceptor: PendingRequestsInterceptorConfigurer,
-        private modalService: NgbModal
+        private modalService: NgbModal,
+        private appSettingsService: AppSettingsService
     ) {
         // disabled this otherwise the route is nuked each time and (eg) the nav controller initialises again
         //this.router.routeReuseStrategy.shouldReuseRoute = () => false;
@@ -85,48 +87,36 @@ export class DataEntryComponent implements OnInit, AfterViewInit {
     ngOnInit(): void {
 
         // permissions independent of indicators
-        this.authService.canEdit().subscribe(canEdit => this.canEdit = canEdit);
-        this.authService.canSubmit().subscribe(canSubmit => this.canSubmit = canSubmit);
-        this.authService.canVerify().subscribe(canVerify => this.canVerify = canVerify);
-        this.authService.canApprove().subscribe(canApprove => this.canApprove = canApprove);
+        this.canEdit = this.authService.canEdit();
+        this.canSubmit = this.authService.canSubmit();
+        this.canSubmit = this.authService.canVerify();
+        this.canApprove = this.authService.canApprove();
+        this.canEdit = this.authService.canEdit();
 
-        this.appService.getAppSettings().subscribe(appSettings => this.appSettings = appSettings);
+        this.appSettings = this.appSettingsService.appSettings;
 
-        this.authService.getProfile()
-            .subscribe(
-                profile => {
-                    this.profile = profile;
-                    this.organisation = profile.organisation;
+        this.profile = this.authService.profile;
+        this.organisation = this.profile.organisation;
 
-                    // the form defaults to edit, if the user doesn't have the ability, switch to view
-                    if (!this.canEdit) this.options.permissionType = PermissionTypes.View;
+        // the form defaults to edit, if the user doesn't have the ability, switch to view
+        if (!this.canEdit) this.options.permissionType = PermissionTypes.View;
 
-                })
 
-        this.authService.isInRole$(Roles.Administrator)
-            .subscribe({
-                next: result => {
-                    if (result) {
-                        // todo: remove these? legacy from RURA?
-                        this.canReject = true;
-                        this.organisation = undefined;
-                        this.isOpen = null;
-                        this.hasOpened = true;
-                    } else {
 
-                        this.authService.isInRole$(Roles.Oversight)
-                            .subscribe({
-                                next: result => {
-                                    if (result) {
-                                        this.isOpen = null;
-                                        this.hasOpened = true;
-                                    }
-                                }
-                            });
+        if (this.authService.isInRole(Roles.Administrator)) {
+            // todo: remove these? legacy from RURA?
+            this.canReject = true;
+            this.organisation = undefined;
+            this.isOpen = null;
+            this.hasOpened = true;
+        } else {
 
-                    }
-                }
-            });
+            if (this.authService.isInRole(Roles.Oversight)) {
+                this.isOpen = null;
+                this.hasOpened = true;
+            }
+
+        }
 
         // ****************** temp for development
         //if (window.location.hostname === "localhost") {

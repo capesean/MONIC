@@ -8,6 +8,7 @@ import { AuthStateModel, AuthTokenModel, ChangePasswordModel, JwtTokenModel, Log
 import { ProfileModel } from "../models/profile.models";
 import { Enums, Roles } from "../models/enums.model";
 import { AppSettingsService } from "./appsettings.service";
+import { FolderShortcutSettings, IndicatorBarChartSettings, IndicatorLineChartSettings, IndicatorMapSettings, IndicatorPieChartSettings, WidgetSettings } from "../models/widget.model";
 
 @Injectable({ providedIn: "root" })
 export class AuthService {
@@ -397,74 +398,45 @@ export class AuthService {
         return this.http.post<void>(`${environment.baseApiUrl}authorization/changepassword`, changePassword);
     }
 
-    canEdit(indicatorId?: string): Observable<boolean> {
-        return this.isInRole$(Roles.Administrator).pipe(
-            map(result => {
-                if (result) return true;
-                if (!this._profile) debugger;
-                return !!this._profile.indicatorPermissions.find(o => o.edit && (indicatorId === undefined || o.indicatorId === indicatorId));
-            })
+    canEdit(indicatorId?: string): boolean {
+        if (this.isInRole(Roles.Administrator)) return true;
+        return !!this._profile.indicatorPermissions.find(o => o.edit && (indicatorId === undefined || o.indicatorId === indicatorId));
+    }
+
+    canSubmit(indicatorId?: string): boolean {
+        if (!this.appSettingsService.appSettings.useSubmit) {
+            return false;
+        }
+        if (this.isInRole(Roles.Administrator)) {
+            return true;
+        }
+        return !!this._profile.indicatorPermissions.find(
+            o => o.submit && (indicatorId === undefined || o.indicatorId === indicatorId)
         );
     }
 
-    canSubmit(indicatorId?: string): Observable<boolean> {
-        return this.appService.getAppSettings().pipe(
-            switchMap(appSettings => {
-                if (!appSettings.useSubmit) {
-                    return of(false);
-                }
-                return this.isInRole$(Roles.Administrator).pipe(
-                    map(result => {
-                        if (result) {
-                            return true;
-                        }
-                        return !!this._profile.indicatorPermissions.find(
-                            o => o.submit && (indicatorId === undefined || o.indicatorId === indicatorId)
-                        );
-                    })
-                );
-            })
+    canVerify(indicatorId?: string): boolean {
+        if (!this.appSettingsService.appSettings.useVerify) {
+            return false;
+        }
+        if (this.isInRole(Roles.Administrator)) {
+            return true;
+        }
+        return !!this._profile.indicatorPermissions.find(
+            o => o.verify && (indicatorId === undefined || o.indicatorId === indicatorId)
         );
     }
 
-    canVerify(indicatorId?: string): Observable<boolean> {
-        return this.appService.getAppSettings().pipe(
-            switchMap(appSettings => {
-                if (!appSettings.useVerify) {
-                    return of(false);
-                }
-                return this.isInRole$(Roles.Administrator).pipe(
-                    map(result => {
-                        if (result) {
-                            return true;
-                        }
-                        return !!this._profile.indicatorPermissions.find(
-                            o => o.verify && (indicatorId === undefined || o.indicatorId === indicatorId)
-                        );
-                    })
-                );
-            })
-        );
-    }
-
-    canApprove(indicatorId?: string): Observable<boolean> {
-        return this.appService.getAppSettings().pipe(
-            switchMap(appSettings => {
-                if (!appSettings.useApprove) {
-                    return of(false);
-                }
-                return this.isInRole$(Roles.Administrator).pipe(
-                    map(result => {
-                        if (result) {
-                            return true;
-                        }
-                        if (!this._profile) debugger;
-                        return !!this._profile.indicatorPermissions.find(
-                            o => o.approve && (indicatorId === undefined || o.indicatorId === indicatorId)
-                        );
-                    })
-                );
-            })
+    canApprove(indicatorId?: string): boolean {
+        if (!this.appSettingsService.appSettings.useApprove) {
+            return false;
+        }
+        if (this.isInRole(Roles.Administrator)) {
+            return true;
+        }
+        if (!this._profile) debugger;
+        return !!this._profile.indicatorPermissions.find(
+            o => o.approve && (indicatorId === undefined || o.indicatorId === indicatorId)
         );
     }
 

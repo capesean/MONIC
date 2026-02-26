@@ -22,7 +22,7 @@ import { IndicatorPermissionService } from '../../common/services/indicatorpermi
 import { EntityModalComponent } from '../entities/entity.modal.component';
 import { Entity } from '../../common/models/entity.model';
 import { AppSettings } from '../../common/models/appsettings.model';
-import { AppService } from '../../common/services/app.service';
+import { AppSettingsService } from '../../common/services/appsettings.service';
 import { IndicatorModalComponent } from '../indicators/indicator.modal.component';
 import { Indicator } from '../../common/models/indicator.model';
 import { AddIndicatorsPermissionModal, AddIndicatorsPermissionOptions } from './addindicatorpermissions.modal';
@@ -66,17 +66,14 @@ export class UserEditComponent implements OnInit, OnDestroy {
         private indicatorPermissionService: IndicatorPermissionService,
         private authService: AuthService,
         private errorService: ErrorService,
-        private appService: AppService
+        private appSettingsService: AppSettingsService
     ) {
     }
 
     ngOnInit(): void {
 
-        this.authService.getProfile().subscribe(profile => {
-            this.profile = profile;
-        });
-
-        this.appService.getAppSettings().subscribe(appSettings => this.appSettings = appSettings);
+        this.profile = this.authService.profile;
+        this.appSettings = this.appSettingsService.appSettings;
 
         this.route.params.subscribe(params => {
 
@@ -153,7 +150,7 @@ export class UserEditComponent implements OnInit, OnDestroy {
                         this.searchIndicatorPermissions();
                         // reload profile if editing self
                         if (this.user.id === this.profile.userId)
-                            this.authService.getProfile(true).subscribe();
+                            this.authService.refreshProfile().subscribe();
                     }
                 },
                 error: err => {

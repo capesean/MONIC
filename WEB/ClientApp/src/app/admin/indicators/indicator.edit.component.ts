@@ -27,6 +27,7 @@ import { IndicatorDateService } from '../../common/services/indicatordate.servic
 import { AppDate } from '../../common/models/date.model';
 import { DateModalComponent } from '../dates/date.modal.component';
 import { FieldValueMapperService } from '../../common/services/field-value-mapper.service';
+import { AppSettingsService } from '../../common/services/appsettings.service';
 
 @Component({
     selector: 'indicator-edit',
@@ -93,7 +94,8 @@ export class IndicatorEditComponent extends ItemComponent implements OnInit {
         protected documentService: DocumentService,
         protected fieldValueMapper: FieldValueMapperService,
         private subcategoryService: SubcategoryService,
-        private indicatorDateService: IndicatorDateService
+        private indicatorDateService: IndicatorDateService,
+        private appSettingsService: AppSettingsService  
     ) {
         super(appService, errorService, cdref, documentService, modalService, fieldValueMapper);
     }
@@ -133,7 +135,7 @@ export class IndicatorEditComponent extends ItemComponent implements OnInit {
 
         });
 
-        this.appService.getAppSettings().subscribe(appSettings => this.appSettings = appSettings);
+        this.appSettings = this.appSettingsService.appSettings;
 
     }
 
