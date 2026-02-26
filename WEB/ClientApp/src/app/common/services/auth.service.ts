@@ -144,6 +144,8 @@ export class AuthService {
                 .pipe(shareReplay())
                 .pipe(tap(profile => {
                     this._profile = profile;
+                    this._profile.dashboardSettings = JSON.parse(this._profile.dashboardSettings as unknown as string);
+                    if (!this._profile.dashboardSettings || Array.isArray(!this._profile.dashboardSettings)) this._profile.dashboardSettings = [];
                     // clear the outstanding request
                     this.profileGet$ = undefined;
                 }));
