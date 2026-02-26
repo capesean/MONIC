@@ -30,7 +30,7 @@ export class AppHasRoleDirective implements OnInit, OnDestroy {
             this.required$
         ])
             .pipe(
-                map(([_, required]) => required ? this.auth.isInRole(required) : false),
+                map(([_, requiredRole]) => requiredRole ? this.auth.isInRole(requiredRole) : false),
                 distinctUntilChanged(),
                 takeUntil(this.destroy$)
             )
