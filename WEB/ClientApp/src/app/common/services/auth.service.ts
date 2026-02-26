@@ -35,7 +35,7 @@ export class AuthService {
     constructor(
         private http: HttpClient,
         private router: Router,
-        private appSettings: AppSettingsService
+        private appSettingsService: AppSettingsService
     ) {
         this._state$ = new BehaviorSubject<AuthStateModel>(this.initalState);
         this.state$ = this._state$.asObservable();
@@ -120,7 +120,7 @@ export class AuthService {
         this._roles = [];
 
         this.settingsLoaded = false;
-        this.appSettings.clear();
+        this.appSettingsService.clear();
 
         // allow re-init if user comes back
         this.initOnce$ = undefined;
@@ -179,7 +179,7 @@ export class AuthService {
     private ensureSettingsLoadedOnce(): Observable<void> {
         if (this.settingsLoaded) return of(void 0);
 
-        return this.appSettings.init().pipe(
+        return this.appSettingsService.init().pipe(
             tap(() => (this.settingsLoaded = true)),
             map((): void => undefined)
         );
