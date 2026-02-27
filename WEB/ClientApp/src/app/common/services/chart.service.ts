@@ -41,16 +41,15 @@ export class ChartService extends SearchQuery {
         return this.http.delete<void>(`${environment.baseApiUrl}charts/${chartId}`);
     }
 
-    getData(indicatorId: string, indicatorId2: string | undefined, entityIds: string[] = []): Observable<ChartData> {
-        return this.http.post<ChartData>(`${environment.baseApiUrl}charts/data`, { indicatorId, indicatorId2, entityIds });
+    getData(primaryAxisIndicatorIds: string[], secondaryAxisIndicatorIds: string[], entityIds: string[] = []): Observable<ChartData> {
+        return this.http.post<ChartData>(`${environment.baseApiUrl}charts/data`, { primaryAxisIndicatorIds, secondaryAxisIndicatorIds, entityIds });
     }
 
 }
 
 export class ChartData {
-    indicatorId: string;
-    indicatorId2: string;
-    indicators: Indicator[];
+    primaryAxisIndicators: Indicator[];
+    secondaryAxisIndicators: Indicator[];
     data: Datum[];
     entities: Entity[];
     dates: AppDate[];

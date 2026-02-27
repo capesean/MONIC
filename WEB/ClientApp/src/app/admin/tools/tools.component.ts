@@ -1,16 +1,16 @@
 import { Component, OnInit, TemplateRef, ViewChild } from '@angular/core';
 import { ToastrService } from 'ngx-toastr';
 import { NgForm } from '@angular/forms';
-import { ErrorService } from '../common/services/error.service';
-import { EntityType } from '../common/models/entitytype.model';
-import { ToolsService } from '../common/services/tools.service';
-import { ImportService } from '../common/services/import.service';
+import { ErrorService } from '../../common/services/error.service';
+import { EntityType } from '../../common/models/entitytype.model';
+import { ToolsService } from '../../common/services/tools.service';
+import { ImportService } from '../../common/services/import.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { ImportError } from '../common/models/import.model';
-import { DownloadService } from '../common/services/download.service';
-import { Indicator } from '../common/models/indicator.model';
-import { Entity } from '../common/models/entity.model';
-import { AppDate } from '../common/models/date.model';
+import { ImportError } from '../../common/models/import.model';
+import { DownloadService } from '../../common/services/download.service';
+import { Indicator } from '../../common/models/indicator.model';
+import { Entity } from '../../common/models/entity.model';
+import { AppDate } from '../../common/models/date.model';
 
 @Component({
     selector: 'tools',

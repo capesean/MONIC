@@ -30,6 +30,7 @@ export class AccessGuard {
                     const url = state.url.startsWith("/auth") ? "" : state.url;
                     const queryParams: Params = {};
                     if (url && url !== "/") queryParams.path = encodeURIComponent(url);
+                    console.log("AccessGuard: redirecting to login", { url, queryParams });
                     this.router.navigate(["/auth/login"], {
                         queryParamsHandling: "merge",
                         queryParams

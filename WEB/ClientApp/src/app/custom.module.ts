@@ -35,7 +35,7 @@ import { IndicatorLineChartComponent } from './common/widgets/indicator.linechar
 import { IndicatorBarChartComponent } from './common/widgets/indicator.barchart.component';
 import { IndicatorMapComponent } from './common/widgets/indicator.map.component';
 import { IndicatorPieChartComponent } from './common/widgets/indicator.piechart.component';
-import { ToolsComponent } from './tools/tools.component';
+import { ToolsComponent } from './admin/tools/tools.component';
 import { IndicatorMapSettingsComponent } from './common/widgets/indicator.map.settings.component';
 import { WidgetComponent } from './common/widgets/widget.component';
 import { IndicatorLineChartSettingsComponent } from './common/widgets/indicator.linechart.settings.component';
@@ -51,6 +51,7 @@ import { FolderShortcutComponent } from './common/widgets/folder.shortcut.compon
 import { FolderShortcutSettingsComponent } from './common/widgets/folder.shortcut.settings.component';
 import { NgxEchartsModule } from 'ngx-echarts';
 import { ChartComponent } from './charts/chart.component';
+import { ChartsComponent } from './charts/charts.component';
 
 @NgModule({
     imports: [
@@ -106,6 +107,7 @@ import { ChartComponent } from './charts/chart.component';
         FolderViewComponent,
         FolderShortcutComponent,
         FolderShortcutSettingsComponent,
+        ChartsComponent,
         ChartComponent
     ],
     exports: [

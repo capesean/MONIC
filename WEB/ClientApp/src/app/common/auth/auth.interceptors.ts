@@ -70,6 +70,7 @@ export class UnauthorisedResponseInterceptor implements HttpInterceptor {
                         this.refreshInFlight$ = undefined;
 
                         if (!tokens) {
+                            console.log('redirecting to login due to missing tokens after refresh'); 
                             this.router.navigate(['/auth/login']);
                             return throwError(() => err);
                         }
@@ -87,7 +88,7 @@ export class UnauthorisedResponseInterceptor implements HttpInterceptor {
                         if (refreshErr?.status === 0 || refreshErr?.status >= 500) {
                             return throwError(() => err);
                         }
-
+                        console.log('redirecting to login due to refresh failure', refreshErr);
                         this.router.navigate(['/auth/login']);
                         return throwError(() => err);
                     })

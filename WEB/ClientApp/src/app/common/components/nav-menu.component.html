@@ -27,7 +27,7 @@
                             <li class="nav-item" appHasRole="Administrator"><a class="nav-link" routerLinkActive="active" routerLink="/ganttchart"><i class="fas fa-fw me-2 fa-bar-chart"></i>Gantt Charts</a></li>
                             <li class="nav-item" appHasRole="Questionnaires"><a class="nav-link" routerLinkActive="active" routerLink="/questionnaire"><i class="fas fa-fw me-2 fa-clipboard-list"></i>Questionnaires</a></li>
                             <li class="nav-item" appHasRole="Folders"><a class="nav-link" routerLinkActive="active" routerLink="/folder"><i class="fas fa-fw me-2 fa-folder"></i>Folders</a></li>
-                            <li class="nav-item" appHasRole="Administrator"><a class="nav-link" routerLinkActive="active" routerLink="/chart"><i class="fas fa-fw me-2 fa-bar-chart"></i>Charts</a></li>
+                            <li class="nav-item" appHasRole="Administrator"><a class="nav-link" routerLinkActive="active" routerLink="/charts"><i class="fas fa-fw me-2 fa-bar-chart"></i>Charts</a></li>
                         </ul>
                     </div>
                 </li>
@@ -38,26 +38,26 @@
                     </a>
                     <div #adminMenu="ngbCollapse" [(ngbCollapse)]="menuStates['admin']">
                         <ul class="nav flex-column">
-                            <li class="nav-item"><a class="nav-link" routerLinkActive="active" routerLink="/indicators"><i class="fas fa-fw me-2 fa-thermometer-half"></i>Indicators</a></li>
-                            <li class="nav-item"><a class="nav-link" routerLinkActive="active" routerLink="/categories"><i class="fas fa-fw me-2 fa-sitemap"></i>Categories</a></li>
-                            <li class="nav-item"><a class="nav-link" routerLinkActive="active" routerLink="/organisations"><i class="fas fa-fw me-2 fa-building"></i>Organisations</a></li>
-                            <li class="nav-item"><a class="nav-link" routerLinkActive="active" routerLink="/entities"><i class="fas fa-fw me-2 fa-city"></i>Entities</a></li>
-                            <li class="nav-item"><a class="nav-link" routerLinkActive="active" routerLink="/dates"><i class="fas fa-fw me-2 fa-calendar"></i>Dates</a></li>
-                            <li class="nav-item"><a class="nav-link" routerLinkActive="active" routerLink="/data"><i class="fas fa-fw me-2 fa-database"></i>Data</a></li>
-                            <li class="nav-item"><a class="nav-link" routerLinkActive="active" routerLink="/documents"><i class="fas fa-fw me-2 fa-file-alt"></i>Documents</a></li>
-                            <li class="nav-item"><a class="nav-link" routerLinkActive="active" routerLink="/entitytypes"><i class="fas fa-fw me-2 fa-tags"></i>Entity Types</a></li>
-                            <li class="nav-item"><a class="nav-link" routerLinkActive="active" routerLink="/components"><i class="fas fa-fw me-2 fa-sitemap"></i>Components</a></li>
-                            <li class="nav-item"><a class="nav-link" routerLinkActive="active" routerLink="/logframes"><i class="fas fa-fw me-2 fa-table"></i>Logical Frameworks</a></li>
-                            <li class="nav-item"><a class="nav-link" routerLinkActive="active" routerLink="/theoriesofchange"><i class="fas fa-fw me-2 fa-diagram-project"></i>Theories of Change</a></li>
-                            <li class="nav-item"><a class="nav-link" routerLinkActive="active" routerLink="/projects"><i class="fas fa-fw me-2 fa-suitcase"></i>Projects</a></li>
-                            <li class="nav-item"><a class="nav-link" routerLinkActive="active" routerLink="/questionnaires"><i class="fas fa-fw me-2 fa-clipboard-list"></i>Questionnaires</a></li>
-                            <li class="nav-item"><a class="nav-link" routerLinkActive="active" routerLink="/folders"><i class="fas fa-fw me-2 fa-folder"></i>Folders</a></li>
-                            <li class="nav-item"><a class="nav-link" routerLinkActive="active" routerLink="/fields"><i class="fas fa-fw me-2 fa-tasks"></i>Fields</a></li>
-                            <li class="nav-item"><a class="nav-link" routerLinkActive="active" routerLink="/groups"><i class="fas fa-fw me-2 fa-object-group"></i>Groups</a></li>
-                            <li class="nav-item"><a class="nav-link" routerLinkActive="active" routerLink="/optionlists"><i class="fas fa-fw me-2 fa-list"></i>Option Lists</a></li>
-                            <li class="nav-item"><a class="nav-link" routerLinkActive="active" routerLink="/tools"><i class="fas fa-fw me-2 fa-tools"></i>Tools</a></li>
-                            <li class="nav-item"><a class="nav-link" routerLinkActive="active" routerLink="/users"><i class="fas fa-fw me-2 fa-users"></i>Users</a></li>
-                            <li class="nav-item"><a class="nav-link" routerLinkActive="active" routerLink="/settings"><i class="fas fa-fw me-2 fa-cogs"></i>Settings</a></li>
+                            <li class="nav-item"><a class="nav-link" routerLinkActive="active" routerLink="/admin/indicators"><i class="fas fa-fw me-2 fa-thermometer-half"></i>Indicators</a></li>
+                            <li class="nav-item"><a class="nav-link" routerLinkActive="active" routerLink="/admin/categories"><i class="fas fa-fw me-2 fa-sitemap"></i>Categories</a></li>
+                            <li class="nav-item"><a class="nav-link" routerLinkActive="active" routerLink="/admin/organisations"><i class="fas fa-fw me-2 fa-building"></i>Organisations</a></li>
+                            <li class="nav-item"><a class="nav-link" routerLinkActive="active" routerLink="/admin/entities"><i class="fas fa-fw me-2 fa-city"></i>Entities</a></li>
+                            <li class="nav-item"><a class="nav-link" routerLinkActive="active" routerLink="/admin/dates"><i class="fas fa-fw me-2 fa-calendar"></i>Dates</a></li>
+                            <li class="nav-item"><a class="nav-link" routerLinkActive="active" routerLink="/admin/data"><i class="fas fa-fw me-2 fa-database"></i>Data</a></li>
+                            <li class="nav-item"><a class="nav-link" routerLinkActive="active" routerLink="/admin/documents"><i class="fas fa-fw me-2 fa-file-alt"></i>Documents</a></li>
+                            <li class="nav-item"><a class="nav-link" routerLinkActive="active" routerLink="/admin/entitytypes"><i class="fas fa-fw me-2 fa-tags"></i>Entity Types</a></li>
+                            <li class="nav-item"><a class="nav-link" routerLinkActive="active" routerLink="/admin/components"><i class="fas fa-fw me-2 fa-sitemap"></i>Components</a></li>
+                            <li class="nav-item"><a class="nav-link" routerLinkActive="active" routerLink="/admin/logframes"><i class="fas fa-fw me-2 fa-table"></i>Logical Frameworks</a></li>
+                            <li class="nav-item"><a class="nav-link" routerLinkActive="active" routerLink="/admin/theoriesofchange"><i class="fas fa-fw me-2 fa-diagram-project"></i>Theories of Change</a></li>
+                            <li class="nav-item"><a class="nav-link" routerLinkActive="active" routerLink="/admin/projects"><i class="fas fa-fw me-2 fa-suitcase"></i>Projects</a></li>
+                            <li class="nav-item"><a class="nav-link" routerLinkActive="active" routerLink="/admin/questionnaires"><i class="fas fa-fw me-2 fa-clipboard-list"></i>Questionnaires</a></li>
+                            <li class="nav-item"><a class="nav-link" routerLinkActive="active" routerLink="/admin/folders"><i class="fas fa-fw me-2 fa-folder"></i>Folders</a></li>
+                            <li class="nav-item"><a class="nav-link" routerLinkActive="active" routerLink="/admin/fields"><i class="fas fa-fw me-2 fa-tasks"></i>Fields</a></li>
+                            <li class="nav-item"><a class="nav-link" routerLinkActive="active" routerLink="/admin/groups"><i class="fas fa-fw me-2 fa-object-group"></i>Groups</a></li>
+                            <li class="nav-item"><a class="nav-link" routerLinkActive="active" routerLink="/admin/optionlists"><i class="fas fa-fw me-2 fa-list"></i>Option Lists</a></li>
+                            <li class="nav-item"><a class="nav-link" routerLinkActive="active" routerLink="/admin/tools"><i class="fas fa-fw me-2 fa-tools"></i>Tools</a></li>
+                            <li class="nav-item"><a class="nav-link" routerLinkActive="active" routerLink="/admin/users"><i class="fas fa-fw me-2 fa-users"></i>Users</a></li>
+                            <li class="nav-item"><a class="nav-link" routerLinkActive="active" routerLink="/admin/settings"><i class="fas fa-fw me-2 fa-cogs"></i>Settings</a></li>
                         </ul>
                     </div>
                 </li>

@@ -78,6 +78,9 @@
 	</ItemGroup>
 
 	<ItemGroup>
+		<Content Update="appsettings.monic-gga.json">
+		  <CopyToPublishDirectory>Never</CopyToPublishDirectory>
+		</Content>
 		<Content Update="appsettings.monic-uhc2030.json">
 		  <CopyToPublishDirectory>Never</CopyToPublishDirectory>
 		</Content>
@@ -88,7 +91,7 @@
 
 	<Target Name="CustomCopyAppSettings" AfterTargets="Publish">
 		<Message Text="Copying appsettings file for $(ClientName) - CustomCopyAppSettings" Importance="high" />
-		<Copy SourceFiles="appsettings.$(ClientName).json" DestinationFiles="$(PublishDir)\appsettings.json" OverwriteReadOnlyFiles="true" SkipUnchangedFiles="false" />
+		<Copy SourceFiles="appsettings.$(ClientName).json" DestinationFiles="$(PublishDir)appsettings.json" OverwriteReadOnlyFiles="true" SkipUnchangedFiles="false" />
 	</Target>
 
 	<Target Name="PublishRunWebpack" AfterTargets="ComputeFilesToPublish">

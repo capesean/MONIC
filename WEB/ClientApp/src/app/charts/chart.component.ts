@@ -1,20 +1,24 @@
-import { AfterViewInit, Component, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
+import { Component, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
 import { Indicator } from '../common/models/indicator.model';
 import { BarSeriesOption, LineSeriesOption } from 'echarts/charts';
 import { UtilitiesService } from '../common/services/utilities.service';
-import { IndicatorService } from '../common/services/indicator.service';
 import { ChartService } from '../common/services/chart.service';
 import { ToastrService } from 'ngx-toastr';
 import { Chart } from '../common/models/chart.model';
 import { ErrorService } from '../common/services/error.service';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { BreadcrumbService } from '../common/services/breadcrumb.service';
-import { ChartModalComponent } from '../admin/charts/chart.modal.component';
 import { IndicatorTypes } from '../common/models/enums.model';
-import { catchError, EMPTY, finalize, forkJoin, of, take, tap } from 'rxjs';
-import { NgbOffcanvas } from '@ng-bootstrap/ng-bootstrap';
-import { EChartsOption, indexBy, LegendPosition, makeRowKey, Row, RowKey, Settings, Data, StackTypes } from './chart.models';
+import { NgbModal, NgbOffcanvas } from '@ng-bootstrap/ng-bootstrap';
+import { EChartsOption, indexBy, LegendPosition, getRowKey, Row, RowKey, Settings, Data, StackTypes, ChartType } from './chart.models';
 import { Entity } from '../common/models/entity.model';
+import { ConfirmModalComponent, ConfirmModalOptions } from '../common/components/confirm.component';
+
+class SettingsObjects {
+    primaryAxisIndicators: Indicator[];
+    secondaryAxisIndicators: Indicator[];
+    entities: Entity[];
+}
 
 @Component({
     selector: 'chart',
@@ -23,25 +27,18 @@ import { Entity } from '../common/models/entity.model';
     styleUrl: './chart.component.css',
     encapsulation: ViewEncapsulation.None
 })
-export class ChartComponent implements OnInit, AfterViewInit {
+export class ChartComponent implements OnInit {
 
     public chart: Chart;
 
     public settings = new Settings();
+    public settingsObjects = new SettingsObjects();
 
-    public settingsObjects = {
-        indicator: undefined as Indicator,
-        indicator2: undefined as Indicator,
-        entities: [] as Entity[]
-    }
-
-    public data: Data;
+    private data: Data;
+    private rowLookup = new Map<RowKey, Row>();
 
     public options: EChartsOption;
 
-    private isInitializing = false;
-
-    @ViewChild('modal') chartModal: ChartModalComponent;
     @ViewChild('settingsPanel') settingsPanel: any;
 
     private echart!: any;
@@ -50,42 +47,63 @@ export class ChartComponent implements OnInit, AfterViewInit {
     IndicatorTypes = IndicatorTypes;
     StackTypes = StackTypes;
 
+    public isNew = true;
+
     constructor(
         private utilitiesService: UtilitiesService,
-        private indicatorService: IndicatorService,
         private chartService: ChartService,
         private toastr: ToastrService,
         private errorService: ErrorService,
         private route: ActivatedRoute,
         private breadcrumbService: BreadcrumbService,
-        private offcanvasService: NgbOffcanvas
+        private offcanvasService: NgbOffcanvas,
+        private router: Router,
+        private modalService: NgbModal
     ) { }
 
     ngOnInit() {
-        this.changeBreadcrumb();
+
+        this.route.params.subscribe(params => {
+
+            const chartId = params["chartId"];
+            this.isNew = chartId === "add";
+
+            if (!this.isNew) {
+
+                this.chartService.get(chartId)
+                    .subscribe({
+                        next: chart => {
+                            this.chart = chart;
+                            this.changeBreadcrumb();
+                            this.settings = JSON.parse(this.chart.settings);
+                            this.loadData();
+                        },
+                        error: err => {
+                            this.errorService.handleError(err, "Chart", "Load");
+                            this.router.navigate(['/charts']);
+                        }
+                    });
+
+            } else {
+                this.chart = new Chart();
+                this.chart.name = "New chart name";
+                this.changeBreadcrumb();
+                setTimeout(() => {
+                    this.offCanvas(this.settingsPanel, 'end')
+                });
+            }
+
+        });
+
     }
 
-    ngAfterViewInit() {
-        if (window.location.hostname === 'localhost') {
-            this.chartService.search({ q: 'STA' } as any).subscribe(result => this.loadChart(result.charts[0]));
-        } else {
-            this.setSettings(new Settings());
-        }
-
-    }
-
-    newChart() {
-        this.chart = new Chart();
-        this.chart.name = "New chart name";
-        this.data = undefined;
-        this.settingsObjects = {} as any;
-        this.setSettings(new Settings());
+    close() {
+        this.chart = undefined as any;
         this.options = undefined;
         this.changeBreadcrumb();
-        this.offCanvas(this.settingsPanel, 'end')
     }
 
-    saveChart(): void {
+    private saveChart(): void {
 
         if (!this.chart.name) {
 
@@ -102,6 +120,8 @@ export class ChartComponent implements OnInit, AfterViewInit {
                 next: chart => {
                     this.toastr.success("The chart has been saved", "Save Chart");
                     this.chart = chart;
+                    if (this.isNew)
+                        this.router.navigate(['..', chart.chartId], { relativeTo: this.route });
                 },
                 error: err => {
                     this.errorService.handleError(err, "Chart", "Save");
@@ -110,65 +130,42 @@ export class ChartComponent implements OnInit, AfterViewInit {
 
     }
 
-    loadChart(chart: Chart) {
-        this.chart = chart;
-        this.changeBreadcrumb();
-        this.setSettings(JSON.parse(this.chart.settings));
+    deleteChart() {
+        let modalRef = this.modalService.open(ConfirmModalComponent, { centered: true });
+        (modalRef.componentInstance as ConfirmModalComponent).options = { title: "Delete Chart", text: "Are you sure you want to delete this chart?", deleteStyle: true, ok: "Delete" } as ConfirmModalOptions;
+        modalRef.result.then(
+            () => {
+
+                this.chartService.delete(this.chart.chartId)
+                    .subscribe({
+                        next: () => {
+                            this.toastr.success("The chart has been deleted", "Delete Chart");
+                            this.router.navigate(["../"], { relativeTo: this.route });
+                            this.offcanvasService.dismiss();
+                        },
+                        error: err => {
+                            this.errorService.handleError(err, "Chart", "Delete");
+                        }
+                    });
+
+            }, () => { });
     }
 
     onChartInit(ec: any) {
         this.echart = ec;
     }
 
-    private setSettings(settings: Settings) {
-        this.isInitializing = true;
-        this.settings = settings;
-
-        if (this.settings.stackType === undefined) this.settings.stackType = StackTypes.None;
-        if (this.settings.entityIds === undefined) this.settings.entityIds = [];
-
-        this.settingsObjects.indicator = undefined as Indicator;
-        this.settingsObjects.indicator2 = undefined as Indicator;
-
-        if (!settings.indicatorId) {
-            this.isInitializing = false;
-            return;
-        }
-
-        const indicator1$ = this.indicatorService.get(settings.indicatorId).pipe(take(1));
-
-        const indicator2$ = settings.indicatorId2
-            ? this.indicatorService.get(settings.indicatorId2).pipe(take(1))
-            : of(undefined);
-
-        forkJoin({ indicator1: indicator1$, indicator2: indicator2$ })
-            .pipe(
-                tap(({ indicator1, indicator2 }) => {
-                    this.settingsObjects.indicator = indicator1;
-                    this.settingsObjects.indicator2 = indicator2 as Indicator | undefined;
-                }),
-                finalize(() => (this.isInitializing = false)),
-                catchError(err => {
-                    this.errorService.handleError(err, 'Chart', 'Load Settings');
-                    return EMPTY;
-                })
-            )
-            .subscribe(() => this.loadData());
-    }
-
     settingChanged() {
-        if (this.isInitializing) return;
         this.loadData();
     }
 
     loadData() {
-        if (!this.settings.indicatorId) return;
-
-        this.chartService.getData(this.settings.indicatorId, this.settings.indicatorId2, this.settings.entityIds).subscribe({
+        this.chartService.getData(this.settings.primaryAxisIndicatorIds, this.settings.secondaryAxisIndicatorIds, this.settings.entityIds).subscribe({
             next: data => {
-                // sort (desc) by the numerical .sortOrder field:
-                data.indicators.sort((a, b) => b.sortOrder - a.sortOrder);
                 this.data = data as Data;
+                this.settingsObjects.primaryAxisIndicators = data.primaryAxisIndicators;
+                this.settingsObjects.secondaryAxisIndicators = data.secondaryAxisIndicators;
+                this.settingsObjects.entities = data.entities;
                 this.updateChart();
             },
             error: err => this.errorService.handleError(err, "Chart", "Load Data")
@@ -179,13 +176,17 @@ export class ChartComponent implements OnInit, AfterViewInit {
 
         if (!this.data) return;
 
-        const hasSerie2 = !!this.data.indicatorId2;
+        const hasSerie2 = !!this.data.secondaryAxisIndicators.length;
 
-        const indicatorById = indexBy(this.data.indicators, i => i.indicatorId);
+        const indicators = Array.from(
+            new Map([...this.data.primaryAxisIndicators, ...this.data.secondaryAxisIndicators].map(x => [x.indicatorId, x])).values()
+        );
+
+        const indicatorById = indexBy(indicators, i => i.indicatorId);
         const entityById = indexBy(this.data.entities, e => e.entityId);
         const dateById = indexBy(this.data.dates, d => d.dateId);
 
-        const rowByIndicatorEntity = new Map<RowKey, Row>();
+        this.rowLookup = new Map<RowKey, Row>();
 
         const rows: Row[] = [];
         for (const datum of this.data.data) {
@@ -197,113 +198,59 @@ export class ChartComponent implements OnInit, AfterViewInit {
 
             const row: Row = { indicator, entity, date, datum };
             rows.push(row);
-            rowByIndicatorEntity.set(makeRowKey(indicator.indicatorId, entity.entityId), row);
+            this.rowLookup.set(getRowKey(indicator.indicatorId, entity.entityId), row);
         }
 
-        this.data.indicator = indicatorById.get(this.data.indicatorId)!;
-        this.data.indicator2 = hasSerie2 ? indicatorById.get(this.data.indicatorId2)! : undefined as any;
+        const primaryFormatter = this.utilitiesService.getFormatter(this.data.primaryAxisIndicators[0]);
+        const secondaryFormatter = this.data.secondaryAxisIndicators.length ? this.utilitiesService.getFormatter(this.data.secondaryAxisIndicators[0]) : undefined;
 
-        const formatter = this.utilitiesService.getFormatter(this.data.indicator);
-        const formatter2 = hasSerie2 ? this.utilitiesService.getFormatter(this.data.indicator2) : undefined;
-
-        const indicatorRows: { indicator: Indicator; indicatorId: string }[] = [];
-
-        if (this.data.indicator.indicatorType !== IndicatorTypes.Group) {
-            indicatorRows.push({ indicator: this.data.indicator, indicatorId: this.data.indicator.indicatorId });
-        } else {
-            for (const i of this.data.indicators) {
-                if (i.groupingIndicatorId === this.data.indicator.indicatorId) {
-                    indicatorRows.push({ indicator: i, indicatorId: i.indicatorId });
-                }
-            }
-        }
-
+        // calculate the totals by entity for the primary axis indicators (used for sorting and percent stacking)
         const entityTotals = new Map<string, number>();
         for (const e of this.data.entities) entityTotals.set(e.entityId, 0);
-
         for (const e of this.data.entities) {
             let total = 0;
-            for (const ir of indicatorRows) {
-                const row = rowByIndicatorEntity.get(makeRowKey(ir.indicatorId, e.entityId));
-                total += row?.datum?.value ?? 0;
+            for (const indicator of this.data.primaryAxisIndicators) {
+                const value = this.rowLookup.get(getRowKey(indicator.indicatorId, e.entityId))?.datum?.value ?? 0;
+                total += value;
             }
             entityTotals.set(e.entityId, total);
         }
 
+        // sort the entities based on setting
         const entities = [...this.data.entities];
         if (this.settings.xAxisSort === 'name') {
             entities.sort((a, b) => a.name.localeCompare(b.name));
         } else if (this.settings.xAxisSort === 'value') {
             entities.sort((a, b) => (entityTotals.get(b.entityId)! - entityTotals.get(a.entityId)!));
         }
+        this.data.entities = entities;
 
-        const stackTotalsByEntity = new Map<string, number>();
+        //const stackTotalsByEntity = new Map<string, number>();
 
-        if (this.settings.stackType === StackTypes.Percent) {
-            for (const e of entities) {
-                let total = 0;
-                for (const ir of indicatorRows) {
-                    total += rowByIndicatorEntity.get(makeRowKey(ir.indicatorId, e.entityId))?.datum?.value ?? 0;
-                }
-                stackTotalsByEntity.set(e.entityId, total);
-            }
-        }
+        //if (this.settings.stackType === StackTypes.Percent) {
+        //    for (const e of entities) {
+        //        let total = 0;
+        //        for (const ir of indicatorRows) {
+        //            total += rowByIndicatorEntity.get(makeRowKey(ir.indicatorId, e.entityId))?.datum?.value ?? 0;
+        //        }
+        //        stackTotalsByEntity.set(e.entityId, total);
+        //    }
+        //}
 
         const series: (BarSeriesOption | LineSeriesOption)[] = [];
 
-        for (const indicatorRow of indicatorRows) {
-            const bso = {} as BarSeriesOption;
-            bso.name = indicatorRow.indicator.shortName ?? indicatorRow.indicator.name;
-            bso.type = "bar";
-            bso.yAxisIndex = 0;
-
-            if (this.data.indicator.indicatorType === IndicatorTypes.Group) {
-                if (this.settings.stackType !== StackTypes.None) bso.stack = this.data.indicatorId;
-                bso.itemStyle = {
-                    color: this.settings.barColor ?? indicatorRow.indicator.color,
-                    borderColor: this.settings.barColor ?? indicatorRow.indicator.color
-                };
-            } else {
-                bso.colorBy = this.settings.barColor ? undefined : "data";
-                bso.itemStyle = {
-                    color: this.settings.barColor,
-                    borderColor: this.settings.barColor ?? indicatorRow.indicator.color
-                };
-            }
-
-            bso.data = entities.map(e => {
-                const raw = rowByIndicatorEntity.get(makeRowKey(indicatorRow.indicatorId, e.entityId))?.datum?.value ?? 0;
-
-                if (this.settings.stackType !== StackTypes.Percent) return raw;
-
-                const total = stackTotalsByEntity.get(e.entityId) ?? 0;
-                return total === 0 ? 0 : (raw / total) * 100;
-            });
-
-
-            series.push(bso);
+        for (const indicator of this.data.primaryAxisIndicators) {
+            const serie = this.getSerie(indicator, ChartType.BarChart);
+            serie.yAxisIndex = 0;
+            series.push(serie);
         }
 
-        if (hasSerie2) {
-            const lso = {} as LineSeriesOption;
-            lso.name = this.data.indicator2.shortName ?? this.data.indicator2.name;
-            lso.type = "line";
-            lso.yAxisIndex = 1;
-
-            const color = this.settings.lineColor ?? 'black';
-            lso.lineStyle = { color, width: this.settings.lineWidth };
-            lso.itemStyle = { color };
-            lso.symbol = this.settings.lineMarker ? 'circle' : 'none';
-            lso.symbolSize = 14;
-
-            lso.data = entities.map(e => {
-                const row = rowByIndicatorEntity.get(makeRowKey(this.data.indicatorId2, e.entityId));
-                return row?.datum?.value;
-            });
-
-            series.push(lso);
+        for (const indicator of this.data.secondaryAxisIndicators) {
+            const serie = this.getSerie(indicator, ChartType.LineChart);
+            serie.yAxisIndex = 1;
+            series.push(serie);
         }
-
+        
         this.options = {
             grid: {
                 left: this.settings.gridLeft,
@@ -313,7 +260,7 @@ export class ChartComponent implements OnInit, AfterViewInit {
             },
             xAxis: {
                 type: 'category',
-                data: entities.map(o => o.name),
+                data: this.data.entities.map(o => o.name),
                 axisLabel: {
                     fontSize: this.settings.xAxisFontSize,
                     rotate: this.settings.xAxisRotation,
@@ -325,27 +272,31 @@ export class ChartComponent implements OnInit, AfterViewInit {
                     type: 'value',
                     max: this.settings.stackType === StackTypes.Percent ? 100 : undefined,
                     axisLabel: {
-                        formatter: this.settings.stackType === StackTypes.Percent ? '{value}%' : formatter,
-                        fontSize: this.settings.yAxisFontSize
+                        formatter: this.settings.stackType === StackTypes.Percent ? '{value}%' : primaryFormatter,
+                        fontSize: this.settings.primaryAxisFontSize
                     },
-                    ...(this.settings.showYAxisTitle && {
-                        name: this.data.indicator.name,
+                    ...(this.settings.showPrimaryAxisTitle && {
+                        name: this.nonEmpty(this.settings.primaryAxisTitleText)
+                            ?? this.settingsObjects.primaryAxisIndicators[0]?.name
+                            ?? "",
                         nameLocation: 'middle',
-                        nameGap: this.settings.yAxisTitleGap,
+                        nameGap: this.settings.primaryAxisTitleGap,
                         nameRotate: 90
                     })
                 },
                 ...(hasSerie2 ? [{
                     type: 'value',
                     axisLabel: {
-                        formatter: formatter2,
-                        fontSize: this.settings.yAxisFontSize
+                        formatter: secondaryFormatter,
+                        fontSize: this.settings.secondaryAxisFontSize
                     },
                     splitLine: { show: false },
-                    ...(this.settings.showYAxisTitle && {
-                        name: this.data.indicator2.name,
+                    ...(this.settings.showSecondaryAxisTitle && {
+                        name: this.nonEmpty(this.settings.secondaryAxisTitleText)
+                            ?? this.settingsObjects.secondaryAxisIndicators[0]?.name
+                            ?? "",
                         nameLocation: 'middle',
-                        nameGap: this.settings.yAxisTitleGap,
+                        nameGap: this.settings.secondaryAxisTitleGap,
                         nameRotate: 90
                     })
                 }] : [])
@@ -363,13 +314,55 @@ export class ChartComponent implements OnInit, AfterViewInit {
                         color: 'red'
                     },
                     label: {
-                        formatter: formatter
+                        formatter: primaryFormatter
                     }
                 },
-                valueFormatter: (v: any) => this.settings.stackType === StackTypes.Percent ? `${(+v).toFixed(1)}%` : formatter(v)
+                valueFormatter: (v: any) => this.settings.stackType === StackTypes.Percent ? `${(+v).toFixed(1)}%` : primaryFormatter(v)
             }
         } as EChartsOption;
 
+    }
+
+    private getSerie(indicator: Indicator, chartType: ChartType): (BarSeriesOption | LineSeriesOption) {
+
+        let option = undefined as (BarSeriesOption | LineSeriesOption);
+
+        if (chartType === ChartType.BarChart) {
+            option = {} as BarSeriesOption;
+            option.type = "bar";
+            if (this.settings.stackType !== StackTypes.None) option.stack = 'primary';
+            option.itemStyle = {
+                color: this.settings.barColor ?? indicator.color,
+                borderColor: this.settings.barColor ?? indicator.color
+            };
+        } else {
+            option = {} as LineSeriesOption;
+            option.type = "line";
+            if (this.settings.stackType !== StackTypes.None) option.stack = 'primary';
+            option.itemStyle = {
+                color: this.settings.barColor ?? indicator.color,
+                borderColor: this.settings.barColor ?? indicator.color
+            };
+            const color = this.settings.lineColor ?? 'black';
+            option.lineStyle = { color, width: this.settings.lineWidth };
+            option.itemStyle = { color };
+            option.symbol = this.settings.lineMarkerSize ? 'circle' : 'none';
+            option.symbolSize = this.settings.lineMarkerSize ?? 15;
+        }
+
+        option.name = indicator.shortName ?? indicator.name;
+        option.data = this.data.entities.map(e => {
+            const raw = this.rowLookup.get(getRowKey(indicator.indicatorId, e.entityId))?.datum?.value ?? 0;
+
+            if (this.settings.stackType !== StackTypes.Percent) return raw;
+
+            alert("TODO: Stacked by Percent has not been implemented");
+            throw new Error("Not implemented - calculating percentage for stack - do this outside getSerie?");
+            //const total = stackTotalsByEntity.get(e.entityId) ?? 0;
+            //return total === 0 ? 0 : (raw / total) * 100;
+        });
+
+        return option;
     }
 
     changeBreadcrumb(): void {
@@ -402,10 +395,17 @@ export class ChartComponent implements OnInit, AfterViewInit {
     }
 
     public offCanvas(content: any, position: 'start' | 'end' | 'top' | 'bottom' = 'start') {
-        this.offcanvasService.open(content, { position: position });
+        this.offcanvasService.open(content, { position: position })
+            .result.finally(() => this.saveChart());
     }
 
     entitiesChanged(entities: Entity[]) {
         this.settings.entityIds = entities.map(e => e.entityId);
+        this.loadData();
+    }
+
+    public nonEmpty(s: string | null | undefined) {
+        const t = s?.trim();
+        return t ? t : undefined;
     }
 }
