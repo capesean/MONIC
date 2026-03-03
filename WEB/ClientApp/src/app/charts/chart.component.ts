@@ -10,14 +10,15 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { BreadcrumbService } from '../common/services/breadcrumb.service';
 import { IndicatorTypes } from '../common/models/enums.model';
 import { NgbModal, NgbOffcanvas } from '@ng-bootstrap/ng-bootstrap';
-import { EChartsOption, indexBy, LegendPosition, getRowKey, Row, RowKey, Settings, Data, StackTypes, ChartType } from './chart.models';
+import { EChartsOption, indexBy, LegendPosition, getRowKey, Row, RowKey, Settings, Data, StackTypes, ChartTypes } from './chart.models';
 import { Entity } from '../common/models/entity.model';
 import { ConfirmModalComponent, ConfirmModalOptions } from '../common/components/confirm.component';
+import { NgForm } from '@angular/forms';
 
 class SettingsObjects {
-    primaryAxisIndicators: Indicator[];
-    secondaryAxisIndicators: Indicator[];
-    entities: Entity[];
+    primaryAxisIndicators: Indicator[] = [];
+    secondaryAxisIndicators: Indicator[] = [];
+    entities: Entity[] = [];
 }
 
 @Component({
@@ -40,14 +41,19 @@ export class ChartComponent implements OnInit {
     public options: EChartsOption;
 
     @ViewChild('settingsPanel') settingsPanel: any;
+    @ViewChild('form') form: NgForm;
 
     private echart!: any;
 
     LegendPosition = LegendPosition;
     IndicatorTypes = IndicatorTypes;
     StackTypes = StackTypes;
+    ChartTypes = ChartTypes;
 
     public isNew = true;
+
+    // should be in an app setting/config
+    public defaultColor = '#00BAC7';
 
     constructor(
         private utilitiesService: UtilitiesService,
@@ -74,8 +80,12 @@ export class ChartComponent implements OnInit {
                     .subscribe({
                         next: chart => {
                             this.chart = chart;
+
                             this.changeBreadcrumb();
-                            this.settings = JSON.parse(this.chart.settings);
+                            this.settings = Object.assign(
+                                new Settings(),
+                                JSON.parse(this.chart.settings)
+                            );
                             this.loadData();
                         },
                         error: err => {
@@ -89,7 +99,7 @@ export class ChartComponent implements OnInit {
                 this.chart.name = "New chart name";
                 this.changeBreadcrumb();
                 setTimeout(() => {
-                    this.offCanvas(this.settingsPanel, 'end')
+                    this.showSettings(this.settingsPanel, 'end')
                 });
             }
 
@@ -108,7 +118,7 @@ export class ChartComponent implements OnInit {
         if (!this.chart.name) {
 
             this.toastr.error("A chart name is required.", "Form Error");
-            this.offCanvas(this.settingsPanel, 'end')
+            this.showSettings(this.settingsPanel, 'end')
             return;
 
         }
@@ -176,6 +186,11 @@ export class ChartComponent implements OnInit {
 
         if (!this.data) return;
 
+        // fixes:
+        if (this.settings.primaryChartType == undefined) this.settings.primaryChartType = ChartTypes.BarChart;
+        if (this.settings.secondaryChartType == undefined) this.settings.secondaryChartType = ChartTypes.LineChart;
+
+
         const hasSerie2 = !!this.data.secondaryAxisIndicators.length;
 
         const indicators = Array.from(
@@ -218,11 +233,19 @@ export class ChartComponent implements OnInit {
 
         // sort the entities based on setting
         const entities = [...this.data.entities];
+
+        const direction = this.settings.xAxisSortDesc ? -1 : 1;
         if (this.settings.xAxisSort === 'name') {
-            entities.sort((a, b) => a.name.localeCompare(b.name));
-        } else if (this.settings.xAxisSort === 'value') {
-            entities.sort((a, b) => (entityTotals.get(b.entityId)! - entityTotals.get(a.entityId)!));
+            entities.sort((a, b) =>
+                a.name.localeCompare(b.name) * direction
+            );
         }
+        else if (this.settings.xAxisSort === 'value') {
+            entities.sort((a, b) =>
+                (entityTotals.get(a.entityId)! - entityTotals.get(b.entityId)!) * direction
+            );
+        }
+
         this.data.entities = entities;
 
         //const stackTotalsByEntity = new Map<string, number>();
@@ -240,17 +263,17 @@ export class ChartComponent implements OnInit {
         const series: (BarSeriesOption | LineSeriesOption)[] = [];
 
         for (const indicator of this.data.primaryAxisIndicators) {
-            const serie = this.getSerie(indicator, ChartType.BarChart);
+            const serie = this.getSerie(indicator, this.settings.primaryChartType, this.settings.primaryColor, this.settings.primaryLineWidth, this.settings.primaryMarkerSize, this.settings.primaryMarkerColor);
             serie.yAxisIndex = 0;
             series.push(serie);
         }
 
         for (const indicator of this.data.secondaryAxisIndicators) {
-            const serie = this.getSerie(indicator, ChartType.LineChart);
+            const serie = this.getSerie(indicator, this.settings.secondaryChartType, this.settings.secondaryColor, this.settings.secondaryLineWidth, this.settings.secondaryMarkerSize, this.settings.secondaryMarkerColor);
             serie.yAxisIndex = 1;
             series.push(serie);
         }
-        
+
         this.options = {
             grid: {
                 left: this.settings.gridLeft,
@@ -323,31 +346,32 @@ export class ChartComponent implements OnInit {
 
     }
 
-    private getSerie(indicator: Indicator, chartType: ChartType): (BarSeriesOption | LineSeriesOption) {
+    private getSerie(indicator: Indicator, chartType: ChartTypes, color: string, lineWidth: number, markerSize: number, markerColor: string): (BarSeriesOption | LineSeriesOption) {
 
         let option = undefined as (BarSeriesOption | LineSeriesOption);
+        const col = color ?? indicator.color ?? this.defaultColor;
 
-        if (chartType === ChartType.BarChart) {
+        if (chartType === ChartTypes.BarChart) {
             option = {} as BarSeriesOption;
             option.type = "bar";
             if (this.settings.stackType !== StackTypes.None) option.stack = 'primary';
             option.itemStyle = {
-                color: this.settings.barColor ?? indicator.color,
-                borderColor: this.settings.barColor ?? indicator.color
+                color: col,
+                borderColor: col
             };
         } else {
             option = {} as LineSeriesOption;
             option.type = "line";
             if (this.settings.stackType !== StackTypes.None) option.stack = 'primary';
             option.itemStyle = {
-                color: this.settings.barColor ?? indicator.color,
-                borderColor: this.settings.barColor ?? indicator.color
+                color: col,
+                borderColor: col
             };
-            const color = this.settings.lineColor ?? 'black';
-            option.lineStyle = { color, width: this.settings.lineWidth };
-            option.itemStyle = { color };
-            option.symbol = this.settings.lineMarkerSize ? 'circle' : 'none';
-            option.symbolSize = this.settings.lineMarkerSize ?? 15;
+            //const color = this.settings.lineColor ?? 'black';
+            option.lineStyle = { color: col, width: lineWidth };
+            option.itemStyle = { color: markerColor ?? col };
+            option.symbol = markerSize > 0 ? 'circle' : 'none';
+            option.symbolSize = markerSize ?? 15;
         }
 
         option.name = indicator.shortName ?? indicator.name;
@@ -394,9 +418,12 @@ export class ChartComponent implements OnInit {
         }
     }
 
-    public offCanvas(content: any, position: 'start' | 'end' | 'top' | 'bottom' = 'start') {
+    public showSettings(content: any, position: 'start' | 'end' | 'top' | 'bottom' = 'start') {
         this.offcanvasService.open(content, { position: position })
-            .result.finally(() => this.saveChart());
+            .result.finally(() => {
+                if (this.form.dirty)
+                    this.saveChart();
+            });
     }
 
     entitiesChanged(entities: Entity[]) {

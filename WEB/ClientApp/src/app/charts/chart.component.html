@@ -1,6 +1,19 @@
 <app-page-title></app-page-title>
 
-<!--change from grouped indicator to multi-select-->
+<div class="alert alert-warning">
+    Sean's notes:
+    <ul>
+
+        <li>colors: when adding an indicator, set that colour to the setting, but allow override</li>
+        <li>'Appearance' items should mostly go with the indicator?</li>
+        <li>requires having indicators as rows with additional settings</li>
+        <li>make settings panel float/stick left/right, block-right? opacity?</li>
+        <li>move entities to x-axis panel, call it 'filter'?</li>
+        <li>add ChartType to each of primary/secondary, have line settings / marker settings / etc.</li>
+        <li>move legend into own panel?</li>
+
+    </ul>
+</div>
 
 <div class="card card-edit">
 
@@ -10,7 +23,7 @@
             <h4>Chart<span *ngIf="!!chart?.name">: {{chart.name}}</span></h4>
             <div>
                 <i class="fa fa-fw ms-1 fa-cloud-download cursor-pointer ms-2" ngbTooltip="Download as image" (click)="downloadChart()" *ngIf="options"></i>
-                <i class="fa fa-fw ms-1 fa-gear cursor-pointer ms-2" ngbTooltip="Download as image" (click)="offCanvas(settingsPanel, 'end')"></i>
+                <i class="fa fa-fw ms-1 fa-gear cursor-pointer ms-2" ngbTooltip="Download as image" (click)="showSettings(settingsPanel, 'end')"></i>
             </div>
         </div>
 
@@ -20,7 +33,7 @@
 
         <div *ngIf="options" echarts [options]="options" (chartInit)="onChartInit($event)" [style.height.px]="settings.height"></div>
 
-        <div *ngIf="!options && chart" class="alert alert-info cursor-pointer" (click)="offCanvas(settingsPanel, 'end')">
+        <div *ngIf="!options && chart" class="alert alert-info cursor-pointer" (click)="showSettings(settingsPanel, 'end')">
             Configure your chart settings to produce the chart.
         </div>
 
@@ -29,9 +42,9 @@
 </div>
 
 <ng-template #settingsPanel let-offcanvas>
-
+    
     <div class="offcanvas-body p-0">
-        
+
         <form id="form" name="form" novalidate #form="ngForm" [ngClass]="{ 'was-validated': form.submitted }">
 
             <div ngbAccordion [closeOthers]="true">
@@ -63,41 +76,6 @@
 
                                                 <div *ngIf="name.errors?.maxlength" class="invalid-feedback">
                                                     Name must be at most 200 characters long
-                                                </div>
-
-                                            </div>
-                                        </div>
-
-                                        <div class="col-12">
-                                            <div class="form-group">
-
-                                                <label for="xAxisSort" class="me-4">
-                                                    Sorting:
-                                                </label>
-
-                                                <div>
-                                                    <div class="form-check form-check-inline">
-                                                        <input type="radio"
-                                                               id="xAxisSortByName"
-                                                               name="xAxisSort"
-                                                               class="form-check-input"
-                                                               [(ngModel)]="settings.xAxisSort"
-                                                               #xAxisSortByName="ngModel"
-                                                               [value]="'name'"
-                                                               (ngModelChange)="settingChanged()" />
-                                                        <label class="form-check-label" for="xAxisSortByName">Entity Name</label>
-                                                    </div>
-                                                    <div class="form-check form-check-inline">
-                                                        <input type="radio"
-                                                               id="xAxisSortByValue"
-                                                               name="xAxisSort"
-                                                               class="form-check-input"
-                                                               [(ngModel)]="settings.xAxisSort"
-                                                               #xAxisSortByValue="ngModel"
-                                                               [value]="'value'"
-                                                               (ngModelChange)="settingChanged()" />
-                                                        <label class="form-check-label" for="xAxisSortByValue">Primary Axis Value</label>
-                                                    </div>
                                                 </div>
 
                                             </div>
@@ -160,6 +138,77 @@
                                                 <div *ngIf="primaryAxisIndicatorIds.errors?.required" class="invalid-feedback">
                                                     Indicator is required
                                                 </div>
+
+                                            </div>
+                                        </div>
+
+                                        <div class="col-6">
+                                            <div class="form-group">
+
+                                                <label for="primaryChartType">
+                                                    Chart Type:
+                                                </label>
+
+                                                <select id="primaryChartType"
+                                                        name="primaryChartType"
+                                                        class="form-select"
+                                                        [(ngModel)]="settings.primaryChartType"
+                                                        #primaryChartType="ngModel"
+                                                        (ngModelChange)="settingChanged()">
+
+                                                    <!--these must match the enum-->
+                                                    <option [ngValue]="0">Bar Chart</option>
+                                                    <option [ngValue]="1">Line Chart</option>
+
+                                                </select>
+
+                                            </div>
+                                        </div>
+
+                                        <div class="col-6">
+                                            <div class="form-group">
+
+                                                <label for="primaryColor">
+                                                    Color:
+                                                </label>
+
+                                                <app-color id="primaryColor" name="primaryColor" [(ngModel)]="settings.primaryColor" #primaryColor="ngModel" (ngModelChange)="settingChanged()"></app-color>
+
+                                            </div>
+                                        </div>
+
+                                        <div class="col-6" *ngIf="settings.primaryChartType === ChartTypes.LineChart">
+                                            <div class="form-group">
+
+                                                <label for="primaryLineWidth">
+                                                    Line Width:
+                                                </label>
+
+                                                <input id="primaryLineWidth" name="primaryLineWidth" type="number" class="form-control" [(ngModel)]="settings.primaryLineWidth" #primaryLineWidth="ngModel" (ngModelChange)="settingChanged()" />
+
+                                            </div>
+                                        </div>
+
+                                        <div class="col-6" *ngIf="settings.primaryChartType === ChartTypes.LineChart">
+                                            <div class="form-group">
+
+                                                <label for="primaryMarkerSize">
+                                                    Marker Size:
+                                                </label>
+
+                                                <input id="primaryMarkerSize" name="primaryMarkerSize" class="form-control" type="number" [(ngModel)]="settings.primaryMarkerSize" #primaryMarkerSize="ngModel" (ngModelChange)="settingChanged()" />
+
+                                            </div>
+                                        </div>
+
+                                        <div class="col-6" *ngIf="settings.primaryChartType === ChartTypes.LineChart">
+                                            <div class="form-group">
+
+                                                <label for="primaryMarkerColor">
+                                                    Marker Color:
+                                                </label>
+
+                                                <app-color id="primaryMarkerColor" name="primaryMarkerColor" [(ngModel)]="settings.primaryMarkerColor" #primaryMarkerColor="ngModel" (ngModelChange)="settingChanged()"></app-color>
 
                                             </div>
                                         </div>
@@ -273,6 +322,76 @@
                                             </div>
                                         </div>
 
+                                        <div class="col-6">
+                                            <div class="form-group">
+
+                                                <label for="secondaryChartType">
+                                                    Chart Type:
+                                                </label>
+
+                                                <select id="secondaryChartType"
+                                                        name="secondaryChartType"
+                                                        class="form-select"
+                                                        [(ngModel)]="settings.secondaryChartType"
+                                                        #secondaryChartType="ngModel"
+                                                        (ngModelChange)="settingChanged()">
+
+                                                    <!--these must match the enum-->
+                                                    <option [ngValue]="0">Bar Chart</option>
+                                                    <option [ngValue]="1">Line Chart</option>
+
+                                                </select>
+
+                                            </div>
+                                        </div>
+
+                                        <div class="col-6">
+                                            <div class="form-group">
+
+                                                <label for="secondaryColor">
+                                                    Color:
+                                                </label>
+
+                                                <app-color id="secondaryColor" name="secondaryColor" [(ngModel)]="settings.secondaryColor" #secondaryColor="ngModel" (ngModelChange)="settingChanged()"></app-color>
+
+                                            </div>
+                                        </div>
+
+                                        <div class="col-6" *ngIf="settings.secondaryChartType === ChartTypes.LineChart">
+                                            <div class="form-group">
+
+                                                <label for="secondaryLineWidth">
+                                                    Line Width:
+                                                </label>
+
+                                                <input id="secondaryLineWidth" name="secondaryLineWidth" type="number" class="form-control" [(ngModel)]="settings.secondaryLineWidth" #secondaryLineWidth="ngModel" (ngModelChange)="settingChanged()" />
+
+                                            </div>
+                                        </div>
+
+                                        <div class="col-6" *ngIf="settings.secondaryChartType === ChartTypes.LineChart">
+                                            <div class="form-group">
+
+                                                <label for="secondaryMarkerSize">
+                                                    Marker Size:
+                                                </label>
+
+                                                <input id="secondaryMarkerSize" name="secondaryMarkerSize" class="form-control" type="number" [(ngModel)]="settings.secondaryMarkerSize" #secondaryMarkerSize="ngModel" (ngModelChange)="settingChanged()" />
+
+                                            </div>
+                                        </div>
+
+                                        <div class="col-6" *ngIf="settings.secondaryChartType === ChartTypes.LineChart">
+                                            <div class="form-group">
+
+                                                <label for="secondaryMarkerColor">
+                                                    Marker Color:
+                                                </label>
+
+                                                <app-color id="secondaryMarkerColor" name="secondaryMarkerColor" [(ngModel)]="settings.secondaryMarkerColor" #secondaryMarkerColor="ngModel" (ngModelChange)="settingChanged()"></app-color>
+
+                                            </div>
+                                        </div>
 
                                         <div class="col-6">
                                             <div class="form-group">
@@ -351,54 +470,6 @@
                                         <div class="col-6">
                                             <div class="form-group">
 
-                                                <label for="barColor">
-                                                    Bar Color:
-                                                </label>
-
-                                                <app-color id="barColor" name="barColor" [(ngModel)]="settings.barColor" #barColor="ngModel" (ngModelChange)="settingChanged()"></app-color>
-
-                                            </div>
-                                        </div>
-
-                                        <div class="col-6">
-                                            <div class="form-group">
-
-                                                <label for="lineColor">
-                                                    Line Color:
-                                                </label>
-
-                                                <app-color id="lineColor" name="lineColor" [(ngModel)]="settings.lineColor" #barColor="ngModel" (ngModelChange)="settingChanged()"></app-color>
-
-                                            </div>
-                                        </div>
-
-                                        <div class="col-6">
-                                            <div class="form-group">
-
-                                                <label for="lineWidth">
-                                                    Line Width:
-                                                </label>
-
-                                                <input id="lineWidth" name="lineWidth" type="number" class="form-control" [(ngModel)]="settings.lineWidth" #lineWidth="ngModel" (ngModelChange)="settingChanged()" />
-
-                                            </div>
-                                        </div>
-
-                                        <div class="col-6">
-                                            <div class="form-group">
-
-                                                <label for="lineMarkerSize">
-                                                    Line Marker Size:
-                                                </label>
-
-                                                <input id="lineMarkerSize" name="lineMarkerSize" class="form-control" type="number" [(ngModel)]="settings.lineMarkerSize" #lineMarkerSize="ngModel" (ngModelChange)="settingChanged()" />
-
-                                            </div>
-                                        </div>
-
-                                        <div class="col-6">
-                                            <div class="form-group">
-
                                                 <label for="legendPosition">
                                                     Legend Position:
                                                 </label>
@@ -430,7 +501,7 @@
 
                 <div ngbAccordionItem>
                     <h2 ngbAccordionHeader>
-                        <button ngbAccordionButton>Axes</button>
+                        <button ngbAccordionButton>X-Axis</button>
                     </h2>
                     <div ngbAccordionCollapse>
                         <div ngbAccordionBody>
@@ -439,6 +510,41 @@
                                 <fieldset class="group">
 
                                     <div class="row gx-3">
+
+                                        <div class="col-12">
+                                            <div class="form-group">
+
+                                                <label for="xAxisSort" class="form-label">
+                                                    Sort by:{{settings.xAxisSort}}
+                                                </label>
+
+                                                <div class="d-flex gap-2">
+                                                    <select id="xAxisSort"
+                                                            name="xAxisSort"
+                                                            class="form-select w-50"
+                                                            [(ngModel)]="settings.xAxisSort"
+                                                            #stackType="ngModel"
+                                                            (ngModelChange)="settingChanged()">
+
+                                                        <option value="name">Name</option>
+                                                        <option value="value">Value</option>
+
+                                                    </select>
+                                                    <select id="xAxisSortDesc"
+                                                            name="xAxisSortDesc"
+                                                            class="form-select w-50"
+                                                            [(ngModel)]="settings.xAxisSortDesc"
+                                                            #stackType="ngModel"
+                                                            (ngModelChange)="settingChanged()">
+
+                                                        <option [ngValue]="false">Ascending</option>
+                                                        <option [ngValue]="true">Descending</option>
+
+                                                    </select>
+                                                </div>
+
+                                            </div>
+                                        </div>
 
                                         <div class="col-6">
                                             <div class="form-group">

@@ -17,15 +17,15 @@ export type EChartsOption = ComposeOption<
 
 export enum LegendPosition { None, Top, Bottom }
 export enum StackTypes { None, Normal, Percent }
-export enum ChartType { BarChart, LineChart }
+export enum ChartTypes { BarChart, LineChart }
 
 export class Settings {
     primaryAxisIndicatorIds: string[] = [];
     secondaryAxisIndicatorIds: string[] = [];
-    barColor: string;
     xAxisFontSize: number;
     xAxisRotation: number;
     xAxisSort: string;
+    xAxisSortDesc: boolean = false;
     gridLeft: number;
     gridRight: number;
     gridTop: number;
@@ -34,33 +34,37 @@ export class Settings {
     primaryAxisTitleGap: number;
     primaryAxisTitleText: string
     primaryAxisFontSize: number;
+    primaryChartType: ChartTypes = ChartTypes.BarChart;
+    primaryColor: string;
+    primaryLineWidth: number = 5;
+    primaryMarkerSize: number = 15;
+    primaryMarkerColor: string;
     showSecondaryAxisTitle: boolean;
     secondaryAxisTitleGap: number;
     secondaryAxisTitleText: string
     secondaryAxisFontSize: number;
+    secondaryChartType: ChartTypes = ChartTypes.BarChart;
+    secondaryColor: string;
+    secondaryLineWidth: number = 5;
+    secondaryMarkerSize: number = 15;
+    secondaryMarkerColor: string;
     height: number;
-    lineColor: string;
-    lineWidth: number;
-    lineMarkerSize: number = 15;
     legendPosition: LegendPosition;
     stackType: StackTypes = StackTypes.None;
     entityIds: string[] = [];
 
     constructor() {
         this.xAxisFontSize = 10;
-        this.barColor = '#00BAC7';
         this.xAxisRotation = 90;
         this.primaryAxisFontSize = 10;
         this.xAxisSort = 'name';
         this.gridLeft = 80;
-        this.gridRight = 10;
+        this.gridRight = 40;
         this.gridTop = 10;
         this.gridBottom = 75;
         this.showPrimaryAxisTitle = true;
         this.primaryAxisTitleGap = 50;
         this.height = 500;
-        this.lineColor = '#fa9064';
-        this.lineWidth = 5;
         this.legendPosition = LegendPosition.None;
         this.stackType = StackTypes.None;
         this.entityIds = [];
