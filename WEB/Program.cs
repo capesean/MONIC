@@ -12,7 +12,7 @@ var builder = WebApplication.CreateBuilder(args);
 if (!builder.Environment.IsDevelopment())
 {
     builder.Configuration.AddAzureKeyVault(
-        new Uri(builder.Configuration["KeyVault:VaultUri"]),
+        new Uri(builder.Configuration["KeyVault:VaultUri"]!),
         new DefaultAzureCredential());
 }
 
@@ -20,14 +20,20 @@ var appSettings = builder.Configuration.GetSection("Settings").Get<AppSettings>(
 
 if (!builder.Environment.IsDevelopment())
 {
+    var credential = new DefaultAzureCredential();
+
+    await WEB.Utilities.General.EnsureDataProtectionBlobIsHotAsync(
+        appSettings.AzureSettings.DataProtection.BlobUri,
+        credential);
+
     builder.Services.AddDataProtection()
         .SetApplicationName("WEB")
         .PersistKeysToAzureBlobStorage(
             new Uri(appSettings.AzureSettings.DataProtection.BlobUri),
-            new DefaultAzureCredential())
+            credential)
         .ProtectKeysWithAzureKeyVault(
             new Uri(appSettings.AzureSettings.DataProtection.KeyIdentifier),
-            new DefaultAzureCredential());
+            credential);
 }
 else
 {
@@ -53,12 +59,12 @@ builder.Services.AddControllersWithViews(options => options.Filters.Add(typeof(A
  */
 
 // from: https://medium.com/@saravananganesan/how-to-breaking-asp-net-core-with-angular-project-into-frontend-and-backend-a3b3fd084b25
-var MyAllowedSpecificOrigins = "_allowSpecificOrigins";
+var policyName = "_allowSpecificOrigins";
 if (builder.Environment.IsDevelopment())
 {
     builder.Services.AddCors(options =>
     {
-        options.AddPolicy(name: MyAllowedSpecificOrigins, builder =>
+        options.AddPolicy(name: policyName, builder =>
         {
             // must match with the port in package.json -> scripts:start (also: appSettings.RootUrl - i.e. the front-end address)
             // and SpaProxyServerUrl in WEB.csproj
@@ -174,7 +180,7 @@ else
 
 if (builder.Environment.IsDevelopment())
 {
-    app.UseCors(MyAllowedSpecificOrigins);
+    app.UseCors(policyName);
     //app.UseCors(x => x
     //         .AllowAnyOrigin()
     //         .AllowAnyMethod()
