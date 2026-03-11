@@ -247,7 +247,7 @@ namespace WEB
         {
             if (tokenStacks.Count == 0) throw new Exception("No token stacks were passed to CalculateAsync");
 
-            var dbSettings = appSettings.GetDbSettings(db);
+            var dbSettings = db.GetDbSettings();
 
             using (var cmd = db.Database.GetDbConnection().CreateCommand())
             {
@@ -376,7 +376,7 @@ namespace WEB
 
                     db.Entry(entityLink).State = EntityState.Deleted;
 
-                    await Permissions.RemoveOversightEntityPermissionsAsync(db, appSettings, entityLink);
+                    await Permissions.RemoveOversightEntityPermissionsAsync(db, entityLink);
 
                     indicatorIdsToAggregate = await db.Data.Where(
                             // filter to the parent entity's Id
@@ -405,7 +405,7 @@ namespace WEB
 
                     db.Entry(entityLink).State = EntityState.Added;
 
-                    await Permissions.AddOversightEntityPermissionsAsync(db, appSettings, entityLink);
+                    await Permissions.AddOversightEntityPermissionsAsync(db, entityLink);
 
                     indicatorIdsToAggregate = await db.Data.Where(
                         // filter to the child entity's Id

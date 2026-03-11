@@ -143,7 +143,7 @@ namespace WEB.Controllers
                 db.Entry(entity).State = EntityState.Modified;
             }
 
-            await Permissions.SetEntityPermissionsAsync(db, AppSettings, entityDTO.OrganisationId, entity.EntityId);
+            await Permissions.SetEntityPermissionsAsync(db, entityDTO.OrganisationId, entity.EntityId);
 
             ModelFactory.Hydrate(entity, entityDTO, isNew);
 

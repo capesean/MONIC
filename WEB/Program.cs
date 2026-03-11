@@ -9,28 +9,34 @@ using static OpenIddict.Abstractions.OpenIddictConstants;
 
 var builder = WebApplication.CreateBuilder(args);
 
+if (!builder.Environment.IsDevelopment())
+{
+    builder.Configuration.AddAzureKeyVault(
+        new Uri(builder.Configuration["KeyVault:VaultUri"]),
+        new DefaultAzureCredential());
+}
+
 var appSettings = builder.Configuration.GetSection("Settings").Get<AppSettings>();
 
-if (appSettings.UseAzureDataProtection)
+if (!builder.Environment.IsDevelopment())
 {
-    // use azure blob storage to persist the data protection keys, so the decryption of JWTs works after restarting the app (e.g. publishing)
-
-    /*
-     * The requires a storage account, container & blob created on Azure - for the blob storage url
-     * -> The URL is in the format: https://[storage-account].blob.core.windows.net/[container]/[filename].xml 
-     * -> filename can be something like "dataprotectionkeys" - it will be created on first run
-     * It also requires an app registration on Entra Id (formerly Azure Active Directory) for the tenantId, clientId and secret
-     * The app registration also needs to be added to the container's access Control (IAM) with role: Storage Blob Data Contributor
-     */
-
     builder.Services.AddDataProtection()
         .SetApplicationName("WEB")
-        .PersistKeysToAzureBlobStorage(appSettings.AzureSettings.DataProtection.ConnectionString, appSettings.AzureSettings.DataProtection.ContainerName, "dataprotectionkeys.xml")
-        .ProtectKeysWithAzureKeyVault(new Uri(appSettings.AzureSettings.DataProtection.KeyVaultUri), new DefaultAzureCredential());
+        .PersistKeysToAzureBlobStorage(
+            new Uri(appSettings.AzureSettings.DataProtection.BlobUri),
+            new DefaultAzureCredential())
+        .ProtectKeysWithAzureKeyVault(
+            new Uri(appSettings.AzureSettings.DataProtection.KeyIdentifier),
+            new DefaultAzureCredential());
+}
+else
+{
+    builder.Services.AddDataProtection()
+        .SetApplicationName("WEB");
 }
 
 // todo: this is not correct - find out a better way to get correct path
-appSettings.WebRootPath = Path.Combine(Directory.GetCurrentDirectory(), appSettings.IsDevelopment ? "ClientApp\\src\\" : "wwwroot\\");
+appSettings.WebRootPath = Path.Combine(Directory.GetCurrentDirectory(), builder.Environment.IsDevelopment() ? "ClientApp\\src\\" : "wwwroot\\");
 appSettings.RootPath = Path.Combine(Directory.GetCurrentDirectory());
 
 builder.Services.AddScoped<ApiExceptionAttribute>();
@@ -47,8 +53,8 @@ builder.Services.AddControllersWithViews(options => options.Filters.Add(typeof(A
  */
 
 // from: https://medium.com/@saravananganesan/how-to-breaking-asp-net-core-with-angular-project-into-frontend-and-backend-a3b3fd084b25
-var policyName = "_dashboard";
-if (appSettings.IsDevelopment)
+var policyName = "_allowSpecificOrigins";
+if (builder.Environment.IsDevelopment())
 {
     builder.Services.AddCors(options =>
     {
@@ -124,7 +130,7 @@ builder.Services.Configure<IdentityOptions>(options =>
     options.ClaimsIdentity.UserIdClaimType = Claims.Subject;
     options.ClaimsIdentity.RoleClaimType = Claims.Role;
 
-    if (appSettings.IsDevelopment)
+    if (builder.Environment.IsDevelopment())
     {
         options.Password.RequireDigit = true;
         options.Password.RequireLowercase = true;
@@ -156,7 +162,7 @@ using (var um = scope.ServiceProvider.GetService<UserManager<User>>())
 using (var rm = scope.ServiceProvider.GetService<RoleManager<Role>>())
 {
     // initialise, seed, etc
-    var initializer = new DbInitializer(appSettings, db, um, rm);
+    var initializer = new DbInitializer(appSettings, db, um, rm, builder.Environment);
     await initializer.InitializeAsync();
 }
 
@@ -177,7 +183,14 @@ else
     app.UseDeveloperExceptionPage();
 }
 
-app.UseCors(policyName);
+if (builder.Environment.IsDevelopment())
+{
+    app.UseCors(policyName);
+    //app.UseCors(x => x
+    //         .AllowAnyOrigin()
+    //         .AllowAnyMethod()
+    //         .AllowAnyHeader());
+}
 
 app.UseHttpsRedirection();
 app.UseStaticFiles();

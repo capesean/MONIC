@@ -117,7 +117,7 @@ namespace WEB.Controllers
 
             if (responseCount == 0) return BadRequest("There are no responses for this questionnaire");
 
-            var dbSettings = AppSettings.GetDbSettings(db);
+            var dbSettings = db.GetDbSettings();
 
             if (string.IsNullOrWhiteSpace(dbSettings.ChatGPTAPIKey)) return BadRequest("The ChatGPT API Key is missing");
 

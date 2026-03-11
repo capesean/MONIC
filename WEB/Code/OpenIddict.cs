@@ -35,7 +35,7 @@ namespace WEB
                     options.SetRefreshTokenLifetime(TimeSpan.FromMinutes(appSettings.RefreshTokenExpiryMinutes));
 
                     // register the signing and encryption credentials.
-                    if (appSettings.IsDevelopment)
+                    if (builder.Environment.IsDevelopment())
                     {
                         if (string.IsNullOrEmpty(appSettings.CertificatePassword))
                         {
@@ -53,11 +53,8 @@ namespace WEB
                     }
                     else
                     {
-                        if (appSettings.UseAzureDataProtection)
-                        {
-                            // this stores/retrieves the data protection key in azure blob storage, meaning logins persist beyond restarting (e.g. publishing)
-                            options.UseDataProtection();
-                        }
+                        // this stores/retrieves the data protection key in azure blob storage, meaning logins persist beyond restarting (e.g. publishing)
+                        options.UseDataProtection();
 
                         // todo: production certificates should be stored in Azure key vault: https://documentation.openiddict.com/configuration/encryption-and-signing-credentials.html
                         var certificate = X509Certificate.GetCertificate(appSettings);
@@ -119,7 +116,7 @@ namespace WEB
                     // options.EnableAuthorizationEntryValidation();
                     // options.EnableTokenEntryValidation();
 
-                    if (appSettings.UseAzureDataProtection)
+                    if (!builder.Environment.IsDevelopment())
                     {
                         options.UseDataProtection();
                     }

@@ -184,7 +184,7 @@ namespace WEB.Controllers
             }
 
             // simple permissions mode
-            var dbSettings = AppSettings.GetDbSettings(db);
+            var dbSettings = db.GetDbSettings();
             if (dbSettings.SimplePermissionsMode)
             {
                 // new user -> add global indicator permission

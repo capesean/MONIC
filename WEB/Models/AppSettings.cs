@@ -7,29 +7,11 @@
         public string WebRootPath { get; set; }
         public string SiteName { get; set; }
         public string CertificatePassword { get; set; }
-        public bool IsDevelopment { get; set; }
         public bool UseApplicationInsights { get; set; }
         public EmailSettings EmailSettings { get; set; }
         public AzureSettings AzureSettings { get; set; }
         public int AccessTokenExpiryMinutes { get; set; }
         public int RefreshTokenExpiryMinutes { get; set; }
-
-        private Settings _settings;
-
-        internal bool UseAzureDataProtection
-        {
-            get
-            {
-                return !IsDevelopment && AzureSettings.DataProtection != null && !string.IsNullOrWhiteSpace(AzureSettings.DataProtection.ConnectionString);
-            }
-        }
-
-        public Settings GetDbSettings(ApplicationDbContext db)
-        {
-            _settings ??= db.Settings.Single();
-            return _settings;
-        }
-
     }
 
     public class EmailSettings
@@ -55,9 +37,8 @@
 
         public class DataProtectionSettings
         {
-            public string ConnectionString { get; set; }
-            public string ContainerName { get; set; }
-            public string KeyVaultUri { get; set; }
+            public string BlobUri { get; set; }
+            public string KeyIdentifier { get; set; }
         }
 
         public class DocumentsSettings
