@@ -12,7 +12,7 @@ var builder = WebApplication.CreateBuilder(args);
 if (!builder.Environment.IsDevelopment())
 {
     builder.Configuration.AddAzureKeyVault(
-        new Uri(builder.Configuration["KeyVault:VaultUri"]),
+        new Uri(builder.Configuration["KeyVault:VaultUri"]!),
         new DefaultAzureCredential());
 }
 
@@ -20,14 +20,20 @@ var appSettings = builder.Configuration.GetSection("Settings").Get<AppSettings>(
 
 if (!builder.Environment.IsDevelopment())
 {
+    var credential = new DefaultAzureCredential();
+
+    await WEB.Utilities.General.EnsureDataProtectionBlobIsHotAsync(
+        appSettings.AzureSettings.DataProtection.BlobUri,
+        credential);
+
     builder.Services.AddDataProtection()
         .SetApplicationName("WEB")
         .PersistKeysToAzureBlobStorage(
             new Uri(appSettings.AzureSettings.DataProtection.BlobUri),
-            new DefaultAzureCredential())
+            credential)
         .ProtectKeysWithAzureKeyVault(
             new Uri(appSettings.AzureSettings.DataProtection.KeyIdentifier),
-            new DefaultAzureCredential());
+            credential);
 }
 else
 {
@@ -206,3 +212,4 @@ app.MapControllers();
 app.MapFallbackToFile("index.html");
 
 app.Run();
+

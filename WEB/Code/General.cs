@@ -1,4 +1,8 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using Azure;
+using Azure.Core;
+using Azure.Storage.Blobs;
+using Azure.Storage.Blobs.Models;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using System.Transactions;
 using WEB.Models;
@@ -126,6 +130,22 @@ namespace WEB.Utilities
             };
 
             return new TransactionScope(TransactionScopeOption.Required, transactionOptions, TransactionScopeAsyncFlowOption.Enabled);
+        }
+
+        public static async Task EnsureDataProtectionBlobIsHotAsync(string blobUri, TokenCredential credential)
+        {
+            var blob = new BlobClient(new Uri(blobUri), credential);
+
+            try
+            {
+                await blob.UploadAsync(BinaryData.FromString(""), overwrite: false);
+            }
+            catch (RequestFailedException ex) when (ex.Status == 409)
+            {
+                // already exists
+            }
+
+            await blob.SetAccessTierAsync(AccessTier.Hot);
         }
     }
 }
