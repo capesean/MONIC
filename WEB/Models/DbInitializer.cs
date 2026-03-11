@@ -6,23 +6,25 @@ namespace WEB.Models
 {
     public class DbInitializer
     {
-        private AppSettings appSettings;
-        private ApplicationDbContext db;
-        private RoleManager<Role> rm;
-        private UserManager<User> um;
+        private readonly AppSettings appSettings;
+        private readonly ApplicationDbContext db;
+        private readonly RoleManager<Role> rm;
+        private readonly UserManager<User> um;
         private const int errorExpiryDays = 7;
+        private readonly IHostEnvironment environment;
 
-        public DbInitializer(AppSettings appSettings, ApplicationDbContext db, UserManager<User> um, RoleManager<Role> rm)
+        public DbInitializer(AppSettings appSettings, ApplicationDbContext db, UserManager<User> um, RoleManager<Role> rm, IHostEnvironment environment)
         {
             this.appSettings = appSettings;
             this.db = db;
             this.um = um;
             this.rm = rm;
+            this.environment = environment;
         }
 
         public async Task InitializeAsync()
         {
-            if (appSettings.IsDevelopment)
+            if (environment.IsDevelopment())
             {
                 // dev option 1: drop & recreate
                 //db.Database.EnsureDeleted();
