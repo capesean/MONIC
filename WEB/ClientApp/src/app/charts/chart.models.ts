@@ -18,39 +18,47 @@ export type EChartsOption = ComposeOption<
 export enum LegendPosition { None, Top, Bottom }
 export enum StackTypes { None, Normal, Percent }
 export enum ChartTypes { BarChart, LineChart }
+export enum Axis { Primary, Secondary }
+
+export class Serie {
+    indicatorId: string;
+    indicator: Indicator;
+    chartType: ChartTypes = ChartTypes.BarChart;
+    color: string;
+    lineWidth: number = 5;
+    markerSize: number = 15;
+    markerColor: string;
+    axis: Axis = Axis.Primary;
+}
 
 export class Settings {
-    primaryAxisIndicatorIds: string[] = [];
-    secondaryAxisIndicatorIds: string[] = [];
+    series: Serie[] = [];
+
+    // needs primary & secondary stack types?
+    stackType: StackTypes = StackTypes.None;
+
     xAxisFontSize: number;
     xAxisRotation: number;
     xAxisSort: string;
     xAxisSortDesc: boolean = false;
+
     gridLeft: number;
     gridRight: number;
     gridTop: number;
     gridBottom: number;
+
     showPrimaryAxisTitle: boolean;
     primaryAxisTitleGap: number;
     primaryAxisTitleText: string
     primaryAxisFontSize: number;
-    primaryChartType: ChartTypes = ChartTypes.BarChart;
-    primaryColor: string;
-    primaryLineWidth: number = 5;
-    primaryMarkerSize: number = 15;
-    primaryMarkerColor: string;
+
     showSecondaryAxisTitle: boolean;
     secondaryAxisTitleGap: number;
     secondaryAxisTitleText: string
     secondaryAxisFontSize: number;
-    secondaryChartType: ChartTypes = ChartTypes.BarChart;
-    secondaryColor: string;
-    secondaryLineWidth: number = 5;
-    secondaryMarkerSize: number = 15;
-    secondaryMarkerColor: string;
+
     height: number;
     legendPosition: LegendPosition;
-    stackType: StackTypes = StackTypes.None;
     entityIds: string[] = [];
 
     constructor() {

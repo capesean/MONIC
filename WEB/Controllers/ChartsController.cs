@@ -95,15 +95,10 @@ namespace WEB.Controllers
         [HttpPost, Route("data")]
         public async Task<IActionResult> GetData(ChartSettings chartSettings)
         {
-            var primaryAxisIndicators = await db.Indicators
-                .Where(o => chartSettings.PrimaryAxisIndicatorIds.Contains(o.IndicatorId))
+            var indicators = await db.Indicators
+                .Where(o => chartSettings.IndicatorIds.Contains(o.IndicatorId))
                 .ToListAsync();
 
-            var secondaryAxisIndicators = await db.Indicators
-                .Where(o => chartSettings.SecondaryAxisIndicatorIds.Contains(o.IndicatorId))
-                .ToListAsync();
-
-            var indicators = primaryAxisIndicators.Union(secondaryAxisIndicators).Distinct();
             var indicatorIds = indicators.Select(o => o.IndicatorId).ToList();  
 
 
@@ -146,8 +141,7 @@ namespace WEB.Controllers
 
             return Ok(new
             {
-                primaryAxisIndicators = primaryAxisIndicators.Select(o => ModelFactory.Create(o)),
-                secondaryAxisIndicators = secondaryAxisIndicators.Select(o => ModelFactory.Create(o)),
+                indicators = indicators.Select(o => ModelFactory.Create(o)),
                 data = data.Select(o => ModelFactory.Create(o)),
                 entities = entities.Select(o => ModelFactory.Create(o)),
                 dates = dates.Select(o => ModelFactory.Create(o))
@@ -157,8 +151,7 @@ namespace WEB.Controllers
 
     public class ChartSettings
     {
-        public Guid[] PrimaryAxisIndicatorIds { get; set; } = [];
-        public Guid[] SecondaryAxisIndicatorIds { get; set; } = [];
+        public Guid[] IndicatorIds { get; set; } = [];
         public Guid[] EntityIds { get; set; } = [];
     }
 }

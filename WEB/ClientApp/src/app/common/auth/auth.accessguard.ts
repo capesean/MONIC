@@ -22,6 +22,9 @@ export class AccessGuard {
 
     private checkAccess(state: RouterStateSnapshot): Observable<boolean> {
         return this.authService.state$.pipe(
+            tap(s => {
+                if (!s.tokens) debugger;
+            }),
             map(s => ({ ready: s.authReady, loggedIn: !!s.tokens })),
             filter(x => x.ready),
             take(1),
@@ -30,7 +33,6 @@ export class AccessGuard {
                     const url = state.url.startsWith("/auth") ? "" : state.url;
                     const queryParams: Params = {};
                     if (url && url !== "/") queryParams.path = encodeURIComponent(url);
-                    console.log("AccessGuard: redirecting to login", { url, queryParams });
                     this.router.navigate(["/auth/login"], {
                         queryParamsHandling: "merge",
                         queryParams

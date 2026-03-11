@@ -10,14 +10,18 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { BreadcrumbService } from '../common/services/breadcrumb.service';
 import { IndicatorTypes } from '../common/models/enums.model';
 import { NgbModal, NgbOffcanvas } from '@ng-bootstrap/ng-bootstrap';
-import { EChartsOption, indexBy, LegendPosition, getRowKey, Row, RowKey, Settings, Data, StackTypes, ChartTypes } from './chart.models';
+import { EChartsOption, indexBy, LegendPosition, getRowKey, Row, RowKey, Settings, Data, StackTypes, ChartTypes, Serie, Axis } from './chart.models';
 import { Entity } from '../common/models/entity.model';
 import { ConfirmModalComponent, ConfirmModalOptions } from '../common/components/confirm.component';
 import { NgForm } from '@angular/forms';
+import { SerieComponent } from './serie.component';
+import { IndicatorService } from '../common/services/indicator.service';
+import { forkJoin, map, tap } from 'rxjs';
+import { CdkDragDrop, CdkDragStart, moveItemInArray } from '@angular/cdk/drag-drop';
 
 class SettingsObjects {
-    primaryAxisIndicators: Indicator[] = [];
-    secondaryAxisIndicators: Indicator[] = [];
+    //primaryAxisIndicators: Indicator[] = [];
+    //secondaryAxisIndicators: Indicator[] = [];
     entities: Entity[] = [];
 }
 
@@ -43,12 +47,13 @@ export class ChartComponent implements OnInit {
     @ViewChild('settingsPanel') settingsPanel: any;
     @ViewChild('form') form: NgForm;
 
+    private bodyElement: HTMLElement = document.body;
+
     private echart!: any;
 
     LegendPosition = LegendPosition;
     IndicatorTypes = IndicatorTypes;
     StackTypes = StackTypes;
-    ChartTypes = ChartTypes;
 
     public isNew = true;
 
@@ -64,10 +69,20 @@ export class ChartComponent implements OnInit {
         private breadcrumbService: BreadcrumbService,
         private offcanvasService: NgbOffcanvas,
         private router: Router,
-        private modalService: NgbModal
+        private modalService: NgbModal,
+        private indicatorService: IndicatorService
     ) { }
 
     ngOnInit() {
+
+        //if (window.location.hostname === "localhost") {
+        //    setTimeout(() => {
+        //        this.offcanvasService.dismiss();
+        //        setTimeout(() => {
+        //            this.showSettings(this.settingsPanel, 'end');
+        //        });
+        //    })
+        //}
 
         this.route.params.subscribe(params => {
 
@@ -79,14 +94,33 @@ export class ChartComponent implements OnInit {
                 this.chartService.get(chartId)
                     .subscribe({
                         next: chart => {
-                            this.chart = chart;
 
-                            this.changeBreadcrumb();
-                            this.settings = Object.assign(
+                            const settings: Settings = Object.assign(
                                 new Settings(),
-                                JSON.parse(this.chart.settings)
+                                JSON.parse(chart.settings)
+                            ) as Settings;
+
+                            const gets = settings.series.map(serie =>
+                                this.indicatorService.get(serie.indicatorId).pipe(
+                                    map(indicator => ({ serie, indicator }))
+                                )
                             );
-                            this.loadData();
+
+                            // todo: not an ideal way to load multiple indicators (could be the same?)
+                            forkJoin(gets).subscribe({
+                                next: results => {
+                                    for (const { serie, indicator } of results) {
+                                        serie.indicator = indicator;
+                                    }
+
+                                    this.chart = chart;
+                                    this.settings = settings;
+                                    this.changeBreadcrumb();
+                                    this.loadData();
+                                },
+                                error: err => this.errorService.handleError(err, 'Chart', 'Load Indicators')
+                            });
+
                         },
                         error: err => {
                             this.errorService.handleError(err, "Chart", "Load");
@@ -123,7 +157,16 @@ export class ChartComponent implements OnInit {
 
         }
 
-        this.chart.settings = JSON.stringify(this.settings);
+        // remove the indicators from the settings before saving
+        const savedSettings = {
+            ...this.settings,
+            series: this.settings.series.map(s => {
+                const { indicator, ...rest } = s;
+                return rest;
+            })
+        };
+
+        this.chart.settings = JSON.stringify(savedSettings);
 
         this.chartService.save(this.chart)
             .subscribe({
@@ -170,11 +213,11 @@ export class ChartComponent implements OnInit {
     }
 
     loadData() {
-        this.chartService.getData(this.settings.primaryAxisIndicatorIds, this.settings.secondaryAxisIndicatorIds, this.settings.entityIds).subscribe({
+        this.chartService.getData(this.settings.series.map(o => o.indicatorId), this.settings.entityIds).subscribe({
             next: data => {
                 this.data = data as Data;
-                this.settingsObjects.primaryAxisIndicators = data.primaryAxisIndicators;
-                this.settingsObjects.secondaryAxisIndicators = data.secondaryAxisIndicators;
+                //this.settingsObjects.primaryAxisIndicators = data.primaryAxisIndicators;
+                //this.settingsObjects.secondaryAxisIndicators = data.secondaryAxisIndicators;
                 this.settingsObjects.entities = data.entities;
                 this.updateChart();
             },
@@ -186,18 +229,7 @@ export class ChartComponent implements OnInit {
 
         if (!this.data) return;
 
-        // fixes:
-        if (this.settings.primaryChartType == undefined) this.settings.primaryChartType = ChartTypes.BarChart;
-        if (this.settings.secondaryChartType == undefined) this.settings.secondaryChartType = ChartTypes.LineChart;
-
-
-        const hasSerie2 = !!this.data.secondaryAxisIndicators.length;
-
-        const indicators = Array.from(
-            new Map([...this.data.primaryAxisIndicators, ...this.data.secondaryAxisIndicators].map(x => [x.indicatorId, x])).values()
-        );
-
-        const indicatorById = indexBy(indicators, i => i.indicatorId);
+        const indicatorById = indexBy(this.data.indicators, i => i.indicatorId);
         const entityById = indexBy(this.data.entities, e => e.entityId);
         const dateById = indexBy(this.data.dates, d => d.dateId);
 
@@ -216,15 +248,38 @@ export class ChartComponent implements OnInit {
             this.rowLookup.set(getRowKey(indicator.indicatorId, entity.entityId), row);
         }
 
-        const primaryFormatter = this.utilitiesService.getFormatter(this.data.primaryAxisIndicators[0]);
-        const secondaryFormatter = this.data.secondaryAxisIndicators.length ? this.utilitiesService.getFormatter(this.data.secondaryAxisIndicators[0]) : undefined;
+        const series: (BarSeriesOption | LineSeriesOption)[] = [];
+
+        const primaryAxisIndicators: Indicator[] = [];
+        const secondaryAxisIndicators: Indicator[] = [];
+
+        for (const serie of this.settings.series) {
+            const indicator = indicatorById.get(serie.indicatorId);
+            if (!indicator) continue;
+            if (serie.axis === Axis.Primary) primaryAxisIndicators.push(indicator);
+            else if (serie.axis === Axis.Secondary) secondaryAxisIndicators.push(indicator);
+
+            series.push(this.getSerie(indicator, serie));
+        }
+
+        if (!primaryAxisIndicators.length) {
+            this.toastr.error("At least one primary axis indicator is required.", "Chart Settings");
+            return;
+        }
+
+        const hasSecondaryAxis = secondaryAxisIndicators.length > 0;
+
+
+
+        const primaryFormatter = this.utilitiesService.getFormatter(primaryAxisIndicators[0]);
+        const secondaryFormatter = hasSecondaryAxis ? this.utilitiesService.getFormatter(secondaryAxisIndicators[0]) : undefined;
 
         // calculate the totals by entity for the primary axis indicators (used for sorting and percent stacking)
         const entityTotals = new Map<string, number>();
         for (const e of this.data.entities) entityTotals.set(e.entityId, 0);
         for (const e of this.data.entities) {
             let total = 0;
-            for (const indicator of this.data.primaryAxisIndicators) {
+            for (const indicator of primaryAxisIndicators) {
                 const value = this.rowLookup.get(getRowKey(indicator.indicatorId, e.entityId))?.datum?.value ?? 0;
                 total += value;
             }
@@ -241,38 +296,24 @@ export class ChartComponent implements OnInit {
             );
         }
         else if (this.settings.xAxisSort === 'value') {
-            entities.sort((a, b) =>
-                (entityTotals.get(a.entityId)! - entityTotals.get(b.entityId)!) * direction
-            );
+            entities.sort((a, b) => {
+                return (entityTotals.get(a.entityId)! - entityTotals.get(b.entityId)!) * direction;
+            });
+        }
+
+        let i = 0;
+        // find a better way to iterate the settings series with the indicator to set the data to the chart series
+        for (const serie of this.settings.series) {
+            const chartSerie = series[i];
+            chartSerie.data = [];
+            for (const e of entities) {
+                const value = this.rowLookup.get(getRowKey(serie.indicatorId, e.entityId))?.datum?.value ?? 0;
+                chartSerie.data.push(value);
+            }
+            i++;
         }
 
         this.data.entities = entities;
-
-        //const stackTotalsByEntity = new Map<string, number>();
-
-        //if (this.settings.stackType === StackTypes.Percent) {
-        //    for (const e of entities) {
-        //        let total = 0;
-        //        for (const ir of indicatorRows) {
-        //            total += rowByIndicatorEntity.get(makeRowKey(ir.indicatorId, e.entityId))?.datum?.value ?? 0;
-        //        }
-        //        stackTotalsByEntity.set(e.entityId, total);
-        //    }
-        //}
-
-        const series: (BarSeriesOption | LineSeriesOption)[] = [];
-
-        for (const indicator of this.data.primaryAxisIndicators) {
-            const serie = this.getSerie(indicator, this.settings.primaryChartType, this.settings.primaryColor, this.settings.primaryLineWidth, this.settings.primaryMarkerSize, this.settings.primaryMarkerColor);
-            serie.yAxisIndex = 0;
-            series.push(serie);
-        }
-
-        for (const indicator of this.data.secondaryAxisIndicators) {
-            const serie = this.getSerie(indicator, this.settings.secondaryChartType, this.settings.secondaryColor, this.settings.secondaryLineWidth, this.settings.secondaryMarkerSize, this.settings.secondaryMarkerColor);
-            serie.yAxisIndex = 1;
-            series.push(serie);
-        }
 
         this.options = {
             grid: {
@@ -300,14 +341,14 @@ export class ChartComponent implements OnInit {
                     },
                     ...(this.settings.showPrimaryAxisTitle && {
                         name: this.nonEmpty(this.settings.primaryAxisTitleText)
-                            ?? this.settingsObjects.primaryAxisIndicators[0]?.name
+                            ?? primaryAxisIndicators[0]?.name
                             ?? "",
                         nameLocation: 'middle',
                         nameGap: this.settings.primaryAxisTitleGap,
                         nameRotate: 90
                     })
                 },
-                ...(hasSerie2 ? [{
+                ...(hasSecondaryAxis ? [{
                     type: 'value',
                     axisLabel: {
                         formatter: secondaryFormatter,
@@ -316,7 +357,7 @@ export class ChartComponent implements OnInit {
                     splitLine: { show: false },
                     ...(this.settings.showSecondaryAxisTitle && {
                         name: this.nonEmpty(this.settings.secondaryAxisTitleText)
-                            ?? this.settingsObjects.secondaryAxisIndicators[0]?.name
+                            ?? secondaryAxisIndicators[0]?.name
                             ?? "",
                         nameLocation: 'middle',
                         nameGap: this.settings.secondaryAxisTitleGap,
@@ -346,12 +387,11 @@ export class ChartComponent implements OnInit {
 
     }
 
-    private getSerie(indicator: Indicator, chartType: ChartTypes, color: string, lineWidth: number, markerSize: number, markerColor: string): (BarSeriesOption | LineSeriesOption) {
+    private getSerie(indicator: Indicator, serie: Serie) {
+        const col = serie.color ?? indicator.color ?? this.defaultColor;
 
         let option = undefined as (BarSeriesOption | LineSeriesOption);
-        const col = color ?? indicator.color ?? this.defaultColor;
-
-        if (chartType === ChartTypes.BarChart) {
+        if (serie.chartType === ChartTypes.BarChart) {
             option = {} as BarSeriesOption;
             option.type = "bar";
             if (this.settings.stackType !== StackTypes.None) option.stack = 'primary';
@@ -368,23 +408,14 @@ export class ChartComponent implements OnInit {
                 borderColor: col
             };
             //const color = this.settings.lineColor ?? 'black';
-            option.lineStyle = { color: col, width: lineWidth };
-            option.itemStyle = { color: markerColor ?? col };
-            option.symbol = markerSize > 0 ? 'circle' : 'none';
-            option.symbolSize = markerSize ?? 15;
+            option.lineStyle = { color: col, width: serie.lineWidth };
+            option.itemStyle = { color: serie.markerColor ?? col };
+            option.symbol = serie.markerSize > 0 ? 'circle' : 'none';
+            option.symbolSize = serie.markerSize ?? 15;
         }
 
+        option.yAxisIndex = serie.axis === Axis.Secondary ? 1 : 0;
         option.name = indicator.shortName ?? indicator.name;
-        option.data = this.data.entities.map(e => {
-            const raw = this.rowLookup.get(getRowKey(indicator.indicatorId, e.entityId))?.datum?.value ?? 0;
-
-            if (this.settings.stackType !== StackTypes.Percent) return raw;
-
-            alert("TODO: Stacked by Percent has not been implemented");
-            throw new Error("Not implemented - calculating percentage for stack - do this outside getSerie?");
-            //const total = stackTotalsByEntity.get(e.entityId) ?? 0;
-            //return total === 0 ? 0 : (raw / total) * 100;
-        });
 
         return option;
     }
@@ -419,11 +450,15 @@ export class ChartComponent implements OnInit {
     }
 
     public showSettings(content: any, position: 'start' | 'end' | 'top' | 'bottom' = 'start') {
-        this.offcanvasService.open(content, { position: position })
-            .result.finally(() => {
-                if (this.form.dirty)
-                    this.saveChart();
-            });
+        const ref = this.offcanvasService.open(content, { position: position });
+
+        ref.closed.subscribe(() => this.handleClose());
+        ref.dismissed.subscribe(() => this.handleClose());
+    }
+
+    private handleClose() {
+        if (this.form?.dirty)
+            this.saveChart();
     }
 
     entitiesChanged(entities: Entity[]) {
@@ -434,5 +469,46 @@ export class ChartComponent implements OnInit {
     public nonEmpty(s: string | null | undefined) {
         const t = s?.trim();
         return t ? t : undefined;
+    }
+
+    editSerie(serie: Serie, isNew = false) {
+        
+        const modalRef = this.modalService.open(SerieComponent, {
+            size: 'lg',
+            //backdrop: 'static',
+            //keyboard: false
+        });
+        modalRef.componentInstance.serie = serie;
+        modalRef.result.finally(() => {
+            // todo: this 'fix' is because i can't set the form to dirty to trigger the save on close.
+            // there might not be changes to the serie - so it could create empty charts... how to handle?
+            if (isNew && serie.indicatorId) this.settings.series.push(serie);
+            this.saveChart();
+            this.loadData();
+        });
+    }
+
+    addSerie() {
+        const serie = new Serie();
+        this.editSerie(serie, true);
+    }
+
+    deleteSerie(index: number) {
+        this.settings.series.splice(index, 1);
+        this.saveChart();
+        this.updateChart();
+    }
+
+    dragStart(event: CdkDragStart) {
+        this.bodyElement.classList.add('inheritCursors');
+        this.saveChart();
+        this.bodyElement.style.cursor = 'grabbing';
+    }
+
+    drop(event: CdkDragDrop<Serie[]>) {
+        this.bodyElement.classList.remove('inheritCursors');
+        this.bodyElement.style.cursor = 'unset';
+        moveItemInArray(this.settings.series, event.previousIndex, event.currentIndex);
+        this.updateChart();
     }
 }

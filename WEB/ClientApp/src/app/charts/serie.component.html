@@ -1,0 +1,131 @@
+<div class="modal-header p-4">
+    <h4 class="modal-title" id="modal-basic-title">Edit Series</h4>
+</div>
+
+<div class="modal-body">
+
+    <form novalidate>
+
+        <fieldset class="group">
+
+            <div class="row gx-3">
+
+                <div class="col-6">
+                    <div class="form-group">
+
+                        <label for="indicatorId">
+                            Indicator:
+                        </label>
+
+                        <indicator-select id="indicatorId" name="indicatorId" [(ngModel)]="serie.indicatorId" #indicatorId="ngModel" [(indicator)]="serie.indicator" required></indicator-select>
+
+                        <div *ngIf="indicatorId.errors?.required" class="invalid-feedback">
+                            Indicator is required
+                        </div>
+
+                    </div>
+                </div>
+
+                <div class="col-6">
+                    <div class="form-group">
+
+                        <label for="axis">
+                            Axis:
+                        </label>
+
+                        <select id="axis"
+                                name="axis"
+                                class="form-select"
+                                [(ngModel)]="serie.axis"
+                                #axis="ngModel">
+
+                            <!--these must match the enum-->
+                            <option [ngValue]="0">Primary Axis</option>
+                            <option [ngValue]="1">Secondary Axis</option>
+
+                        </select>
+
+                    </div>
+                </div>
+
+                <div class="col-6">
+                    <div class="form-group">
+
+                        <label for="chartType">
+                            Chart Type:
+                        </label>
+
+                        <select id="chartType"
+                                name="chartType"
+                                class="form-select"
+                                [(ngModel)]="serie.chartType"
+                                #chartType="ngModel">
+
+                            <!--these must match the enum-->
+                            <option [ngValue]="0">Bar Chart</option>
+                            <option [ngValue]="1">Line Chart</option>
+
+                        </select>
+
+                    </div>
+                </div>
+
+                <div class="col-6">
+                    <div class="form-group">
+
+                        <label for="color">
+                            Color:
+                        </label>
+
+                        <app-color id="color" name="color" [(ngModel)]="serie.color" #color="ngModel"></app-color>
+
+                    </div>
+                </div>
+
+                <div class="col-6" *ngIf="serie.chartType === ChartTypes.LineChart">
+                    <div class="form-group">
+
+                        <label for="lineWidth">
+                            Line Width:
+                        </label>
+
+                        <input id="lineWidth" name="lineWidth" type="number" class="form-control" [(ngModel)]="serie.lineWidth" #lineWidth="ngModel" />
+
+                    </div>
+                </div>
+
+                <div class="col-6" *ngIf="serie.chartType === ChartTypes.LineChart">
+                    <div class="form-group">
+
+                        <label for="markerSize">
+                            Marker Size:
+                        </label>
+
+                        <input id="markerSize" name="markerSize" class="form-control" type="number" [(ngModel)]="serie.markerSize" #markerSize="ngModel" />
+
+                    </div>
+                </div>
+
+                <div class="col-6" *ngIf="serie.chartType === ChartTypes.LineChart">
+                    <div class="form-group">
+
+                        <label for="markerColor">
+                            Marker Color:
+                        </label>
+
+                        <app-color id="markerColor" name="markerColor" [(ngModel)]="serie.markerColor" #markerColor="ngModel"></app-color>
+
+                    </div>
+                </div>
+
+            </div>
+
+        </fieldset>
+
+    </form>
+
+</div>
+
+<div class="modal-footer p-4">
+    <button type="button" class="btn btn-outline-primary ms-2" (click)="modal.close()">Close</button>
+</div>

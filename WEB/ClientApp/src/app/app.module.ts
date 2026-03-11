@@ -17,7 +17,7 @@ import { JsonDateInterceptor } from './common/interceptors/jsondate.interceptor'
 import { NgHttpLoaderComponent, pendingRequestsInterceptor$ } from 'ng-http-loader';
 import { CurrencyPipe, DecimalPipe, PercentPipe } from '@angular/common';
 import { AuthService } from './common/services/auth.service';
-import { catchError, firstValueFrom, of } from 'rxjs';
+import { firstValueFrom } from 'rxjs';
 import { NgxEchartsModule } from 'ngx-echarts';
 
 export function initApp(auth: AuthService) {

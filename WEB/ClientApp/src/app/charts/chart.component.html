@@ -3,7 +3,12 @@
 <div class="alert alert-warning">
     Sean's notes:
     <ul>
-
+        <!--from the meeting with ian:-->
+        <li>some settings (eg) stack type, are now missing</li>
+        <li>legend should be on right (as option)</li>
+        <li>ability to have bar (not column) chart</li>
+        <li>order stack by a specific indicator</li>
+        <!--general:-->
         <li>colors: when adding an indicator, set that colour to the setting, but allow override</li>
         <li>'Appearance' items should mostly go with the indicator?</li>
         <li>requires having indicators as rows with additional settings</li>
@@ -42,7 +47,7 @@
 </div>
 
 <ng-template #settingsPanel let-offcanvas>
-    
+
     <div class="offcanvas-body p-0">
 
         <form id="form" name="form" novalidate #form="ngForm" [ngClass]="{ 'was-validated': form.submitted }">
@@ -114,341 +119,38 @@
                     </div>
                 </div>
 
-                <div ngbAccordionItem [collapsed]="false">
+                <div ngbAccordionItem>
                     <h2 ngbAccordionHeader>
-                        <button ngbAccordionButton tabindex="-1">Primary Axis</button>
+                        <button ngbAccordionButton tabindex="-1">Series</button>
                     </h2>
                     <div ngbAccordionCollapse>
-                        <div ngbAccordionBody>
+                        <div ngbAccordionBody class="p-0">
                             <ng-template>
 
-                                <fieldset class="group">
-
-                                    <div class="row gx-3">
-
-                                        <div class="col-12">
-                                            <div class="form-group">
-
-                                                <label for="primaryAxisIndicatorIds">
-                                                    Indicators:
-                                                </label>
-
-                                                <indicator-select id="primaryAxisIndicatorIds" name="primaryAxisIndicatorIds" [(indicators)]="settingsObjects.primaryAxisIndicators" [(ngModel)]="settings.primaryAxisIndicatorIds" [multiple]="true" #primaryAxisIndicatorIds="ngModel" required (ngModelChange)="loadData()"></indicator-select>
-
-                                                <div *ngIf="primaryAxisIndicatorIds.errors?.required" class="invalid-feedback">
-                                                    Indicator is required
-                                                </div>
-
-                                            </div>
-                                        </div>
-
-                                        <div class="col-6">
-                                            <div class="form-group">
-
-                                                <label for="primaryChartType">
-                                                    Chart Type:
-                                                </label>
-
-                                                <select id="primaryChartType"
-                                                        name="primaryChartType"
-                                                        class="form-select"
-                                                        [(ngModel)]="settings.primaryChartType"
-                                                        #primaryChartType="ngModel"
-                                                        (ngModelChange)="settingChanged()">
-
-                                                    <!--these must match the enum-->
-                                                    <option [ngValue]="0">Bar Chart</option>
-                                                    <option [ngValue]="1">Line Chart</option>
-
-                                                </select>
-
-                                            </div>
-                                        </div>
-
-                                        <div class="col-6">
-                                            <div class="form-group">
-
-                                                <label for="primaryColor">
-                                                    Color:
-                                                </label>
-
-                                                <app-color id="primaryColor" name="primaryColor" [(ngModel)]="settings.primaryColor" #primaryColor="ngModel" (ngModelChange)="settingChanged()"></app-color>
-
-                                            </div>
-                                        </div>
-
-                                        <div class="col-6" *ngIf="settings.primaryChartType === ChartTypes.LineChart">
-                                            <div class="form-group">
-
-                                                <label for="primaryLineWidth">
-                                                    Line Width:
-                                                </label>
-
-                                                <input id="primaryLineWidth" name="primaryLineWidth" type="number" class="form-control" [(ngModel)]="settings.primaryLineWidth" #primaryLineWidth="ngModel" (ngModelChange)="settingChanged()" />
-
-                                            </div>
-                                        </div>
-
-                                        <div class="col-6" *ngIf="settings.primaryChartType === ChartTypes.LineChart">
-                                            <div class="form-group">
-
-                                                <label for="primaryMarkerSize">
-                                                    Marker Size:
-                                                </label>
-
-                                                <input id="primaryMarkerSize" name="primaryMarkerSize" class="form-control" type="number" [(ngModel)]="settings.primaryMarkerSize" #primaryMarkerSize="ngModel" (ngModelChange)="settingChanged()" />
-
-                                            </div>
-                                        </div>
-
-                                        <div class="col-6" *ngIf="settings.primaryChartType === ChartTypes.LineChart">
-                                            <div class="form-group">
-
-                                                <label for="primaryMarkerColor">
-                                                    Marker Color:
-                                                </label>
-
-                                                <app-color id="primaryMarkerColor" name="primaryMarkerColor" [(ngModel)]="settings.primaryMarkerColor" #primaryMarkerColor="ngModel" (ngModelChange)="settingChanged()"></app-color>
-
-                                            </div>
-                                        </div>
-
-                                        <div class="col-6">
-                                            <div class="form-group">
-
-                                                <label for="showPrimaryAxisTitle">
-                                                    Title:
-                                                </label>
-
-                                                <div class="form-check">
-                                                    <input id="showPrimaryAxisTitle" name="showPrimaryAxisTitle" class="form-check-input" type="checkbox" [(ngModel)]="settings.showPrimaryAxisTitle" #showPrimaryAxisTitle="ngModel" (ngModelChange)="settingChanged()" />
-                                                    <label class="form-check-label" for="showPrimaryAxisTitle">
-                                                        Show
-                                                    </label>
-                                                </div>
-
-                                            </div>
-                                        </div>
-
-                                        <div class="col-6">
-                                            <div class="form-group">
-
-                                                <label for="primaryAxisTitleGap">
-                                                    Title Gap:
-                                                </label>
-
-                                                <input id="primaryAxisTitleGap" name="primaryAxisTitleGap" type="number" class="form-control" [(ngModel)]="settings.primaryAxisTitleGap" [disabled]="!settings.showPrimaryAxisTitle" #primaryAxisTitleGap="ngModel" (ngModelChange)="settingChanged()" />
-
-                                            </div>
-                                        </div>
-
-                                        <div class="col-12">
-                                            <div class="form-group">
-
-                                                <label for="primaryAxisTitleText">
-                                                    Title Text:
-                                                </label>
-
-                                                <input id="primaryAxisTitleText" name="primaryAxisTitleText" type="text" class="form-control" [(ngModel)]="settings.primaryAxisTitleText" [disabled]="!settings.showPrimaryAxisTitle" #primaryAxisTitleText="ngModel" (ngModelChange)="settingChanged()" />
-
-                                            </div>
-                                        </div>
-
-                                        <div class="col-6">
-                                            <div class="form-group">
-
-                                                <label for="primaryAxisFontSize">
-                                                    Font Size:
-                                                </label>
-
-                                                <input id="primaryAxisFontSize" name="primaryAxisFontSize" type="number" class="form-control" [(ngModel)]="settings.primaryAxisFontSize" #primaryAxisFontSize="ngModel" (ngModelChange)="settingChanged()" />
-
-                                            </div>
-                                        </div>
-
-                                        <div class="col-6" *ngIf="settings.primaryAxisIndicatorIds.length > 1">
-                                            <div class="form-group">
-
-                                                <label for="stackType">
-                                                    Stacking:
-                                                </label>
-
-                                                <select id="stackType"
-                                                        name="stackType"
-                                                        class="form-select"
-                                                        [(ngModel)]="settings.stackType"
-                                                        #stackType="ngModel"
-                                                        (ngModelChange)="settingChanged()">
-
-                                                    <option [ngValue]="StackTypes.None">None</option>
-                                                    <option [ngValue]="StackTypes.Normal">Stacked: Normal</option>
-                                                    <option [ngValue]="StackTypes.Percent">Stacked: Percentage</option>
-
-                                                </select>
-
-                                            </div>
-                                        </div>
-
-                                    </div>
-
-                                </fieldset>
-
-                            </ng-template>
-                        </div>
-                    </div>
-                </div>
-
-                <div ngbAccordionItem [collapsed]="false">
-                    <h2 ngbAccordionHeader>
-                        <button ngbAccordionButton tabindex="-1">Secondary Axis</button>
-                    </h2>
-                    <div ngbAccordionCollapse>
-                        <div ngbAccordionBody>
-                            <ng-template>
-
-                                <fieldset class="group">
-
-                                    <div class="row gx-3">
-
-                                        <div class="col-12">
-                                            <div class="form-group">
-
-                                                <label for="secondaryAxisIndicators">
-                                                    Indicators:
-                                                </label>
-
-                                                <indicator-select id="secondaryAxisIndicators" name="secondaryAxisIndicators" [(indicators)]="settingsObjects.secondaryAxisIndicators" [(ngModel)]="settings.secondaryAxisIndicatorIds" [multiple]="true" #secondaryAxisIndicators="ngModel" (ngModelChange)="loadData()"></indicator-select>
-
-                                            </div>
-                                        </div>
-
-                                        <div class="col-6">
-                                            <div class="form-group">
-
-                                                <label for="secondaryChartType">
-                                                    Chart Type:
-                                                </label>
-
-                                                <select id="secondaryChartType"
-                                                        name="secondaryChartType"
-                                                        class="form-select"
-                                                        [(ngModel)]="settings.secondaryChartType"
-                                                        #secondaryChartType="ngModel"
-                                                        (ngModelChange)="settingChanged()">
-
-                                                    <!--these must match the enum-->
-                                                    <option [ngValue]="0">Bar Chart</option>
-                                                    <option [ngValue]="1">Line Chart</option>
-
-                                                </select>
-
-                                            </div>
-                                        </div>
-
-                                        <div class="col-6">
-                                            <div class="form-group">
-
-                                                <label for="secondaryColor">
-                                                    Color:
-                                                </label>
-
-                                                <app-color id="secondaryColor" name="secondaryColor" [(ngModel)]="settings.secondaryColor" #secondaryColor="ngModel" (ngModelChange)="settingChanged()"></app-color>
-
-                                            </div>
-                                        </div>
-
-                                        <div class="col-6" *ngIf="settings.secondaryChartType === ChartTypes.LineChart">
-                                            <div class="form-group">
-
-                                                <label for="secondaryLineWidth">
-                                                    Line Width:
-                                                </label>
-
-                                                <input id="secondaryLineWidth" name="secondaryLineWidth" type="number" class="form-control" [(ngModel)]="settings.secondaryLineWidth" #secondaryLineWidth="ngModel" (ngModelChange)="settingChanged()" />
-
-                                            </div>
-                                        </div>
-
-                                        <div class="col-6" *ngIf="settings.secondaryChartType === ChartTypes.LineChart">
-                                            <div class="form-group">
-
-                                                <label for="secondaryMarkerSize">
-                                                    Marker Size:
-                                                </label>
-
-                                                <input id="secondaryMarkerSize" name="secondaryMarkerSize" class="form-control" type="number" [(ngModel)]="settings.secondaryMarkerSize" #secondaryMarkerSize="ngModel" (ngModelChange)="settingChanged()" />
-
-                                            </div>
-                                        </div>
-
-                                        <div class="col-6" *ngIf="settings.secondaryChartType === ChartTypes.LineChart">
-                                            <div class="form-group">
-
-                                                <label for="secondaryMarkerColor">
-                                                    Marker Color:
-                                                </label>
-
-                                                <app-color id="secondaryMarkerColor" name="secondaryMarkerColor" [(ngModel)]="settings.secondaryMarkerColor" #secondaryMarkerColor="ngModel" (ngModelChange)="settingChanged()"></app-color>
-
-                                            </div>
-                                        </div>
-
-                                        <div class="col-6">
-                                            <div class="form-group">
-
-                                                <label for="showSecondaryAxisTitle">
-                                                    Title:
-                                                </label>
-
-                                                <div class="form-check">
-                                                    <input id="showSecondaryAxisTitle" name="showSecondaryAxisTitle" class="form-check-input" type="checkbox" [(ngModel)]="settings.showSecondaryAxisTitle" #showSecondaryAxisTitle="ngModel" (ngModelChange)="settingChanged()" />
-                                                    <label class="form-check-label" for="showSecondaryAxisTitle">
-                                                        Show
-                                                    </label>
-                                                </div>
-
-                                            </div>
-                                        </div>
-
-                                        <div class="col-6">
-                                            <div class="form-group">
-
-                                                <label for="secondaryAxisTitleGap">
-                                                    Title Gap:
-                                                </label>
-
-                                                <input id="secondaryAxisTitleGap" name="secondaryAxisTitleGap" type="number" class="form-control" [(ngModel)]="settings.secondaryAxisTitleGap" [disabled]="!settings.showSecondaryAxisTitle" #secondaryAxisTitleGap="ngModel" (ngModelChange)="settingChanged()" />
-
-                                            </div>
-                                        </div>
-
-                                        <div class="col-12">
-                                            <div class="form-group">
-
-                                                <label for="secondaryAxisTitleText">
-                                                    Title Text:
-                                                </label>
-
-                                                <input id="secondaryAxisTitleText" name="secondaryAxisTitleText" type="text" class="form-control" [(ngModel)]="settings.secondaryAxisTitleText" [disabled]="!settings.showSecondaryAxisTitle" #secondaryAxisTitleText="ngModel" (ngModelChange)="settingChanged()" />
-
-                                            </div>
-                                        </div>
-
-                                        <div class="col-6">
-                                            <div class="form-group">
-
-                                                <label for="secondaryAxisFontSize">
-                                                    Font Size:
-                                                </label>
-
-                                                <input id="secondaryAxisFontSize" name="secondaryAxisFontSize" type="number" class="form-control" [(ngModel)]="settings.secondaryAxisFontSize" #secondaryAxisFontSize="ngModel" (ngModelChange)="settingChanged()" />
-
-                                            </div>
-                                        </div>
-
-                                    </div>
-
-                                </fieldset>
+                                <div class="table-responsive">
+                                    <table class="table table-hover table-striped table-nowrap mb-0 align-middle">
+                                        <thead class="thead-light">
+                                            <tr>
+                                                <th>Indicator</th>
+                                                <th class="w-50px text-end">
+                                                    <i class="fa fa-plus text-muted cursor-pointer" (click)="addSerie()"></i>
+                                                </th>
+                                            </tr>
+                                        </thead>
+                                        <tbody class="list cursor-pointer" cdkDropList (cdkDropListDropped)="drop($event)">
+                                            <tr *ngFor="let serie of settings.series; let $index = index" (click)="editSerie(serie)" cdkDrag cdkDragHandle (cdkDragStarted)="dragStart($event)">
+                                                <td>
+                                                    <i class="fa fa-sort me-1 text-gray-500 cursor-grab"></i>
+                                                    {{serie.indicator?.name}}
+                                                </td>
+                                                <td>
+                                                    <i class="fa fa-pencil text-muted me-2"></i>
+                                                    <i class="fa fa-times text-danger" (click)="deleteSerie($index)"></i>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
 
                             </ng-template>
                         </div>
