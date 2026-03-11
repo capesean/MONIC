@@ -127,8 +127,8 @@ namespace WEB.Controllers
             };
 
             var aoaiclient = new AzureOpenAIClient(
-                new Uri("https://sean-map4tkmq-eastus2.cognitiveservices.azure.com/"),
-                new AzureKeyCredential("2Zy3SvZng910SIWQ3IrODe8Tg1X3IU5eqKQBApNlSLaUf8Eh8ZEvJQQJ99BEACHYHv6XJ3w3AAAAACOGpQ7j"),
+                new Uri(""), //"https://______________.cognitiveservices.azure.com/"
+                new AzureKeyCredential(""), //"______________"
                 azureOptions
                 );
 
