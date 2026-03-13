@@ -51,28 +51,44 @@ namespace WEB.Import
                         )
                 );
 
-            var indicatorDateCodes = new Dictionary<Guid, HashSet<string>>();
-
             using (var ms = new MemoryStream(fileContents))
             using (var stream = new StreamReader(ms))
             using (var csv = new CsvReader(stream, config))
             {
+                csv.Context.TypeConverterOptionsCache
+                    .GetOptions<string>()
+                    .NullValues.Add(string.Empty);
+
                 csv.Context.RegisterClassMap<CSVMap>();
 
                 try
                 {
                     records = [.. csv.GetRecords<CSVRow>()];
 
+                    var neededIndicatorIds = records.Where(r => indicators.ContainsKey(r.IndicatorCode))
+                        .Select(r => indicators[r.IndicatorCode].IndicatorId)
+                        .Distinct();
+                    var indicatorDateCodes = await db.IndicatorDates
+                        .Where(id => neededIndicatorIds.Contains(id.IndicatorId))
+                        .Select(id => new { id.IndicatorId, id.Date.Code })
+                        .ToListAsync();
+                    var indicatorDatesByIndicator = indicatorDateCodes
+                        .GroupBy(x => x.IndicatorId)
+                        .ToDictionary(g => g.Key, g => g.Select(x => x.Code).ToHashSet());
+
+                    var seenKeys = new HashSet<(string entityCode, string indicatorCode, string dateCode)>();
+
                     var row = 1;
+
                     foreach (var record in records)
                     {
                         row++;
 
-                        var indicatorExists = indicators.TryGetValue(record.Indicator, out Indicator indicator);
+                        var indicatorExists = indicators.TryGetValue(record.IndicatorCode, out Indicator indicator);
 
                         if (!indicatorExists)
                         {
-                            errors.Add(new ImportError(row, 1, "Invalid indicator code", record.Indicator));
+                            errors.Add(new ImportError(row, 1, "Invalid indicator code", record.IndicatorCode));
                             continue;
                         }
 
@@ -84,13 +100,13 @@ namespace WEB.Import
                                 errors.Add(new ImportError(row, 1, "Option List has multiple options with the same value", null));
                         }
 
-                        if (!entities.ContainsKey(record.Entity))
-                            errors.Add(new ImportError(row, 2, "Invalid entity code", record.Entity));
+                        if (!entities.ContainsKey(record.EntityCode))
+                            errors.Add(new ImportError(row, 2, "Invalid entity code", record.EntityCode));
 
-                        var dateExists = dates.TryGetValue(record.Date, out Date date);
+                        var dateExists = dates.TryGetValue(record.DateCode, out Date date);
 
                         if (!dateExists)
-                            errors.Add(new ImportError(row, 3, "Invalid date code", record.Date));
+                            errors.Add(new ImportError(row, 3, "Invalid date code", record.DateCode));
 
                         if (dateExists && indicatorExists)
                         {
@@ -101,19 +117,18 @@ namespace WEB.Import
                             // todo: if indicators have date applicability:
                             if (indicator.UseIndicatorDates)
                             {
-                                if (!indicatorDateCodes.ContainsKey(indicator.IndicatorId))
-                                    indicatorDateCodes.Add(indicator.IndicatorId, [.. db.IndicatorDates.Where(o => o.IndicatorId == indicator.IndicatorId).Select(o => o.Date.Code)]);
-
-                                if (!indicatorDateCodes[indicator.IndicatorId].Contains(record.Date))
+                                if (!indicatorDatesByIndicator[indicator.IndicatorId].Contains(record.DateCode))
                                     errors.Add(new ImportError(row, 3, "Indicator is not applicable on this Date", null));
                             }
 
                             if (indicator.Minimum.HasValue && record.Value.HasValue && record.Value < indicator.Minimum)
-                                errors.Add(new ImportError(row, 4, "Value is below the minimum allowed for indicator", $"{indicator.Code} ({indicator.Minimum})"));
+                                errors.Add(new ImportError(row, 4, "Value is below the minimum allowed for indicator", $"{record.Value}"));
 
                             if (indicator.Maximum.HasValue && record.Value.HasValue && record.Value > indicator.Maximum)
-                                errors.Add(new ImportError(row, 4, "Value is above the maximum allowed for indicator", $"{indicator.Code} ({indicator.Maximum})"));
+                                errors.Add(new ImportError(row, 4, "Value is above the maximum allowed for indicator", $"{record.Value}"));
 
+                            if (!seenKeys.Add((record.EntityCode, record.IndicatorCode, record.DateCode)))
+                                errors.Add(new ImportError(null, null, "Duplicate record", $"{record.IndicatorCode}/{record.EntityCode}/{record.DateCode}"));
                         }
 
                     }
@@ -128,7 +143,7 @@ namespace WEB.Import
                 }
             }
 
-            var countCheck = records.GroupBy(o => new { o.Entity, o.Indicator, o.Date })
+            var countCheck = records.GroupBy(o => new { o.EntityCode, o.IndicatorCode, o.DateCode })
                 .Select(o =>
                 new
                 {
@@ -136,10 +151,6 @@ namespace WEB.Import
                     Count = o.Count()
                 })
                 .ToList();
-
-            var duplicate = countCheck.FirstOrDefault(o => o.Count > 1);
-
-            if (duplicate != null) errors.Add(new ImportError(null, null, "Duplicate record", $"{duplicate.Key.Indicator}/{duplicate.Key.Entity}/{duplicate.Key.Date}"));
 
             if (errors.Count == 0 && records.Count == 0) errors.Add(new ImportError(null, null, "No records to import", null));
 
@@ -151,92 +162,53 @@ namespace WEB.Import
             if (errors.Count != 0) throw new InvalidDataException("File contains errors");
             if (records.Count == 0) throw new InvalidDataException("No records");
 
-            var calculateElementIds = new HashSet<Guid>();
+            var now = DateTime.UtcNow;
+            var dataToSave = new List<Datum>(records.Count);
 
             var row = 1;
             foreach (var record in records)
             {
                 row++;
 
-                var indicator = indicators[record.Indicator];
-                var indicatorId = indicator.IndicatorId;
-                var entityId = entities[record.Entity].EntityId;
-                var dateId = dates[record.Date].DateId;
+                var indicator = indicators[record.IndicatorCode];
 
                 if (indicator.DataType == DataType.OptionList)
                 {
                     if (record.Value.HasValue || optionLookup[indicator.OptionListId.Value].ContainsKey(short.MinValue))
                     {
-                        if (!optionLookup[indicator.OptionListId.Value].ContainsKey(record.Value.HasValue ? Convert.ToInt16(record.Value.Value) : short.MinValue))
-                            errors.Add(
-                                new ImportError(
-                                    row,
-                                    4,
-                                    $"Invalid Option List value",
-                                    Convert.ToString(record.Value)
-                                )
-                        );
+                        var optionValue = record.Value.HasValue
+                            ? Convert.ToInt16(record.Value.Value)
+                            : short.MinValue;
+
+                        if (!optionLookup[indicator.OptionListId.Value].ContainsKey(optionValue))
+                        {
+                            errors.Add(new ImportError(
+                                row,
+                                4,
+                                "Invalid Option List value",
+                                Convert.ToString(record.Value)
+                            ));
+                        }
                     }
                 }
 
-                calculateElementIds.Add(indicatorId);
-
-                var datum = db.Data.FirstOrDefault(
-                    o => o.IndicatorId == indicatorId
-                    && o.EntityId == entityId
-                    && o.DateId == dateId
-                    );
-
-                if (datum == null)
+                dataToSave.Add(new Datum
                 {
-                    datum = new Datum
-                    {
-                        IndicatorId = indicatorId,
-                        EntityId = entityId,
-                        DateId = dateId,
-                    };
-                    db.Entry(datum).State = EntityState.Added;
-                }
-                else
-                {
-                    db.Entry(datum).State = EntityState.Modified;
-                }
-
-                datum.LastSavedById = userId;
-                datum.LastSavedDateUtc = DateTime.Now;
-                datum.Value = record.Value;
-                datum.Note = record.Note;
-
-                // todo: what about submit, verify & approve?
+                    IndicatorId = indicator.IndicatorId,
+                    EntityId = entities[record.EntityCode].EntityId,
+                    DateId = dates[record.DateCode].DateId,
+                    Value = record.Value,
+                    Note = record.Note,
+                    LastSavedById = userId,
+                    LastSavedDateUtc = now
+                });
             }
 
             if (errors.Count > 0)
                 return false;
 
-            await db.SaveChangesAsync();
-
-            var indicatorIds = calculateElementIds.ToArray();
-
-            var indicatorsToCalculate = db.Indicators
-                .Include(o => o.Tokens)
-                .ThenInclude(o => o.SourceIndicator)
-                .Where(o => o.Tokens.Any(t => indicatorIds.Contains(t.SourceIndicatorId ?? Guid.Empty)))
-                .ToList();
-
-            // not optimal?
             var calculation = new Calculation(db, appSettings, userId);
-            foreach (var indicator in indicatorsToCalculate)
-            {
-                var recordsToCalculate = records.Where(o => indicator.Tokens.Any(t => t.SourceIndicatorId == indicators[o.Indicator].IndicatorId));
-                foreach (var record in recordsToCalculate)
-                {
-                    await calculation.CalculateAsync(
-                        indicator,
-                        [entities[record.Entity].EntityId],
-                        [dates[record.Date].DateId]
-                        );
-                }
-            }
+            await calculation.SaveAsync(dataToSave);
 
             return true;
         }
@@ -265,11 +237,11 @@ namespace WEB.Import
 
         public class CSVRow
         {
-            public string Indicator { get; set; }
-            public string Entity { get; set; }
-            public string Date { get; set; }
+            public string IndicatorCode { get; set; }
+            public string EntityCode { get; set; }
+            public string DateCode { get; set; }
             public decimal? Value { get; set; }
-            public string Note { get; set; }
+            public string? Note { get; set; }
         }
 
         public sealed class CSVMap : ClassMap<CSVRow>
