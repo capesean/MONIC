@@ -80,6 +80,9 @@
 	</ItemGroup>
 
 	<ItemGroup>
+		<Content Update="appsettings.monic-renoka.json">
+		  <CopyToPublishDirectory>Never</CopyToPublishDirectory>
+		</Content>
 		<Content Update="appsettings.monic-gga.json">
 		  <CopyToPublishDirectory>Never</CopyToPublishDirectory>
 		</Content>

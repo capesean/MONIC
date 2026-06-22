@@ -11,17 +11,13 @@ namespace WEB.Models
         public DbSet<Error> Errors { get; set; }
         public DbSet<ErrorException> Exceptions { get; set; }
 
-        private readonly IIdentityService identityService;
-        public bool UserIsInAnyRole(params Roles[] roles) => identityService.UserIsInAnyRole(roles);
+        //public bool UserIsInAnyRole(params Roles[] roles) => identityService.UserIsInAnyRole(roles);
         private Settings _settings;
 
         public ApplicationDbContext(
-            DbContextOptions options,
-            IIdentityService identityService
+            DbContextOptions options
             ) : base(options)
         {
-            this.identityService = identityService;
-
             //ChangeTracker.QueryTrackingBehavior = QueryTrackingBehavior.NoTracking;
             ChangeTracker.AutoDetectChangesEnabled = false;
         }
@@ -96,19 +92,16 @@ namespace WEB.Models
         public ApplicationDbContext CreateDbContext(string[] args)
         {
             var configuration = new ConfigurationBuilder()
-                .SetBasePath(Directory.GetCurrentDirectory())
-                .AddJsonFile("appsettings.development.json")
+                .AddUserSecrets<Program>()
                 .Build();
 
-            var connectionString = configuration.GetConnectionString("DefaultConnection");
-
-            var httpContextAccessor = new HttpContextAccessor();
-            var identityService = new IdentityService(httpContextAccessor);
+            var connectionString = configuration.GetConnectionString("DefaultConnection")
+                ?? throw new InvalidOperationException("DefaultConnection not found.");
 
             var optionsBuilder = new DbContextOptionsBuilder<ApplicationDbContext>();
             optionsBuilder.UseSqlServer(connectionString, opts => opts.CommandTimeout((int)TimeSpan.FromMinutes(10).TotalSeconds));
             optionsBuilder.UseOpenIddict();
-            return new ApplicationDbContext(optionsBuilder.Options, identityService);
+            return new ApplicationDbContext(optionsBuilder.Options);
         }
     }
 }

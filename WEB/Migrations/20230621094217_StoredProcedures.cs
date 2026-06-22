@@ -13,25 +13,25 @@ namespace WEB.Migrations
             migrationBuilder.Sql(@"
 IF EXISTS(SELECT * FROM SYSOBJECTS WHERE XTYPE = 'P' AND NAME = 'Calculate')
 	DROP PROC Calculate
-GO
+--GO
 IF EXISTS(SELECT * FROM SYSOBJECTS WHERE XTYPE = 'P' AND NAME = 'RunCalculations')
 	DROP PROC RunCalculations
-GO
+--GO
 IF EXISTS(SELECT * FROM SYSOBJECTS WHERE XTYPE = 'P' AND NAME = 'SaveData')
 	DROP PROC SaveData
-GO
+--GO
 IF EXISTS(SELECT * FROM SYSOBJECTS WHERE XTYPE = 'P' AND NAME = 'Aggregate')
 	DROP PROC Aggregate
-GO
+--GO
 IF EXISTS(SELECT * FROM sys.types WHERE NAME = 'CalculateTokens')
 	DROP TYPE CalculateTokens
-GO
+--GO
 IF EXISTS(SELECT * FROM sys.types WHERE NAME = 'GuidIds')
 	DROP TYPE GuidIds
-GO
+--GO
 IF EXISTS(SELECT * FROM sys.types WHERE NAME = 'DataParam')
 	DROP TYPE DataParam
-GO
+--GO
 CREATE TYPE CalculateTokens
 	AS TABLE 
 	(
@@ -45,14 +45,14 @@ CREATE TYPE CalculateTokens
 		RequiresSubmit bit NULL, --todo: implement this!
 		PRIMARY KEY (IndicatorId, TokenNumber)
 	);
-GO
+--GO
 CREATE TYPE GuidIds
 	AS TABLE 
 	(
 		Id uniqueidentifier NOT NULL
 		PRIMARY KEY (Id)
 	);
-GO
+--GO
 CREATE TYPE DataParam
 	AS TABLE 
 	(
@@ -64,12 +64,15 @@ CREATE TYPE DataParam
 		[Delete] bit NOT NULL
 		PRIMARY KEY (SourceIndicatorId, EntityId, DateId)
 	);
-GO
+--GO
 
 SET ANSI_NULLS ON
-GO
+--GO
 SET QUOTED_IDENTIFIER ON
-GO
+--GO
+            ");
+
+            migrationBuilder.Sql(@"
 CREATE PROC [dbo].[Calculate]
 	@Tokens dbo.CalculateTokens READONLY,
 	@IndicatorId uniqueidentifier,
@@ -339,12 +342,15 @@ WHEN NOT MATCHED BY TARGET THEN
 WHEN NOT MATCHED BY SOURCE THEN
     DELETE;
 	
-GO
+--GO
 
 SET ANSI_NULLS ON
-GO
+--GO
 SET QUOTED_IDENTIFIER ON
-GO
+--GO
+            ");
+
+            migrationBuilder.Sql(@"
 CREATE PROC [dbo].[RunCalculations]
 	@Tokens dbo.CalculateTokens READONLY,
 	@EntityIds dbo.GuidIds READONLY,
@@ -460,8 +466,10 @@ BEGIN CATCH
 	THROW;
 
 END CATCH
-GO
+--GO
+            ");
 
+            migrationBuilder.Sql(@"
 CREATE PROC [dbo].[SaveData]
 	@Data dbo.DataParam READONLY, -- todo: should be list of indicatorId+value+note, and separate param for dateid & entityId - so you can't send different dates/entities
 	@UserId uniqueidentifier
@@ -518,12 +526,15 @@ BEGIN CATCH
 	THROW;
 
 END CATCH
-GO
+--GO
 
 SET ANSI_NULLS ON
-GO
+--GO
 SET QUOTED_IDENTIFIER ON
-GO
+--GO
+            ");
+
+            migrationBuilder.Sql(@"
 CREATE PROC [dbo].[Aggregate]
 	@IndicatorIds dbo.GuidIds READONLY,
 	@EntityIds dbo.GuidIds READONLY,
@@ -906,7 +917,7 @@ BEGIN CATCH
 	THROW;
 
 END CATCH
-GO
+--GO
             ");
         }
 
