@@ -112,7 +112,7 @@ namespace Monic.Web.Controllers
         [HttpDelete("{projectId:Guid}/milestones"), AuthorizeRoles(Roles.Administrator)]
         public async Task<IActionResult> DeleteMilestones(Guid projectId)
         {
-            using (var transactionScope = Code.Db.CreateTransactionScope())
+            using (var transactionScope = Web.Code.Db.CreateTransactionScope())
             {
                 await db.Tasks.Where(o => o.Milestone.ProjectId == projectId).ExecuteDeleteAsync();
 

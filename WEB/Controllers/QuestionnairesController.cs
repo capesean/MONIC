@@ -139,7 +139,7 @@ namespace Monic.Web.Controllers
         [HttpDelete("{questionnaireId:Guid}/sections"), AuthorizeRoles(Roles.Administrator)]
         public async Task<IActionResult> DeleteSections(Guid questionnaireId)
         {
-            using (var transactionScope = Code.Db.CreateTransactionScope())
+            using (var transactionScope = Web.Code.Db.CreateTransactionScope())
             {
                 await db.Questions.Where(o => o.Section.QuestionnaireId == questionnaireId).ExecuteDeleteAsync();
 
@@ -154,7 +154,7 @@ namespace Monic.Web.Controllers
         [HttpDelete("{questionnaireId:Guid}/responses"), AuthorizeRoles(Roles.Administrator)]
         public async Task<IActionResult> DeleteResponses(Guid questionnaireId)
         {
-            using (var transactionScope = Code.Db.CreateTransactionScope())
+            using (var transactionScope = Web.Code.Db.CreateTransactionScope())
             {
                 await db.Items.Where(o => db.Answers.Where(a => a.Response.QuestionnaireId == questionnaireId).Select(a => a.AnswerId).Contains(o.ItemId)).ExecuteDeleteAsync();
 

@@ -156,7 +156,7 @@ namespace Monic.Web.Controllers
             if (await db.Responses.AnyAsync(o => o.Entity.OrganisationId == organisationId))
                 return BadRequest("Unable to delete the entities as there are related responses");
 
-            using (var transactionScope = Code.Db.CreateTransactionScope())
+            using (var transactionScope = Web.Code.Db.CreateTransactionScope())
             {
                 await db.EntityPermissions.Where(o => o.Entity.OrganisationId == organisationId).ExecuteDeleteAsync();
 
@@ -197,7 +197,7 @@ namespace Monic.Web.Controllers
             if (await db.FolderContents.AnyAsync(o => o.AddedBy.OrganisationId == organisationId))
                 return BadRequest("Unable to delete the users as there are related folder contents");
 
-            using (var transactionScope = Code.Db.CreateTransactionScope())
+            using (var transactionScope = Web.Code.Db.CreateTransactionScope())
             {
                 await db.EntityPermissions.Where(o => o.User.OrganisationId == organisationId).ExecuteDeleteAsync();
 

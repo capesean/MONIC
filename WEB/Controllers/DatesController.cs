@@ -196,7 +196,7 @@ namespace Monic.Web.Controllers
             if (await db.IndicatorDates.AnyAsync(o => o.Date.QuarterId == dateId))
                 return BadRequest("Unable to delete the dates in quarter as there are related indicator dates");
 
-            using (var transactionScope = Code.Db.CreateTransactionScope())
+            using (var transactionScope = Web.Code.Db.CreateTransactionScope())
             {
                 await db.QuestionSummaries.Where(o => o.Date.DateId == dateId).ExecuteDeleteAsync();
 
@@ -226,7 +226,7 @@ namespace Monic.Web.Controllers
             if (await db.IndicatorDates.AnyAsync(o => o.Date.YearId == dateId))
                 return BadRequest("Unable to delete the dates in year as there are related indicator dates");
 
-            using (var transactionScope = Code.Db.CreateTransactionScope())
+            using (var transactionScope = Web.Code.Db.CreateTransactionScope())
             {
                 await db.QuestionSummaries.Where(o => o.Date.DateId == dateId).ExecuteDeleteAsync();
 
@@ -241,7 +241,7 @@ namespace Monic.Web.Controllers
         [HttpDelete("{dateId:Guid}/responses"), AuthorizeRoles(Roles.Administrator)]
         public async Task<IActionResult> DeleteResponses(Guid dateId)
         {
-            using (var transactionScope = Code.Db.CreateTransactionScope())
+            using (var transactionScope = Web.Code.Db.CreateTransactionScope())
             {
                 await db.Answers.Where(o => o.Response.DateId == dateId).ExecuteDeleteAsync();
 

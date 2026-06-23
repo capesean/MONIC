@@ -126,7 +126,7 @@ namespace Monic.Web.Controllers
         [HttpDelete("{groupId:Guid}/fields"), AuthorizeRoles(Roles.Administrator)]
         public async Task<IActionResult> DeleteFields(Guid groupId)
         {
-            using (var transactionScope = Code.Db.CreateTransactionScope())
+            using (var transactionScope = Web.Code.Db.CreateTransactionScope())
             {
                 await db.ItemFields.Where(o => o.Field.GroupId == groupId).ExecuteDeleteAsync();
 

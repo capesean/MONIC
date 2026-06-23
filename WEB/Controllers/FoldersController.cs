@@ -139,7 +139,7 @@ namespace Monic.Web.Controllers
             if (await db.Folders.AnyAsync(o => o.ParentFolder.ParentFolderId == folderId))
                 return BadRequest("Unable to delete the subfolders as there are related folders");
 
-            using (var transactionScope = Code.Db.CreateTransactionScope())
+            using (var transactionScope = Web.Code.Db.CreateTransactionScope())
             {
                 await db.FolderContents.Where(o => o.Folder.FolderId == folderId).ExecuteDeleteAsync();
 

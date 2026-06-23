@@ -152,7 +152,7 @@ namespace Monic.Web.Controllers
             if (await db.Responses.AnyAsync(o => o.Entity.EntityTypeId == entityTypeId))
                 return BadRequest("Unable to delete the entities as there are related responses");
 
-            using (var transactionScope = Code.Db.CreateTransactionScope())
+            using (var transactionScope = Web.Code.Db.CreateTransactionScope())
             {
                 await db.EntityPermissions.Where(o => o.Entity.EntityTypeId == entityTypeId).ExecuteDeleteAsync();
 
@@ -178,7 +178,7 @@ namespace Monic.Web.Controllers
             if (await db.Responses.AnyAsync(o => o.Questionnaire.EntityTypeId == entityTypeId))
                 return BadRequest("Unable to delete the questionnaires as there are related responses");
 
-            using (var transactionScope = Code.Db.CreateTransactionScope())
+            using (var transactionScope = Web.Code.Db.CreateTransactionScope())
             {
                 await db.Sections.Where(o => o.Questionnaire.EntityTypeId == entityTypeId).ExecuteDeleteAsync();
 

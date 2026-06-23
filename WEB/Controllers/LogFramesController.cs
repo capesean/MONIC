@@ -106,7 +106,7 @@ namespace Monic.Web.Controllers
         [HttpDelete("{logFrameId:Guid}/logframerows"), AuthorizeRoles(Roles.Administrator)]
         public async Task<IActionResult> DeleteLogFrameRows(Guid logFrameId)
         {
-            using (var transactionScope = Code.Db.CreateTransactionScope())
+            using (var transactionScope = Web.Code.Db.CreateTransactionScope())
             {
                 await db.LogFrameRowIndicators.Where(o => o.LogFrameRow.LogFrameId == logFrameId).ExecuteDeleteAsync();
 

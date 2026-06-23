@@ -147,7 +147,7 @@ namespace Monic.Web.Controllers
         [HttpDelete("{responseId:Guid}/answers"), AuthorizeRoles(Roles.Administrator)]
         public async Task<IActionResult> DeleteAnswers(Guid responseId)
         {
-            using (var transactionScope = Code.Db.CreateTransactionScope())
+            using (var transactionScope = Web.Code.Db.CreateTransactionScope())
             {
                 await db.AnswerOptions.Where(o => o.Answer.ResponseId == responseId).ExecuteDeleteAsync();
 

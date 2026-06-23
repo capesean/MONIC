@@ -148,7 +148,7 @@ namespace Monic.Web.Controllers
             if (await db.SkipLogicOptions.AnyAsync(o => o.Question.SectionId == sectionId))
                 return BadRequest("Unable to delete the questions as there are related skip logic options");
 
-            using (var transactionScope = Code.Db.CreateTransactionScope())
+            using (var transactionScope = Web.Code.Db.CreateTransactionScope())
             {
                 await db.Answers.Where(o => o.Question.SectionId == sectionId).ExecuteDeleteAsync();
 
