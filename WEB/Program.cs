@@ -64,7 +64,7 @@ if (builder.Environment.IsDevelopment())
     appSettings.WebRootPath = Path.Combine(Directory.GetCurrentDirectory(), "ClientApp\\src\\");
 else
     appSettings.WebRootPath = builder.Environment.WebRootPath;
-appSettings.Email.WebRootPath = builder.Environment.WebRootPath;
+appSettings.Email.WebRootPath = appSettings.WebRootPath;
 
 //builder.Services.AddControllers(options => options.Filters.Add(typeof(ApiExceptionAttribute)))
 builder.Services.AddControllersWithViews(options => options.Filters.Add(typeof(ApiExceptionAttribute)))

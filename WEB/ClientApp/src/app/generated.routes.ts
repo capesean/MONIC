@@ -97,8 +97,9 @@ import { TokenListComponent } from './admin/tokens/token.list.component';
 import { TokenEditComponent } from './admin/tokens/token.edit.component';
 import { UserListComponent } from './admin/users/user.list.component';
 import { UserEditComponent } from './admin/users/user.edit.component';
+import { ToolsComponent } from './admin/tools/tools.component';
 
-export const GeneratedRoutes: Route[] = [
+const routes: Route[] = [
     {
         path: 'answers',
         canActivate: [AccessGuard],
@@ -1231,5 +1232,25 @@ export const GeneratedRoutes: Route[] = [
                 ]
             }
         ]
+    },
+    {
+        path: 'tools',
+        canActivate: [AccessGuard],
+        canActivateChild: [AccessGuard],
+        component: ToolsComponent,
+        pathMatch: 'full',
+        data: {
+            breadcrumb: 'Tools',
+            menu: 'admin'
+        },
+    },
+];
+
+export const AdminRoutes: Route[] = [
+    {
+        path: 'admin',
+        canActivate: [AccessGuard],
+        canActivateChild: [AccessGuard],
+        children: routes,
     }
 ];

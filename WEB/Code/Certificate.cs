@@ -9,26 +9,50 @@ namespace Monic.Web.Code
     {
         public static X509Certificate2 GetKeyVaultCertificate(string thumbprint)
         {
-            // ensure azure app has environment variable: WEBSITE_LOAD_CERTIFICATES = {THUMBPRINT}
-            // where {THUMBPRINT} is the thumbprint of the certificate uploaded to azure app service
-            // add a certificate (use the 'bring your own' option) and use the thumbprint from that screen. 
-            // powershell code for generating as openiddict.pfx on desktop:
+            // 1. use the script below to generate a certificate.
+            // 2. upload the certificate to the AZURE APP SERVICE, using the BRING YOUR OWN method
+            // 3. ensure azure app has environment variable: WEBSITE_LOAD_CERTIFICATES = {THUMBPRINT}
+            //      where {THUMBPRINT} is the thumbprint of the certificate
+            // 4. make sure the key vault has a secret for: Settings--Azure--CertificateThumbprint
             /*************************************************************
-            $pwd = ConvertTo-SecureString "---PUTYOURSTRONGPASSWORDHERE---" -AsPlainText -Force
+cls
 
-            $cert = New-SelfSignedCertificate `
-              -Subject "CN=openiddict" `
-              -CertStoreLocation "cert:\CurrentUser\My" `
-              -KeyAlgorithm RSA `
-              -KeyLength 2048 `
-              -KeyExportPolicy Exportable `
-              -NotAfter (Get-Date).AddYears(5) `
-              -FriendlyName "OpenIddict"
+$certPassword = "?????????????????????"
+$appName = "?????????????????????"
+$pwd = ConvertTo-SecureString $certPassword -AsPlainText -Force
 
-            Export-PfxCertificate `
-              -Cert "cert:\CurrentUser\My\$($cert.Thumbprint)" `
-              -FilePath "$env:USERPROFILE\Desktop\openiddict.pfx" `
-              -Password $pwd
+$cert = New-SelfSignedCertificate `
+  -Subject "CN=openiddict" `
+  -CertStoreLocation "cert:\CurrentUser\My" `
+  -KeyAlgorithm RSA `
+  -KeyLength 2048 `
+  -KeyExportPolicy Exportable `
+  -NotAfter (Get-Date).AddYears(10) `
+  -FriendlyName $appName
+
+$pfxPath = "$env:USERPROFILE\Desktop\$appName.pfx"
+
+Export-PfxCertificate `
+  -Cert "cert:\CurrentUser\My\$($cert.Thumbprint)" `
+  -FilePath $pfxPath `
+  -Password $pwd `
+  -CryptoAlgorithmOption TripleDES_SHA1
+
+$check = New-Object System.Security.Cryptography.X509Certificates.X509Certificate2(
+    $pfxPath,
+    $pwd
+)
+
+Write-Host ""
+Write-Host "PFX path: $pfxPath"
+Write-Host "Thumbprint: $($check.Thumbprint)"
+Write-Host "NotBefore: $($check.NotBefore)"
+Write-Host "NotAfter: $($check.NotAfter)"
+Write-Host "HasPrivateKey: $($check.HasPrivateKey)"
+Write-Host "Password used: $certPassword"
+Write-Host ""
+
+Remove-Item "cert:\CurrentUser\My\$($cert.Thumbprint)"
             *************************************************************/
             using var store = new X509Store(StoreName.My, StoreLocation.CurrentUser);
             store.Open(OpenFlags.ReadOnly);
