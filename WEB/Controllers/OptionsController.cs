@@ -5,14 +5,17 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.EntityFrameworkCore;
-using WEB.Models;
+using Monic.Web.Models;
 
-namespace WEB.Controllers
+namespace Monic.Web.Controllers
 {
     [Route("api/[Controller]"), Authorize]
     public class OptionsController : BaseApiController
     {
-        public OptionsController(IDbContextFactory<ApplicationDbContext> dbFactory, UserManager<User> um, AppSettings appSettings) : base(dbFactory, um, appSettings) { }
+        public OptionsController(IDbContextFactory<ApplicationDbContext> dbFactory, UserManager<User> um, AppSettings appSettings)
+            : base(dbFactory, um, appSettings)
+        {
+        }
 
         [HttpGet, AuthorizeRoles(Roles.Administrator)]
         public async Task<IActionResult> Search([FromQuery] OptionSearchOptions searchOptions)
@@ -103,7 +106,7 @@ namespace WEB.Controllers
             if (option == null)
                 return NotFound();
 
-            using (var transactionScope = Utilities.General.CreateTransactionScope())
+            using (var transactionScope = Code.Db.CreateTransactionScope())
             {
                 await db.ItemOptions.Where(o => o.OptionId == option.OptionId).ExecuteDeleteAsync();
 

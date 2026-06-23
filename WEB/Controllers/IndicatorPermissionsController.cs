@@ -5,14 +5,17 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.EntityFrameworkCore;
-using WEB.Models;
+using Monic.Web.Models;
 
-namespace WEB.Controllers
+namespace Monic.Web.Controllers
 {
     [Route("api/[Controller]"), Authorize]
     public partial class IndicatorPermissionsController : BaseApiController
     {
-        public IndicatorPermissionsController(IDbContextFactory<ApplicationDbContext> dbFactory, UserManager<User> um, AppSettings appSettings) : base(dbFactory, um, appSettings) { }
+        public IndicatorPermissionsController(IDbContextFactory<ApplicationDbContext> dbFactory, UserManager<User> um, AppSettings appSettings)
+            : base(dbFactory, um, appSettings)
+        {
+        }
 
         [HttpGet, AuthorizeRoles(Roles.Administrator, Roles.Manager)]
         public async Task<IActionResult> Search([FromQuery] IndicatorPermissionSearchOptions searchOptions)

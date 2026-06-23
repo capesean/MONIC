@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using System.Security.Claims;
 
-namespace WEB.Models
+namespace Monic.Web.Models
 {
     public partial class User : IdentityUser<Guid>
     {

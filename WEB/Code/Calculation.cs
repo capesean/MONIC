@@ -1,21 +1,19 @@
-﻿using WEB.Models;
+﻿using Monic.Web.Models;
 using Microsoft.EntityFrameworkCore;
 using System.Data;
 using Microsoft.Data.SqlClient;
 
-namespace WEB
+namespace Monic.Web.Code
 {
     public class Calculation
     {
         private ApplicationDbContext db;
-        private AppSettings appSettings;
         private Guid userId;
         private List<Indicator> allIndicators = new List<Indicator>();
 
         public Calculation(ApplicationDbContext db, AppSettings appSettings, Guid userId)
         {
             this.db = db;
-            this.appSettings = appSettings;
             this.userId = userId;
             allIndicators = db.Indicators
                 .Include(o => o.Tokens)
@@ -53,7 +51,7 @@ namespace WEB
             dateIds.AddRange(db.Dates.Where(o => dateIds.Contains(o.DateId) && o.YearId.HasValue).Select(o => o.YearId.Value).Distinct().ToList());
             dateIds = dateIds.Distinct().ToList();
 
-            using var transactionScope = Utilities.General.CreateTransactionScope();
+            using var transactionScope = Code.Db.CreateTransactionScope();
             using (var cmd = db.Database.GetDbConnection().CreateCommand())
             {
                 cmd.CommandText = "SaveData";
@@ -366,7 +364,7 @@ namespace WEB
             //List<Guid> indicatorIds = null;
             List<Date> dates = null;
 
-            using (var transactionScope = Utilities.General.CreateTransactionScope())
+            using (var transactionScope = Code.Db.CreateTransactionScope())
             {
 
                 if (changeType == EntityLinkChangeType.Remove)

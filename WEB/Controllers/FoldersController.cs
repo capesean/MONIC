@@ -5,14 +5,17 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.EntityFrameworkCore;
-using WEB.Models;
+using Monic.Web.Models;
 
-namespace WEB.Controllers
+namespace Monic.Web.Controllers
 {
     [Route("api/[Controller]"), Authorize]
     public class FoldersController : BaseApiController
     {
-        public FoldersController(IDbContextFactory<ApplicationDbContext> dbFactory, UserManager<User> um, AppSettings appSettings) : base(dbFactory, um, appSettings) { }
+        public FoldersController(IDbContextFactory<ApplicationDbContext> dbFactory, UserManager<User> um, AppSettings appSettings)
+            : base(dbFactory, um, appSettings)
+        {
+        }
 
         [HttpGet, AuthorizeRoles(Roles.Administrator)]
         public async Task<IActionResult> Search([FromQuery] FolderSearchOptions searchOptions)
@@ -113,7 +116,7 @@ namespace WEB.Controllers
             if (await db.Folders.AnyAsync(o => o.ParentFolderId == folder.FolderId))
                 return BadRequest("Unable to delete the folder as it has related subfolders");
 
-            using (var transactionScope = Utilities.General.CreateTransactionScope())
+            using (var transactionScope = Code.Db.CreateTransactionScope())
             {
                 await db.FolderContents.Where(o => o.FolderId == folder.FolderId).ExecuteDeleteAsync();
 
@@ -136,7 +139,7 @@ namespace WEB.Controllers
             if (await db.Folders.AnyAsync(o => o.ParentFolder.ParentFolderId == folderId))
                 return BadRequest("Unable to delete the subfolders as there are related folders");
 
-            using (var transactionScope = Utilities.General.CreateTransactionScope())
+            using (var transactionScope = Code.Db.CreateTransactionScope())
             {
                 await db.FolderContents.Where(o => o.Folder.FolderId == folderId).ExecuteDeleteAsync();
 

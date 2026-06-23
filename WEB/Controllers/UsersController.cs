@@ -5,19 +5,26 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.EntityFrameworkCore;
-using WEB.Models;
+using Monic.Web.Models;
 using Microsoft.Extensions.Options;
+using Monic.Web.Services;
 
-namespace WEB.Controllers
+namespace Monic.Web.Controllers
 {
     [Route("api/[Controller]"), Authorize]
     public partial class UsersController : BaseApiController
     {
         private RoleManager<Role> rm;
         private IOptions<IdentityOptions> opts;
+        private IEmailService emailService;
 
-        public UsersController(IDbContextFactory<ApplicationDbContext> dbFactory, UserManager<User> um, AppSettings appSettings, RoleManager<Role> rm, IOptions<IdentityOptions> opts)
-            : base(dbFactory, um, appSettings) { this.rm = rm; this.opts = opts; }
+        public UsersController(IDbContextFactory<ApplicationDbContext> dbFactory, UserManager<User> um, AppSettings appSettings, RoleManager<Role> rm, IOptions<IdentityOptions> opts, IEmailService emailService)
+            : base(dbFactory, um, appSettings)
+        {
+            this.rm = rm;
+            this.opts = opts;
+            this.emailService = emailService;
+        }
 
         [HttpGet]
         public async Task<IActionResult> Search([FromQuery] UserSearchOptions searchOptions, [FromQuery] string roleName = null)
@@ -129,7 +136,7 @@ namespace WEB.Controllers
             if (isNew)
             {
                 user = new User();
-                password = Utilities.General.GenerateRandomPassword(opts.Value.Password);
+                password = Code.General.GenerateRandomPassword(opts.Value.Password);
 
             }
             else
@@ -246,7 +253,7 @@ namespace WEB.Controllers
             }
 
 
-            if (isNew) await Utilities.General.SendWelcomeMailAsync(user, password, AppSettings);
+            if (isNew) await emailService.SendWelcomeMailAsync(user, password);
 
             return await Get(user.Id);
         }
@@ -286,7 +293,7 @@ namespace WEB.Controllers
             if (await db.FolderContents.AnyAsync(o => o.AddedById == user.Id))
                 return BadRequest("Unable to delete the user as it has related added folder content");
 
-            using (var transactionScope = Utilities.General.CreateTransactionScope())
+            using (var transactionScope = Code.Db.CreateTransactionScope())
             {
                 await db.EntityPermissions.Where(o => o.UserId == user.Id).ExecuteDeleteAsync();
 

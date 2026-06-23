@@ -5,11 +5,11 @@ using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
-using WEB.Models;
+using Monic.Web.Models;
 
 #nullable disable
 
-namespace WEB.Migrations
+namespace Monic.Web.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
     [Migration("20230527142630_ComponentIndicators")]
@@ -329,7 +329,7 @@ namespace WEB.Migrations
                     b.ToTable("OpenIddictTokens", (string)null);
                 });
 
-            modelBuilder.Entity("WEB.Models.Answer", b =>
+            modelBuilder.Entity("Monic.Web.Models.Answer", b =>
                 {
                     b.Property<Guid>("AnswerId")
                         .ValueGeneratedOnAdd()
@@ -355,7 +355,7 @@ namespace WEB.Migrations
                     b.ToTable("Answers");
                 });
 
-            modelBuilder.Entity("WEB.Models.AnswerOption", b =>
+            modelBuilder.Entity("Monic.Web.Models.AnswerOption", b =>
                 {
                     b.Property<Guid>("AnswerId")
                         .HasColumnType("uniqueidentifier");
@@ -371,7 +371,7 @@ namespace WEB.Migrations
                     b.ToTable("AnswerOptions");
                 });
 
-            modelBuilder.Entity("WEB.Models.Category", b =>
+            modelBuilder.Entity("Monic.Web.Models.Category", b =>
                 {
                     b.Property<Guid>("CategoryId")
                         .ValueGeneratedOnAdd()
@@ -403,7 +403,7 @@ namespace WEB.Migrations
                     b.ToTable("Categories");
                 });
 
-            modelBuilder.Entity("WEB.Models.Component", b =>
+            modelBuilder.Entity("Monic.Web.Models.Component", b =>
                 {
                     b.Property<Guid>("ComponentId")
                         .ValueGeneratedOnAdd()
@@ -445,7 +445,7 @@ namespace WEB.Migrations
                     b.ToTable("Components");
                 });
 
-            modelBuilder.Entity("WEB.Models.ComponentIndicator", b =>
+            modelBuilder.Entity("Monic.Web.Models.ComponentIndicator", b =>
                 {
                     b.Property<Guid>("ComponentId")
                         .HasColumnType("uniqueidentifier");
@@ -461,7 +461,7 @@ namespace WEB.Migrations
                     b.ToTable("ComponentIndicators");
                 });
 
-            modelBuilder.Entity("WEB.Models.DataReview", b =>
+            modelBuilder.Entity("Monic.Web.Models.DataReview", b =>
                 {
                     b.Property<Guid>("DataReviewId")
                         .ValueGeneratedOnAdd()
@@ -489,7 +489,7 @@ namespace WEB.Migrations
                     b.ToTable("DataReviews");
                 });
 
-            modelBuilder.Entity("WEB.Models.DataReviewLink", b =>
+            modelBuilder.Entity("Monic.Web.Models.DataReviewLink", b =>
                 {
                     b.Property<Guid>("IndicatorId")
                         .HasColumnType("uniqueidentifier");
@@ -511,7 +511,7 @@ namespace WEB.Migrations
                     b.ToTable("DataReviewLinks");
                 });
 
-            modelBuilder.Entity("WEB.Models.Date", b =>
+            modelBuilder.Entity("Monic.Web.Models.Date", b =>
                 {
                     b.Property<Guid>("DateId")
                         .ValueGeneratedOnAdd()
@@ -562,7 +562,7 @@ namespace WEB.Migrations
                     b.ToTable("Dates");
                 });
 
-            modelBuilder.Entity("WEB.Models.Datum", b =>
+            modelBuilder.Entity("Monic.Web.Models.Datum", b =>
                 {
                     b.Property<Guid>("IndicatorId")
                         .HasColumnType("uniqueidentifier");
@@ -637,7 +637,7 @@ namespace WEB.Migrations
                     b.ToTable("Data");
                 });
 
-            modelBuilder.Entity("WEB.Models.Document", b =>
+            modelBuilder.Entity("Monic.Web.Models.Document", b =>
                 {
                     b.Property<Guid>("DocumentId")
                         .ValueGeneratedOnAdd()
@@ -675,7 +675,7 @@ namespace WEB.Migrations
                     b.ToTable("Documents");
                 });
 
-            modelBuilder.Entity("WEB.Models.Entity", b =>
+            modelBuilder.Entity("Monic.Web.Models.Entity", b =>
                 {
                     b.Property<Guid>("EntityId")
                         .ValueGeneratedOnAdd()
@@ -725,7 +725,7 @@ namespace WEB.Migrations
                     b.ToTable("Entities");
                 });
 
-            modelBuilder.Entity("WEB.Models.EntityLink", b =>
+            modelBuilder.Entity("Monic.Web.Models.EntityLink", b =>
                 {
                     b.Property<Guid>("ChildEntityId")
                         .HasColumnType("uniqueidentifier");
@@ -741,7 +741,7 @@ namespace WEB.Migrations
                     b.ToTable("EntityLinks");
                 });
 
-            modelBuilder.Entity("WEB.Models.EntityPermission", b =>
+            modelBuilder.Entity("Monic.Web.Models.EntityPermission", b =>
                 {
                     b.Property<Guid>("EntityPermissionId")
                         .ValueGeneratedOnAdd()
@@ -762,7 +762,7 @@ namespace WEB.Migrations
                     b.ToTable("EntityPermissions");
                 });
 
-            modelBuilder.Entity("WEB.Models.EntityType", b =>
+            modelBuilder.Entity("Monic.Web.Models.EntityType", b =>
                 {
                     b.Property<Guid>("EntityTypeId")
                         .ValueGeneratedOnAdd()
@@ -794,7 +794,7 @@ namespace WEB.Migrations
                     b.ToTable("EntityTypes");
                 });
 
-            modelBuilder.Entity("WEB.Models.Error", b =>
+            modelBuilder.Entity("Monic.Web.Models.Error", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -830,7 +830,7 @@ namespace WEB.Migrations
                     b.ToTable("Errors");
                 });
 
-            modelBuilder.Entity("WEB.Models.ErrorException", b =>
+            modelBuilder.Entity("Monic.Web.Models.ErrorException", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -852,7 +852,7 @@ namespace WEB.Migrations
                     b.ToTable("Exceptions");
                 });
 
-            modelBuilder.Entity("WEB.Models.Field", b =>
+            modelBuilder.Entity("Monic.Web.Models.Field", b =>
                 {
                     b.Property<Guid>("FieldId")
                         .ValueGeneratedOnAdd()
@@ -932,7 +932,7 @@ namespace WEB.Migrations
                     b.ToTable("Fields");
                 });
 
-            modelBuilder.Entity("WEB.Models.FieldValue", b =>
+            modelBuilder.Entity("Monic.Web.Models.FieldValue", b =>
                 {
                     b.Property<Guid>("ItemId")
                         .HasColumnType("uniqueidentifier");
@@ -951,7 +951,7 @@ namespace WEB.Migrations
                     b.ToTable("FieldValues");
                 });
 
-            modelBuilder.Entity("WEB.Models.Folder", b =>
+            modelBuilder.Entity("Monic.Web.Models.Folder", b =>
                 {
                     b.Property<Guid>("FolderId")
                         .ValueGeneratedOnAdd()
@@ -979,7 +979,7 @@ namespace WEB.Migrations
                     b.ToTable("Folders");
                 });
 
-            modelBuilder.Entity("WEB.Models.FolderContent", b =>
+            modelBuilder.Entity("Monic.Web.Models.FolderContent", b =>
                 {
                     b.Property<Guid>("FolderContentId")
                         .ValueGeneratedOnAdd()
@@ -1014,7 +1014,7 @@ namespace WEB.Migrations
                     b.ToTable("FolderContents");
                 });
 
-            modelBuilder.Entity("WEB.Models.Group", b =>
+            modelBuilder.Entity("Monic.Web.Models.Group", b =>
                 {
                     b.Property<Guid>("GroupId")
                         .ValueGeneratedOnAdd()
@@ -1037,7 +1037,7 @@ namespace WEB.Migrations
                     b.ToTable("Groups");
                 });
 
-            modelBuilder.Entity("WEB.Models.Indicator", b =>
+            modelBuilder.Entity("Monic.Web.Models.Indicator", b =>
                 {
                     b.Property<Guid>("IndicatorId")
                         .ValueGeneratedOnAdd()
@@ -1128,7 +1128,7 @@ namespace WEB.Migrations
                     b.ToTable("Indicators");
                 });
 
-            modelBuilder.Entity("WEB.Models.IndicatorPermission", b =>
+            modelBuilder.Entity("Monic.Web.Models.IndicatorPermission", b =>
                 {
                     b.Property<Guid>("IndicatorPermissionId")
                         .ValueGeneratedOnAdd()
@@ -1161,7 +1161,7 @@ namespace WEB.Migrations
                     b.ToTable("IndicatorPermissions");
                 });
 
-            modelBuilder.Entity("WEB.Models.Item", b =>
+            modelBuilder.Entity("Monic.Web.Models.Item", b =>
                 {
                     b.Property<Guid>("ItemId")
                         .ValueGeneratedOnAdd()
@@ -1176,7 +1176,7 @@ namespace WEB.Migrations
                     b.ToTable("Items");
                 });
 
-            modelBuilder.Entity("WEB.Models.LogFrame", b =>
+            modelBuilder.Entity("Monic.Web.Models.LogFrame", b =>
                 {
                     b.Property<Guid>("LogFrameId")
                         .ValueGeneratedOnAdd()
@@ -1196,7 +1196,7 @@ namespace WEB.Migrations
                     b.ToTable("LogFrames");
                 });
 
-            modelBuilder.Entity("WEB.Models.LogFrameRow", b =>
+            modelBuilder.Entity("Monic.Web.Models.LogFrameRow", b =>
                 {
                     b.Property<Guid>("LogFrameRowId")
                         .ValueGeneratedOnAdd()
@@ -1234,7 +1234,7 @@ namespace WEB.Migrations
                     b.ToTable("LogFrameRows");
                 });
 
-            modelBuilder.Entity("WEB.Models.LogFrameRowComponent", b =>
+            modelBuilder.Entity("Monic.Web.Models.LogFrameRowComponent", b =>
                 {
                     b.Property<Guid>("LogFrameRowId")
                         .HasColumnType("uniqueidentifier");
@@ -1250,7 +1250,7 @@ namespace WEB.Migrations
                     b.ToTable("LogFrameRowComponents");
                 });
 
-            modelBuilder.Entity("WEB.Models.LogFrameRowIndicator", b =>
+            modelBuilder.Entity("Monic.Web.Models.LogFrameRowIndicator", b =>
                 {
                     b.Property<Guid>("LogFrameRowId")
                         .HasColumnType("uniqueidentifier");
@@ -1266,7 +1266,7 @@ namespace WEB.Migrations
                     b.ToTable("LogFrameRowIndicators");
                 });
 
-            modelBuilder.Entity("WEB.Models.Milestone", b =>
+            modelBuilder.Entity("Monic.Web.Models.Milestone", b =>
                 {
                     b.Property<Guid>("MilestoneId")
                         .ValueGeneratedOnAdd()
@@ -1299,7 +1299,7 @@ namespace WEB.Migrations
                     b.ToTable("Milestones");
                 });
 
-            modelBuilder.Entity("WEB.Models.Option", b =>
+            modelBuilder.Entity("Monic.Web.Models.Option", b =>
                 {
                     b.Property<Guid>("OptionId")
                         .ValueGeneratedOnAdd()
@@ -1325,7 +1325,7 @@ namespace WEB.Migrations
                     b.ToTable("Options");
                 });
 
-            modelBuilder.Entity("WEB.Models.OptionValue", b =>
+            modelBuilder.Entity("Monic.Web.Models.OptionValue", b =>
                 {
                     b.Property<Guid>("ItemId")
                         .HasColumnType("uniqueidentifier");
@@ -1341,7 +1341,7 @@ namespace WEB.Migrations
                     b.ToTable("OptionValues");
                 });
 
-            modelBuilder.Entity("WEB.Models.Organisation", b =>
+            modelBuilder.Entity("Monic.Web.Models.Organisation", b =>
                 {
                     b.Property<Guid>("OrganisationId")
                         .ValueGeneratedOnAdd()
@@ -1370,7 +1370,7 @@ namespace WEB.Migrations
                     b.ToTable("Organisations");
                 });
 
-            modelBuilder.Entity("WEB.Models.Project", b =>
+            modelBuilder.Entity("Monic.Web.Models.Project", b =>
                 {
                     b.Property<Guid>("ProjectId")
                         .ValueGeneratedOnAdd()
@@ -1394,7 +1394,7 @@ namespace WEB.Migrations
                     b.ToTable("Projects");
                 });
 
-            modelBuilder.Entity("WEB.Models.Question", b =>
+            modelBuilder.Entity("Monic.Web.Models.Question", b =>
                 {
                     b.Property<Guid>("QuestionId")
                         .ValueGeneratedOnAdd()
@@ -1455,7 +1455,7 @@ namespace WEB.Migrations
                     b.ToTable("Questions");
                 });
 
-            modelBuilder.Entity("WEB.Models.QuestionOption", b =>
+            modelBuilder.Entity("Monic.Web.Models.QuestionOption", b =>
                 {
                     b.Property<Guid>("QuestionOptionId")
                         .ValueGeneratedOnAdd()
@@ -1486,7 +1486,7 @@ namespace WEB.Migrations
                     b.ToTable("QuestionOptions");
                 });
 
-            modelBuilder.Entity("WEB.Models.QuestionOptionGroup", b =>
+            modelBuilder.Entity("Monic.Web.Models.QuestionOptionGroup", b =>
                 {
                     b.Property<Guid>("QuestionOptionGroupId")
                         .ValueGeneratedOnAdd()
@@ -1509,7 +1509,7 @@ namespace WEB.Migrations
                     b.ToTable("QuestionOptionGroups");
                 });
 
-            modelBuilder.Entity("WEB.Models.QuestionSummary", b =>
+            modelBuilder.Entity("Monic.Web.Models.QuestionSummary", b =>
                 {
                     b.Property<Guid>("QuestionId")
                         .HasColumnType("uniqueidentifier");
@@ -1528,7 +1528,7 @@ namespace WEB.Migrations
                     b.ToTable("QuestionSummaries");
                 });
 
-            modelBuilder.Entity("WEB.Models.Questionnaire", b =>
+            modelBuilder.Entity("Monic.Web.Models.Questionnaire", b =>
                 {
                     b.Property<Guid>("QuestionnaireId")
                         .ValueGeneratedOnAdd()
@@ -1590,7 +1590,7 @@ namespace WEB.Migrations
                     b.ToTable("Questionnaires");
                 });
 
-            modelBuilder.Entity("WEB.Models.Relationship", b =>
+            modelBuilder.Entity("Monic.Web.Models.Relationship", b =>
                 {
                     b.Property<Guid>("RelationshipId")
                         .ValueGeneratedOnAdd()
@@ -1620,7 +1620,7 @@ namespace WEB.Migrations
                     b.ToTable("Relationships");
                 });
 
-            modelBuilder.Entity("WEB.Models.Response", b =>
+            modelBuilder.Entity("Monic.Web.Models.Response", b =>
                 {
                     b.Property<Guid>("ResponseId")
                         .ValueGeneratedOnAdd()
@@ -1683,7 +1683,7 @@ namespace WEB.Migrations
                     b.ToTable("Responses");
                 });
 
-            modelBuilder.Entity("WEB.Models.Role", b =>
+            modelBuilder.Entity("Monic.Web.Models.Role", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -1711,7 +1711,7 @@ namespace WEB.Migrations
                     b.ToTable("AspNetRoles", (string)null);
                 });
 
-            modelBuilder.Entity("WEB.Models.Section", b =>
+            modelBuilder.Entity("Monic.Web.Models.Section", b =>
                 {
                     b.Property<Guid>("SectionId")
                         .ValueGeneratedOnAdd()
@@ -1740,7 +1740,7 @@ namespace WEB.Migrations
                     b.ToTable("Sections");
                 });
 
-            modelBuilder.Entity("WEB.Models.Settings", b =>
+            modelBuilder.Entity("Monic.Web.Models.Settings", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -1755,7 +1755,7 @@ namespace WEB.Migrations
                     b.ToTable("Settings");
                 });
 
-            modelBuilder.Entity("WEB.Models.SkipLogicOption", b =>
+            modelBuilder.Entity("Monic.Web.Models.SkipLogicOption", b =>
                 {
                     b.Property<Guid>("QuestionId")
                         .HasColumnType("uniqueidentifier");
@@ -1771,7 +1771,7 @@ namespace WEB.Migrations
                     b.ToTable("SkipLogicOptions");
                 });
 
-            modelBuilder.Entity("WEB.Models.Subcategory", b =>
+            modelBuilder.Entity("Monic.Web.Models.Subcategory", b =>
                 {
                     b.Property<Guid>("SubcategoryId")
                         .ValueGeneratedOnAdd()
@@ -1809,7 +1809,7 @@ namespace WEB.Migrations
                     b.ToTable("Subcategories");
                 });
 
-            modelBuilder.Entity("WEB.Models.Task", b =>
+            modelBuilder.Entity("Monic.Web.Models.Task", b =>
                 {
                     b.Property<Guid>("TaskId")
                         .ValueGeneratedOnAdd()
@@ -1851,7 +1851,7 @@ namespace WEB.Migrations
                     b.ToTable("Tasks");
                 });
 
-            modelBuilder.Entity("WEB.Models.TheoryOfChange", b =>
+            modelBuilder.Entity("Monic.Web.Models.TheoryOfChange", b =>
                 {
                     b.Property<Guid>("TheoryOfChangeId")
                         .ValueGeneratedOnAdd()
@@ -1871,7 +1871,7 @@ namespace WEB.Migrations
                     b.ToTable("TheoriesOfChange");
                 });
 
-            modelBuilder.Entity("WEB.Models.TheoryOfChangeComponent", b =>
+            modelBuilder.Entity("Monic.Web.Models.TheoryOfChangeComponent", b =>
                 {
                     b.Property<Guid>("TheoryOfChangeId")
                         .HasColumnType("uniqueidentifier");
@@ -1887,7 +1887,7 @@ namespace WEB.Migrations
                     b.ToTable("TheoryOfChangeComponents");
                 });
 
-            modelBuilder.Entity("WEB.Models.Token", b =>
+            modelBuilder.Entity("Monic.Web.Models.Token", b =>
                 {
                     b.Property<Guid>("IndicatorId")
                         .HasColumnType("uniqueidentifier");
@@ -1921,7 +1921,7 @@ namespace WEB.Migrations
                     b.ToTable("Tokens");
                 });
 
-            modelBuilder.Entity("WEB.Models.User", b =>
+            modelBuilder.Entity("Monic.Web.Models.User", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -2022,7 +2022,7 @@ namespace WEB.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<System.Guid>", b =>
                 {
-                    b.HasOne("WEB.Models.Role", null)
+                    b.HasOne("Monic.Web.Models.Role", null)
                         .WithMany()
                         .HasForeignKey("RoleId")
                         .OnDelete(DeleteBehavior.Restrict)
@@ -2031,7 +2031,7 @@ namespace WEB.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<System.Guid>", b =>
                 {
-                    b.HasOne("WEB.Models.User", null)
+                    b.HasOne("Monic.Web.Models.User", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Restrict)
@@ -2040,7 +2040,7 @@ namespace WEB.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<System.Guid>", b =>
                 {
-                    b.HasOne("WEB.Models.User", null)
+                    b.HasOne("Monic.Web.Models.User", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Restrict)
@@ -2049,13 +2049,13 @@ namespace WEB.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserRole<System.Guid>", b =>
                 {
-                    b.HasOne("WEB.Models.Role", null)
+                    b.HasOne("Monic.Web.Models.Role", null)
                         .WithMany()
                         .HasForeignKey("RoleId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
-                    b.HasOne("WEB.Models.User", null)
+                    b.HasOne("Monic.Web.Models.User", null)
                         .WithMany("Roles")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Restrict)
@@ -2064,7 +2064,7 @@ namespace WEB.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<System.Guid>", b =>
                 {
-                    b.HasOne("WEB.Models.User", null)
+                    b.HasOne("Monic.Web.Models.User", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Restrict)
@@ -2098,15 +2098,15 @@ namespace WEB.Migrations
                     b.Navigation("Authorization");
                 });
 
-            modelBuilder.Entity("WEB.Models.Answer", b =>
+            modelBuilder.Entity("Monic.Web.Models.Answer", b =>
                 {
-                    b.HasOne("WEB.Models.Question", "Question")
+                    b.HasOne("Monic.Web.Models.Question", "Question")
                         .WithMany("Answers")
                         .HasForeignKey("QuestionId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
-                    b.HasOne("WEB.Models.Response", "Response")
+                    b.HasOne("Monic.Web.Models.Response", "Response")
                         .WithMany("Answers")
                         .HasForeignKey("ResponseId")
                         .OnDelete(DeleteBehavior.Restrict)
@@ -2117,15 +2117,15 @@ namespace WEB.Migrations
                     b.Navigation("Response");
                 });
 
-            modelBuilder.Entity("WEB.Models.AnswerOption", b =>
+            modelBuilder.Entity("Monic.Web.Models.AnswerOption", b =>
                 {
-                    b.HasOne("WEB.Models.Answer", "Answer")
+                    b.HasOne("Monic.Web.Models.Answer", "Answer")
                         .WithMany("AnswerOptions")
                         .HasForeignKey("AnswerId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
-                    b.HasOne("WEB.Models.QuestionOption", "QuestionOption")
+                    b.HasOne("Monic.Web.Models.QuestionOption", "QuestionOption")
                         .WithMany("AnswerOptions")
                         .HasForeignKey("QuestionOptionId")
                         .OnDelete(DeleteBehavior.Restrict)
@@ -2136,15 +2136,15 @@ namespace WEB.Migrations
                     b.Navigation("QuestionOption");
                 });
 
-            modelBuilder.Entity("WEB.Models.ComponentIndicator", b =>
+            modelBuilder.Entity("Monic.Web.Models.ComponentIndicator", b =>
                 {
-                    b.HasOne("WEB.Models.Component", "Component")
+                    b.HasOne("Monic.Web.Models.Component", "Component")
                         .WithMany("ComponentIndicators")
                         .HasForeignKey("ComponentId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
-                    b.HasOne("WEB.Models.Indicator", "Indicator")
+                    b.HasOne("Monic.Web.Models.Indicator", "Indicator")
                         .WithMany("ComponentIndicators")
                         .HasForeignKey("IndicatorId")
                         .OnDelete(DeleteBehavior.Restrict)
@@ -2155,9 +2155,9 @@ namespace WEB.Migrations
                     b.Navigation("Indicator");
                 });
 
-            modelBuilder.Entity("WEB.Models.DataReview", b =>
+            modelBuilder.Entity("Monic.Web.Models.DataReview", b =>
                 {
-                    b.HasOne("WEB.Models.User", "User")
+                    b.HasOne("Monic.Web.Models.User", "User")
                         .WithMany("DataReviews")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Restrict)
@@ -2166,15 +2166,15 @@ namespace WEB.Migrations
                     b.Navigation("User");
                 });
 
-            modelBuilder.Entity("WEB.Models.DataReviewLink", b =>
+            modelBuilder.Entity("Monic.Web.Models.DataReviewLink", b =>
                 {
-                    b.HasOne("WEB.Models.DataReview", "DataReview")
+                    b.HasOne("Monic.Web.Models.DataReview", "DataReview")
                         .WithMany("DataReviewLinks")
                         .HasForeignKey("DataReviewId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
-                    b.HasOne("WEB.Models.Datum", "Datum")
+                    b.HasOne("Monic.Web.Models.Datum", "Datum")
                         .WithMany("DataReviewLinks")
                         .HasForeignKey("IndicatorId", "EntityId", "DateId")
                         .OnDelete(DeleteBehavior.Restrict)
@@ -2185,14 +2185,14 @@ namespace WEB.Migrations
                     b.Navigation("Datum");
                 });
 
-            modelBuilder.Entity("WEB.Models.Date", b =>
+            modelBuilder.Entity("Monic.Web.Models.Date", b =>
                 {
-                    b.HasOne("WEB.Models.Date", "Quarter")
+                    b.HasOne("Monic.Web.Models.Date", "Quarter")
                         .WithMany("DatesInQuarter")
                         .HasForeignKey("QuarterId")
                         .OnDelete(DeleteBehavior.Restrict);
 
-                    b.HasOne("WEB.Models.Date", "Year")
+                    b.HasOne("Monic.Web.Models.Date", "Year")
                         .WithMany("DatesInYear")
                         .HasForeignKey("YearId")
                         .OnDelete(DeleteBehavior.Restrict);
@@ -2202,48 +2202,48 @@ namespace WEB.Migrations
                     b.Navigation("Year");
                 });
 
-            modelBuilder.Entity("WEB.Models.Datum", b =>
+            modelBuilder.Entity("Monic.Web.Models.Datum", b =>
                 {
-                    b.HasOne("WEB.Models.DataReview", "ApproveReview")
+                    b.HasOne("Monic.Web.Models.DataReview", "ApproveReview")
                         .WithMany("ApprovedData")
                         .HasForeignKey("ApproveDataReviewId")
                         .OnDelete(DeleteBehavior.Restrict);
 
-                    b.HasOne("WEB.Models.Date", "Date")
+                    b.HasOne("Monic.Web.Models.Date", "Date")
                         .WithMany("Data")
                         .HasForeignKey("DateId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
-                    b.HasOne("WEB.Models.Entity", "Entity")
+                    b.HasOne("Monic.Web.Models.Entity", "Entity")
                         .WithMany("Data")
                         .HasForeignKey("EntityId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
-                    b.HasOne("WEB.Models.Indicator", "Indicator")
+                    b.HasOne("Monic.Web.Models.Indicator", "Indicator")
                         .WithMany("Data")
                         .HasForeignKey("IndicatorId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
-                    b.HasOne("WEB.Models.User", "LastSavedBy")
+                    b.HasOne("Monic.Web.Models.User", "LastSavedBy")
                         .WithMany("LastSavedData")
                         .HasForeignKey("LastSavedById")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
-                    b.HasOne("WEB.Models.DataReview", "RejectReview")
+                    b.HasOne("Monic.Web.Models.DataReview", "RejectReview")
                         .WithMany("RejectedData")
                         .HasForeignKey("RejectDataReviewId")
                         .OnDelete(DeleteBehavior.Restrict);
 
-                    b.HasOne("WEB.Models.DataReview", "SubmitReview")
+                    b.HasOne("Monic.Web.Models.DataReview", "SubmitReview")
                         .WithMany("SubmittedData")
                         .HasForeignKey("SubmitDataReviewId")
                         .OnDelete(DeleteBehavior.Restrict);
 
-                    b.HasOne("WEB.Models.DataReview", "VerifyReview")
+                    b.HasOne("Monic.Web.Models.DataReview", "VerifyReview")
                         .WithMany("VerifiedData")
                         .HasForeignKey("VerifyDataReviewId")
                         .OnDelete(DeleteBehavior.Restrict);
@@ -2265,15 +2265,15 @@ namespace WEB.Migrations
                     b.Navigation("VerifyReview");
                 });
 
-            modelBuilder.Entity("WEB.Models.Document", b =>
+            modelBuilder.Entity("Monic.Web.Models.Document", b =>
                 {
-                    b.HasOne("WEB.Models.Item", "Item")
+                    b.HasOne("Monic.Web.Models.Item", "Item")
                         .WithMany("Documents")
                         .HasForeignKey("ItemId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
-                    b.HasOne("WEB.Models.User", "UploadedBy")
+                    b.HasOne("Monic.Web.Models.User", "UploadedBy")
                         .WithMany("UploadedDocuments")
                         .HasForeignKey("UploadedById")
                         .OnDelete(DeleteBehavior.Restrict);
@@ -2283,15 +2283,15 @@ namespace WEB.Migrations
                     b.Navigation("UploadedBy");
                 });
 
-            modelBuilder.Entity("WEB.Models.Entity", b =>
+            modelBuilder.Entity("Monic.Web.Models.Entity", b =>
                 {
-                    b.HasOne("WEB.Models.EntityType", "EntityType")
+                    b.HasOne("Monic.Web.Models.EntityType", "EntityType")
                         .WithMany("Entities")
                         .HasForeignKey("EntityTypeId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
-                    b.HasOne("WEB.Models.Organisation", "Organisation")
+                    b.HasOne("Monic.Web.Models.Organisation", "Organisation")
                         .WithMany("Entities")
                         .HasForeignKey("OrganisationId")
                         .OnDelete(DeleteBehavior.Restrict);
@@ -2301,15 +2301,15 @@ namespace WEB.Migrations
                     b.Navigation("Organisation");
                 });
 
-            modelBuilder.Entity("WEB.Models.EntityLink", b =>
+            modelBuilder.Entity("Monic.Web.Models.EntityLink", b =>
                 {
-                    b.HasOne("WEB.Models.Entity", "ChildEntity")
+                    b.HasOne("Monic.Web.Models.Entity", "ChildEntity")
                         .WithMany("ParentEntities")
                         .HasForeignKey("ChildEntityId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
-                    b.HasOne("WEB.Models.Entity", "ParentEntity")
+                    b.HasOne("Monic.Web.Models.Entity", "ParentEntity")
                         .WithMany("ChildEntities")
                         .HasForeignKey("ParentEntityId")
                         .OnDelete(DeleteBehavior.Restrict)
@@ -2320,15 +2320,15 @@ namespace WEB.Migrations
                     b.Navigation("ParentEntity");
                 });
 
-            modelBuilder.Entity("WEB.Models.EntityPermission", b =>
+            modelBuilder.Entity("Monic.Web.Models.EntityPermission", b =>
                 {
-                    b.HasOne("WEB.Models.Entity", "Entity")
+                    b.HasOne("Monic.Web.Models.Entity", "Entity")
                         .WithMany("EntityPermissions")
                         .HasForeignKey("EntityId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
-                    b.HasOne("WEB.Models.User", "User")
+                    b.HasOne("Monic.Web.Models.User", "User")
                         .WithMany("EntityPermissions")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Restrict)
@@ -2339,9 +2339,9 @@ namespace WEB.Migrations
                     b.Navigation("User");
                 });
 
-            modelBuilder.Entity("WEB.Models.Error", b =>
+            modelBuilder.Entity("Monic.Web.Models.Error", b =>
                 {
-                    b.HasOne("WEB.Models.ErrorException", "Exception")
+                    b.HasOne("Monic.Web.Models.ErrorException", "Exception")
                         .WithMany()
                         .HasForeignKey("ExceptionId")
                         .OnDelete(DeleteBehavior.Restrict)
@@ -2350,9 +2350,9 @@ namespace WEB.Migrations
                     b.Navigation("Exception");
                 });
 
-            modelBuilder.Entity("WEB.Models.ErrorException", b =>
+            modelBuilder.Entity("Monic.Web.Models.ErrorException", b =>
                 {
-                    b.HasOne("WEB.Models.ErrorException", "InnerException")
+                    b.HasOne("Monic.Web.Models.ErrorException", "InnerException")
                         .WithMany()
                         .HasForeignKey("InnerExceptionId")
                         .OnDelete(DeleteBehavior.Restrict);
@@ -2360,9 +2360,9 @@ namespace WEB.Migrations
                     b.Navigation("InnerException");
                 });
 
-            modelBuilder.Entity("WEB.Models.Field", b =>
+            modelBuilder.Entity("Monic.Web.Models.Field", b =>
                 {
-                    b.HasOne("WEB.Models.Group", "Group")
+                    b.HasOne("Monic.Web.Models.Group", "Group")
                         .WithMany("Fields")
                         .HasForeignKey("GroupId")
                         .OnDelete(DeleteBehavior.Restrict);
@@ -2370,15 +2370,15 @@ namespace WEB.Migrations
                     b.Navigation("Group");
                 });
 
-            modelBuilder.Entity("WEB.Models.FieldValue", b =>
+            modelBuilder.Entity("Monic.Web.Models.FieldValue", b =>
                 {
-                    b.HasOne("WEB.Models.Field", "Field")
+                    b.HasOne("Monic.Web.Models.Field", "Field")
                         .WithMany("FieldValues")
                         .HasForeignKey("FieldId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
-                    b.HasOne("WEB.Models.Item", "Item")
+                    b.HasOne("Monic.Web.Models.Item", "Item")
                         .WithMany("FieldValues")
                         .HasForeignKey("ItemId")
                         .OnDelete(DeleteBehavior.Restrict)
@@ -2389,9 +2389,9 @@ namespace WEB.Migrations
                     b.Navigation("Item");
                 });
 
-            modelBuilder.Entity("WEB.Models.Folder", b =>
+            modelBuilder.Entity("Monic.Web.Models.Folder", b =>
                 {
-                    b.HasOne("WEB.Models.Folder", "ParentFolder")
+                    b.HasOne("Monic.Web.Models.Folder", "ParentFolder")
                         .WithMany("Subfolders")
                         .HasForeignKey("ParentFolderId")
                         .OnDelete(DeleteBehavior.Restrict);
@@ -2399,15 +2399,15 @@ namespace WEB.Migrations
                     b.Navigation("ParentFolder");
                 });
 
-            modelBuilder.Entity("WEB.Models.FolderContent", b =>
+            modelBuilder.Entity("Monic.Web.Models.FolderContent", b =>
                 {
-                    b.HasOne("WEB.Models.User", "AddedBy")
+                    b.HasOne("Monic.Web.Models.User", "AddedBy")
                         .WithMany("AddedFolderContents")
                         .HasForeignKey("AddedById")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
-                    b.HasOne("WEB.Models.Folder", "Folder")
+                    b.HasOne("Monic.Web.Models.Folder", "Folder")
                         .WithMany("FolderContents")
                         .HasForeignKey("FolderId")
                         .OnDelete(DeleteBehavior.Restrict)
@@ -2418,21 +2418,21 @@ namespace WEB.Migrations
                     b.Navigation("Folder");
                 });
 
-            modelBuilder.Entity("WEB.Models.Indicator", b =>
+            modelBuilder.Entity("Monic.Web.Models.Indicator", b =>
                 {
-                    b.HasOne("WEB.Models.User", "CreatedBy")
+                    b.HasOne("Monic.Web.Models.User", "CreatedBy")
                         .WithMany("CreatedIndicators")
                         .HasForeignKey("CreatedById")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
-                    b.HasOne("WEB.Models.EntityType", "EntityType")
+                    b.HasOne("Monic.Web.Models.EntityType", "EntityType")
                         .WithMany("Indicators")
                         .HasForeignKey("EntityTypeId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
-                    b.HasOne("WEB.Models.Subcategory", "Subcategory")
+                    b.HasOne("Monic.Web.Models.Subcategory", "Subcategory")
                         .WithMany("Indicators")
                         .HasForeignKey("SubcategoryId")
                         .OnDelete(DeleteBehavior.Restrict)
@@ -2445,14 +2445,14 @@ namespace WEB.Migrations
                     b.Navigation("Subcategory");
                 });
 
-            modelBuilder.Entity("WEB.Models.IndicatorPermission", b =>
+            modelBuilder.Entity("Monic.Web.Models.IndicatorPermission", b =>
                 {
-                    b.HasOne("WEB.Models.Indicator", "Indicator")
+                    b.HasOne("Monic.Web.Models.Indicator", "Indicator")
                         .WithMany("IndicatorPermissions")
                         .HasForeignKey("IndicatorId")
                         .OnDelete(DeleteBehavior.Restrict);
 
-                    b.HasOne("WEB.Models.User", "User")
+                    b.HasOne("Monic.Web.Models.User", "User")
                         .WithMany("IndicatorPermissions")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Restrict)
@@ -2463,9 +2463,9 @@ namespace WEB.Migrations
                     b.Navigation("User");
                 });
 
-            modelBuilder.Entity("WEB.Models.LogFrameRow", b =>
+            modelBuilder.Entity("Monic.Web.Models.LogFrameRow", b =>
                 {
-                    b.HasOne("WEB.Models.LogFrame", "LogFrame")
+                    b.HasOne("Monic.Web.Models.LogFrame", "LogFrame")
                         .WithMany("LogFrameRows")
                         .HasForeignKey("LogFrameId")
                         .OnDelete(DeleteBehavior.Restrict)
@@ -2474,15 +2474,15 @@ namespace WEB.Migrations
                     b.Navigation("LogFrame");
                 });
 
-            modelBuilder.Entity("WEB.Models.LogFrameRowComponent", b =>
+            modelBuilder.Entity("Monic.Web.Models.LogFrameRowComponent", b =>
                 {
-                    b.HasOne("WEB.Models.Component", "Component")
+                    b.HasOne("Monic.Web.Models.Component", "Component")
                         .WithMany("LogFrameRowComponents")
                         .HasForeignKey("ComponentId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
-                    b.HasOne("WEB.Models.LogFrameRow", "LogFrameRow")
+                    b.HasOne("Monic.Web.Models.LogFrameRow", "LogFrameRow")
                         .WithMany("LogFrameRowComponents")
                         .HasForeignKey("LogFrameRowId")
                         .OnDelete(DeleteBehavior.Restrict)
@@ -2493,15 +2493,15 @@ namespace WEB.Migrations
                     b.Navigation("LogFrameRow");
                 });
 
-            modelBuilder.Entity("WEB.Models.LogFrameRowIndicator", b =>
+            modelBuilder.Entity("Monic.Web.Models.LogFrameRowIndicator", b =>
                 {
-                    b.HasOne("WEB.Models.Indicator", "Indicator")
+                    b.HasOne("Monic.Web.Models.Indicator", "Indicator")
                         .WithMany("LogFrameRowIndicators")
                         .HasForeignKey("IndicatorId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
-                    b.HasOne("WEB.Models.LogFrameRow", "LogFrameRow")
+                    b.HasOne("Monic.Web.Models.LogFrameRow", "LogFrameRow")
                         .WithMany("LogFrameRowIndicators")
                         .HasForeignKey("LogFrameRowId")
                         .OnDelete(DeleteBehavior.Restrict)
@@ -2512,9 +2512,9 @@ namespace WEB.Migrations
                     b.Navigation("LogFrameRow");
                 });
 
-            modelBuilder.Entity("WEB.Models.Milestone", b =>
+            modelBuilder.Entity("Monic.Web.Models.Milestone", b =>
                 {
-                    b.HasOne("WEB.Models.Project", "Project")
+                    b.HasOne("Monic.Web.Models.Project", "Project")
                         .WithMany("Milestones")
                         .HasForeignKey("ProjectId")
                         .OnDelete(DeleteBehavior.Restrict)
@@ -2523,9 +2523,9 @@ namespace WEB.Migrations
                     b.Navigation("Project");
                 });
 
-            modelBuilder.Entity("WEB.Models.Option", b =>
+            modelBuilder.Entity("Monic.Web.Models.Option", b =>
                 {
-                    b.HasOne("WEB.Models.Field", "Field")
+                    b.HasOne("Monic.Web.Models.Field", "Field")
                         .WithMany("Options")
                         .HasForeignKey("FieldId")
                         .OnDelete(DeleteBehavior.Restrict)
@@ -2534,15 +2534,15 @@ namespace WEB.Migrations
                     b.Navigation("Field");
                 });
 
-            modelBuilder.Entity("WEB.Models.OptionValue", b =>
+            modelBuilder.Entity("Monic.Web.Models.OptionValue", b =>
                 {
-                    b.HasOne("WEB.Models.Item", "Item")
+                    b.HasOne("Monic.Web.Models.Item", "Item")
                         .WithMany("OptionValues")
                         .HasForeignKey("ItemId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
-                    b.HasOne("WEB.Models.Option", "Option")
+                    b.HasOne("Monic.Web.Models.Option", "Option")
                         .WithMany("OptionValues")
                         .HasForeignKey("OptionId")
                         .OnDelete(DeleteBehavior.Restrict)
@@ -2553,19 +2553,19 @@ namespace WEB.Migrations
                     b.Navigation("Option");
                 });
 
-            modelBuilder.Entity("WEB.Models.Question", b =>
+            modelBuilder.Entity("Monic.Web.Models.Question", b =>
                 {
-                    b.HasOne("WEB.Models.Question", "CheckQuestion")
+                    b.HasOne("Monic.Web.Models.Question", "CheckQuestion")
                         .WithMany("SkipLogicQuestions")
                         .HasForeignKey("CheckQuestionId")
                         .OnDelete(DeleteBehavior.Restrict);
 
-                    b.HasOne("WEB.Models.QuestionOptionGroup", "QuestionOptionGroup")
+                    b.HasOne("Monic.Web.Models.QuestionOptionGroup", "QuestionOptionGroup")
                         .WithMany("Questions")
                         .HasForeignKey("QuestionOptionGroupId")
                         .OnDelete(DeleteBehavior.Restrict);
 
-                    b.HasOne("WEB.Models.Section", "Section")
+                    b.HasOne("Monic.Web.Models.Section", "Section")
                         .WithMany("Questions")
                         .HasForeignKey("SectionId")
                         .OnDelete(DeleteBehavior.Restrict)
@@ -2578,9 +2578,9 @@ namespace WEB.Migrations
                     b.Navigation("Section");
                 });
 
-            modelBuilder.Entity("WEB.Models.QuestionOption", b =>
+            modelBuilder.Entity("Monic.Web.Models.QuestionOption", b =>
                 {
-                    b.HasOne("WEB.Models.QuestionOptionGroup", "QuestionOptionGroup")
+                    b.HasOne("Monic.Web.Models.QuestionOptionGroup", "QuestionOptionGroup")
                         .WithMany("QuestionOptions")
                         .HasForeignKey("QuestionOptionGroupId")
                         .OnDelete(DeleteBehavior.Restrict)
@@ -2589,15 +2589,15 @@ namespace WEB.Migrations
                     b.Navigation("QuestionOptionGroup");
                 });
 
-            modelBuilder.Entity("WEB.Models.QuestionSummary", b =>
+            modelBuilder.Entity("Monic.Web.Models.QuestionSummary", b =>
                 {
-                    b.HasOne("WEB.Models.Date", "Date")
+                    b.HasOne("Monic.Web.Models.Date", "Date")
                         .WithMany("QuestionSummaries")
                         .HasForeignKey("DateId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
-                    b.HasOne("WEB.Models.Question", "Question")
+                    b.HasOne("Monic.Web.Models.Question", "Question")
                         .WithMany("QuestionSummaries")
                         .HasForeignKey("QuestionId")
                         .OnDelete(DeleteBehavior.Restrict)
@@ -2608,14 +2608,14 @@ namespace WEB.Migrations
                     b.Navigation("Question");
                 });
 
-            modelBuilder.Entity("WEB.Models.Questionnaire", b =>
+            modelBuilder.Entity("Monic.Web.Models.Questionnaire", b =>
                 {
-                    b.HasOne("WEB.Models.Date", "Date")
+                    b.HasOne("Monic.Web.Models.Date", "Date")
                         .WithMany("DefaultDateQuestionnaires")
                         .HasForeignKey("DefaultDateId")
                         .OnDelete(DeleteBehavior.Restrict);
 
-                    b.HasOne("WEB.Models.EntityType", "EntityType")
+                    b.HasOne("Monic.Web.Models.EntityType", "EntityType")
                         .WithMany("Questionnaires")
                         .HasForeignKey("EntityTypeId")
                         .OnDelete(DeleteBehavior.Restrict)
@@ -2626,21 +2626,21 @@ namespace WEB.Migrations
                     b.Navigation("EntityType");
                 });
 
-            modelBuilder.Entity("WEB.Models.Relationship", b =>
+            modelBuilder.Entity("Monic.Web.Models.Relationship", b =>
                 {
-                    b.HasOne("WEB.Models.Component", "SourceComponent")
+                    b.HasOne("Monic.Web.Models.Component", "SourceComponent")
                         .WithMany("RelationshipsAsSource")
                         .HasForeignKey("SourceComponentId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
-                    b.HasOne("WEB.Models.Component", "TargetComponent")
+                    b.HasOne("Monic.Web.Models.Component", "TargetComponent")
                         .WithMany("RelationshipsAsTarget")
                         .HasForeignKey("TargetComponentId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
-                    b.HasOne("WEB.Models.TheoryOfChange", "TheoryOfChange")
+                    b.HasOne("Monic.Web.Models.TheoryOfChange", "TheoryOfChange")
                         .WithMany("Relationships")
                         .HasForeignKey("TheoryOfChangeId")
                         .OnDelete(DeleteBehavior.Restrict)
@@ -2653,27 +2653,27 @@ namespace WEB.Migrations
                     b.Navigation("TheoryOfChange");
                 });
 
-            modelBuilder.Entity("WEB.Models.Response", b =>
+            modelBuilder.Entity("Monic.Web.Models.Response", b =>
                 {
-                    b.HasOne("WEB.Models.Date", "Date")
+                    b.HasOne("Monic.Web.Models.Date", "Date")
                         .WithMany("Responses")
                         .HasForeignKey("DateId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
-                    b.HasOne("WEB.Models.Entity", "Entity")
+                    b.HasOne("Monic.Web.Models.Entity", "Entity")
                         .WithMany("Responses")
                         .HasForeignKey("EntityId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
-                    b.HasOne("WEB.Models.Questionnaire", "Questionnaire")
+                    b.HasOne("Monic.Web.Models.Questionnaire", "Questionnaire")
                         .WithMany("Responses")
                         .HasForeignKey("QuestionnaireId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
-                    b.HasOne("WEB.Models.User", "SubmittedBy")
+                    b.HasOne("Monic.Web.Models.User", "SubmittedBy")
                         .WithMany("SubmittedResponses")
                         .HasForeignKey("SubmittedById")
                         .OnDelete(DeleteBehavior.Restrict);
@@ -2687,9 +2687,9 @@ namespace WEB.Migrations
                     b.Navigation("SubmittedBy");
                 });
 
-            modelBuilder.Entity("WEB.Models.Section", b =>
+            modelBuilder.Entity("Monic.Web.Models.Section", b =>
                 {
-                    b.HasOne("WEB.Models.Questionnaire", "Questionnaire")
+                    b.HasOne("Monic.Web.Models.Questionnaire", "Questionnaire")
                         .WithMany("Sections")
                         .HasForeignKey("QuestionnaireId")
                         .OnDelete(DeleteBehavior.Restrict)
@@ -2698,15 +2698,15 @@ namespace WEB.Migrations
                     b.Navigation("Questionnaire");
                 });
 
-            modelBuilder.Entity("WEB.Models.SkipLogicOption", b =>
+            modelBuilder.Entity("Monic.Web.Models.SkipLogicOption", b =>
                 {
-                    b.HasOne("WEB.Models.QuestionOption", "QuestionOption")
+                    b.HasOne("Monic.Web.Models.QuestionOption", "QuestionOption")
                         .WithMany("SkipLogicOptions")
                         .HasForeignKey("CheckQuestionOptionId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
-                    b.HasOne("WEB.Models.Question", "Question")
+                    b.HasOne("Monic.Web.Models.Question", "Question")
                         .WithMany("SkipLogicOptions")
                         .HasForeignKey("QuestionId")
                         .OnDelete(DeleteBehavior.Restrict)
@@ -2717,9 +2717,9 @@ namespace WEB.Migrations
                     b.Navigation("QuestionOption");
                 });
 
-            modelBuilder.Entity("WEB.Models.Subcategory", b =>
+            modelBuilder.Entity("Monic.Web.Models.Subcategory", b =>
                 {
-                    b.HasOne("WEB.Models.Category", "Category")
+                    b.HasOne("Monic.Web.Models.Category", "Category")
                         .WithMany("Subcategories")
                         .HasForeignKey("CategoryId")
                         .OnDelete(DeleteBehavior.Restrict)
@@ -2728,9 +2728,9 @@ namespace WEB.Migrations
                     b.Navigation("Category");
                 });
 
-            modelBuilder.Entity("WEB.Models.Task", b =>
+            modelBuilder.Entity("Monic.Web.Models.Task", b =>
                 {
-                    b.HasOne("WEB.Models.Milestone", "Milestone")
+                    b.HasOne("Monic.Web.Models.Milestone", "Milestone")
                         .WithMany("Tasks")
                         .HasForeignKey("MilestoneId")
                         .OnDelete(DeleteBehavior.Restrict)
@@ -2739,15 +2739,15 @@ namespace WEB.Migrations
                     b.Navigation("Milestone");
                 });
 
-            modelBuilder.Entity("WEB.Models.TheoryOfChangeComponent", b =>
+            modelBuilder.Entity("Monic.Web.Models.TheoryOfChangeComponent", b =>
                 {
-                    b.HasOne("WEB.Models.Component", "Component")
+                    b.HasOne("Monic.Web.Models.Component", "Component")
                         .WithMany("TheoryOfChangeComponents")
                         .HasForeignKey("ComponentId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
-                    b.HasOne("WEB.Models.TheoryOfChange", "TheoryOfChange")
+                    b.HasOne("Monic.Web.Models.TheoryOfChange", "TheoryOfChange")
                         .WithMany("TheoryOfChangeComponents")
                         .HasForeignKey("TheoryOfChangeId")
                         .OnDelete(DeleteBehavior.Restrict)
@@ -2758,15 +2758,15 @@ namespace WEB.Migrations
                     b.Navigation("TheoryOfChange");
                 });
 
-            modelBuilder.Entity("WEB.Models.Token", b =>
+            modelBuilder.Entity("Monic.Web.Models.Token", b =>
                 {
-                    b.HasOne("WEB.Models.Indicator", "Indicator")
+                    b.HasOne("Monic.Web.Models.Indicator", "Indicator")
                         .WithMany("Tokens")
                         .HasForeignKey("IndicatorId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
-                    b.HasOne("WEB.Models.Indicator", "SourceIndicator")
+                    b.HasOne("Monic.Web.Models.Indicator", "SourceIndicator")
                         .WithMany("SourceTokens")
                         .HasForeignKey("SourceIndicatorId")
                         .OnDelete(DeleteBehavior.Restrict);
@@ -2776,14 +2776,14 @@ namespace WEB.Migrations
                     b.Navigation("SourceIndicator");
                 });
 
-            modelBuilder.Entity("WEB.Models.User", b =>
+            modelBuilder.Entity("Monic.Web.Models.User", b =>
                 {
-                    b.HasOne("WEB.Models.Entity", "Entity")
+                    b.HasOne("Monic.Web.Models.Entity", "Entity")
                         .WithMany("AffiliatedUsers")
                         .HasForeignKey("AffiliatedEntityId")
                         .OnDelete(DeleteBehavior.Restrict);
 
-                    b.HasOne("WEB.Models.Organisation", "Organisation")
+                    b.HasOne("Monic.Web.Models.Organisation", "Organisation")
                         .WithMany("Users")
                         .HasForeignKey("OrganisationId")
                         .OnDelete(DeleteBehavior.Restrict);
@@ -2805,17 +2805,17 @@ namespace WEB.Migrations
                     b.Navigation("Tokens");
                 });
 
-            modelBuilder.Entity("WEB.Models.Answer", b =>
+            modelBuilder.Entity("Monic.Web.Models.Answer", b =>
                 {
                     b.Navigation("AnswerOptions");
                 });
 
-            modelBuilder.Entity("WEB.Models.Category", b =>
+            modelBuilder.Entity("Monic.Web.Models.Category", b =>
                 {
                     b.Navigation("Subcategories");
                 });
 
-            modelBuilder.Entity("WEB.Models.Component", b =>
+            modelBuilder.Entity("Monic.Web.Models.Component", b =>
                 {
                     b.Navigation("ComponentIndicators");
 
@@ -2828,7 +2828,7 @@ namespace WEB.Migrations
                     b.Navigation("TheoryOfChangeComponents");
                 });
 
-            modelBuilder.Entity("WEB.Models.DataReview", b =>
+            modelBuilder.Entity("Monic.Web.Models.DataReview", b =>
                 {
                     b.Navigation("ApprovedData");
 
@@ -2841,7 +2841,7 @@ namespace WEB.Migrations
                     b.Navigation("VerifiedData");
                 });
 
-            modelBuilder.Entity("WEB.Models.Date", b =>
+            modelBuilder.Entity("Monic.Web.Models.Date", b =>
                 {
                     b.Navigation("Data");
 
@@ -2856,12 +2856,12 @@ namespace WEB.Migrations
                     b.Navigation("Responses");
                 });
 
-            modelBuilder.Entity("WEB.Models.Datum", b =>
+            modelBuilder.Entity("Monic.Web.Models.Datum", b =>
                 {
                     b.Navigation("DataReviewLinks");
                 });
 
-            modelBuilder.Entity("WEB.Models.Entity", b =>
+            modelBuilder.Entity("Monic.Web.Models.Entity", b =>
                 {
                     b.Navigation("AffiliatedUsers");
 
@@ -2876,7 +2876,7 @@ namespace WEB.Migrations
                     b.Navigation("Responses");
                 });
 
-            modelBuilder.Entity("WEB.Models.EntityType", b =>
+            modelBuilder.Entity("Monic.Web.Models.EntityType", b =>
                 {
                     b.Navigation("Entities");
 
@@ -2885,26 +2885,26 @@ namespace WEB.Migrations
                     b.Navigation("Questionnaires");
                 });
 
-            modelBuilder.Entity("WEB.Models.Field", b =>
+            modelBuilder.Entity("Monic.Web.Models.Field", b =>
                 {
                     b.Navigation("FieldValues");
 
                     b.Navigation("Options");
                 });
 
-            modelBuilder.Entity("WEB.Models.Folder", b =>
+            modelBuilder.Entity("Monic.Web.Models.Folder", b =>
                 {
                     b.Navigation("FolderContents");
 
                     b.Navigation("Subfolders");
                 });
 
-            modelBuilder.Entity("WEB.Models.Group", b =>
+            modelBuilder.Entity("Monic.Web.Models.Group", b =>
                 {
                     b.Navigation("Fields");
                 });
 
-            modelBuilder.Entity("WEB.Models.Indicator", b =>
+            modelBuilder.Entity("Monic.Web.Models.Indicator", b =>
                 {
                     b.Navigation("ComponentIndicators");
 
@@ -2919,7 +2919,7 @@ namespace WEB.Migrations
                     b.Navigation("Tokens");
                 });
 
-            modelBuilder.Entity("WEB.Models.Item", b =>
+            modelBuilder.Entity("Monic.Web.Models.Item", b =>
                 {
                     b.Navigation("Documents");
 
@@ -2928,41 +2928,41 @@ namespace WEB.Migrations
                     b.Navigation("OptionValues");
                 });
 
-            modelBuilder.Entity("WEB.Models.LogFrame", b =>
+            modelBuilder.Entity("Monic.Web.Models.LogFrame", b =>
                 {
                     b.Navigation("LogFrameRows");
                 });
 
-            modelBuilder.Entity("WEB.Models.LogFrameRow", b =>
+            modelBuilder.Entity("Monic.Web.Models.LogFrameRow", b =>
                 {
                     b.Navigation("LogFrameRowComponents");
 
                     b.Navigation("LogFrameRowIndicators");
                 });
 
-            modelBuilder.Entity("WEB.Models.Milestone", b =>
+            modelBuilder.Entity("Monic.Web.Models.Milestone", b =>
                 {
                     b.Navigation("Tasks");
                 });
 
-            modelBuilder.Entity("WEB.Models.Option", b =>
+            modelBuilder.Entity("Monic.Web.Models.Option", b =>
                 {
                     b.Navigation("OptionValues");
                 });
 
-            modelBuilder.Entity("WEB.Models.Organisation", b =>
+            modelBuilder.Entity("Monic.Web.Models.Organisation", b =>
                 {
                     b.Navigation("Entities");
 
                     b.Navigation("Users");
                 });
 
-            modelBuilder.Entity("WEB.Models.Project", b =>
+            modelBuilder.Entity("Monic.Web.Models.Project", b =>
                 {
                     b.Navigation("Milestones");
                 });
 
-            modelBuilder.Entity("WEB.Models.Question", b =>
+            modelBuilder.Entity("Monic.Web.Models.Question", b =>
                 {
                     b.Navigation("Answers");
 
@@ -2973,50 +2973,50 @@ namespace WEB.Migrations
                     b.Navigation("SkipLogicQuestions");
                 });
 
-            modelBuilder.Entity("WEB.Models.QuestionOption", b =>
+            modelBuilder.Entity("Monic.Web.Models.QuestionOption", b =>
                 {
                     b.Navigation("AnswerOptions");
 
                     b.Navigation("SkipLogicOptions");
                 });
 
-            modelBuilder.Entity("WEB.Models.QuestionOptionGroup", b =>
+            modelBuilder.Entity("Monic.Web.Models.QuestionOptionGroup", b =>
                 {
                     b.Navigation("QuestionOptions");
 
                     b.Navigation("Questions");
                 });
 
-            modelBuilder.Entity("WEB.Models.Questionnaire", b =>
+            modelBuilder.Entity("Monic.Web.Models.Questionnaire", b =>
                 {
                     b.Navigation("Responses");
 
                     b.Navigation("Sections");
                 });
 
-            modelBuilder.Entity("WEB.Models.Response", b =>
+            modelBuilder.Entity("Monic.Web.Models.Response", b =>
                 {
                     b.Navigation("Answers");
                 });
 
-            modelBuilder.Entity("WEB.Models.Section", b =>
+            modelBuilder.Entity("Monic.Web.Models.Section", b =>
                 {
                     b.Navigation("Questions");
                 });
 
-            modelBuilder.Entity("WEB.Models.Subcategory", b =>
+            modelBuilder.Entity("Monic.Web.Models.Subcategory", b =>
                 {
                     b.Navigation("Indicators");
                 });
 
-            modelBuilder.Entity("WEB.Models.TheoryOfChange", b =>
+            modelBuilder.Entity("Monic.Web.Models.TheoryOfChange", b =>
                 {
                     b.Navigation("Relationships");
 
                     b.Navigation("TheoryOfChangeComponents");
                 });
 
-            modelBuilder.Entity("WEB.Models.User", b =>
+            modelBuilder.Entity("Monic.Web.Models.User", b =>
                 {
                     b.Navigation("AddedFolderContents");
 

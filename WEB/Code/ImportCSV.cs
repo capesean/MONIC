@@ -2,10 +2,9 @@
 using CsvHelper.Configuration;
 using Microsoft.EntityFrameworkCore;
 using System.Globalization;
-using WEB.Error;
-using WEB.Models;
+using Monic.Web.Models;
 
-namespace WEB.Import
+namespace Monic.Web.Code
 {
     public class ImportCSV(ApplicationDbContext db)
     {

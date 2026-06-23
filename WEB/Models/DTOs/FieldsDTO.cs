@@ -1,7 +1,7 @@
 using Org.BouncyCastle.Tls;
 using System.Threading.Tasks;
 
-namespace WEB.Models
+namespace Monic.Web.Models
 {
     public class FieldsDTO
     {

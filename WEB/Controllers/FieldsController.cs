@@ -5,14 +5,17 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.EntityFrameworkCore;
-using WEB.Models;
+using Monic.Web.Models;
 
-namespace WEB.Controllers
+namespace Monic.Web.Controllers
 {
     [Route("api/[Controller]"), Authorize]
     public class FieldsController : BaseApiController
     {
-        public FieldsController(IDbContextFactory<ApplicationDbContext> dbFactory, UserManager<User> um, AppSettings appSettings) : base(dbFactory, um, appSettings) { }
+        public FieldsController(IDbContextFactory<ApplicationDbContext> dbFactory, UserManager<User> um, AppSettings appSettings)
+            : base(dbFactory, um, appSettings)
+        {
+        }
 
         [HttpGet, AuthorizeRoles(Roles.Administrator)]
         public async Task<IActionResult> Search([FromQuery] FieldSearchOptions searchOptions)
@@ -116,7 +119,7 @@ namespace WEB.Controllers
             if (field == null)
                 return NotFound();
 
-            using (var transactionScope = Utilities.General.CreateTransactionScope())
+            using (var transactionScope = Code.Db.CreateTransactionScope())
             {
                 await db.ItemFields.Where(o => o.FieldId == field.FieldId).ExecuteDeleteAsync();
 

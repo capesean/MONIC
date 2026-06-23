@@ -3,9 +3,10 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
-using WEB.Models;
+using Monic.Web.Code;
+using Monic.Web.Models;
 
-namespace WEB.Controllers
+namespace Monic.Web.Controllers
 {
     [Route("api/[Controller]"), AllowAnonymous]
     public class SurveysController : BaseApiController
@@ -332,7 +333,7 @@ namespace WEB.Controllers
             response.LastAnsweredOnUtc = DateTime.UtcNow;
             db.Entry(response).State = EntityState.Modified;
 
-            using (var transactionScope = Utilities.General.CreateTransactionScope())
+            using (var transactionScope = Code.Db.CreateTransactionScope())
             {
                 try
                 {

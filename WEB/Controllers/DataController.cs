@@ -5,14 +5,18 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.EntityFrameworkCore;
-using WEB.Models;
+using Monic.Web.Models;
+using Monic.Web.Code;
 
-namespace WEB.Controllers
+namespace Monic.Web.Controllers
 {
     [Route("api/[Controller]"), Authorize]
     public partial class DataController : BaseApiController
     {
-        public DataController(IDbContextFactory<ApplicationDbContext> dbFactory, UserManager<User> um, AppSettings appSettings) : base(dbFactory, um, appSettings) { }
+        public DataController(IDbContextFactory<ApplicationDbContext> dbFactory, UserManager<User> um, AppSettings appSettings)
+            : base(dbFactory, um, appSettings)
+        {
+        }
 
         [HttpGet, AuthorizeRoles(Roles.Administrator)]
         public async Task<IActionResult> Search([FromQuery] DatumSearchOptions searchOptions)
@@ -161,7 +165,7 @@ namespace WEB.Controllers
             if (datum.Submitted) return BadRequest("Datum has already been submitted and cannot be deleted");
             if (datum.Approved) return BadRequest("Datum has already been approved and cannot be deleted");
 
-            using (var transactionScope = Utilities.General.CreateTransactionScope())
+            using (var transactionScope = Code.Db.CreateTransactionScope())
             {
                 await db.DataReviewLinks.Where(o => o.IndicatorId == datum.IndicatorId && o.DateId == datum.DateId && o.EntityId == datum.EntityId).ExecuteDeleteAsync();
 

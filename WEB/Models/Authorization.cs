@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace WEB.Models.Authorization
+namespace Monic.Web.Models
 {
     public class RegisterDTO
     {

@@ -5,14 +5,17 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.EntityFrameworkCore;
-using WEB.Models;
+using Monic.Web.Models;
 
-namespace WEB.Controllers
+namespace Monic.Web.Controllers
 {
     [Route("api/[Controller]"), Authorize]
     public class ChartsController : BaseApiController
     {
-        public ChartsController(IDbContextFactory<ApplicationDbContext> dbFactory, UserManager<User> um, AppSettings appSettings) : base(dbFactory, um, appSettings) { }
+        public ChartsController(IDbContextFactory<ApplicationDbContext> dbFactory, UserManager<User> um, AppSettings appSettings)
+            : base(dbFactory, um, appSettings)
+        {
+        }
 
         [HttpGet, AuthorizeRoles(Roles.Administrator)]
         public async Task<IActionResult> Search([FromQuery] ChartSearchOptions searchOptions)
@@ -95,40 +98,60 @@ namespace WEB.Controllers
         [HttpPost, Route("data")]
         public async Task<IActionResult> GetData(ChartSettings chartSettings)
         {
-            var indicators = await db.Indicators
-                .Where(o => chartSettings.IndicatorIds.Contains(o.IndicatorId))
-                .ToListAsync();
+            var indicator = await db.Indicators
+                .FirstOrDefaultAsync(o => o.IndicatorId == chartSettings.IndicatorId);
 
-            var indicatorIds = indicators.Select(o => o.IndicatorId).ToList();  
+            if (indicator == null) return NotFound("Indicator not found.");
 
+            var indicators = new List<Indicator> { indicator };
 
-            //if (indicator.IndicatorType == IndicatorType.Group)
-            //{
-            //    var groupedIndicators = await db.Indicators.Where(o => o.GroupingIndicatorId == indicator.IndicatorId).ToListAsync();
+            List<Datum> data;
 
-            //    foreach (var gi in groupedIndicators)
-            //        indicators.Add(gi);
+            if (indicator.IndicatorType == IndicatorType.Group)
+            {
+                var groupedIndicators = await db.Indicators.Where(o => o.GroupingIndicatorId == indicator.IndicatorId).ToListAsync();
 
-            //    // load for the grouped indicators
-            //    data = await db.Data
-            //        .Where(o => o.Indicator.GroupingIndicatorId == chartSettings.IndicatorId)
-            //        .Where(o => chartSettings.EntityIds.Count() == 0 || chartSettings.EntityIds.Contains(o.EntityId))
-            //        .OrderByDescending(o => o.Date.SortOrder)
-            //        .GroupBy(o => new { o.EntityId, o.IndicatorId })
-            //        .Select(o => o.First())
-            //        .ToListAsync();
-            //}
+                foreach (var gi in groupedIndicators)
+                    indicators.Add(gi);
 
-            // todo: needs date param(s)
-            var data = await db.Data
-                    .Where(o => indicatorIds.Contains(o.IndicatorId))
-                    .Where(o => chartSettings.EntityIds.Count() == 0 || chartSettings.EntityIds.Contains(o.EntityId))
+                // load for the grouped indicators
+                data = await db.Data
+                    .Where(o => o.Indicator.GroupingIndicatorId == chartSettings.IndicatorId)
                     .OrderByDescending(o => o.Date.SortOrder)
                     .GroupBy(o => new { o.EntityId, o.IndicatorId })
                     .Select(o => o.First())
                     .ToListAsync();
+            }
+            else
+            {
+                data = await db.Data
+                    .Where(o => o.IndicatorId == chartSettings.IndicatorId)
+                    .OrderByDescending(o => o.Date.SortOrder)
+                    .GroupBy(o => o.EntityId)
+                    .Select(o => o.First())
+                    .ToListAsync();
+            }
 
-            var entityIds = chartSettings.EntityIds.Count() == 0 ? data.Select(o => o.EntityId).Distinct().ToList() : chartSettings.EntityIds.ToList();
+            if (chartSettings.IndicatorId2.HasValue)
+            {
+                var indicator2 = await db.Indicators
+                    .FirstOrDefaultAsync(o => o.IndicatorId == chartSettings.IndicatorId2);
+
+                if (indicator2 == null) return NotFound("Indicator 2 not found.");
+
+                indicators.Add(indicator2);
+
+                var data2 = await db.Data
+                    .Where(o => o.IndicatorId == chartSettings.IndicatorId2)
+                    .OrderByDescending(o => o.Date.SortOrder)
+                    .GroupBy(o => o.EntityId)
+                    .Select(o => o.First())
+                    .ToListAsync();
+
+                data.AddRange(data2);
+            }
+
+            var entityIds = data.Select(o => o.EntityId).Distinct().ToList();
             var dateIds = data.Select(o => o.DateId).Distinct().ToList();
 
             var entities = await db.Entities
@@ -141,6 +164,8 @@ namespace WEB.Controllers
 
             return Ok(new
             {
+                chartSettings.IndicatorId,
+                chartSettings.IndicatorId2,
                 indicators = indicators.Select(o => ModelFactory.Create(o)),
                 data = data.Select(o => ModelFactory.Create(o)),
                 entities = entities.Select(o => ModelFactory.Create(o)),
@@ -151,7 +176,7 @@ namespace WEB.Controllers
 
     public class ChartSettings
     {
-        public Guid[] IndicatorIds { get; set; } = [];
-        public Guid[] EntityIds { get; set; } = [];
+        public Guid IndicatorId { get; set; }
+        public Guid? IndicatorId2 { get; set; }
     }
 }

@@ -5,14 +5,17 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.EntityFrameworkCore;
-using WEB.Models;
+using Monic.Web.Models;
 
-namespace WEB.Controllers
+namespace Monic.Web.Controllers
 {
     [Route("api/[Controller]"), Authorize]
     public class LogFramesController : BaseApiController
     {
-        public LogFramesController(IDbContextFactory<ApplicationDbContext> dbFactory, UserManager<User> um, AppSettings appSettings) : base(dbFactory, um, appSettings) { }
+        public LogFramesController(IDbContextFactory<ApplicationDbContext> dbFactory, UserManager<User> um, AppSettings appSettings)
+            : base(dbFactory, um, appSettings)
+        {
+        }
 
         [HttpGet, AuthorizeRoles(Roles.Administrator)]
         public async Task<IActionResult> Search([FromQuery] LogFrameSearchOptions searchOptions)
@@ -103,7 +106,7 @@ namespace WEB.Controllers
         [HttpDelete("{logFrameId:Guid}/logframerows"), AuthorizeRoles(Roles.Administrator)]
         public async Task<IActionResult> DeleteLogFrameRows(Guid logFrameId)
         {
-            using (var transactionScope = Utilities.General.CreateTransactionScope())
+            using (var transactionScope = Code.Db.CreateTransactionScope())
             {
                 await db.LogFrameRowIndicators.Where(o => o.LogFrameRow.LogFrameId == logFrameId).ExecuteDeleteAsync();
 

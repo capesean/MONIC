@@ -1,8 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text.RegularExpressions;
+﻿using System.Text.RegularExpressions;
 
-namespace WEB.Models
+namespace Monic.Web.Code
 {
     public static partial class ExtensionMethods
     {

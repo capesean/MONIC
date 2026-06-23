@@ -5,14 +5,17 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.EntityFrameworkCore;
-using WEB.Models;
+using Monic.Web.Models;
 
-namespace WEB.Controllers
+namespace Monic.Web.Controllers
 {
     [Route("api/[Controller]"), Authorize]
     public class QuestionsController : BaseApiController
     {
-        public QuestionsController(IDbContextFactory<ApplicationDbContext> dbFactory, UserManager<User> um, AppSettings appSettings) : base(dbFactory, um, appSettings) { }
+        public QuestionsController(IDbContextFactory<ApplicationDbContext> dbFactory, UserManager<User> um, AppSettings appSettings)
+            : base(dbFactory, um, appSettings)
+        {
+        }
 
         [HttpGet]
         public async Task<IActionResult> Search([FromQuery] QuestionSearchOptions searchOptions)
@@ -169,7 +172,7 @@ namespace WEB.Controllers
             if (await db.SkipLogicOptions.AnyAsync(o => o.QuestionId == question.QuestionId))
                 return BadRequest("Unable to delete the question as it has related skip logic options");
 
-            using (var transactionScope = Utilities.General.CreateTransactionScope())
+            using (var transactionScope = Code.Db.CreateTransactionScope())
             {
                 await db.Documents.Where(o => o.ItemId == question.QuestionId).ExecuteDeleteAsync();
 
@@ -213,7 +216,7 @@ namespace WEB.Controllers
         [HttpDelete("{questionId:Guid}/answers")]
         public async Task<IActionResult> DeleteAnswers(Guid questionId)
         {
-            using (var transactionScope = Utilities.General.CreateTransactionScope())
+            using (var transactionScope = Code.Db.CreateTransactionScope())
             {
                 await db.AnswerOptions.Where(o => o.Answer.QuestionId == questionId).ExecuteDeleteAsync();
 

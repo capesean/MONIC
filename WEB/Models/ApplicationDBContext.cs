@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Design;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
-namespace WEB.Models
+namespace Monic.Web.Models
 {
     public partial class ApplicationDbContext : IdentityDbContext<User, Role, Guid>
     {

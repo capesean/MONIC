@@ -5,10 +5,10 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System.Globalization;
-using WEB.Models;
-using static WEB.Import.ImportCSV;
+using Monic.Web.Models;
+using static Monic.Web.Code.ImportCSV;
 
-namespace WEB.Controllers
+namespace Monic.Web.Controllers
 {
     [Route("api/[Controller]"), Authorize]
     public class DownloadsController : BaseApiController

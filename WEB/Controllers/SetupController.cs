@@ -1,13 +1,10 @@
-using System.ComponentModel.DataAnnotations;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using WEB.Controllers;
-using WEB.Models;
-using WEB.Error;
+using Monic.Web.Models;
 
-namespace AuthorizationServer.Controllers
+namespace Monic.Web.Controllers
 {
     [Route("api/[Controller]")]
     public class SetupController : BaseApiController

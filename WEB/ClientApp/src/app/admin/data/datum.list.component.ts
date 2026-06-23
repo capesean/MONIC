@@ -6,8 +6,8 @@ import { DatumSearchOptions, DatumSearchResponse, Datum } from '../../common/mod
 import { FadeThenShrink } from '../../common/animations/fadethenshrink';
 import { ErrorService } from '../../common/services/error.service';
 import { DatumService } from '../../common/services/datum.service';
-import { AppSettingsService } from '../../common/services/appsettings.service';
 import { AppSettings } from '../../common/models/appsettings.model';
+import { AppSettingsService } from '../../common/services/appsettings.service';
 
 @NgComponent({
     selector: 'datum-list',

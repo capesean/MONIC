@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
-namespace WEB.Migrations
+namespace Monic.Web.Migrations
 {
     /// <inheritdoc />
     public partial class ItemOptionField : Migration

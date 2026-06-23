@@ -2,7 +2,7 @@
 using Microsoft.AspNetCore.StaticFiles;
 using System.Net.Mime;
 
-namespace WEB.Models
+namespace Monic.Web.Models
 {
     public static class Download
     {

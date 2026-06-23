@@ -5,14 +5,17 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.EntityFrameworkCore;
-using WEB.Models;
+using Monic.Web.Models;
 
-namespace WEB.Controllers
+namespace Monic.Web.Controllers
 {
     [Route("api/[Controller]"), Authorize]
     public class DatesController : BaseApiController
     {
-        public DatesController(IDbContextFactory<ApplicationDbContext> dbFactory, UserManager<User> um, AppSettings appSettings) : base(dbFactory, um, appSettings) { }
+        public DatesController(IDbContextFactory<ApplicationDbContext> dbFactory, UserManager<User> um, AppSettings appSettings)
+            : base(dbFactory, um, appSettings)
+        {
+        }
 
         [HttpGet]
         public async Task<IActionResult> Search([FromQuery] DateSearchOptions searchOptions)
@@ -143,7 +146,7 @@ namespace WEB.Controllers
             if (await db.IndicatorDates.AnyAsync(o => o.DateId == date.DateId))
                 return BadRequest("Unable to delete the date as it has related indicator dates");
 
-            using (var transactionScope = Utilities.General.CreateTransactionScope())
+            using (var transactionScope = Code.Db.CreateTransactionScope())
             {
                 await db.QuestionSummaries.Where(o => o.DateId == date.DateId).ExecuteDeleteAsync();
 
@@ -193,7 +196,7 @@ namespace WEB.Controllers
             if (await db.IndicatorDates.AnyAsync(o => o.Date.QuarterId == dateId))
                 return BadRequest("Unable to delete the dates in quarter as there are related indicator dates");
 
-            using (var transactionScope = Utilities.General.CreateTransactionScope())
+            using (var transactionScope = Code.Db.CreateTransactionScope())
             {
                 await db.QuestionSummaries.Where(o => o.Date.DateId == dateId).ExecuteDeleteAsync();
 
@@ -223,7 +226,7 @@ namespace WEB.Controllers
             if (await db.IndicatorDates.AnyAsync(o => o.Date.YearId == dateId))
                 return BadRequest("Unable to delete the dates in year as there are related indicator dates");
 
-            using (var transactionScope = Utilities.General.CreateTransactionScope())
+            using (var transactionScope = Code.Db.CreateTransactionScope())
             {
                 await db.QuestionSummaries.Where(o => o.Date.DateId == dateId).ExecuteDeleteAsync();
 
@@ -238,7 +241,7 @@ namespace WEB.Controllers
         [HttpDelete("{dateId:Guid}/responses"), AuthorizeRoles(Roles.Administrator)]
         public async Task<IActionResult> DeleteResponses(Guid dateId)
         {
-            using (var transactionScope = Utilities.General.CreateTransactionScope())
+            using (var transactionScope = Code.Db.CreateTransactionScope())
             {
                 await db.Answers.Where(o => o.Response.DateId == dateId).ExecuteDeleteAsync();
 

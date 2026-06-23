@@ -5,9 +5,9 @@ using Microsoft.EntityFrameworkCore;
 using System;
 using System.Linq;
 using System.Threading.Tasks;
-using WEB.Models;
+using Monic.Web.Models;
 
-namespace WEB.Controllers
+namespace Monic.Web.Controllers
 {
     [Route("api/[Controller]"), Authorize]
     public class CategoriesController : BaseApiController
@@ -113,7 +113,7 @@ namespace WEB.Controllers
 
             db.Entry(category).State = EntityState.Deleted;
 
-            using (var transactionScope = Utilities.General.CreateTransactionScope())
+            using (var transactionScope = Code.Db.CreateTransactionScope())
             {
                 ItemFunctions.DeleteDocuments(db, categoryId);
                 ItemFunctions.DeleteFields(db, categoryId, true);
@@ -152,7 +152,7 @@ namespace WEB.Controllers
             if (await db.Indicators.AnyAsync(o => o.Subcategory.CategoryId == categoryId))
                 return BadRequest("Unable to delete the subcategories as there are related indicators");
 
-            using (var transactionScope = Utilities.General.CreateTransactionScope())
+            using (var transactionScope = Code.Db.CreateTransactionScope())
             {
                 foreach (var subcategory in db.Subcategories.Where(o => o.CategoryId == categoryId).ToList())
                 {

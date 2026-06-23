@@ -2,7 +2,7 @@
 
 #nullable disable
 
-namespace WEB.Migrations
+namespace Monic.Web.Migrations
 {
     /// <inheritdoc />
     public partial class FieldItemOptionRelationship : Migration

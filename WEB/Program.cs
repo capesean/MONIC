@@ -2,17 +2,32 @@ using Azure.Identity;
 using Microsoft.AspNetCore.DataProtection;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
-using WEB;
-using WEB.Error;
-using WEB.Models;
+using Monic.Web.Models;
 using static OpenIddict.Abstractions.OpenIddictConstants;
+using Monic.Web.Code;
+using Monic.Web.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
+/**********************************************
+ * on azure, the app should typically have a key vault with:
+ * - a key for encrypting data protection keys
+ * - secrets for storing sensitive configuration values (e.g. database connection string, email credentials, etc)
+ * - a certificate for signing tokens 
+ *   - (this is actually added under the app certificates - using upload on the 'bring your own' option - see the certificate generation code in certificate.cs)
+ *   - this requires the app to have an env settings of "WEBSITE_LOAD_CERTIFICATES" with a value of the thumbprint of the certificate
+ * the app should probably have the following permissions to the key vault:
+ * - Key Vault Crypto User
+ * - Key Vaults Secrets User
+ * - Key Vault Certificate User 
+ * also, the storage container that has the data protection keys should have the Storage Blob Data Contributor role assigned for the app
+ **********************************************/
+
 if (!builder.Environment.IsDevelopment())
 {
+    // this is the key vault uri for data protection keys
     builder.Configuration.AddAzureKeyVault(
-        new Uri(builder.Configuration["KeyVault:VaultUri"]!),
+        new Uri(builder.Configuration["KeyVault:VaultUri"]),
         new DefaultAzureCredential());
 }
 
@@ -22,30 +37,34 @@ if (!builder.Environment.IsDevelopment())
 {
     var credential = new DefaultAzureCredential();
 
-    await WEB.Utilities.General.EnsureDataProtectionBlobIsHotAsync(
-        appSettings.AzureSettings.DataProtection.BlobUri,
+    await General.EnsureDataProtectionBlobIsHotAsync(
+        appSettings.Azure.DataProtection.BlobUri,
         credential);
 
+    // ensure the app has managed identity enabled, and has:
+    // - access to the blob storage container for data protection keys (Storage Blob Data Contributor role)
+    // - access to the key vault for data protection keys (Key Vault Crypto User role)
     builder.Services.AddDataProtection()
-        .SetApplicationName("WEB")
+        .SetApplicationName("MONIC")
         .PersistKeysToAzureBlobStorage(
-            new Uri(appSettings.AzureSettings.DataProtection.BlobUri),
+            new Uri(appSettings.Azure.DataProtection.BlobUri),
             credential)
         .ProtectKeysWithAzureKeyVault(
-            new Uri(appSettings.AzureSettings.DataProtection.KeyIdentifier),
+            new Uri(appSettings.Azure.DataProtection.KeyIdentifier),
             credential);
 }
 else
 {
     builder.Services.AddDataProtection()
-        .SetApplicationName("WEB");
+        .SetApplicationName("MONIC");
 }
 
-// todo: this is not correct - find out a better way to get correct path
-appSettings.WebRootPath = Path.Combine(Directory.GetCurrentDirectory(), builder.Environment.IsDevelopment() ? "ClientApp\\src\\" : "wwwroot\\");
-appSettings.RootPath = Path.Combine(Directory.GetCurrentDirectory());
-
-builder.Services.AddScoped<ApiExceptionAttribute>();
+appSettings.RootPath = builder.Environment.ContentRootPath;
+if (builder.Environment.IsDevelopment())
+    appSettings.WebRootPath = Path.Combine(Directory.GetCurrentDirectory(), "ClientApp\\src\\");
+else
+    appSettings.WebRootPath = builder.Environment.WebRootPath;
+appSettings.Email.WebRootPath = builder.Environment.WebRootPath;
 
 //builder.Services.AddControllers(options => options.Filters.Add(typeof(ApiExceptionAttribute)))
 builder.Services.AddControllersWithViews(options => options.Filters.Add(typeof(ApiExceptionAttribute)))
@@ -67,45 +86,34 @@ if (builder.Environment.IsDevelopment())
         options.AddPolicy(name: policyName, builder =>
         {
             // must match with the port in package.json -> scripts:start (also: appSettings.RootUrl - i.e. the front-end address)
-            // and SpaProxyServerUrl in WEB.csproj
-            builder.WithOrigins("https://localhost:44410", "http://localhost:49823");
+            // and SpaProxyServerUrl in Web.csproj
+            builder.WithOrigins("https://localhost:44410");
             builder.AllowAnyMethod();
             builder.AllowAnyHeader();
+            builder.AllowCredentials();
             builder.WithExposedHeaders("X-Pagination", "Content-Disposition");
-        });
-    });
-}
-else
-{
-    builder.Services.AddCors(options =>
-    {
-        options.AddPolicy(name: policyName, builder =>
-        {
-            builder.WithOrigins("https://uhc2030dashboard.monic.tech");
-            builder.WithMethods("GET", "HEAD");
         });
     });
 }
 
 builder.Services.AddHttpContextAccessor();
-builder.Services.AddScoped<IIdentityService, IdentityService>();
 
-builder.Services.AddDbContext<ApplicationDbContext>((serviceProvider, options) =>
+builder.Services.AddDbContext<ApplicationDbContext>((serviceProvider, optionsBuilder) =>
 {
-    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"),
+    optionsBuilder.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"),
         sqlOptions =>
         {
             sqlOptions.CommandTimeout(300);
             sqlOptions.UseQuerySplittingBehavior(QuerySplittingBehavior.SplitQuery);
         });
 
-    options.UseQueryTrackingBehavior(QueryTrackingBehavior.NoTracking);
-    options.UseOpenIddict();
+    optionsBuilder.UseQueryTrackingBehavior(QueryTrackingBehavior.NoTracking);
+    optionsBuilder.UseOpenIddict();
 });
 
-builder.Services.AddDbContextFactory<ApplicationDbContext>(options =>
+builder.Services.AddDbContextFactory<ApplicationDbContext>(optionsBuilder =>
 {
-    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"),
+    optionsBuilder.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"),
         sqlOptions =>
         {
             sqlOptions.CommandTimeout(300);
@@ -113,16 +121,16 @@ builder.Services.AddDbContextFactory<ApplicationDbContext>(options =>
         }
     );
 
-    options.UseQueryTrackingBehavior(QueryTrackingBehavior.NoTracking);
-
-    options.UseOpenIddict();
+    //if (builder.Environment.IsDevelopment()) optionsBuilder.EnableSensitiveDataLogging();
+    optionsBuilder.UseQueryTrackingBehavior(QueryTrackingBehavior.NoTracking);
+    optionsBuilder.UseOpenIddict();
 
 }, ServiceLifetime.Scoped);
 
 builder.Services.AddIdentity<User, Role>(options =>
-    {
-        options.User.AllowedUserNameCharacters += "'";
-    })
+{
+    options.User.AllowedUserNameCharacters += "'";
+})
     .AddUserManager<UserManager<User>>()
     .AddEntityFrameworkStores<ApplicationDbContext>()
     .AddDefaultTokenProviders();
@@ -138,11 +146,11 @@ builder.Services.Configure<IdentityOptions>(options =>
 
     if (builder.Environment.IsDevelopment())
     {
-        options.Password.RequireDigit = true;
-        options.Password.RequireLowercase = true;
-        options.Password.RequireUppercase = true;
-        options.Password.RequireNonAlphanumeric = true;
-        options.Password.RequiredLength = 8;
+        options.Password.RequireDigit = false;
+        options.Password.RequireLowercase = false;
+        options.Password.RequireUppercase = false;
+        options.Password.RequireNonAlphanumeric = false;
+        options.Password.RequiredLength = 3;
     }
     else
     {
@@ -158,7 +166,9 @@ builder.Services.Configure<IdentityOptions>(options =>
 builder.ConfigureOpenIddict(appSettings);
 
 builder.Services.AddSingleton(appSettings);
-builder.Services.AddSingleton<IEmailSender, EmailSender>();
+builder.Services.AddSingleton(appSettings.Email);
+builder.Services.AddSingleton(appSettings.Azure.Documents);
+builder.Services.AddSingleton<IEmailService, EmailService>();
 
 var app = builder.Build();
 

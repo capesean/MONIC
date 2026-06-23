@@ -22,10 +22,10 @@ import { IndicatorPermissionService } from '../../common/services/indicatorpermi
 import { EntityModalComponent } from '../entities/entity.modal.component';
 import { Entity } from '../../common/models/entity.model';
 import { AppSettings } from '../../common/models/appsettings.model';
-import { AppSettingsService } from '../../common/services/appsettings.service';
 import { IndicatorModalComponent } from '../indicators/indicator.modal.component';
 import { Indicator } from '../../common/models/indicator.model';
 import { AddIndicatorsPermissionModal, AddIndicatorsPermissionOptions } from './addindicatorpermissions.modal';
+import { AppSettingsService } from '../../common/services/appsettings.service';
 
 @NgComponent({
     selector: 'user-edit',

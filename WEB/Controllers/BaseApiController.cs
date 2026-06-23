@@ -3,9 +3,9 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using OpenIddict.Validation.AspNetCore;
-using WEB.Models;
+using Monic.Web.Models;
 
-namespace WEB.Controllers
+namespace Monic.Web.Controllers
 {
     [ApiController, Authorize(AuthenticationSchemes = OpenIddictValidationAspNetCoreDefaults.AuthenticationScheme)]
     public class BaseApiController : ControllerBase
@@ -38,8 +38,8 @@ namespace WEB.Controllers
 
         }
         internal AppSettings AppSettings;
-        private Settings _dbSettings;
-        internal Settings dbSettings { get { return _dbSettings ??= db.GetDbSettings(); } }
+        private Models.Settings _dbSettings;
+        internal Models.Settings dbSettings { get { return _dbSettings ??= db.GetDbSettings(); } }
 
         internal BaseApiController(IDbContextFactory<ApplicationDbContext> dbFactory, UserManager<User> userManager, AppSettings appSettings)
         {

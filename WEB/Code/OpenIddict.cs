@@ -1,8 +1,8 @@
-﻿using WEB.Models;
+﻿using Monic.Web.Models;
 using static OpenIddict.Abstractions.OpenIddictConstants;
 using Task = System.Threading.Tasks.Task;
 
-namespace WEB
+namespace Monic.Web.Code
 {
     public static class OpenIddictExtensions
     {
@@ -46,7 +46,7 @@ namespace WEB
                         else
                         {
                             // create a certificate using the CertificatePassword & store it for re-use
-                            var certificate = X509Certificate.GetCertificate(appSettings);
+                            var certificate = CertificateHelper.GetLocalCertificate(appSettings);
                             options.AddEncryptionCertificate(certificate);
                             options.AddSigningCertificate(certificate);
                         }
@@ -56,8 +56,7 @@ namespace WEB
                         // this stores/retrieves the data protection key in azure blob storage, meaning logins persist beyond restarting (e.g. publishing)
                         options.UseDataProtection();
 
-                        // todo: production certificates should be stored in Azure key vault: https://documentation.openiddict.com/configuration/encryption-and-signing-credentials.html
-                        var certificate = X509Certificate.GetCertificate(appSettings);
+                        var certificate = CertificateHelper.GetKeyVaultCertificate(appSettings.Azure.CertificateThumbprint);
                         options.AddEncryptionCertificate(certificate);
                         options.AddSigningCertificate(certificate);
                     }
@@ -132,7 +131,7 @@ namespace WEB
                 };
                 config.Events.OnRedirectToLogin = context =>
                 {
-                    // todo: redirect to /auth/login here?
+                    // redirect to /auth/login here?
                     context.Response.StatusCode = 401;
                     return Task.CompletedTask;
                 };

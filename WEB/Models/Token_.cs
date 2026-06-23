@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace WEB.Models
+namespace Monic.Web.Models
 {
     public partial class Token
     {

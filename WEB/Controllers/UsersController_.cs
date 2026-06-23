@@ -5,10 +5,10 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.EntityFrameworkCore;
-using WEB.Models;
+using Monic.Web.Models;
 using Microsoft.Extensions.Options;
 
-namespace WEB.Controllers
+namespace Monic.Web.Controllers
 {
     public partial class UsersController : BaseApiController
     {

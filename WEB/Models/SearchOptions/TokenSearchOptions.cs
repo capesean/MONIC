@@ -1,4 +1,4 @@
-namespace WEB.Models
+namespace Monic.Web.Models
 {
     public class TokenSearchOptions : SearchOptions
     {

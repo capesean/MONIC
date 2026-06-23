@@ -1,47 +1,55 @@
-﻿using System.Security.Cryptography.X509Certificates;
+﻿using System.Net;
 using System.Security.Cryptography;
-using WEB.Models;
-using System.Net;
+using System.Security.Cryptography.X509Certificates;
+using Monic.Web.Models;
 
-namespace WEB
+namespace Monic.Web.Code
 {
-    public static class Certificates
+    public static class CertificateHelper
     {
-        public static string GetEncryptionCertificatePath(AppSettings appSettings) => Path.Combine(appSettings.RootPath, "encryption-certificate.pfx");
-        public static string GetSigningCertificatePath(AppSettings appSettings) => Path.Combine(appSettings.RootPath, "signing-certificate.pfx");
-
-        public static void CreateEncryptionCertificate(AppSettings appSettings)
+        public static X509Certificate2 GetKeyVaultCertificate(string thumbprint)
         {
-            using var algorithm = RSA.Create(keySizeInBits: 2048);
+            // ensure azure app has environment variable: WEBSITE_LOAD_CERTIFICATES = {THUMBPRINT}
+            // where {THUMBPRINT} is the thumbprint of the certificate uploaded to azure app service
+            // add a certificate (use the 'bring your own' option) and use the thumbprint from that screen. 
+            // powershell code for generating as openiddict.pfx on desktop:
+            /*************************************************************
+            $pwd = ConvertTo-SecureString "---PUTYOURSTRONGPASSWORDHERE---" -AsPlainText -Force
 
-            var subject = new X500DistinguishedName("CN=Fabrikam Encryption Certificate");
-            var request = new CertificateRequest(subject, algorithm, HashAlgorithmName.SHA256, RSASignaturePadding.Pkcs1);
-            request.CertificateExtensions.Add(new X509KeyUsageExtension(X509KeyUsageFlags.KeyEncipherment, critical: true));
+            $cert = New-SelfSignedCertificate `
+              -Subject "CN=openiddict" `
+              -CertStoreLocation "cert:\CurrentUser\My" `
+              -KeyAlgorithm RSA `
+              -KeyLength 2048 `
+              -KeyExportPolicy Exportable `
+              -NotAfter (Get-Date).AddYears(5) `
+              -FriendlyName "OpenIddict"
 
-            var certificate = request.CreateSelfSigned(DateTimeOffset.UtcNow, DateTimeOffset.UtcNow.AddYears(2));
+            Export-PfxCertificate `
+              -Cert "cert:\CurrentUser\My\$($cert.Thumbprint)" `
+              -FilePath "$env:USERPROFILE\Desktop\openiddict.pfx" `
+              -Password $pwd
+            *************************************************************/
+            using var store = new X509Store(StoreName.My, StoreLocation.CurrentUser);
+            store.Open(OpenFlags.ReadOnly);
 
-            File.WriteAllBytes(GetEncryptionCertificatePath(appSettings), certificate.Export(X509ContentType.Pfx, appSettings.CertificatePassword));
+            var certificates = store.Certificates.Find(
+                X509FindType.FindByThumbprint,
+                thumbprint,
+                validOnly: false);
+
+            var certificate = certificates.OfType<X509Certificate2>().FirstOrDefault();
+
+            if (certificate == null)
+                throw new Exception($"Certificate not found. Thumbprint: {thumbprint}");
+
+            return certificate;
         }
 
-        public static void CreateSigningCertificate(AppSettings appSettings)
-        {
-            using var algorithm = RSA.Create(keySizeInBits: 2048);
-
-            var subject = new X500DistinguishedName("CN=Fabrikam Signing Certificate");
-            var request = new CertificateRequest(subject, algorithm, HashAlgorithmName.SHA256, RSASignaturePadding.Pkcs1);
-            request.CertificateExtensions.Add(new X509KeyUsageExtension(X509KeyUsageFlags.DigitalSignature, critical: true));
-
-            var certificate = request.CreateSelfSigned(DateTimeOffset.UtcNow, DateTimeOffset.UtcNow.AddYears(2));
-
-            File.WriteAllBytes(GetSigningCertificatePath(appSettings), certificate.Export(X509ContentType.Pfx, appSettings.CertificatePassword));
-        }
-    }
-
-    public static class X509Certificate
-    {
-        public static X509Certificate2 GetCertificate(AppSettings appSettings)
+        public static X509Certificate2 GetLocalCertificate(AppSettings appSettings)
         {
             var certificatePath = Path.Combine(appSettings.RootPath, "certificate.pfx");
+
             if (!File.Exists(certificatePath))
             {
                 var certificate = BuildSelfSignedServerCertificate(appSettings.SiteName, appSettings.CertificatePassword);
@@ -49,52 +57,100 @@ namespace WEB
                 File.WriteAllBytes(certificatePath, bytes);
                 return certificate;
             }
-            else
-            {
-                return new X509Certificate2(certificatePath, appSettings.CertificatePassword, X509KeyStorageFlags.Exportable);
-            }
+
+            return X509CertificateLoader.LoadPkcs12FromFile(
+                certificatePath,
+                appSettings.CertificatePassword,
+                X509KeyStorageFlags.MachineKeySet |
+                X509KeyStorageFlags.PersistKeySet |
+                X509KeyStorageFlags.Exportable);
         }
 
         public static X509Certificate2 BuildSelfSignedServerCertificate(string certificateName, string password)
         {
-            SubjectAlternativeNameBuilder sanBuilder = new SubjectAlternativeNameBuilder();
+            var sanBuilder = new SubjectAlternativeNameBuilder();
             sanBuilder.AddIpAddress(IPAddress.Loopback);
             sanBuilder.AddIpAddress(IPAddress.IPv6Loopback);
             sanBuilder.AddDnsName("localhost");
 
-            X500DistinguishedName distinguishedName = new X500DistinguishedName($"CN={certificateName}");
+            var distinguishedName = new X500DistinguishedName($"CN={certificateName}");
 
-            using (var rsa = RSA.Create(2048))
-            {
-                var request = new CertificateRequest(distinguishedName, rsa, HashAlgorithmName.SHA256, RSASignaturePadding.Pkcs1);
+            using var rsa = RSA.Create(2048);
 
-                request.CertificateExtensions.Add(
-                    new X509KeyUsageExtension(
-                        X509KeyUsageFlags.DataEncipherment
-                        | X509KeyUsageFlags.KeyEncipherment
-                        | X509KeyUsageFlags.DigitalSignature
-                        , false));
+            var request = new CertificateRequest(
+                distinguishedName,
+                rsa,
+                HashAlgorithmName.SHA256,
+                RSASignaturePadding.Pkcs1);
 
-                request.CertificateExtensions.Add(
-                   new X509EnhancedKeyUsageExtension(
-                       new OidCollection { new Oid("1.3.6.1.5.5.7.3.1") }, false));
+            request.CertificateExtensions.Add(
+                new X509KeyUsageExtension(
+                    X509KeyUsageFlags.DataEncipherment |
+                    X509KeyUsageFlags.KeyEncipherment |
+                    X509KeyUsageFlags.DigitalSignature,
+                    false));
 
-                request.CertificateExtensions.Add(sanBuilder.Build());
+            request.CertificateExtensions.Add(
+                new X509EnhancedKeyUsageExtension(
+                    new OidCollection { new Oid("1.3.6.1.5.5.7.3.1") },
+                    false));
 
-                var certificate = request.CreateSelfSigned(new DateTimeOffset(DateTime.UtcNow.AddDays(-1)), new DateTimeOffset(DateTime.UtcNow.AddDays(3650)));
-                if (OperatingSystem.IsWindows())
-                    certificate.FriendlyName = certificateName;
+            request.CertificateExtensions.Add(sanBuilder.Build());
 
-                var bytes = certificate.Export(X509ContentType.Pfx, password);
+            var certificate = request.CreateSelfSigned(
+                DateTimeOffset.UtcNow.AddDays(-1),
+                DateTimeOffset.UtcNow.AddDays(3650));
 
-                return new X509Certificate2(
-                    bytes,
-                    password,
-                    X509KeyStorageFlags.MachineKeySet |
-                    X509KeyStorageFlags.PersistKeySet |
-                    X509KeyStorageFlags.Exportable
-                    );
-            }
+            var bytes = certificate.Export(X509ContentType.Pfx, password);
+
+            return X509CertificateLoader.LoadPkcs12(
+                bytes,
+                password,
+                X509KeyStorageFlags.MachineKeySet |
+                X509KeyStorageFlags.PersistKeySet |
+                X509KeyStorageFlags.Exportable);
+        }
+
+        public static string GetEncryptionCertificatePath(AppSettings appSettings) =>
+            Path.Combine(appSettings.RootPath, "encryption-certificate.pfx");
+
+        public static string GetSigningCertificatePath(AppSettings appSettings) =>
+            Path.Combine(appSettings.RootPath, "signing-certificate.pfx");
+
+        public static void CreateEncryptionCertificate(AppSettings appSettings)
+        {
+            using var algorithm = RSA.Create(2048);
+
+            var subject = new X500DistinguishedName("CN=Fabrikam Encryption Certificate");
+            var request = new CertificateRequest(subject, algorithm, HashAlgorithmName.SHA256, RSASignaturePadding.Pkcs1);
+            request.CertificateExtensions.Add(
+                new X509KeyUsageExtension(X509KeyUsageFlags.KeyEncipherment, critical: true));
+
+            var certificate = request.CreateSelfSigned(
+                DateTimeOffset.UtcNow,
+                DateTimeOffset.UtcNow.AddYears(2));
+
+            File.WriteAllBytes(
+                GetEncryptionCertificatePath(appSettings),
+                certificate.Export(X509ContentType.Pfx, appSettings.CertificatePassword));
+        }
+
+        public static void CreateSigningCertificate(AppSettings appSettings)
+        {
+            using var algorithm = RSA.Create(2048);
+
+            var subject = new X500DistinguishedName("CN=Fabrikam Signing Certificate");
+            var request = new CertificateRequest(subject, algorithm, HashAlgorithmName.SHA256, RSASignaturePadding.Pkcs1);
+            request.CertificateExtensions.Add(
+                new X509KeyUsageExtension(X509KeyUsageFlags.DigitalSignature, critical: true));
+
+            var certificate = request.CreateSelfSigned(
+                DateTimeOffset.UtcNow,
+                DateTimeOffset.UtcNow.AddYears(2));
+
+            File.WriteAllBytes(
+                GetSigningCertificatePath(appSettings),
+                certificate.Export(X509ContentType.Pfx, appSettings.CertificatePassword));
         }
     }
 }

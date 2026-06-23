@@ -5,14 +5,17 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.EntityFrameworkCore;
-using WEB.Models;
+using Monic.Web.Models;
 
-namespace WEB.Controllers
+namespace Monic.Web.Controllers
 {
     [Route("api/[Controller]"), Authorize]
     public partial class ResponsesController : BaseApiController
     {
-        public ResponsesController(IDbContextFactory<ApplicationDbContext> dbFactory, UserManager<User> um, AppSettings appSettings) : base(dbFactory, um, appSettings) { }
+        public ResponsesController(IDbContextFactory<ApplicationDbContext> dbFactory, UserManager<User> um, AppSettings appSettings)
+            : base(dbFactory, um, appSettings)
+        {
+        }
 
         [HttpGet, AuthorizeRoles(Roles.Questionnaires)]
         public async Task<IActionResult> Search([FromQuery] ResponseSearchOptions searchOptions)
@@ -118,7 +121,7 @@ namespace WEB.Controllers
             if (response == null)
                 return NotFound();
 
-            using (var transactionScope = Utilities.General.CreateTransactionScope())
+            using (var transactionScope = Code.Db.CreateTransactionScope())
             {
                 foreach (var answer in db.Answers.Where(o => o.ResponseId == response.ResponseId))
             {
@@ -144,7 +147,7 @@ namespace WEB.Controllers
         [HttpDelete("{responseId:Guid}/answers"), AuthorizeRoles(Roles.Administrator)]
         public async Task<IActionResult> DeleteAnswers(Guid responseId)
         {
-            using (var transactionScope = Utilities.General.CreateTransactionScope())
+            using (var transactionScope = Code.Db.CreateTransactionScope())
             {
                 await db.AnswerOptions.Where(o => o.Answer.ResponseId == responseId).ExecuteDeleteAsync();
 

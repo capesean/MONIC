@@ -1,9 +1,8 @@
 ﻿using iTextSharp.text;
 using Microsoft.EntityFrameworkCore;
-using WEB.Error;
-using WEB.Models;
+using Monic.Web.Models;
 
-namespace WEB.Reports.PDF
+namespace Monic.Web.Code.Reports
 {
     public class QuestionnairePDF : PDFReports
     {

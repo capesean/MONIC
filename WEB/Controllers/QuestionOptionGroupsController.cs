@@ -5,14 +5,17 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.EntityFrameworkCore;
-using WEB.Models;
+using Monic.Web.Models;
 
-namespace WEB.Controllers
+namespace Monic.Web.Controllers
 {
     [Route("api/[Controller]"), Authorize]
     public class QuestionOptionGroupsController : BaseApiController
     {
-        public QuestionOptionGroupsController(IDbContextFactory<ApplicationDbContext> dbFactory, UserManager<User> um, AppSettings appSettings) : base(dbFactory, um, appSettings) { }
+        public QuestionOptionGroupsController(IDbContextFactory<ApplicationDbContext> dbFactory, UserManager<User> um, AppSettings appSettings)
+            : base(dbFactory, um, appSettings)
+        {
+        }
 
         [HttpGet, AuthorizeRoles(Roles.Administrator)]
         public async Task<IActionResult> Search([FromQuery] QuestionOptionGroupSearchOptions searchOptions)
@@ -96,7 +99,7 @@ namespace WEB.Controllers
             if (await db.Questions.AnyAsync(o => o.QuestionOptionGroupId == questionOptionGroup.QuestionOptionGroupId))
                 return BadRequest("Unable to delete the question option group as it has related questions");
 
-            using (var transactionScope = Utilities.General.CreateTransactionScope())
+            using (var transactionScope = Code.Db.CreateTransactionScope())
             {
                 await db.QuestionOptions.Where(o => o.QuestionOptionGroupId == questionOptionGroup.QuestionOptionGroupId).ExecuteDeleteAsync();
 
@@ -133,7 +136,7 @@ namespace WEB.Controllers
             if (await db.SkipLogicOptions.AnyAsync(o => o.Question.QuestionOptionGroupId == questionOptionGroupId))
                 return BadRequest("Unable to delete the questions as there are related skip logic options");
 
-            using (var transactionScope = Utilities.General.CreateTransactionScope())
+            using (var transactionScope = Code.Db.CreateTransactionScope())
             {
                 await db.Answers.Where(o => o.Question.QuestionOptionGroupId == questionOptionGroupId).ExecuteDeleteAsync();
 

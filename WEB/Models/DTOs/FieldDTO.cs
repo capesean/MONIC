@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 
-namespace WEB.Models
+namespace Monic.Web.Models
 {
     public class FieldDTO
     {

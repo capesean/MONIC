@@ -1,7 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using WEB.Models;
+using Monic.Web.Models;
 
-namespace WEB
+namespace Monic.Web.Code
 {
     public static partial class Permissions
     {

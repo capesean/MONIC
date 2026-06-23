@@ -2,7 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using System.Reflection.Metadata;
 
-namespace WEB.Models
+namespace Monic.Web.Models
 {
     public class DbInitializer
     {

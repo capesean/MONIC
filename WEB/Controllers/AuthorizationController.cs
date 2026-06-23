@@ -7,35 +7,34 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
 using OpenIddict.Abstractions;
-using WEB;
-using WEB.Controllers;
-using WEB.Models;
+using Monic.Web.Models;
 using OpenIddict.Server.AspNetCore;
 using Microsoft.AspNetCore;
 using static OpenIddict.Abstractions.OpenIddictConstants;
 using OpenIddict.Validation.AspNetCore;
-using WEB.Models.Authorization;
+using Monic.Web.Services;
+using Task = System.Threading.Tasks.Task;
 
-namespace AuthorizationServer.Controllers
+namespace Monic.Web.Controllers
 {
     [Route("api/[Controller]")]
     public class AuthorizationController : BaseApiController
     {
-        private IOptions<IdentityOptions> opts;
+        private readonly IOptions<IdentityOptions> opts;
         private readonly SignInManager<User> signInManager;
-        private IEmailSender emailSender;
+        private readonly IEmailService emailService;
 
         public AuthorizationController(
             IDbContextFactory<ApplicationDbContext> dbFactory,
             UserManager<User> _um,
             AppSettings _appSettings,
             SignInManager<User> _sm,
-            IEmailSender _es,
+            IEmailService _es,
             IOptions<IdentityOptions> _opts)
             : base(dbFactory, _um, _appSettings)
         {
             signInManager = _sm;
-            emailSender = _es;
+            emailService = _es;
             opts = _opts;
         }
 
@@ -117,10 +116,6 @@ namespace AuthorizationServer.Controllers
                     Scopes.OfflineAccess,
                     Scopes.Roles
                 }.Intersect(request.GetScopes()));
-
-                // any custom fields...
-                user.LastLoginDate = DateTime.UtcNow;
-                await userManager.UpdateAsync(user);
 
                 await CleanupExpiredTokensForUserAsync(user.Id);
 
@@ -260,7 +255,7 @@ namespace AuthorizationServer.Controllers
             }
         }
 
-        [HttpPost("[Action]"), Authorize(AuthenticationSchemes = OpenIddictValidationAspNetCoreDefaults.AuthenticationScheme)]
+        [HttpPost("changepassword"), Authorize(AuthenticationSchemes = OpenIddictValidationAspNetCoreDefaults.AuthenticationScheme)]
         public async Task<IActionResult> ChangePassword([FromBody] ChangePasswordDTO changePasswordDTO)
         {
             // todo: check if enabled? user.enabled - also in login, reset, BaseApiController, etc.
@@ -278,12 +273,12 @@ namespace AuthorizationServer.Controllers
             body += Environment.NewLine;
             body += "Your password has been changed." + Environment.NewLine;
 
-            await emailSender.SendEmailAsync(user.Email, user.FullName, "Password Changed", body);
+            await emailService.SendEmailAsync(user.Email, user.FullName, "Password Changed", body);
 
             return Ok();
         }
 
-        [HttpPost("[Action]"), AllowAnonymous]
+        [HttpPost("resetpassword"), AllowAnonymous]
         public async Task<IActionResult> ResetPassword([FromBody] ResetPasswordDTO resetPasswordDTO)
         {
             if (!ModelState.IsValid) return BadRequest(ModelState);
@@ -303,12 +298,12 @@ namespace AuthorizationServer.Controllers
             html += "<p>A password reset has been requested. Please use the link below to reset your password.</p>";
             html += AppSettings.RootUrl + "auth/reset?e=" + user.Email + "&t=" + WebUtility.UrlEncode(token) + Environment.NewLine;
 
-            await emailSender.SendEmailAsync(user.Email, user.FullName, "Password Reset", text, html);
+            await emailService.SendEmailAsync(user.Email, user.FullName, "Password Reset", text, html);
 
             return Ok();
         }
 
-        [HttpPost("[Action]"), AllowAnonymous]
+        [HttpPost("reset"), AllowAnonymous]
         public async Task<IActionResult> Reset([FromBody] ResetDTO resetDTO)
         {
             if (!ModelState.IsValid) return BadRequest(ModelState);
@@ -325,18 +320,18 @@ namespace AuthorizationServer.Controllers
             body += Environment.NewLine;
             body += "Your password has been reset." + Environment.NewLine;
 
-            await emailSender.SendEmailAsync(user.Email, user.FullName, "Password Reset", body);
+            await emailService.SendEmailAsync(user.Email, user.FullName, "Password Reset", body);
 
             return Ok();
         }
 
-        [HttpGet("[Action]")]
+        [HttpGet("passwordrequirements")]
         public IActionResult PasswordRequirements()
         {
             return Ok(opts.Value.Password);
         }
 
-        private async System.Threading.Tasks.Task CleanupExpiredTokensForUserAsync(Guid userId)
+        private async Task CleanupExpiredTokensForUserAsync(Guid userId)
         {
             await using var db = await _dbFactory.CreateDbContextAsync();
 

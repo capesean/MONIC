@@ -5,14 +5,21 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.EntityFrameworkCore;
-using WEB.Models;
+using Monic.Web.Models;
+using Monic.Web.Services;
 
-namespace WEB.Controllers
+namespace Monic.Web.Controllers
 {
     [Route("api/[Controller]"), Authorize]
     public class DocumentsController : BaseApiController
     {
-        public DocumentsController(IDbContextFactory<ApplicationDbContext> dbFactory, UserManager<User> um, AppSettings appSettings) : base(dbFactory, um, appSettings) { }
+        private readonly DocumentsStorageService documentsStorageService;
+        
+        public DocumentsController(IDbContextFactory<ApplicationDbContext> dbFactory, UserManager<User> um, AppSettings appSettings, DocumentsStorageService documentsStorageService)
+            : base(dbFactory, um, appSettings)
+        {
+            this.documentsStorageService = documentsStorageService;
+        }
 
         [HttpGet, AuthorizeRoles(Roles.Administrator)]
         public async Task<IActionResult> Search([FromQuery] DocumentSearchOptions searchOptions)
@@ -110,7 +117,7 @@ namespace WEB.Controllers
             if (document == null)
                 return NotFound();
 
-            using (var transactionScope = Utilities.General.CreateTransactionScope())
+            using (var transactionScope = Code.Db.CreateTransactionScope())
             {
                 await db.DocumentContents.Where(o => o.DocumentId == documentId).ExecuteDeleteAsync();
 

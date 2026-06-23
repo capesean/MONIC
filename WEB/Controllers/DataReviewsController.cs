@@ -5,14 +5,17 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.EntityFrameworkCore;
-using WEB.Models;
+using Monic.Web.Models;
 
-namespace WEB.Controllers
+namespace Monic.Web.Controllers
 {
     [Route("api/[Controller]"), Authorize]
     public class DataReviewsController : BaseApiController
     {
-        public DataReviewsController(IDbContextFactory<ApplicationDbContext> dbFactory, UserManager<User> um, AppSettings appSettings) : base(dbFactory, um, appSettings) { }
+        public DataReviewsController(IDbContextFactory<ApplicationDbContext> dbFactory, UserManager<User> um, AppSettings appSettings)
+            : base(dbFactory, um, appSettings)
+        {
+        }
 
         [HttpGet, AuthorizeRoles(Roles.Administrator)]
         public async Task<IActionResult> Search([FromQuery] DataReviewSearchOptions searchOptions)
@@ -112,7 +115,7 @@ namespace WEB.Controllers
             if (await db.Data.AnyAsync(o => o.RejectDataReviewId == dataReview.DataReviewId))
                 return BadRequest("Unable to delete the data review as it has related rejected data");
 
-            using (var transactionScope = Utilities.General.CreateTransactionScope())
+            using (var transactionScope = Code.Db.CreateTransactionScope())
             {
                 await db.DataReviewLinks.Where(o => o.DataReviewId == dataReview.DataReviewId).ExecuteDeleteAsync();
 

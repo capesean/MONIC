@@ -1,7 +1,7 @@
 using System;
 using System.ComponentModel.DataAnnotations;
 
-namespace WEB.Models
+namespace Monic.Web.Models
 {
     public class TheoryOfChangeDTO
     {

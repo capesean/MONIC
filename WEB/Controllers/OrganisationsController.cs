@@ -5,14 +5,17 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.EntityFrameworkCore;
-using WEB.Models;
+using Monic.Web.Models;
 
-namespace WEB.Controllers
+namespace Monic.Web.Controllers
 {
     [Route("api/[Controller]"), Authorize]
     public class OrganisationsController : BaseApiController
     {
-        public OrganisationsController(IDbContextFactory<ApplicationDbContext> dbFactory, UserManager<User> um, AppSettings appSettings) : base(dbFactory, um, appSettings) { }
+        public OrganisationsController(IDbContextFactory<ApplicationDbContext> dbFactory, UserManager<User> um, AppSettings appSettings)
+            : base(dbFactory, um, appSettings)
+        {
+        }
 
         [HttpGet]
         public async Task<IActionResult> Search([FromQuery] OrganisationSearchOptions searchOptions)
@@ -153,7 +156,7 @@ namespace WEB.Controllers
             if (await db.Responses.AnyAsync(o => o.Entity.OrganisationId == organisationId))
                 return BadRequest("Unable to delete the entities as there are related responses");
 
-            using (var transactionScope = Utilities.General.CreateTransactionScope())
+            using (var transactionScope = Code.Db.CreateTransactionScope())
             {
                 await db.EntityPermissions.Where(o => o.Entity.OrganisationId == organisationId).ExecuteDeleteAsync();
 
@@ -194,7 +197,7 @@ namespace WEB.Controllers
             if (await db.FolderContents.AnyAsync(o => o.AddedBy.OrganisationId == organisationId))
                 return BadRequest("Unable to delete the users as there are related folder contents");
 
-            using (var transactionScope = Utilities.General.CreateTransactionScope())
+            using (var transactionScope = Code.Db.CreateTransactionScope())
             {
                 await db.EntityPermissions.Where(o => o.User.OrganisationId == organisationId).ExecuteDeleteAsync();
 

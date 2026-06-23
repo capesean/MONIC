@@ -5,14 +5,17 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.EntityFrameworkCore;
-using WEB.Models;
+using Monic.Web.Models;
 
-namespace WEB.Controllers
+namespace Monic.Web.Controllers
 {
     [Route("api/[Controller]"), Authorize]
     public class ProjectsController : BaseApiController
     {
-        public ProjectsController(IDbContextFactory<ApplicationDbContext> dbFactory, UserManager<User> um, AppSettings appSettings) : base(dbFactory, um, appSettings) { }
+        public ProjectsController(IDbContextFactory<ApplicationDbContext> dbFactory, UserManager<User> um, AppSettings appSettings)
+            : base(dbFactory, um, appSettings)
+        {
+        }
 
         [HttpGet, AuthorizeRoles(Roles.Administrator)]
         public async Task<IActionResult> Search([FromQuery] ProjectSearchOptions searchOptions)
@@ -90,7 +93,7 @@ namespace WEB.Controllers
             if (project == null)
                 return NotFound();
 
-            using (var transactionScope = Utilities.General.CreateTransactionScope())
+            using (var transactionScope = Code.Db.CreateTransactionScope())
             {
                 await db.Tasks.Where(o => o.Milestone.ProjectId == project.ProjectId).ExecuteDeleteAsync();
 
@@ -109,7 +112,7 @@ namespace WEB.Controllers
         [HttpDelete("{projectId:Guid}/milestones"), AuthorizeRoles(Roles.Administrator)]
         public async Task<IActionResult> DeleteMilestones(Guid projectId)
         {
-            using (var transactionScope = Utilities.General.CreateTransactionScope())
+            using (var transactionScope = Code.Db.CreateTransactionScope())
             {
                 await db.Tasks.Where(o => o.Milestone.ProjectId == projectId).ExecuteDeleteAsync();
 

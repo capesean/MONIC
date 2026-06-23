@@ -49,8 +49,6 @@ export class ChartService extends SearchQuery {
 
 export class ChartData {
     indicators: Indicator[];
-    //primaryAxisIndicators: Indicator[];
-    //secondaryAxisIndicators: Indicator[];
     data: Datum[];
     entities: Entity[];
     dates: AppDate[];

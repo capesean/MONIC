@@ -1,4 +1,4 @@
-﻿using WEB.Models;
+﻿using Monic.Web.Models;
 
 public interface IIdentityService
 {

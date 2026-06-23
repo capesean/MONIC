@@ -1,9 +1,9 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using System.IO;
 using System.Threading.Tasks;
-using WEB.Models;
+using Monic.Web.Models;
 
-namespace WEB.Reports.PDF
+namespace Monic.Web.Code.Reports
 {
     public class TestReport : PDFReports
     {

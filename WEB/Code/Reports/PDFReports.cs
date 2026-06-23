@@ -1,10 +1,10 @@
 ﻿using iTextSharp.text;
 using iTextSharp.text.pdf;
-using WEB.Models;
+using Monic.Web.Models;
 using Element = iTextSharp.text.Element;
 using Document = iTextSharp.text.Document;
 
-namespace WEB.Reports.PDF
+namespace Monic.Web.Code.Reports
 {
     public abstract class PDFReports
     {

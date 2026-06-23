@@ -1,6 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 
-namespace WEB.Models
+namespace Monic.Web.Models
 {
     public static class ItemFunctions
     {

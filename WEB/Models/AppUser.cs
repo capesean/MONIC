@@ -1,8 +1,8 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
-using RolesEnums = WEB.Models.Roles;
+using RolesEnums = Monic.Web.Models.Roles;
 
-namespace WEB.Models
+namespace Monic.Web.Models
 {
     public class AppUser
     {

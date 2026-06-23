@@ -1,9 +1,9 @@
 ﻿using System.Drawing;
-using WEB.Models;
+using Monic.Web.Models;
 using OfficeOpenXml;
 using OfficeOpenXml.Style;
 
-namespace WEB.Reports.Excel
+namespace Monic.Web.Code.Reports
 {
     public abstract partial class ExcelReports
     {

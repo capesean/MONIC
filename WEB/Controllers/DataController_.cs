@@ -1,7 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
-namespace WEB.Controllers
+namespace Monic.Web.Controllers
 {
     public partial class DataController
     {
