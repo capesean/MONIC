@@ -10,7 +10,7 @@ namespace Monic.Web.Migrations
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.Sql("DROP INDEX IF EXISTS IX_Tokens_AuthorizationId ON dbo.Tokens;");
+            migrationBuilder.Sql("DROP INDEX IF EXISTS IX_Tokens_AuthorizationId ON dbo.OpenIddictTokens;");
         }
 
         /// <inheritdoc />
