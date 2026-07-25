@@ -170,6 +170,10 @@ builder.Services.AddSingleton(appSettings.Email);
 builder.Services.AddSingleton(appSettings.Azure.Documents);
 builder.Services.AddSingleton<IEmailService, EmailService>();
 
+builder.Services.AddScoped<IIdentityService, IdentityService>();
+builder.Services.AddScoped<ApiExceptionAttribute>();
+builder.Services.AddScoped<DocumentsStorageService>();
+
 var app = builder.Build();
 
 using (var scope = app.Services.GetRequiredService<IServiceScopeFactory>().CreateScope())

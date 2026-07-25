@@ -206,8 +206,8 @@ namespace Monic.Web.Models
             indicator.ShortName = indicatorDTO.ShortName;
             indicator.Label = indicatorDTO.Label;
             indicator.Color = indicatorDTO.Color;
-            indicator.Prefix = indicatorDTO.Prefix;
-            indicator.Suffix = indicatorDTO.Suffix;
+            indicator.Prefix = indicatorDTO.Prefix ?? string.Empty;
+            indicator.Suffix = indicatorDTO.Suffix ?? string.Empty;
             indicator.GroupingIndicatorId = indicatorDTO.GroupingIndicatorId;
             indicator.SortOrder = indicatorDTO.SortOrder;
         }
