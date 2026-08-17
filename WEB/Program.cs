@@ -104,6 +104,7 @@ builder.Services.AddDbContext<ApplicationDbContext>((serviceProvider, optionsBui
         sqlOptions =>
         {
             sqlOptions.CommandTimeout(300);
+            sqlOptions.EnableRetryOnFailure();
             sqlOptions.UseQuerySplittingBehavior(QuerySplittingBehavior.SplitQuery);
         });
 
@@ -117,6 +118,7 @@ builder.Services.AddDbContextFactory<ApplicationDbContext>(optionsBuilder =>
         sqlOptions =>
         {
             sqlOptions.CommandTimeout(300);
+            sqlOptions.EnableRetryOnFailure();
             sqlOptions.UseQuerySplittingBehavior(QuerySplittingBehavior.SplitQuery);
         }
     );
