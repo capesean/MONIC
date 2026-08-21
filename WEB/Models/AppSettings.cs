@@ -18,7 +18,8 @@ namespace Monic.Web.Models
 
     public class AzureSettings
     {
-        public string CertificateThumbprint { get; set; }
+        public string SigningCertificateSubject { get; set; }
+        public string EncryptionCertificateSubject { get; set; }
 
         public DataProtectionSettings DataProtection { get; set; }
         public DocumentsSettings Documents { get; set; }

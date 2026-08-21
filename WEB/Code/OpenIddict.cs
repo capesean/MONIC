@@ -56,9 +56,11 @@ namespace Monic.Web.Code
                         // this stores/retrieves the data protection key in azure blob storage, meaning logins persist beyond restarting (e.g. publishing)
                         options.UseDataProtection();
 
-                        var certificate = CertificateHelper.GetKeyVaultCertificate(appSettings.Azure.CertificateThumbprint);
-                        options.AddEncryptionCertificate(certificate);
-                        options.AddSigningCertificate(certificate);
+                        var encryptionCertificate = CertificateHelper.GetKeyVaultCertificate(appSettings.Azure.EncryptionCertificateSubject);
+                        options.AddEncryptionCertificate(encryptionCertificate);
+
+                        var signingCertificate = CertificateHelper.GetKeyVaultCertificate(appSettings.Azure.SigningCertificateSubject);
+                        options.AddSigningCertificate(signingCertificate);
                     }
 
                     // Force client applications to use Proof Key for Code Exchange (PKCE).

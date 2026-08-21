@@ -7,65 +7,28 @@ namespace Monic.Web.Code
 {
     public static class CertificateHelper
     {
-        public static X509Certificate2 GetKeyVaultCertificate(string thumbprint)
+        public static X509Certificate2 GetKeyVaultCertificate(string subjectDistinguishedName)
         {
-            // 1. use the script below to generate a certificate.
-            // 2. upload the certificate to the AZURE APP SERVICE, using the BRING YOUR OWN method
-            // 3. ensure azure app has environment variable: WEBSITE_LOAD_CERTIFICATES = {THUMBPRINT}
-            //      where {THUMBPRINT} is the thumbprint of the certificate
-            // 4. make sure the key vault has a secret for: Settings--Azure--CertificateThumbprint
-            /*************************************************************
-cls
-
-$certPassword = "?????????????????????"
-$appName = "?????????????????????"
-$pwd = ConvertTo-SecureString $certPassword -AsPlainText -Force
-
-$cert = New-SelfSignedCertificate `
-  -Subject "CN=openiddict" `
-  -CertStoreLocation "cert:\CurrentUser\My" `
-  -KeyAlgorithm RSA `
-  -KeyLength 2048 `
-  -KeyExportPolicy Exportable `
-  -NotAfter (Get-Date).AddYears(10) `
-  -FriendlyName $appName
-
-$pfxPath = "$env:USERPROFILE\Desktop\$appName.pfx"
-
-Export-PfxCertificate `
-  -Cert "cert:\CurrentUser\My\$($cert.Thumbprint)" `
-  -FilePath $pfxPath `
-  -Password $pwd `
-  -CryptoAlgorithmOption TripleDES_SHA1
-
-$check = New-Object System.Security.Cryptography.X509Certificates.X509Certificate2(
-    $pfxPath,
-    $pwd
-)
-
-Write-Host ""
-Write-Host "PFX path: $pfxPath"
-Write-Host "Thumbprint: $($check.Thumbprint)"
-Write-Host "NotBefore: $($check.NotBefore)"
-Write-Host "NotAfter: $($check.NotAfter)"
-Write-Host "HasPrivateKey: $($check.HasPrivateKey)"
-Write-Host "Password used: $certPassword"
-Write-Host ""
-
-Remove-Item "cert:\CurrentUser\My\$($cert.Thumbprint)"
-            *************************************************************/
             using var store = new X509Store(StoreName.My, StoreLocation.CurrentUser);
             store.Open(OpenFlags.ReadOnly);
 
-            var certificates = store.Certificates.Find(
-                X509FindType.FindByThumbprint,
-                thumbprint,
-                validOnly: false);
+            var now = DateTime.UtcNow;
 
-            var certificate = certificates.OfType<X509Certificate2>().FirstOrDefault();
+            var certificate = store.Certificates
+                .Find(
+                    X509FindType.FindBySubjectDistinguishedName,
+                    subjectDistinguishedName,
+                    validOnly: false)
+                .OfType<X509Certificate2>()
+                .Where(c =>
+                    c.HasPrivateKey &&
+                    c.NotBefore.ToUniversalTime() <= now &&
+                    c.NotAfter.ToUniversalTime() > now)
+                .OrderByDescending(c => c.NotAfter)
+                .FirstOrDefault();
 
             if (certificate == null)
-                throw new Exception($"Certificate not found. Thumbprint: {thumbprint}");
+                throw new Exception($"Certificate not found. Subject Distinguished Name: {subjectDistinguishedName}");
 
             return certificate;
         }
