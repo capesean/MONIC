@@ -31,9 +31,11 @@ The SQL server and database must already exist and be reachable from the compute
 running this script. The SQL administrator must be allowed to create and alter users.
 The App Service must already exist in the target resource group and South Africa North.
 
-On Windows, entered parameters are saved before provisioning starts. Secure strings
-are encrypted with DPAPI and can only be reopened by the same Windows user on the
-same computer. Use -DoNotSaveSettings to disable this behavior.
+On Windows, the script first asks for an app/site name. Settings are stored in a
+matching <app-site-name>.clixml file beside this script. Existing profile names are
+listed before prompting so they can be selected and reused. Secure strings are
+encrypted with DPAPI and can only be reopened by the same Windows user on the same
+computer. Use -DoNotSaveSettings to disable saving updates.
 #>
 
 [CmdletBinding()]
@@ -92,14 +94,56 @@ param(
     [Parameter()]
     [string]$KeyVaultAdministratorObjectId,
 
-    # Saved locally using Windows DPAPI. Override this to use a different location.
+    # Optional profile name. If omitted, the script lists existing profiles and prompts first.
     [Parameter()]
-    [string]$SettingsPath = (Join-Path ([Environment]::GetFolderPath('LocalApplicationData')) 'AzureResourceSetup\Deploy-AzureResources.settings.clixml'),
+    [string]$AppSiteName,
+
+    # Optional advanced override. By default settings are stored beside this script as <AppSiteName>.clixml.
+    [Parameter()]
+    [string]$SettingsPath,
 
     # Prevents updated inputs from being written to SettingsPath.
     [Parameter()]
     [switch]$DoNotSaveSettings
 )
+
+$profileDirectory = $PSScriptRoot
+if ([string]::IsNullOrWhiteSpace($profileDirectory)) {
+    $profileDirectory = (Get-Location).Path
+}
+
+if ([string]::IsNullOrWhiteSpace($AppSiteName)) {
+    $existingProfiles = @(
+        Get-ChildItem -LiteralPath $profileDirectory -Filter '*.clixml' -File -ErrorAction SilentlyContinue |
+            Sort-Object Name
+    )
+
+    if ($existingProfiles.Count -gt 0) {
+        Write-Host 'Existing app/site profiles:'
+        foreach ($profile in $existingProfiles) {
+            Write-Host "  $($profile.BaseName)"
+        }
+    }
+    else {
+        Write-Host 'No existing app/site profiles found.'
+    }
+
+    Write-Host ''
+    while ([string]::IsNullOrWhiteSpace($AppSiteName)) {
+        $AppSiteName = Read-Host -Prompt 'App/site name'
+    }
+}
+
+$invalidFileNameChars = [System.IO.Path]::GetInvalidFileNameChars()
+if ($AppSiteName.IndexOfAny($invalidFileNameChars) -ge 0 -or $AppSiteName -in @('.', '..')) {
+    throw "The app/site name '$AppSiteName' cannot be used as a settings filename."
+}
+
+if ([string]::IsNullOrWhiteSpace($SettingsPath)) {
+    $SettingsPath = Join-Path $profileDirectory "$AppSiteName.clixml"
+}
+
+Write-Host "Using app/site profile '$AppSiteName'."
 
 $savedSettingNames = @(
     'ResourceGroupName',
@@ -134,6 +178,9 @@ if (Test-Path -LiteralPath $SettingsPath -PathType Leaf) {
     catch {
         throw "Could not load saved deployment settings from '$SettingsPath'. The file must be opened by the same Windows user on the same computer that created it. $($_.Exception.Message)"
     }
+}
+else {
+    Write-Host "No saved settings found for '$AppSiteName'. A new profile will be created."
 }
 
 $requiredTextSettings = @(
