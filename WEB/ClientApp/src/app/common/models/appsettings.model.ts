@@ -5,6 +5,7 @@ export class AppSettings {
     public useVerify: boolean;
     public useApprove: boolean;
     public useReject: boolean;
+    public googleMapsApiKey: string;
 
     constructor() {
     }

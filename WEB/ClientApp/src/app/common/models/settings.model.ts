@@ -8,6 +8,7 @@ export class Settings {
     useReject: boolean;
     simplePermissionsMode: boolean;
     chatGPTAPIKey: string;
+    googleMapsApiKey: string;
 
     constructor() {
         this.id = "00000000-0000-0000-0000-000000000000";

@@ -24,7 +24,8 @@ namespace Monic.Web.Controllers
                     dbSettings.UseSubmit,
                     dbSettings.UseVerify,
                     dbSettings.UseApprove,
-                    dbSettings.UseReject
+                    dbSettings.UseReject,
+                    dbSettings.GoogleMapsApiKey
                 }
             );
         }

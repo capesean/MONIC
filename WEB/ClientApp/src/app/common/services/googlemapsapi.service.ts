@@ -1,9 +1,8 @@
 import { HttpClient } from "@angular/common/http";
 import { Injectable } from "@angular/core";
-import { env } from "echarts/core";
 import { Observable, of } from "rxjs";
 import { catchError, map, share, tap } from "rxjs/operators";
-import { environment } from "../../../environments/environment";
+import { AppSettingsService } from "./appsettings.service";
 
 @Injectable({ providedIn: 'root' })
 export class GoogleMapsApiService {
@@ -12,7 +11,8 @@ export class GoogleMapsApiService {
     private observable: Observable<boolean>;
 
     constructor(
-        private http: HttpClient
+        private http: HttpClient,
+        private appSettingsService: AppSettingsService
     ) {
     }
 
@@ -23,7 +23,7 @@ export class GoogleMapsApiService {
         // if a request to load (observable) is NOT currently outstanding, create the request (observable)
         if (!this.observable) {
 
-            this.observable = this.http.jsonp('https://maps.googleapis.com/maps/api/js?key=' + environment.siteName, 'callback')
+            this.observable = this.http.jsonp('https://maps.googleapis.com/maps/api/js?key=' + this.appSettingsService.appSettings.googleMapsApiKey, 'callback')
                 .pipe(
                     map(() => true),
                     share(),

@@ -119,6 +119,22 @@
                         </div>
                     </div>
 
+                    <div class="col-sm-6 col-md-4">
+                        <div class="form-group" [ngClass]="{ 'is-invalid': googleMapsApiKey.invalid }">
+
+                            <label for="googleMapsApiKey">
+                                Google Maps Api Key:
+                            </label>
+
+                            <input id="googleMapsApiKey" name="googleMapsApiKey" class="form-control" type="text" [(ngModel)]="settings.googleMapsApiKey" #googleMapsApiKey="ngModel" maxlength="100" />
+
+                            <div *ngIf="googleMapsApiKey.errors?.maxlength" class="invalid-feedback">
+                                Google Maps Api Key must be at most 100 characters long
+                            </div>
+
+                        </div>
+                    </div>
+
                 </div>
 
             </fieldset>

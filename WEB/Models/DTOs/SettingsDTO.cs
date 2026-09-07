@@ -26,6 +26,9 @@ namespace Monic.Web.Models
         [MaxLength(100)]
         public string ChatGPTAPIKey { get; set; }
 
+        [MaxLength(100)]
+        public string GoogleMapsApiKey { get; set; }
+
     }
 
     public static partial class ModelFactory
@@ -43,6 +46,7 @@ namespace Monic.Web.Models
             settingsDTO.UseReject = settings.UseReject;
             settingsDTO.SimplePermissionsMode = settings.SimplePermissionsMode;
             settingsDTO.ChatGPTAPIKey = settings.ChatGPTAPIKey;
+            settingsDTO.GoogleMapsApiKey = settings.GoogleMapsApiKey;
 
             return settingsDTO;
         }
@@ -55,6 +59,7 @@ namespace Monic.Web.Models
             settings.UseReject = settingsDTO.UseReject;
             settings.SimplePermissionsMode = settingsDTO.SimplePermissionsMode;
             settings.ChatGPTAPIKey = settingsDTO.ChatGPTAPIKey;
+            settings.GoogleMapsApiKey = settingsDTO.GoogleMapsApiKey;
         }
     }
 }

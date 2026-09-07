@@ -30,6 +30,9 @@ namespace Monic.Web.Models
         [MaxLength(100)]
         public string ChatGPTAPIKey { get; set; }
 
+        [MaxLength(100)]
+        public string GoogleMapsApiKey { get; set; }
+
         public Settings()
         {
             Id = Guid.Empty;
