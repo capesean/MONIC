@@ -144,6 +144,7 @@ namespace Monic.Web.Controllers
         {
             var components = await db.Components
                 .ToListAsync();
+
             if (components.Count != sortedIds.Length) return BadRequest("Some of the components could not be found");
 
             foreach (var component in components)

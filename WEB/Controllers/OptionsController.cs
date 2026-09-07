@@ -126,6 +126,7 @@ namespace Monic.Web.Controllers
             var options = await db.Options
                 .Where(o => o.OptionListId == optionListId)
                 .ToListAsync();
+
             if (options.Count != sortedIds.Length) return BadRequest("Some of the options could not be found");
 
             foreach (var option in options)

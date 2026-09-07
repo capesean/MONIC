@@ -167,6 +167,7 @@ namespace Monic.Web.Controllers
             var logFrameRows = await db.LogFrameRows
                 .Where(o => o.LogFrameId == logFrameId)
                 .ToListAsync();
+
             if (logFrameRows.Count != sortedIds.Length) return BadRequest("Some of the logframe rows could not be found");
 
             foreach (var logFrameRow in logFrameRows)

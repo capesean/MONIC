@@ -200,6 +200,7 @@ namespace Monic.Web.Controllers
             var questions = await db.Questions
                 .Where(o => o.SectionId == sectionId)
                 .ToListAsync();
+
             if (questions.Count != sortedIds.Length) return BadRequest("Some of the questions could not be found");
 
             foreach (var question in questions)

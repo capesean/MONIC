@@ -123,6 +123,7 @@ namespace Monic.Web.Controllers
             var milestones = await db.Milestones
                 .Where(o => o.ProjectId == projectId)
                 .ToListAsync();
+
             if (milestones.Count != sortedIds.Length) return BadRequest("Some of the milestones could not be found");
 
             foreach (var milestone in milestones)

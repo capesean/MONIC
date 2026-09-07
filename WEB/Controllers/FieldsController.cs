@@ -140,6 +140,7 @@ namespace Monic.Web.Controllers
         {
             var fields = await db.Fields
                 .ToListAsync();
+
             if (fields.Count != sortedIds.Length) return BadRequest("Some of the fields could not be found");
 
             foreach (var field in fields)

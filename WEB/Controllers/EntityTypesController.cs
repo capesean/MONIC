@@ -121,6 +121,7 @@ namespace Monic.Web.Controllers
         {
             var entityTypes = await db.EntityTypes
                 .ToListAsync();
+
             if (entityTypes.Count != sortedIds.Length) return BadRequest("Some of the entity types could not be found");
 
             foreach (var entityType in entityTypes)

@@ -110,6 +110,7 @@ namespace Monic.Web.Controllers
         {
             var groups = await db.Groups
                 .ToListAsync();
+
             if (groups.Count != sortedIds.Length) return BadRequest("Some of the groups could not be found");
 
             foreach (var group in groups)

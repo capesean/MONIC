@@ -165,6 +165,7 @@ namespace Monic.Web.Controllers
         {
             var dates = await db.Dates
                 .ToListAsync();
+
             if (dates.Count != sortedIds.Length) return BadRequest("Some of the dates could not be found");
 
             foreach (var date in dates)

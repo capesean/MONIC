@@ -226,6 +226,7 @@ namespace Monic.Web.Controllers
             var indicators = await db.Indicators
                 .Where(o => o.SubcategoryId == subcategoryId)
                 .ToListAsync();
+
             if (indicators.Count != sortedIds.Length) return BadRequest("Some of the indicators could not be found");
 
             foreach (var indicator in indicators)
