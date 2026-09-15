@@ -255,33 +255,9 @@
                         <div class="card-header-title">
                             <h4>Aggregation Parents</h4>
                             <div>
-                                <i class="fa fa-fw ms-1 fa-search cursor-pointer" (click)="showParentEntitiesSearch=!showParentEntitiesSearch" ngbTooltip="Toggle search options"></i>
+                                <i class="fa fa-fw ms-1 fa-plus cursor-pointer" (click)="addParentEntity()" ngbTooltip="Add aggregation parents"></i>
                             </div>
                         </div>
-
-                    </div>
-
-                    <div class="card-body" *ngIf="showParentEntitiesSearch" @FadeThenShrink>
-
-                        <form id="formSearchParentEntities" (submit)="searchParentEntities(0)" novalidate>
-
-                            <div class="row g-2">
-
-                                <div class="col-sm-6 col-md-4 col-lg-4 col-xl-3">
-                                    <div class="form-group">
-                                        <entity-select id="parentEntityId" name="parentEntityId" [(ngModel)]="parentEntitiesSearchOptions.parentEntityId"></entity-select>
-                                    </div>
-                                </div>
-
-                                <div class="col-sm-3 col-md-3 col-lg-3 col-xl-2">
-                                    <div class="form-group">
-                                        <button type="submit" class="btn btn-outline-primary me-2 mb-1">Search<i class="fas fa-search ms-2"></i></button>
-                                    </div>
-                                </div>
-
-                            </div>
-
-                        </form>
 
                     </div>
 

@@ -288,20 +288,20 @@ export class EntityEditComponent extends ItemComponent implements OnInit {
     }
 
     changeEntity(entity: Entity): void {
-        //entities: Entity[]): void {
-        alert("disabled: todo: fix required")
-        //if (!entities.length) return;
-        //const entityIdList = entities.map(o => o.entityId);
-        //this.entityService.saveEntityLinks(this.entity.entityId, entityIdList)
-        //    .subscribe({
-        //        next: () => {
-        //            this.toastr.success("The entity links have been saved", "Save Entity Links");
-        //            this.searchParentEntities(this.parentEntitiesHeaders.pageIndex);
-        //        },
-        //        error: err => {
-        //            this.errorService.handleError(err, "Entity Links", "Save");
-        //        }
-        //    });
+        if (!entity) return;
+        const entityLink = new EntityLink();
+        entityLink.childEntityId = this.entity.entityId;
+        entityLink.parentEntityId = entity.entityId;
+        this.entityLinkService.save(entityLink)
+           .subscribe({
+               next: () => {
+                   this.toastr.success("The entity links have been saved", "Save Entity Links");
+                   this.searchParentEntities(this.parentEntitiesHeaders.pageIndex);
+               },
+               error: err => {
+                   this.errorService.handleError(err, "Entity Links", "Save");
+               }
+           });
     }
 
     deleteParentEntity(entityLink: EntityLink, event: MouseEvent): void {
